@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://GeeTeng.github.io/</loc>
+    <lastmod>2024-11-12T14:23:02+08:00</lastmod>
+  </url><url>
+    <loc>https://GeeTeng.github.io/post/</loc>
+    <lastmod>2024-11-12T14:23:02+08:00</lastmod>
+  </url><url>
+    <loc>https://GeeTeng.github.io/categories/</loc>
+  </url><url>
+    <loc>https://GeeTeng.github.io/tags/</loc>
+  </url>
+</urlset>
