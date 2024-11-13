@@ -68,7 +68,19 @@ Translation $$ T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \ 0 &amp; 1 &am
 
 
 </head>
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/MathJax.js?config=TeX-MML-AM_CHTML"></script>
+<script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],  // 支持块级公式换行
+        processEscapes: true
+      },
+      "HTML-CSS": { linebreaks: { automatic: true } }, // 自动换行
+      SVG: { linebreaks: { automatic: true } }
+    });
+</script>
+
+<script src='https://cdn.jsdelivr.net/npm/mathjax@2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML' async></script>
 
 
 <body>
