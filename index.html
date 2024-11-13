@@ -151,7 +151,7 @@
                 </path>
               </svg>
               Posts
-              <span class="Counter">1</span>
+              <span class="Counter">2</span>
             </a>
           </nav>
           <div class="profile-color-modes js-promo-color-modes-banner-profile isInitialToggle">
@@ -444,7 +444,7 @@
         </path>
       </svg>
       Posts
-      <span class="Counter ">1</span>
+      <span class="Counter ">2</span>
     </a>
   </nav>
 </div>
@@ -481,6 +481,46 @@
                     </path>
                   </svg>
                   <a class="text-bold flex-auto min-width-0" href="https://GeeTeng.github.io/post/graphic_work01/">
+                    <span class="repo" title="GAMES101_Work01">GAMES101_Work01</span>
+                  </a>
+                </div>
+
+
+                <div name="summary" class="pinned-item-desc text-gray text-small d-block mt-2 mb-3">
+                  <h3 id="2d-transformations">2D Transformations</h3>
+<h4 id="scale">Scale</h4>
+<p>$$
+S(s_x, s_y) = \begin{pmatrix} s_x &amp; 0 &amp; 0 \ 0 &amp; s_y &amp; 0 \ 0 &amp; 0 &amp; 1 \end{pmatrix}
+$$</p>
+<h4 id="rotation">Rotation</h4>
+<p>$$
+R(\alpha) = \begin{pmatrix} \cos \alpha &amp; -\sin \alpha &amp; 0 \ \sin \alpha &amp; \cos \alpha &amp; 0 \ 0 &amp; 0 &amp; 1 \end{pmatrix}
+$$</p>
+<h4 id="translation">Translation</h4>
+<p>$$
+T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \ 0 &amp; 1 &amp; t_y \ 0 &amp; 0 &amp; 1 \end{pmatrix}
+$$</p>
+                </div>
+
+                <p class="mb-0 f6 text-gray">
+                  
+                </p>
+              </div>
+            </div>
+          </li>
+          
+          <li class="col-12 col-md-6 col-lg-6 mb-3 d-flex flex-content-stretch">
+            <div
+              class="Box pinned-item-list-item d-flex p-3 width-full js-pinned-item-list-item public source reorderable sortable-button-item">
+              <div class="pinned-item-list-item-content">
+                <div class="d-flex width-full flex-items-center position-relative">
+                  <svg class="octicon octicon-repo mr-2 text-gray flex-shrink-0" viewBox="0 0 16 16" version="1.1"
+                    width="16" height="16">
+                    <path fill-rule="evenodd"
+                      d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z">
+                    </path>
+                  </svg>
+                  <a class="text-bold flex-auto min-width-0" href="https://GeeTeng.github.io/post/graphic_work0/">
                     <span class="repo" title="GAMES101_Work0">GAMES101_Work0</span>
                   </a>
                 </div>
@@ -492,11 +532,11 @@
 <p><strong>编译</strong></p>
 <p>为方便之后的作业编写，本次作业要求使用cmake进行编译。</p>
 <p>首先，编写好本次作业的程序main.cpp。 然后, 在 main.cpp 所在目录下，打开终端(命令行)，依次输入：</p>
-<p>• mkdir build: 创建名为 build 的文件夹。</p>
-<p>• cd build: 移动到 build 文件夹下。</p>
-<p>• cmake ..: 注意其中’..’ 表示上一级目录，若为’.’ 则表示当前目录。</p>
-<p>• make: 编译程序，错误提示会显示在终端中。</p>
-<p>• ./Transformation：若上一步无错误，则可运行程序(这里的Transformation 为可执行文件名，可参照CMakeLists.txt 中修改)。</p>
+<p>• <strong>mkdir build:</strong> 创建名为 build 的文件夹。</p>
+<p><strong>• cd build:</strong> 移动到 build 文件夹下。</p>
+<p><strong>• cmake ..:</strong> 注意其中’..’ 表示上一级目录，若为’.’ 则表示当前目录。</p>
+<p>• <strong>make:</strong> 编译程序，错误提示会显示在终端中。</p>
+<p>**• ./Transformation：**若上一步无错误，则可运行程序(这里的Transformation 为可执行文件名，可参照CMakeLists.txt 中修改)。</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="cp">#include&lt;cmath&gt;
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include&lt;eigen3/Eigen/Core&gt;
 </span></span></span><span class="line"><span class="cl"><span class="cp">#include&lt;eigen3/Eigen/Dense&gt;
@@ -549,8 +589,14 @@
     
     <div class="mt-4 position-relative" id="contributions" data='[
 {
-  "title": "GAMES101_Work0",
+  "title": "GAMES101_Work01",
   "link": "https://GeeTeng.github.io/post/graphic_work01/",
+  "publishDate": "2024-11-13%2000:00:00"
+},
+
+{
+  "title": "GAMES101_Work0",
+  "link": "https://GeeTeng.github.io/post/graphic_work0/",
   "publishDate": "2024-11-12%2014:06:20"
 }
 ]'>
