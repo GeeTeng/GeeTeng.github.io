@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <script type="application/javascript" src='https://GeeTeng.github.io/js/theme-mode.js'></script>
-    <link rel="stylesheet" href='https://GeeTeng.github.io/css/frameworks.min.css' />
-    <link rel="stylesheet" href='https://GeeTeng.github.io/css/github.min.css' />
-    <link rel="stylesheet" href='https://GeeTeng.github.io/css/github-style.css' />
-    <link rel="stylesheet" href='https://GeeTeng.github.io/css/light.css' />
-    <link rel="stylesheet" href='https://GeeTeng.github.io/css/dark.css' />
-    <link rel="stylesheet" href='https://GeeTeng.github.io/css/syntax.css' />
+    <script type="application/javascript" src='http://localhost:1313/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='http://localhost:1313/css/frameworks.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github-style.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/light.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/dark.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/syntax.css' />
     <title>GAMES101_Work01 - GeeTeng&#39;s blog</title>
     
     <link rel="icon" type="image/x-icon" href='/images/github-mark.png'>
@@ -18,40 +18,34 @@
 
     
     <meta name="description"
-  content="2D Transformations Scale $$ S(s_x, s_y) = \begin{pmatrix} s_x &amp; 0 &amp; 0 \ 0 &amp; s_y &amp; 0 \ 0 &amp; 0 &amp; 1 \end{pmatrix} $$
-Rotation $$ R(\alpha) = \begin{pmatrix} \cos \alpha &amp; -\sin \alpha &amp; 0 \ \sin \alpha &amp; \cos \alpha &amp; 0 \ 0 &amp; 0 &amp; 1 \end{pmatrix} $$
-Translation $$ T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \ 0 &amp; 1 &amp; t_y \ 0 &amp; 0 &amp; 1 \end{pmatrix} $$
+  content="2D Transformations Scale $$S(s_x, s_y) = \begin{pmatrix}s_x & 0 & 0 \\0 & s_y & 0 \\0 & 0 & 1 \end{pmatrix}$$Rotation $$R(\alpha) = \begin{pmatrix} \cos \alpha & -\sin \alpha & 0 \\ \sin \alpha & \cos \alpha & 0 \\ 0 & 0 & 1 \end{pmatrix}$$Translation $$T(t_x, t_y) = \begin{pmatrix} 1 & 0 & t_x \\ 0 & 1 & t_y \\ 0 & 0 & 1 \end{pmatrix}$$ 齐次坐标的最后一位为 0 表示方向或无穷远点
 " />
 <meta name="keywords"
   content='blog, google analytics' />
 <meta name="robots" content="noodp" />
-<link rel="canonical" href="https://GeeTeng.github.io/post/graphic_work01/" />
+<link rel="canonical" href="http://localhost:1313/post/graphic_work01/" />
 
 
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="GAMES101_Work01 - GeeTeng&#39;s blog" />
 <meta name="twitter:description"
-  content="2D Transformations Scale $$ S(s_x, s_y) = \begin{pmatrix} s_x &amp; 0 &amp; 0 \ 0 &amp; s_y &amp; 0 \ 0 &amp; 0 &amp; 1 \end{pmatrix} $$
-Rotation $$ R(\alpha) = \begin{pmatrix} \cos \alpha &amp; -\sin \alpha &amp; 0 \ \sin \alpha &amp; \cos \alpha &amp; 0 \ 0 &amp; 0 &amp; 1 \end{pmatrix} $$
-Translation $$ T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \ 0 &amp; 1 &amp; t_y \ 0 &amp; 0 &amp; 1 \end{pmatrix} $$
+  content="2D Transformations Scale $$S(s_x, s_y) = \begin{pmatrix}s_x & 0 & 0 \\0 & s_y & 0 \\0 & 0 & 1 \end{pmatrix}$$Rotation $$R(\alpha) = \begin{pmatrix} \cos \alpha & -\sin \alpha & 0 \\ \sin \alpha & \cos \alpha & 0 \\ 0 & 0 & 1 \end{pmatrix}$$Translation $$T(t_x, t_y) = \begin{pmatrix} 1 & 0 & t_x \\ 0 & 1 & t_y \\ 0 & 0 & 1 \end{pmatrix}$$ 齐次坐标的最后一位为 0 表示方向或无穷远点
 " />
-<meta name="twitter:site" content="https://GeeTeng.github.io/" />
+<meta name="twitter:site" content="http://localhost:1313/" />
 <meta name="twitter:creator" content="" />
 <meta name="twitter:image"
-  content="https://GeeTeng.github.io/">
+  content="http://localhost:1313/">
 
 
 <meta property="og:type" content="article" />
 <meta property="og:title" content="GAMES101_Work01 - GeeTeng&#39;s blog">
 <meta property="og:description"
-  content="2D Transformations Scale $$ S(s_x, s_y) = \begin{pmatrix} s_x &amp; 0 &amp; 0 \ 0 &amp; s_y &amp; 0 \ 0 &amp; 0 &amp; 1 \end{pmatrix} $$
-Rotation $$ R(\alpha) = \begin{pmatrix} \cos \alpha &amp; -\sin \alpha &amp; 0 \ \sin \alpha &amp; \cos \alpha &amp; 0 \ 0 &amp; 0 &amp; 1 \end{pmatrix} $$
-Translation $$ T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \ 0 &amp; 1 &amp; t_y \ 0 &amp; 0 &amp; 1 \end{pmatrix} $$
+  content="2D Transformations Scale $$S(s_x, s_y) = \begin{pmatrix}s_x & 0 & 0 \\0 & s_y & 0 \\0 & 0 & 1 \end{pmatrix}$$Rotation $$R(\alpha) = \begin{pmatrix} \cos \alpha & -\sin \alpha & 0 \\ \sin \alpha & \cos \alpha & 0 \\ 0 & 0 & 1 \end{pmatrix}$$Translation $$T(t_x, t_y) = \begin{pmatrix} 1 & 0 & t_x \\ 0 & 1 & t_y \\ 0 & 0 & 1 \end{pmatrix}$$ 齐次坐标的最后一位为 0 表示方向或无穷远点
 " />
-<meta property="og:url" content="https://GeeTeng.github.io/post/graphic_work01/" />
+<meta property="og:url" content="http://localhost:1313/post/graphic_work01/" />
 <meta property="og:site_name" content="GAMES101_Work01" />
 <meta property="og:image"
-  content="https://GeeTeng.github.io/">
+  content="http://localhost:1313/">
 <meta property="og:image:width" content="2048">
 <meta property="og:image:height" content="1024">
 
@@ -68,26 +62,29 @@ Translation $$ T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \ 0 &amp; 1 &am
 
 
 </head>
-<script type="text/x-mathjax-config">
-    MathJax.Hub.Config({
-      tex2jax: {
-        inlineMath: [['$','$'], ['\\(','\\)']],
-        displayMath: [['$$','$$'], ['\\[','\\]']],  // 支持块级公式换行
-        processEscapes: true
-      },
-      "HTML-CSS": { linebreaks: { automatic: true } }, // 自动换行
-      SVG: { linebreaks: { automatic: true } }
-    });
-</script>
 
-<script src='https://cdn.jsdelivr.net/npm/mathjax@2.7.4/MathJax.js?config=TeX-AMS-MML_HTMLorMML' async></script>
+
+
+<link rel="preload" href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css">
+</noscript>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false },
+            { left: '\$', right: '\$', display: false }
+          ]
+        });"></script>
 
 
 <body>
   <div style="position: relative">
   <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
     <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
-      <a class="Header-link" href="https://GeeTeng.github.io/">
+      <a class="Header-link" href="http://localhost:1313/">
         <img class="octicon" height="32" width="32" src="/images/github-mark-white.png">
       </a>
     </div>
@@ -121,7 +118,7 @@ Translation $$ T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \ 0 &amp; 1 &am
     </div>
 
     <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
-      <a class="Header-link " href="https://GeeTeng.github.io/">
+      <a class="Header-link " href="http://localhost:1313/">
         <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="/images/github-mark-white.png">
       </a>
     </div>
@@ -151,7 +148,7 @@ Translation $$ T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \ 0 &amp; 1 &am
           <div class="flex-auto min-width-0 width-fit mr-3">
             <div class="d-flex">
               <div class="d-none d-md-block">
-                <a class="avatar mr-2 flex-shrink-0" href="https://GeeTeng.github.io/">
+                <a class="avatar mr-2 flex-shrink-0" href="http://localhost:1313/">
                   <img class=" avatar-user"
                     src="/images/avatar.png"
                     width="32" height="32"></a>
@@ -159,11 +156,11 @@ Translation $$ T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \ 0 &amp; 1 &am
               <div class="d-flex flex-column">
                 <h1 class="break-word f3 text-normal mb-md-0 mb-1">
                   <span class="author">
-                    <a href="https://GeeTeng.github.io/">GeeTeng</a>
+                    <a href="http://localhost:1313/">GeeTeng</a>
                   </span>
                   <span class="path-divider">/</span>
                   <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
-                    <a href="https://GeeTeng.github.io/post/graphic_work01/">GAMES101_Work01</a>
+                    <a href="http://localhost:1313/post/graphic_work01/">GAMES101_Work01</a>
                   </strong>
                 </h1>
                 <div class="note m-0">
@@ -173,9 +170,9 @@ Translation $$ T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \ 0 &amp; 1 &am
 
                   
                   <span class="file-info-divider"></span>
-                  Modified <relative-time datetime="Wed, 13 Nov 2024 19:57:06 &#43;0800"
+                  Modified <relative-time datetime="Thu, 14 Nov 2024 09:43:07 &#43;0800"
                     class="no-wrap">
-                    Wed, 13 Nov 2024 19:57:06 &#43;0800</relative-time>
+                    Thu, 14 Nov 2024 09:43:07 &#43;0800</relative-time>
                   
                 </div>
               </div>
@@ -205,7 +202,7 @@ Translation $$ T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \ 0 &amp; 1 &am
                         </div>
                       </div>
                     </details-menu>
-                      1301 Words
+                      1409 Words
                     
 
                   </div>
@@ -219,63 +216,67 @@ Translation $$ T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \ 0 &amp; 1 &am
               <div class="Box-body px-5 pb-5" style="z-index: 1">
                 <article class="markdown-body entry-content container-lg"><h3 id="2d-transformations">2D Transformations</h3>
 <h4 id="scale">Scale</h4>
-<p>$$
-S(s_x, s_y) = \begin{pmatrix} s_x &amp; 0 &amp; 0 \ 0 &amp; s_y &amp; 0 \ 0 &amp; 0 &amp; 1 \end{pmatrix}
-$$</p>
-<h4 id="rotation">Rotation</h4>
-<p>$$
-R(\alpha) = \begin{pmatrix} \cos \alpha &amp; -\sin \alpha &amp; 0 \ \sin \alpha &amp; \cos \alpha &amp; 0 \ 0 &amp; 0 &amp; 1 \end{pmatrix}
-$$</p>
-<h4 id="translation">Translation</h4>
-<p>$$
-T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \ 0 &amp; 1 &amp; t_y \ 0 &amp; 0 &amp; 1 \end{pmatrix}
-$$</p>
-<blockquote>
+$$
+S(s_x, s_y) = 
+\begin{pmatrix}
+s_x & 0 & 0 \\
+0 & s_y & 0 \\
+0 & 0 & 1 
+\end{pmatrix}
+$$<h4 id="rotation">Rotation</h4>
+$$
+R(\alpha) = \begin{pmatrix} \cos \alpha & -\sin \alpha & 0 \\ \sin \alpha & \cos \alpha & 0 \\ 0 & 0 & 1 \end{pmatrix}
+$$<h4 id="translation">Translation</h4>
+$$
+T(t_x, t_y) = \begin{pmatrix} 1 & 0 & t_x \\ 0 & 1 & t_y \\ 0 & 0 & 1 \end{pmatrix}
+$$<blockquote>
 <p><strong>齐次坐标的最后一位为 0 表示方向或无穷远点</strong></p>
 </blockquote>
 <p><strong>平移变换不会影响最后一位为 0 的坐标</strong>，因此这些坐标无法通过平移操作改变位置。</p>
 <p><strong>三维与二维变换同理</strong></p>
 <p>先平移再旋转与先旋转再平移得到的结果是不一样的</p>
 <p>由此可推出矩阵乘法是不符合交换律
+</p>
 $$
-A_n (\dots A_2 (A_1 (\mathbf{x}))) = A_n \cdots A_2 \cdot A_1 \cdot \begin{pmatrix} x \ y \ 1 \end{pmatrix}
-$$
+A_n (\dots A_2 (A_1 (\mathbf{x}))) = A_n \cdots A_2 \cdot A_1 \cdot \begin{pmatrix} x \\ y \\ 1 \end{pmatrix}
+$$<p>
 在齐次坐标中的矩阵变换计算中，<strong>运算顺序是从右到左</strong>，即最先应用的是最右边的矩阵，然后依次往左应用。</p>
-<p>如果想绕着C点进行旋转</p>
-<p><img src="D:%5Chugo%5CGeeSite%5Cstatic%5Cimages%5CrotatePointC.png" alt="How to rotate around a given point C?">
+<h4 id="如果想绕着c点进行旋转"><strong>如果想绕着C点进行旋转</strong></h4>
+<p>先平移到原点，然后再旋转，最后再平移回去</p>
+<p><img src="/images/rotatePointC.png" alt="How to rotate around a given point C?">
+</p>
 $$
 T(c) \cdot R(\alpha) \cdot T(-c)
-$$</p>
-<h3 id="旋转矩阵围绕-x--y--z--轴">旋转矩阵（围绕 x-, y-, z- 轴）</h3>
+$$<h3 id="旋转矩阵围绕-x-y-z-轴">旋转矩阵（围绕 x, y, z 轴）</h3>
 <p><strong>围绕 x 轴的旋转矩阵</strong>：
+</p>
 $$
 R_x(\alpha) = \begin{bmatrix}
-1 &amp; 0 &amp; 0 &amp; 0 \
-0 &amp; \cos \alpha &amp; -\sin \alpha &amp; 0 \
-0 &amp; \sin \alpha &amp; \cos \alpha &amp; 0 \
-0 &amp; 0 &amp; 0 &amp; 1
+1 & 0 & 0 & 0 \\
+0 & \cos \alpha & -\sin \alpha & 0 \\
+0 & \sin \alpha & \cos \alpha & 0 \\
+0 & 0 & 0 & 1
 \end{bmatrix}
-$$</p>
-<p><strong>围绕 y 轴的旋转矩阵</strong>：
+$$<p><strong>围绕 y 轴的旋转矩阵</strong>：
+</p>
 $$
 R_y(\alpha) = \begin{bmatrix}
-\cos \alpha &amp; 0 &amp; \sin \alpha &amp; 0 \
-0 &amp; 1 &amp; 0 &amp; 0 \
--\sin \alpha &amp; 0 &amp; \cos \alpha &amp; 0 \
-0 &amp; 0 &amp; 0 &amp; 1
+\cos \alpha & 0 & \sin \alpha & 0 \\
+0 & 1 & 0 & 0 \\
+-\sin \alpha & 0 & \cos \alpha & 0 \\
+0 & 0 & 0 & 1
 \end{bmatrix}
-$$</p>
-<p><strong>围绕 z 轴的旋转矩阵</strong>：
+$$<p><strong>围绕 z 轴的旋转矩阵</strong>：
+</p>
 $$
 R_z(\alpha) = \begin{bmatrix}
-\cos \alpha &amp; -\sin \alpha &amp; 0 &amp; 0 \
-\sin \alpha &amp; \cos \alpha &amp; 0 &amp; 0 \
-0 &amp; 0 &amp; 1 &amp; 0 \
-0 &amp; 0 &amp; 0 &amp; 1
+\cos \alpha & -\sin \alpha & 0 & 0 \\
+\sin \alpha & \cos \alpha & 0 & 0 \\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1
 \end{bmatrix}
-$$</p>
-<blockquote>
-<p>透视投影矩阵的主要目的是通过将三维坐标缩放并转换为齐次坐标，将视锥体中的物体投影到二维平面上</p>
+$$<blockquote>
+<p><strong>透视投影矩阵的主要目的是通过将三维坐标缩放并转换为齐次坐标，将视锥体中的物体投影到二维平面上</strong></p>
 </blockquote>
 <ul>
 <li>zNear：近裁剪面的位置</li>
@@ -283,41 +284,61 @@ $$</p>
 <li>l, r：视锥体左右边界 (aspect_ratio)</li>
 <li>t, b：视锥体的上下边界</li>
 </ul>
-<p>$$
+$$
 M_{projection}
-=M_{ortho}×M_{\text{persp_to_Ortho}}
-$$</p>
-<p><strong>透视投影转正交矩阵</strong>为：
+ =M_{ortho}×M_{\text{persp\_to\_Ortho}}
+$$<p><strong>透视投影转正交矩阵</strong>为：
+</p>
 $$
-M_{\text{persp_to_ortho}} =
+M_{\text{persp\_to\_ortho}} = 
 \begin{bmatrix}
-z_{\text{Near}} &amp; 0 &amp; 0 &amp; 0 \
-0 &amp; z_{\text{Near}} &amp; 0 &amp; 0 \
-0 &amp; 0 &amp; z_{\text{Near}} + z_{\text{Far}} &amp; -z_{\text{Near}} \cdot z_{\text{Far}} \
-0 &amp; 0 &amp; 1 &amp; 0
+z_{\text{Near}} & 0 & 0 & 0 \\
+0 & z_{\text{Near}} & 0 & 0 \\
+0 & 0 & z_{\text{Near}} + z_{\text{Far}} & -z_{\text{Near}} \cdot z_{\text{Far}} \\
+0 & 0 & 1 & 0
 \end{bmatrix}
-$$</p>
-<p><strong>正交投影矩阵</strong>为：
+$$<p><strong>正交投影矩阵</strong>为：
+</p>
 $$
-M_{ortho} =
+M_{ortho} = 
 \begin{bmatrix}
-\frac{2}{r-l} &amp; 0 &amp; 0 &amp; 0 \
-0 &amp; \frac{2}{t-b} &amp; 0 &amp; 0 \
-0 &amp; 0 &amp; \frac{2}{n-f} &amp; 0 \
-0 &amp; 0 &amp; 0 &amp; 1
+\frac{2}{r-l} & 0 & 0 & 0 \\
+0 & \frac{2}{t-b} & 0 & 0 \\
+0 & 0 & \frac{2}{n-f} & 0 \\
+0 & 0 & 0 & 1
 \end{bmatrix}
 \begin{bmatrix}
-1 &amp; 0 &amp; 0 &amp; -\frac{r+l}{2} \
-0 &amp; 1 &amp; 0 &amp; -\frac{t+b}{2} \
-0 &amp; 0 &amp; 1 &amp; -\frac{n+f}{2} \
-0 &amp; 0 &amp; 0 &amp; 1
+1 & 0 & 0 & -\frac{r+l}{2} \\
+0 & 1 & 0 & -\frac{t+b}{2} \\
+0 & 0 & 1 & -\frac{n+f}{2} \\
+0 & 0 & 0 & 1
 \end{bmatrix}
-$$
+$$<p>
 缩放矩阵（缩放至[−1,1] 区间为2）和平移矩阵（移动到原点位置）</p>
-<p>t = tan(angle / 2) * -zNear // 因为右手定则z轴为负</p>
+<p>t = tan(angle / 2) * -zNear  (因为右手定则z轴为负)</p>
 <p>b = -t</p>
 <p>r = t * aspect_ratio</p>
 <p>l = -r</p>
+<h4 id="旋转矩阵的罗德里格斯公式">旋转矩阵的罗德里格斯公式</h4>
+$$
+R = I \cos \theta + (1 - \cos \theta)(\mathbf{k} \mathbf{k}^T) + \sin \theta 
+\begin{bmatrix} 
+0 & -k_z & k_y \\ 
+k_z & 0 & -k_x \\ 
+-k_y & k_x & 0 
+\end{bmatrix}
+$$<p>其中：</p>
+<ul>
+<li>
+<p>I是单位矩阵。</p>
+</li>
+<li>
+<p>kkT 是旋转轴的外积，表示旋转轴的投影矩阵。</p>
+</li>
+<li>
+<p>最后一项是旋转轴的叉积矩阵，表示垂直旋转轴的旋转分量。</p>
+</li>
+</ul>
 <h4 id="作业描述">作业描述</h4>
 <blockquote>
 <p>本次作业的任务是填写一个<strong>旋转矩阵</strong>和一个<strong>透视投影矩阵</strong></p>
@@ -327,11 +348,7 @@ $$
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix4f</span> <span class="n">get_model_matrix</span><span class="p">(</span><span class="kt">float</span> <span class="n">rotation_angle</span><span class="p">)</span>
 </span></span><span class="line"><span class="cl"><span class="p">{</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix4f</span> <span class="n">model</span> <span class="o">=</span> <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix4f</span><span class="o">::</span><span class="n">Identity</span><span class="p">();</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl">    <span class="c1">// TODO: Implement this function
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// Create the model matrix for rotating the triangle around the Z axis.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="c1">// Then return it.
-</span></span></span><span class="line"><span class="cl"><span class="c1"></span>    <span class="kt">float</span> <span class="n">rotation_angle_radian</span> <span class="o">=</span> <span class="n">rotation_angle</span> <span class="o">*</span> <span class="n">MY_PI</span> <span class="o">/</span> <span class="mi">180</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="kt">float</span> <span class="n">rotation_angle_radian</span> <span class="o">=</span> <span class="n">rotation_angle</span> <span class="o">*</span> <span class="n">MY_PI</span> <span class="o">/</span> <span class="mi">180</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">Eigen</span><span class="o">::</span><span class="n">Matrix4f</span> <span class="n">rotation</span><span class="p">;</span>
 </span></span><span class="line"><span class="cl">    <span class="n">rotation</span> <span class="o">&lt;&lt;</span> <span class="n">cos</span><span class="p">(</span><span class="n">rotation_angle_radian</span><span class="p">),</span> <span class="o">-</span><span class="n">sin</span><span class="p">(</span><span class="n">rotation_angle_radian</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
 </span></span><span class="line"><span class="cl">                <span class="n">sin</span><span class="p">(</span><span class="n">rotation_angle_radian</span><span class="p">),</span> <span class="n">cos</span><span class="p">(</span><span class="n">rotation_angle_radian</span><span class="p">),</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
@@ -393,14 +410,13 @@ $$
 </span></span><span class="line"><span class="cl"><span class="p">}</span>
 </span></span></code></pre></div><h2 id="assignment1-文件下载">Assignment1 文件下载</h2>
 <ul>
-<li><a href="code/Assignment1/Assignment1.pdf">Assignment1.pdf</a></li>
-<li><a href="code/Assignment1/CMakeLists.txt">CMakeLists.txt</a></li>
-<li><a href="code/Assignment1/main.cpp">main.cpp</a></li>
-<li><a href="code/Assignment1/rasterizer.cpp">rasterizer.cpp</a></li>
-<li><a href="code/Assignment1/rasterizer.hpp">rasterizer.hpp</a></li>
-<li><a href="code/Assignment1/Triangle.cpp">Triangle.cpp</a></li>
-<li><a href="code/Assignment1/Triangle.hpp">Triangle.hpp</a></li>
-<li><a href="code%5Ccode01.cpp">code01.cpp</a></li>
+<li><a href="/code/Assignment1/Assignment1.pdf">Assignment1.pdf</a></li>
+<li><a href="/code/Assignment1/CMakeLists.txt">CMakeLists.txt</a></li>
+<li><a href="/code/Assignment1/main.cpp">main.cpp</a></li>
+<li><a href="/code/Assignment1/rasterizer.cpp">rasterizer.cpp</a></li>
+<li><a href="/code/Assignment1/rasterizer.hpp">rasterizer.hpp</a></li>
+<li><a href="/code/Assignment1/Triangle.cpp">Triangle.cpp</a></li>
+<li><a href="/code/Assignment1/Triangle.hpp">Triangle.hpp</a></li>
 </ul>
 </article>
               </div>
@@ -411,13 +427,13 @@ $$
     </div>
   </main>
 </div>
-<script type="application/javascript" src='https://GeeTeng.github.io/js/toc.js'></script>
-<link rel="stylesheet" href='https://GeeTeng.github.io/css/toc.css' />
+<script type="application/javascript" src='http://localhost:1313/js/toc.js'></script>
+<link rel="stylesheet" href='http://localhost:1313/css/toc.css' />
 
   
 <div id="gitalk-container" class="gitalk-container"></div>
-<link rel="stylesheet" href='https://GeeTeng.github.io/css/gitalk.css'>
-<script src='https://GeeTeng.github.io/js/gitalk.min.js'></script>
+<link rel="stylesheet" href='http://localhost:1313/css/gitalk.css'>
+<script src='http://localhost:1313/js/gitalk.min.js'></script>
 <script>
   const gitalk = new Gitalk({
     clientID: 'Your client ID',
@@ -438,7 +454,7 @@ $$
   <div class="footer container-xl width-full p-responsive">
   <div
     class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
-    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="https://GeeTeng.github.io/">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="http://localhost:1313/">
       <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
         <path fill-rule="evenodd"
           d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
@@ -459,14 +475,14 @@ $$
 </div>
 </body>
 
-<script type="application/javascript" src="https://GeeTeng.github.io/js/github-style.js"></script>
+<script type="application/javascript" src="http://localhost:1313/js/github-style.js"></script>
 
 
 
 
 
 <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
-<script type="application/javascript" src='https://GeeTeng.github.io/js/search.js'></script>
+<script type="application/javascript" src='http://localhost:1313/js/search.js'></script>
 
 
 
