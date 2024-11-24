@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <script type="application/javascript" src='https://GeeTeng.github.io/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='https://GeeTeng.github.io/css/frameworks.min.css' />
+    <link rel="stylesheet" href='https://GeeTeng.github.io/css/github.min.css' />
+    <link rel="stylesheet" href='https://GeeTeng.github.io/css/github-style.css' />
+    <link rel="stylesheet" href='https://GeeTeng.github.io/css/light.css' />
+    <link rel="stylesheet" href='https://GeeTeng.github.io/css/dark.css' />
+    <link rel="stylesheet" href='https://GeeTeng.github.io/css/syntax.css' />
+    <title>GameMode游戏模式 - GeeTeng&#39;s blog</title>
+    
+    <link rel="icon" type="image/x-icon" href='/images/github-mark.png'>
+    
+    <meta name="theme-color" content="#1e2327">
+
+    
+    <meta name="description"
+  content=" 平行世界？World UE中有三个世界
+游戏世界 编辑器世界 预览世界 关卡蓝图-定义关卡规则
+UGameInstance 存在于游戏的整个生命周期中 不会随着地图切换 销毁 适合业务全局管理操作，Uengine 管理 GameInstance
+游戏中最重要的实体AActor AActor 标志所有权的Owner指针，标志本地权限的Role枚举，作为网格同步的基础单位，根组件提供世界变化信息
+Actor不只是3D中的表示，一些不可见对象也可以是Actor，如AInfo（派生类Aworldsetting，AGameMode，AgameState&hellip;）
+Actor在UE中就像是世界里的元素
+Component 是 Actor 的组成部分，用于定义 Actor 的特性和行为
+RootComponent是Actor的核心组件，决定了Actor在场景中的位置、旋转和缩放 SceneComponent 是一个基础组件，主要用于定义场景中对象的位置、旋转和缩放。它本身是一个抽象组件，不会直接渲染或显示。 Actor生命周期详解
+生命周期1
+actor分为
+静态的actor - 在关卡编辑器里直接放置的Actor 动态创建的actor（spawnActor） - 通过代码或蓝图在运行时动态生成的 Actor 生命周期2 重要的生命周期函数
+BeginPlay - 在Actor激活时调用 初始化
+Tick - 每帧调用一次 处理逻辑
+EndPlay - 在Actor即将销毁时调用 清理资源
+生命周期3 GC完成收尾 注意有效性的判断
+if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;&amp; !MyActor-&gt;IsPendingKill()) { // Actor 没有被标记为销毁 } isPendingKill是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。
+APawn（可操控的棋子) 最重要的特性：可以被controller控制 提供了输入、移动框架的支持
+UE提供了一个默认的Pawn - DeflaultPawn
+" />
+<meta name="keywords"
+  content='blog, google analytics' />
+<meta name="robots" content="noodp" />
+<link rel="canonical" href="https://GeeTeng.github.io/post/gamemode/" />
+
+
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:title" content="GameMode游戏模式 - GeeTeng&#39;s blog" />
+<meta name="twitter:description"
+  content=" 平行世界？World UE中有三个世界
+游戏世界 编辑器世界 预览世界 关卡蓝图-定义关卡规则
+UGameInstance 存在于游戏的整个生命周期中 不会随着地图切换 销毁 适合业务全局管理操作，Uengine 管理 GameInstance
+游戏中最重要的实体AActor AActor 标志所有权的Owner指针，标志本地权限的Role枚举，作为网格同步的基础单位，根组件提供世界变化信息
+Actor不只是3D中的表示，一些不可见对象也可以是Actor，如AInfo（派生类Aworldsetting，AGameMode，AgameState&hellip;）
+Actor在UE中就像是世界里的元素
+Component 是 Actor 的组成部分，用于定义 Actor 的特性和行为
+RootComponent是Actor的核心组件，决定了Actor在场景中的位置、旋转和缩放 SceneComponent 是一个基础组件，主要用于定义场景中对象的位置、旋转和缩放。它本身是一个抽象组件，不会直接渲染或显示。 Actor生命周期详解
+生命周期1
+actor分为
+静态的actor - 在关卡编辑器里直接放置的Actor 动态创建的actor（spawnActor） - 通过代码或蓝图在运行时动态生成的 Actor 生命周期2 重要的生命周期函数
+BeginPlay - 在Actor激活时调用 初始化
+Tick - 每帧调用一次 处理逻辑
+EndPlay - 在Actor即将销毁时调用 清理资源
+生命周期3 GC完成收尾 注意有效性的判断
+if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;&amp; !MyActor-&gt;IsPendingKill()) { // Actor 没有被标记为销毁 } isPendingKill是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。
+APawn（可操控的棋子) 最重要的特性：可以被controller控制 提供了输入、移动框架的支持
+UE提供了一个默认的Pawn - DeflaultPawn
+" />
+<meta name="twitter:site" content="https://GeeTeng.github.io/" />
+<meta name="twitter:creator" content="" />
+<meta name="twitter:image"
+  content="https://GeeTeng.github.io/">
+
+
+<meta property="og:type" content="article" />
+<meta property="og:title" content="GameMode游戏模式 - GeeTeng&#39;s blog">
+<meta property="og:description"
+  content=" 平行世界？World UE中有三个世界
+游戏世界 编辑器世界 预览世界 关卡蓝图-定义关卡规则
+UGameInstance 存在于游戏的整个生命周期中 不会随着地图切换 销毁 适合业务全局管理操作，Uengine 管理 GameInstance
+游戏中最重要的实体AActor AActor 标志所有权的Owner指针，标志本地权限的Role枚举，作为网格同步的基础单位，根组件提供世界变化信息
+Actor不只是3D中的表示，一些不可见对象也可以是Actor，如AInfo（派生类Aworldsetting，AGameMode，AgameState&hellip;）
+Actor在UE中就像是世界里的元素
+Component 是 Actor 的组成部分，用于定义 Actor 的特性和行为
+RootComponent是Actor的核心组件，决定了Actor在场景中的位置、旋转和缩放 SceneComponent 是一个基础组件，主要用于定义场景中对象的位置、旋转和缩放。它本身是一个抽象组件，不会直接渲染或显示。 Actor生命周期详解
+生命周期1
+actor分为
+静态的actor - 在关卡编辑器里直接放置的Actor 动态创建的actor（spawnActor） - 通过代码或蓝图在运行时动态生成的 Actor 生命周期2 重要的生命周期函数
+BeginPlay - 在Actor激活时调用 初始化
+Tick - 每帧调用一次 处理逻辑
+EndPlay - 在Actor即将销毁时调用 清理资源
+生命周期3 GC完成收尾 注意有效性的判断
+if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;&amp; !MyActor-&gt;IsPendingKill()) { // Actor 没有被标记为销毁 } isPendingKill是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。
+APawn（可操控的棋子) 最重要的特性：可以被controller控制 提供了输入、移动框架的支持
+UE提供了一个默认的Pawn - DeflaultPawn
+" />
+<meta property="og:url" content="https://GeeTeng.github.io/post/gamemode/" />
+<meta property="og:site_name" content="GameMode游戏模式" />
+<meta property="og:image"
+  content="https://GeeTeng.github.io/">
+<meta property="og:image:width" content="2048">
+<meta property="og:image:height" content="1024">
+
+<meta property="article:published_time" content="2024-11-24 00:00:00 &#43;0000 UTC" />
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+
+
+<link rel="preload" href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+<noscript>
+  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css">
+</noscript>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/auto-render.min.js" crossorigin="anonymous"
+    onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false },
+            { left: '\$', right: '\$', display: false }
+          ]
+        });"></script>
+
+
+<body>
+  <div style="position: relative">
+  <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
+    <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
+      <a class="Header-link" href="https://GeeTeng.github.io/">
+        <img class="octicon" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item d-md-none">
+      <button class="Header-link btn-link js-details-target" type="button"
+        onclick="document.querySelector('#header-search').style.display = document.querySelector('#header-search').style.display == 'none'? 'block': 'none'">
+        <svg height="24" class="octicon octicon-three-bars" viewBox="0 0 16 16" version="1.1" width="24">
+          <path fill-rule="evenodd" d="M1 2.75A.75.75 0 011.75 2h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 2.75zm0 5A.75.75 0 011.75 7h12.5a.75.75 0 110 1.5H1.75A.75.75 0 011 7.75zM1.75 12a.75.75 0 100 1.5h12.5a.75.75 0 100-1.5H1.75z">
+          </path>
+        </svg>
+      </button>
+    </div>
+    <div style="display: none;" id="header-search"
+      class="Header-item Header-item--full flex-column flex-md-row width-full flex-order-2 flex-md-order-none mr-0 mr-md-3 mt-3 mt-md-0 Details-content--hidden-not-important d-md-flex">
+      <div
+        class="Header-search header-search flex-auto js-site-search position-relative flex-self-stretch flex-md-self-auto mb-3 mb-md-0 mr-0 mr-md-3 scoped-search site-scoped-search js-jump-to">
+        <div class="position-relative">
+          
+          <form target="_blank" id="search-form" action="" accept-charset="UTF-8" method="get"
+            autocomplete="off">
+            <label
+              class="Header-search-label form-control input-sm header-search-wrapper p-0 js-chromeless-input-container header-search-wrapper-jump-to position-relative d-flex flex-justify-between flex-items-center">
+              <input type="text"
+                class="Header-search-input form-control input-sm header-search-input jump-to-field js-jump-to-field js-site-search-focus js-site-search-field is-clearable"
+                name="q" value="" placeholder="Search" autocomplete="off">
+            </label>
+          </form>
+          
+        </div>
+      </div>
+    </div>
+
+    <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
+      <a class="Header-link " href="https://GeeTeng.github.io/">
+        <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="/images/github-mark-white.png">
+      </a>
+    </div>
+    <div class="Header-item" style="margin-right: 0;">
+      <a href="javascript:void(0)" class="Header-link no-select" onclick="switchTheme()">
+        <svg style="fill: var(--color-profile-color-modes-toggle-moon);" class="no-select" viewBox="0 0 16 16"
+          version="1.1" width="16" height="16">
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M4.52208 7.71754C7.5782 7.71754 10.0557 5.24006 10.0557 2.18394C10.0557 1.93498 10.0392 1.68986 10.0074 1.44961C9.95801 1.07727 10.3495 0.771159 10.6474 0.99992C12.1153 2.12716 13.0615 3.89999 13.0615 5.89383C13.0615 9.29958 10.3006 12.0605 6.89485 12.0605C3.95334 12.0605 1.49286 10.001 0.876728 7.24527C0.794841 6.87902 1.23668 6.65289 1.55321 6.85451C2.41106 7.40095 3.4296 7.71754 4.52208 7.71754Z">
+          </path>
+        </svg>
+      </a>
+    </div>
+  </header>
+</div>
+
+  <div id="search-result" class="container-lg px-3 new-discussion-timeline" style="display: none;">
+</div>
+
+  
+<div class="application-main">
+  <div>
+  <main>
+    <div class="gisthead pagehead bg-gray-light pb-0 pt-3 mb-4">
+      <div class="px-0">
+        <div class="mb-3 d-flex px-3 px-md-3 px-lg-5">
+          <div class="flex-auto min-width-0 width-fit mr-3">
+            <div class="d-flex">
+              <div class="d-none d-md-block">
+                <a class="avatar mr-2 flex-shrink-0" href="https://GeeTeng.github.io/">
+                  <img class=" avatar-user"
+                    src="/images/avatar.png"
+                    width="32" height="32"></a>
+              </div>
+              <div class="d-flex flex-column">
+                <h1 class="break-word f3 text-normal mb-md-0 mb-1">
+                  <span class="author">
+                    <a href="https://GeeTeng.github.io/">GeeTeng</a>
+                  </span>
+                  <span class="path-divider">/</span>
+                  <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
+                    <a href="https://GeeTeng.github.io/post/gamemode/">GameMode游戏模式</a>
+                  </strong>
+                </h1>
+                <div class="note m-0">
+                  Created <relative-time datetime="Sun, 24 Nov 2024 00:00:00 &#43;0000"
+                    class="no-wrap">
+                    Sun, 24 Nov 2024 00:00:00 &#43;0000</relative-time>
+
+                  
+                  <span class="file-info-divider"></span>
+                  Modified <relative-time datetime="Sun, 24 Nov 2024 20:56:49 &#43;0800"
+                    class="no-wrap">
+                    Sun, 24 Nov 2024 20:56:49 &#43;0800</relative-time>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container-lg px-3 new-discussion-timeline">
+      <div class="repository-content gist-content">
+        <div>
+          <div class="js-gist-file-update-container js-task-list-container file-box">
+            <div id="file-pytest" class="file my-2">
+              <div id="post-header" class="file-header d-flex flex-md-items-center flex-items-start sticky-header" style="z-index: 2">
+                <div class="file-info d-flex flex-md-items-center flex-items-start flex-order-1 flex-auto">
+                  <div class="text-mono f6 flex-auto pr-3 flex-order-2 flex-md-order-1 mt-2 mt-md-0">
+                    
+                    <summary id="toc-toggle" onclick="clickToc()" class="btn btn-octicon m-0 mr-2 p-2">
+                      <svg aria-hidden="true" viewBox="0 0 16 16" height="16" width="16" class="octicon octicon-list-unordered">
+                        <path fill-rule="evenodd" d="M2 4a1 1 0 100-2 1 1 0 000 2zm3.75-1.5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zm0 5a.75.75 0 000 1.5h8.5a.75.75 0 000-1.5h-8.5zM3 8a1 1 0 11-2 0 1 1 0 012 0zm-1 6a1 1 0 100-2 1 1 0 000 2z"></path>
+                      </svg>
+                    </summary>
+                    <details-menu class="SelectMenu" id="toc-details" style="display: none;">
+                      <div class="SelectMenu-modal rounded-3 mt-1" style="max-height: 340px;">
+                        <div class="SelectMenu-list SelectMenu-list--borderless p-2" style="overscroll-behavior: contain;" id="toc-list">
+                        </div>
+                      </div>
+                    </details-menu>
+                      2608 Words
+                    
+
+                  </div>
+                  <div class="file-actions flex-order-2 pt-0">
+                    
+                  </div>
+                </div>
+              </div>
+
+
+              <div class="Box-body px-5 pb-5" style="z-index: 1">
+                <article class="markdown-body entry-content container-lg"><hr>
+<h4 id="平行世界world">平行世界？World</h4>
+<p>UE中有三个世界</p>
+<ul>
+<li>游戏世界</li>
+<li>编辑器世界</li>
+<li>预览世界</li>
+</ul>
+<p>关卡蓝图-定义关卡规则</p>
+<p><code>UGameInstance</code>  存在于游戏的整个生命周期中 不会随着地图切换 销毁 适合业务全局管理操作，Uengine  管理 GameInstance</p>
+<hr>
+<h4 id="游戏中最重要的实体aactor"><strong>游戏中最重要的实体AActor</strong></h4>
+<p>AActor 标志所有权的Owner指针，标志本地权限的Role枚举，作为网格同步的基础单位，根组件提供世界变化信息</p>
+<p>Actor不只是3D中的表示，一些不可见对象也可以是Actor，如<em>AInfo</em>（派生类<em>Aworldsetting</em>，<em>AGameMode</em>，<em>AgameState</em>&hellip;）</p>
+<p><strong>Actor在UE中就像是世界里的元素</strong></p>
+<p><strong>Component 是 Actor 的组成部分，用于定义 Actor 的特性和行为</strong></p>
+<ol>
+<li><em>RootComponent</em>是Actor的核心组件，决定了Actor在场景中的位置、旋转和缩放</li>
+<li><em>SceneComponent</em> 是一个基础组件，主要用于定义场景中对象的位置、旋转和缩放。它本身是一个抽象组件，不会直接渲染或显示。</li>
+</ol>
+<p><strong>Actor生命周期详解</strong></p>
+<ul>
+<li>
+<p>生命周期1</p>
+<p>actor分为</p>
+<ul>
+<li>静态的actor - 在关卡编辑器里直接放置的Actor</li>
+<li>动态创建的actor（<em>spawnActor</em>） - 通过代码或蓝图在运行时动态生成的 Actor</li>
+</ul>
+</li>
+<li>
+<p>生命周期2
+重要的生命周期函数</p>
+<p>BeginPlay - 在Actor激活时调用 初始化</p>
+<p>Tick - 每帧调用一次 处理逻辑</p>
+<p>EndPlay - 在Actor即将销毁时调用 清理资源</p>
+</li>
+<li>
+<p>生命周期3
+GC完成收尾 注意有效性的判断</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">IsValid</span><span class="p">(</span><span class="n">MyActor</span><span class="p">))</span> <span class="p">{</span>    <span class="c1">// Actor 有效 }
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">MyActor</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">MyActor</span><span class="o">-&gt;</span><span class="n">IsPendingKill</span><span class="p">())</span> <span class="p">{</span>    <span class="c1">// Actor 没有被标记为销毁 }
+</span></span></span></code></pre></div><p><em>isPendingKill</em>是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。</p>
+</li>
+</ul>
+<hr>
+<h4 id="apawn可操控的棋子"><strong>APawn（可操控的棋子)</strong></h4>
+<p>最重要的特性：可以被controller控制 提供了输入、移动框架的支持</p>
+<p>UE提供了一个默认的Pawn - <strong>DeflaultPawn</strong></p>
+<p><strong>默认三件套</strong></p>
+<ul>
+<li><em><strong>DefaultPawnMovementComponent</strong></em></li>
+<li><strong>sphericalCollisionComponent</strong></li>
+<li><em><strong>StaticMeshComponent</strong></em></li>
+</ul>
+<p><em><strong>SpectatorPawn</strong></em></p>
+<p>观众想观战但并不需要真正的表示他们 所以提供了<strong>USpectatorPawnMovement</strong>（不带重力漫游） 并关闭了StaticMesh的显示，碰撞设置到了Spectator通道</p>
+<hr>
+<p><strong>Character像是Pawn的加强特化版本</strong></p>
+<p><strong>ACharacter</strong>人形角色（人形Pawn）</p>
+<ul>
+<li>
+<p>近似仿真人形的胶囊体碰撞盒<em><strong>UCapsuleComponent</strong></em></p>
+</li>
+<li>
+<p>骨骼模型<em><strong>USkeletalMeshComponent</strong></em></p>
+</li>
+<li>
+<p>人物移动组件<em><strong>UCharacterMovementComponent</strong></em></p>
+<ul>
+<li>
+<p>配合胶囊体完成了各种仿真移动计算Walking、Falling&hellip;</p>
+</li>
+<li>
+<p>提供了Custom自定义移动模式供扩展</p>
+</li>
+<li>
+<p>网络游戏移动同步架构 主控端预表现（网断了还能跑）服务器端校验 模拟端预测</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="mvc模式显示数据算法"><strong>MVC模式（显示、数据、算法）</strong></h4>
+<p><strong>显示（View）</strong>：</p>
+<ul>
+<li>由骨骼模型和动画组件（<code>USkeletalMeshComponent</code>）负责呈现角色的外观。</li>
+<li>包括实时动画播放、物理效果展示等。</li>
+</ul>
+<p><strong>数据（Model）</strong>：</p>
+<ul>
+<li>角色的核心属性和状态（如速度、位置、旋转、是否跳跃）。</li>
+<li>包括状态同步的网络消息结构和角色实例化的变量集合。</li>
+</ul>
+<p><strong>算法（Controller）</strong>：</p>
+<ul>
+<li>负责移动逻辑、动画状态切换、物理计算等行为。</li>
+<li>包括人物移动组件的各种模式扩展与自定义处理逻辑。</li>
+</ul>
+<p>抽象这三个变化并归纳关系就是MVC模式</p>
+<h4 id="继承和层次结构"><strong>继承和层次结构</strong></h4>
+<ol>
+<li><strong>AController 继承自 AActor</strong>：
+<ul>
+<li>AController 是一个专门用于控制 APawn 行为的类。</li>
+<li>它充当“提线木偶操控者”，通过指令驱动角色的移动、行为和其他逻辑。</li>
+</ul>
+</li>
+<li><strong>UObject</strong>：
+<ul>
+<li>Unreal Engine 中最基础的类，所有对象的根基。</li>
+<li><strong>功能</strong>：提供反射、序列化、垃圾回收（GC）和内存管理的机制。</li>
+<li><strong>反射机制</strong>：支持运行时类型信息 (RTTI) 和蓝图扩展。</li>
+<li><strong>序列化</strong>：用于保存和加载对象状态，广泛用于游戏保存、配置文件等。</li>
+</ul>
+</li>
+<li><strong>UActorComponent</strong>：
+<ul>
+<li><strong>功能载体</strong>：AActor 的组件化架构。</li>
+<li>逻辑代码或功能模块的载体（如健康系统、AI逻辑等）。</li>
+<li><strong>嵌套能力</strong>：USceneComponent 提供世界变换（位置、旋转、缩放）以及嵌套结构支持。</li>
+</ul>
+</li>
+<li><strong>AActor</strong>：
+<ul>
+<li>游戏对象的基础类，是组件的容器。</li>
+<li><strong>功能</strong>：管理生命周期（Spawn/Destroy）、事件（Tick/Overlap）以及和世界的交互（物理、渲染等）。</li>
+</ul>
+</li>
+<li><strong>APawn</strong>：
+<ul>
+<li>AActor 的子类，表示玩家或 AI 可控制的实体。</li>
+<li>特点：
+<ul>
+<li>提供基本的物理表示（如碰撞体）。</li>
+<li>支持玩家输入和基本移动能力。</li>
+<li>可被 AController 绑定以实现复杂逻辑。</li>
+</ul>
+</li>
+<li>当前常用于角色控制和 AI 代理。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="具体功能与模块"><strong>具体功能与模块</strong></h4>
+<p><strong>APlayerController（提线木偶操控者）</strong>：</p>
+<ul>
+<li><strong>定义</strong>：玩家的控制代理，负责接收输入并将其转换为游戏行为。</li>
+<li><strong>职责：</strong>
+<ul>
+<li>处理输入：将玩家输入映射到动作或功能。</li>
+<li>控制 Pawn：通过控制接口驱动角色行为。</li>
+<li>管理玩家视角：负责管理摄像机、HUD 和其他 UI 组件。</li>
+</ul>
+</li>
+<li><strong>网络连接与所有权</strong>：
+<ul>
+<li>在多人游戏中，APlayerController 维护客户端和服务器之间的连接。</li>
+<li>确保特定 APawn 的所有权归特定客户端（或服务器）所有。</li>
+</ul>
+</li>
+</ul>
+<p><strong>UInputComponent</strong>：</p>
+<ul>
+<li><strong>功能</strong>：用于绑定输入映射，将玩家输入转化为游戏事件。</li>
+<li><strong>特点</strong>：
+<ul>
+<li>支持蓝图和 C++ 输入绑定。</li>
+<li>使用输入映射表（Input Mapping Context）实现灵活的按键配置。</li>
+</ul>
+</li>
+</ul>
+<p><strong>APlayerCameraManager</strong>：</p>
+<ul>
+<li><strong>职责</strong>：
+<ul>
+<li>管理玩家的摄像机视角和摄像机效果。</li>
+<li>支持视角切换（第一人称/第三人称）。</li>
+<li>应用于动态摄像机逻辑，如抖动、跟随目标、动态缩放等。</li>
+</ul>
+</li>
+</ul>
+<p><strong><code>AHUD</code></strong>：</p>
+<ul>
+<li><strong>定义</strong>：传统的屏幕 UI 渲染类。</li>
+<li><strong>特点</strong>：
+<ul>
+<li>早期用于绘制简单的屏幕元素（如血量、雷达等）。</li>
+<li>被更灵活的 UMG 取代，但仍可用作低级别绘制需求。</li>
+</ul>
+</li>
+<li><strong>区别</strong>：
+<ul>
+<li>HUD 是屏幕上的信息展示，通常绑定到玩家控制器。</li>
+<li>UI 更复杂，可通过 UMG 实现交互式用户界面。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="agamemode-真游戏模式">AGameMode 真·游戏模式</h4>
+<p>玩家如何加入游戏 游戏特定行为（获胜）
+所有GameMode均为 AGameMode的子类 AGameModeBase包含大量可覆盖的基础功能</p>
+<hr>
+<h4 id="agamestate游戏状态">AgameState游戏状态</h4>
+<p>同mode基类子类</p>
+<p>APlayerState玩家状态
+playerState Character、Controller的职责区别</p>
+<hr>
+<h4 id="question">Question？</h4>
+<blockquote>
+<p>如果你来设计游戏，以下数据应该存放在哪里，是否需要同步给玩家？
+玩家血量、玩家得分、队友位置、毒圈空头信息</p>
+</blockquote>
+<p><strong>1.玩家血量</strong>：</p>
+<p>玩家血量是游戏的核心状态 需要在服务器存储并管理（防止作弊）</p>
+<p>需要实时同步给本地的UI更新，但是不需要同步给敌人玩家，在团队作战中可以同步给队友。</p>
+<p><strong>2.玩家得分：</strong></p>
+<p>玩家得分是游戏结果的重要数据，需要服务器去存储，也需要同步给玩家的UI，但是客户端仅需要展示不需要存储。自己的得分需要同步，其他玩家可以定期的同步，如排行榜。</p>
+<p><strong>3.队友位置：</strong></p>
+<p>存储在服务器和客户端</p>
+<p>需要同步给同队玩家，不能同步给敌人</p>
+<p><strong>4.空投信息：</strong></p>
+<p>毒圈和空投是全局信息，在服务器存储，客户端需要同步给所有玩家</p>
+<p>需要同步给所有玩家，同步半径变化，毒圈缩小等，</p>
+</article>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</div>
+<script type="application/javascript" src='https://GeeTeng.github.io/js/toc.js'></script>
+<link rel="stylesheet" href='https://GeeTeng.github.io/css/toc.css' />
+
+  
+<div id="gitalk-container" class="gitalk-container"></div>
+<link rel="stylesheet" href='https://GeeTeng.github.io/css/gitalk.css'>
+<script src='https://GeeTeng.github.io/js/gitalk.min.js'></script>
+<script>
+  const gitalk = new Gitalk({
+    clientID: 'Your client ID',
+    clientSecret: 'Your client secret',
+    repo: 'LuvSia',
+    owner: 'ventusoon',
+    admin: ['ventusoon'],
+    id: eval("location.pathname"), 
+    distractionFreeMode: false 
+  });
+  (function() {
+    gitalk.render('gitalk-container');
+  })();
+</script>
+
+</div>
+
+  <div class="footer container-xl width-full p-responsive">
+  <div
+    class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="https://GeeTeng.github.io/">
+      <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
+        <path fill-rule="evenodd"
+          d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+        </path>
+      </svg>
+    </a>
+    <ul class="list-style-none d-flex flex-wrap col-12 flex-justify-center flex-lg-justify-between mb-2 mb-lg-0">
+      
+      <li class="mr-3 mr-lg-0">Theme by <a href='https://github.com/MeiK2333/github-style'>github-style</a></li>
+      
+    </ul>
+  </div>
+  <div class="d-flex flex-justify-center pb-6">
+    <span class="f6 text-gray-light"></span>
+  </div>
+
+
+</div>
+</body>
+
+<script type="application/javascript" src="https://GeeTeng.github.io/js/github-style.js"></script>
+
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
+<script type="application/javascript" src='https://GeeTeng.github.io/js/search.js'></script>
+
+
+
+</html>
