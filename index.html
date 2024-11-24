@@ -168,7 +168,7 @@
                 </path>
               </svg>
               Posts
-              <span class="Counter">2</span>
+              <span class="Counter">3</span>
             </a>
           </nav>
           <div class="profile-color-modes js-promo-color-modes-banner-profile isInitialToggle">
@@ -461,7 +461,7 @@
         </path>
       </svg>
       Posts
-      <span class="Counter ">2</span>
+      <span class="Counter ">3</span>
     </a>
   </nav>
 </div>
@@ -485,6 +485,83 @@
           Popular posts
         </h2>
         <ol class="d-flex flex-wrap list-style-none gutter-condensed mb-4 js-pinned-items-reorder-list">
+          
+          <li class="col-12 col-md-6 col-lg-6 mb-3 d-flex flex-content-stretch">
+            <div
+              class="Box pinned-item-list-item d-flex p-3 width-full js-pinned-item-list-item public source reorderable sortable-button-item">
+              <div class="pinned-item-list-item-content">
+                <div class="d-flex width-full flex-items-center position-relative">
+                  <svg class="octicon octicon-repo mr-2 text-gray flex-shrink-0" viewBox="0 0 16 16" version="1.1"
+                    width="16" height="16">
+                    <path fill-rule="evenodd"
+                      d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z">
+                    </path>
+                  </svg>
+                  <a class="text-bold flex-auto min-width-0" href="https://GeeTeng.github.io/post/gamemode/">
+                    <span class="repo" title="GameMode游戏模式">GameMode游戏模式</span>
+                  </a>
+                </div>
+
+
+                <div name="summary" class="pinned-item-desc text-gray text-small d-block mt-2 mb-3">
+                  <hr>
+<h4 id="平行世界world">平行世界？World</h4>
+<p>UE中有三个世界</p>
+<ul>
+<li>游戏世界</li>
+<li>编辑器世界</li>
+<li>预览世界</li>
+</ul>
+<p>关卡蓝图-定义关卡规则</p>
+<p><code>UGameInstance</code>  存在于游戏的整个生命周期中 不会随着地图切换 销毁 适合业务全局管理操作，Uengine  管理 GameInstance</p>
+<hr>
+<h4 id="游戏中最重要的实体aactor"><strong>游戏中最重要的实体AActor</strong></h4>
+<p>AActor 标志所有权的Owner指针，标志本地权限的Role枚举，作为网格同步的基础单位，根组件提供世界变化信息</p>
+<p>Actor不只是3D中的表示，一些不可见对象也可以是Actor，如<em>AInfo</em>（派生类<em>Aworldsetting</em>，<em>AGameMode</em>，<em>AgameState</em>&hellip;）</p>
+<p><strong>Actor在UE中就像是世界里的元素</strong></p>
+<p><strong>Component 是 Actor 的组成部分，用于定义 Actor 的特性和行为</strong></p>
+<ol>
+<li><em>RootComponent</em>是Actor的核心组件，决定了Actor在场景中的位置、旋转和缩放</li>
+<li><em>SceneComponent</em> 是一个基础组件，主要用于定义场景中对象的位置、旋转和缩放。它本身是一个抽象组件，不会直接渲染或显示。</li>
+</ol>
+<p><strong>Actor生命周期详解</strong></p>
+<ul>
+<li>
+<p>生命周期1</p>
+<p>actor分为</p>
+<ul>
+<li>静态的actor - 在关卡编辑器里直接放置的Actor</li>
+<li>动态创建的actor（<em>spawnActor</em>） - 通过代码或蓝图在运行时动态生成的 Actor</li>
+</ul>
+</li>
+<li>
+<p>生命周期2
+重要的生命周期函数</p>
+<p>BeginPlay - 在Actor激活时调用 初始化</p>
+<p>Tick - 每帧调用一次 处理逻辑</p>
+<p>EndPlay - 在Actor即将销毁时调用 清理资源</p>
+</li>
+<li>
+<p>生命周期3
+GC完成收尾 注意有效性的判断</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-c++" data-lang="c++"><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">IsValid</span><span class="p">(</span><span class="n">MyActor</span><span class="p">))</span> <span class="p">{</span>    <span class="c1">// Actor 有效 }
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span>
+</span></span><span class="line"><span class="cl"><span class="k">if</span> <span class="p">(</span><span class="n">MyActor</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">MyActor</span><span class="o">-&gt;</span><span class="n">IsPendingKill</span><span class="p">())</span> <span class="p">{</span>    <span class="c1">// Actor 没有被标记为销毁 }
+</span></span></span></code></pre></div><p><em>isPendingKill</em>是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。</p>
+</li>
+</ul>
+<hr>
+<h4 id="apawn可操控的棋子"><strong>APawn（可操控的棋子)</strong></h4>
+<p>最重要的特性：可以被controller控制 提供了输入、移动框架的支持</p>
+<p>UE提供了一个默认的Pawn - <strong>DeflaultPawn</strong></p>
+                </div>
+
+                <p class="mb-0 f6 text-gray">
+                  
+                </p>
+              </div>
+            </div>
+          </li>
           
           <li class="col-12 col-md-6 col-lg-6 mb-3 d-flex flex-content-stretch">
             <div
@@ -609,6 +686,12 @@ $$<blockquote>
 
     
     <div class="mt-4 position-relative" id="contributions" data='[
+{
+  "title": "GameMode%e6%b8%b8%e6%88%8f%e6%a8%a1%e5%bc%8f",
+  "link": "https://GeeTeng.github.io/post/gamemode/",
+  "publishDate": "2024-11-24%2000:00:00"
+},
+
 {
   "title": "GAMES101_Work01",
   "link": "https://GeeTeng.github.io/post/graphic_work01/",
