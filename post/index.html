@@ -526,74 +526,13 @@ if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;&amp; !MyActor-&gt;Is
           <div class="col-12 d-inline-block">
             <div class="d-inline-block mb-1">
               <h3 class="wb-break-all">
-                <a href="https://GeeTeng.github.io/post/%E5%85%89%E6%A0%85%E5%8C%96/">GAMES101_Work02</a>
-              </h3>
-            </div>
-
-            <div>
-              <div class="col-12 d-inline-block text-gray mb-2 pr-4">
-                光栅化 rasterize 屏幕坐标系 屏幕空间 - 在屏幕上建立一个坐标系
-屏幕的左下角是原点（0，0） 向上是Y 向右是x
-视口变换 要做的事：[-1, 1]^3映射到屏幕上
-其中：width 和 height 是屏幕或视口的宽度和高度
-在标准化设备坐标中，3D物体的投影结果被限制在 (−1,−1)到 (1,1) 的范围：
-(−1,−1) 代表左下角 (1,1) 代表右上角 这是一个对称的正方形坐标系，中心点是 (0,0) 我们需要将这个范围映射到屏幕坐标系：
-左下角是 (0,0)，右上角是 (width,height) $$M_{viewport} = \begin{pmatrix}\frac{width}{2} & 0 & 0 & \frac{width}{2}\\0 & \frac{height}{2} & 0 & \frac{height}{2}\\0 & 0 & 1 & 0 \\0 & 0 & 0 & 1\end{pmatrix}$$ 光栅显示设备 示波器（曾经做过的物理实验）和早期显示器相同原理 ​	阴极射线管 电子经过加速穿过显示设备 发生偏转 就可以看到CRT屏幕 （Cathode Ray Tube）
-              </div>
-            </div>
-
-            <div class="f6 text-gray mt-2">
-              
-
-              Created
-              <relative-time datetime=" Sat, 16 Nov 2024 00:00:00 &#43;0000" class="no-wrap"
-                title=" Sat, 16 Nov 2024 00:00:00 &#43;0000">
-                Sat, 16 Nov 2024 00:00:00 &#43;0000
-              </relative-time>
-            </div>
-          </div>
-        </li>
-        
-        <li class="col-12 d-flex width-full py-4 border-bottom color-border-secondary public source">
-          <div class="col-12 d-inline-block">
-            <div class="d-inline-block mb-1">
-              <h3 class="wb-break-all">
-                <a href="https://GeeTeng.github.io/post/ue/">UE_C&#43;&#43;</a>
-              </h3>
-            </div>
-
-            <div>
-              <div class="col-12 d-inline-block text-gray mb-2 pr-4">
-                设置摄像机位置 AMyCharacter::AMyCharacter() { PrimaryActorTick.bCanEverTick = true; // 创建一个相机臂 用来控制角色和相机的相对位置 CameraBoom = CreateDefaultSubobject&lt;USpringArmComponent&gt;(&#34;CameraBoom&#34;); // 将相机臂附着到角色的根组件 CameraBoom-&gt;SetupAttachment(RootComponent); // 相机杆长度 CameraBoom-&gt;TargetArmLength = 600.f; // 设置俯仰角 pitch yaw roll CameraBoom-&gt;SetRelativeRotation(FRotator(-40.f, 0.f, 0.f)); // 相机附着在boom PlayerCamera = CreateDefaultSubobject&lt;UCameraComponent&gt;(&#34;Player Camera&#34;); PlayerCamera-&gt;SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // 附着某一位置 //PlayerCamera-&gt;SetupAttachment(GetMesh(), FName(&#34;RootSocket&#34;)); } 虚幻打印的两种方式 UE_LOG(LogTemp, Warning, TEXT(&#34;CameraBoom : TargetArmLength: %f&#34;), CameraBoom-&gt;TargetArmLength); // 消息的唯一标识 打印10s color GEngine-&gt;AddOnScreenDebugMessage(-1, 10, FColor::Blue, FString::Printf(TEXT(&#34;CameraBoom : TargetArmLength: %f&#34;), CameraBoom-&gt;TargetArmLength)); 增强输入 - 人物移动 在 Unreal Engine 中，角色和摄像机的旋转是通过 控制器（Controller）来处理的，控制器会记录角色的旋转角度，通常由玩家的输入（如鼠标、右摇杆等）或者 AI 控制。
-              </div>
-            </div>
-
-            <div class="f6 text-gray mt-2">
-              
-
-              Created
-              <relative-time datetime=" Sat, 16 Nov 2024 00:00:00 &#43;0000" class="no-wrap"
-                title=" Sat, 16 Nov 2024 00:00:00 &#43;0000">
-                Sat, 16 Nov 2024 00:00:00 &#43;0000
-              </relative-time>
-            </div>
-          </div>
-        </li>
-        
-        <li class="col-12 d-flex width-full py-4 border-bottom color-border-secondary public source">
-          <div class="col-12 d-inline-block">
-            <div class="d-inline-block mb-1">
-              <h3 class="wb-break-all">
                 <a href="https://GeeTeng.github.io/post/1ue%E5%85%A5%E9%97%A8/">UE_入门</a>
               </h3>
             </div>
 
             <div>
               <div class="col-12 d-inline-block text-gray mb-2 pr-4">
-                title: &ldquo;GAMES101_Work01&rdquo;
-date: 2024-11-13
-draft: false
-安装UE5.4.4源码 1 在GitHub上下载UE5.4.4源码 在这之前需要关联账号并验证至虚幻引擎
+                安装UE5.4.4源码 1 在GitHub上下载UE5.4.4源码 在这之前需要关联账号并验证至虚幻引擎
 EpicGames/UnrealEngine at 5.4.4-release
 我直接下载文件压缩包，没有使用git拉取，原因是网络不稳定
 2 生成sln文件 解压文件，并将文件夹改名为UE，以防后续因为文件名太长而出错
@@ -612,6 +551,8 @@ EpicGames/UnrealEngine at 5.4.4-release
 编译完成后会生成这样的文件结构 exe文件位于\Engine\Binaries\Win64中 双击即可运行
 5 新建C++项目 创建一个第一人称模板项目 选择C++
 点击创建之后会跳出vs界面
+点击执行 会加载出UE5界面 第一次加载时间会很长 之后时间会缩短一些
+将General - SourceCode设置为VisualStudio2022编辑器
               </div>
             </div>
 
@@ -684,6 +625,64 @@ EpicGames/UnrealEngine at 5.4.4-release
               <relative-time datetime=" Tue, 12 Nov 2024 00:00:00 &#43;0000" class="no-wrap"
                 title=" Tue, 12 Nov 2024 00:00:00 &#43;0000">
                 Tue, 12 Nov 2024 00:00:00 &#43;0000
+              </relative-time>
+            </div>
+          </div>
+        </li>
+        
+        <li class="col-12 d-flex width-full py-4 border-bottom color-border-secondary public source">
+          <div class="col-12 d-inline-block">
+            <div class="d-inline-block mb-1">
+              <h3 class="wb-break-all">
+                <a href="https://GeeTeng.github.io/post/%E5%85%89%E6%A0%85%E5%8C%96/">GAMES101_Work02</a>
+              </h3>
+            </div>
+
+            <div>
+              <div class="col-12 d-inline-block text-gray mb-2 pr-4">
+                光栅化 rasterize 屏幕坐标系 屏幕空间 - 在屏幕上建立一个坐标系
+屏幕的左下角是原点（0，0） 向上是Y 向右是x
+视口变换 要做的事：[-1, 1]^3映射到屏幕上
+其中：width 和 height 是屏幕或视口的宽度和高度
+在标准化设备坐标中，3D物体的投影结果被限制在 (−1,−1)到 (1,1) 的范围：
+(−1,−1) 代表左下角 (1,1) 代表右上角 这是一个对称的正方形坐标系，中心点是 (0,0) 我们需要将这个范围映射到屏幕坐标系：
+左下角是 (0,0)，右上角是 (width,height) $$M_{viewport} = \begin{pmatrix}\frac{width}{2} & 0 & 0 & \frac{width}{2}\\0 & \frac{height}{2} & 0 & \frac{height}{2}\\0 & 0 & 1 & 0 \\0 & 0 & 0 & 1\end{pmatrix}$$ 光栅显示设备 示波器（曾经做过的物理实验）和早期显示器相同原理 ​	阴极射线管 电子经过加速穿过显示设备 发生偏转 就可以看到CRT屏幕 （Cathode Ray Tube）
+              </div>
+            </div>
+
+            <div class="f6 text-gray mt-2">
+              
+
+              Created
+              <relative-time datetime=" Mon, 01 Jan 0001 00:00:00 &#43;0000" class="no-wrap"
+                title=" Mon, 01 Jan 0001 00:00:00 &#43;0000">
+                Mon, 01 Jan 0001 00:00:00 &#43;0000
+              </relative-time>
+            </div>
+          </div>
+        </li>
+        
+        <li class="col-12 d-flex width-full py-4 border-bottom color-border-secondary public source">
+          <div class="col-12 d-inline-block">
+            <div class="d-inline-block mb-1">
+              <h3 class="wb-break-all">
+                <a href="https://GeeTeng.github.io/post/ue/">UE_C&#43;&#43;</a>
+              </h3>
+            </div>
+
+            <div>
+              <div class="col-12 d-inline-block text-gray mb-2 pr-4">
+                设置摄像机位置 AMyCharacter::AMyCharacter() { PrimaryActorTick.bCanEverTick = true; // 创建一个相机臂 用来控制角色和相机的相对位置 CameraBoom = CreateDefaultSubobject&lt;USpringArmComponent&gt;(&#34;CameraBoom&#34;); // 将相机臂附着到角色的根组件 CameraBoom-&gt;SetupAttachment(RootComponent); // 相机杆长度 CameraBoom-&gt;TargetArmLength = 600.f; // 设置俯仰角 pitch yaw roll CameraBoom-&gt;SetRelativeRotation(FRotator(-40.f, 0.f, 0.f)); // 相机附着在boom PlayerCamera = CreateDefaultSubobject&lt;UCameraComponent&gt;(&#34;Player Camera&#34;); PlayerCamera-&gt;SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // 附着某一位置 //PlayerCamera-&gt;SetupAttachment(GetMesh(), FName(&#34;RootSocket&#34;)); } 虚幻打印的两种方式 UE_LOG(LogTemp, Warning, TEXT(&#34;CameraBoom : TargetArmLength: %f&#34;), CameraBoom-&gt;TargetArmLength); // 消息的唯一标识 打印10s color GEngine-&gt;AddOnScreenDebugMessage(-1, 10, FColor::Blue, FString::Printf(TEXT(&#34;CameraBoom : TargetArmLength: %f&#34;), CameraBoom-&gt;TargetArmLength)); 增强输入 - 人物移动 在 Unreal Engine 中，角色和摄像机的旋转是通过 控制器（Controller）来处理的，控制器会记录角色的旋转角度，通常由玩家的输入（如鼠标、右摇杆等）或者 AI 控制。
+              </div>
+            </div>
+
+            <div class="f6 text-gray mt-2">
+              
+
+              Created
+              <relative-time datetime=" Mon, 01 Jan 0001 00:00:00 &#43;0000" class="no-wrap"
+                title=" Mon, 01 Jan 0001 00:00:00 &#43;0000">
+                Mon, 01 Jan 0001 00:00:00 &#43;0000
               </relative-time>
             </div>
           </div>
