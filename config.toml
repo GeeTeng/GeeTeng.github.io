@@ -1,7 +1,7 @@
 baseURL = "https://GeeTeng.github.io/"
 languageCode = "zh-cn"
 title = "GeeTeng's blog"
-theme = "github-style"
+theme = 'github-style'
 pygmentsCodeFences = true
 pygmentsUseClasses = true
 
@@ -21,6 +21,7 @@ pygmentsUseClasses = true
   userStatusEmoji = "😀"
   enableGitalk = true
   enableSearch = true
+
 
   [params.gitalk]
     clientID = "Your client ID" # Your client ID
