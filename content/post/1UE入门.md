@@ -83,11 +83,17 @@ draft: false
 
 在下方内容区可以右键创建C++ Class
 
-我没有关闭实时编译Living Code 但是新建项目后可以在偏好设置中 将AssetEditorOpenLocation设置为MainWindow
-
 ![createCppClass](/images/UE入门/createCppClass.png)
 
+我没有关闭实时编译Living Code 但是新建项目后可以在偏好设置中 将AssetEditorOpenLocation设置为MainWindow
+
+创建完了之后在VS中可以看到项目目录下有所创建的cpp和.h文件
+
+![CppFiles](/images/UE入门/CppFiles.png)
+
 ##### 6 打包
+
+在打包的时候我新建了一个空项目 因为时间会快一些 所以细心的你会发现两个截图的项目名称不一样
 
 选择Platform后的windows平台 其中Development是方便调试的打包 而Shipping是发布的打包
 
