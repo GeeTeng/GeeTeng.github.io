@@ -547,68 +547,6 @@ if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;&amp; !MyActor-&gt;Is
                       d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z">
                     </path>
                   </svg>
-                  <a class="text-bold flex-auto min-width-0" href="https://GeeTeng.github.io/post/%E5%85%89%E6%A0%85%E5%8C%96/">
-                    <span class="repo" title="GAMES101_Work02">GAMES101_Work02</span>
-                  </a>
-                </div>
-
-
-                <div name="summary" class="pinned-item-desc text-gray text-small d-block mt-2 mb-3">
-                  光栅化 rasterize 屏幕坐标系 屏幕空间 - 在屏幕上建立一个坐标系
-屏幕的左下角是原点（0，0） 向上是Y 向右是x
-视口变换 要做的事：[-1, 1]^3映射到屏幕上
-其中：width 和 height 是屏幕或视口的宽度和高度
-在标准化设备坐标中，3D物体的投影结果被限制在 (−1,−1)到 (1,1) 的范围：
-(−1,−1) 代表左下角 (1,1) 代表右上角 这是一个对称的正方形坐标系，中心点是 (0,0) 我们需要将这个范围映射到屏幕坐标系：
-左下角是 (0,0)，右上角是 (width,height) $$M_{viewport} = \begin{pmatrix}\frac{width}{2} & 0 & 0 & \frac{width}{2}\\0 & \frac{height}{2} & 0 & \frac{height}{2}\\0 & 0 & 1 & 0 \\0 & 0 & 0 & 1\end{pmatrix}$$ 光栅显示设备 示波器（曾经做过的物理实验）和早期显示器相同原理 ​	阴极射线管 电子经过加速穿过显示设备 发生偏转 就可以看到CRT屏幕 （Cathode Ray Tube）
-                </div>
-
-                <p class="mb-0 f6 text-gray">
-                  
-                </p>
-              </div>
-            </div>
-          </li>
-          
-          <li class="col-12 col-md-6 col-lg-6 mb-3 d-flex flex-content-stretch">
-            <div
-              class="Box pinned-item-list-item d-flex p-3 width-full js-pinned-item-list-item public source reorderable sortable-button-item">
-              <div class="pinned-item-list-item-content">
-                <div class="d-flex width-full flex-items-center position-relative">
-                  <svg class="octicon octicon-repo mr-2 text-gray flex-shrink-0" viewBox="0 0 16 16" version="1.1"
-                    width="16" height="16">
-                    <path fill-rule="evenodd"
-                      d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z">
-                    </path>
-                  </svg>
-                  <a class="text-bold flex-auto min-width-0" href="https://GeeTeng.github.io/post/ue/">
-                    <span class="repo" title="UE_C&#43;&#43;">UE_C&#43;&#43;</span>
-                  </a>
-                </div>
-
-
-                <div name="summary" class="pinned-item-desc text-gray text-small d-block mt-2 mb-3">
-                  设置摄像机位置 AMyCharacter::AMyCharacter() { PrimaryActorTick.bCanEverTick = true; // 创建一个相机臂 用来控制角色和相机的相对位置 CameraBoom = CreateDefaultSubobject&lt;USpringArmComponent&gt;(&#34;CameraBoom&#34;); // 将相机臂附着到角色的根组件 CameraBoom-&gt;SetupAttachment(RootComponent); // 相机杆长度 CameraBoom-&gt;TargetArmLength = 600.f; // 设置俯仰角 pitch yaw roll CameraBoom-&gt;SetRelativeRotation(FRotator(-40.f, 0.f, 0.f)); // 相机附着在boom PlayerCamera = CreateDefaultSubobject&lt;UCameraComponent&gt;(&#34;Player Camera&#34;); PlayerCamera-&gt;SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // 附着某一位置 //PlayerCamera-&gt;SetupAttachment(GetMesh(), FName(&#34;RootSocket&#34;)); } 虚幻打印的两种方式 UE_LOG(LogTemp, Warning, TEXT(&#34;CameraBoom : TargetArmLength: %f&#34;), CameraBoom-&gt;TargetArmLength); // 消息的唯一标识 打印10s color GEngine-&gt;AddOnScreenDebugMessage(-1, 10, FColor::Blue, FString::Printf(TEXT(&#34;CameraBoom : TargetArmLength: %f&#34;), CameraBoom-&gt;TargetArmLength)); 增强输入 - 人物移动 在 Unreal Engine 中，角色和摄像机的旋转是通过 控制器（Controller）来处理的，控制器会记录角色的旋转角度，通常由玩家的输入（如鼠标、右摇杆等）或者 AI 控制。
-                </div>
-
-                <p class="mb-0 f6 text-gray">
-                  
-                </p>
-              </div>
-            </div>
-          </li>
-          
-          <li class="col-12 col-md-6 col-lg-6 mb-3 d-flex flex-content-stretch">
-            <div
-              class="Box pinned-item-list-item d-flex p-3 width-full js-pinned-item-list-item public source reorderable sortable-button-item">
-              <div class="pinned-item-list-item-content">
-                <div class="d-flex width-full flex-items-center position-relative">
-                  <svg class="octicon octicon-repo mr-2 text-gray flex-shrink-0" viewBox="0 0 16 16" version="1.1"
-                    width="16" height="16">
-                    <path fill-rule="evenodd"
-                      d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z">
-                    </path>
-                  </svg>
                   <a class="text-bold flex-auto min-width-0" href="https://GeeTeng.github.io/post/1ue%E5%85%A5%E9%97%A8/">
                     <span class="repo" title="UE_入门">UE_入门</span>
                   </a>
@@ -616,10 +554,7 @@ if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;&amp; !MyActor-&gt;Is
 
 
                 <div name="summary" class="pinned-item-desc text-gray text-small d-block mt-2 mb-3">
-                  title: &ldquo;GAMES101_Work01&rdquo;
-date: 2024-11-13
-draft: false
-安装UE5.4.4源码 1 在GitHub上下载UE5.4.4源码 在这之前需要关联账号并验证至虚幻引擎
+                  安装UE5.4.4源码 1 在GitHub上下载UE5.4.4源码 在这之前需要关联账号并验证至虚幻引擎
 EpicGames/UnrealEngine at 5.4.4-release
 我直接下载文件压缩包，没有使用git拉取，原因是网络不稳定
 2 生成sln文件 解压文件，并将文件夹改名为UE，以防后续因为文件名太长而出错
@@ -638,6 +573,8 @@ EpicGames/UnrealEngine at 5.4.4-release
 编译完成后会生成这样的文件结构 exe文件位于\Engine\Binaries\Win64中 双击即可运行
 5 新建C++项目 创建一个第一人称模板项目 选择C++
 点击创建之后会跳出vs界面
+点击执行 会加载出UE5界面 第一次加载时间会很长 之后时间会缩短一些
+将General - SourceCode设置为VisualStudio2022编辑器
                 </div>
 
                 <p class="mb-0 f6 text-gray">
@@ -713,6 +650,68 @@ EpicGames/UnrealEngine at 5.4.4-release
             </div>
           </li>
           
+          <li class="col-12 col-md-6 col-lg-6 mb-3 d-flex flex-content-stretch">
+            <div
+              class="Box pinned-item-list-item d-flex p-3 width-full js-pinned-item-list-item public source reorderable sortable-button-item">
+              <div class="pinned-item-list-item-content">
+                <div class="d-flex width-full flex-items-center position-relative">
+                  <svg class="octicon octicon-repo mr-2 text-gray flex-shrink-0" viewBox="0 0 16 16" version="1.1"
+                    width="16" height="16">
+                    <path fill-rule="evenodd"
+                      d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z">
+                    </path>
+                  </svg>
+                  <a class="text-bold flex-auto min-width-0" href="https://GeeTeng.github.io/post/%E5%85%89%E6%A0%85%E5%8C%96/">
+                    <span class="repo" title="GAMES101_Work02">GAMES101_Work02</span>
+                  </a>
+                </div>
+
+
+                <div name="summary" class="pinned-item-desc text-gray text-small d-block mt-2 mb-3">
+                  光栅化 rasterize 屏幕坐标系 屏幕空间 - 在屏幕上建立一个坐标系
+屏幕的左下角是原点（0，0） 向上是Y 向右是x
+视口变换 要做的事：[-1, 1]^3映射到屏幕上
+其中：width 和 height 是屏幕或视口的宽度和高度
+在标准化设备坐标中，3D物体的投影结果被限制在 (−1,−1)到 (1,1) 的范围：
+(−1,−1) 代表左下角 (1,1) 代表右上角 这是一个对称的正方形坐标系，中心点是 (0,0) 我们需要将这个范围映射到屏幕坐标系：
+左下角是 (0,0)，右上角是 (width,height) $$M_{viewport} = \begin{pmatrix}\frac{width}{2} & 0 & 0 & \frac{width}{2}\\0 & \frac{height}{2} & 0 & \frac{height}{2}\\0 & 0 & 1 & 0 \\0 & 0 & 0 & 1\end{pmatrix}$$ 光栅显示设备 示波器（曾经做过的物理实验）和早期显示器相同原理 ​	阴极射线管 电子经过加速穿过显示设备 发生偏转 就可以看到CRT屏幕 （Cathode Ray Tube）
+                </div>
+
+                <p class="mb-0 f6 text-gray">
+                  
+                </p>
+              </div>
+            </div>
+          </li>
+          
+          <li class="col-12 col-md-6 col-lg-6 mb-3 d-flex flex-content-stretch">
+            <div
+              class="Box pinned-item-list-item d-flex p-3 width-full js-pinned-item-list-item public source reorderable sortable-button-item">
+              <div class="pinned-item-list-item-content">
+                <div class="d-flex width-full flex-items-center position-relative">
+                  <svg class="octicon octicon-repo mr-2 text-gray flex-shrink-0" viewBox="0 0 16 16" version="1.1"
+                    width="16" height="16">
+                    <path fill-rule="evenodd"
+                      d="M2 2.5A2.5 2.5 0 014.5 0h8.75a.75.75 0 01.75.75v12.5a.75.75 0 01-.75.75h-2.5a.75.75 0 110-1.5h1.75v-2h-8a1 1 0 00-.714 1.7.75.75 0 01-1.072 1.05A2.495 2.495 0 012 11.5v-9zm10.5-1V9h-8c-.356 0-.694.074-1 .208V2.5a1 1 0 011-1h8zM5 12.25v3.25a.25.25 0 00.4.2l1.45-1.087a.25.25 0 01.3 0L8.6 15.7a.25.25 0 00.4-.2v-3.25a.25.25 0 00-.25-.25h-3.5a.25.25 0 00-.25.25z">
+                    </path>
+                  </svg>
+                  <a class="text-bold flex-auto min-width-0" href="https://GeeTeng.github.io/post/ue/">
+                    <span class="repo" title="UE_C&#43;&#43;">UE_C&#43;&#43;</span>
+                  </a>
+                </div>
+
+
+                <div name="summary" class="pinned-item-desc text-gray text-small d-block mt-2 mb-3">
+                  设置摄像机位置 AMyCharacter::AMyCharacter() { PrimaryActorTick.bCanEverTick = true; // 创建一个相机臂 用来控制角色和相机的相对位置 CameraBoom = CreateDefaultSubobject&lt;USpringArmComponent&gt;(&#34;CameraBoom&#34;); // 将相机臂附着到角色的根组件 CameraBoom-&gt;SetupAttachment(RootComponent); // 相机杆长度 CameraBoom-&gt;TargetArmLength = 600.f; // 设置俯仰角 pitch yaw roll CameraBoom-&gt;SetRelativeRotation(FRotator(-40.f, 0.f, 0.f)); // 相机附着在boom PlayerCamera = CreateDefaultSubobject&lt;UCameraComponent&gt;(&#34;Player Camera&#34;); PlayerCamera-&gt;SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // 附着某一位置 //PlayerCamera-&gt;SetupAttachment(GetMesh(), FName(&#34;RootSocket&#34;)); } 虚幻打印的两种方式 UE_LOG(LogTemp, Warning, TEXT(&#34;CameraBoom : TargetArmLength: %f&#34;), CameraBoom-&gt;TargetArmLength); // 消息的唯一标识 打印10s color GEngine-&gt;AddOnScreenDebugMessage(-1, 10, FColor::Blue, FString::Printf(TEXT(&#34;CameraBoom : TargetArmLength: %f&#34;), CameraBoom-&gt;TargetArmLength)); 增强输入 - 人物移动 在 Unreal Engine 中，角色和摄像机的旋转是通过 控制器（Controller）来处理的，控制器会记录角色的旋转角度，通常由玩家的输入（如鼠标、右摇杆等）或者 AI 控制。
+                </div>
+
+                <p class="mb-0 f6 text-gray">
+                  
+                </p>
+              </div>
+            </div>
+          </li>
+          
         </ol>
       </div>
     </div>
@@ -723,18 +722,6 @@ EpicGames/UnrealEngine at 5.4.4-release
   "title": "GameMode%e6%b8%b8%e6%88%8f%e6%a8%a1%e5%bc%8f",
   "link": "https://GeeTeng.github.io/post/gamemode/",
   "publishDate": "2024-11-24%2000:00:00"
-},
-
-{
-  "title": "GAMES101_Work02",
-  "link": "https://GeeTeng.github.io/post/%E5%85%89%E6%A0%85%E5%8C%96/",
-  "publishDate": "2024-11-16%2000:00:00"
-},
-
-{
-  "title": "UE_C&#43;&#43;",
-  "link": "https://GeeTeng.github.io/post/ue/",
-  "publishDate": "2024-11-16%2000:00:00"
 },
 
 {
@@ -753,6 +740,18 @@ EpicGames/UnrealEngine at 5.4.4-release
   "title": "GAMES101_Work0",
   "link": "https://GeeTeng.github.io/post/games101_work0/",
   "publishDate": "2024-11-12%2000:00:00"
+},
+
+{
+  "title": "GAMES101_Work02",
+  "link": "https://GeeTeng.github.io/post/%E5%85%89%E6%A0%85%E5%8C%96/",
+  "publishDate": "0001-01-01%2000:00:00"
+},
+
+{
+  "title": "UE_C&#43;&#43;",
+  "link": "https://GeeTeng.github.io/post/ue/",
+  "publishDate": "0001-01-01%2000:00:00"
 }
 ]'>
       <div class="js-yearly-contributions">
