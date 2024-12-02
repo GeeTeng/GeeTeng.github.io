@@ -2,23 +2,32 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://GeeTeng.github.io/post/gamemode/</loc>
-    <lastmod>2024-11-24T20:56:49+08:00</lastmod>
+    <loc>http://localhost:1313/post/gamemode/</loc>
+    <lastmod>2024-12-02T16:01:07+08:00</lastmod>
   </url><url>
-    <loc>https://GeeTeng.github.io/</loc>
-    <lastmod>2024-11-24T20:56:49+08:00</lastmod>
+    <loc>http://localhost:1313/</loc>
+    <lastmod>2024-12-02T17:07:41+08:00</lastmod>
   </url><url>
-    <loc>https://GeeTeng.github.io/post/</loc>
-    <lastmod>2024-11-24T20:56:49+08:00</lastmod>
+    <loc>http://localhost:1313/post/</loc>
+    <lastmod>2024-12-02T17:07:41+08:00</lastmod>
   </url><url>
-    <loc>https://GeeTeng.github.io/post/graphic_work01/</loc>
-    <lastmod>2024-11-14T09:49:28+08:00</lastmod>
+    <loc>http://localhost:1313/post/%E5%85%89%E6%A0%85%E5%8C%96/</loc>
+    <lastmod>2024-12-02T17:04:56+08:00</lastmod>
   </url><url>
-    <loc>https://GeeTeng.github.io/post/graphic_work0/</loc>
-    <lastmod>2024-11-12T16:59:56+08:00</lastmod>
+    <loc>http://localhost:1313/post/ue/</loc>
+    <lastmod>2024-12-02T16:49:23+08:00</lastmod>
   </url><url>
-    <loc>https://GeeTeng.github.io/categories/</loc>
+    <loc>http://localhost:1313/post/1ue%E5%85%A5%E9%97%A8/</loc>
+    <lastmod>2024-12-02T16:49:36+08:00</lastmod>
   </url><url>
-    <loc>https://GeeTeng.github.io/tags/</loc>
+    <loc>http://localhost:1313/post/games101_work01/</loc>
+    <lastmod>2024-12-02T16:01:07+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/post/games101_work0/</loc>
+    <lastmod>2024-12-02T17:07:41+08:00</lastmod>
+  </url><url>
+    <loc>http://localhost:1313/categories/</loc>
+  </url><url>
+    <loc>http://localhost:1313/tags/</loc>
   </url>
 </urlset>
