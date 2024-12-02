@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html lang="zh-cn">
-<head>
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width">
-    <script type="application/javascript" src='https://GeeTeng.github.io/js/theme-mode.js'></script>
-    <link rel="stylesheet" href='https://GeeTeng.github.io/css/frameworks.min.css' />
-    <link rel="stylesheet" href='https://GeeTeng.github.io/css/github.min.css' />
-    <link rel="stylesheet" href='https://GeeTeng.github.io/css/github-style.css' />
-    <link rel="stylesheet" href='https://GeeTeng.github.io/css/light.css' />
-    <link rel="stylesheet" href='https://GeeTeng.github.io/css/dark.css' />
-    <link rel="stylesheet" href='https://GeeTeng.github.io/css/syntax.css' />
+    <script type="application/javascript" src='http://localhost:1313/js/theme-mode.js'></script>
+    <link rel="stylesheet" href='http://localhost:1313/css/frameworks.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github.min.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/github-style.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/light.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/dark.css' />
+    <link rel="stylesheet" href='http://localhost:1313/css/syntax.css' />
     <title>GameMode游戏模式 - GeeTeng&#39;s blog</title>
     
     <link rel="icon" type="image/x-icon" href='/images/github-mark.png'>
@@ -18,11 +19,11 @@
 
     
     <meta name="description"
-  content=" 平行世界？World UE中有三个世界
+  content="平行世界？World UE中有三个世界
 游戏世界 编辑器世界 预览世界 关卡蓝图-定义关卡规则
 UGameInstance 存在于游戏的整个生命周期中 不会随着地图切换 销毁 适合业务全局管理操作，Uengine 管理 GameInstance
 游戏中最重要的实体AActor AActor 标志所有权的Owner指针，标志本地权限的Role枚举，作为网格同步的基础单位，根组件提供世界变化信息
-Actor不只是3D中的表示，一些不可见对象也可以是Actor，如AInfo（派生类Aworldsetting，AGameMode，AgameState&hellip;）
+Actor不只是3D中的表示，一些不可见对象也可以是Actor，如AInfo（派生类Aworldsetting，AGameMode，AgameState&amp;hellip;）
 Actor在UE中就像是世界里的元素
 Component 是 Actor 的组成部分，用于定义 Actor 的特性和行为
 RootComponent是Actor的核心组件，决定了Actor在场景中的位置、旋转和缩放 SceneComponent 是一个基础组件，主要用于定义场景中对象的位置、旋转和缩放。它本身是一个抽象组件，不会直接渲染或显示。 Actor生命周期详解
@@ -33,24 +34,21 @@ BeginPlay - 在Actor激活时调用 初始化
 Tick - 每帧调用一次 处理逻辑
 EndPlay - 在Actor即将销毁时调用 清理资源
 生命周期3 GC完成收尾 注意有效性的判断
-if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;&amp; !MyActor-&gt;IsPendingKill()) { // Actor 没有被标记为销毁 } isPendingKill是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。
-APawn（可操控的棋子) 最重要的特性：可以被controller控制 提供了输入、移动框架的支持
-UE提供了一个默认的Pawn - DeflaultPawn
-" />
+if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;amp;&amp;amp; !MyActor-&amp;gt;IsPendingKill()) { // Actor 没有被标记为销毁 } isPendingKill是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。" />
 <meta name="keywords"
   content='blog, google analytics' />
 <meta name="robots" content="noodp" />
-<link rel="canonical" href="https://GeeTeng.github.io/post/gamemode/" />
+<link rel="canonical" href="http://localhost:1313/post/gamemode/" />
 
 
 <meta name="twitter:card" content="summary" />
 <meta name="twitter:title" content="GameMode游戏模式 - GeeTeng&#39;s blog" />
 <meta name="twitter:description"
-  content=" 平行世界？World UE中有三个世界
+  content="平行世界？World UE中有三个世界
 游戏世界 编辑器世界 预览世界 关卡蓝图-定义关卡规则
 UGameInstance 存在于游戏的整个生命周期中 不会随着地图切换 销毁 适合业务全局管理操作，Uengine 管理 GameInstance
 游戏中最重要的实体AActor AActor 标志所有权的Owner指针，标志本地权限的Role枚举，作为网格同步的基础单位，根组件提供世界变化信息
-Actor不只是3D中的表示，一些不可见对象也可以是Actor，如AInfo（派生类Aworldsetting，AGameMode，AgameState&hellip;）
+Actor不只是3D中的表示，一些不可见对象也可以是Actor，如AInfo（派生类Aworldsetting，AGameMode，AgameState&amp;hellip;）
 Actor在UE中就像是世界里的元素
 Component 是 Actor 的组成部分，用于定义 Actor 的特性和行为
 RootComponent是Actor的核心组件，决定了Actor在场景中的位置、旋转和缩放 SceneComponent 是一个基础组件，主要用于定义场景中对象的位置、旋转和缩放。它本身是一个抽象组件，不会直接渲染或显示。 Actor生命周期详解
@@ -61,24 +59,21 @@ BeginPlay - 在Actor激活时调用 初始化
 Tick - 每帧调用一次 处理逻辑
 EndPlay - 在Actor即将销毁时调用 清理资源
 生命周期3 GC完成收尾 注意有效性的判断
-if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;&amp; !MyActor-&gt;IsPendingKill()) { // Actor 没有被标记为销毁 } isPendingKill是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。
-APawn（可操控的棋子) 最重要的特性：可以被controller控制 提供了输入、移动框架的支持
-UE提供了一个默认的Pawn - DeflaultPawn
-" />
-<meta name="twitter:site" content="https://GeeTeng.github.io/" />
+if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;amp;&amp;amp; !MyActor-&amp;gt;IsPendingKill()) { // Actor 没有被标记为销毁 } isPendingKill是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。" />
+<meta name="twitter:site" content="http://localhost:1313/" />
 <meta name="twitter:creator" content="" />
 <meta name="twitter:image"
-  content="https://GeeTeng.github.io/">
+  content="http://localhost:1313/">
 
 
 <meta property="og:type" content="article" />
 <meta property="og:title" content="GameMode游戏模式 - GeeTeng&#39;s blog">
 <meta property="og:description"
-  content=" 平行世界？World UE中有三个世界
+  content="平行世界？World UE中有三个世界
 游戏世界 编辑器世界 预览世界 关卡蓝图-定义关卡规则
 UGameInstance 存在于游戏的整个生命周期中 不会随着地图切换 销毁 适合业务全局管理操作，Uengine 管理 GameInstance
 游戏中最重要的实体AActor AActor 标志所有权的Owner指针，标志本地权限的Role枚举，作为网格同步的基础单位，根组件提供世界变化信息
-Actor不只是3D中的表示，一些不可见对象也可以是Actor，如AInfo（派生类Aworldsetting，AGameMode，AgameState&hellip;）
+Actor不只是3D中的表示，一些不可见对象也可以是Actor，如AInfo（派生类Aworldsetting，AGameMode，AgameState&amp;hellip;）
 Actor在UE中就像是世界里的元素
 Component 是 Actor 的组成部分，用于定义 Actor 的特性和行为
 RootComponent是Actor的核心组件，决定了Actor在场景中的位置、旋转和缩放 SceneComponent 是一个基础组件，主要用于定义场景中对象的位置、旋转和缩放。它本身是一个抽象组件，不会直接渲染或显示。 Actor生命周期详解
@@ -89,14 +84,11 @@ BeginPlay - 在Actor激活时调用 初始化
 Tick - 每帧调用一次 处理逻辑
 EndPlay - 在Actor即将销毁时调用 清理资源
 生命周期3 GC完成收尾 注意有效性的判断
-if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;&amp; !MyActor-&gt;IsPendingKill()) { // Actor 没有被标记为销毁 } isPendingKill是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。
-APawn（可操控的棋子) 最重要的特性：可以被controller控制 提供了输入、移动框架的支持
-UE提供了一个默认的Pawn - DeflaultPawn
-" />
-<meta property="og:url" content="https://GeeTeng.github.io/post/gamemode/" />
+if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;amp;&amp;amp; !MyActor-&amp;gt;IsPendingKill()) { // Actor 没有被标记为销毁 } isPendingKill是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。" />
+<meta property="og:url" content="http://localhost:1313/post/gamemode/" />
 <meta property="og:site_name" content="GameMode游戏模式" />
 <meta property="og:image"
-  content="https://GeeTeng.github.io/">
+  content="http://localhost:1313/">
 <meta property="og:image:width" content="2048">
 <meta property="og:image:height" content="1024">
 
@@ -115,27 +107,29 @@ UE提供了一个默认的Pawn - DeflaultPawn
 </head>
 
 
-
-<link rel="preload" href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript>
-  <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.css">
-</noscript>
-<script defer src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/katex.min.js" crossorigin="anonymous"></script>
-<script defer src="https://cdn.bootcdn.net/ajax/libs/KaTeX/0.16.8/contrib/auto-render.min.js" crossorigin="anonymous"
-    onload="renderMathInElement(document.body, {
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
           delimiters: [
             { left: '$$', right: '$$', display: true },
-            { left: '$', right: '$', display: false },
-            { left: '\$', right: '\$', display: false }
-          ]
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
         });"></script>
 
+<head>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.15.7/katex.min.css">
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.15.7/katex.min.js"></script>
+</head>
 
 <body>
   <div style="position: relative">
   <header class="Header js-details-container Details px-3 px-md-4 px-lg-5 flex-wrap flex-md-nowrap open Details--on">
     <div class="Header-item mobile-none" style="margin-top: -4px; margin-bottom: -4px;">
-      <a class="Header-link" href="https://GeeTeng.github.io/">
+      <a class="Header-link" href="http://localhost:1313/">
         <img class="octicon" height="32" width="32" src="/images/github-mark-white.png">
       </a>
     </div>
@@ -169,7 +163,7 @@ UE提供了一个默认的Pawn - DeflaultPawn
     </div>
 
     <div class="Header-item Header-item--full flex-justify-center d-md-none position-relative">
-      <a class="Header-link " href="https://GeeTeng.github.io/">
+      <a class="Header-link " href="http://localhost:1313/">
         <img class="octicon octicon-mark-github v-align-middle" height="32" width="32" src="/images/github-mark-white.png">
       </a>
     </div>
@@ -190,6 +184,8 @@ UE提供了一个默认的Pawn - DeflaultPawn
 </div>
 
   
+  
+  
 <div class="application-main">
   <div>
   <main>
@@ -199,7 +195,7 @@ UE提供了一个默认的Pawn - DeflaultPawn
           <div class="flex-auto min-width-0 width-fit mr-3">
             <div class="d-flex">
               <div class="d-none d-md-block">
-                <a class="avatar mr-2 flex-shrink-0" href="https://GeeTeng.github.io/">
+                <a class="avatar mr-2 flex-shrink-0" href="http://localhost:1313/">
                   <img class=" avatar-user"
                     src="/images/avatar.png"
                     width="32" height="32"></a>
@@ -207,11 +203,11 @@ UE提供了一个默认的Pawn - DeflaultPawn
               <div class="d-flex flex-column">
                 <h1 class="break-word f3 text-normal mb-md-0 mb-1">
                   <span class="author">
-                    <a href="https://GeeTeng.github.io/">GeeTeng</a>
+                    <a href="http://localhost:1313/">GeeTeng</a>
                   </span>
                   <span class="path-divider">/</span>
                   <strong class="css-truncate css-truncate-target mr-1" style="max-width: 410px">
-                    <a href="https://GeeTeng.github.io/post/gamemode/">GameMode游戏模式</a>
+                    <a href="http://localhost:1313/post/gamemode/">GameMode游戏模式</a>
                   </strong>
                 </h1>
                 <div class="note m-0">
@@ -221,9 +217,9 @@ UE提供了一个默认的Pawn - DeflaultPawn
 
                   
                   <span class="file-info-divider"></span>
-                  Modified <relative-time datetime="Sun, 24 Nov 2024 20:56:49 &#43;0800"
+                  Modified <relative-time datetime="Mon, 02 Dec 2024 16:01:07 &#43;0800"
                     class="no-wrap">
-                    Sun, 24 Nov 2024 20:56:49 &#43;0800</relative-time>
+                    Mon, 02 Dec 2024 16:01:07 &#43;0800</relative-time>
                   
                 </div>
               </div>
@@ -499,13 +495,13 @@ playerState Character、Controller的职责区别</p>
     </div>
   </main>
 </div>
-<script type="application/javascript" src='https://GeeTeng.github.io/js/toc.js'></script>
-<link rel="stylesheet" href='https://GeeTeng.github.io/css/toc.css' />
+<script type="application/javascript" src='http://localhost:1313/js/toc.js'></script>
+<link rel="stylesheet" href='http://localhost:1313/css/toc.css' />
 
   
 <div id="gitalk-container" class="gitalk-container"></div>
-<link rel="stylesheet" href='https://GeeTeng.github.io/css/gitalk.css'>
-<script src='https://GeeTeng.github.io/js/gitalk.min.js'></script>
+<link rel="stylesheet" href='http://localhost:1313/css/gitalk.css'>
+<script src='http://localhost:1313/js/gitalk.min.js'></script>
 <script>
   const gitalk = new Gitalk({
     clientID: 'Your client ID',
@@ -523,10 +519,11 @@ playerState Character、Controller的职责区别</p>
 
 </div>
 
+  
   <div class="footer container-xl width-full p-responsive">
   <div
     class="position-relative d-flex flex-row-reverse flex-lg-row flex-wrap flex-lg-nowrap flex-justify-center flex-lg-justify-between flex-sm-items-center pt-6 pb-2 mt-6 f6 text-gray border-top border-gray-light ">
-    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="https://GeeTeng.github.io/">
+    <a aria-label="Homepage" title="GitHub" class="footer-octicon d-none d-lg-block mr-lg-4" href="http://localhost:1313/">
       <svg height="24" class="octicon octicon-mark-github" viewBox="0 0 16 16" version="1.1" width="24">
         <path fill-rule="evenodd"
           d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
@@ -547,15 +544,25 @@ playerState Character、Controller的职责区别</p>
 </div>
 </body>
 
-<script type="application/javascript" src="https://GeeTeng.github.io/js/github-style.js"></script>
+<script type="application/javascript" src="http://localhost:1313/js/github-style.js"></script>
 
 
 
 
 
 <script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.min.js"></script>
-<script type="application/javascript" src='https://GeeTeng.github.io/js/search.js'></script>
+<script type="application/javascript" src='http://localhost:1313/js/search.js'></script>
 
 
 
 </html>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    
+    var elements = document.querySelectorAll('.katex-math');
+    elements.forEach(function (element) {
+      katex.render(element.textContent, element);
+    });
+  });
+</script>
