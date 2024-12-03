@@ -2,52 +2,52 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on GeeTeng</title>
-    <link>http://localhost:1313/posts/</link>
+    <link>https://geeteng.github.io/posts/</link>
     <description>Recent content in Posts on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 03 Dec 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://geeteng.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>UE-c&#43;&#43;</title>
-      <link>http://localhost:1313/posts/ue/</link>
+      <link>https://geeteng.github.io/posts/ue/</link>
       <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/ue/</guid>
+      <guid>https://geeteng.github.io/posts/ue/</guid>
       <description>设置摄像机位置 AMyCharacter::AMyCharacter() { PrimaryActorTick.bCanEverTick = true; // 创建一个相机臂 用来控制角色和相机的相对位置 CameraBoom = CreateDefaultSubobject&amp;lt;USpringArmComponent&amp;gt;(&amp;#34;CameraBoom&amp;#34;); // 将相机臂附着到角色的根组件 CameraBoom-&amp;gt;SetupAttachment(RootComponent); // 相机杆长度 CameraBoom-&amp;gt;TargetArmLength = 600.f; // 设置俯仰角 pitch yaw roll CameraBoom-&amp;gt;SetRelativeRotation(FRotator(-40.f, 0.f, 0.f)); // 相机附着在boom PlayerCamera = CreateDefaultSubobject&amp;lt;UCameraComponent&amp;gt;(&amp;#34;Player Camera&amp;#34;); PlayerCamera-&amp;gt;SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // 附着某一位置 //PlayerCamera-&amp;gt;SetupAttachment(GetMesh(), FName(&amp;#34;RootSocket&amp;#34;)); } 虚幻打印的两种方式 UE_LOG(LogTemp, Warning, TEXT(&amp;#34;CameraBoom : TargetArmLength: %f&amp;#34;), CameraBoom-&amp;gt;TargetArmLength); // 消息的唯一标识 打印10s color GEngine-&amp;gt;AddOnScreenDebugMessage(-1, 10, FColor::Blue, FString::Printf(TEXT(&amp;#34;CameraBoom : TargetArmLength: %f&amp;#34;), CameraBoom-&amp;gt;TargetArmLength)); 增强输入 - 人物移动 在 Unreal Engine 中，角色和摄像机的旋转是通过 控制器（Controller）来处理的，控制器会记录角色的旋转角度，通常由玩家的输入（如鼠标、右摇杆等）或者 AI 控制。</description>
     </item>
     <item>
       <title>光栅化Rasterize</title>
-      <link>http://localhost:1313/posts/%E5%85%89%E6%A0%85%E5%8C%96/</link>
+      <link>https://geeteng.github.io/posts/%E5%85%89%E6%A0%85%E5%8C%96/</link>
       <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/%E5%85%89%E6%A0%85%E5%8C%96/</guid>
+      <guid>https://geeteng.github.io/posts/%E5%85%89%E6%A0%85%E5%8C%96/</guid>
       <description>光栅化 rasterize 屏幕坐标系 屏幕空间 - 在屏幕上建立一个坐标系&#xA;屏幕的左下角是原点（0，0） 向上是Y 向右是x&#xA;视口变换 要做的事：[-1, 1]^3映射到屏幕上&#xA;其中：width 和 height 是屏幕或视口的宽度和高度&#xA;在标准化设备坐标中，3D物体的投影结果被限制在 (−1,−1)到 (1,1) 的范围：&#xA;(−1,−1) 代表左下角 (1,1) 代表右上角 这是一个对称的正方形坐标系，中心点是 (0,0) 我们需要将这个范围映射到屏幕坐标系：&#xA;左下角是 (0,0)，右上角是 (width,height) $$&#xD;M_{viewport} = \begin{pmatrix}&#xD;\frac{width}{2} &amp; 0 &amp; 0 &amp; \frac{width}{2}\\&#xD;0 &amp; \frac{height}{2} &amp; 0 &amp; \frac{height}{2}\\&#xD;0 &amp; 0 &amp; 1 &amp; 0 \\&#xD;0 &amp; 0 &amp; 0 &amp; 1&#xD;\end{pmatrix}&#xD;$$ 光栅显示设备 示波器（曾经做过的物理实验）和早期显示器相同原理 ​&#x9;阴极射线管 电子经过加速穿过显示设备 发生偏转 就可以看到CRT屏幕 （Cathode Ray Tube）</description>
     </item>
     <item>
       <title>GameMode游戏模式</title>
-      <link>http://localhost:1313/posts/gamemode/</link>
+      <link>https://geeteng.github.io/posts/gamemode/</link>
       <pubDate>Sat, 23 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/gamemode/</guid>
+      <guid>https://geeteng.github.io/posts/gamemode/</guid>
       <description>平行世界？World UE中有三个世界&#xA;游戏世界 编辑器世界 预览世界 关卡蓝图-定义关卡规则&#xA;UGameInstance 存在于游戏的整个生命周期中 不会随着地图切换 销毁 适合业务全局管理操作，Uengine 管理 GameInstance&#xA;游戏中最重要的实体AActor AActor 标志所有权的Owner指针，标志本地权限的Role枚举，作为网格同步的基础单位，根组件提供世界变化信息&#xA;Actor不只是3D中的表示，一些不可见对象也可以是Actor，如AInfo（派生类Aworldsetting，AGameMode，AgameState&amp;hellip;）&#xA;Actor在UE中就像是世界里的元素&#xA;Component 是 Actor 的组成部分，用于定义 Actor 的特性和行为&#xA;RootComponent是Actor的核心组件，决定了Actor在场景中的位置、旋转和缩放 SceneComponent 是一个基础组件，主要用于定义场景中对象的位置、旋转和缩放。它本身是一个抽象组件，不会直接渲染或显示。 Actor生命周期详解&#xA;生命周期1&#xA;actor分为&#xA;静态的actor - 在关卡编辑器里直接放置的Actor 动态创建的actor（spawnActor） - 通过代码或蓝图在运行时动态生成的 Actor 生命周期2 重要的生命周期函数&#xA;BeginPlay - 在Actor激活时调用 初始化&#xA;Tick - 每帧调用一次 处理逻辑&#xA;EndPlay - 在Actor即将销毁时调用 清理资源&#xA;生命周期3 GC完成收尾 注意有效性的判断&#xA;if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;amp;&amp;amp; !MyActor-&amp;gt;IsPendingKill()) { // Actor 没有被标记为销毁 } isPendingKill是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。</description>
     </item>
     <item>
       <title>UE入门</title>
-      <link>http://localhost:1313/posts/1ue%E5%85%A5%E9%97%A8/</link>
+      <link>https://geeteng.github.io/posts/1ue%E5%85%A5%E9%97%A8/</link>
       <pubDate>Wed, 13 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/1ue%E5%85%A5%E9%97%A8/</guid>
+      <guid>https://geeteng.github.io/posts/1ue%E5%85%A5%E9%97%A8/</guid>
       <description>安装UE5.4.4源码 1 在GitHub上下载UE5.4.4源码 在这之前需要关联账号并验证至虚幻引擎&#xA;EpicGames/UnrealEngine at 5.4.4-release&#xA;我直接下载文件压缩包，没有使用git拉取，原因是网络不稳定&#xA;2 生成sln文件 解压文件，并将文件夹改名为UE，以防后续因为文件名太长而出错&#xA;启动Setup.bat文件 注意：网络一定要通畅并且不能自行关闭 安静等待&amp;hellip;&#xA;之后运行GenerateProjectFiles.bat文件 会生成一个UE5.sln文件&#xA;3 配置VS 一定要增加UnrealEngine安装程序 建议VisualStudio2022 17.8版本&#xA;因为之前试过17.12版本发现一些NuGet包无法还原 不知道什么原因&#xA;打开UE5.sln 在右侧会提示安装插件 点击后可以安装额外的插件 配置如下：&#xA;4 生成UE5 将UE5设为启动项 点击生成UE5 不要点生成解决方案&#xA;为了使编译速度快一些 我试过使用Incredibuild 速度是很快 但是会发现有一些文件属于嵌套关系 并行编译时会出错 于是乎换用其他方式&#xA;&amp;ldquo;C:\Users\用户名\AppData\Roaming\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml&amp;quot;修改BuildConfiguration.xml文件&#xA;// 指定构建时可以同时运行8个编译任务 &amp;lt;MaxParallelActions&amp;gt;8&amp;lt;/MaxParallelActions&amp;gt; // 设置最少需要使用 PCH 文件的源文件数量 &amp;lt;MinFilesUsingPrecompiledHeader&amp;gt;6&amp;lt;/MinFilesUsingPrecompiledHeader&amp;gt; 这样就将编译时间从五六个小时 缩短到了一个小时左右&#xA;切记：&#xA;不要参照网上exclude一些VS2013等文件 会导致之后因为奇怪的原因无法运行 白白浪费时间&#xA;成功生成UE5后不要再点任何重新生成解决方案/项目 否则会清理掉几个小时编译的文件&#xA;编译完成后会生成这样的文件结构 exe文件位于\Engine\Binaries\Win64中 双击即可运行&#xA;5 新建C++项目 创建一个第一人称模板项目 选择C++&#xA;点击创建之后会跳出vs界面&#xA;点击执行 会加载出UE5界面 第一次加载时间会很长 之后时间会缩短一些&#xA;将General - SourceCode设置为VisualStudio2022编辑器</description>
     </item>
     <item>
       <title>GAMES101作业0</title>
-      <link>http://localhost:1313/posts/games101_work0/</link>
+      <link>https://geeteng.github.io/posts/games101_work0/</link>
       <pubDate>Tue, 12 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/games101_work0/</guid>
+      <guid>https://geeteng.github.io/posts/games101_work0/</guid>
       <description>作业描述&#xA;给定一个点P=(2,1),将该点绕原点先逆时针旋转45◦，再平移(1,2),计算出 变换后点的坐标。（要求用齐次坐标进行计算）&#xA;编译&#xA;为方便之后的作业编写，本次作业要求使用cmake进行编译。&#xA;首先，编写好本次作业的程序main.cpp。 然后, 在 main.cpp 所在目录下，打开终端(命令行)，依次输入：&#xA;• mkdir build: 创建名为 build 的文件夹。&#xA;• cd build: 移动到 build 文件夹下。&#xA;• cmake ..: 注意其中’..’ 表示上一级目录，若为’.’ 则表示当前目录。&#xA;• make: 编译程序，错误提示会显示在终端中。&#xA;**• ./Transformation：**若上一步无错误，则可运行程序(这里的Transformation 为可执行文件名，可参照CMakeLists.txt 中修改)。&#xA;#include&amp;lt;cmath&amp;gt; #include&amp;lt;eigen3/Eigen/Core&amp;gt; #include&amp;lt;eigen3/Eigen/Dense&amp;gt; #include&amp;lt;iostream&amp;gt; int main(){ // init point Eigen::Vector3f p(2.0f, 1.0f, 1.0f); // rotate and transformation matrix // x&amp;#39; = xcos - ysin // y&amp;#39; = xsin + ycos // x&amp;#39; = x + tx // y&amp;#39; = y + ty Eigen::Matrix3f R, T; // cos45 = sin45 = sqrt(2) / 2 float ftheta = sqrt(2.</description>
     </item>
     <item>
       <title>Model-View-Projection</title>
-      <link>http://localhost:1313/posts/games101_work01/</link>
+      <link>https://geeteng.github.io/posts/games101_work01/</link>
       <pubDate>Sat, 02 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/games101_work01/</guid>
+      <guid>https://geeteng.github.io/posts/games101_work01/</guid>
       <description>2D Transformations Scale $$&#xD;S(s_x, s_y) = \begin{pmatrix}&#xD;s_x &amp; 0 &amp; 0 \\&#xD;0 &amp; s_y &amp; 0 \\&#xD;0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Rotation $$&#xD;R(\alpha) = \begin{pmatrix} \cos \alpha &amp; -\sin \alpha &amp; 0 \\ \sin \alpha &amp; \cos \alpha &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Translation $$&#xD;T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \\ 0 &amp; 1 &amp; t_y \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ 齐次坐标的最后一位为 0 表示方向或无穷远点</description>
     </item>
   </channel>
