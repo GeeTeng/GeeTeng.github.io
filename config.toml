@@ -53,3 +53,14 @@ enableemoji = false
         name = "About Me"
         url = "/about-me/"
         weight = 3
+
+[markup.goldmark.extensions.passthrough]
+      enable = true
+      delimiters.block = [
+        ["\\[", "\\]"],
+        ["$$", "$$"]
+      ]
+      delimiters.inline = [
+        ["\\(", "\\)"],
+        ["$", "$"]
+      ]
