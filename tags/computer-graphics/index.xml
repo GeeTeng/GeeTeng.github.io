@@ -2,31 +2,31 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Computer-Graphics on GeeTeng</title>
-    <link>http://localhost:1313/tags/computer-graphics/</link>
+    <link>https://geeteng.github.io/tags/computer-graphics/</link>
     <description>Recent content in Computer-Graphics on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Tue, 03 Dec 2024 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/tags/computer-graphics/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://geeteng.github.io/tags/computer-graphics/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>光栅化Rasterize</title>
-      <link>http://localhost:1313/posts/%E5%85%89%E6%A0%85%E5%8C%96/</link>
+      <link>https://geeteng.github.io/posts/%E5%85%89%E6%A0%85%E5%8C%96/</link>
       <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/%E5%85%89%E6%A0%85%E5%8C%96/</guid>
+      <guid>https://geeteng.github.io/posts/%E5%85%89%E6%A0%85%E5%8C%96/</guid>
       <description>光栅化 rasterize 屏幕坐标系 屏幕空间 - 在屏幕上建立一个坐标系&#xA;屏幕的左下角是原点（0，0） 向上是Y 向右是x&#xA;视口变换 要做的事：[-1, 1]^3映射到屏幕上&#xA;其中：width 和 height 是屏幕或视口的宽度和高度&#xA;在标准化设备坐标中，3D物体的投影结果被限制在 (−1,−1)到 (1,1) 的范围：&#xA;(−1,−1) 代表左下角 (1,1) 代表右上角 这是一个对称的正方形坐标系，中心点是 (0,0) 我们需要将这个范围映射到屏幕坐标系：&#xA;左下角是 (0,0)，右上角是 (width,height) $$&#xD;M_{viewport} = \begin{pmatrix}&#xD;\frac{width}{2} &amp; 0 &amp; 0 &amp; \frac{width}{2}\\&#xD;0 &amp; \frac{height}{2} &amp; 0 &amp; \frac{height}{2}\\&#xD;0 &amp; 0 &amp; 1 &amp; 0 \\&#xD;0 &amp; 0 &amp; 0 &amp; 1&#xD;\end{pmatrix}&#xD;$$ 光栅显示设备 示波器（曾经做过的物理实验）和早期显示器相同原理 ​&#x9;阴极射线管 电子经过加速穿过显示设备 发生偏转 就可以看到CRT屏幕 （Cathode Ray Tube）</description>
     </item>
     <item>
       <title>GAMES101作业0</title>
-      <link>http://localhost:1313/posts/games101_work0/</link>
+      <link>https://geeteng.github.io/posts/games101_work0/</link>
       <pubDate>Tue, 12 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/games101_work0/</guid>
+      <guid>https://geeteng.github.io/posts/games101_work0/</guid>
       <description>作业描述&#xA;给定一个点P=(2,1),将该点绕原点先逆时针旋转45◦，再平移(1,2),计算出 变换后点的坐标。（要求用齐次坐标进行计算）&#xA;编译&#xA;为方便之后的作业编写，本次作业要求使用cmake进行编译。&#xA;首先，编写好本次作业的程序main.cpp。 然后, 在 main.cpp 所在目录下，打开终端(命令行)，依次输入：&#xA;• mkdir build: 创建名为 build 的文件夹。&#xA;• cd build: 移动到 build 文件夹下。&#xA;• cmake ..: 注意其中’..’ 表示上一级目录，若为’.’ 则表示当前目录。&#xA;• make: 编译程序，错误提示会显示在终端中。&#xA;**• ./Transformation：**若上一步无错误，则可运行程序(这里的Transformation 为可执行文件名，可参照CMakeLists.txt 中修改)。&#xA;#include&amp;lt;cmath&amp;gt; #include&amp;lt;eigen3/Eigen/Core&amp;gt; #include&amp;lt;eigen3/Eigen/Dense&amp;gt; #include&amp;lt;iostream&amp;gt; int main(){ // init point Eigen::Vector3f p(2.0f, 1.0f, 1.0f); // rotate and transformation matrix // x&amp;#39; = xcos - ysin // y&amp;#39; = xsin + ycos // x&amp;#39; = x + tx // y&amp;#39; = y + ty Eigen::Matrix3f R, T; // cos45 = sin45 = sqrt(2) / 2 float ftheta = sqrt(2.</description>
     </item>
     <item>
       <title>Model-View-Projection</title>
-      <link>http://localhost:1313/posts/games101_work01/</link>
+      <link>https://geeteng.github.io/posts/games101_work01/</link>
       <pubDate>Sat, 02 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/games101_work01/</guid>
+      <guid>https://geeteng.github.io/posts/games101_work01/</guid>
       <description>2D Transformations Scale $$&#xD;S(s_x, s_y) = \begin{pmatrix}&#xD;s_x &amp; 0 &amp; 0 \\&#xD;0 &amp; s_y &amp; 0 \\&#xD;0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Rotation $$&#xD;R(\alpha) = \begin{pmatrix} \cos \alpha &amp; -\sin \alpha &amp; 0 \\ \sin \alpha &amp; \cos \alpha &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Translation $$&#xD;T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \\ 0 &amp; 1 &amp; t_y \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ 齐次坐标的最后一位为 0 表示方向或无穷远点</description>
     </item>
   </channel>
