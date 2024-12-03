@@ -5,3 +5,6 @@
 	path = public
 	url = https://github.com/GeeTeng/GeeTeng.github.io
 	branch = main
+[submodule "themes/ramium"]
+	path = themes/ramium
+	url = https://github.com/rafed/ramium.git

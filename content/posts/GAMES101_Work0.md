@@ -1,9 +1,11 @@
 ---
-title: "GAMES101_Work0" 
-
-date: 2024-11-12 
-
-draft: false
+title: "GAMES101作业0"
+date: 2024-11-12
+tags: [Computer-Graphics]
+description: "坐标变换及虚拟机创建"
+showDate: true
+math: true
+chordsheet: true
 ---
 
 **作业描述** 

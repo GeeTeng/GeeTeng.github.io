@@ -1,9 +1,11 @@
 ---
 title: "GameMode游戏模式"
-
-date: 2024-11-24
-
-draft: false
+date: 2024-11-23
+tags: [UE5]
+description: "课程笔记及作业"
+showDate: true
+math: true
+chordsheet: true
 ---
 
 ---

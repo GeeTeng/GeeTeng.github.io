@@ -1,63 +1,55 @@
-baseURL = "https://GeeTeng.github.io/"
-languageCode = "zh-cn"
-title = "GeeTeng's blog"
-theme = 'github-style'
-pygmentsCodeFences = true
-pygmentsUseClasses = true
+baseURL = "https://geeteng.github.io/"
+#CanonifyURLs=true
+
+languageCode = "en-us"
+theme = "ramium"
+
+title = "GeeTeng"
+disqusShortname = "disqus-code"
+googleAnalytics = "analytics-code"
+pluralizeListTitles = false
+enableemoji = false
 
 [params]
-  author = "GeeTeng"
-  description = "Talk is cheap, show me the code."
-  github = "GeeTeng"
-  email = "15143483@qq.com"
-  url = "https://GeeTeng.github.io/"
-  keywords = "blog, google analytics"
-  rss = true
-  lastmod = true
-  favicon = "/images/github-mark.png"
-  avatar = "/images/avatar.png"
-  headerIcon = "/images/github-mark-white.png"
-  location = "China"
-  userStatusEmoji = "😀"
-  enableGitalk = true
-  enableSearch = true
+    description = "A description for the meta tag of the site"
+    googleSearch = "google-search-code"
+    showDate = true # make false if dont want to show date for evergeen articles
+    math = false # best to enable this in the front matter of a page
+    githubLink = "rafed/ramium/"
 
+    tagsInHome = 40     # set zero to not show in home page
+    sectionsInHome = 5  # set zero to not show in home page
+    paginatePostsPerPage = 5
+    paginateTagsPerPage = 6
 
-  [params.gitalk]
-    clientID = "Your client ID" # Your client ID
-    clientSecret = "Your client secret" # Your client secret
-    repo = "LuvSia" # 您的博客的github地址Repository name，例如：xxxx.github.io
-    owner = "ventusoon" # 您的GitHub ID
-    admin = "ventusoon" # 您的GitHub ID
-    id = "location.pathname" # 文章页面的链接地址就是ID
-    labels = "gitalk" # Github issue labels. If you used to use Gitment, you can change it
-    perPage = 15 # Pagination size, with maximum 100.
-    pagerDirection = "last" # Comment sorting direction, available values are 'last' and 'first'.
-    createIssueManually = true # 设置为true，如果是管理员登录，会自动创建issue，如果是false，需要管理员手动添加第一个评论(issue)
-    distractionFreeMode = false # Enable hot key (cmd|ctrl + enter) submit comment.
-    proxy = "https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token" # 可以自行添加反向代理
-  [[params.links]]
-    title = "Link"
-    href = "https://github.com/GeeTeng"
-  [[params.links]]
-    title = "Link2"
-    href = "https://GeeTeng.github.io/"
-    icon = "images/avatar.png"
+[taxonomies]
+    tag = "tags"
 
-[frontmatter]
-  lastmod = ["lastmod", ":fileModTime", ":default"]
+[markup.goldmark.renderer]
+    unsafe = true
 
-[services]
-  [services.googleAnalytics]
-    ID = "UA-123456-789"
+[menu]
+    [[menu.main]]
+        name = "Home"
+        url = "/"
+        weight = 1
+
+    [[menu.main]]
+        identifier = "blog"
+        name = "This Blog"
+        weight = 2
+            [[menu.main]]
+                parent = "blog"
+                name = "All Tags"
+                url = "/tags/"
+                weight = 1
+            [[menu.main]]
+                parent = "blog"
+                name = "All Posts"
+                url = "/posts/"
+                weight = 3
     
-[markup.goldmark.extensions.passthrough]
-      enable = true
-      delimiters.block = [
-        ["\\[", "\\]"],
-        ["$$", "$$"]
-      ]
-      delimiters.inline = [
-        ["\\(", "\\)"],
-        ["$", "$"]
-      ]
+    [[menu.main]]
+        name = "About Me"
+        url = "/about-me/"
+        weight = 3

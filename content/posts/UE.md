@@ -1,9 +1,11 @@
 ---
-title: "UE_C++" 
-
-date: 2024-12-2 
-
-draft: false
+title: "UE-c++"
+date: 2024-12-3
+tags: [UE5]
+description: "C++学习笔记"
+showDate: true
+math: true
+chordsheet: true
 ---
 
 #### 设置摄像机位置

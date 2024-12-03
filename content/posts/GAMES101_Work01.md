@@ -1,11 +1,11 @@
 ---
-
-title: "GAMES101_Work01" 
-
-date: 2024-11-13 
-
-draft: false
-
+title: "Model-View-Projection"
+date: 2024-11-02
+tags: [Computer-Graphics]
+description: "MVP变换及GAMES101作业1"
+showDate: true
+math: true
+chordsheet: true
 ---
 
 ### 2D Transformations

@@ -1,9 +1,11 @@
 ---
-title: "UE_入门" 
-
-date: 2024-11-16 
-
-draft: false
+title: "UE入门"
+date: 2024-11-13
+tags: [UE5]
+description: "UE源码下载 创建C++类 项目打包"
+showDate: true
+math: true
+chordsheet: true
 ---
 
 #### 安装UE5.4.4源码
