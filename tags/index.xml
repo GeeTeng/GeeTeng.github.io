@@ -1,11 +1,26 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on GeeTeng&#39;s blog</title>
-    <link>https://GeeTeng.github.io/tags/</link>
-    <description>Recent content in Tags on GeeTeng&#39;s blog</description>
+    <title>Tags on GeeTeng</title>
+    <link>http://localhost:1313/tags/</link>
+    <description>Recent content in Tags on GeeTeng</description>
     <generator>Hugo</generator>
-    <language>zh-cn</language>
-    <atom:link href="https://GeeTeng.github.io/tags/index.xml" rel="self" type="application/rss+xml" />
+    <language>en-us</language>
+    <lastBuildDate>Tue, 03 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Computer-Graphics</title>
+      <link>http://localhost:1313/tags/computer-graphics/</link>
+      <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/computer-graphics/</guid>
+      <description></description>
+    </item>
+    <item>
+      <title>UE5</title>
+      <link>http://localhost:1313/tags/ue5/</link>
+      <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/tags/ue5/</guid>
+      <description></description>
+    </item>
   </channel>
 </rss>

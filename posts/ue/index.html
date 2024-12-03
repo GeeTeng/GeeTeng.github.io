@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <title>
+    UE-C&#43;&#43; | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="C&#43;&#43;学习笔记
+    ">
+
+
+<meta property="og:url" content="http://localhost:1313/posts/ue/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="UE-c&#43;&#43;">
+  <meta property="og:description" content="C&#43;&#43;学习笔记">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-12-03T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-12-03T00:00:00+00:00">
+    <meta property="article:tag" content="UE5">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="UE-c&#43;&#43;">
+  <meta name="twitter:description" content="C&#43;&#43;学习笔记">
+
+
+  <meta itemprop="name" content="UE-c&#43;&#43;">
+  <meta itemprop="description" content="C&#43;&#43;学习笔记">
+  <meta itemprop="datePublished" content="2024-12-03T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-12-03T00:00:00+00:00">
+  <meta itemprop="wordCount" content="358">
+  <meta itemprop="keywords" content="UE5">
+<link rel="canonical" href="http://localhost:1313/posts/ue/" />
+
+<link rel="icon" type="image/png" href="http://localhost:1313/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        <div id="page-body" class="column is-7">
+
+<div class="content blog">
+    <h1>UE-C&#43;&#43;</h1>
+
+    <div id="infobar" class="level is-mobile">
+        <div class="level-left">
+            
+            <div class="level-item">
+                <p class="subtitle info date">Dec 3, 2024
+                </p>
+            </div>
+            
+
+            <div class="level-item">
+                <p class="subtitle info">
+                    6 mins read
+                </p>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            <div class="tags">
+                
+                <a class="tag is-dark is-rounded" href="/tags/ue5">UE5</a>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="tags is-hidden-desktop">
+        
+        <a class="tag is-dark is-rounded" href="/tags/ue5">Ue5</a>
+        
+    </div>
+
+    <div class="blog-text">
+        
+
+        <h4 id="设置摄像机位置">设置摄像机位置</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>AMyCharacter<span style="color:#f92672">::</span>AMyCharacter()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	PrimaryActorTick.bCanEverTick <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 创建一个相机臂 用来控制角色和相机的相对位置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	CameraBoom <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>USpringArmComponent<span style="color:#f92672">&gt;</span>(<span style="color:#e6db74">&#34;CameraBoom&#34;</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 将相机臂附着到角色的根组件
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	CameraBoom<span style="color:#f92672">-&gt;</span>SetupAttachment(RootComponent);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 相机杆长度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	CameraBoom<span style="color:#f92672">-&gt;</span>TargetArmLength <span style="color:#f92672">=</span> <span style="color:#ae81ff">600.f</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 设置俯仰角 pitch yaw roll
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	CameraBoom<span style="color:#f92672">-&gt;</span>SetRelativeRotation(FRotator(<span style="color:#f92672">-</span><span style="color:#ae81ff">40.f</span>, <span style="color:#ae81ff">0.f</span>, <span style="color:#ae81ff">0.f</span>));
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 相机附着在boom
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	PlayerCamera <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>UCameraComponent<span style="color:#f92672">&gt;</span>(<span style="color:#e6db74">&#34;Player Camera&#34;</span>);
+</span></span><span style="display:flex;"><span>	PlayerCamera<span style="color:#f92672">-&gt;</span>SetupAttachment(CameraBoom, USpringArmComponent<span style="color:#f92672">::</span>SocketName);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 附着某一位置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//PlayerCamera-&gt;SetupAttachment(GetMesh(), FName(&#34;RootSocket&#34;));
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><hr>
+<h4 id="虚幻打印的两种方式">虚幻打印的两种方式</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UE_LOG(LogTemp, Warning, TEXT(<span style="color:#e6db74">&#34;CameraBoom : TargetArmLength: %f&#34;</span>), CameraBoom<span style="color:#f92672">-&gt;</span>TargetArmLength);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 消息的唯一标识 打印10s color
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>GEngine<span style="color:#f92672">-&gt;</span>AddOnScreenDebugMessage(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">10</span>, FColor<span style="color:#f92672">::</span>Blue, FString<span style="color:#f92672">::</span>Printf(TEXT(<span style="color:#e6db74">&#34;CameraBoom : TargetArmLength: %f&#34;</span>), CameraBoom<span style="color:#f92672">-&gt;</span>TargetArmLength));
+</span></span></code></pre></div><hr>
+<h4 id="增强输入---人物移动">增强输入 - 人物移动</h4>
+<p>在 Unreal Engine 中，角色和摄像机的旋转是通过 <strong>控制器</strong>（<code>Controller</code>）来处理的，控制器会记录角色的旋转角度，通常由玩家的输入（如鼠标、右摇杆等）或者 AI 控制。</p>
+<ul>
+<li><strong><code>Yaw</code></strong>：水平旋转，表示角色面朝的方向。例如，<code>Yaw</code> = 0 时，角色正朝向世界的正前方；<code>Yaw</code> = 90 时，角色面朝右方。</li>
+<li><strong><code>Pitch</code></strong>：垂直旋转，表示角色视角的俯仰角度。例如，<code>Pitch</code> = 0 时，角色眼睛水平；<code>Pitch</code> = 90 时，角色会向上看；<code>Pitch</code> = -90 时，角色会向下看。</li>
+<li><strong><code>Roll</code></strong>：绕角色前后轴的旋转，通常我们不太关注，因为它并不影响角色的视角或朝向。</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// 引入增强输入的头文件
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;EnhancedInputSubsystems.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;EnhancedInputComponent.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> AMyCharacter<span style="color:#f92672">::</span>BeginPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>BeginPlay();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 获取当前关卡中的第一个本地玩家
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">const</span> ULocalPlayer<span style="color:#f92672">*</span> Player <span style="color:#f92672">=</span> (GEngine <span style="color:#f92672">&amp;&amp;</span> GetWorld()) <span style="color:#f92672">?</span> GEngine<span style="color:#f92672">-&gt;</span>GetFirstGamePlayer(GetWorld()) <span style="color:#f92672">:</span> <span style="color:#66d9ef">nullptr</span>){
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 获取增强输入子系统 用于处理输入映射
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		UEnhancedInputLocalPlayerSubsystem<span style="color:#f92672">*</span> Subsystem<span style="color:#f92672">=</span> ULocalPlayer<span style="color:#f92672">::</span>GetSubsystem<span style="color:#f92672">&lt;</span>UEnhancedInputLocalPlayerSubsystem<span style="color:#f92672">&gt;</span>(Player);
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 如果设置了输入映射上下文 就添加到子系统中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (DefaultMapping) {
+</span></span><span style="display:flex;"><span>			Subsystem<span style="color:#f92672">-&gt;</span>AddMappingContext(DefaultMapping, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMyCharacter<span style="color:#f92672">::</span>Move(<span style="color:#66d9ef">const</span> FInputActionValue<span style="color:#f92672">&amp;</span> Value)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	FVector2D MoveVector <span style="color:#f92672">=</span> Value.Get<span style="color:#f92672">&lt;</span>FVector2D<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (Controller) {
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 获取控制器的旋转角度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">const</span> FRotator Rotation <span style="color:#f92672">=</span> Controller<span style="color:#f92672">-&gt;</span>GetControlRotation();
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 提取Yaw 水平旋转角度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">const</span> FRotator <span style="color:#a6e22e">YawRotation</span>(<span style="color:#ae81ff">0</span>, Rotation.Yaw, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 根据旋转角度计算前进方向
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// FRotationMatrix(YawRotation) 会生成一个旋转矩阵，表示角色的旋转状态
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#75715e">// 通过 GetUnitAxis(EAxis::X)，我们从矩阵中获取角色在水平方向上的前进方向（即角色面朝的方向）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">const</span> FVector ForwardDirection <span style="color:#f92672">=</span> FRotationMatrix(YawRotation).GetUnitAxis(EAxis<span style="color:#f92672">::</span>X);
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 根据旋转角度计算右侧方向
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">const</span> FVector RightDirection <span style="color:#f92672">=</span> FRotationMatrix(YawRotation).GetUnitAxis(EAxis<span style="color:#f92672">::</span>Y);
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 将输入的 X 值映射到角色的前进方向
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		AddMovementInput(ForwardDirection, MoveVector.X);
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 将输入的 Y 值映射到角色的右侧方向
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		AddMovementInput(RightDirection, MoveVector.Y);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMyCharacter<span style="color:#f92672">::</span>Look(<span style="color:#66d9ef">const</span> FInputActionValue<span style="color:#f92672">&amp;</span> Value)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 角色看向 视角旋转
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	FVector2D LookVector <span style="color:#f92672">=</span> Value.Get<span style="color:#f92672">&lt;</span>FVector2D<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (Controller) {
+</span></span><span style="display:flex;"><span>		AddControllerYawInput(LookVector.X);
+</span></span><span style="display:flex;"><span>		AddControllerPitchInput(LookVector.Y);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// Called to bind functionality to input
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> AMyCharacter<span style="color:#f92672">::</span>SetupPlayerInputComponent(UInputComponent<span style="color:#f92672">*</span> PlayerInputComponent)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>SetupPlayerInputComponent(PlayerInputComponent);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 确保输入组件是增强输入组件
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> (UEnhancedInputComponent<span style="color:#f92672">*</span> EnhancedInputComponent <span style="color:#f92672">=</span> CastChecked<span style="color:#f92672">&lt;</span>UEnhancedInputComponent<span style="color:#f92672">&gt;</span>(PlayerInputComponent)) {
+</span></span><span style="display:flex;"><span>		EnhancedInputComponent<span style="color:#f92672">-&gt;</span>BindAction(LookAction, ETriggerEvent<span style="color:#f92672">::</span>Triggered, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>AMyCharacter<span style="color:#f92672">::</span>Look);
+</span></span><span style="display:flex;"><span>		EnhancedInputComponent<span style="color:#f92672">-&gt;</span>BindAction(MoveAction, ETriggerEvent<span style="color:#f92672">::</span>Triggered, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>AMyCharacter<span style="color:#f92672">::</span>Move);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h4 id="动画anim-instance---实现人物的跑动">动画Anim Instance - 实现人物的跑动</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>	<span style="color:#75715e">// 引入GetCharacterMovement
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">#include&lt;GameFramework/CharacterMovementComponent.h&gt;	
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// 1 不要让角色随着控制器旋转
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	bUseControllerRotationPitch <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>	bUseControllerRotationRoll <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>	bUseControllerRotationYaw <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 2 相机杆旋转 相机不旋转
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	CameraBoom<span style="color:#f92672">-&gt;</span>bUsePawnControlRotation <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	PlayerCamera<span style="color:#f92672">-&gt;</span>bUsePawnControlRotation <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 3 角色要根据其运动方向进行旋转
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	GetCharacterMovement()<span style="color:#f92672">-&gt;</span>bOrientRotationToMovement <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	GetCharacterMovement()<span style="color:#f92672">-&gt;</span>RotationRate <span style="color:#f92672">=</span> FRotator(<span style="color:#ae81ff">0.f</span>, <span style="color:#ae81ff">400.f</span>, <span style="color:#ae81ff">0.f</span>);
+</span></span></code></pre></div><p>在编译完成后，需要在角色蓝图中检查是否为设置状态，如果不是，则需要取消勾选</p>
+<p>新建一个Anim Instance c++类</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;Animation/AnimInstance.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;MyAnimInstance.generated.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 相当于BeginPlay
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> NativeInitializeAnimation() <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 相当于Tick
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">NativeUpdateAnimation</span>(<span style="color:#66d9ef">float</span> DeltaTime) <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(BlueprintReadOnly)
+</span></span><span style="display:flex;"><span>	TObjectPtr<span style="color:#f92672">&lt;</span>AMyCharacter<span style="color:#f92672">&gt;</span> PlayerCharacter;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(BlueprintReadOnly)
+</span></span><span style="display:flex;"><span>	TObjectPtr<span style="color:#f92672">&lt;</span>UCharacterMovementComponent<span style="color:#f92672">&gt;</span> PlayerCharacterMovement;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(BlueprintReadOnly)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> Speed;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;MyCharacter.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;GameFramework/CharacterMovementComponent.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;Kismet/KismetMathLibrary.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UMyAnimInstance<span style="color:#f92672">::</span>NativeInitializeAnimation()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>NativeInitializeAnimation();
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 获取player
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	PlayerCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>AMyCharacter<span style="color:#f92672">&gt;</span>(TryGetPawnOwner());
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (PlayerCharacter) {
+</span></span><span style="display:flex;"><span>		PlayerCharacterMovement <span style="color:#f92672">=</span> PlayerCharacter<span style="color:#f92672">-&gt;</span>GetCharacterMovement();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UMyAnimInstance<span style="color:#f92672">::</span>NativeUpdateAnimation(<span style="color:#66d9ef">float</span> DeltaTime)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>NativeUpdateAnimation(DeltaTime);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (PlayerCharacterMovement) {
+</span></span><span style="display:flex;"><span>		Speed <span style="color:#f92672">=</span> UKismetMathLibrary<span style="color:#f92672">::</span>VSizeXY(PlayerCharacterMovement<span style="color:#f92672">-&gt;</span>Velocity);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>新建一个存放动画蓝图的Anim文件夹，并在文件夹中创建一个动画蓝图 Animation - AnimationBlueprint</p>
+<p>新建一个状态机，双击进到状态机里面 AddState 加入Run Idle两个状态</p>
+<p>双击这两种状态 如果速度大于0则切换到奔跑状态 速度等于0则切换到静止状态</p>
+<hr>
+
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=UE-c%2b%2b&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2f
+			&title=UE-c%2b%2b&summary=%e8%ae%be%e7%bd%ae%e6%91%84%e5%83%8f%e6%9c%ba%e4%bd%8d%e7%bd%ae%20AMyCharacter%3a%3aAMyCharacter%28%29%20%7b%20PrimaryActorTick.bCanEverTick%20%3d%20true%3b%20%2f%2f%20%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aa%e7%9b%b8%e6%9c%ba%e8%87%82%20%e7%94%a8%e6%9d%a5%e6%8e%a7%e5%88%b6%e8%a7%92%e8%89%b2%e5%92%8c%e7%9b%b8%e6%9c%ba%e7%9a%84%e7%9b%b8%e5%af%b9%e4%bd%8d%e7%bd%ae%20CameraBoom%20%3d%20CreateDefaultSubobject%26lt%3bUSpringArmComponent%26gt%3b%28%26%2334%3bCameraBoom%26%2334%3b%29%3b%20%2f%2f%20%e5%b0%86%e7%9b%b8%e6%9c%ba%e8%87%82%e9%99%84%e7%9d%80%e5%88%b0%e8%a7%92%e8%89%b2%e7%9a%84%e6%a0%b9%e7%bb%84%e4%bb%b6%20CameraBoom-%26gt%3bSetupAttachment%28RootComponent%29%3b%20%2f%2f%20%e7%9b%b8%e6%9c%ba%e6%9d%86%e9%95%bf%e5%ba%a6%20CameraBoom-%26gt%3bTargetArmLength%20%3d%20600.f%3b%20%2f%2f%20%e8%ae%be%e7%bd%ae%e4%bf%af%e4%bb%b0%e8%a7%92%20pitch%20yaw%20roll%20CameraBoom-%26gt%3bSetRelativeRotation%28FRotator%28-40.f%2c%200.f%2c%200.f%29%29%3b%20%2f%2f%20%e7%9b%b8%e6%9c%ba%e9%99%84%e7%9d%80%e5%9c%a8boom%20PlayerCamera%20%3d%20CreateDefaultSubobject%26lt%3bUCameraComponent%26gt%3b%28%26%2334%3bPlayer%20Camera%26%2334%3b%29%3b%20PlayerCamera-%26gt%3bSetupAttachment%28CameraBoom%2c%20USpringArmComponent%3a%3aSocketName%29%3b%20%2f%2f%20%e9%99%84%e7%9d%80%e6%9f%90%e4%b8%80%e4%bd%8d%e7%bd%ae%20%2f%2fPlayerCamera-%26gt%3bSetupAttachment%28GetMesh%28%29%2c%20FName%28%26%2334%3bRootSocket%26%2334%3b%29%29%3b%20%7d%20%e8%99%9a%e5%b9%bb%e6%89%93%e5%8d%b0%e7%9a%84%e4%b8%a4%e7%a7%8d%e6%96%b9%e5%bc%8f%20UE_LOG%28LogTemp%2c%20Warning%2c%20TEXT%28%26%2334%3bCameraBoom%20%3a%20TargetArmLength%3a%20%25f%26%2334%3b%29%2c%20CameraBoom-%26gt%3bTargetArmLength%29%3b%20%2f%2f%20%e6%b6%88%e6%81%af%e7%9a%84%e5%94%af%e4%b8%80%e6%a0%87%e8%af%86%20%e6%89%93%e5%8d%b010s%20color%20GEngine-%26gt%3bAddOnScreenDebugMessage%28-1%2c%2010%2c%20FColor%3a%3aBlue%2c%20FString%3a%3aPrintf%28TEXT%28%26%2334%3bCameraBoom%20%3a%20TargetArmLength%3a%20%25f%26%2334%3b%29%2c%20CameraBoom-%26gt%3bTargetArmLength%29%29%3b%20%e5%a2%9e%e5%bc%ba%e8%be%93%e5%85%a5%20-%20%e4%ba%ba%e7%89%a9%e7%a7%bb%e5%8a%a8%20%e5%9c%a8%20Unreal%20Engine%20%e4%b8%ad%ef%bc%8c%e8%a7%92%e8%89%b2%e5%92%8c%e6%91%84%e5%83%8f%e6%9c%ba%e7%9a%84%e6%97%8b%e8%bd%ac%e6%98%af%e9%80%9a%e8%bf%87%20%e6%8e%a7%e5%88%b6%e5%99%a8%ef%bc%88Controller%ef%bc%89%e6%9d%a5%e5%a4%84%e7%90%86%e7%9a%84%ef%bc%8c%e6%8e%a7%e5%88%b6%e5%99%a8%e4%bc%9a%e8%ae%b0%e5%bd%95%e8%a7%92%e8%89%b2%e7%9a%84%e6%97%8b%e8%bd%ac%e8%a7%92%e5%ba%a6%ef%bc%8c%e9%80%9a%e5%b8%b8%e7%94%b1%e7%8e%a9%e5%ae%b6%e7%9a%84%e8%be%93%e5%85%a5%ef%bc%88%e5%a6%82%e9%bc%a0%e6%a0%87%e3%80%81%e5%8f%b3%e6%91%87%e6%9d%86%e7%ad%89%ef%bc%89%e6%88%96%e8%80%85%20AI%20%e6%8e%a7%e5%88%b6%e3%80%82&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=UE-c%2b%2b&amp;body=Check out this site http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+<script async src="https://cse.google.com/cse.js?cx=google-search-code"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+
+
+<footer class="footer has-background-dark">
+    <div class="content has-text-centered has-text-white">
+        <p>
+            © 2020 Ramium. Powered by
+            <a class="has-text-light" href="https://github.com/gohugoio/hugo" target="_blank">
+            Hugo</a>. Theme
+            <a class="has-text-light" href="https://github.com/rafed123/ramium/" target="_blank">
+                Ramium.
+            </a>
+        </p>
+    </div>
+</footer>
+
+<div id="particles-js"></div>
+    <script src="/background/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/background/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+    <title>
+    GameMode游戏模式 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="课程笔记及作业
+    ">
+
+
+<meta property="og:url" content="http://localhost:1313/posts/gamemode/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="GameMode游戏模式">
+  <meta property="og:description" content="课程笔记及作业">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-11-23T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-11-23T00:00:00+00:00">
+    <meta property="article:tag" content="UE5">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="GameMode游戏模式">
+  <meta name="twitter:description" content="课程笔记及作业">
+
+
+  <meta itemprop="name" content="GameMode游戏模式">
+  <meta itemprop="description" content="课程笔记及作业">
+  <meta itemprop="datePublished" content="2024-11-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-11-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="221">
+  <meta itemprop="keywords" content="UE5">
+<link rel="canonical" href="http://localhost:1313/posts/gamemode/" />
+
+<link rel="icon" type="image/png" href="http://localhost:1313/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        <div id="page-body" class="column is-7">
+
+<div class="content blog">
+    <h1>GameMode游戏模式</h1>
+
+    <div id="infobar" class="level is-mobile">
+        <div class="level-left">
+            
+            <div class="level-item">
+                <p class="subtitle info date">Nov 23, 2024
+                </p>
+            </div>
+            
+
+            <div class="level-item">
+                <p class="subtitle info">
+                    14 mins read
+                </p>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            <div class="tags">
+                
+                <a class="tag is-dark is-rounded" href="/tags/ue5">UE5</a>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="tags is-hidden-desktop">
+        
+        <a class="tag is-dark is-rounded" href="/tags/ue5">Ue5</a>
+        
+    </div>
+
+    <div class="blog-text">
+        
+
+        <hr>
+<h4 id="平行世界world">平行世界？World</h4>
+<p>UE中有三个世界</p>
+<ul>
+<li>游戏世界</li>
+<li>编辑器世界</li>
+<li>预览世界</li>
+</ul>
+<p>关卡蓝图-定义关卡规则</p>
+<p><code>UGameInstance</code>  存在于游戏的整个生命周期中 不会随着地图切换 销毁 适合业务全局管理操作，Uengine  管理 GameInstance</p>
+<hr>
+<h4 id="游戏中最重要的实体aactor"><strong>游戏中最重要的实体AActor</strong></h4>
+<p>AActor 标志所有权的Owner指针，标志本地权限的Role枚举，作为网格同步的基础单位，根组件提供世界变化信息</p>
+<p>Actor不只是3D中的表示，一些不可见对象也可以是Actor，如<em>AInfo</em>（派生类<em>Aworldsetting</em>，<em>AGameMode</em>，<em>AgameState</em>&hellip;）</p>
+<p><strong>Actor在UE中就像是世界里的元素</strong></p>
+<p><strong>Component 是 Actor 的组成部分，用于定义 Actor 的特性和行为</strong></p>
+<ol>
+<li><em>RootComponent</em>是Actor的核心组件，决定了Actor在场景中的位置、旋转和缩放</li>
+<li><em>SceneComponent</em> 是一个基础组件，主要用于定义场景中对象的位置、旋转和缩放。它本身是一个抽象组件，不会直接渲染或显示。</li>
+</ol>
+<p><strong>Actor生命周期详解</strong></p>
+<ul>
+<li>
+<p>生命周期1</p>
+<p>actor分为</p>
+<ul>
+<li>静态的actor - 在关卡编辑器里直接放置的Actor</li>
+<li>动态创建的actor（<em>spawnActor</em>） - 通过代码或蓝图在运行时动态生成的 Actor</li>
+</ul>
+</li>
+<li>
+<p>生命周期2
+重要的生命周期函数</p>
+<p>BeginPlay - 在Actor激活时调用 初始化</p>
+<p>Tick - 每帧调用一次 处理逻辑</p>
+<p>EndPlay - 在Actor即将销毁时调用 清理资源</p>
+</li>
+<li>
+<p>生命周期3
+GC完成收尾 注意有效性的判断</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (IsValid(MyActor)) {    <span style="color:#75715e">// Actor 有效 }
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (MyActor <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>MyActor<span style="color:#f92672">-&gt;</span>IsPendingKill()) {    <span style="color:#75715e">// Actor 没有被标记为销毁 }
+</span></span></span></code></pre></div><p><em>isPendingKill</em>是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。</p>
+</li>
+</ul>
+<hr>
+<h4 id="apawn可操控的棋子"><strong>APawn（可操控的棋子)</strong></h4>
+<p>最重要的特性：可以被controller控制 提供了输入、移动框架的支持</p>
+<p>UE提供了一个默认的Pawn - <strong>DeflaultPawn</strong></p>
+<p><strong>默认三件套</strong></p>
+<ul>
+<li><em><strong>DefaultPawnMovementComponent</strong></em></li>
+<li><strong>sphericalCollisionComponent</strong></li>
+<li><em><strong>StaticMeshComponent</strong></em></li>
+</ul>
+<p><em><strong>SpectatorPawn</strong></em></p>
+<p>观众想观战但并不需要真正的表示他们 所以提供了<strong>USpectatorPawnMovement</strong>（不带重力漫游） 并关闭了StaticMesh的显示，碰撞设置到了Spectator通道</p>
+<hr>
+<p><strong>Character像是Pawn的加强特化版本</strong></p>
+<p><strong>ACharacter</strong>人形角色（人形Pawn）</p>
+<ul>
+<li>
+<p>近似仿真人形的胶囊体碰撞盒<em><strong>UCapsuleComponent</strong></em></p>
+</li>
+<li>
+<p>骨骼模型<em><strong>USkeletalMeshComponent</strong></em></p>
+</li>
+<li>
+<p>人物移动组件<em><strong>UCharacterMovementComponent</strong></em></p>
+<ul>
+<li>
+<p>配合胶囊体完成了各种仿真移动计算Walking、Falling&hellip;</p>
+</li>
+<li>
+<p>提供了Custom自定义移动模式供扩展</p>
+</li>
+<li>
+<p>网络游戏移动同步架构 主控端预表现（网断了还能跑）服务器端校验 模拟端预测</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="mvc模式显示数据算法"><strong>MVC模式（显示、数据、算法）</strong></h4>
+<p><strong>显示（View）</strong>：</p>
+<ul>
+<li>由骨骼模型和动画组件（<code>USkeletalMeshComponent</code>）负责呈现角色的外观。</li>
+<li>包括实时动画播放、物理效果展示等。</li>
+</ul>
+<p><strong>数据（Model）</strong>：</p>
+<ul>
+<li>角色的核心属性和状态（如速度、位置、旋转、是否跳跃）。</li>
+<li>包括状态同步的网络消息结构和角色实例化的变量集合。</li>
+</ul>
+<p><strong>算法（Controller）</strong>：</p>
+<ul>
+<li>负责移动逻辑、动画状态切换、物理计算等行为。</li>
+<li>包括人物移动组件的各种模式扩展与自定义处理逻辑。</li>
+</ul>
+<p>抽象这三个变化并归纳关系就是MVC模式</p>
+<h4 id="继承和层次结构"><strong>继承和层次结构</strong></h4>
+<ol>
+<li><strong>AController 继承自 AActor</strong>：
+<ul>
+<li>AController 是一个专门用于控制 APawn 行为的类。</li>
+<li>它充当“提线木偶操控者”，通过指令驱动角色的移动、行为和其他逻辑。</li>
+</ul>
+</li>
+<li><strong>UObject</strong>：
+<ul>
+<li>Unreal Engine 中最基础的类，所有对象的根基。</li>
+<li><strong>功能</strong>：提供反射、序列化、垃圾回收（GC）和内存管理的机制。</li>
+<li><strong>反射机制</strong>：支持运行时类型信息 (RTTI) 和蓝图扩展。</li>
+<li><strong>序列化</strong>：用于保存和加载对象状态，广泛用于游戏保存、配置文件等。</li>
+</ul>
+</li>
+<li><strong>UActorComponent</strong>：
+<ul>
+<li><strong>功能载体</strong>：AActor 的组件化架构。</li>
+<li>逻辑代码或功能模块的载体（如健康系统、AI逻辑等）。</li>
+<li><strong>嵌套能力</strong>：USceneComponent 提供世界变换（位置、旋转、缩放）以及嵌套结构支持。</li>
+</ul>
+</li>
+<li><strong>AActor</strong>：
+<ul>
+<li>游戏对象的基础类，是组件的容器。</li>
+<li><strong>功能</strong>：管理生命周期（Spawn/Destroy）、事件（Tick/Overlap）以及和世界的交互（物理、渲染等）。</li>
+</ul>
+</li>
+<li><strong>APawn</strong>：
+<ul>
+<li>AActor 的子类，表示玩家或 AI 可控制的实体。</li>
+<li>特点：
+<ul>
+<li>提供基本的物理表示（如碰撞体）。</li>
+<li>支持玩家输入和基本移动能力。</li>
+<li>可被 AController 绑定以实现复杂逻辑。</li>
+</ul>
+</li>
+<li>当前常用于角色控制和 AI 代理。</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h4 id="具体功能与模块"><strong>具体功能与模块</strong></h4>
+<p><strong>APlayerController（提线木偶操控者）</strong>：</p>
+<ul>
+<li><strong>定义</strong>：玩家的控制代理，负责接收输入并将其转换为游戏行为。</li>
+<li><strong>职责：</strong>
+<ul>
+<li>处理输入：将玩家输入映射到动作或功能。</li>
+<li>控制 Pawn：通过控制接口驱动角色行为。</li>
+<li>管理玩家视角：负责管理摄像机、HUD 和其他 UI 组件。</li>
+</ul>
+</li>
+<li><strong>网络连接与所有权</strong>：
+<ul>
+<li>在多人游戏中，APlayerController 维护客户端和服务器之间的连接。</li>
+<li>确保特定 APawn 的所有权归特定客户端（或服务器）所有。</li>
+</ul>
+</li>
+</ul>
+<p><strong>UInputComponent</strong>：</p>
+<ul>
+<li><strong>功能</strong>：用于绑定输入映射，将玩家输入转化为游戏事件。</li>
+<li><strong>特点</strong>：
+<ul>
+<li>支持蓝图和 C++ 输入绑定。</li>
+<li>使用输入映射表（Input Mapping Context）实现灵活的按键配置。</li>
+</ul>
+</li>
+</ul>
+<p><strong>APlayerCameraManager</strong>：</p>
+<ul>
+<li><strong>职责</strong>：
+<ul>
+<li>管理玩家的摄像机视角和摄像机效果。</li>
+<li>支持视角切换（第一人称/第三人称）。</li>
+<li>应用于动态摄像机逻辑，如抖动、跟随目标、动态缩放等。</li>
+</ul>
+</li>
+</ul>
+<p><strong><code>AHUD</code></strong>：</p>
+<ul>
+<li><strong>定义</strong>：传统的屏幕 UI 渲染类。</li>
+<li><strong>特点</strong>：
+<ul>
+<li>早期用于绘制简单的屏幕元素（如血量、雷达等）。</li>
+<li>被更灵活的 UMG 取代，但仍可用作低级别绘制需求。</li>
+</ul>
+</li>
+<li><strong>区别</strong>：
+<ul>
+<li>HUD 是屏幕上的信息展示，通常绑定到玩家控制器。</li>
+<li>UI 更复杂，可通过 UMG 实现交互式用户界面。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h4 id="agamemode-真游戏模式">AGameMode 真·游戏模式</h4>
+<p>玩家如何加入游戏 游戏特定行为（获胜）
+所有GameMode均为 AGameMode的子类 AGameModeBase包含大量可覆盖的基础功能</p>
+<hr>
+<h4 id="agamestate游戏状态">AgameState游戏状态</h4>
+<p>同mode基类子类</p>
+<p>APlayerState玩家状态
+playerState Character、Controller的职责区别</p>
+<hr>
+<h4 id="question">Question？</h4>
+<blockquote>
+<p>如果你来设计游戏，以下数据应该存放在哪里，是否需要同步给玩家？
+玩家血量、玩家得分、队友位置、毒圈空头信息</p>
+</blockquote>
+<p><strong>1.玩家血量</strong>：</p>
+<p>玩家血量是游戏的核心状态 需要在服务器存储并管理（防止作弊）</p>
+<p>需要实时同步给本地的UI更新，但是不需要同步给敌人玩家，在团队作战中可以同步给队友。</p>
+<p><strong>2.玩家得分：</strong></p>
+<p>玩家得分是游戏结果的重要数据，需要服务器去存储，也需要同步给玩家的UI，但是客户端仅需要展示不需要存储。自己的得分需要同步，其他玩家可以定期的同步，如排行榜。</p>
+<p><strong>3.队友位置：</strong></p>
+<p>存储在服务器和客户端</p>
+<p>需要同步给同队玩家，不能同步给敌人</p>
+<p><strong>4.空投信息：</strong></p>
+<p>毒圈和空投是全局信息，在服务器存储，客户端需要同步给所有玩家</p>
+<p>需要同步给所有玩家，同步半径变化，毒圈缩小等，</p>
+
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fgamemode%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=GameMode%e6%b8%b8%e6%88%8f%e6%a8%a1%e5%bc%8f&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgamemode%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgamemode%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgamemode%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgamemode%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgamemode%2f
+			&title=GameMode%e6%b8%b8%e6%88%8f%e6%a8%a1%e5%bc%8f&summary=%e5%b9%b3%e8%a1%8c%e4%b8%96%e7%95%8c%ef%bc%9fWorld%20UE%e4%b8%ad%e6%9c%89%e4%b8%89%e4%b8%aa%e4%b8%96%e7%95%8c%0a%e6%b8%b8%e6%88%8f%e4%b8%96%e7%95%8c%20%e7%bc%96%e8%be%91%e5%99%a8%e4%b8%96%e7%95%8c%20%e9%a2%84%e8%a7%88%e4%b8%96%e7%95%8c%20%e5%85%b3%e5%8d%a1%e8%93%9d%e5%9b%be-%e5%ae%9a%e4%b9%89%e5%85%b3%e5%8d%a1%e8%a7%84%e5%88%99%0aUGameInstance%20%e5%ad%98%e5%9c%a8%e4%ba%8e%e6%b8%b8%e6%88%8f%e7%9a%84%e6%95%b4%e4%b8%aa%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e4%b8%ad%20%e4%b8%8d%e4%bc%9a%e9%9a%8f%e7%9d%80%e5%9c%b0%e5%9b%be%e5%88%87%e6%8d%a2%20%e9%94%80%e6%af%81%20%e9%80%82%e5%90%88%e4%b8%9a%e5%8a%a1%e5%85%a8%e5%b1%80%e7%ae%a1%e7%90%86%e6%93%8d%e4%bd%9c%ef%bc%8cUengine%20%e7%ae%a1%e7%90%86%20GameInstance%0a%e6%b8%b8%e6%88%8f%e4%b8%ad%e6%9c%80%e9%87%8d%e8%a6%81%e7%9a%84%e5%ae%9e%e4%bd%93AActor%20AActor%20%e6%a0%87%e5%bf%97%e6%89%80%e6%9c%89%e6%9d%83%e7%9a%84Owner%e6%8c%87%e9%92%88%ef%bc%8c%e6%a0%87%e5%bf%97%e6%9c%ac%e5%9c%b0%e6%9d%83%e9%99%90%e7%9a%84Role%e6%9e%9a%e4%b8%be%ef%bc%8c%e4%bd%9c%e4%b8%ba%e7%bd%91%e6%a0%bc%e5%90%8c%e6%ad%a5%e7%9a%84%e5%9f%ba%e7%a1%80%e5%8d%95%e4%bd%8d%ef%bc%8c%e6%a0%b9%e7%bb%84%e4%bb%b6%e6%8f%90%e4%be%9b%e4%b8%96%e7%95%8c%e5%8f%98%e5%8c%96%e4%bf%a1%e6%81%af%0aActor%e4%b8%8d%e5%8f%aa%e6%98%af3D%e4%b8%ad%e7%9a%84%e8%a1%a8%e7%a4%ba%ef%bc%8c%e4%b8%80%e4%ba%9b%e4%b8%8d%e5%8f%af%e8%a7%81%e5%af%b9%e8%b1%a1%e4%b9%9f%e5%8f%af%e4%bb%a5%e6%98%afActor%ef%bc%8c%e5%a6%82AInfo%ef%bc%88%e6%b4%be%e7%94%9f%e7%b1%bbAworldsetting%ef%bc%8cAGameMode%ef%bc%8cAgameState%26hellip%3b%ef%bc%89%0aActor%e5%9c%a8UE%e4%b8%ad%e5%b0%b1%e5%83%8f%e6%98%af%e4%b8%96%e7%95%8c%e9%87%8c%e7%9a%84%e5%85%83%e7%b4%a0%0aComponent%20%e6%98%af%20Actor%20%e7%9a%84%e7%bb%84%e6%88%90%e9%83%a8%e5%88%86%ef%bc%8c%e7%94%a8%e4%ba%8e%e5%ae%9a%e4%b9%89%20Actor%20%e7%9a%84%e7%89%b9%e6%80%a7%e5%92%8c%e8%a1%8c%e4%b8%ba%0aRootComponent%e6%98%afActor%e7%9a%84%e6%a0%b8%e5%bf%83%e7%bb%84%e4%bb%b6%ef%bc%8c%e5%86%b3%e5%ae%9a%e4%ba%86Actor%e5%9c%a8%e5%9c%ba%e6%99%af%e4%b8%ad%e7%9a%84%e4%bd%8d%e7%bd%ae%e3%80%81%e6%97%8b%e8%bd%ac%e5%92%8c%e7%bc%a9%e6%94%be%20SceneComponent%20%e6%98%af%e4%b8%80%e4%b8%aa%e5%9f%ba%e7%a1%80%e7%bb%84%e4%bb%b6%ef%bc%8c%e4%b8%bb%e8%a6%81%e7%94%a8%e4%ba%8e%e5%ae%9a%e4%b9%89%e5%9c%ba%e6%99%af%e4%b8%ad%e5%af%b9%e8%b1%a1%e7%9a%84%e4%bd%8d%e7%bd%ae%e3%80%81%e6%97%8b%e8%bd%ac%e5%92%8c%e7%bc%a9%e6%94%be%e3%80%82%e5%ae%83%e6%9c%ac%e8%ba%ab%e6%98%af%e4%b8%80%e4%b8%aa%e6%8a%bd%e8%b1%a1%e7%bb%84%e4%bb%b6%ef%bc%8c%e4%b8%8d%e4%bc%9a%e7%9b%b4%e6%8e%a5%e6%b8%b2%e6%9f%93%e6%88%96%e6%98%be%e7%a4%ba%e3%80%82%20Actor%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e8%af%a6%e8%a7%a3%0a%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f1%0aactor%e5%88%86%e4%b8%ba%0a%e9%9d%99%e6%80%81%e7%9a%84actor%20-%20%e5%9c%a8%e5%85%b3%e5%8d%a1%e7%bc%96%e8%be%91%e5%99%a8%e9%87%8c%e7%9b%b4%e6%8e%a5%e6%94%be%e7%bd%ae%e7%9a%84Actor%20%e5%8a%a8%e6%80%81%e5%88%9b%e5%bb%ba%e7%9a%84actor%ef%bc%88spawnActor%ef%bc%89%20-%20%e9%80%9a%e8%bf%87%e4%bb%a3%e7%a0%81%e6%88%96%e8%93%9d%e5%9b%be%e5%9c%a8%e8%bf%90%e8%a1%8c%e6%97%b6%e5%8a%a8%e6%80%81%e7%94%9f%e6%88%90%e7%9a%84%20Actor%20%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f2%20%e9%87%8d%e8%a6%81%e7%9a%84%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e5%87%bd%e6%95%b0%0aBeginPlay%20-%20%e5%9c%a8Actor%e6%bf%80%e6%b4%bb%e6%97%b6%e8%b0%83%e7%94%a8%20%e5%88%9d%e5%a7%8b%e5%8c%96%0aTick%20-%20%e6%af%8f%e5%b8%a7%e8%b0%83%e7%94%a8%e4%b8%80%e6%ac%a1%20%e5%a4%84%e7%90%86%e9%80%bb%e8%be%91%0aEndPlay%20-%20%e5%9c%a8Actor%e5%8d%b3%e5%b0%86%e9%94%80%e6%af%81%e6%97%b6%e8%b0%83%e7%94%a8%20%e6%b8%85%e7%90%86%e8%b5%84%e6%ba%90%0a%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f3%20GC%e5%ae%8c%e6%88%90%e6%94%b6%e5%b0%be%20%e6%b3%a8%e6%84%8f%e6%9c%89%e6%95%88%e6%80%a7%e7%9a%84%e5%88%a4%e6%96%ad%0aif%20%28IsValid%28MyActor%29%29%20%7b%20%2f%2f%20Actor%20%e6%9c%89%e6%95%88%20%7d%20if%20%28MyActor%20%26amp%3b%26amp%3b%20%21MyActor-%26gt%3bIsPendingKill%28%29%29%20%7b%20%2f%2f%20Actor%20%e6%b2%a1%e6%9c%89%e8%a2%ab%e6%a0%87%e8%ae%b0%e4%b8%ba%e9%94%80%e6%af%81%20%7d%20isPendingKill%e6%98%af%e5%90%a6%e5%b7%b2%e8%a2%ab%e6%a0%87%e8%ae%b0%e4%b8%ba%e5%8d%b3%e5%b0%86%e9%94%80%e6%af%81%ef%bc%8c%e4%bd%86%e5%b0%9a%e6%9c%aa%e8%a2%ab%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6%e7%b3%bb%e7%bb%9f%ef%bc%88GC%ef%bc%89%e5%ae%8c%e5%85%a8%e7%a7%bb%e9%99%a4%e3%80%82&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=GameMode%e6%b8%b8%e6%88%8f%e6%a8%a1%e5%bc%8f&amp;body=Check out this site http%3a%2f%2flocalhost%3a1313%2fposts%2fgamemode%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+<script async src="https://cse.google.com/cse.js?cx=google-search-code"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+
+
+<footer class="footer has-background-dark">
+    <div class="content has-text-centered has-text-white">
+        <p>
+            © 2020 Ramium. Powered by
+            <a class="has-text-light" href="https://github.com/gohugoio/hugo" target="_blank">
+            Hugo</a>. Theme
+            <a class="has-text-light" href="https://github.com/rafed123/ramium/" target="_blank">
+                Ramium.
+            </a>
+        </p>
+    </div>
+</footer>
+
+<div id="particles-js"></div>
+    <script src="/background/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/background/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>
