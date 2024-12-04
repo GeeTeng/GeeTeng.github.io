@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>
+    FirstPersonLocomotion | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="第一人称角色移动 提升游戏角色的运动表现和玩家的操作体验
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/ue%E5%AD%A6%E4%B9%A0/firstpersonlocomotion/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="FirstPersonLocomotion">
+  <meta property="og:description" content="第一人称角色移动 提升游戏角色的运动表现和玩家的操作体验">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-12-04T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-12-04T00:00:00+00:00">
+    <meta property="article:tag" content="UE5">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="FirstPersonLocomotion">
+  <meta name="twitter:description" content="第一人称角色移动 提升游戏角色的运动表现和玩家的操作体验">
+
+
+  <meta itemprop="name" content="FirstPersonLocomotion">
+  <meta itemprop="description" content="第一人称角色移动 提升游戏角色的运动表现和玩家的操作体验">
+  <meta itemprop="datePublished" content="2024-12-04T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-12-04T00:00:00+00:00">
+  <meta itemprop="wordCount" content="40">
+  <meta itemprop="keywords" content="UE5">
+<link rel="canonical" href="https://geeteng.github.io/posts/ue%E5%AD%A6%E4%B9%A0/firstpersonlocomotion/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        <div id="page-body" class="column is-7">
+
+<div class="content blog">
+    <h1>FirstPersonLocomotion</h1>
+
+    <div id="infobar" class="level is-mobile">
+        <div class="level-left">
+            
+            <div class="level-item">
+                <p class="subtitle info date">Dec 4, 2024
+                </p>
+            </div>
+            
+
+            <div class="level-item">
+                <p class="subtitle info">
+                    4 mins read
+                </p>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            <div class="tags">
+                
+                <a class="tag is-dark is-rounded" href="/tags/ue5">UE5</a>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="tags is-hidden-desktop">
+        
+        <a class="tag is-dark is-rounded" href="/tags/ue5">Ue5</a>
+        
+    </div>
+
+    <div class="blog-text">
+        
+
+        <h3 id="第一人称移动">第一人称移动</h3>
+<h4 id="1-二段跳">1 二段跳</h4>
+<p><code>DoN</code>是Do Once Node，主要用于确保某个操作在特定条件下只执行一次，<strong>避免多次触发</strong>。</p>
+<p><strong><code>LaunchCharacter</code></strong> 的作用是用来给角色施加一个即时的力（速度向量），通常用于实现跳跃、飞行、冲刺等效果。它通过改变角色的速度或者施加一个加速度，使得角色在特定方向上做出瞬时的移动， Z方向900的速度。</p>
+<p><strong><code>EventOnLanded</code></strong> 是 Unreal Engine 中的一种事件，通常用于在角色或物体着陆时触发特定的操作或行为。</p>
+<p>设置后发现第二段跳跃会下降速度慢，所以更改CharacterMovement右侧面板中的GravityScale值为更大。</p>
+<p><img src="/images/UE%E5%AD%A6%E4%B9%A0/%E4%BA%BA%E7%89%A9%E7%A7%BB%E5%8A%A8/Jump.png" alt="Jump"></p>
+<hr>
+<h4 id="2加速带">2.加速带</h4>
+<p>新增一个检测与加速带接触的胶囊体CapsuleCollision，调整大小为角色碰撞体大小。新增一个Boolean值isWallRunning代表是在加速状态，Vector向量代表角色方向</p>
+<p>如果碰撞到tag为加速带并且不在地面上（isFalling状态）的时候就执行加速动作，设置重力大小为0，速度为2000。</p>
+<p>如果离开加速带的时候，停止加速，同时要恢复重力。</p>
+<p><strong><code>Sequence</code>（序列）</strong> 是一种控制流节点，它允许你在一个蓝图中按顺序执行多个动作。Sequence 节点会按照顺序依次执行它连接的输出，并且可以输出多个执行线路。</p>
+<p><strong><code>playerDirection</code></strong> 通常是一个用来表示玩家（Player）朝向或方向的变量。</p>
+<p>判断加速带方向向量和角色方向向量叉乘是否&lt;0，代表是加速带的反方向。&gt;0的时候会返回1，&lt;0会返回-1，将结果与加速带的方向向量相乘。如果与加速带方向相同则向加速带方向加速，如果与加速带方向相反，就往反方向加速。</p>
+<p><img src="/images/UE%E5%AD%A6%E4%B9%A0/%E4%BA%BA%E7%89%A9%E7%A7%BB%E5%8A%A8/WallRunning01.png" alt="WallRunning01"></p>
+<p><img src="/images/UE%E5%AD%A6%E4%B9%A0/%E4%BA%BA%E7%89%A9%E7%A7%BB%E5%8A%A8/WallRunning02.png" alt="WallRunning02"></p>
+<p>设置在游戏开始时的重力为Old Gravity Scale 为了方便加速后恢复原始速度。</p>
+<p><img src="/images/UE%E5%AD%A6%E4%B9%A0/%E4%BA%BA%E7%89%A9%E7%A7%BB%E5%8A%A8/BeginPlay.png" alt="BeginPlay"></p>
+<p>新建加速带的左碰撞体右碰撞体，原因是在加速带上的时候，角色是垂直的，绝对会有一侧碰撞体碰撞到加速带。</p>
+<p>这个时候插值过渡一下摄像机的方向转化动画，新建一个Float Track</p>
+<p><strong><code>Get Control Rotation</code></strong> 用于调整摄像机的视角。</p>
+<p><strong><code>Get Actor Rotation</code></strong> 用于调整角色的实际朝向。</p>
+<p><img src="/images/UE%E5%AD%A6%E4%B9%A0/%E4%BA%BA%E7%89%A9%E7%A7%BB%E5%8A%A8/RotateCameraTimeLine.png" alt="RotateCameraTimeLine"></p>
+<p><img src="/images/UE%E5%AD%A6%E4%B9%A0/%E4%BA%BA%E7%89%A9%E7%A7%BB%E5%8A%A8/CameraRotateOnWallRun.png" alt="CameraRotateOnWallRun"></p>
+
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%25E5%25AD%25A6%25E4%25B9%25A0%2ffirstpersonlocomotion%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=FirstPersonLocomotion&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%25E5%25AD%25A6%25E4%25B9%25A0%2ffirstpersonlocomotion%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%25E5%25AD%25A6%25E4%25B9%25A0%2ffirstpersonlocomotion%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%25E5%25AD%25A6%25E4%25B9%25A0%2ffirstpersonlocomotion%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%25E5%25AD%25A6%25E4%25B9%25A0%2ffirstpersonlocomotion%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%25E5%25AD%25A6%25E4%25B9%25A0%2ffirstpersonlocomotion%2f
+			&title=FirstPersonLocomotion&summary=%e7%ac%ac%e4%b8%80%e4%ba%ba%e7%a7%b0%e7%a7%bb%e5%8a%a8%201%20%e4%ba%8c%e6%ae%b5%e8%b7%b3%20DoN%e6%98%afDo%20Once%20Node%ef%bc%8c%e4%b8%bb%e8%a6%81%e7%94%a8%e4%ba%8e%e7%a1%ae%e4%bf%9d%e6%9f%90%e4%b8%aa%e6%93%8d%e4%bd%9c%e5%9c%a8%e7%89%b9%e5%ae%9a%e6%9d%a1%e4%bb%b6%e4%b8%8b%e5%8f%aa%e6%89%a7%e8%a1%8c%e4%b8%80%e6%ac%a1%ef%bc%8c%e9%81%bf%e5%85%8d%e5%a4%9a%e6%ac%a1%e8%a7%a6%e5%8f%91%e3%80%82%0aLaunchCharacter%20%e7%9a%84%e4%bd%9c%e7%94%a8%e6%98%af%e7%94%a8%e6%9d%a5%e7%bb%99%e8%a7%92%e8%89%b2%e6%96%bd%e5%8a%a0%e4%b8%80%e4%b8%aa%e5%8d%b3%e6%97%b6%e7%9a%84%e5%8a%9b%ef%bc%88%e9%80%9f%e5%ba%a6%e5%90%91%e9%87%8f%ef%bc%89%ef%bc%8c%e9%80%9a%e5%b8%b8%e7%94%a8%e4%ba%8e%e5%ae%9e%e7%8e%b0%e8%b7%b3%e8%b7%83%e3%80%81%e9%a3%9e%e8%a1%8c%e3%80%81%e5%86%b2%e5%88%ba%e7%ad%89%e6%95%88%e6%9e%9c%e3%80%82%e5%ae%83%e9%80%9a%e8%bf%87%e6%94%b9%e5%8f%98%e8%a7%92%e8%89%b2%e7%9a%84%e9%80%9f%e5%ba%a6%e6%88%96%e8%80%85%e6%96%bd%e5%8a%a0%e4%b8%80%e4%b8%aa%e5%8a%a0%e9%80%9f%e5%ba%a6%ef%bc%8c%e4%bd%bf%e5%be%97%e8%a7%92%e8%89%b2%e5%9c%a8%e7%89%b9%e5%ae%9a%e6%96%b9%e5%90%91%e4%b8%8a%e5%81%9a%e5%87%ba%e7%9e%ac%e6%97%b6%e7%9a%84%e7%a7%bb%e5%8a%a8%ef%bc%8c%20Z%e6%96%b9%e5%90%91900%e7%9a%84%e9%80%9f%e5%ba%a6%e3%80%82%0aEventOnLanded%20%e6%98%af%20Unreal%20Engine%20%e4%b8%ad%e7%9a%84%e4%b8%80%e7%a7%8d%e4%ba%8b%e4%bb%b6%ef%bc%8c%e9%80%9a%e5%b8%b8%e7%94%a8%e4%ba%8e%e5%9c%a8%e8%a7%92%e8%89%b2%e6%88%96%e7%89%a9%e4%bd%93%e7%9d%80%e9%99%86%e6%97%b6%e8%a7%a6%e5%8f%91%e7%89%b9%e5%ae%9a%e7%9a%84%e6%93%8d%e4%bd%9c%e6%88%96%e8%a1%8c%e4%b8%ba%e3%80%82%0a%e8%ae%be%e7%bd%ae%e5%90%8e%e5%8f%91%e7%8e%b0%e7%ac%ac%e4%ba%8c%e6%ae%b5%e8%b7%b3%e8%b7%83%e4%bc%9a%e4%b8%8b%e9%99%8d%e9%80%9f%e5%ba%a6%e6%85%a2%ef%bc%8c%e6%89%80%e4%bb%a5%e6%9b%b4%e6%94%b9CharacterMovement%e5%8f%b3%e4%be%a7%e9%9d%a2%e6%9d%bf%e4%b8%ad%e7%9a%84GravityScale%e5%80%bc%e4%b8%ba%e6%9b%b4%e5%a4%a7%e3%80%82%0a2.%e5%8a%a0%e9%80%9f%e5%b8%a6%20%e6%96%b0%e5%a2%9e%e4%b8%80%e4%b8%aa%e6%a3%80%e6%b5%8b%e4%b8%8e%e5%8a%a0%e9%80%9f%e5%b8%a6%e6%8e%a5%e8%a7%a6%e7%9a%84%e8%83%b6%e5%9b%8a%e4%bd%93CapsuleCollision%ef%bc%8c%e8%b0%83%e6%95%b4%e5%a4%a7%e5%b0%8f%e4%b8%ba%e8%a7%92%e8%89%b2%e7%a2%b0%e6%92%9e%e4%bd%93%e5%a4%a7%e5%b0%8f%e3%80%82%e6%96%b0%e5%a2%9e%e4%b8%80%e4%b8%aaBoolean%e5%80%bcisWallRunning%e4%bb%a3%e8%a1%a8%e6%98%af%e5%9c%a8%e5%8a%a0%e9%80%9f%e7%8a%b6%e6%80%81%ef%bc%8cVector%e5%90%91%e9%87%8f%e4%bb%a3%e8%a1%a8%e8%a7%92%e8%89%b2%e6%96%b9%e5%90%91%0a%e5%a6%82%e6%9e%9c%e7%a2%b0%e6%92%9e%e5%88%b0tag%e4%b8%ba%e5%8a%a0%e9%80%9f%e5%b8%a6%e5%b9%b6%e4%b8%94%e4%b8%8d%e5%9c%a8%e5%9c%b0%e9%9d%a2%e4%b8%8a%ef%bc%88isFalling%e7%8a%b6%e6%80%81%ef%bc%89%e7%9a%84%e6%97%b6%e5%80%99%e5%b0%b1%e6%89%a7%e8%a1%8c%e5%8a%a0%e9%80%9f%e5%8a%a8%e4%bd%9c%ef%bc%8c%e8%ae%be%e7%bd%ae%e9%87%8d%e5%8a%9b%e5%a4%a7%e5%b0%8f%e4%b8%ba0%ef%bc%8c%e9%80%9f%e5%ba%a6%e4%b8%ba2000%e3%80%82%0a%e5%a6%82%e6%9e%9c%e7%a6%bb%e5%bc%80%e5%8a%a0%e9%80%9f%e5%b8%a6%e7%9a%84%e6%97%b6%e5%80%99%ef%bc%8c%e5%81%9c%e6%ad%a2%e5%8a%a0%e9%80%9f%ef%bc%8c%e5%90%8c%e6%97%b6%e8%a6%81%e6%81%a2%e5%a4%8d%e9%87%8d%e5%8a%9b%e3%80%82%0aSequence%ef%bc%88%e5%ba%8f%e5%88%97%ef%bc%89%20%e6%98%af%e4%b8%80%e7%a7%8d%e6%8e%a7%e5%88%b6%e6%b5%81%e8%8a%82%e7%82%b9%ef%bc%8c%e5%ae%83%e5%85%81%e8%ae%b8%e4%bd%a0%e5%9c%a8%e4%b8%80%e4%b8%aa%e8%93%9d%e5%9b%be%e4%b8%ad%e6%8c%89%e9%a1%ba%e5%ba%8f%e6%89%a7%e8%a1%8c%e5%a4%9a%e4%b8%aa%e5%8a%a8%e4%bd%9c%e3%80%82Sequence%20%e8%8a%82%e7%82%b9%e4%bc%9a%e6%8c%89%e7%85%a7%e9%a1%ba%e5%ba%8f%e4%be%9d%e6%ac%a1%e6%89%a7%e8%a1%8c%e5%ae%83%e8%bf%9e%e6%8e%a5%e7%9a%84%e8%be%93%e5%87%ba%ef%bc%8c%e5%b9%b6%e4%b8%94%e5%8f%af%e4%bb%a5%e8%be%93%e5%87%ba%e5%a4%9a%e4%b8%aa%e6%89%a7%e8%a1%8c%e7%ba%bf%e8%b7%af%e3%80%82%0aplayerDirection%20%e9%80%9a%e5%b8%b8%e6%98%af%e4%b8%80%e4%b8%aa%e7%94%a8%e6%9d%a5%e8%a1%a8%e7%a4%ba%e7%8e%a9%e5%ae%b6%ef%bc%88Player%ef%bc%89%e6%9c%9d%e5%90%91%e6%88%96%e6%96%b9%e5%90%91%e7%9a%84%e5%8f%98%e9%87%8f%e3%80%82%0a%e5%88%a4%e6%96%ad%e5%8a%a0%e9%80%9f%e5%b8%a6%e6%96%b9%e5%90%91%e5%90%91%e9%87%8f%e5%92%8c%e8%a7%92%e8%89%b2%e6%96%b9%e5%90%91%e5%90%91%e9%87%8f%e5%8f%89%e4%b9%98%e6%98%af%e5%90%a6%26lt%3b0%ef%bc%8c%e4%bb%a3%e8%a1%a8%e6%98%af%e5%8a%a0%e9%80%9f%e5%b8%a6%e7%9a%84%e5%8f%8d%e6%96%b9%e5%90%91%e3%80%82%26gt%3b0%e7%9a%84%e6%97%b6%e5%80%99%e4%bc%9a%e8%bf%94%e5%9b%9e1%ef%bc%8c%26lt%3b0%e4%bc%9a%e8%bf%94%e5%9b%9e-1%ef%bc%8c%e5%b0%86%e7%bb%93%e6%9e%9c%e4%b8%8e%e5%8a%a0%e9%80%9f%e5%b8%a6%e7%9a%84%e6%96%b9%e5%90%91%e5%90%91%e9%87%8f%e7%9b%b8%e4%b9%98%e3%80%82%e5%a6%82%e6%9e%9c%e4%b8%8e%e5%8a%a0%e9%80%9f%e5%b8%a6%e6%96%b9%e5%90%91%e7%9b%b8%e5%90%8c%e5%88%99%e5%90%91%e5%8a%a0%e9%80%9f%e5%b8%a6%e6%96%b9%e5%90%91%e5%8a%a0%e9%80%9f%ef%bc%8c%e5%a6%82%e6%9e%9c%e4%b8%8e%e5%8a%a0%e9%80%9f%e5%b8%a6%e6%96%b9%e5%90%91%e7%9b%b8%e5%8f%8d%ef%bc%8c%e5%b0%b1%e5%be%80%e5%8f%8d%e6%96%b9%e5%90%91%e5%8a%a0%e9%80%9f%e3%80%82%0a%e8%ae%be%e7%bd%ae%e5%9c%a8%e6%b8%b8%e6%88%8f%e5%bc%80%e5%a7%8b%e6%97%b6%e7%9a%84%e9%87%8d%e5%8a%9b%e4%b8%baOld%20Gravity%20Scale%20%e4%b8%ba%e4%ba%86%e6%96%b9%e4%be%bf%e5%8a%a0%e9%80%9f%e5%90%8e%e6%81%a2%e5%a4%8d%e5%8e%9f%e5%a7%8b%e9%80%9f%e5%ba%a6%e3%80%82%0a%e6%96%b0%e5%bb%ba%e5%8a%a0%e9%80%9f%e5%b8%a6%e7%9a%84%e5%b7%a6%e7%a2%b0%e6%92%9e%e4%bd%93%e5%8f%b3%e7%a2%b0%e6%92%9e%e4%bd%93%ef%bc%8c%e5%8e%9f%e5%9b%a0%e6%98%af%e5%9c%a8%e5%8a%a0%e9%80%9f%e5%b8%a6%e4%b8%8a%e7%9a%84%e6%97%b6%e5%80%99%ef%bc%8c%e8%a7%92%e8%89%b2%e6%98%af%e5%9e%82%e7%9b%b4%e7%9a%84%ef%bc%8c%e7%bb%9d%e5%af%b9%e4%bc%9a%e6%9c%89%e4%b8%80%e4%be%a7%e7%a2%b0%e6%92%9e%e4%bd%93%e7%a2%b0%e6%92%9e%e5%88%b0%e5%8a%a0%e9%80%9f%e5%b8%a6%e3%80%82%0a%e8%bf%99%e4%b8%aa%e6%97%b6%e5%80%99%e6%8f%92%e5%80%bc%e8%bf%87%e6%b8%a1%e4%b8%80%e4%b8%8b%e6%91%84%e5%83%8f%e6%9c%ba%e7%9a%84%e6%96%b9%e5%90%91%e8%bd%ac%e5%8c%96%e5%8a%a8%e7%94%bb%ef%bc%8c%e6%96%b0%e5%bb%ba%e4%b8%80%e4%b8%aaFloat%20Track%0aGet%20Control%20Rotation%20%e7%94%a8%e4%ba%8e%e8%b0%83%e6%95%b4%e6%91%84%e5%83%8f%e6%9c%ba%e7%9a%84%e8%a7%86%e8%a7%92%e3%80%82%0aGet%20Actor%20Rotation%20%e7%94%a8%e4%ba%8e%e8%b0%83%e6%95%b4%e8%a7%92%e8%89%b2%e7%9a%84%e5%ae%9e%e9%99%85%e6%9c%9d%e5%90%91%e3%80%82&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=FirstPersonLocomotion&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fue%25E5%25AD%25A6%25E4%25B9%25A0%2ffirstpersonlocomotion%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+<script async src="https://cse.google.com/cse.js?cx=google-search-code"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+
+
+<footer class="footer has-background-dark">
+    <div class="content has-text-centered has-text-white">
+        <p>
+            © 2024 GeeTeng.My
+            <a class="has-text-light" href="https://github.com/GeeTeng" target="_blank">
+            GitHub</a>. 
+
+	    Email: 15143483@qq.com
+        </p>
+    </div>
+</footer>
+
+<div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>
