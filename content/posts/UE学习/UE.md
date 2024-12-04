@@ -188,3 +188,59 @@ void UMyAnimInstance::NativeUpdateAnimation(float DeltaTime)
 双击这两种状态 如果速度大于0则切换到奔跑状态 速度等于0则切换到静止状态
 
 ---
+
+#### TArray
+
+虚幻开始于1998年，当时C++标准库十分争议
+
+游戏行业对性能敏感，所以自己实现了TArray和TMap
+
+**TArray是动态大小，相当于Vector**
+
+**可以快速插入、删除、查找、迭代器遍历元素**
+
+---
+
+#### LineTrace（线追踪）
+
+是一种让游戏告诉你在游戏世界中两点之间是否有任何东西存在的方式，在两点之间射出一条由你指定的光线，并返回被击中的物体、被击中的位置、角度等。
+
+在Tick里面调用LineTraceActor->CanSeeActor
+
+---
+
+#### MultipleLineTrace
+
+返回的是`TArray<FHitResult>`
+
+会将Overlay和第一个Block放入TArray中
+
+---
+
+#### 组件的分类
+
+- USceneComponent：包含了位置、旋转和缩放信息，并用于构建层次结构。许多其他组件都从它派生。
+- UStaticMeshComponent：显示静态网格，继承于USceneComponent，设置模型材质等属性。
+- UCollisionComponent：处理物体之间的碰撞检测，允许定义碰撞形状、碰撞响应等。
+- UAudioComponent：用于播放声音效果，它可以加载并播放音频文件，控制音量、速度等参数。
+- UParticleSystemComponent：用于创建粒子特效，生成各种特性，管理效果。
+- UInputComponent：处理用户输入，允许绑定输入事件并响应用户的按键、鼠标移动等操作。
+- UCameraComponent：用于添加摄像机视角控制，可以设置视角参数。
+- UWidgetComponent：用于将用户界面嵌入到游戏世界中，创建交互式界面。
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
