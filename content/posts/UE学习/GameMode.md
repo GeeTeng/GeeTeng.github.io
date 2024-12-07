@@ -8,7 +8,11 @@ math: true
 chordsheet: true
 ---
 
+### 笔记
+
 ---
+
+
 
 #### 平行世界？World
 
@@ -237,4 +241,573 @@ playerState Character、Controller的职责区别
 毒圈和空投是全局信息，在服务器存储，客户端需要同步给所有玩家
 
 需要同步给所有玩家，同步半径变化，毒圈缩小等，
+
+---
+
+### 作业
+
+---
+
+创建一个空项目，新建C++Character类。
+
+#### 创建摄像机
+
+**PlayerCharaCharacter.h**文件
+
+```c++
+#include <GameFramework/SpringArmComponent.h>
+class UCameraComponent;
+
+protected:
+	UPROPERTY(VisibleAnywhere)
+	USpringArmComponent* SpringArmComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	UCameraComponent* CameraComponent;
+```
+
+**PlayerCharaCharacter.cpp**文件
+
+```c++
+#include "Camera/CameraComponent.h"
+APlayerCharacter::APlayerCharacter()
+{
+	PrimaryActorTick.bCanEverTick = false;
+
+	/* camera boom */ 
+	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>("SpringArmComponent");
+	SpringArmComponent->SetupAttachment(RootComponent);
+	SpringArmComponent->TargetArmLength = 180.0f;
+	SpringArmComponent->bUsePawnControlRotation = true;
+
+	/* camera */
+	CameraComponent = CreateDefaultSubobject<UCameraComponent>("CameraComponent");
+	CameraComponent->SetupAttachment(SpringArmComponent, USpringArmComponent::SocketName);
+	CameraComponent->bUsePawnControlRotation = false;
+}
+```
+
+红色线是摄像机杆，之所以设置这个位置是为了在制作的过程中可以更方便观察角色，后面会改动至第一人称位置。
+
+设置 Spring Arm（弹簧臂）组件，使其跟随玩家角色的旋转。当角色转动时，Spring Arm 会自动旋转，保持与角色的相对位置。
+
+设置相机不随人物旋转，让视角保持固定位置。
+
+![Camera](/images/GameMode/Camera.png)
+
+---
+
+#### 角色移动增强输入
+
+创建InputAction(IA_Look和IA_Move)和InputMappingContext，并设置如下图。
+
+![EnhancedInput](/images/GameMode/EnhancedInput.png)
+
+**PlayerCharaCharacter.h**文件
+
+```c++
+#include "InputActionValue.h"
+protected:
+	void Move(const FInputActionValue& Value);
+	void Look(const FInputActionValue& Value);
+
+private:
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input", meta = (AllowPrivateAccess = "true"))
+	class UInputMappingContext* DefaultMappingContext;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input", meta = (AllowPrivateAccess = "true"))
+	class UInputAction* MoveAction;
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Enhanced Input", meta = (AllowPrivateAccess = "true"))
+	class UInputAction* LookAction;
+```
+
+**PlayerCharaCharacter.cpp**文件
+
+```c++
+#include "EnhancedInputComponent.h"
+#include "EnhancedInputSubsystems.h"
+void APlayerCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+	if (const ULocalPlayer* Player = (GEngine && GetWorld()) ? GEngine->GetFirstGamePlayer(GetWorld()) : nullptr) 
+    {
+		UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(Player);
+		if (DefaultMappingContext) 
+        {
+			Subsystem->AddMappingContext(DefaultMappingContext, 0);
+		}
+	}
+}
+
+void APlayerCharacter::Move(const FInputActionValue& Value)
+{
+	FVector2D MoveVector = Value.Get<FVector2D>();
+	if (Controller) 
+    {
+		// 获取控制器的旋转角度
+		const FRotator Rotation = Controller->GetControlRotation();
+		// 提取Yaw 水平旋转角度
+		const FRotator YawRotation(0, Rotation.Yaw, 0);
+		// 根据旋转角度计算前进方向
+		// FRotationMatrix(YawRotation) 会生成一个旋转矩阵，表示角色的旋转状态
+		// 通过 GetUnitAxis(EAxis::X)，我们从矩阵中获取角色在水平方向上的前进方向（即角色面朝的方向）
+		const FVector ForwardDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::X);
+		// 根据旋转角度计算右侧方向
+		const FVector RightDirection = FRotationMatrix(YawRotation).GetUnitAxis(EAxis::Y);
+		// 将输入的 X 值映射到角色的前进方向
+		AddMovementInput(ForwardDirection, MoveVector.X);
+		// 将输入的 Y 值映射到角色的右侧方向
+		AddMovementInput(RightDirection, MoveVector.Y);
+	}
+}
+
+void APlayerCharacter::Look(const FInputActionValue& Value)
+{
+	// 角色看向 视角旋转
+	FVector2D LookVector = Value.Get<FVector2D>();
+	if (Controller) 
+    {
+		AddControllerYawInput(-LookVector.X);
+		AddControllerPitchInput(LookVector.Y);
+	}
+}
+
+void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+	// 确保输入组件是增强输入组件 绑定InputAction
+	if (UEnhancedInputComponent* EnhancedInputComponent = CastChecked<UEnhancedInputComponent>(PlayerInputComponent)) {
+		EnhancedInputComponent->BindAction(LookAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Look);
+		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Move);
+		EnhancedInputComponent->BindAction(FireAction, ETriggerEvent::Triggered, this, &APlayerCharacter::Fire);
+	}
+}
+
+```
+
+---
+
+#### 角色动画
+
+完成人物的移动后，需要加上动画效果，应该让人物在静止的时候是一个自然的状态，跑动的时候是跑动的动画。
+
+新建一个C++ - AnimInstance类，并增加类的生命周期。
+
+PlayerAnimInstance.h文件
+
+```c++
+UCLASS()
+class FPSCPP_API UPlayerAnimInstance : public UAnimInstance
+{
+	GENERATED_BODY()
+
+	/* UAnimInstance类的虚函数 生命周期初始化 和 每一帧调用 */
+	virtual void NativeInitializeAnimation() override;
+	virtual void NativeUpdateAnimation(float DeltaTime) override;
+	
+	UPROPERTY(BlueprintReadOnly, Category = "Character", meta = (AllowPrivateAccess = "true"))
+	class APlayerCharacter* PlayerCharacter;
+
+	UPROPERTY(BlueprintReadOnly, Category = "Movement", meta = (AllowPrivateAccess = "true"))
+	float Speed;
+};
+```
+
+PlayerAnimInstance.cpp文件
+
+```c++
+#include "PlayerCharacter.h"
+#include "GameFramework/CharacterMovementComponent.h"
+
+void UPlayerAnimInstance::NativeInitializeAnimation()
+{
+	Super::NativeInitializeAnimation();
+
+	PlayerCharacter = Cast<APlayerCharacter>(TryGetPawnOwner());
+}
+
+void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
+{
+	Super::NativeUpdateAnimation(DeltaTime);
+	
+	if (PlayerCharacter == nullptr) return;
+    // 得到角色的速度 设置z方向速度为0 因为不需要
+	FVector Velocity = PlayerCharacter->GetVelocity();
+	Velocity.Z = 0.f;
+	Speed = Velocity.Size();
+}
+```
+
+创建一个ABP_AnimInstance蓝图继承PlayerAnimInstance，Target Skeleton选择玩家的骨骼
+
+创建BlendSpace1D用于平滑动画，选择玩家的骨骼。
+
+在BlendSpace中设置水平轴名称为Speed最大值为350，Loop勾选上。在AssetBrowser中找到人物的走路动画和跑步动画拖动到下方窗口中。可以使用ctrl + shift + 鼠标单击看效果。
+
+![BlendSpace1D](/images/GameMode/BlendSpace1D.png)
+
+在蓝图中创建一个状态机（StateMachine 命名为IdleWalkRun）指向Output Pose。
+
+双击进入到StateMachine中，新增一个状态IdleWalkRun，再次双击进去。
+
+![ABP_AnimInstance](/images/GameMode/ABP_AnimInstance.png)
+
+在角色蓝图中添加做好的AnimClass后，运行就可以看到角色有动画了，但是会发现鼠标移动转向的时候，角色的跑动方向也会发生变化。
+
+我希望只有键盘会操纵角色的移动朝向，而不是鼠标。
+
+![ControllerRotation01](/images/GameMode/ControllerRotation01.png)
+
+使角色的朝向与其移动的方向一致。
+
+![Movement](/images/GameMode/Movement.png)
+
+---
+
+#### 音效
+
+导入音效资源，选取喜欢的一些开枪射击音效，右键Creat Sound Cue，制作一个随机生成且混合起来的音效。
+
+这样音效就会从两组音效中随机挑出两个音效合成。当音源和听者之间的距离发生变化时，**Crossfade by Distance** 会动态调整不同音轨（或音频配置）的混合比例。
+
+![SourceRandom](/images/GameMode/SourceRandom.png)
+
+在这之前我们要创建一个InputAction-IA——Fire用于射击，方法与之前人物移动同理。
+
+**PlayerCharacter.h文件**
+
+```c++
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
+	class USoundCue* FireSoundEffect;
+
+```
+
+**PlayerCharacter.cpp文件**
+
+```c++
+#include "Sound/SoundCue.h"
+void APlayerCharacter::Fire(const FInputActionValue& Value)
+{
+	/* 开火声音 */ 
+	if (FireSoundEffect) 
+    {
+		UGameplayStatics::PlaySound2D(this, FireSoundEffect);
+	}
+}
+```
+
+编译后暴露给蓝图，在蓝图中添加制作的SoundCue
+
+![SoundCue](/images/GameMode/SoundCue.png)
+
+---
+
+#### 特效
+
+首先要找到开火的位置，在gun_barrel下新建一个Socket，将枪口位置命名为GunBarrelSocket，确认枪口的坐标轴X方向指向枪口正对位置。
+
+![e01d93502179c66d0006e93365bcde74_](/images/GameMode/GunSocket.png)
+
+**PlayerCharacter.h文件**
+
+```c++
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Combat")
+	class UParticleSystem* MuzzleFlash;
+```
+
+**PlayerCharacter.cpp文件 - Fire方法**
+
+```c++
+#include "Kismet/GameplayStatics.h"
+#include "Particles/ParticleSystem.h"
+#include "Engine/SkeletalMeshSocket.h"
+/* 获取开火枪口socket */ 
+	const USkeletalMeshSocket* GunBarrelSocket = GetMesh()->GetSocketByName("GunBarrelSocket");
+    if (GunBarrelSocket) 
+    {
+        const FTransform SocketTransform = GunBarrelSocket->GetSocketTransform(GetMesh());
+        /* 开火粒子特效 */ 
+        if (MuzzleFlash) {
+            UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), MuzzleFlash, SocketTransform);
+        }
+    }
+```
+
+在角色控制蓝图中添加特效
+
+![MuzzleFlash](/images/GameMode/MuzzleFlash.png)
+
+---
+
+#### 射线检测
+
+**PlayerCharacter.cpp文件 - Fire方法**
+
+```c++
+#include "DrawDebugHelpers.h"
+	/* LineTrace Hit */
+	// 存储碰撞结果
+	FHitResult HitRst;
+	// 开火位置为射线起始位置
+	const FVector Start{ SocketTransform.GetLocation() };
+	// 获取枪口的朝向 和 子弹发射的方向
+	const FQuat StartRotation{ SocketTransform.GetRotation() };
+	const FVector RotationAxis{ StartRotation.GetAxisX()};
+	// 确认射线的终点位置
+	const FVector End{ Start + RotationAxis * 500000.f };
+	// 碰撞结果 射线起始位置 射线终点位置 碰撞通道射线检测
+	GetWorld()->LineTraceSingleByChannel(HitRst, Start, End, ECollisionChannel::ECC_Visibility);
+
+	// 如果碰撞就发出一条描绘出来的射线
+	if (HitRst.bBlockingHit)
+	{
+		DrawDebugLine(GetWorld(), Start, End, FColor::Red, 0, 2);
+		DrawDebugSphere(GetWorld(), HitRst.Location, 10, 10, FColor::Blue, 0, 2);
+	}
+```
+
+![FireLineTrace](/images/GameMode/FireLineTrace.gif)
+
+增加弹道轨迹和碰撞到物体的特效，隐藏掉绘制的射线。
+
+在资源包中找到一个合适的弹道轨迹的Texture，新增一个Material材质，将Texture添加进去。
+
+新增一个Cascade Particle System，新增Target、Source，对各项进行一些设置，如：Target最小输入输出、最大输入输出、Lifetime、Required中的Material、Kill on Deativate、Kill on Completed等。
+
+![WeaponTrail](/images/GameMode/WeaponTrail.png)
+
+![ParticleSystem](/images/GameMode/ParticleSystem.png)
+
+**PlayerCharacter.cpp文件 - Fire方法**
+
+```c++
+	/* Impact Effect */ 
+	if (HitRst.bBlockingHit)
+	{
+		if (ImpactEffect) 
+		{
+			UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ImpactEffect, HitRst.Location);
+		}
+	}
+
+	/* 子弹发射轨迹 */
+	if (BeamParticles) 
+	{
+		FVector BeamEndPoint{ FVector::ZeroVector };
+
+		if (HitRst.bBlockingHit)
+		{
+			BeamEndPoint = HitRst.Location;
+		}
+
+		UParticleSystemComponent* Beam = UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), BeamParticles, SocketTransform);
+		if (Beam) 
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Beam->SetVectorParameter()"));
+			Beam->SetVectorParameter(FName("Target"), BeamEndPoint);
+		}
+
+	}
+```
+
+---
+
+#### 更改第一人称视角
+
+将角色蓝图中Pawn - Use Controller Rotation Yaw勾选
+
+将摄像机调整到人物的头部位置，Mesh - Owner No See勾选
+
+添加准星，新建HUD蓝图，在World Setting中设置HUD Class为新建的蓝图
+
+准星位置为屏幕大小 / 2 - 准星大小 / 2
+
+![CrossHUD](/images/GameMode/CrossHUD.png)
+
+更改发射位置，起点为枪口位置，终点为准星的屏幕坐标转化成世界坐标位置延长点。
+
+```c++
+    // 获取枪口位置（起点）
+    FVector Start = SocketTransform.GetLocation();
+    // 获取玩家控制器
+    APlayerController* PlayerController = GetWorld()->GetFirstPlayerController();
+    if (PlayerController)
+    {
+        // 获取屏幕中心准星位置
+        FVector2D ScreenCenter = FVector2D(GEngine->GameViewport->Viewport->GetSizeXY()) / 2;
+		// StartWorld 是由 DeprojectScreenPositionToWorld 函数赋值的
+        // 将屏幕空间中的位置（例如屏幕中心）转换为世界空间中的位置
+        FVector StartWorld, Direction;
+        // 将屏幕中心位置转换为世界空间中的位置和方向
+        if (PlayerController->DeprojectScreenPositionToWorld(ScreenCenter.X, ScreenCenter.Y, StartWorld, Direction))
+        {
+            FVector End = StartWorld + Direction * 10000.0f;
+            FHitResult HitRst;
+            GetWorld()->LineTraceSingleByChannel(HitRst, Start, End, ECollisionChannel::ECC_Visibility);
+        }
+    }
+```
+
+创建Cube蓝图类和C++类CubeBeShot，加入缩小方法和销毁方法
+
+```c++
+	// .h中
+	UFUNCTION(BlueprintCallable, Category = "Cube")
+	void Shrink();
+
+	UFUNCTION(BlueprintCallable, Category = "Cube")
+	void DestoryCube();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Shooting")
+	bool bHasBeenShotOnce = false;
+	// cpp中
+    void ACubeBeShot::Shrink()
+    {
+        FVector CurrentScale = GetActorScale3D();
+        SetActorScale3D(CurrentScale * 0.5f);
+    }
+
+    void ACubeBeShot::DestoryCube()
+    {
+        Destroy();
+    }
+```
+
+新建UserWidget蓝图类
+
+简单添加一个TextBlock组件
+
+![Score](/images/GameMode/Score.png)
+
+**PlayerUserWidget.h文件**
+
+```c++
+UPROPERTY(EditAnywhere, meta = (BindWidget))
+class UTextBlock* TextScore;
+
+// 获取当前分数并返回文本
+UFUNCTION(BlueprintCallable, Category = "UI")
+FText GetScoreText() const;
+```
+
+**PlayerUserWidget.cpp文件**
+
+写下获取玩家分数显示在屏幕上
+
+```C++
+FText UPlayerUserWidget::GetScoreText() const
+{
+    APlayerCharacter* Player = Cast<APlayerCharacter>(UGameplayStatics::GetPlayerCharacter(GetWorld(), 0));
+
+    if (Player)
+    {
+        return FText::AsNumber(Player->GetScore());
+    }
+
+    // 如果没有获取到玩家角色，返回 0
+    return FText::AsNumber(0);
+}
+```
+
+**PlayerCharacter.h文件**
+
+```c++
+protected:
+	float ShootCooldown = 0.2f;
+	float LastShootTime;
+public:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Score")
+    int32 AmountScore;
+
+    // 指向 ScoreWidget 的类引用
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "UI")
+    TSubclassOf<UPlayerUserWidget> UserWidgetClass;
+    // 增加分数的方法
+    UFUNCTION(BlueprintCallable, Category = "Score")
+    void AddScore(int32 Score);
+
+    // 获取分数的 getter 方法
+    UFUNCTION(BlueprintCallable, Category = "Score")
+    int32 GetScore() const;  // 返回分数
+    UPlayerUserWidget* ScoreWidget;
+```
+
+**PlayerCharacter.cpp文件 - Fire方法**
+
+```c++
+// 设置开火间隔 避免连续射击方块直接销毁
+float CurrentTime = GetWorld()->GetTimeSeconds();
+if(CurrentTime - LastShootTime < ShootCooldown) {
+        return;
+}
+LastShootTime = CurrentTime;
+
+	AActor* HitActor = HitRst.GetActor();
+    // 如果射线碰撞到物体
+    if (HitRst.bBlockingHit && HitActor->IsA(ACubeBeShot::StaticClass()))
+    {
+        ACubeBeShot* Cube = Cast<ACubeBeShot>(HitActor);
+        UE_LOG(LogTemp, Log, TEXT("Cube hit, bHasBeenShotOnce: %s"), Cube->bHasBeenShotOnce ? TEXT("True") : TEXT("False"));
+        if (Cube)
+        {
+            // 判断是否是第一次射击
+            if (!Cube->bHasBeenShotOnce)
+            {
+                // 第一次射击：缩小
+                Cube->Shrink();
+                // 标记被射击了一次
+                Cube->bHasBeenShotOnce = true;
+            }
+            else
+            {
+                // 第二次射击：销毁
+                // 随机生成 10 或 20 分
+                int32 RandomScore = FMath::RandBool() ? 10 : 20;;
+                AddScore(RandomScore);
+                Cube->DestoryCube();
+
+            }
+        }
+    }
+
+```
+
+在BeginPlay中绘制widget界面
+
+```c++
+if (UserWidgetClass)
+{
+    ScoreWidget = CreateWidget<UPlayerUserWidget>(GetWorld(), UserWidgetClass);
+    if (ScoreWidget) {
+        ScoreWidget->AddToViewport();
+    }
+}
+```
+
+以及得分方法
+
+```c++
+void APlayerCharacter::AddScore(int32 Score)
+{
+    AmountScore += Score;
+}
+int32 APlayerCharacter::GetScore() const
+{
+    return AmountScore;
+}
+```
+
+最终效果图如下
+
+![CubeScore](/images/GameMode/CubeScore.gif)
+
+本次作业遗留下的改进点：
+
+1. 在射击到Cube加分时，我使用的是随机生成一个分数，百分之五十的概率获取10分或者20分，如果更换成设置一些特殊的方块，比如其他颜色更大，就像游戏中的boss一样，每一个方块有自己的value，通过销毁然后获取value，效果会更好。
+
+2. Cube如果开启了Simulate Physics，第一次射击看不到缩小的效果，两次射击后直接销毁。所以我没有增加物理效果，之后有待研究这个问题。
+3. 人物从第三人称改成第一人称视角后，弹道轨迹变得很丑。
+4. 第一人称视角应该看到手臂和枪的样子，有待改进。
 
