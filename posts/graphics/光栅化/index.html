@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>
+    光栅化Rasterize | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="视口变换 光栅化方法 走样 反走样
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/graphics/%E5%85%89%E6%A0%85%E5%8C%96/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="光栅化Rasterize">
+  <meta property="og:description" content="视口变换 光栅化方法 走样 反走样">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-12-03T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-12-03T00:00:00+00:00">
+    <meta property="article:tag" content="Computer-Graphics">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="光栅化Rasterize">
+  <meta name="twitter:description" content="视口变换 光栅化方法 走样 反走样">
+
+
+  <meta itemprop="name" content="光栅化Rasterize">
+  <meta itemprop="description" content="视口变换 光栅化方法 走样 反走样">
+  <meta itemprop="datePublished" content="2024-12-03T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-12-03T00:00:00+00:00">
+  <meta itemprop="wordCount" content="229">
+  <meta itemprop="keywords" content="Computer-Graphics">
+<link rel="canonical" href="https://geeteng.github.io/posts/graphics/%E5%85%89%E6%A0%85%E5%8C%96/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        <div id="page-body" class="column is-7">
+
+<div class="content blog">
+    <h1>光栅化Rasterize</h1>
+
+    <div id="infobar" class="level is-mobile">
+        <div class="level-left">
+            
+            <div class="level-item">
+                <p class="subtitle info date">Dec 3, 2024
+                </p>
+            </div>
+            
+
+            <div class="level-item">
+                <p class="subtitle info">
+                    11 mins read
+                </p>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            <div class="tags">
+                
+                <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer-Graphics</a>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="tags is-hidden-desktop">
+        
+        <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer graphics</a>
+        
+    </div>
+
+    <div class="blog-text">
+        
+
+        <h3 id="光栅化-rasterize">光栅化 rasterize</h3>
+<hr>
+<h4 id="屏幕坐标系">屏幕坐标系</h4>
+<p>屏幕空间 - 在屏幕上建立一个坐标系</p>
+<p>屏幕的左下角是原点（0，0） 向上是Y 向右是x</p>
+<p><img src="/images/%E5%85%89%E6%A0%85%E5%8C%96/Screen.png" alt="Screen"></p>
+<hr>
+<h4 id="视口变换">视口变换</h4>
+<p>要做的事：[-1, 1]^3映射到屏幕上</p>
+<p>其中：<strong>width</strong> 和 <strong>height</strong> 是屏幕或视口的宽度和高度</p>
+<p>在标准化设备坐标中，3D物体的投影结果被限制在 (−1,−1)到 (1,1) 的范围：</p>
+<ul>
+<li>(−1,−1) 代表左下角</li>
+<li>(1,1) 代表右上角</li>
+<li>这是一个对称的正方形坐标系，中心点是 (0,0)</li>
+</ul>
+<p>我们需要将这个范围映射到屏幕坐标系：</p>
+<ul>
+<li>左下角是 (0,0)，右上角是 (width,height)</li>
+</ul>
+$$
+M_{viewport} = \begin{pmatrix}
+\frac{width}{2} & 0 & 0 & \frac{width}{2}\\
+0 & \frac{height}{2} & 0 & \frac{height}{2}\\
+0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 1
+\end{pmatrix}
+$$
+<hr>
+<h4 id="光栅显示设备">光栅显示设备</h4>
+<ul>
+<li><strong>示波器</strong>（曾经做过的物理实验）和早期显示器相同原理</li>
+</ul>
+<p>​	阴极射线管 电子经过加速穿过显示设备 发生偏转 就可以看到CRT屏幕 （Cathode Ray Tube）</p>
+<p>​	隔行扫描（第一帧记录奇数行 下一帧记录偶数行） 直到现在还在一些视频压缩中使用 缺点：画面撕裂</p>
+<ul>
+<li><strong>帧缓冲区</strong>（FrameBuffer）</li>
+</ul>
+<p>​	是内存中的一块区域，存储显示在屏幕上的像素数据并映射到屏幕上</p>
+<ul>
+<li><strong>液晶显示器</strong>（LCD）</li>
+</ul>
+<p>​	计算器、手机等，通过液晶扭曲，改变光的振动方向</p>
+<ul>
+<li>
+<p><strong>发光二极管</strong>（LED）</p>
+</li>
+<li>
+<p><strong>ElectroPhoretic</strong>（电子墨水屏）</p>
+</li>
+</ul>
+<p>​	例如Kiddle，缺点：刷新率很低</p>
+<hr>
+<blockquote>
+<p>Question：为什么三角形被图形学广泛应用？</p>
+</blockquote>
+<p><strong>Answer：</strong></p>
+<ul>
+<li>三角形是最基础的多边形 可以拼凑成多边形</li>
+<li>三个点一定是平面的 内部没有凹陷</li>
+<li>三角形的几何计算效率高</li>
+</ul>
+<hr>
+<h4 id="光栅化方法">光栅化方法</h4>
+<p><strong>1.采样</strong>：采样每个在三角形内部像素点的中心</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; x <span style="color:#f92672">&lt;</span> xmax; x<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; y <span style="color:#f92672">&lt;</span> ymax; y<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>        image[x][y] <span style="color:#f92672">=</span> inside(tri, x <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.5</span>, y <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.5</span>);
+</span></span></code></pre></div><p>inside函数判断像素点中心是否在三角形内部，如果在返回1，反之0</p>
+<p><strong>2.判断点是否在三角形</strong></p>
+<p>向量叉乘 如果三个叉乘结果都＞0 / &lt; 0，则在三角形内</p>
+<p><strong>3.光栅化计算加速（三角形遍历方法）</strong></p>
+<p>由于三角形所涉及到的区域是能够确定的，所以没必要从整个视口大小的像素范围遍历</p>
+<ul>
+<li>
+<p><strong>包围盒遍历</strong></p>
+<p><img src="/images/%E5%85%89%E6%A0%85%E5%8C%96/BoundingBox.png" alt="BoundingBox"></p>
+<p>包围盒的大小如下
+</p>
+$$
+  [min(x_{p0}, x_{p1},x_{p2}), max(x_{p0}, x_{p1},x_{p2})] \times[min(y_{p0}, y_{p1},y_{p2}), max(y_{p0}, y_{p1},y_{p2})]
+  $$
+</li>
+<li>
+<p><strong>增量三角形遍历</strong></p>
+</li>
+</ul>
+<p><img src="/images/%E5%85%89%E6%A0%85%E5%8C%96/ITT.png" alt="ITT"></p>
+<p>通过计算三角形边的直线方程 利用直线生成布雷森汉姆算法（Bresenham algorithm），可以确定三角形每一行的左边界和右边界</p>
+<hr>
+<h4 id="抗锯齿--反走样anti-aliasing">抗锯齿 / 反走样（Anti Aliasing）</h4>
+<p><strong>锯齿（Aliasing）</strong></p>
+<p>导致的原因：采样率不够高。</p>
+<blockquote>
+<p>通常采用的反走样的方法是，先对图形进行模糊处理然后在进行采样</p>
+</blockquote>
+<p><strong>傅里叶级数展开</strong></p>
+<p>一切函数都可以被写成一系列正弦和余弦函数的线性组合加上一个常数项</p>
+<p>让函数无限接近于图像
+</p>
+$$
+f(x) = \frac{A}{2} + \frac{2Acos(t\omega)}{\pi}+\frac{2Acos(3t\omega)}{3\pi}+\frac{2Acos(5t\omega)}{5\pi}+...
+$$
+<hr>
+<h4 id="频率与采样">频率与采样</h4>
+<p>如图，如果函数频率不断增加，而采样频率相同，采样结果就会出现偏差，就会产生走样现象</p>
+<p><img src="/images/%E5%85%89%E6%A0%85%E5%8C%96/frequency_sampling.png" alt="frequency_sampling"></p>
+<p>而下图会发现，两种截然不同的两种函数（黑线和蓝线）却能得出相同的结果，无法区分来自哪个函数，就会出现走样现象</p>
+<p><img src="/images/%E5%85%89%E6%A0%85%E5%8C%96/twoFx.png" alt="twoFx"></p>
+<hr>
+<h4 id="滤波">滤波</h4>
+<p>去掉一些在频率上特定的频率</p>
+<ul>
+<li>
+<h5 id="高通滤波high-pass-filter">高通滤波（High-Pass Filter）</h5>
+<p>可以通过高频信号，过滤低频信号，然后通过傅里叶变化，高频信号表示物体内容上的边界信息。</p>
+<p>原因：傅里叶变换前物体的边界，颜色变化剧烈，会产生剧烈变化的信号，剧烈变化会产生高频信号。</p>
+<p><img src="/images/%E5%85%89%E6%A0%85%E5%8C%96/highPassFilter.png" alt="highPassFilter"></p>
+</li>
+<li>
+<h5 id="低通滤波low-pass-filter">低通滤波（Low-Pass Filter）</h5>
+<p>可以通过低频信号，过滤高频信号，经过傅里叶变换的图像中所有高频信号去掉，留下低频信号，在经过傅里叶变换就会得到下面的图像。</p>
+<p>图片模糊了是因为过滤掉了表示图像边界的高频信号</p>
+<p><img src="/images/%E5%85%89%E6%A0%85%E5%8C%96/lowPassFilter.png" alt="lowPassFilter"></p>
+</li>
+<li>
+<h5 id="带通滤波band-pass-filter">带通滤波（Band-Pass Filter）</h5>
+<p>允许限定频段通过，通常是将一张图片经过傅里叶变换得到频域，然后去掉高于限定的最高频和低于限定的最低频信号。</p>
+</li>
+</ul>
+<hr>
+<h4 id="卷积">卷积</h4>
+<p>卷积就是定义一个滤波器，滤波器也称为卷积核，这个滤波器可以是一维数组/二维数组。使用滤波器对原信号挨个进行处理，将处理结果写进与原数据大小相同的容器中。</p>
+<p>第一个信号和最后一个信号要特殊处理一下，第一个信号，最左边并没有信号对应卷积核的第一个值。对于缺省的信号需要自动补零。第一个信号取得的31的信号值分别为0,1,3，然后进行卷积操作，得到的结果为 (0 * 1/4) + (1 * 1/2) + (3 * 1/4) = 1.25</p>
+<p><img src="/images/%E5%85%89%E6%A0%85%E5%8C%96/Convolution.png" alt="Convolution"></p>
+<blockquote>
+<p><strong>时域上的卷积相当于频域上的乘积</strong></p>
+</blockquote>
+<hr>
+<h4 id="采样与频域">采样与频域</h4>
+<p><strong>采样就是在重复原始信号的频谱</strong></p>
+<p>a是连续函数（信号），b是该函数经过傅里叶变化后在频域上的体现</p>
+<p>c是采样函数，d是采样函数在频域上的体现</p>
+<p>由于<strong>时域上的卷积相当于频域上的乘积</strong></p>
+<p>使用a函数与c函数相乘 = e函数（采样的结果） 等价于 b卷积d = f</p>
+<p><img src="/images/%E5%85%89%E6%A0%85%E5%8C%96/sampling.png" alt="sampling"></p>
+<hr>
+<h4 id="走样">走样</h4>
+<p>采样时复制粘贴频谱发生混叠</p>
+<p><img src="/images/%E5%85%89%E6%A0%85%E5%8C%96/Aliasing.png" alt="Aliasing"></p>
+<hr>
+<h4 id="反走样方法">反走样方法</h4>
+<h5 id="多重采样msaa">多重采样MSAA</h5>
+<p>取更多的点实现反走样 把一个像素划分成很多个小的像素 同样每个小像素也有中心点</p>
+<p>增加采样点 没有提高屏幕分辨率</p>
+<p><img src="/images/%E5%85%89%E6%A0%85%E5%8C%96/MSAA1.png" alt="MSAA1"></p>
+<p><img src="/images/%E5%85%89%E6%A0%85%E5%8C%96/MSAA2.png" alt="MSAA2"></p>
+<h5 id="快速近似抗锯齿fxaa">快速近似抗锯齿FXAA</h5>
+<p>和采样无关，在图像层面做的处理，处理过程是先找到三角形的边界，把有锯齿的边界替换为没有锯齿的边界，而且处理起来非常快。</p>
+<h5 id="时间抗锯齿taa">时间抗锯齿TAA</h5>
+<p>在渲染过程中，TAA 会使用前几帧的图像信息进行参考，并结合当前帧的图像数据。这意味着它不仅仅依赖于当前帧的像素，而是通过对比多个帧之间的像素位置、颜色和深度来进行抗锯齿处理。</p>
+<h5 id="深度学习超级采样dlss">深度学习超级采样DLSS</h5>
+<p>依赖深度学习，使用低分辨率(比如1080p)渲染图象，为了尽量减少计算负担，提高帧率，然后使用深度学习生成高分辨率的图像（智能补全）。</p>
+
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f%25E5%2585%2589%25E6%25A0%2585%25E5%258C%2596%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=%e5%85%89%e6%a0%85%e5%8c%96Rasterize&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f%25E5%2585%2589%25E6%25A0%2585%25E5%258C%2596%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f%25E5%2585%2589%25E6%25A0%2585%25E5%258C%2596%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f%25E5%2585%2589%25E6%25A0%2585%25E5%258C%2596%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f%25E5%2585%2589%25E6%25A0%2585%25E5%258C%2596%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f%25E5%2585%2589%25E6%25A0%2585%25E5%258C%2596%2f
+			&title=%e5%85%89%e6%a0%85%e5%8c%96Rasterize&summary=%e5%85%89%e6%a0%85%e5%8c%96%20rasterize%20%e5%b1%8f%e5%b9%95%e5%9d%90%e6%a0%87%e7%b3%bb%20%e5%b1%8f%e5%b9%95%e7%a9%ba%e9%97%b4%20-%20%e5%9c%a8%e5%b1%8f%e5%b9%95%e4%b8%8a%e5%bb%ba%e7%ab%8b%e4%b8%80%e4%b8%aa%e5%9d%90%e6%a0%87%e7%b3%bb%0a%e5%b1%8f%e5%b9%95%e7%9a%84%e5%b7%a6%e4%b8%8b%e8%a7%92%e6%98%af%e5%8e%9f%e7%82%b9%ef%bc%880%ef%bc%8c0%ef%bc%89%20%e5%90%91%e4%b8%8a%e6%98%afY%20%e5%90%91%e5%8f%b3%e6%98%afx%0a%e8%a7%86%e5%8f%a3%e5%8f%98%e6%8d%a2%20%e8%a6%81%e5%81%9a%e7%9a%84%e4%ba%8b%ef%bc%9a%5b-1%2c%201%5d%5e3%e6%98%a0%e5%b0%84%e5%88%b0%e5%b1%8f%e5%b9%95%e4%b8%8a%0a%e5%85%b6%e4%b8%ad%ef%bc%9awidth%20%e5%92%8c%20height%20%e6%98%af%e5%b1%8f%e5%b9%95%e6%88%96%e8%a7%86%e5%8f%a3%e7%9a%84%e5%ae%bd%e5%ba%a6%e5%92%8c%e9%ab%98%e5%ba%a6%0a%e5%9c%a8%e6%a0%87%e5%87%86%e5%8c%96%e8%ae%be%e5%a4%87%e5%9d%90%e6%a0%87%e4%b8%ad%ef%bc%8c3D%e7%89%a9%e4%bd%93%e7%9a%84%e6%8a%95%e5%bd%b1%e7%bb%93%e6%9e%9c%e8%a2%ab%e9%99%90%e5%88%b6%e5%9c%a8%20%28%e2%88%921%2c%e2%88%921%29%e5%88%b0%20%281%2c1%29%20%e7%9a%84%e8%8c%83%e5%9b%b4%ef%bc%9a%0a%28%e2%88%921%2c%e2%88%921%29%20%e4%bb%a3%e8%a1%a8%e5%b7%a6%e4%b8%8b%e8%a7%92%20%281%2c1%29%20%e4%bb%a3%e8%a1%a8%e5%8f%b3%e4%b8%8a%e8%a7%92%20%e8%bf%99%e6%98%af%e4%b8%80%e4%b8%aa%e5%af%b9%e7%a7%b0%e7%9a%84%e6%ad%a3%e6%96%b9%e5%bd%a2%e5%9d%90%e6%a0%87%e7%b3%bb%ef%bc%8c%e4%b8%ad%e5%bf%83%e7%82%b9%e6%98%af%20%280%2c0%29%20%e6%88%91%e4%bb%ac%e9%9c%80%e8%a6%81%e5%b0%86%e8%bf%99%e4%b8%aa%e8%8c%83%e5%9b%b4%e6%98%a0%e5%b0%84%e5%88%b0%e5%b1%8f%e5%b9%95%e5%9d%90%e6%a0%87%e7%b3%bb%ef%bc%9a%0a%e5%b7%a6%e4%b8%8b%e8%a7%92%e6%98%af%20%280%2c0%29%ef%bc%8c%e5%8f%b3%e4%b8%8a%e8%a7%92%e6%98%af%20%28width%2cheight%29%20%24%24%0dM_%7bviewport%7d%20%3d%20%5cbegin%7bpmatrix%7d%0d%5cfrac%7bwidth%7d%7b2%7d%20%26%200%20%26%200%20%26%20%5cfrac%7bwidth%7d%7b2%7d%5c%5c%0d0%20%26%20%5cfrac%7bheight%7d%7b2%7d%20%26%200%20%26%20%5cfrac%7bheight%7d%7b2%7d%5c%5c%0d0%20%26%200%20%26%201%20%26%200%20%5c%5c%0d0%20%26%200%20%26%200%20%26%201%0d%5cend%7bpmatrix%7d%0d%24%24%20%e5%85%89%e6%a0%85%e6%98%be%e7%a4%ba%e8%ae%be%e5%a4%87%20%e7%a4%ba%e6%b3%a2%e5%99%a8%ef%bc%88%e6%9b%be%e7%bb%8f%e5%81%9a%e8%bf%87%e7%9a%84%e7%89%a9%e7%90%86%e5%ae%9e%e9%aa%8c%ef%bc%89%e5%92%8c%e6%97%a9%e6%9c%9f%e6%98%be%e7%a4%ba%e5%99%a8%e7%9b%b8%e5%90%8c%e5%8e%9f%e7%90%86%20%e2%80%8b%09%e9%98%b4%e6%9e%81%e5%b0%84%e7%ba%bf%e7%ae%a1%20%e7%94%b5%e5%ad%90%e7%bb%8f%e8%bf%87%e5%8a%a0%e9%80%9f%e7%a9%bf%e8%bf%87%e6%98%be%e7%a4%ba%e8%ae%be%e5%a4%87%20%e5%8f%91%e7%94%9f%e5%81%8f%e8%bd%ac%20%e5%b0%b1%e5%8f%af%e4%bb%a5%e7%9c%8b%e5%88%b0CRT%e5%b1%8f%e5%b9%95%20%ef%bc%88Cathode%20Ray%20Tube%ef%bc%89&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=%e5%85%89%e6%a0%85%e5%8c%96Rasterize&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f%25E5%2585%2589%25E6%25A0%2585%25E5%258C%2596%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+<script async src="https://cse.google.com/cse.js?cx=google-search-code"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+
+
+<footer class="footer has-background-dark">
+    <div class="content has-text-centered has-text-white">
+        <p>
+            © 2024 GeeTeng.My
+            <a class="has-text-light" href="https://github.com/GeeTeng" target="_blank">
+            GitHub</a>. 
+
+	    Email: 15143483@qq.com
+        </p>
+    </div>
+</footer>
+
+<div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

@@ -6,34 +6,27 @@
     <description>Recent content in UE5 on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 04 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 13 Dec 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/tags/ue5/index.xml" rel="self" type="application/rss+xml" />
     <item>
-      <title>FirstPersonLocomotion</title>
-      <link>https://geeteng.github.io/posts/ueleaning/firstpersonlocomotion/</link>
-      <pubDate>Wed, 04 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ueleaning/firstpersonlocomotion/</guid>
-      <description>第一人称移动 1 二段跳 DoN是Do Once Node，主要用于确保某个操作在特定条件下只执行一次，避免多次触发。&#xA;LaunchCharacter 的作用是用来给角色施加一个即时的力（速度向量），通常用于实现跳跃、飞行、冲刺等效果。它通过改变角色的速度或者施加一个加速度，使得角色在特定方向上做出瞬时的移动， Z方向900的速度。&#xA;EventOnLanded 是 Unreal Engine 中的一种事件，通常用于在角色或物体着陆时触发特定的操作或行为。&#xA;设置后发现第二段跳跃会下降速度慢，所以更改CharacterMovement右侧面板中的GravityScale值为更大。&#xA;2.加速带 新增一个检测与加速带接触的胶囊体CapsuleCollision，调整大小为角色碰撞体大小。新增一个Boolean值isWallRunning代表是在加速状态，Vector向量代表角色方向&#xA;如果碰撞到tag为加速带并且不在地面上（isFalling状态）的时候就执行加速动作，设置重力大小为0，速度为2000。&#xA;如果离开加速带的时候，停止加速，同时要恢复重力。&#xA;Sequence（序列） 是一种控制流节点，它允许你在一个蓝图中按顺序执行多个动作。Sequence 节点会按照顺序依次执行它连接的输出，并且可以输出多个执行线路。&#xA;playerDirection 通常是一个用来表示玩家（Player）朝向或方向的变量。&#xA;判断加速带方向向量和角色方向向量叉乘是否&amp;lt;0，代表是加速带的反方向。&amp;gt;0的时候会返回1，&amp;lt;0会返回-1，将结果与加速带的方向向量相乘。如果与加速带方向相同则向加速带方向加速，如果与加速带方向相反，就往反方向加速。&#xA;设置在游戏开始时的重力为Old Gravity Scale 为了方便加速后恢复原始速度。&#xA;新建加速带的左碰撞体右碰撞体，原因是在加速带上的时候，角色是垂直的，绝对会有一侧碰撞体碰撞到加速带。&#xA;这个时候插值过渡一下摄像机的方向转化动画，新建一个Float Track&#xA;Get Control Rotation 用于调整摄像机的视角。&#xA;Get Actor Rotation 用于调整角色的实际朝向。</description>
-    </item>
-    <item>
-      <title>UE-c&#43;&#43;</title>
-      <link>https://geeteng.github.io/posts/ueleaning/ue/</link>
-      <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ueleaning/ue/</guid>
-      <description>设置摄像机位置 AMyCharacter::AMyCharacter() { PrimaryActorTick.bCanEverTick = true; // 创建一个相机臂 用来控制角色和相机的相对位置 CameraBoom = CreateDefaultSubobject&amp;lt;USpringArmComponent&amp;gt;(&amp;#34;CameraBoom&amp;#34;); // 将相机臂附着到角色的根组件 CameraBoom-&amp;gt;SetupAttachment(RootComponent); // 相机杆长度 CameraBoom-&amp;gt;TargetArmLength = 600.f; // 设置俯仰角 pitch yaw roll CameraBoom-&amp;gt;SetRelativeRotation(FRotator(-40.f, 0.f, 0.f)); // 相机附着在boom PlayerCamera = CreateDefaultSubobject&amp;lt;UCameraComponent&amp;gt;(&amp;#34;Player Camera&amp;#34;); PlayerCamera-&amp;gt;SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // 附着某一位置 //PlayerCamera-&amp;gt;SetupAttachment(GetMesh(), FName(&amp;#34;RootSocket&amp;#34;)); } 虚幻打印的两种方式 UE_LOG(LogTemp, Warning, TEXT(&amp;#34;CameraBoom : TargetArmLength: %f&amp;#34;), CameraBoom-&amp;gt;TargetArmLength); // 消息的唯一标识 打印10s color GEngine-&amp;gt;AddOnScreenDebugMessage(-1, 10, FColor::Blue, FString::Printf(TEXT(&amp;#34;CameraBoom : TargetArmLength: %f&amp;#34;), CameraBoom-&amp;gt;TargetArmLength)); 增强输入 - 人物移动 在 Unreal Engine 中，角色和摄像机的旋转是通过 控制器（Controller）来处理的，控制器会记录角色的旋转角度，通常由玩家的输入（如鼠标、右摇杆等）或者 AI 控制。</description>
+      <title>UMG</title>
+      <link>https://geeteng.github.io/posts/ueleaning/3_umg/</link>
+      <pubDate>Fri, 13 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/ueleaning/3_umg/</guid>
+      <description>目录 [TOC]&#xA;可直接跳转到文末查看最终效果图&#xA;创建主页面 新建HUD类-MainUIHUD和GameMode-MainMenuGameMode，并新建BP_UIGameMode蓝图类。&#xA;// 将该HUD绑定到该GameMode上 AMainMenuGameMode::AMainMenuGameMode() { HUDClass = AMainUIHUD::StaticClass(); } 在MainUIHUD中加载主界面，新建UserWidget类MainUIHUD和继承其的蓝图（往后每一个界面都是这样的创建方式）&#xA;class UMainUserWidget; protected: UPROPERTY() UMainUserWidget* MainUserWidget; #include &amp;#34;MenuLevel/MainUserWidget.h&amp;#34; void AMainUIHUD::BeginPlay() { Super::BeginPlay(); // 显示UI 加载蓝图类 TSubclassOf&amp;lt;UMainUserWidget&amp;gt; WidgetClass = LoadClass&amp;lt;UMainUserWidget&amp;gt;(nullptr,TEXT(&amp;#34;/Script/UMGEditor.WidgetBlueprint&amp;#39;/Game/FPSGame/UI/UMG/UMG_MainUI.UMG_MainUI_C&amp;#39;&amp;#34;)); if (WidgetClass) { // CreatWidget() MainUserWidget = CreateWidget&amp;lt;UMainUserWidget&amp;gt;(GetOwningPlayerController(), WidgetClass); if (MainUserWidget) { MainUserWidget-&amp;gt;AddToViewport(); } } // 显示鼠标 GetOwningPlayerController()-&amp;gt;bShowMouseCursor = true; } 创建主页面（图片文字为后加上的）&#xA;MainUserWidget&#xA;protected: virtual void NativeOnInitialized() override; virtual void NativeConstruct() override; UPROPERTY(meta=(BindWidgetAnim), Transient) UWidgetAnimation* MenuUIAni; void UMainUserWidget::NativeOnInitialized() { Super::NativeOnInitialized(); } void UMainUserWidget::NativeConstruct() { Super::NativeConstruct(); // 制作了一个简单的动画 - 进入游戏按钮的透明度改变，并且按钮点击有音效 PlayAnimation(MenuUIAni); } 按钮的背景图是自己制作的 - 新建一个Material，提取UV坐标的R，[0, 1] * [1, 0] = &amp;gt; 中间最大值为0.</description>
     </item>
     <item>
       <title>GameMode游戏模式</title>
-      <link>https://geeteng.github.io/posts/ueleaning/gamemode/</link>
+      <link>https://geeteng.github.io/posts/ueleaning/2_gamemode/</link>
       <pubDate>Sat, 23 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ueleaning/gamemode/</guid>
+      <guid>https://geeteng.github.io/posts/ueleaning/2_gamemode/</guid>
       <description>笔记 平行世界？World UE中有三个世界&#xA;游戏世界 编辑器世界 预览世界 关卡蓝图-定义关卡规则&#xA;UGameInstance 存在于游戏的整个生命周期中 不会随着地图切换 销毁 适合业务全局管理操作，Uengine 管理 GameInstance&#xA;游戏中最重要的实体AActor AActor 标志所有权的Owner指针，标志本地权限的Role枚举，作为网格同步的基础单位，根组件提供世界变化信息&#xA;Actor不只是3D中的表示，一些不可见对象也可以是Actor，如AInfo（派生类Aworldsetting，AGameMode，AgameState&amp;hellip;）&#xA;Actor在UE中就像是世界里的元素&#xA;Component 是 Actor 的组成部分，用于定义 Actor 的特性和行为&#xA;RootComponent是Actor的核心组件，决定了Actor在场景中的位置、旋转和缩放 SceneComponent 是一个基础组件，主要用于定义场景中对象的位置、旋转和缩放。它本身是一个抽象组件，不会直接渲染或显示。 Actor生命周期详解&#xA;生命周期1&#xA;actor分为&#xA;静态的actor - 在关卡编辑器里直接放置的Actor 动态创建的actor（spawnActor） - 通过代码或蓝图在运行时动态生成的 Actor 生命周期2 重要的生命周期函数&#xA;BeginPlay - 在Actor激活时调用 初始化&#xA;Tick - 每帧调用一次 处理逻辑&#xA;EndPlay - 在Actor即将销毁时调用 清理资源&#xA;生命周期3 GC完成收尾 注意有效性的判断&#xA;if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;amp;&amp;amp; !MyActor-&amp;gt;IsPendingKill()) { // Actor 没有被标记为销毁 } isPendingKill是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。</description>
     </item>
     <item>
       <title>UE入门</title>
-      <link>https://geeteng.github.io/posts/ueleaning/1ue%E5%85%A5%E9%97%A8/</link>
+      <link>https://geeteng.github.io/posts/ueleaning/1_ue%E5%85%A5%E9%97%A8/</link>
       <pubDate>Wed, 13 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ueleaning/1ue%E5%85%A5%E9%97%A8/</guid>
+      <guid>https://geeteng.github.io/posts/ueleaning/1_ue%E5%85%A5%E9%97%A8/</guid>
       <description>安装UE5.4.4源码 1 在GitHub上下载UE5.4.4源码 在这之前需要关联账号并验证至虚幻引擎&#xA;EpicGames/UnrealEngine at 5.4.4-release&#xA;我直接下载文件压缩包，没有使用git拉取，原因是网络不稳定&#xA;2 生成sln文件 解压文件，并将文件夹改名为UE，以防后续因为文件名太长而出错&#xA;启动Setup.bat文件 注意：网络一定要通畅并且不能自行关闭 安静等待&amp;hellip;&#xA;之后运行GenerateProjectFiles.bat文件 会生成一个UE5.sln文件&#xA;3 配置VS 一定要增加UnrealEngine安装程序 建议VisualStudio2022 17.8版本&#xA;因为之前试过17.12版本发现一些NuGet包无法还原 不知道什么原因&#xA;打开UE5.sln 在右侧会提示安装插件 点击后可以安装额外的插件 配置如下：&#xA;4 生成UE5 将UE5设为启动项 点击生成UE5 不要点生成解决方案&#xA;为了使编译速度快一些 我试过使用Incredibuild 速度是很快 但是会发现有一些文件属于嵌套关系 并行编译时会出错 于是乎换用其他方式&#xA;&amp;ldquo;C:\Users\用户名\AppData\Roaming\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml&amp;quot;修改BuildConfiguration.xml文件&#xA;// 指定构建时可以同时运行8个编译任务 &amp;lt;MaxParallelActions&amp;gt;8&amp;lt;/MaxParallelActions&amp;gt; // 设置最少需要使用 PCH 文件的源文件数量 &amp;lt;MinFilesUsingPrecompiledHeader&amp;gt;6&amp;lt;/MinFilesUsingPrecompiledHeader&amp;gt; 这样就将编译时间从五六个小时 缩短到了一个小时左右&#xA;切记：&#xA;不要参照网上exclude一些VS2013等文件 会导致之后因为奇怪的原因无法运行 白白浪费时间&#xA;成功生成UE5后不要再点任何重新生成解决方案/项目 否则会清理掉几个小时编译的文件&#xA;编译完成后会生成这样的文件结构 exe文件位于\Engine\Binaries\Win64中 双击即可运行&#xA;5 新建C++项目 创建一个第一人称模板项目 选择C++&#xA;点击创建之后会跳出vs界面&#xA;点击执行 会加载出UE5界面 第一次加载时间会很长 之后时间会缩短一些&#xA;将General - SourceCode设置为VisualStudio2022编辑器</description>
     </item>
   </channel>
