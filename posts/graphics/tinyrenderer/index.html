@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>
+    TinyRenderer | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="TinyRenderer项目 更新中
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/graphics/tinyrenderer/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="TinyRenderer">
+  <meta property="og:description" content="TinyRenderer项目 更新中">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-12-16T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-12-16T00:00:00+00:00">
+    <meta property="article:tag" content="Computer-Graphics">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="TinyRenderer">
+  <meta name="twitter:description" content="TinyRenderer项目 更新中">
+
+
+  <meta itemprop="name" content="TinyRenderer">
+  <meta itemprop="description" content="TinyRenderer项目 更新中">
+  <meta itemprop="datePublished" content="2024-12-16T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-12-16T00:00:00+00:00">
+  <meta itemprop="wordCount" content="400">
+  <meta itemprop="keywords" content="Computer-Graphics">
+<link rel="canonical" href="https://geeteng.github.io/posts/graphics/tinyrenderer/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        <div id="page-body" class="column is-7">
+
+<div class="content blog">
+    <h1>TinyRenderer</h1>
+
+    <div id="infobar" class="level is-mobile">
+        <div class="level-left">
+            
+            <div class="level-item">
+                <p class="subtitle info date">Dec 16, 2024
+                </p>
+            </div>
+            
+
+            <div class="level-item">
+                <p class="subtitle info">
+                    4 mins read
+                </p>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            <div class="tags">
+                
+                <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer-Graphics</a>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="tags is-hidden-desktop">
+        
+        <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer graphics</a>
+        
+    </div>
+
+    <div class="blog-text">
+        
+
+        <p>mainCRTStartup</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">line</span>(<span style="color:#66d9ef">int</span> x0, <span style="color:#66d9ef">int</span> y0, <span style="color:#66d9ef">int</span> x1, <span style="color:#66d9ef">int</span> y1, TGAImage<span style="color:#f92672">&amp;</span> image, TGAColor color)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">float</span> t <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>; t <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span>; t <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0.01</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> x0 <span style="color:#f92672">+</span> (x1 <span style="color:#f92672">-</span> x0) <span style="color:#f92672">*</span> t;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> y <span style="color:#f92672">=</span> y0 <span style="color:#f92672">+</span> (y1 <span style="color:#f92672">-</span> y0) <span style="color:#f92672">*</span> t;
+</span></span><span style="display:flex;"><span>		image.set(x, y, color);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><img src="/images/TinyRenderer/line.png" alt="line"></p>
+<p>描绘了100个点，但是能否用x来遍历，这样可以从13 - 80 只需要描绘67个点</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">line</span>(<span style="color:#66d9ef">int</span> x0, <span style="color:#66d9ef">int</span> y0, <span style="color:#66d9ef">int</span> x1, <span style="color:#66d9ef">int</span> y1, TGAImage<span style="color:#f92672">&amp;</span> image, TGAColor color)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> x0; x <span style="color:#f92672">&lt;</span> x1; x<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">float</span> t <span style="color:#f92672">=</span> (x <span style="color:#f92672">-</span> x0) <span style="color:#f92672">/</span> (<span style="color:#66d9ef">float</span>)(x1 <span style="color:#f92672">-</span> x0);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> y <span style="color:#f92672">=</span> y0 <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> t) <span style="color:#f92672">+</span> y1 <span style="color:#f92672">*</span> t;
+</span></span><span style="display:flex;"><span>		image.set(x, y, color);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>可行，需要注意整数除法。</p>
+<p>但是当增加两条线段时</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>line(<span style="color:#ae81ff">13</span>, <span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">80</span>, <span style="color:#ae81ff">40</span>, image, white);
+</span></span><span style="display:flex;"><span>line(<span style="color:#ae81ff">20</span>, <span style="color:#ae81ff">13</span>, <span style="color:#ae81ff">40</span>, <span style="color:#ae81ff">80</span>, image, red);
+</span></span><span style="display:flex;"><span>line(<span style="color:#ae81ff">80</span>, <span style="color:#ae81ff">40</span>, <span style="color:#ae81ff">13</span>, <span style="color:#ae81ff">20</span>, image, red);
+</span></span></code></pre></div><p><strong>Question：</strong></p>
+<ol>
+<li>
+<p>实际上第一条线和第三条线是同一条线，为什么第三条线没有显示出来？</p>
+</li>
+<li>
+<p>第二条线段是离散的点而不连续</p>
+</li>
+</ol>
+<p><img src="/images/TinyRenderer/line01.png" alt="line01"></p>
+<p><strong>Answer：</strong></p>
+<ol>
+<li>我们的函数只处理了x1 &gt; x0的情况</li>
+<li>斜率增加，y增加的太快导致离散</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">line</span>(<span style="color:#66d9ef">int</span> x0, <span style="color:#66d9ef">int</span> y0, <span style="color:#66d9ef">int</span> x1, <span style="color:#66d9ef">int</span> y1, TGAImage<span style="color:#f92672">&amp;</span> image, TGAColor color)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> steep <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> ((y1 <span style="color:#f92672">-</span> y0) <span style="color:#f92672">/</span> (x1 <span style="color:#f92672">-</span> x0) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 关于 x = y对称
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		std<span style="color:#f92672">::</span>swap(x0, y0);
+</span></span><span style="display:flex;"><span>		std<span style="color:#f92672">::</span>swap(x1, y1);
+</span></span><span style="display:flex;"><span>		steep <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (x0 <span style="color:#f92672">&gt;</span> x1)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		std<span style="color:#f92672">::</span>swap(x0, x1);
+</span></span><span style="display:flex;"><span>		std<span style="color:#f92672">::</span>swap(y0, y1);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> x0; x <span style="color:#f92672">&lt;</span> x1; x<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">float</span> t <span style="color:#f92672">=</span> (x <span style="color:#f92672">-</span> x0) <span style="color:#f92672">/</span> (<span style="color:#66d9ef">float</span>)(x1 <span style="color:#f92672">-</span> x0);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> y <span style="color:#f92672">=</span> y0 <span style="color:#f92672">*</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">-</span> t) <span style="color:#f92672">+</span> y1 <span style="color:#f92672">*</span> t;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (steep)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			image.set(y, x, color);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			image.set(x, y, color);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><img src="/images/TinyRenderer/final.png" alt="final"></p>
+<h4 id="线框渲染">线框渲染</h4>
+<p>打开Obj文件以文本编辑器形式</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>v -0.000581696 -0.734665 -0.623267
+</span></span><span style="display:flex;"><span>v 0.000283538 -1 0.286843
+</span></span><span style="display:flex;"><span>v -0.117277 -0.973564 0.306907
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span># 1258 vertices
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vt  0.532 0.923 0.000
+</span></span><span style="display:flex;"><span>vt  0.535 0.917 0.000
+</span></span><span style="display:flex;"><span>vt  0.542 0.923 0.000
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span># 1339 texture vertices
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vn  0.001 0.482 -0.876
+</span></span><span style="display:flex;"><span>vn  -0.001 0.661 0.751
+</span></span><span style="display:flex;"><span>vn  0.136 0.595 0.792
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span># 1258 vertex normals
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>g head
+</span></span><span style="display:flex;"><span>s 1
+</span></span><span style="display:flex;"><span>f 24/1/24 25/2/25 26/3/26
+</span></span><span style="display:flex;"><span>f 24/1/24 26/3/26 23/4/23
+</span></span><span style="display:flex;"><span>f 28/5/28 29/6/29 30/7/30
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span># 2492 faces
+</span></span></code></pre></div><p>Model.h文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Model</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>Vec3f<span style="color:#f92672">&gt;</span> verts_;
+</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span>std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&gt;</span> faces_;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	Model(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>filename);
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">~</span>Model();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">nverts</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">nfaces</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 返回模型中的第i个顶点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	Vec3f <span style="color:#a6e22e">vert</span>(<span style="color:#66d9ef">int</span> i);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//返回模型中的第idx个面 面由顶点索引构成
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> face(<span style="color:#66d9ef">int</span> idx);
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>main.cpp文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span>model<span style="color:#f92672">-&gt;</span>nfaces(); i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 获取第i个面
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> face <span style="color:#f92672">=</span> model<span style="color:#f92672">-&gt;</span>face(i);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 遍历面上的点 三角形
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; j<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">3</span>; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 获取两个点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Vec3f v0 <span style="color:#f92672">=</span> model<span style="color:#f92672">-&gt;</span>vert(face[j]);
+</span></span><span style="display:flex;"><span>        Vec3f v1 <span style="color:#f92672">=</span> model<span style="color:#f92672">-&gt;</span>vert(face[(j<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>)<span style="color:#f92672">%</span><span style="color:#ae81ff">3</span>]);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 将坐标从[-1, 1]转换成屏幕坐标[0, width]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> x0 <span style="color:#f92672">=</span> (v0.x<span style="color:#f92672">+</span><span style="color:#ae81ff">1.</span>)<span style="color:#f92672">*</span>width<span style="color:#f92672">/</span><span style="color:#ae81ff">2.</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> y0 <span style="color:#f92672">=</span> (v0.y<span style="color:#f92672">+</span><span style="color:#ae81ff">1.</span>)<span style="color:#f92672">*</span>height<span style="color:#f92672">/</span><span style="color:#ae81ff">2.</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> x1 <span style="color:#f92672">=</span> (v1.x<span style="color:#f92672">+</span><span style="color:#ae81ff">1.</span>)<span style="color:#f92672">*</span>width<span style="color:#f92672">/</span><span style="color:#ae81ff">2.</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> y1 <span style="color:#f92672">=</span> (v1.y<span style="color:#f92672">+</span><span style="color:#ae81ff">1.</span>)<span style="color:#f92672">*</span>height<span style="color:#f92672">/</span><span style="color:#ae81ff">2.</span>;
+</span></span><span style="display:flex;"><span>        line(x0, y0, x1, y1, image, white);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>其中视口变换将 <strong>标准化设备坐标（NDC）</strong> 转换为 <strong>屏幕坐标系</strong>。</p>
+<p><img src="/images/TinyRenderer/line02.png" alt="line02"></p>
+
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2ftinyrenderer%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=TinyRenderer&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2ftinyrenderer%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2ftinyrenderer%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2ftinyrenderer%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2ftinyrenderer%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2ftinyrenderer%2f
+			&title=TinyRenderer&summary=mainCRTStartup%0avoid%20line%28int%20x0%2c%20int%20y0%2c%20int%20x1%2c%20int%20y1%2c%20TGAImage%26amp%3b%20image%2c%20TGAColor%20color%29%20%7b%20for%20%28float%20t%20%3d%200.f%3b%20t%20%26lt%3b%201%3b%20t%20%2b%3d%200.01%29%20%7b%20int%20x%20%3d%20x0%20%2b%20%28x1%20-%20x0%29%20%2a%20t%3b%20int%20y%20%3d%20y0%20%2b%20%28y1%20-%20y0%29%20%2a%20t%3b%20image.set%28x%2c%20y%2c%20color%29%3b%20%7d%20%7d%20%e6%8f%8f%e7%bb%98%e4%ba%86100%e4%b8%aa%e7%82%b9%ef%bc%8c%e4%bd%86%e6%98%af%e8%83%bd%e5%90%a6%e7%94%a8x%e6%9d%a5%e9%81%8d%e5%8e%86%ef%bc%8c%e8%bf%99%e6%a0%b7%e5%8f%af%e4%bb%a5%e4%bb%8e13%20-%2080%20%e5%8f%aa%e9%9c%80%e8%a6%81%e6%8f%8f%e7%bb%9867%e4%b8%aa%e7%82%b9%0avoid%20line%28int%20x0%2c%20int%20y0%2c%20int%20x1%2c%20int%20y1%2c%20TGAImage%26amp%3b%20image%2c%20TGAColor%20color%29%20%7b%20for%20%28int%20x%20%3d%20x0%3b%20x%20%26lt%3b%20x1%3b%20x%2b%2b%29%20%7b%20float%20t%20%3d%20%28x%20-%20x0%29%20%2f%20%28float%29%28x1%20-%20x0%29%3b%20int%20y%20%3d%20y0%20%2a%20%281%20-%20t%29%20%2b%20y1%20%2a%20t%3b%20image.&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=TinyRenderer&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2ftinyrenderer%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+<script async src="https://cse.google.com/cse.js?cx=google-search-code"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+
+
+<footer class="footer has-background-dark">
+    <div class="content has-text-centered has-text-white">
+        <p>
+            © 2024 GeeTeng.My
+            <a class="has-text-light" href="https://github.com/GeeTeng" target="_blank">
+            GitHub</a>. 
+
+	    Email: 15143483@qq.com
+        </p>
+    </div>
+</footer>
+
+<div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

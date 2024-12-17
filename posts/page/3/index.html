@@ -3,34 +3,34 @@
 
 <head>
     <title>
-    Tags | 
+    Posts | 
     
     GeeTeng</title>
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="List of all articles related to Tags">
+<meta name="description" content="List of all articles in section- Posts">
 
 
 
-<meta property="og:url" content="https://geeteng.github.io/tags/">
+<meta property="og:url" content="https://geeteng.github.io/posts/">
   <meta property="og:site_name" content="GeeTeng">
-  <meta property="og:title" content="Tags">
+  <meta property="og:title" content="Posts">
   <meta property="og:description" content="A description for the meta tag of the site">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="website">
 
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="Tags">
+  <meta name="twitter:title" content="Posts">
   <meta name="twitter:description" content="A description for the meta tag of the site">
 
 
-  <meta itemprop="name" content="Tags">
+  <meta itemprop="name" content="Posts">
   <meta itemprop="description" content="A description for the meta tag of the site">
   <meta itemprop="datePublished" content="2024-12-17T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-12-17T00:00:00+00:00">
-<link rel="canonical" href="https://geeteng.github.io/tags/" />
+<link rel="canonical" href="https://geeteng.github.io/posts/" />
 
 <link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
 
@@ -180,43 +180,150 @@
         <div id="page-body" class="column is-7">
 
 <div class="content">
-    <h1 class="title is-3">Tags</h1>
+    <h1 class="title is-3">Posts</h1>
+</div>
 
-    <ul id="all-tags">
+
+<div class="blog-brief">
+    <a href="/about-me/">
+        <h3 class="title is-4">
+            About Author
+        </h3>
+    </a>
+
+    <div class="level is-mobile details">
+        <div class="level-left">
+
+            
+            <div class="level-item">
+                <a href="/about-me/">
+                    <p class="subtitle info date">Nov 1, 2024
+                    </p>
+                </a>
+            </div>
+            
+
+
+            <div class="level-item">
+                <a href="/about-me/">
+                    <p class="subtitle info">
+                        1 min read
+                    </p>
+                </a>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            
+        </div>
+    </div>
+
+    <div>
         
-        <li>
-            <a href="/tags/c&#43;&#43;/">
-                <span class="tag is-dark is-large is-rounded">
-                    C&#43;&#43;
-                </span>
+            <a href="/about-me/">
+                <img src="/images/author.png">
             </a>
-        </li>
         
-        <li>
-            <a href="/tags/computer-graphics/">
-                <span class="tag is-dark is-large is-rounded">
-                    Computer-Graphics
-                </span>
+
+        <div>
+            <a href="/about-me/">
+                <p class="summary">
+                    I am GeeTeng. This site is created to record my learning progress.
+我将会上传我所学到的内容在我的网站中，包括但不限于UE5、计算机图形学。
+                    
+                </p>
             </a>
-        </li>
+        </div>
+    </div>
+
+    <div class="level is-mobile continue-reading">
+        <div class="level-left">
+        </div>
+        <div class="level-right">
+            <a href="/about-me/">Continue reading <i class="fa fa-angle-double-right"
+                    aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <hr>
+</div><div class="blog-brief">
+    <a href="/posts/ueleaning/4_animation/">
+        <h3 class="title is-4">
+            
+        </h3>
+    </a>
+
+    <div class="level is-mobile details">
+        <div class="level-left">
+
+            
+            <div class="level-item">
+                <a href="/posts/ueleaning/4_animation/">
+                    <p class="subtitle info date">Jan 1, 0001
+                    </p>
+                </a>
+            </div>
+            
+
+
+            <div class="level-item">
+                <a href="/posts/ueleaning/4_animation/">
+                    <p class="subtitle info">
+                        2 mins read
+                    </p>
+                </a>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            
+        </div>
+    </div>
+
+    <div>
         
-        <li>
-            <a href="/tags/game/">
-                <span class="tag is-dark is-large is-rounded">
-                    Game
-                </span>
+
+        <div>
+            <a href="/posts/ueleaning/4_animation/">
+                <p class="summary">
+                    1.序列帧动画 2.模型动画 顶点动画 数据量大 迭代缓慢 =》 骨骼动画
+骨骼 通过改变骨骼的朝向和位置来生成动画 蒙皮 将mesh顶点附着到骨骼上（权重不一样） 每个顶点可以被多个骨骼控制
+资产类型 skeleton骨架资源关联动画数据 skeletalmesh骨骼网格体 主要的渲染资源 physicsasset 物理资产 关联骨骼和物理世界的交互
+eventGraph
+AnimGraph
+shooting 要在mesh space 而不是localspace 因为射击时要向准星方向 而不是人物朝向
+装弹要在localspace 而不是mesh space 因为角色移动的时候朝向要向移动的方向装弹
+blend space
+aim offset Montage 依赖animsequence
+根骨动画需要客户端和服务器同时播，如果服务器不播动画或者时间差太多 客户端会被拉扯
+动画混合节点
+ApplyAdditive
+ApplyMeshSpaceAdditive
+Blend
+BlendBoneByChannel
+BlendMulti
+BlendPosesByBool /byint
+layeredBlendPerBone
+MakeDynamicAdditive
+IK
+TWO BONE IK
+FABRIK
+adobe mixamo
+课后作业 实现敌人的基础移动动画蓝图 并尽可能优化表现
+实现敌人的死亡动画 并尽可能优化表现 （多方向死亡动画）
+实现近战击败敌人的功能和动画表现（选做）
+                    
+                </p>
             </a>
-        </li>
-        
-        <li>
-            <a href="/tags/ue5/">
-                <span class="tag is-dark is-large is-rounded">
-                    UE5
-                </span>
-            </a>
-        </li>
-        
-    </ul>
+        </div>
+    </div>
+
+    <div class="level is-mobile continue-reading">
+        <div class="level-left">
+        </div>
+        <div class="level-right">
+            <a href="/posts/ueleaning/4_animation/">Continue reading <i class="fa fa-angle-double-right"
+                    aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <hr>
 </div>
 
 
@@ -234,6 +341,62 @@
 
 
 
+
+<section class="section">
+    <nav class="pagination is-centered">
+
+        
+            <a class="pagination-previous is-dark" href="/posts/page/2/">Previous</a>
+        
+
+        
+            <a class="pagination-next" disabled>Next page</a>
+        
+
+
+        <ul class="pagination-list">
+
+        
+
+            
+            
+
+                <li><a href="/posts/" class="pagination-link">1</a></li>
+
+                
+                
+
+            
+
+        
+
+            
+            
+
+                <li><a href="/posts/page/2/" class="pagination-link">2</a></li>
+
+                
+                
+
+            
+
+        
+
+            
+            
+
+                <li><a href="/posts/page/3/" class="pagination-link is-current">3</a></li>
+
+                
+                
+
+            
+
+        
+
+        </ul>
+    </nav>
+</section>
 
         </div>
     </div>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Game on GeeTeng</title>
+    <link>https://geeteng.github.io/tags/game/</link>
+    <description>Recent content in Game on GeeTeng</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Tue, 17 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://geeteng.github.io/tags/game/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>空间数据结构</title>
+      <link>https://geeteng.github.io/posts/game/spatialdatastructures/</link>
+      <pubDate>Tue, 17 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/game/spatialdatastructures/</guid>
+      <description>多人在线游戏中，由于玩家规模十分庞大，如果想通过计算每一个玩家与其他 n - 1 个玩家之间的信息，时间复杂度会达到n^2，性能会变得很低。于是需要正确的处理这些数据，优化性能。&#xA;包围体层次结构 (BVH, Bounding Volume Hierarchy) 层次包围盒树，根节点是一个大的包围盒，往下是其子包围盒。&#xA;AABB（Axis-Aligned Bounding Box） 是一种常用的 包围盒（Bounding Box）类型&#xA;在 2D 空间 中，AABB 可以表示为：&#xA;Min = (x_min, y_min) Max = (x_max, y_max) 在 3D 空间 中，AABB 可以表示为：&#xA;Min = (x_min, y_min, z_min) Max = (x_max, y_max, z_max) 在游戏引擎中，大部分物体都会动态更新，而层次包围盒树 / 层次球包围盒树可以动态更新，从叶节点一级一级的往上更新上面的节点，使包围体包住子节点。&#xA;BSP (Binary Space Partitioning) BSP 树是一棵二叉树，关键是递归地将空间划分为两部分（分区），每次分割都使用一个超平面，通过超平面可以有效地将三维空间分割成多个较小的部分。&#xA;二叉树结构：每个节点代表一个超平面。要构造出一棵尽可能平衡的 BSP 树，在每次添加节点（增加超平面）的时候，让其左右子树节点相差不多（超平面前方多边形数和后方相差不多）。&#xA;BSP 树构造的最坏时间复杂度为 O(N²logN) ，平均时间复杂度为 O(N²)。&#xA;BSP 应用：自动生成室内 portal（门户），进行额外的视野剔除&amp;hellip;&#xA;k-d 树&#xA;k-d 树就是一种特殊形式的BSP树（轴对齐的BSP树），其每个节点都代表一个k维坐标点，树的每层都是对应一个划分维度。</description>
+    </item>
+  </channel>
+</rss>

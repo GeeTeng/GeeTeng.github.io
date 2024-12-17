@@ -6,14 +6,35 @@
     <description>Recent content in Posts on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 13 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 17 Dec 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>空间数据结构</title>
+      <link>https://geeteng.github.io/posts/game/spatialdatastructures/</link>
+      <pubDate>Tue, 17 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/game/spatialdatastructures/</guid>
+      <description>多人在线游戏中，由于玩家规模十分庞大，如果想通过计算每一个玩家与其他 n - 1 个玩家之间的信息，时间复杂度会达到n^2，性能会变得很低。于是需要正确的处理这些数据，优化性能。&#xA;包围体层次结构 (BVH, Bounding Volume Hierarchy) 层次包围盒树，根节点是一个大的包围盒，往下是其子包围盒。&#xA;AABB（Axis-Aligned Bounding Box） 是一种常用的 包围盒（Bounding Box）类型&#xA;在 2D 空间 中，AABB 可以表示为：&#xA;Min = (x_min, y_min) Max = (x_max, y_max) 在 3D 空间 中，AABB 可以表示为：&#xA;Min = (x_min, y_min, z_min) Max = (x_max, y_max, z_max) 在游戏引擎中，大部分物体都会动态更新，而层次包围盒树 / 层次球包围盒树可以动态更新，从叶节点一级一级的往上更新上面的节点，使包围体包住子节点。&#xA;BSP (Binary Space Partitioning) BSP 树是一棵二叉树，关键是递归地将空间划分为两部分（分区），每次分割都使用一个超平面，通过超平面可以有效地将三维空间分割成多个较小的部分。&#xA;二叉树结构：每个节点代表一个超平面。要构造出一棵尽可能平衡的 BSP 树，在每次添加节点（增加超平面）的时候，让其左右子树节点相差不多（超平面前方多边形数和后方相差不多）。&#xA;BSP 树构造的最坏时间复杂度为 O(N²logN) ，平均时间复杂度为 O(N²)。&#xA;BSP 应用：自动生成室内 portal（门户），进行额外的视野剔除&amp;hellip;&#xA;k-d 树&#xA;k-d 树就是一种特殊形式的BSP树（轴对齐的BSP树），其每个节点都代表一个k维坐标点，树的每层都是对应一个划分维度。</description>
+    </item>
+    <item>
+      <title>Shader</title>
+      <link>https://geeteng.github.io/posts/graphics/shader/</link>
+      <pubDate>Mon, 16 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/graphics/shader/</guid>
+      <description>Z-Buffer(深度缓存） 用来处理可见性问题，即确定每个像素最前层物体。&#xA;Frame Buffer(帧缓冲区：用于存储最终图像数据)、Depth Buffer（深度缓冲区：判断哪些物体在前，哪些物体被遮挡）&#xA;工作原理：近处是更黑的，远处是发白的。&#xA;Z-Buffer处理不了透明物体，透明物体需要特殊处理。&#xA;Z-Buffer Algorithm R代表无穷大，如果有三角形，就覆盖掉这些无穷大的像素&#xA;新的三角形深度是8 肯定要被原本三角形深度5所遮挡 所以就忽略它&#xA;如果新的三角形离的更近 更新这个像素对应的深度值&#xA;Z-Buffer复杂度 - O(n)&#xA;**Question：**为什么排序n个三角形是在线性的时间？&#xA;**Answer：**其实它不是排序，只是在对每个像素一直求最小值。&#xA;Shader 定义：对不同的物体应用不同材质的过程&#xA;物体在经过MVP（模型、视图、投影矩阵变换）、ViewPort之后现在我们会得到一系列旋转的立方体&#xA;需要对他做着色（Shading）&#xA;Blinn-Phong 反射模型 Blinn-Phong 反射模型是计算光照和表面反射的常用模型。它将光照分为三部分：&#xA;漫反射（Diffuse Reflection）：表示光照与物体表面相互作用后，光线在不同方向上散射的现象，通常效果比较均匀，不会有明显的亮点。 镜面反射（Specular Highlights）：表示光线被物体表面镜面反射的部分，产生亮光点，通常依赖于视角与光源方向的关系，产生较强的高光效果。 环境光照（Ambient Lighting）：表示全局环境中的光照，通常是一个常量，作用于整个场景，不依赖于具体的物体或光源。 diffuse reflection 通常假设反射光是一个半球，并计算每个着色点（shading point）接收到的能量。漫反射的强度与光照方向和表面法线之间的夹角有关。&#xA;Lambert‘s cosine law：描述漫反射光照强度与光照方向和法线之间夹角的关系，公式如下： $$&#xD;L_{d}=k_{d}\left(I / r^{2}\right) \max (0, \mathbf{n} \cdot \mathbf{l})&#xD;$$ $$&#xD;L_d:漫反射分量（反射光强度）\qquad k_d:漫反射系数（物体表面材质的属性）\qquad I:光源强度\qquad r:光源到表面点的距离 \qquad n:法线方向 \qquad l:光源方向&#xD;$$ 注意：漫反射不考虑其他物体的影响，只关注当前着色点的表面法线与光照方向的关系。</description>
+    </item>
+    <item>
+      <title>TinyRenderer</title>
+      <link>https://geeteng.github.io/posts/graphics/tinyrenderer/</link>
+      <pubDate>Mon, 16 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/graphics/tinyrenderer/</guid>
+      <description>mainCRTStartup&#xA;void line(int x0, int y0, int x1, int y1, TGAImage&amp;amp; image, TGAColor color) { for (float t = 0.f; t &amp;lt; 1; t += 0.01) { int x = x0 + (x1 - x0) * t; int y = y0 + (y1 - y0) * t; image.set(x, y, color); } } 描绘了100个点，但是能否用x来遍历，这样可以从13 - 80 只需要描绘67个点&#xA;void line(int x0, int y0, int x1, int y1, TGAImage&amp;amp; image, TGAColor color) { for (int x = x0; x &amp;lt; x1; x++) { float t = (x - x0) / (float)(x1 - x0); int y = y0 * (1 - t) + y1 * t; image.</description>
+    </item>
     <item>
       <title>UMG</title>
       <link>https://geeteng.github.io/posts/ueleaning/3_umg/</link>
       <pubDate>Fri, 13 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/ueleaning/3_umg/</guid>
-      <description>目录 [TOC]&#xA;可直接跳转到文末查看最终效果图&#xA;创建主页面 新建HUD类-MainUIHUD和GameMode-MainMenuGameMode，并新建BP_UIGameMode蓝图类。&#xA;// 将该HUD绑定到该GameMode上 AMainMenuGameMode::AMainMenuGameMode() { HUDClass = AMainUIHUD::StaticClass(); } 在MainUIHUD中加载主界面，新建UserWidget类MainUIHUD和继承其的蓝图（往后每一个界面都是这样的创建方式）&#xA;class UMainUserWidget; protected: UPROPERTY() UMainUserWidget* MainUserWidget; #include &amp;#34;MenuLevel/MainUserWidget.h&amp;#34; void AMainUIHUD::BeginPlay() { Super::BeginPlay(); // 显示UI 加载蓝图类 TSubclassOf&amp;lt;UMainUserWidget&amp;gt; WidgetClass = LoadClass&amp;lt;UMainUserWidget&amp;gt;(nullptr,TEXT(&amp;#34;/Script/UMGEditor.WidgetBlueprint&amp;#39;/Game/FPSGame/UI/UMG/UMG_MainUI.UMG_MainUI_C&amp;#39;&amp;#34;)); if (WidgetClass) { // CreatWidget() MainUserWidget = CreateWidget&amp;lt;UMainUserWidget&amp;gt;(GetOwningPlayerController(), WidgetClass); if (MainUserWidget) { MainUserWidget-&amp;gt;AddToViewport(); } } // 显示鼠标 GetOwningPlayerController()-&amp;gt;bShowMouseCursor = true; } 创建主页面（图片文字为后加上的）&#xA;MainUserWidget&#xA;protected: virtual void NativeOnInitialized() override; virtual void NativeConstruct() override; UPROPERTY(meta=(BindWidgetAnim), Transient) UWidgetAnimation* MenuUIAni; void UMainUserWidget::NativeOnInitialized() { Super::NativeOnInitialized(); } void UMainUserWidget::NativeConstruct() { Super::NativeConstruct(); // 制作了一个简单的动画 - 进入游戏按钮的透明度改变，并且按钮点击有音效 PlayAnimation(MenuUIAni); } 按钮的背景图是自己制作的 - 新建一个Material，提取UV坐标的R，[0, 1] * [1, 0] = &amp;gt; 中间最大值为0.</description>
+      <description>可直接跳转到文末查看最终效果图&#xA;创建主页面 新建HUD类-MainUIHUD和GameMode-MainMenuGameMode，并新建BP_UIGameMode蓝图类。&#xA;// 将该HUD绑定到该GameMode上 AMainMenuGameMode::AMainMenuGameMode() { HUDClass = AMainUIHUD::StaticClass(); } 在MainUIHUD中加载主界面，新建UserWidget类MainUIHUD和继承其的蓝图（往后每一个界面都是这样的创建方式）&#xA;class UMainUserWidget; protected: UPROPERTY() UMainUserWidget* MainUserWidget; #include &amp;#34;MenuLevel/MainUserWidget.h&amp;#34; void AMainUIHUD::BeginPlay() { Super::BeginPlay(); // 显示UI 加载蓝图类 TSubclassOf&amp;lt;UMainUserWidget&amp;gt; WidgetClass = LoadClass&amp;lt;UMainUserWidget&amp;gt;(nullptr,TEXT(&amp;#34;/Script/UMGEditor.WidgetBlueprint&amp;#39;/Game/FPSGame/UI/UMG/UMG_MainUI.UMG_MainUI_C&amp;#39;&amp;#34;)); if (WidgetClass) { // CreatWidget() MainUserWidget = CreateWidget&amp;lt;UMainUserWidget&amp;gt;(GetOwningPlayerController(), WidgetClass); if (MainUserWidget) { MainUserWidget-&amp;gt;AddToViewport(); } } // 显示鼠标 GetOwningPlayerController()-&amp;gt;bShowMouseCursor = true; } 创建主页面（图片文字为后加上的）&#xA;MainUserWidget&#xA;protected: virtual void NativeOnInitialized() override; virtual void NativeConstruct() override; UPROPERTY(meta=(BindWidgetAnim), Transient) UWidgetAnimation* MenuUIAni; void UMainUserWidget::NativeOnInitialized() { Super::NativeOnInitialized(); } void UMainUserWidget::NativeConstruct() { Super::NativeConstruct(); // 制作了一个简单的动画 - 进入游戏按钮的透明度改变，并且按钮点击有音效 PlayAnimation(MenuUIAni); } 按钮的背景图是自己制作的 - 新建一个Material，提取UV坐标的R，[0, 1] * [1, 0] = &amp;gt; 中间最大值为0.</description>
     </item>
     <item>
       <title>C&#43;&#43;知识回顾</title>
@@ -56,6 +77,13 @@
       <pubDate>Sat, 02 Nov 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/graphics/games101_work01/</guid>
       <description>2D Transformations Scale $$&#xD;S(s_x, s_y) = \begin{pmatrix}&#xD;s_x &amp; 0 &amp; 0 \\&#xD;0 &amp; s_y &amp; 0 \\&#xD;0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Rotation $$&#xD;R(\alpha) = \begin{pmatrix} \cos \alpha &amp; -\sin \alpha &amp; 0 \\ \sin \alpha &amp; \cos \alpha &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Translation $$&#xD;T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \\ 0 &amp; 1 &amp; t_y \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ 齐次坐标的最后一位为 0 表示方向或无穷远点</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://geeteng.github.io/posts/ueleaning/4_animation/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/ueleaning/4_animation/</guid>
+      <description>1.序列帧动画 2.模型动画 顶点动画 数据量大 迭代缓慢 =》 骨骼动画&#xA;骨骼 通过改变骨骼的朝向和位置来生成动画 蒙皮 将mesh顶点附着到骨骼上（权重不一样） 每个顶点可以被多个骨骼控制&#xA;资产类型 skeleton骨架资源关联动画数据 skeletalmesh骨骼网格体 主要的渲染资源 physicsasset 物理资产 关联骨骼和物理世界的交互&#xA;eventGraph&#xA;AnimGraph&#xA;shooting 要在mesh space 而不是localspace 因为射击时要向准星方向 而不是人物朝向&#xA;装弹要在localspace 而不是mesh space 因为角色移动的时候朝向要向移动的方向装弹&#xA;blend space&#xA;aim offset Montage 依赖animsequence&#xA;根骨动画需要客户端和服务器同时播，如果服务器不播动画或者时间差太多 客户端会被拉扯&#xA;动画混合节点&#xA;ApplyAdditive&#xA;ApplyMeshSpaceAdditive&#xA;Blend&#xA;BlendBoneByChannel&#xA;BlendMulti&#xA;BlendPosesByBool /byint&#xA;layeredBlendPerBone&#xA;MakeDynamicAdditive&#xA;IK&#xA;TWO BONE IK&#xA;FABRIK&#xA;adobe mixamo&#xA;课后作业 实现敌人的基础移动动画蓝图 并尽可能优化表现&#xA;实现敌人的死亡动画 并尽可能优化表现 （多方向死亡动画）&#xA;实现近战击败敌人的功能和动画表现（选做）</description>
     </item>
   </channel>
 </rss>
