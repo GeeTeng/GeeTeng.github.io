@@ -22,6 +22,7 @@ enableemoji = false
     paginatePostsPerPage = 5
     paginateTagsPerPage = 6
 
+
 [taxonomies]
     tag = "tags"
 
@@ -64,3 +65,5 @@ enableemoji = false
         ["\\(", "\\)"],
         ["$", "$"]
       ]
+
+

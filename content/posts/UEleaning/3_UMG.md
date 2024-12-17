@@ -8,9 +8,7 @@ math: true
 chordsheet: true
 ---
 
-### 目录
 
-[TOC]
 
 可直接跳转到文末查看最终效果图
 
