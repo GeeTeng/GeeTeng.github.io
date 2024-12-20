@@ -34,7 +34,7 @@
   <meta itemprop="description" content="视口变换 光栅化方法 走样 反走样">
   <meta itemprop="datePublished" content="2024-12-03T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-12-03T00:00:00+00:00">
-  <meta itemprop="wordCount" content="229">
+  <meta itemprop="wordCount" content="517">
   <meta itemprop="keywords" content="Computer-Graphics">
 <link rel="canonical" href="https://geeteng.github.io/posts/graphics/%E5%85%89%E6%A0%85%E5%8C%96/" />
 
@@ -210,7 +210,7 @@
 
             <div class="level-item">
                 <p class="subtitle info">
-                    11 mins read
+                    13 mins read
                 </p>
             </div>
         </div>
@@ -395,7 +395,70 @@ $$
 <p>在渲染过程中，TAA 会使用前几帧的图像信息进行参考，并结合当前帧的图像数据。这意味着它不仅仅依赖于当前帧的像素，而是通过对比多个帧之间的像素位置、颜色和深度来进行抗锯齿处理。</p>
 <h5 id="深度学习超级采样dlss">深度学习超级采样DLSS</h5>
 <p>依赖深度学习，使用低分辨率(比如1080p)渲染图象，为了尽量减少计算负担，提高帧率，然后使用深度学习生成高分辨率的图像（智能补全）。</p>
-
+<h3 id="作业">作业</h3>
+<p><img src="/images/%E5%85%89%E6%A0%85%E5%8C%96/hw.png" alt="hw"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> rst<span style="color:#f92672">::</span>rasterizer<span style="color:#f92672">::</span>rasterize_triangle(<span style="color:#66d9ef">const</span> Triangle<span style="color:#f92672">&amp;</span> t)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">auto</span> v <span style="color:#f92672">=</span> t.toVector4();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> minx, maxx, miny, maxy;
+</span></span><span style="display:flex;"><span>    minx <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>min(v[<span style="color:#ae81ff">0</span>].x(), std<span style="color:#f92672">::</span>min(v[<span style="color:#ae81ff">1</span>].x(), v[<span style="color:#ae81ff">2</span>].x()));
+</span></span><span style="display:flex;"><span>    miny <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>min(v[<span style="color:#ae81ff">0</span>].y(), std<span style="color:#f92672">::</span>min(v[<span style="color:#ae81ff">1</span>].y(), v[<span style="color:#ae81ff">2</span>].y()));
+</span></span><span style="display:flex;"><span>    maxx <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>max(v[<span style="color:#ae81ff">0</span>].x(), std<span style="color:#f92672">::</span>max(v[<span style="color:#ae81ff">1</span>].x(), v[<span style="color:#ae81ff">2</span>].x()));
+</span></span><span style="display:flex;"><span>    maxy <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>max(v[<span style="color:#ae81ff">0</span>].y(), std<span style="color:#f92672">::</span>max(v[<span style="color:#ae81ff">1</span>].y(), v[<span style="color:#ae81ff">2</span>].y()));
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 遍历包围盒中每个像素
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> minx; x <span style="color:#f92672">&lt;=</span> maxx; x <span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> y <span style="color:#f92672">=</span> minx; y <span style="color:#f92672">&lt;=</span> maxy; y<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 检查包围盒中的像素点是否在三角形内部
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span> (insideTriangle(x, y, t.v))
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 求深度插值 重心坐标的权重系数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">float</span> alpha, beta, gamma;
+</span></span><span style="display:flex;"><span>                std<span style="color:#f92672">::</span>tie(alpha, beta, gamma) <span style="color:#f92672">=</span> computeBarycentric2D(x <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.5</span>, y <span style="color:#f92672">+</span> <span style="color:#ae81ff">0.5</span>, t.v);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">float</span> w_reciprocal <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.0</span> <span style="color:#f92672">/</span> (alpha <span style="color:#f92672">/</span> v[<span style="color:#ae81ff">0</span>].w() <span style="color:#f92672">+</span> beta <span style="color:#f92672">/</span> v[<span style="color:#ae81ff">1</span>].w() <span style="color:#f92672">+</span> gamma <span style="color:#f92672">/</span> v[<span style="color:#ae81ff">2</span>].w());
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">float</span> z_interpolated <span style="color:#f92672">=</span> alpha <span style="color:#f92672">*</span> v[<span style="color:#ae81ff">0</span>].z() <span style="color:#f92672">/</span> v[<span style="color:#ae81ff">0</span>].w() <span style="color:#f92672">+</span> beta <span style="color:#f92672">*</span> v[<span style="color:#ae81ff">1</span>].z() <span style="color:#f92672">/</span> v[<span style="color:#ae81ff">1</span>].w() <span style="color:#f92672">+</span> gamma <span style="color:#f92672">*</span> v[<span style="color:#ae81ff">2</span>].z() <span style="color:#f92672">/</span> v[<span style="color:#ae81ff">2</span>].w();
+</span></span><span style="display:flex;"><span>                z_interpolated <span style="color:#f92672">*=</span> w_reciprocal;
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// rasterization
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#75715e">// 计算当前像素在深度缓冲区中的索引
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">auto</span> ind <span style="color:#f92672">=</span> get_index(x, y);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (z_interpolated <span style="color:#f92672">&lt;</span> depth_buf[ind])
+</span></span><span style="display:flex;"><span>                {
+</span></span><span style="display:flex;"><span>                    depth_buf[ind] <span style="color:#f92672">=</span> z_interpolated;
+</span></span><span style="display:flex;"><span>                    Vector3f point <span style="color:#f92672">=</span> Vector3f((<span style="color:#66d9ef">float</span>)x, (<span style="color:#66d9ef">float</span>)y, z_interpolated);
+</span></span><span style="display:flex;"><span>                    Vector3f color <span style="color:#f92672">=</span> t.getColor();
+</span></span><span style="display:flex;"><span>                    set_pixel(point, color);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">insideTriangle</span>(<span style="color:#66d9ef">float</span> x, <span style="color:#66d9ef">float</span> y, <span style="color:#66d9ef">const</span> Vector3f<span style="color:#f92672">*</span> _v)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// TODO : Implement this function to check if the point (x, y) is inside the triangle represented by _v[0], _v[1], _v[2]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">//Vector3f P(x + 0.5f, y + 0.5f, 1.0f);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    Vector3f P(x, y, <span style="color:#ae81ff">1.0f</span>);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> Vector3f<span style="color:#f92672">&amp;</span> A <span style="color:#f92672">=</span> _v[<span style="color:#ae81ff">0</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> Vector3f<span style="color:#f92672">&amp;</span> B <span style="color:#f92672">=</span> _v[<span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> Vector3f<span style="color:#f92672">&amp;</span> C <span style="color:#f92672">=</span> _v[<span style="color:#ae81ff">2</span>];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Vector3f AB <span style="color:#f92672">=</span> B <span style="color:#f92672">-</span> A;
+</span></span><span style="display:flex;"><span>    Vector3f BC <span style="color:#f92672">=</span> C <span style="color:#f92672">-</span> B;
+</span></span><span style="display:flex;"><span>    Vector3f CA <span style="color:#f92672">=</span> A <span style="color:#f92672">-</span> C;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    Vector3f AP <span style="color:#f92672">=</span> P <span style="color:#f92672">-</span> A;
+</span></span><span style="display:flex;"><span>    Vector3f BP <span style="color:#f92672">=</span> P <span style="color:#f92672">-</span> B;
+</span></span><span style="display:flex;"><span>    Vector3f CP <span style="color:#f92672">=</span> P <span style="color:#f92672">-</span> C;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> z1 <span style="color:#f92672">=</span> AB.cross(AP).z();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> z2 <span style="color:#f92672">=</span> BC.cross(BP).z();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> z3 <span style="color:#f92672">=</span> CA.cross(CP).z();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (z1 <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> z2 <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> z3 <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">||</span> (z1 <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> z2 <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> z3 <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
     </div>
 </div><div id="social-media-share" class="has-text-centered">
 	<p><i>Sharing is caring!</i></p>

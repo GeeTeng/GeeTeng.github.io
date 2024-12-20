@@ -34,7 +34,7 @@
   <meta itemprop="description" content="TinyRenderer项目 更新中">
   <meta itemprop="datePublished" content="2024-12-16T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-12-16T00:00:00+00:00">
-  <meta itemprop="wordCount" content="400">
+  <meta itemprop="wordCount" content="854">
   <meta itemprop="keywords" content="Computer-Graphics">
 <link rel="canonical" href="https://geeteng.github.io/posts/graphics/tinyrenderer/" />
 
@@ -210,7 +210,7 @@
 
             <div class="level-item">
                 <p class="subtitle info">
-                    4 mins read
+                    10 mins read
                 </p>
             </div>
         </div>
@@ -232,7 +232,8 @@
     <div class="blog-text">
         
 
-        <p>mainCRTStartup</p>
+        <h3 id="1-画线">1 画线</h3>
+<p>mainCRTStartup</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">line</span>(<span style="color:#66d9ef">int</span> x0, <span style="color:#66d9ef">int</span> y0, <span style="color:#66d9ef">int</span> x1, <span style="color:#66d9ef">int</span> y1, TGAImage<span style="color:#f92672">&amp;</span> image, TGAColor color)
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">float</span> t <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>; t <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">1</span>; t <span style="color:#f92672">+=</span> <span style="color:#ae81ff">0.01</span>)
@@ -364,7 +365,113 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>其中视口变换将 <strong>标准化设备坐标（NDC）</strong> 转换为 <strong>屏幕坐标系</strong>。</p>
+<p><strong>加 1 的作用</strong>：</p>
+<ul>
+<li>将 NDC 范围 [−1,1] 平移到 [0,2]，这样负坐标就能变为非负值。</li>
+</ul>
+<p><strong>乘以 width/2和 height/2</strong>：</p>
+<ul>
+<li>将归一化范围 [0,1] 放大到屏幕分辨率范围。</li>
+<li>width/2 和 height/2 是 NDC 范围 [0, 1] 到屏幕范围的比例因子。</li>
+</ul>
 <p><img src="/images/TinyRenderer/line02.png" alt="line02"></p>
+<hr>
+<h3 id="2-画面">2 画面</h3>
+<blockquote>
+<p>已经有了线框三角形，如何把三角形绘制出颜色？</p>
+</blockquote>
+<p>可以使用一根根线绘制出三角形，就像是用一个个点绘制直线一样。将三角形从上至下分成一条条直线，通过遍历 Y，得到线的两个端点，再去绘制线在每个 Y 处。</p>
+<p>由于三角形的不规则，所以必须要分为两部分，通过相似三角形，可以求出线的 X, Y 点。</p>
+<h4 id="逐行扫描填充法">逐行扫描填充法</h4>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">triangle</span>(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage<span style="color:#f92672">&amp;</span> image, TGAColor color) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (t0.y <span style="color:#f92672">&gt;</span> t1.y) std<span style="color:#f92672">::</span>swap(t1, t0);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (t1.y <span style="color:#f92672">&gt;</span> t2.y) std<span style="color:#f92672">::</span>swap(t2, t1);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (t0.y <span style="color:#f92672">&gt;</span> t2.y) std<span style="color:#f92672">::</span>swap(t2, t0);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (t0.y <span style="color:#f92672">==</span> t1.y <span style="color:#f92672">&amp;&amp;</span> t1.y <span style="color:#f92672">==</span> t2.y) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> total_height <span style="color:#f92672">=</span> t2.y <span style="color:#f92672">-</span> t0.y;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> y <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; y <span style="color:#f92672">&lt;</span> total_height; y<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 如果是上半部分 segment_height就为true 下半部分为false
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">bool</span> second_half <span style="color:#f92672">=</span> y <span style="color:#f92672">&gt;</span> t1.y <span style="color:#f92672">-</span> t0.y <span style="color:#f92672">||</span> t1.y <span style="color:#f92672">==</span> t0.y;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> segment_height <span style="color:#f92672">=</span> second_half <span style="color:#f92672">?</span> t2.y <span style="color:#f92672">-</span> t1.y : t1.y <span style="color:#f92672">-</span> t0.y;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 表示扫描线位置在 t0 至 t2 的相对位置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">float</span> alpha <span style="color:#f92672">=</span> (<span style="color:#66d9ef">float</span>)y <span style="color:#f92672">/</span> total_height;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 如果是上半部分，高度要减去下半部分的高度 如果是下半部分就直接是y
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">float</span> beta <span style="color:#f92672">=</span> (<span style="color:#66d9ef">float</span>)(y <span style="color:#f92672">-</span> (second_half <span style="color:#f92672">?</span> t1.y <span style="color:#f92672">-</span> t0.y : <span style="color:#ae81ff">0</span>)) <span style="color:#f92672">/</span> segment_height;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// A是在三角形长线一侧 同一条长线中等比例求线段左边的坐标
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Vec2i A <span style="color:#f92672">=</span> t0 <span style="color:#f92672">+</span> (t2 <span style="color:#f92672">-</span> t0) <span style="color:#f92672">*</span> alpha;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// B是在三角形分为上下部分的两条边一侧
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        Vec2i B <span style="color:#f92672">=</span> second_half <span style="color:#f92672">?</span> t1 <span style="color:#f92672">+</span> (t2 <span style="color:#f92672">-</span> t1) <span style="color:#f92672">*</span> beta : t0 <span style="color:#f92672">+</span> (t1 <span style="color:#f92672">-</span> t0) <span style="color:#f92672">*</span> beta;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (A.x <span style="color:#f92672">&gt;</span> B.x) std<span style="color:#f92672">::</span>swap(A, B);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> A.x; j <span style="color:#f92672">&lt;=</span> B.x; j<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            image.set(j, t0.y <span style="color:#f92672">+</span> y, color);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><img src="/images/TinyRenderer/trangle.png" alt="trangle"></p>
+<h4 id="重心坐标法">重心坐标法</h4>
+<p>遍历三角形的包围盒中的所有像素，使用重心坐标法<strong>判断当前像素是否位于三角形内部</strong>。</p>
+<p>包围盒算法（待实现）<a href="https://github.com/ssloy/tinyrenderer/wiki/Lesson-2:-Triangle-rasterization-and-back-face-culling">第 2 课：三角形栅格化和背面剔除 ·ssloy/tinyrenderer 维基</a></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>Vec3f <span style="color:#a6e22e">barycentric</span>(Vec2i <span style="color:#f92672">*</span>pts, Vec2i P) { 
+</span></span><span style="display:flex;"><span>    Vec3f u <span style="color:#f92672">=</span> Vec3f(pts[<span style="color:#ae81ff">2</span>][<span style="color:#ae81ff">0</span>]<span style="color:#f92672">-</span>pts[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>], pts[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">0</span>]<span style="color:#f92672">-</span>pts[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>], pts[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">0</span>]<span style="color:#f92672">-</span>P[<span style="color:#ae81ff">0</span>])<span style="color:#f92672">^</span>Vec3f(pts[<span style="color:#ae81ff">2</span>][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>pts[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">1</span>], pts[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>pts[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">1</span>], pts[<span style="color:#ae81ff">0</span>][<span style="color:#ae81ff">1</span>]<span style="color:#f92672">-</span>P[<span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/* `pts` and `P` has integer value as coordinates
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">       so `abs(u[2])` &lt; 1 means `u[2]` is 0, that means
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">       triangle is degenerate, in this case return something with negative coordinates */</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (std<span style="color:#f92672">::</span>abs(u.z)<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> Vec3f(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Vec3f(<span style="color:#ae81ff">1.f</span><span style="color:#f92672">-</span>(u.x<span style="color:#f92672">+</span>u.y)<span style="color:#f92672">/</span>u.z, u.y<span style="color:#f92672">/</span>u.z, u.x<span style="color:#f92672">/</span>u.z); 
+</span></span><span style="display:flex;"><span>} 
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">triangle</span>(Vec2i <span style="color:#f92672">*</span>pts, TGAImage <span style="color:#f92672">&amp;</span>image, TGAColor color) { 
+</span></span><span style="display:flex;"><span>    Vec2i bboxmin(image.get_width()<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>,  image.get_height()<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>); 
+</span></span><span style="display:flex;"><span>    Vec2i bboxmax(<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>); 
+</span></span><span style="display:flex;"><span>    Vec2i clamp(image.get_width()<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, image.get_height()<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>); 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>; i<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">3</span>; i<span style="color:#f92672">++</span>) { 
+</span></span><span style="display:flex;"><span>        bboxmin.x <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>max(<span style="color:#ae81ff">0</span>, std<span style="color:#f92672">::</span>min(bboxmin.x, pts[i].x));
+</span></span><span style="display:flex;"><span>	bboxmin.y <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>max(<span style="color:#ae81ff">0</span>, std<span style="color:#f92672">::</span>min(bboxmin.y, pts[i].y));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	bboxmax.x <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>min(clamp.x, std<span style="color:#f92672">::</span>max(bboxmax.x, pts[i].x));
+</span></span><span style="display:flex;"><span>	bboxmax.y <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>min(clamp.y, std<span style="color:#f92672">::</span>max(bboxmax.y, pts[i].y));
+</span></span><span style="display:flex;"><span>    } 
+</span></span><span style="display:flex;"><span>    Vec2i P; 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (P.x<span style="color:#f92672">=</span>bboxmin.x; P.x<span style="color:#f92672">&lt;=</span>bboxmax.x; P.x<span style="color:#f92672">++</span>) { 
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (P.y<span style="color:#f92672">=</span>bboxmin.y; P.y<span style="color:#f92672">&lt;=</span>bboxmax.y; P.y<span style="color:#f92672">++</span>) { 
+</span></span><span style="display:flex;"><span>            Vec3f bc_screen  <span style="color:#f92672">=</span> barycentric(pts, P); 
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (bc_screen.x<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> bc_screen.y<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> bc_screen.z<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">continue</span>; 
+</span></span><span style="display:flex;"><span>            image.set(P.x, P.y, color); 
+</span></span><span style="display:flex;"><span>        } 
+</span></span><span style="display:flex;"><span>    } 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>绘制模型的三角面</p>
+<p>一开始发现整个模型都是白色，看不到任何面片，这是因为没有光照。</p>
+<p>法向量与光照负方向夹角小于90°，被照亮；而虚线右边是背光的一侧，法向量与光照负方向夹角大于90°，处于黑暗中。（也就是<strong>背面裁剪</strong>）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> model<span style="color:#f92672">-&gt;</span>nfaces(); i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> face <span style="color:#f92672">=</span> model<span style="color:#f92672">-&gt;</span>face(i);
+</span></span><span style="display:flex;"><span>    Vec2i screen_coords[<span style="color:#ae81ff">3</span>];
+</span></span><span style="display:flex;"><span>    Vec3f world_coords[<span style="color:#ae81ff">3</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>; j<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        Vec3f v <span style="color:#f92672">=</span> model<span style="color:#f92672">-&gt;</span>vert(face[j]);
+</span></span><span style="display:flex;"><span>        screen_coords[j] <span style="color:#f92672">=</span> Vec2i((v.x <span style="color:#f92672">+</span> <span style="color:#ae81ff">1.</span>) <span style="color:#f92672">*</span> width <span style="color:#f92672">/</span> <span style="color:#ae81ff">2.</span>, (v.y <span style="color:#f92672">+</span> <span style="color:#ae81ff">1.</span>) <span style="color:#f92672">*</span> height <span style="color:#f92672">/</span> <span style="color:#ae81ff">2.</span>);
+</span></span><span style="display:flex;"><span>        world_coords[j] <span style="color:#f92672">=</span> v;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 世界坐标点相减得出方向向量 两向量的叉积就是法线向量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    Vec3f n <span style="color:#f92672">=</span> (world_coords[<span style="color:#ae81ff">2</span>] <span style="color:#f92672">-</span> world_coords[<span style="color:#ae81ff">0</span>]) <span style="color:#f92672">^</span> (world_coords[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">-</span> world_coords[<span style="color:#ae81ff">0</span>]);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 归一化 变成单位向量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    n.normalize();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">float</span> intensity <span style="color:#f92672">=</span> n <span style="color:#f92672">*</span> light_dir;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 点乘 &gt; 0 代表向光 点乘 &lt; 0 代表背光 呢么就不渲染
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (intensity <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        triangle(screen_coords[<span style="color:#ae81ff">0</span>], screen_coords[<span style="color:#ae81ff">1</span>], screen_coords[<span style="color:#ae81ff">2</span>], image, TGAColor(intensity <span style="color:#f92672">*</span> <span style="color:#ae81ff">255</span>, intensity <span style="color:#f92672">*</span> <span style="color:#ae81ff">255</span>, intensity <span style="color:#f92672">*</span> <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><img src="/images/TinyRenderer/linenormal.png" alt="linenormal"></p>
+<p>但是出现了问题：模型有一些地方比较奇怪，嘴巴部分。为什么会出现这样的情况？因为模型有一些内部的面覆盖了外面的面，所以引出来了ZBuffer。</p>
 
     </div>
 </div><div id="social-media-share" class="has-text-centered">
@@ -403,7 +510,7 @@
 	    </a>
 
 		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2ftinyrenderer%2f
-			&title=TinyRenderer&summary=mainCRTStartup%0avoid%20line%28int%20x0%2c%20int%20y0%2c%20int%20x1%2c%20int%20y1%2c%20TGAImage%26amp%3b%20image%2c%20TGAColor%20color%29%20%7b%20for%20%28float%20t%20%3d%200.f%3b%20t%20%26lt%3b%201%3b%20t%20%2b%3d%200.01%29%20%7b%20int%20x%20%3d%20x0%20%2b%20%28x1%20-%20x0%29%20%2a%20t%3b%20int%20y%20%3d%20y0%20%2b%20%28y1%20-%20y0%29%20%2a%20t%3b%20image.set%28x%2c%20y%2c%20color%29%3b%20%7d%20%7d%20%e6%8f%8f%e7%bb%98%e4%ba%86100%e4%b8%aa%e7%82%b9%ef%bc%8c%e4%bd%86%e6%98%af%e8%83%bd%e5%90%a6%e7%94%a8x%e6%9d%a5%e9%81%8d%e5%8e%86%ef%bc%8c%e8%bf%99%e6%a0%b7%e5%8f%af%e4%bb%a5%e4%bb%8e13%20-%2080%20%e5%8f%aa%e9%9c%80%e8%a6%81%e6%8f%8f%e7%bb%9867%e4%b8%aa%e7%82%b9%0avoid%20line%28int%20x0%2c%20int%20y0%2c%20int%20x1%2c%20int%20y1%2c%20TGAImage%26amp%3b%20image%2c%20TGAColor%20color%29%20%7b%20for%20%28int%20x%20%3d%20x0%3b%20x%20%26lt%3b%20x1%3b%20x%2b%2b%29%20%7b%20float%20t%20%3d%20%28x%20-%20x0%29%20%2f%20%28float%29%28x1%20-%20x0%29%3b%20int%20y%20%3d%20y0%20%2a%20%281%20-%20t%29%20%2b%20y1%20%2a%20t%3b%20image.&source=rafed123.github.io"
+			&title=TinyRenderer&summary=1%20%e7%94%bb%e7%ba%bf%20mainCRTStartup%0avoid%20line%28int%20x0%2c%20int%20y0%2c%20int%20x1%2c%20int%20y1%2c%20TGAImage%26amp%3b%20image%2c%20TGAColor%20color%29%20%7b%20for%20%28float%20t%20%3d%200.f%3b%20t%20%26lt%3b%201%3b%20t%20%2b%3d%200.01%29%20%7b%20int%20x%20%3d%20x0%20%2b%20%28x1%20-%20x0%29%20%2a%20t%3b%20int%20y%20%3d%20y0%20%2b%20%28y1%20-%20y0%29%20%2a%20t%3b%20image.set%28x%2c%20y%2c%20color%29%3b%20%7d%20%7d%20%e6%8f%8f%e7%bb%98%e4%ba%86100%e4%b8%aa%e7%82%b9%ef%bc%8c%e4%bd%86%e6%98%af%e8%83%bd%e5%90%a6%e7%94%a8x%e6%9d%a5%e9%81%8d%e5%8e%86%ef%bc%8c%e8%bf%99%e6%a0%b7%e5%8f%af%e4%bb%a5%e4%bb%8e13%20-%2080%20%e5%8f%aa%e9%9c%80%e8%a6%81%e6%8f%8f%e7%bb%9867%e4%b8%aa%e7%82%b9%0avoid%20line%28int%20x0%2c%20int%20y0%2c%20int%20x1%2c%20int%20y1%2c%20TGAImage%26amp%3b%20image%2c%20TGAColor%20color%29%20%7b%20for%20%28int%20x%20%3d%20x0%3b%20x%20%26lt%3b%20x1%3b%20x%2b%2b%29%20%7b%20float%20t%20%3d%20%28x%20-%20x0%29%20%2f%20%28float%29%28x1%20-%20x0%29%3b%20int%20y%20%3d%20y0%20%2a%20%281%20-%20t%29%20%2b%20y1%20%2a%20t%3b%20image.&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>

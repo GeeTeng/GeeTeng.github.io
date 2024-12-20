@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>
+    
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="构建 构建Piccolo的sln文件，运行在Visual Studio2022中
+源码解读 在Runtime文件夹下面有四个子文件夹，核心层、功能层、资源层、平台层，以及engine.cpp和engine.h（整个引擎的入口）。
+打开engine.cpp其中有4个重要的函数，StartEngine、shutdownEngine、run、tickOneFrame。
+StartEngine、shutdownEngine一个注册类型源信息，一个取消注册，相对的函数。
+void PiccoloEngine::run() { std::shared_ptr&lt;WindowSystem&gt; window_system = g_runtime_global_context.m_window_system; ASSERT(window_system); while (!window_system-&gt;shouldClose()) { const float delta_time = calculateDeltaTime(); tickOneFrame(delta_time); } } run中，当窗口没有关闭时，不断执行tickOneFrame。点击g_runtime_global_context进入到global_context文件中。
+发现声明了一个全局变量，并且实例化很多Manager（物理、粒子等）、System（窗口、渲染等）
+RuntimeGlobalContext g_runtime_global_context; void RuntimeGlobalContext::startSystems(const std::string&amp; config_file_path) { m_config_manager = std::make_shared&lt;ConfigManager&gt;(); m_config_manager-&gt;initialize(config_file_path); m_file_system = std::make_shared&lt;FileSystem&gt;(); ... } tickOneFrame中logicalTick(delta_time);逻辑Tick、calculateFPS(delta_time);计算FPS、rendererTick(delta_time);渲染Tick。
+void PiccoloEngine::logicalTick(float delta_time) { // tick world 和 用户输入 g_runtime_global_context.m_world_manager-&gt;tick(delta_time); g_runtime_global_context.m_input_system-&gt;tick(); } void WorldManager::tick(float delta_time) { if (!m_is_world_loaded) { loadWorld(m_current_world_url); } // tick the active level std::shared_ptr&lt;Level&gt; active_level = m_current_active_level.
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/game/piccolo/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="GeeTeng">
+  <meta property="og:description" content="构建 构建Piccolo的sln文件，运行在Visual Studio2022中
+源码解读 在Runtime文件夹下面有四个子文件夹，核心层、功能层、资源层、平台层，以及engine.cpp和engine.h（整个引擎的入口）。
+打开engine.cpp其中有4个重要的函数，StartEngine、shutdownEngine、run、tickOneFrame。
+StartEngine、shutdownEngine一个注册类型源信息，一个取消注册，相对的函数。
+void PiccoloEngine::run() { std::shared_ptr&lt;WindowSystem&gt; window_system = g_runtime_global_context.m_window_system; ASSERT(window_system); while (!window_system-&gt;shouldClose()) { const float delta_time = calculateDeltaTime(); tickOneFrame(delta_time); } } run中，当窗口没有关闭时，不断执行tickOneFrame。点击g_runtime_global_context进入到global_context文件中。
+发现声明了一个全局变量，并且实例化很多Manager（物理、粒子等）、System（窗口、渲染等）
+RuntimeGlobalContext g_runtime_global_context; void RuntimeGlobalContext::startSystems(const std::string&amp; config_file_path) { m_config_manager = std::make_shared&lt;ConfigManager&gt;(); m_config_manager-&gt;initialize(config_file_path); m_file_system = std::make_shared&lt;FileSystem&gt;(); ... } tickOneFrame中logicalTick(delta_time);逻辑Tick、calculateFPS(delta_time);计算FPS、rendererTick(delta_time);渲染Tick。
+void PiccoloEngine::logicalTick(float delta_time) { // tick world 和 用户输入 g_runtime_global_context.m_world_manager-&gt;tick(delta_time); g_runtime_global_context.m_input_system-&gt;tick(); } void WorldManager::tick(float delta_time) { if (!m_is_world_loaded) { loadWorld(m_current_world_url); } // tick the active level std::shared_ptr&lt;Level&gt; active_level = m_current_active_level.">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="GeeTeng">
+  <meta name="twitter:description" content="构建 构建Piccolo的sln文件，运行在Visual Studio2022中
+源码解读 在Runtime文件夹下面有四个子文件夹，核心层、功能层、资源层、平台层，以及engine.cpp和engine.h（整个引擎的入口）。
+打开engine.cpp其中有4个重要的函数，StartEngine、shutdownEngine、run、tickOneFrame。
+StartEngine、shutdownEngine一个注册类型源信息，一个取消注册，相对的函数。
+void PiccoloEngine::run() { std::shared_ptr&lt;WindowSystem&gt; window_system = g_runtime_global_context.m_window_system; ASSERT(window_system); while (!window_system-&gt;shouldClose()) { const float delta_time = calculateDeltaTime(); tickOneFrame(delta_time); } } run中，当窗口没有关闭时，不断执行tickOneFrame。点击g_runtime_global_context进入到global_context文件中。
+发现声明了一个全局变量，并且实例化很多Manager（物理、粒子等）、System（窗口、渲染等）
+RuntimeGlobalContext g_runtime_global_context; void RuntimeGlobalContext::startSystems(const std::string&amp; config_file_path) { m_config_manager = std::make_shared&lt;ConfigManager&gt;(); m_config_manager-&gt;initialize(config_file_path); m_file_system = std::make_shared&lt;FileSystem&gt;(); ... } tickOneFrame中logicalTick(delta_time);逻辑Tick、calculateFPS(delta_time);计算FPS、rendererTick(delta_time);渲染Tick。
+void PiccoloEngine::logicalTick(float delta_time) { // tick world 和 用户输入 g_runtime_global_context.m_world_manager-&gt;tick(delta_time); g_runtime_global_context.m_input_system-&gt;tick(); } void WorldManager::tick(float delta_time) { if (!m_is_world_loaded) { loadWorld(m_current_world_url); } // tick the active level std::shared_ptr&lt;Level&gt; active_level = m_current_active_level.">
+
+
+  <meta itemprop="name" content="GeeTeng">
+  <meta itemprop="description" content="构建 构建Piccolo的sln文件，运行在Visual Studio2022中
+源码解读 在Runtime文件夹下面有四个子文件夹，核心层、功能层、资源层、平台层，以及engine.cpp和engine.h（整个引擎的入口）。
+打开engine.cpp其中有4个重要的函数，StartEngine、shutdownEngine、run、tickOneFrame。
+StartEngine、shutdownEngine一个注册类型源信息，一个取消注册，相对的函数。
+void PiccoloEngine::run() { std::shared_ptr&lt;WindowSystem&gt; window_system = g_runtime_global_context.m_window_system; ASSERT(window_system); while (!window_system-&gt;shouldClose()) { const float delta_time = calculateDeltaTime(); tickOneFrame(delta_time); } } run中，当窗口没有关闭时，不断执行tickOneFrame。点击g_runtime_global_context进入到global_context文件中。
+发现声明了一个全局变量，并且实例化很多Manager（物理、粒子等）、System（窗口、渲染等）
+RuntimeGlobalContext g_runtime_global_context; void RuntimeGlobalContext::startSystems(const std::string&amp; config_file_path) { m_config_manager = std::make_shared&lt;ConfigManager&gt;(); m_config_manager-&gt;initialize(config_file_path); m_file_system = std::make_shared&lt;FileSystem&gt;(); ... } tickOneFrame中logicalTick(delta_time);逻辑Tick、calculateFPS(delta_time);计算FPS、rendererTick(delta_time);渲染Tick。
+void PiccoloEngine::logicalTick(float delta_time) { // tick world 和 用户输入 g_runtime_global_context.m_world_manager-&gt;tick(delta_time); g_runtime_global_context.m_input_system-&gt;tick(); } void WorldManager::tick(float delta_time) { if (!m_is_world_loaded) { loadWorld(m_current_world_url); } // tick the active level std::shared_ptr&lt;Level&gt; active_level = m_current_active_level.">
+  <meta itemprop="wordCount" content="242">
+<link rel="canonical" href="https://geeteng.github.io/posts/game/piccolo/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        <div id="page-body" class="column is-7">
+
+<div class="content blog">
+    <h1></h1>
+
+    <div id="infobar" class="level is-mobile">
+        <div class="level-left">
+            
+            <div class="level-item">
+                <p class="subtitle info date">Jan 1, 0001
+                </p>
+            </div>
+            
+
+            <div class="level-item">
+                <p class="subtitle info">
+                    6 mins read
+                </p>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            <div class="tags">
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="tags is-hidden-desktop">
+        
+    </div>
+
+    <div class="blog-text">
+        
+
+        <h2 id="构建">构建</h2>
+<p>构建Piccolo的sln文件，运行在Visual Studio2022中</p>
+<p><img src="/images/Piccolo/build.png" alt="build"></p>
+<h2 id="源码解读">源码解读</h2>
+<p>在Runtime文件夹下面有四个子文件夹，核心层、功能层、资源层、平台层，以及engine.cpp和engine.h（整个引擎的入口）。</p>
+<p><img src="D:%5CGeeSite%5Cstatic%5Cimages%5CPiccolo%5Cstructure.png" alt="structure"></p>
+<p>打开engine.cpp其中有4个重要的函数，<strong>StartEngine</strong>、<strong>shutdownEngine</strong>、<strong>run</strong>、<strong>tickOneFrame</strong>。</p>
+<p><strong>StartEngine</strong>、<strong>shutdownEngine</strong>一个注册类型源信息，一个取消注册，相对的函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> PiccoloEngine<span style="color:#f92672">::</span>run()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>shared_ptr<span style="color:#f92672">&lt;</span>WindowSystem<span style="color:#f92672">&gt;</span> window_system <span style="color:#f92672">=</span> g_runtime_global_context.m_window_system;
+</span></span><span style="display:flex;"><span>    ASSERT(window_system);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>window_system<span style="color:#f92672">-&gt;</span>shouldClose())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> delta_time <span style="color:#f92672">=</span> calculateDeltaTime();
+</span></span><span style="display:flex;"><span>        tickOneFrame(delta_time);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>run中，当窗口没有关闭时，不断执行<strong>tickOneFrame</strong>。点击g_runtime_global_context进入到global_context文件中。</p>
+<p>发现声明了一个全局变量，并且实例化很多Manager（物理、粒子等）、System（窗口、渲染等）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>RuntimeGlobalContext g_runtime_global_context;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> RuntimeGlobalContext<span style="color:#f92672">::</span>startSystems(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> config_file_path)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    m_config_manager <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>make_shared<span style="color:#f92672">&lt;</span>ConfigManager<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>    m_config_manager<span style="color:#f92672">-&gt;</span>initialize(config_file_path);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    m_file_system <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>make_shared<span style="color:#f92672">&lt;</span>FileSystem<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>    ...
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>tickOneFrame中<strong>logicalTick</strong>(delta_time);逻辑Tick、<strong>calculateFPS</strong>(delta_time);计算FPS、<strong>rendererTick</strong>(delta_time);渲染Tick。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> PiccoloEngine<span style="color:#f92672">::</span>logicalTick(<span style="color:#66d9ef">float</span> delta_time)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// tick world 和 用户输入
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    g_runtime_global_context.m_world_manager<span style="color:#f92672">-&gt;</span>tick(delta_time);
+</span></span><span style="display:flex;"><span>    g_runtime_global_context.m_input_system<span style="color:#f92672">-&gt;</span>tick();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> WorldManager<span style="color:#f92672">::</span>tick(<span style="color:#66d9ef">float</span> delta_time)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>m_is_world_loaded)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        loadWorld(m_current_world_url);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// tick the active level
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>shared_ptr<span style="color:#f92672">&lt;</span>Level<span style="color:#f92672">&gt;</span> active_level <span style="color:#f92672">=</span> m_current_active_level.lock();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (active_level)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        active_level<span style="color:#f92672">-&gt;</span>tick(delta_time);
+</span></span><span style="display:flex;"><span>        m_level_debugger<span style="color:#f92672">-&gt;</span>tick(active_level);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> Level<span style="color:#f92672">::</span>tick(<span style="color:#66d9ef">float</span> delta_time)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>m_is_loaded)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// tick go
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;</span> id_object_pair : m_gobjects)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        assert(id_object_pair.second);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (id_object_pair.second)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            id_object_pair.second<span style="color:#f92672">-&gt;</span>tick(delta_time);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (m_current_active_character <span style="color:#f92672">&amp;&amp;</span> g_is_editor_mode <span style="color:#f92672">==</span> false)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        m_current_active_character<span style="color:#f92672">-&gt;</span>tick(delta_time);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>shared_ptr<span style="color:#f92672">&lt;</span>PhysicsScene<span style="color:#f92672">&gt;</span> physics_scene <span style="color:#f92672">=</span> m_physics_scene.lock();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (physics_scene)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        physics_scene<span style="color:#f92672">-&gt;</span>tick(delta_time);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> GObject<span style="color:#f92672">::</span>tick(<span style="color:#66d9ef">float</span> delta_time)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// tick components
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;</span> component : m_components)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (shouldComponentTick(component.getTypeName()))
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            component<span style="color:#f92672">-&gt;</span>tick(delta_time);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>每帧都更新逻辑和渲染，其中逻辑tick中，主体是World，一个World由很多Level组成，而Level最重要组成部分就是GameObject，只需要更新GameObject上所有的Component。</p>
+<h2 id="添加luasol2">添加Lua、Sol2</h2>
+<p>Sol是一个用于C++绑定Lua脚本的库，仅由头文件组成，方便集成（只需要引一个头文件），可以便利地将C++代码和Lua脚本绑定起来。</p>
+<p>下载Sol2、Lua源文件，解压缩到engine - 3rdParty中（第三方库），构建第三方库，在3rdParty下CMakeList添加如下代码，同时为lua添加cmake脚本。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(NOT TARGET sol2)
+</span></span><span style="display:flex;"><span>    add_subdirectory(sol2<span style="color:#f92672">-</span><span style="color:#ae81ff">3.3.0</span>)
+</span></span><span style="display:flex;"><span>endif()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span>(NOT TARGET lua)
+</span></span><span style="display:flex;"><span>    include(lua.cmake)
+</span></span><span style="display:flex;"><span>endif()
+</span></span></code></pre></div><p>在runtime - function - framework - component中新建一个lua文件夹，按照其他库一样添加一些代码。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>    REFLECTION_TYPE(LuaComponent)
+</span></span><span style="display:flex;"><span>    CLASS(LuaComponent : <span style="color:#66d9ef">public</span> Component, WhiteListFields)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        REFLECTION_BODY(LuaComponent)
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>        LuaComponent() <span style="color:#f92672">=</span> <span style="color:#66d9ef">default</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">postLoadResource</span>(std<span style="color:#f92672">::</span>weak_ptr<span style="color:#f92672">&lt;</span>GObject<span style="color:#f92672">&gt;</span> parent_object) <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">tick</span>(<span style="color:#66d9ef">float</span> delta_time) <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span>        ...
+</span></span><span style="display:flex;"><span>     }
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> LuaComponent<span style="color:#f92672">::</span>postLoadResource(std<span style="color:#f92672">::</span>weak_ptr<span style="color:#f92672">&lt;</span>GObject<span style="color:#f92672">&gt;</span> parent_object)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    m_parent_object <span style="color:#f92672">=</span> parent_object;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 添加一些基础函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    m_lua_state.open_libraries(sol<span style="color:#f92672">::</span>lib<span style="color:#f92672">::</span>base);
+</span></span><span style="display:flex;"><span>    m_lua_state.set_function(<span style="color:#e6db74">&#34;set_float&#34;</span>, <span style="color:#f92672">&amp;</span>LuaComponent<span style="color:#f92672">::</span>set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;</span>);
+</span></span><span style="display:flex;"><span>    m_lua_state.set_function(<span style="color:#e6db74">&#34;get_bool&#34;</span>, <span style="color:#f92672">&amp;</span>LuaComponent<span style="color:#f92672">::</span>get<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span>);
+</span></span><span style="display:flex;"><span>    m_lua_state.set_function(<span style="color:#e6db74">&#34;invoke&#34;</span>, <span style="color:#f92672">&amp;</span>LuaComponent<span style="color:#f92672">::</span>invoke);
+</span></span><span style="display:flex;"><span>    m_lua_state[<span style="color:#e6db74">&#34;GameObject&#34;</span>] <span style="color:#f92672">=</span> m_parent_object;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> LuaComponent<span style="color:#f92672">::</span>tick(<span style="color:#66d9ef">float</span> delta_time)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//LOG_INFO(m_lua_script);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    m_lua_state.script(m_lua_script);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在player.object.json中添加</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;$context&#34;</span>: {
+</span></span><span style="display:flex;"><span>            <span style="color:#f92672">&#34;lua_script&#34;</span>: <span style="color:#e6db74">&#34;if (get_bool(GameObject, \&#34;MotorComponent.m_is_moving\&#34;)) then set_float(GameObject, \&#34;MotorComponent.m_motor_res.m_jump_height\&#34;, 10) else set_float(GameObject, \&#34;MotorComponent.m_motor_res.m_jump_height\&#34;, 5) end invoke(GameObject, \&#34;MotorComponent.getOffStuckDead\&#34;)&#34;</span>
+</span></span><span style="display:flex;"><span>        },
+</span></span><span style="display:flex;"><span>        <span style="color:#f92672">&#34;$typeName&#34;</span>: <span style="color:#e6db74">&#34;LuaComponent&#34;</span>
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2fpiccolo%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2fpiccolo%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2fpiccolo%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2fpiccolo%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2fpiccolo%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2fpiccolo%2f
+			&title=&summary=%e6%9e%84%e5%bb%ba%20%e6%9e%84%e5%bb%baPiccolo%e7%9a%84sln%e6%96%87%e4%bb%b6%ef%bc%8c%e8%bf%90%e8%a1%8c%e5%9c%a8Visual%20Studio2022%e4%b8%ad%0a%e6%ba%90%e7%a0%81%e8%a7%a3%e8%af%bb%20%e5%9c%a8Runtime%e6%96%87%e4%bb%b6%e5%a4%b9%e4%b8%8b%e9%9d%a2%e6%9c%89%e5%9b%9b%e4%b8%aa%e5%ad%90%e6%96%87%e4%bb%b6%e5%a4%b9%ef%bc%8c%e6%a0%b8%e5%bf%83%e5%b1%82%e3%80%81%e5%8a%9f%e8%83%bd%e5%b1%82%e3%80%81%e8%b5%84%e6%ba%90%e5%b1%82%e3%80%81%e5%b9%b3%e5%8f%b0%e5%b1%82%ef%bc%8c%e4%bb%a5%e5%8f%8aengine.cpp%e5%92%8cengine.h%ef%bc%88%e6%95%b4%e4%b8%aa%e5%bc%95%e6%93%8e%e7%9a%84%e5%85%a5%e5%8f%a3%ef%bc%89%e3%80%82%0a%e6%89%93%e5%bc%80engine.cpp%e5%85%b6%e4%b8%ad%e6%9c%894%e4%b8%aa%e9%87%8d%e8%a6%81%e7%9a%84%e5%87%bd%e6%95%b0%ef%bc%8cStartEngine%e3%80%81shutdownEngine%e3%80%81run%e3%80%81tickOneFrame%e3%80%82%0aStartEngine%e3%80%81shutdownEngine%e4%b8%80%e4%b8%aa%e6%b3%a8%e5%86%8c%e7%b1%bb%e5%9e%8b%e6%ba%90%e4%bf%a1%e6%81%af%ef%bc%8c%e4%b8%80%e4%b8%aa%e5%8f%96%e6%b6%88%e6%b3%a8%e5%86%8c%ef%bc%8c%e7%9b%b8%e5%af%b9%e7%9a%84%e5%87%bd%e6%95%b0%e3%80%82%0avoid%20PiccoloEngine%3a%3arun%28%29%20%7b%20std%3a%3ashared_ptr%26lt%3bWindowSystem%26gt%3b%20window_system%20%3d%20g_runtime_global_context.m_window_system%3b%20ASSERT%28window_system%29%3b%20while%20%28%21window_system-%26gt%3bshouldClose%28%29%29%20%7b%20const%20float%20delta_time%20%3d%20calculateDeltaTime%28%29%3b%20tickOneFrame%28delta_time%29%3b%20%7d%20%7d%20run%e4%b8%ad%ef%bc%8c%e5%bd%93%e7%aa%97%e5%8f%a3%e6%b2%a1%e6%9c%89%e5%85%b3%e9%97%ad%e6%97%b6%ef%bc%8c%e4%b8%8d%e6%96%ad%e6%89%a7%e8%a1%8ctickOneFrame%e3%80%82%e7%82%b9%e5%87%bbg_runtime_global_context%e8%bf%9b%e5%85%a5%e5%88%b0global_context%e6%96%87%e4%bb%b6%e4%b8%ad%e3%80%82%0a%e5%8f%91%e7%8e%b0%e5%a3%b0%e6%98%8e%e4%ba%86%e4%b8%80%e4%b8%aa%e5%85%a8%e5%b1%80%e5%8f%98%e9%87%8f%ef%bc%8c%e5%b9%b6%e4%b8%94%e5%ae%9e%e4%be%8b%e5%8c%96%e5%be%88%e5%a4%9aManager%ef%bc%88%e7%89%a9%e7%90%86%e3%80%81%e7%b2%92%e5%ad%90%e7%ad%89%ef%bc%89%e3%80%81System%ef%bc%88%e7%aa%97%e5%8f%a3%e3%80%81%e6%b8%b2%e6%9f%93%e7%ad%89%ef%bc%89%0aRuntimeGlobalContext%20g_runtime_global_context%3b%20void%20RuntimeGlobalContext%3a%3astartSystems%28const%20std%3a%3astring%26amp%3b%20config_file_path%29%20%7b%20m_config_manager%20%3d%20std%3a%3amake_shared%26lt%3bConfigManager%26gt%3b%28%29%3b%20m_config_manager-%26gt%3binitialize%28config_file_path%29%3b%20m_file_system%20%3d%20std%3a%3amake_shared%26lt%3bFileSystem%26gt%3b%28%29%3b%20...%20%7d%20tickOneFrame%e4%b8%adlogicalTick%28delta_time%29%3b%e9%80%bb%e8%be%91Tick%e3%80%81calculateFPS%28delta_time%29%3b%e8%ae%a1%e7%ae%97FPS%e3%80%81rendererTick%28delta_time%29%3b%e6%b8%b2%e6%9f%93Tick%e3%80%82%0avoid%20PiccoloEngine%3a%3alogicalTick%28float%20delta_time%29%20%7b%20%2f%2f%20tick%20world%20%e5%92%8c%20%e7%94%a8%e6%88%b7%e8%be%93%e5%85%a5%20g_runtime_global_context.m_world_manager-%26gt%3btick%28delta_time%29%3b%20g_runtime_global_context.m_input_system-%26gt%3btick%28%29%3b%20%7d%20void%20WorldManager%3a%3atick%28float%20delta_time%29%20%7b%20if%20%28%21m_is_world_loaded%29%20%7b%20loadWorld%28m_current_world_url%29%3b%20%7d%20%2f%2f%20tick%20the%20active%20level%20std%3a%3ashared_ptr%26lt%3bLevel%26gt%3b%20active_level%20%3d%20m_current_active_level.&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2fpiccolo%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+<script async src="https://cse.google.com/cse.js?cx=google-search-code"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+
+
+<footer class="footer has-background-dark">
+    <div class="content has-text-centered has-text-white">
+        <p>
+            © 2024 GeeTeng.My
+            <a class="has-text-light" href="https://github.com/GeeTeng" target="_blank">
+            GitHub</a>. 
+
+	    Email: 15143483@qq.com
+        </p>
+    </div>
+</footer>
+
+<div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

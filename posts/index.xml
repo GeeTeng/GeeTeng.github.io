@@ -20,14 +20,14 @@
       <link>https://geeteng.github.io/posts/graphics/shader/</link>
       <pubDate>Mon, 16 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/graphics/shader/</guid>
-      <description>Z-Buffer(深度缓存） 用来处理可见性问题，即确定每个像素最前层物体。&#xA;Frame Buffer(帧缓冲区：用于存储最终图像数据)、Depth Buffer（深度缓冲区：判断哪些物体在前，哪些物体被遮挡）&#xA;工作原理：近处是更黑的，远处是发白的。&#xA;Z-Buffer处理不了透明物体，透明物体需要特殊处理。&#xA;Z-Buffer Algorithm R代表无穷大，如果有三角形，就覆盖掉这些无穷大的像素&#xA;新的三角形深度是8 肯定要被原本三角形深度5所遮挡 所以就忽略它&#xA;如果新的三角形离的更近 更新这个像素对应的深度值&#xA;Z-Buffer复杂度 - O(n)&#xA;**Question：**为什么排序n个三角形是在线性的时间？&#xA;**Answer：**其实它不是排序，只是在对每个像素一直求最小值。&#xA;Shader 定义：对不同的物体应用不同材质的过程&#xA;物体在经过MVP（模型、视图、投影矩阵变换）、ViewPort之后现在我们会得到一系列旋转的立方体&#xA;需要对他做着色（Shading）&#xA;Blinn-Phong 反射模型 Blinn-Phong 反射模型是计算光照和表面反射的常用模型。它将光照分为三部分：&#xA;漫反射（Diffuse Reflection）：表示光照与物体表面相互作用后，光线在不同方向上散射的现象，通常效果比较均匀，不会有明显的亮点。 镜面反射（Specular Highlights）：表示光线被物体表面镜面反射的部分，产生亮光点，通常依赖于视角与光源方向的关系，产生较强的高光效果。 环境光照（Ambient Lighting）：表示全局环境中的光照，通常是一个常量，作用于整个场景，不依赖于具体的物体或光源。 diffuse reflection 通常假设反射光是一个半球，并计算每个着色点（shading point）接收到的能量。漫反射的强度与光照方向和表面法线之间的夹角有关。&#xA;Lambert‘s cosine law：描述漫反射光照强度与光照方向和法线之间夹角的关系，公式如下： $$&#xD;L_{d}=k_{d}\left(I / r^{2}\right) \max (0, \mathbf{n} \cdot \mathbf{l})&#xD;$$ $$&#xD;L_d:漫反射分量（反射光强度）\qquad k_d:漫反射系数（物体表面材质的属性）\qquad I:光源强度\qquad r:光源到表面点的距离 \qquad n:法线方向 \qquad l:光源方向&#xD;$$ 注意：漫反射不考虑其他物体的影响，只关注当前着色点的表面法线与光照方向的关系。</description>
+      <description>Z-Buffer(深度缓存） 用来处理可见性问题，即确定每个像素最前层物体。&#xA;Frame Buffer(帧缓冲区：用于存储最终图像数据)、Depth Buffer（深度缓冲区：判断哪些物体在前，哪些物体被遮挡）&#xA;工作原理：近处是更黑的，远处是发白的。&#xA;Z-Buffer处理不了透明物体，透明物体需要特殊处理。&#xA;Z-Buffer Algorithm R代表无穷大，如果有三角形，就覆盖掉这些无穷大的像素&#xA;新的三角形深度是8 肯定要被原本三角形深度5所遮挡 所以就忽略它&#xA;如果新的三角形离的更近 更新这个像素对应的深度值&#xA;Z-Buffer复杂度 - O(n)&#xA;**Question：**为什么排序n个三角形是在线性的时间？&#xA;**Answer：**其实它不是排序，只是在对每个像素一直求最小值。&#xA;Shader 定义：对不同的物体应用不同材质的过程&#xA;物体在经过MVP（模型、视图、投影矩阵变换）、ViewPort之后现在我们会得到一系列旋转的立方体&#xA;需要对他做着色（Shading）&#xA;Blinn-Phong 反射模型 Blinn-Phong 反射模型是计算光照和表面反射的常用模型。它将光照分为三部分：&#xA;漫反射（Diffuse Reflection）：表示光照与物体表面相互作用后，光线在不同方向上散射的现象，通常效果比较均匀，不会有明显的亮点。 镜面反射（Specular Highlights）：表示光线被物体表面镜面反射的部分，产生亮光点，通常依赖于视角与光源方向的关系，产生较强的高光效果。 环境光照（Ambient Lighting）：表示全局环境中的光照，通常是一个常量，作用于整个场景，不依赖于具体的物体或光源。 diffuse reflection 通常假设反射光是一个半球，并计算每个着色点（shading point）接收到的能量。漫反射的强度与光照方向和表面法线之间的夹角有关。&#xA;Lambert‘s cosine law：描述漫反射光照强度与光照方向和法线之间夹角的关系，公式如下： $$&#xD;L_{d}=k_{d}\left(I / r^{2}\right) \max (0, \mathbf{n} \cdot \mathbf{l})&#xD;$$ $$&#xD;L_d:漫反射分量（反射光强度）\qquad k_d:漫反射系数（物体表面材质的属性）\qquad I:光源强度\qquad r:光源到表面点的距离 \qquad n:法线方向 \qquad l:光源方向&#xD;$$ 注意：漫反射不考虑其他物体的影响，只关注当前着色点的表面法线与光照方向的关系。&#xA;Specular Highlights v和R足够接近的时候，会看到高光，其中v是观测方向，R是光线反射方向。&#xA;实际上是n法线方向和h半程向量很接近，利用平行四边形法则，可以求v+l向量，再求单位向量就是半程向量h。&#xA;镜面反射光的公式 $$&#xD;L_{s}=k_{s}\left(I / r^{2}\right) \max (0, \mathbf{n} \cdot \mathbf{h})^p&#xD;$$ 高光非常亮，且集中在一个很小的角度里，所以要有指数，将角度范围缩小，高光就会越来越小。</description>
     </item>
     <item>
       <title>TinyRenderer</title>
       <link>https://geeteng.github.io/posts/graphics/tinyrenderer/</link>
       <pubDate>Mon, 16 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/graphics/tinyrenderer/</guid>
-      <description>mainCRTStartup&#xA;void line(int x0, int y0, int x1, int y1, TGAImage&amp;amp; image, TGAColor color) { for (float t = 0.f; t &amp;lt; 1; t += 0.01) { int x = x0 + (x1 - x0) * t; int y = y0 + (y1 - y0) * t; image.set(x, y, color); } } 描绘了100个点，但是能否用x来遍历，这样可以从13 - 80 只需要描绘67个点&#xA;void line(int x0, int y0, int x1, int y1, TGAImage&amp;amp; image, TGAColor color) { for (int x = x0; x &amp;lt; x1; x++) { float t = (x - x0) / (float)(x1 - x0); int y = y0 * (1 - t) + y1 * t; image.</description>
+      <description>1 画线 mainCRTStartup&#xA;void line(int x0, int y0, int x1, int y1, TGAImage&amp;amp; image, TGAColor color) { for (float t = 0.f; t &amp;lt; 1; t += 0.01) { int x = x0 + (x1 - x0) * t; int y = y0 + (y1 - y0) * t; image.set(x, y, color); } } 描绘了100个点，但是能否用x来遍历，这样可以从13 - 80 只需要描绘67个点&#xA;void line(int x0, int y0, int x1, int y1, TGAImage&amp;amp; image, TGAColor color) { for (int x = x0; x &amp;lt; x1; x++) { float t = (x - x0) / (float)(x1 - x0); int y = y0 * (1 - t) + y1 * t; image.</description>
     </item>
     <item>
       <title>UMG</title>
@@ -77,6 +77,20 @@
       <pubDate>Sat, 02 Nov 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/graphics/games101_work01/</guid>
       <description>2D Transformations Scale $$&#xD;S(s_x, s_y) = \begin{pmatrix}&#xD;s_x &amp; 0 &amp; 0 \\&#xD;0 &amp; s_y &amp; 0 \\&#xD;0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Rotation $$&#xD;R(\alpha) = \begin{pmatrix} \cos \alpha &amp; -\sin \alpha &amp; 0 \\ \sin \alpha &amp; \cos \alpha &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Translation $$&#xD;T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \\ 0 &amp; 1 &amp; t_y \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ 齐次坐标的最后一位为 0 表示方向或无穷远点</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://geeteng.github.io/posts/game/piccolo/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/game/piccolo/</guid>
+      <description>构建 构建Piccolo的sln文件，运行在Visual Studio2022中&#xA;源码解读 在Runtime文件夹下面有四个子文件夹，核心层、功能层、资源层、平台层，以及engine.cpp和engine.h（整个引擎的入口）。&#xA;打开engine.cpp其中有4个重要的函数，StartEngine、shutdownEngine、run、tickOneFrame。&#xA;StartEngine、shutdownEngine一个注册类型源信息，一个取消注册，相对的函数。&#xA;void PiccoloEngine::run() { std::shared_ptr&amp;lt;WindowSystem&amp;gt; window_system = g_runtime_global_context.m_window_system; ASSERT(window_system); while (!window_system-&amp;gt;shouldClose()) { const float delta_time = calculateDeltaTime(); tickOneFrame(delta_time); } } run中，当窗口没有关闭时，不断执行tickOneFrame。点击g_runtime_global_context进入到global_context文件中。&#xA;发现声明了一个全局变量，并且实例化很多Manager（物理、粒子等）、System（窗口、渲染等）&#xA;RuntimeGlobalContext g_runtime_global_context; void RuntimeGlobalContext::startSystems(const std::string&amp;amp; config_file_path) { m_config_manager = std::make_shared&amp;lt;ConfigManager&amp;gt;(); m_config_manager-&amp;gt;initialize(config_file_path); m_file_system = std::make_shared&amp;lt;FileSystem&amp;gt;(); ... } tickOneFrame中logicalTick(delta_time);逻辑Tick、calculateFPS(delta_time);计算FPS、rendererTick(delta_time);渲染Tick。&#xA;void PiccoloEngine::logicalTick(float delta_time) { // tick world 和 用户输入 g_runtime_global_context.m_world_manager-&amp;gt;tick(delta_time); g_runtime_global_context.m_input_system-&amp;gt;tick(); } void WorldManager::tick(float delta_time) { if (!m_is_world_loaded) { loadWorld(m_current_world_url); } // tick the active level std::shared_ptr&amp;lt;Level&amp;gt; active_level = m_current_active_level.</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://geeteng.github.io/posts/game/sphericalharmonics/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/game/sphericalharmonics/</guid>
+      <description></description>
     </item>
     <item>
       <title></title>
