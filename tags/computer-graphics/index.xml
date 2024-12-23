@@ -24,9 +24,9 @@
     </item>
     <item>
       <title>光栅化Rasterize</title>
-      <link>https://geeteng.github.io/posts/graphics/%E5%85%89%E6%A0%85%E5%8C%96/</link>
+      <link>https://geeteng.github.io/posts/graphics/rasterize/</link>
       <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/%E5%85%89%E6%A0%85%E5%8C%96/</guid>
+      <guid>https://geeteng.github.io/posts/graphics/rasterize/</guid>
       <description>光栅化 rasterize 屏幕坐标系 屏幕空间 - 在屏幕上建立一个坐标系&#xA;屏幕的左下角是原点（0，0） 向上是Y 向右是x&#xA;视口变换 要做的事：[-1, 1]^3映射到屏幕上&#xA;其中：width 和 height 是屏幕或视口的宽度和高度&#xA;在标准化设备坐标中，3D物体的投影结果被限制在 (−1,−1)到 (1,1) 的范围：&#xA;(−1,−1) 代表左下角 (1,1) 代表右上角 这是一个对称的正方形坐标系，中心点是 (0,0) 我们需要将这个范围映射到屏幕坐标系：&#xA;左下角是 (0,0)，右上角是 (width,height) $$&#xD;M_{viewport} = \begin{pmatrix}&#xD;\frac{width}{2} &amp; 0 &amp; 0 &amp; \frac{width}{2}\\&#xD;0 &amp; \frac{height}{2} &amp; 0 &amp; \frac{height}{2}\\&#xD;0 &amp; 0 &amp; 1 &amp; 0 \\&#xD;0 &amp; 0 &amp; 0 &amp; 1&#xD;\end{pmatrix}&#xD;$$ 光栅显示设备 示波器（曾经做过的物理实验）和早期显示器相同原理 ​&#x9;阴极射线管 电子经过加速穿过显示设备 发生偏转 就可以看到CRT屏幕 （Cathode Ray Tube）</description>
     </item>
     <item>

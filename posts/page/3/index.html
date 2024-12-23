@@ -28,8 +28,8 @@
 
   <meta itemprop="name" content="Posts">
   <meta itemprop="description" content="A description for the meta tag of the site">
-  <meta itemprop="datePublished" content="2024-12-17T00:00:00+00:00">
-  <meta itemprop="dateModified" content="2024-12-17T00:00:00+00:00">
+  <meta itemprop="datePublished" content="2024-12-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-12-23T00:00:00+00:00">
 <link rel="canonical" href="https://geeteng.github.io/posts/" />
 
 <link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
@@ -185,6 +185,120 @@
 
 
 <div class="blog-brief">
+    <a href="/posts/graphics/games101_work0/">
+        <h3 class="title is-4">
+            GAMES101作业0
+        </h3>
+    </a>
+
+    <div class="level is-mobile details">
+        <div class="level-left">
+
+            
+            <div class="level-item">
+                <a href="/posts/graphics/games101_work0/">
+                    <p class="subtitle info date">Nov 12, 2024
+                    </p>
+                </a>
+            </div>
+            
+
+
+            <div class="level-item">
+                <a href="/posts/graphics/games101_work0/">
+                    <p class="subtitle info">
+                        2 mins read
+                    </p>
+                </a>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            
+            <a class="tag is-rounded" href="/tags/computer-graphics">Computer-Graphics</a>
+            
+        </div>
+    </div>
+
+    <div>
+        
+
+        <div>
+            <a href="/posts/graphics/games101_work0/">
+                <p class="summary">
+                    坐标变换及虚拟机创建
+                    
+                </p>
+            </a>
+        </div>
+    </div>
+
+    <div class="level is-mobile continue-reading">
+        <div class="level-left">
+        </div>
+        <div class="level-right">
+            <a href="/posts/graphics/games101_work0/">Continue reading <i class="fa fa-angle-double-right"
+                    aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <hr>
+</div><div class="blog-brief">
+    <a href="/posts/graphics/games101_work01/">
+        <h3 class="title is-4">
+            Model-View-Projection
+        </h3>
+    </a>
+
+    <div class="level is-mobile details">
+        <div class="level-left">
+
+            
+            <div class="level-item">
+                <a href="/posts/graphics/games101_work01/">
+                    <p class="subtitle info date">Nov 2, 2024
+                    </p>
+                </a>
+            </div>
+            
+
+
+            <div class="level-item">
+                <a href="/posts/graphics/games101_work01/">
+                    <p class="subtitle info">
+                        8 mins read
+                    </p>
+                </a>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            
+            <a class="tag is-rounded" href="/tags/computer-graphics">Computer-Graphics</a>
+            
+        </div>
+    </div>
+
+    <div>
+        
+
+        <div>
+            <a href="/posts/graphics/games101_work01/">
+                <p class="summary">
+                    MVP变换及GAMES101作业1
+                    
+                </p>
+            </a>
+        </div>
+    </div>
+
+    <div class="level is-mobile continue-reading">
+        <div class="level-left">
+        </div>
+        <div class="level-right">
+            <a href="/posts/graphics/games101_work01/">Continue reading <i class="fa fa-angle-double-right"
+                    aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <hr>
+</div><div class="blog-brief">
     <a href="/about-me/">
         <h3 class="title is-4">
             About Author
@@ -267,7 +381,7 @@
             <div class="level-item">
                 <a href="/posts/ueleaning/4_animation/">
                     <p class="subtitle info">
-                        2 mins read
+                        7 mins read
                     </p>
                 </a>
             </div>
@@ -283,32 +397,34 @@
         <div>
             <a href="/posts/ueleaning/4_animation/">
                 <p class="summary">
-                    1.序列帧动画 2.模型动画 顶点动画 数据量大 迭代缓慢 =》 骨骼动画
-骨骼 通过改变骨骼的朝向和位置来生成动画 蒙皮 将mesh顶点附着到骨骼上（权重不一样） 每个顶点可以被多个骨骼控制
-资产类型 skeleton骨架资源关联动画数据 skeletalmesh骨骼网格体 主要的渲染资源 physicsasset 物理资产 关联骨骼和物理世界的交互
-eventGraph
-AnimGraph
-shooting 要在mesh space 而不是localspace 因为射击时要向准星方向 而不是人物朝向
-装弹要在localspace 而不是mesh space 因为角色移动的时候朝向要向移动的方向装弹
-blend space
-aim offset Montage 依赖animsequence
-根骨动画需要客户端和服务器同时播，如果服务器不播动画或者时间差太多 客户端会被拉扯
-动画混合节点
-ApplyAdditive
-ApplyMeshSpaceAdditive
-Blend
-BlendBoneByChannel
-BlendMulti
-BlendPosesByBool /byint
-layeredBlendPerBone
-MakeDynamicAdditive
-IK
-TWO BONE IK
-FABRIK
-adobe mixamo
-课后作业 实现敌人的基础移动动画蓝图 并尽可能优化表现
-实现敌人的死亡动画 并尽可能优化表现 （多方向死亡动画）
-实现近战击败敌人的功能和动画表现（选做）
+                    序列帧动画 无需计算，直接显示图片逻辑简单。缺点：占用空间大，不适合复杂动画。
+模型动画 顶点动画
+直接存储每个顶点的动画信息 。缺点：数据量大，迭代缓慢。
+例子：水流、捏脸Morph Target Animation
+骨骼动画（Skinned Animation） 通过改变骨骼的朝向和位置来生成动画 蒙皮：将mesh顶点附着到骨骼上（不同顶点权重不一样每个顶点可以被多个骨骼控制）
+每个骨骼有一个变换矩阵，最终网格顶点的位置是多个骨骼变换矩阵的加权和。
+蒙皮矩阵的计算（Skinning Matrix）: $$M_{skin} =M_{bone}×M_{inverse}$$ M_inverse是你绑定矩阵，用于骨骼从骨骼空间转换到模型空间的变换。
+Quaternion NLerp用于物体旋转的平滑过渡。
+NLerp和SLerp（球面线性插值）
+NLerp 比 Slerp 更简单，计算开销较小，因为它只进行线性插值，不涉及球面插值的复杂计算。
+当旋转角度较大时，使用Slerp。
+基于物理的动画（Physics-based Animation）
+布娃娃系统（Ragdoll）
+布料和流体模拟（Cloth and Fluid simulation）
+反向动力学（Inverse Kinematics(IK)）
+（关节）Joint 两个Joint定义一个骨骼
+Root Joint在人的双腿之间
+Pelvis Joint（骨盆关节） 蹲起
+Joint Pose有9个DOF（自由度） 放缩、平移、旋转
+万向节锁（Gimbal Lock） 在三维空间中使用欧拉角表示旋转时，当旋转顺序导致某两个旋转轴对齐时，会丧失一个自由度，导致旋转不再是完全独立的，从而限制了旋转的自由度。这个现象被称为 万向节锁。
+如：大疆无人机、pocket3的镜头防抖动，就是使用陀螺仪和万向节锁来实现的。
+引出四元数解决万向节锁
+骨骼动画资产类型 Skeleton ​	骨架资源，存储骨骼的层级、动画数据关联。
+​	多个模型可以共享同一个骨架。
+SkeletalMesh ​	骨骼网格体，用于渲染。
+​	包含蒙皮信息，顶点如何受骨骼影响。
+PhysicsAsset ​	定义骨骼与物理系统的交互。
+​	用于 ragdoll、碰撞检测等。
                     
                 </p>
             </a>
@@ -320,122 +436,6 @@ adobe mixamo
         </div>
         <div class="level-right">
             <a href="/posts/ueleaning/4_animation/">Continue reading <i class="fa fa-angle-double-right"
-                    aria-hidden="true"></i></a>
-        </div>
-    </div>
-    <hr>
-</div><div class="blog-brief">
-    <a href="/posts/game/sphericalharmonics/">
-        <h3 class="title is-4">
-            
-        </h3>
-    </a>
-
-    <div class="level is-mobile details">
-        <div class="level-left">
-
-            
-            <div class="level-item">
-                <a href="/posts/game/sphericalharmonics/">
-                    <p class="subtitle info date">Jan 1, 0001
-                    </p>
-                </a>
-            </div>
-            
-
-
-            <div class="level-item">
-                <a href="/posts/game/sphericalharmonics/">
-                    <p class="subtitle info">
-                        1 min read
-                    </p>
-                </a>
-            </div>
-        </div>
-        <div class="level-right is-hidden-touch">
-            
-        </div>
-    </div>
-
-    <div>
-        
-
-        <div>
-            <a href="/posts/game/sphericalharmonics/">
-                <p class="summary">
-                    
-                </p>
-            </a>
-        </div>
-    </div>
-
-    <div class="level is-mobile continue-reading">
-        <div class="level-left">
-        </div>
-        <div class="level-right">
-            <a href="/posts/game/sphericalharmonics/">Continue reading <i class="fa fa-angle-double-right"
-                    aria-hidden="true"></i></a>
-        </div>
-    </div>
-    <hr>
-</div><div class="blog-brief">
-    <a href="/posts/game/piccolo/">
-        <h3 class="title is-4">
-            
-        </h3>
-    </a>
-
-    <div class="level is-mobile details">
-        <div class="level-left">
-
-            
-            <div class="level-item">
-                <a href="/posts/game/piccolo/">
-                    <p class="subtitle info date">Jan 1, 0001
-                    </p>
-                </a>
-            </div>
-            
-
-
-            <div class="level-item">
-                <a href="/posts/game/piccolo/">
-                    <p class="subtitle info">
-                        6 mins read
-                    </p>
-                </a>
-            </div>
-        </div>
-        <div class="level-right is-hidden-touch">
-            
-        </div>
-    </div>
-
-    <div>
-        
-
-        <div>
-            <a href="/posts/game/piccolo/">
-                <p class="summary">
-                    构建 构建Piccolo的sln文件，运行在Visual Studio2022中
-源码解读 在Runtime文件夹下面有四个子文件夹，核心层、功能层、资源层、平台层，以及engine.cpp和engine.h（整个引擎的入口）。
-打开engine.cpp其中有4个重要的函数，StartEngine、shutdownEngine、run、tickOneFrame。
-StartEngine、shutdownEngine一个注册类型源信息，一个取消注册，相对的函数。
-void PiccoloEngine::run() { std::shared_ptr&lt;WindowSystem&gt; window_system = g_runtime_global_context.m_window_system; ASSERT(window_system); while (!window_system-&gt;shouldClose()) { const float delta_time = calculateDeltaTime(); tickOneFrame(delta_time); } } run中，当窗口没有关闭时，不断执行tickOneFrame。点击g_runtime_global_context进入到global_context文件中。
-发现声明了一个全局变量，并且实例化很多Manager（物理、粒子等）、System（窗口、渲染等）
-RuntimeGlobalContext g_runtime_global_context; void RuntimeGlobalContext::startSystems(const std::string&amp; config_file_path) { m_config_manager = std::make_shared&lt;ConfigManager&gt;(); m_config_manager-&gt;initialize(config_file_path); m_file_system = std::make_shared&lt;FileSystem&gt;(); ... } tickOneFrame中logicalTick(delta_time);逻辑Tick、calculateFPS(delta_time);计算FPS、rendererTick(delta_time);渲染Tick。
-void PiccoloEngine::logicalTick(float delta_time) { // tick world 和 用户输入 g_runtime_global_context.m_world_manager-&gt;tick(delta_time); g_runtime_global_context.m_input_system-&gt;tick(); } void WorldManager::tick(float delta_time) { if (!m_is_world_loaded) { loadWorld(m_current_world_url); } // tick the active level std::shared_ptr&lt;Level&gt; active_level = m_current_active_level.
-                    
-                </p>
-            </a>
-        </div>
-    </div>
-
-    <div class="level is-mobile continue-reading">
-        <div class="level-left">
-        </div>
-        <div class="level-right">
-            <a href="/posts/game/piccolo/">Continue reading <i class="fa fa-angle-double-right"
                     aria-hidden="true"></i></a>
         </div>
     </div>

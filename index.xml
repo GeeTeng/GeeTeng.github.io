@@ -6,8 +6,15 @@
     <description>Recent content on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 17 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 23 Dec 2024 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Piccolo LUT</title>
+      <link>https://geeteng.github.io/posts/game/lut/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/game/lut/</guid>
+      <description>LUT（LookUp Table）查找表 LUT是一种常见的优化或效果实现工具，用于通过查表得方式快速映射输入数据到目标结果，避免复杂的实时计算&#xA;颜色分级（Color Grading LUT）：&#xA;用于后期处理阶段，将场景颜色转换为特定的色彩基调。&#xA;参考资料 LUT.html&#xA;void main() { highp ivec2 lut_tex_size = textureSize(color_grading_lut_texture_sampler, 0); // 纹理的高度16 和 纹理的宽度256 highp float _COLORS = float(lut_tex_size.y); highp float xsize = float(lut_tex_size.x); highp vec4 color = subpassLoad(in_color).rgba; // 将颜色分量映射到LUT索引范围[0, 15] highp float blueoffset = (_COLORS - 1.0) * color.b; highp float redoffset = (_COLORS - 1.0) * color.r; highp float greenoffset = (_COLORS - 1.0) * color.g; // 红色和绿色决定小块中的水平垂直位置 蓝色决定哪个小块 highp float u = (redoffset + floor(blueoffset) * _COLORS) / xsize; highp float v = greenoffset / _COLORS; highp vec2 uv = vec2(u, v); highp vec4 color_sampled = texture(color_grading_lut_texture_sampler, uv); out_color = color_sampled; } 由于条纹问题，看到别人说是因为mipmap精度问题，所以</description>
+    </item>
     <item>
       <title>空间数据结构</title>
       <link>https://geeteng.github.io/posts/game/spatialdatastructures/</link>
@@ -30,6 +37,13 @@
       <description>1 画线 mainCRTStartup&#xA;void line(int x0, int y0, int x1, int y1, TGAImage&amp;amp; image, TGAColor color) { for (float t = 0.f; t &amp;lt; 1; t += 0.01) { int x = x0 + (x1 - x0) * t; int y = y0 + (y1 - y0) * t; image.set(x, y, color); } } 描绘了100个点，但是能否用x来遍历，这样可以从13 - 80 只需要描绘67个点&#xA;void line(int x0, int y0, int x1, int y1, TGAImage&amp;amp; image, TGAColor color) { for (int x = x0; x &amp;lt; x1; x++) { float t = (x - x0) / (float)(x1 - x0); int y = y0 * (1 - t) + y1 * t; image.</description>
     </item>
     <item>
+      <title>Piccolo引擎编译运行</title>
+      <link>https://geeteng.github.io/posts/game/piccolo/</link>
+      <pubDate>Sun, 15 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/game/piccolo/</guid>
+      <description>构建 构建Piccolo的sln文件，运行在Visual Studio2022中&#xA;源码解读 在Runtime文件夹下面有四个子文件夹，核心层、功能层、资源层、平台层，以及engine.cpp和engine.h（整个引擎的入口）。&#xA;打开engine.cpp其中有4个重要的函数，StartEngine、shutdownEngine、run、tickOneFrame。&#xA;StartEngine、shutdownEngine一个注册类型源信息，一个取消注册，相对的函数。&#xA;void PiccoloEngine::run() { std::shared_ptr&amp;lt;WindowSystem&amp;gt; window_system = g_runtime_global_context.m_window_system; ASSERT(window_system); while (!window_system-&amp;gt;shouldClose()) { const float delta_time = calculateDeltaTime(); tickOneFrame(delta_time); } } run中，当窗口没有关闭时，不断执行tickOneFrame。点击g_runtime_global_context进入到global_context文件中。&#xA;发现声明了一个全局变量，并且实例化很多Manager（物理、粒子等）、System（窗口、渲染等）&#xA;RuntimeGlobalContext g_runtime_global_context; void RuntimeGlobalContext::startSystems(const std::string&amp;amp; config_file_path) { m_config_manager = std::make_shared&amp;lt;ConfigManager&amp;gt;(); m_config_manager-&amp;gt;initialize(config_file_path); m_file_system = std::make_shared&amp;lt;FileSystem&amp;gt;(); ... } tickOneFrame中logicalTick(delta_time);逻辑Tick、calculateFPS(delta_time);计算FPS、rendererTick(delta_time);渲染Tick。&#xA;void PiccoloEngine::logicalTick(float delta_time) { // tick world 和 用户输入 g_runtime_global_context.m_world_manager-&amp;gt;tick(delta_time); g_runtime_global_context.m_input_system-&amp;gt;tick(); } void WorldManager::tick(float delta_time) { if (!m_is_world_loaded) { loadWorld(m_current_world_url); } // tick the active level std::shared_ptr&amp;lt;Level&amp;gt; active_level = m_current_active_level.</description>
+    </item>
+    <item>
       <title>UMG</title>
       <link>https://geeteng.github.io/posts/ueleaning/3_umg/</link>
       <pubDate>Fri, 13 Dec 2024 00:00:00 +0000</pubDate>
@@ -45,9 +59,9 @@
     </item>
     <item>
       <title>光栅化Rasterize</title>
-      <link>https://geeteng.github.io/posts/graphics/%E5%85%89%E6%A0%85%E5%8C%96/</link>
+      <link>https://geeteng.github.io/posts/graphics/rasterize/</link>
       <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/%E5%85%89%E6%A0%85%E5%8C%96/</guid>
+      <guid>https://geeteng.github.io/posts/graphics/rasterize/</guid>
       <description>光栅化 rasterize 屏幕坐标系 屏幕空间 - 在屏幕上建立一个坐标系&#xA;屏幕的左下角是原点（0，0） 向上是Y 向右是x&#xA;视口变换 要做的事：[-1, 1]^3映射到屏幕上&#xA;其中：width 和 height 是屏幕或视口的宽度和高度&#xA;在标准化设备坐标中，3D物体的投影结果被限制在 (−1,−1)到 (1,1) 的范围：&#xA;(−1,−1) 代表左下角 (1,1) 代表右上角 这是一个对称的正方形坐标系，中心点是 (0,0) 我们需要将这个范围映射到屏幕坐标系：&#xA;左下角是 (0,0)，右上角是 (width,height) $$&#xD;M_{viewport} = \begin{pmatrix}&#xD;\frac{width}{2} &amp; 0 &amp; 0 &amp; \frac{width}{2}\\&#xD;0 &amp; \frac{height}{2} &amp; 0 &amp; \frac{height}{2}\\&#xD;0 &amp; 0 &amp; 1 &amp; 0 \\&#xD;0 &amp; 0 &amp; 0 &amp; 1&#xD;\end{pmatrix}&#xD;$$ 光栅显示设备 示波器（曾经做过的物理实验）和早期显示器相同原理 ​&#x9;阴极射线管 电子经过加速穿过显示设备 发生偏转 就可以看到CRT屏幕 （Cathode Ray Tube）</description>
     </item>
     <item>
@@ -87,24 +101,10 @@
     </item>
     <item>
       <title></title>
-      <link>https://geeteng.github.io/posts/game/piccolo/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/game/piccolo/</guid>
-      <description>构建 构建Piccolo的sln文件，运行在Visual Studio2022中&#xA;源码解读 在Runtime文件夹下面有四个子文件夹，核心层、功能层、资源层、平台层，以及engine.cpp和engine.h（整个引擎的入口）。&#xA;打开engine.cpp其中有4个重要的函数，StartEngine、shutdownEngine、run、tickOneFrame。&#xA;StartEngine、shutdownEngine一个注册类型源信息，一个取消注册，相对的函数。&#xA;void PiccoloEngine::run() { std::shared_ptr&amp;lt;WindowSystem&amp;gt; window_system = g_runtime_global_context.m_window_system; ASSERT(window_system); while (!window_system-&amp;gt;shouldClose()) { const float delta_time = calculateDeltaTime(); tickOneFrame(delta_time); } } run中，当窗口没有关闭时，不断执行tickOneFrame。点击g_runtime_global_context进入到global_context文件中。&#xA;发现声明了一个全局变量，并且实例化很多Manager（物理、粒子等）、System（窗口、渲染等）&#xA;RuntimeGlobalContext g_runtime_global_context; void RuntimeGlobalContext::startSystems(const std::string&amp;amp; config_file_path) { m_config_manager = std::make_shared&amp;lt;ConfigManager&amp;gt;(); m_config_manager-&amp;gt;initialize(config_file_path); m_file_system = std::make_shared&amp;lt;FileSystem&amp;gt;(); ... } tickOneFrame中logicalTick(delta_time);逻辑Tick、calculateFPS(delta_time);计算FPS、rendererTick(delta_time);渲染Tick。&#xA;void PiccoloEngine::logicalTick(float delta_time) { // tick world 和 用户输入 g_runtime_global_context.m_world_manager-&amp;gt;tick(delta_time); g_runtime_global_context.m_input_system-&amp;gt;tick(); } void WorldManager::tick(float delta_time) { if (!m_is_world_loaded) { loadWorld(m_current_world_url); } // tick the active level std::shared_ptr&amp;lt;Level&amp;gt; active_level = m_current_active_level.</description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://geeteng.github.io/posts/game/sphericalharmonics/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/game/sphericalharmonics/</guid>
-      <description></description>
-    </item>
-    <item>
-      <title></title>
       <link>https://geeteng.github.io/posts/ueleaning/4_animation/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/ueleaning/4_animation/</guid>
-      <description>1.序列帧动画 2.模型动画 顶点动画 数据量大 迭代缓慢 =》 骨骼动画&#xA;骨骼 通过改变骨骼的朝向和位置来生成动画 蒙皮 将mesh顶点附着到骨骼上（权重不一样） 每个顶点可以被多个骨骼控制&#xA;资产类型 skeleton骨架资源关联动画数据 skeletalmesh骨骼网格体 主要的渲染资源 physicsasset 物理资产 关联骨骼和物理世界的交互&#xA;eventGraph&#xA;AnimGraph&#xA;shooting 要在mesh space 而不是localspace 因为射击时要向准星方向 而不是人物朝向&#xA;装弹要在localspace 而不是mesh space 因为角色移动的时候朝向要向移动的方向装弹&#xA;blend space&#xA;aim offset Montage 依赖animsequence&#xA;根骨动画需要客户端和服务器同时播，如果服务器不播动画或者时间差太多 客户端会被拉扯&#xA;动画混合节点&#xA;ApplyAdditive&#xA;ApplyMeshSpaceAdditive&#xA;Blend&#xA;BlendBoneByChannel&#xA;BlendMulti&#xA;BlendPosesByBool /byint&#xA;layeredBlendPerBone&#xA;MakeDynamicAdditive&#xA;IK&#xA;TWO BONE IK&#xA;FABRIK&#xA;adobe mixamo&#xA;课后作业 实现敌人的基础移动动画蓝图 并尽可能优化表现&#xA;实现敌人的死亡动画 并尽可能优化表现 （多方向死亡动画）&#xA;实现近战击败敌人的功能和动画表现（选做）</description>
+      <description>序列帧动画 无需计算，直接显示图片逻辑简单。缺点：占用空间大，不适合复杂动画。&#xA;模型动画 顶点动画&#xA;直接存储每个顶点的动画信息 。缺点：数据量大，迭代缓慢。&#xA;例子：水流、捏脸Morph Target Animation&#xA;骨骼动画（Skinned Animation） 通过改变骨骼的朝向和位置来生成动画 蒙皮：将mesh顶点附着到骨骼上（不同顶点权重不一样每个顶点可以被多个骨骼控制）&#xA;每个骨骼有一个变换矩阵，最终网格顶点的位置是多个骨骼变换矩阵的加权和。&#xA;蒙皮矩阵的计算（Skinning Matrix）: $$&#xD;M_{skin} =M_{bone}×M_{inverse}&#xD;$$ M_inverse是你绑定矩阵，用于骨骼从骨骼空间转换到模型空间的变换。&#xA;Quaternion NLerp用于物体旋转的平滑过渡。&#xA;NLerp和SLerp（球面线性插值）&#xA;NLerp 比 Slerp 更简单，计算开销较小，因为它只进行线性插值，不涉及球面插值的复杂计算。&#xA;当旋转角度较大时，使用Slerp。&#xA;基于物理的动画（Physics-based Animation）&#xA;布娃娃系统（Ragdoll）&#xA;布料和流体模拟（Cloth and Fluid simulation）&#xA;反向动力学（Inverse Kinematics(IK)）&#xA;（关节）Joint 两个Joint定义一个骨骼&#xA;Root Joint在人的双腿之间&#xA;Pelvis Joint（骨盆关节） 蹲起&#xA;Joint Pose有9个DOF（自由度） 放缩、平移、旋转&#xA;万向节锁（Gimbal Lock） 在三维空间中使用欧拉角表示旋转时，当旋转顺序导致某两个旋转轴对齐时，会丧失一个自由度，导致旋转不再是完全独立的，从而限制了旋转的自由度。这个现象被称为 万向节锁。&#xA;如：大疆无人机、pocket3的镜头防抖动，就是使用陀螺仪和万向节锁来实现的。&#xA;引出四元数解决万向节锁&#xA;骨骼动画资产类型 Skeleton ​&#x9;骨架资源，存储骨骼的层级、动画数据关联。&#xA;​&#x9;多个模型可以共享同一个骨架。&#xA;SkeletalMesh ​&#x9;骨骼网格体，用于渲染。&#xA;​&#x9;包含蒙皮信息，顶点如何受骨骼影响。&#xA;PhysicsAsset ​&#x9;定义骨骼与物理系统的交互。&#xA;​&#x9;用于 ragdoll、碰撞检测等。</description>
     </item>
   </channel>
 </rss>
