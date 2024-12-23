@@ -1,3 +1,13 @@
+---
+title: "Piccolo引擎编译运行"
+date: 2024-12-15
+tags: [Game]
+description: "源码解读 添加lua、sol2"
+showDate: true
+math: true
+chordsheet: true
+---
+
 
 
 ## 构建
@@ -12,7 +22,7 @@
 
 在Runtime文件夹下面有四个子文件夹，核心层、功能层、资源层、平台层，以及engine.cpp和engine.h（整个引擎的入口）。
 
-![structure](D:\GeeSite\static\images\Piccolo\structure.png)
+![structure](/images/Piccolo/structure.png)
 
 打开engine.cpp其中有4个重要的函数，**StartEngine**、**shutdownEngine**、**run**、**tickOneFrame**。
 

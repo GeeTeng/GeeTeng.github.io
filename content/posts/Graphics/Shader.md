@@ -2,7 +2,7 @@
 title: "Shader"
 date: 2024-12-16
 tags: [Computer-Graphics]
-description: "shader未完结"
+description: "GAMES101shader"
 showDate: true
 math: true
 chordsheet: true
