@@ -236,3 +236,118 @@ Solution：一种直观的解决方法就是Supersampling（超采样），如�
 ![mipmap02](/images/Shader/mipmap02.png)
 
 ![mipmap03](/images/Shader/mipmap03.png)
+
+---
+
+#### 作业
+
+基于包围盒的光栅化，用三角形的重心坐标对颜色、法线、纹理坐标做插值。将插值传递给fragment_shader_payload，调用 fragment_shader 计算最终像素颜色
+
+```c++
+void rst::rasterizer::rasterize_triangle(const Triangle& t, const std::array<Eigen::Vector3f, 3>& view_pos) 
+{
+    auto v = t.toVector4();
+
+    int min_x = std::min(std::min(v[0].x(), v[1].x()), v[2].x());
+    int min_y = std::min(std::min(v[0].y(), v[1].y()), v[2].y());
+    int max_x = std::max(std::max(v[0].x(), v[1].x()), v[2].x());
+    int max_y = std::max(std::max(v[0].y(), v[1].y()), v[2].y());
+    
+    for (int x = min_x; x <= max_x; x++)
+    {
+        for (int y = min_y; y <= max_y; y++)
+        {
+            if (insideTriangle(x + 0.5, y + 0.5, t.v))
+            {
+                auto [alpha, beta, gamma] = computeBarycentric2D(x + 0.5, y + 0.5, t.v);
+                float Z = 1.0 / (alpha / v[0].w() + beta / v[1].w() + gamma / v[2].w());
+                float zp = alpha * v[0].z() / v[0].w() + beta * v[1].z() / v[1].w() + gamma * v[2].z() / v[2].w();
+                zp *= Z;
+
+                int cur_index = get_index(x, y);
+                if (zp < depth_buf[cur_index])
+                {
+                    depth_buf[cur_index] = zp;
+
+                    auto interpolated_color = interpolate(alpha, beta, gamma, t.color[0], t.color[1], t.color[2], 1);
+                    auto interpolated_normal = interpolate(alpha, beta, gamma, t.normal[0], t.normal[1], t.normal[2], 1);
+                    auto interpolated_texcoord = interpolate(alpha, beta, gamma, t.tex_coords[0], t.tex_coords[1], t.tex_coords[2], 1);
+                    auto interpolated_shadingcoords = interpolate(alpha, beta, gamma, view_pos[0], view_pos[1], view_pos[2], 1);
+
+                    fragment_shader_payload payload(interpolated_color, interpolated_normal.normalized(), interpolated_texcoord, texture ? &*texture : nullptr);
+                    payload.view_pos = interpolated_shadingcoords;
+                    auto pixel_color = fragment_shader(payload);
+
+                    Vector2i vertex;
+                    vertex << x, y;
+                    set_pixel(vertex, pixel_color);
+                }
+            }
+        }
+    }
+
+}
+```
+
+Blinn-Phong模型，计算漫反射、环境光反射、高光反射的值。
+
+![normal](/images/Shader/normal.png)
+
+```c++
+Eigen::Vector3f phong_fragment_shader(const fragment_shader_payload& payload)
+{
+    Eigen::Vector3f ka = Eigen::Vector3f(0.005, 0.005, 0.005);
+    Eigen::Vector3f kd = payload.color;
+    Eigen::Vector3f ks = Eigen::Vector3f(0.7937, 0.7937, 0.7937);
+
+    auto l1 = light{{20, 20, 20}, {500, 500, 500}};
+    auto l2 = light{{-20, 20, 0}, {500, 500, 500}};
+
+    std::vector<light> lights = {l1, l2};
+    Eigen::Vector3f amb_light_intensity{10, 10, 10};
+    Eigen::Vector3f eye_pos{0, 0, 10};
+
+    float p = 150;
+
+    Eigen::Vector3f color = payload.color;
+    Eigen::Vector3f point = payload.view_pos;
+    Eigen::Vector3f normal = payload.normal;
+
+    Eigen::Vector3f result_color = {0, 0, 0};
+    for (auto& light : lights)
+    {
+        Eigen::Vector3f light_vector = (light.position - point).normalized();
+        Eigen::Vector3f view_color = (eye_pos - point).normalized();
+        Eigen::Vector3f half_vector = (light_vector + view_color).normalized();
+        Eigen::Vector3f n_vector = normal.normalized();
+
+        float r2 = (light.position - point).dot(light.position - point);
+
+        // cwiseProduct是逐元素相乘
+        Eigen::Vector3f la = ka.cwiseProduct(amb_light_intensity);
+        Eigen::Vector3f ld = kd.cwiseProduct(light.intensity / r2) * std::max(0.0f, n_vector.dot(light_vector));
+        Eigen::Vector3f ls = ks.cwiseProduct(light.intensity / r2) * std::pow(std::max(0.0f, n_vector.dot(half_vector)), p);
+        
+        result_color += la + ld + ls;
+    }
+
+    return result_color * 255.f;
+}
+```
+
+![phong](/images/Shader/phong.png)
+
+纹理贴图同上
+
+```c++
+if (payload.texture)
+{
+    // TODO: Get the texture value at the texture coordinates of the current fragment
+    return_color = payload.texture->getColor(payload.tex_coords.x(), payload.tex_coords.y());
+
+}
+```
+
+![texture (2)](/images/Shader/texture (2).png)
+
+凹凸效果和位移贴图待更新...

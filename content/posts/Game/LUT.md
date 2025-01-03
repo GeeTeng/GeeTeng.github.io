@@ -60,4 +60,4 @@ void main()
         color_grading_map->m_format, 1);
 ```
 
-![LUT](D:\GeeSite\static\images\Piccolo\LUT.png)
+![LUT](/images/Piccolo/LUT.png)
