@@ -6,8 +6,22 @@
     <description>Recent content in Posts on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 03 Jan 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 09 Jan 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>论文笔记</title>
+      <link>https://geeteng.github.io/posts/paper/1stgroupmeeting/</link>
+      <pubDate>Thu, 09 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/paper/1stgroupmeeting/</guid>
+      <description>Abstract 10.1016/j.compeleceng.2024.110053&#xA;Group vehicle trajectory prediction model based on multi-graph fusion&#xA;Group vehicle trajectory prediction is crucial for autonomous driving systems to make safe and reliable decisions. However, existing models are deficient in integrating vehicle history information to capture dynamic interaction features at different time steps and exhibit limitations in handling vehicle history states with varying speeds. To address these issues, this paper proposes a multi-graph fusion group vehicle trajectory prediction model that aims to integrate spatio-temporal features(融合时空特征) to accurately predict the future trajectories of groups of vehicles.</description>
+    </item>
+    <item>
+      <title>设计模式</title>
+      <link>https://geeteng.github.io/posts/c&#43;&#43;/designpattern/</link>
+      <pubDate>Wed, 08 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/c&#43;&#43;/designpattern/</guid>
+      <description>简单工厂模式 Factory：工厂类是整个模式的关键.包含了必要的逻辑判断,根据外界给定的信息,决定究竟应该创建哪个具体类的对象。&#xA;客户端代码无需关心类的实现细节，如果需要新增运算，只需要新增对应的派生类，并在工厂中添加逻辑。&#xA;class Operation { protected: double numberA; double numberB; public: void setNumberA(double a) { numberA = a; } void setNumberB(double b) { numberB = b; } virtual double GetResult() { double result = 0; return result; } virtual ~Operation() = default; }; class OperationAdd : public Operation { public: double GetResult() override { return numberA + numberB; } }; class OperationSub : public Operation { public: double GetResult() override { return numberA - numberB; } }; class OperationFactory { public: static std::unique_ptr&amp;lt;Operation&amp;gt; createOperation(char op) { switch (op) { case &amp;#39;+&amp;#39;: return std::make_unique&amp;lt;OperationAdd&amp;gt;(); case&amp;#39;-&amp;#39;: return std::make_unique&amp;lt;OperationSub&amp;gt;(); default: throw std::invalid_argument(&amp;#34;Invalid operation type&amp;#34;); break; } } }; int main() { try { char op; std::cin &amp;gt;&amp;gt; op; auto operation = OperationFactory::createOperation(op); double a, b; std::cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b; operation-&amp;gt;setNumberA(a); operation-&amp;gt;setNumberB(b); double result = operation-&amp;gt;GetResult(); std::cout &amp;lt;&amp;lt; result &amp;lt;&amp;lt; std::endl; } catch(const std::exception&amp;amp; ex) { std::cerr &amp;lt;&amp;lt; &amp;#34;Error &amp;#34; &amp;lt;&amp;lt; ex.</description>
+    </item>
     <item>
       <title>RayTracing光线追踪</title>
       <link>https://geeteng.github.io/posts/graphics/raytracing/</link>
@@ -69,7 +83,7 @@
       <link>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</link>
       <pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</guid>
-      <description>静态多态和动态多态 静态多态 -&amp;gt; 函数重载、泛型编程（模板）&#xA;动态多态 -&amp;gt; 虚函数&#xA;静态多态带来了泛型设计的概念，比如STL库。&#xA;**区别：**静态多态调用发生在编译时，效率高；动态多态函数调用发生在运行时，会引入一些性能开销。&#xA;虚函数 在多态会使用到虚函数，通过基类访问派生类定义的函数。&#xA;它的特点是动态联编（函数的调用不是在编译时刻被确定的，而是在运行时刻被确定的）。&#xA;虚函数只能借助指针 / 引用达到多态的效果&#xA;class A { public: virtual void foo() { cout&amp;lt;&amp;lt;&amp;#34;A::foo() is called&amp;#34;&amp;lt;&amp;lt;endl; } }; class B:public A { public: void foo() { cout&amp;lt;&amp;lt;&amp;#34;B::foo() is called&amp;#34;&amp;lt;&amp;lt;endl; } }; int main(void) { A *a = new B(); a-&amp;gt;foo(); // 在这里，a虽然是指向A的指针，但是被调用的函数(foo)却是B的! return 0; } 纯虚函数 在基类中没有定义，在函数原型后加 =0&#xA;virtual void funtion1()=0 为什么会引入纯虚函数？&#xA;很多情况下，基类本身生成对象是不合理的。比如动物可以派生老虎、狮子等，但是动物生成对象不合理。&#xA;在派生类必须予以重写以实现多态性，含有纯虚函数的类称为抽象类，抽象类是不能生成对象的。&#xA;虚析构函数 虚析构函数的作用：当声明析构函数为虚函数时，执行 delete a; 会采用动态联编，首先调用派生类的析构函数，然后再调用基类的析构函数。</description>
+      <description>友元函数 全局函数做友元&#xA;class Building { friend void goodGuy(Building* building); public: Building() { m_SittingRoom = &amp;#34;客厅&amp;#34;; m_BedRoom = &amp;#34;卧室&amp;#34;; } public: std::string m_SittingRoom; // 客厅 private: std::string m_BedRoom; // 卧室 }; // 全局函数 void goodGuy(Building* building) { std::cout &amp;lt;&amp;lt; &amp;#34;好朋友全局函数正在访问：&amp;#34; &amp;lt;&amp;lt; building-&amp;gt;m_SittingRoom &amp;lt;&amp;lt; std::endl; std::cout &amp;lt;&amp;lt; &amp;#34;好朋友全局函数正在访问：&amp;#34; &amp;lt;&amp;lt; building-&amp;gt;m_BedRoom &amp;lt;&amp;lt; std::endl; } int main() { Building building; // 输出：好朋友全局函数正在访问：客厅 goodGuy(&amp;amp;building);// 输出：好朋友全局函数正在访问：卧室 } 类做友元也是同样的道理&#xA;friend class GoodGuy;&#xA;类的成员函数也是同样的道理&#xA;friend void GoodGuy::visit();</description>
     </item>
     <item>
       <title>光栅化Rasterize</title>
@@ -108,10 +122,17 @@
     </item>
     <item>
       <title></title>
-      <link>https://geeteng.github.io/posts/c&#43;&#43;/designpattern/</link>
+      <link>https://geeteng.github.io/posts/game/onlinegame/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/c&#43;&#43;/designpattern/</guid>
-      <description>享元模式（FlyWeight） 主要目的是通过共享对象来减少系统种对象的数量，其本质就是缓存共享对象，降低内存消耗。&#xA;享元模式将需要重复使用的对象分为两个部分：内部状态和外部状态。比如用户的账号是外部状态不能被共享，内部状态是可以共享的。&#xA;组成：&#xA;抽象享元角色（FlyWeight）：基类，定义出对象的外部状态和内部状态。 具体享元角色（ConcreteFlyWeight）：实现抽象享元类中的方法，是需要共享的对象类。 享元工厂（FlyWrightFactory）：使用一个map存储已经创建的享元对象。 例子：如围棋游戏，只需要存储两个棋子对象，而不是每盘棋创建几百个棋子对象，比如.Net中的String，相同的字符串只有一个实例。&#xA;单例模式（Singleton） 保证一个类只能产生一个实例，声明周期为整个程序的声明周期，通过Get访问到任何非静态方法。&#xA;懒汉式：需要时才会创建 线程不安全&#xA;饿汉式：一运行就创建实例，需要时直接调用。&#xA;class Singleton { private: // 不允许实例化 调用构造函数 Singleton(){} static Singleton s_Instance; public: // 删除类的拷贝构造函数 防止对象被复制 Singleton(const Singleton&amp;amp;) = delete; // 删除赋值运算符 Singleton&amp;amp; operator=(const Singleton&amp;amp;) = delete; // 返回单例实例 static Singleton&amp;amp; Get() { return s_Instance; } void Func() {}; }; Singleton Singleton::s_Instance; int main() { // 不可以去掉引用 否则会拷贝 所以需要增加一个删除函数 Singleton&amp;amp; instance = Singleton::Get(); instance.Func(); std::cin.get(); } 具体例子&#xA;class Random { private: Random(){} static Random s_Instance; float m_RandomGenerator = 0.</description>
+      <guid>https://geeteng.github.io/posts/game/onlinegame/</guid>
+      <description>多人网络游戏的挑战： 网络同步 网络延迟、丢包 玩家开挂 不同游戏平台连接 高性能服务器 TCP协议 面向连接的 可靠、有序 流量控制 拥塞控制 TCP重传机制&#xA;正常发包1,2,3,4,5,6,7,8，收包都会带一个ACK序号，收包1,2,3,4,5,6,7,8&#xA;如果5号包丢了的话，那么收到的就是1,2,3,4,4,4,4,4&#xA;Question：什么时候使用TCP / UDP？&#xA;Answer：对于实时性要求不高的游戏会采用TCP协议 - 炉石传说&#xA;需要低延迟的游戏会采用UDP协议 - CSGO&#xA;但是登陆验证、商城等数据会使用TCP协议，因为对数据的可靠性要求高。&#xA;UDP协议 现在很多游戏不会直接使用原生的UDP，因为UDP本身并不可靠、数据的到达顺序也是混乱的，如说喝了一瓶药恢复魔法值再释放一个技能结果变成了释放了技能却没有魔法值之后再喝了药，因此通常会在UDP上进行优化增加类似于TCP的可靠性。&#xA;自动重传请求机制ARQ：是基于ACK的错误控制方法，发送端会等待接收端的ACK，如果确认未到达或收到的是错误反馈，发送端会自动重传未正确到达的数据。&#xA;滑窗协议(sliding window protocol) 滑窗协议是经典的ARQ实现方法&#xA;Stop-and-Wait ARQ&#xA;发送端发送一个数据包，等待接收端的确认（ACK）。如果超时未收到 ACK，重新发送数据包。&#xA;特点：实现简单，但效率低（管道中只能同时传输一个包）。&#xA;Go-Back-N ARQ&#xA;发送端可以连续发送多个数据包，而无需等待每个包的确认。&#xA;如果一个包出错，接收端会丢弃当前包和其后的所有包，发送端需要重发从出错包开始的所有数据包。&#xA;特点：提高了管道利用率，但重传开销大。&#xA;Selective Repeat ARQ&#xA;发送端可以连续发送多个数据包，接收端仅请求重传错误的包。&#xA;特点：管道利用率高，重传开销小，但实现复杂。&#xA;FEC算法（Forward Error Correction） 异或校验位&#xA;Reed-Solomon codes&#xA;NTP时间同步协议（Network Time Protocol） 由于网络通信延迟的存在，客户端向服务器端发送一个包后都需要等待一定的时间才能收到回包，这个间隔的时间称为round-trip time(RTT)。&#xA;NTP：为了尽可能精准地将客户端的时间与时间服务器同步。&#xA;NTP消息中包含4个关键时间戳：&#xA;T1（客户端发送请求的时间）： 客户端向服务器发送请求时的本地时间。 T2（服务器接收请求的时间）： 时间服务器接收到客户端请求时的时间。 T3（服务器发送响应的时间）： 时间服务器准备响应时的时间。 T4（客户端接收响应的时间）： 客户端接收到服务器响应时的本地时间。 偏移量如图所示&#xA;客户端时间正确是17：01：35，客户端接收后增加偏移量。&#xA;尽管利用socket我们可以实现客户端和服务器的通信，但对于网络游戏来说完全基于socket的通信非常复杂。这主要是因为网络游戏中客户端需要向服务器发送大量不同类型的消息，同时客户端也需要解析相应类型的反馈，这就会导致游戏逻辑变得无比复杂。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://geeteng.github.io/posts/game/uesourcecode/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/game/uesourcecode/</guid>
+      <description>启动文件 Launch.cpp&#xA;预初始化PreInit，此时会发生：&#xA;对于每个UCLASS类，引擎会创建一个类默认对象（CDO），为实例提供默认值，注册完成后 调用StartupModule进行模块初始化、对应的有ShutdownModule函数（卸载模块清理资源） 主循环中初始化阶段Init&#xA;读取引擎配置文件来确定使用哪个GameEngine类作为核心引擎 创建GEngine实例（全局对象），可以通过它访问渲染、输入、音频等 创建了引擎，它就会被初始化，完成后引擎循环会触发一个全局委托以指示引擎现已初始化。 加载配置为延迟加载的模块/项目 加载地图（加载之前已经有了UGameEngine、GameInstance、GameViewportClient、LocalPlayer） ​&#xA;1.其中在GameEngine.cpp中&#xA;​&#x9;引擎初始化阶段，主要做了些什么？&#xA;​&#x9;1.1 创建GameInstance&#xA;// Create game instance. For GameEngine, this should be the only GameInstance that ever gets created. { FSoftClassPath GameInstanceClassName = GetDefault&amp;lt;UGameMapsSettings&amp;gt;()-&amp;gt;GameInstanceClass; UClass* GameInstanceClass = (GameInstanceClassName.IsValid() ? LoadObject&amp;lt;UClass&amp;gt;(NULL, *GameInstanceClassName.ToString()) : UGameInstance::StaticClass()); GameInstance = NewObject&amp;lt;UGameInstance&amp;gt;(this, GameInstanceClass); GameInstance-&amp;gt;InitializeStandalone(); } ​&#x9;1.2 初始化视口GameViewportClient&#xA;ViewportClient = NewObject&amp;lt;UGameViewportClient&amp;gt;(this, GameViewportClientClass); ViewportClient-&amp;gt;Init(*GameInstance-&amp;gt;GetWorldContext(), GameInstance); GameViewport = ViewportClient; GameInstance-&amp;gt;GetWorldContext()-&amp;gt;GameViewport = ViewportClient; ​&#x9;1.</description>
     </item>
     <item>
       <title></title>
@@ -119,6 +140,13 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/ueleaning/4_animation/</guid>
       <description>序列帧动画 无需计算，直接显示图片逻辑简单。缺点：占用空间大，不适合复杂动画。&#xA;模型动画 顶点动画&#xA;直接存储每个顶点的动画信息 。缺点：数据量大，迭代缓慢。&#xA;例子：水流、捏脸Morph Target Animation&#xA;骨骼动画（Skinned Animation） 通过改变骨骼的朝向和位置来生成动画 蒙皮：将mesh顶点附着到骨骼上（不同顶点权重不一样每个顶点可以被多个骨骼控制）&#xA;每个骨骼有一个变换矩阵，最终网格顶点的位置是多个骨骼变换矩阵的加权和。&#xA;蒙皮矩阵的计算（Skinning Matrix）: $$&#xD;M_{skin} =M_{bone}×M_{inverse}&#xD;$$ M_inverse是你绑定矩阵，用于骨骼从骨骼空间转换到模型空间的变换。&#xA;Quaternion NLerp用于物体旋转的平滑过渡。&#xA;NLerp和SLerp（球面线性插值）&#xA;NLerp 比 Slerp 更简单，计算开销较小，因为它只进行线性插值，不涉及球面插值的复杂计算。&#xA;当旋转角度较大时，使用Slerp。&#xA;基于物理的动画（Physics-based Animation）&#xA;布娃娃系统（Ragdoll）&#xA;布料和流体模拟（Cloth and Fluid simulation）&#xA;反向动力学（Inverse Kinematics(IK)）&#xA;（关节）Joint 两个Joint定义一个骨骼&#xA;Root Joint在人的双腿之间&#xA;Pelvis Joint（骨盆关节） 蹲起&#xA;Joint Pose有9个DOF（自由度） 放缩、平移、旋转&#xA;万向节锁（Gimbal Lock） 在三维空间中使用欧拉角表示旋转时，当旋转顺序导致某两个旋转轴对齐时，会丧失一个自由度，导致旋转不再是完全独立的，从而限制了旋转的自由度。这个现象被称为 万向节锁。&#xA;如：大疆无人机、pocket3的镜头防抖动，就是使用陀螺仪和万向节锁来实现的。&#xA;引出四元数解决万向节锁&#xA;骨骼动画资产类型 Skeleton ​&#x9;骨架资源，存储骨骼的层级、动画数据关联。&#xA;​&#x9;多个模型可以共享同一个骨架。&#xA;SkeletalMesh ​&#x9;骨骼网格体，用于渲染。&#xA;​&#x9;包含蒙皮信息，顶点如何受骨骼影响。&#xA;PhysicsAsset ​&#x9;定义骨骼与物理系统的交互。&#xA;​&#x9;用于 ragdoll、碰撞检测等。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://geeteng.github.io/posts/ueleaning/5_ai/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/ueleaning/5_ai/</guid>
+      <description></description>
     </item>
   </channel>
 </rss>

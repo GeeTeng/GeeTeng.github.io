@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Paper on GeeTeng</title>
+    <link>https://geeteng.github.io/tags/paper/</link>
+    <description>Recent content in Paper on GeeTeng</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Thu, 09 Jan 2025 00:00:00 +0000</lastBuildDate>
+    <atom:link href="https://geeteng.github.io/tags/paper/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>论文笔记</title>
+      <link>https://geeteng.github.io/posts/paper/1stgroupmeeting/</link>
+      <pubDate>Thu, 09 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/paper/1stgroupmeeting/</guid>
+      <description>Abstract 10.1016/j.compeleceng.2024.110053&#xA;Group vehicle trajectory prediction model based on multi-graph fusion&#xA;Group vehicle trajectory prediction is crucial for autonomous driving systems to make safe and reliable decisions. However, existing models are deficient in integrating vehicle history information to capture dynamic interaction features at different time steps and exhibit limitations in handling vehicle history states with varying speeds. To address these issues, this paper proposes a multi-graph fusion group vehicle trajectory prediction model that aims to integrate spatio-temporal features(融合时空特征) to accurately predict the future trajectories of groups of vehicles.</description>
+    </item>
+  </channel>
+</rss>

@@ -6,14 +6,21 @@
     <description>Recent content in C&#43;&#43; on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 11 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 08 Jan 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/tags/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>设计模式</title>
+      <link>https://geeteng.github.io/posts/c&#43;&#43;/designpattern/</link>
+      <pubDate>Wed, 08 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/c&#43;&#43;/designpattern/</guid>
+      <description>简单工厂模式 Factory：工厂类是整个模式的关键.包含了必要的逻辑判断,根据外界给定的信息,决定究竟应该创建哪个具体类的对象。&#xA;客户端代码无需关心类的实现细节，如果需要新增运算，只需要新增对应的派生类，并在工厂中添加逻辑。&#xA;class Operation { protected: double numberA; double numberB; public: void setNumberA(double a) { numberA = a; } void setNumberB(double b) { numberB = b; } virtual double GetResult() { double result = 0; return result; } virtual ~Operation() = default; }; class OperationAdd : public Operation { public: double GetResult() override { return numberA + numberB; } }; class OperationSub : public Operation { public: double GetResult() override { return numberA - numberB; } }; class OperationFactory { public: static std::unique_ptr&amp;lt;Operation&amp;gt; createOperation(char op) { switch (op) { case &amp;#39;+&amp;#39;: return std::make_unique&amp;lt;OperationAdd&amp;gt;(); case&amp;#39;-&amp;#39;: return std::make_unique&amp;lt;OperationSub&amp;gt;(); default: throw std::invalid_argument(&amp;#34;Invalid operation type&amp;#34;); break; } } }; int main() { try { char op; std::cin &amp;gt;&amp;gt; op; auto operation = OperationFactory::createOperation(op); double a, b; std::cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b; operation-&amp;gt;setNumberA(a); operation-&amp;gt;setNumberB(b); double result = operation-&amp;gt;GetResult(); std::cout &amp;lt;&amp;lt; result &amp;lt;&amp;lt; std::endl; } catch(const std::exception&amp;amp; ex) { std::cerr &amp;lt;&amp;lt; &amp;#34;Error &amp;#34; &amp;lt;&amp;lt; ex.</description>
+    </item>
     <item>
       <title>C&#43;&#43;知识回顾</title>
       <link>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</link>
       <pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</guid>
-      <description>静态多态和动态多态 静态多态 -&amp;gt; 函数重载、泛型编程（模板）&#xA;动态多态 -&amp;gt; 虚函数&#xA;静态多态带来了泛型设计的概念，比如STL库。&#xA;**区别：**静态多态调用发生在编译时，效率高；动态多态函数调用发生在运行时，会引入一些性能开销。&#xA;虚函数 在多态会使用到虚函数，通过基类访问派生类定义的函数。&#xA;它的特点是动态联编（函数的调用不是在编译时刻被确定的，而是在运行时刻被确定的）。&#xA;虚函数只能借助指针 / 引用达到多态的效果&#xA;class A { public: virtual void foo() { cout&amp;lt;&amp;lt;&amp;#34;A::foo() is called&amp;#34;&amp;lt;&amp;lt;endl; } }; class B:public A { public: void foo() { cout&amp;lt;&amp;lt;&amp;#34;B::foo() is called&amp;#34;&amp;lt;&amp;lt;endl; } }; int main(void) { A *a = new B(); a-&amp;gt;foo(); // 在这里，a虽然是指向A的指针，但是被调用的函数(foo)却是B的! return 0; } 纯虚函数 在基类中没有定义，在函数原型后加 =0&#xA;virtual void funtion1()=0 为什么会引入纯虚函数？&#xA;很多情况下，基类本身生成对象是不合理的。比如动物可以派生老虎、狮子等，但是动物生成对象不合理。&#xA;在派生类必须予以重写以实现多态性，含有纯虚函数的类称为抽象类，抽象类是不能生成对象的。&#xA;虚析构函数 虚析构函数的作用：当声明析构函数为虚函数时，执行 delete a; 会采用动态联编，首先调用派生类的析构函数，然后再调用基类的析构函数。</description>
+      <description>友元函数 全局函数做友元&#xA;class Building { friend void goodGuy(Building* building); public: Building() { m_SittingRoom = &amp;#34;客厅&amp;#34;; m_BedRoom = &amp;#34;卧室&amp;#34;; } public: std::string m_SittingRoom; // 客厅 private: std::string m_BedRoom; // 卧室 }; // 全局函数 void goodGuy(Building* building) { std::cout &amp;lt;&amp;lt; &amp;#34;好朋友全局函数正在访问：&amp;#34; &amp;lt;&amp;lt; building-&amp;gt;m_SittingRoom &amp;lt;&amp;lt; std::endl; std::cout &amp;lt;&amp;lt; &amp;#34;好朋友全局函数正在访问：&amp;#34; &amp;lt;&amp;lt; building-&amp;gt;m_BedRoom &amp;lt;&amp;lt; std::endl; } int main() { Building building; // 输出：好朋友全局函数正在访问：客厅 goodGuy(&amp;amp;building);// 输出：好朋友全局函数正在访问：卧室 } 类做友元也是同样的道理&#xA;friend class GoodGuy;&#xA;类的成员函数也是同样的道理&#xA;friend void GoodGuy::visit();</description>
     </item>
   </channel>
 </rss>

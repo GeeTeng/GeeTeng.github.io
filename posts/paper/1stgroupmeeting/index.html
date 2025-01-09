@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>
+    论文笔记 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="记录读过的论文 更新中
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/paper/1stgroupmeeting/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="论文笔记">
+  <meta property="og:description" content="记录读过的论文 更新中">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-01-09T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-01-09T00:00:00+00:00">
+    <meta property="article:tag" content="Paper">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="论文笔记">
+  <meta name="twitter:description" content="记录读过的论文 更新中">
+
+
+  <meta itemprop="name" content="论文笔记">
+  <meta itemprop="description" content="记录读过的论文 更新中">
+  <meta itemprop="datePublished" content="2025-01-09T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-01-09T00:00:00+00:00">
+  <meta itemprop="wordCount" content="2077">
+  <meta itemprop="keywords" content="Paper">
+<link rel="canonical" href="https://geeteng.github.io/posts/paper/1stgroupmeeting/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        <div id="page-body" class="column is-7">
+
+<div class="content blog">
+    <h1>论文笔记</h1>
+
+    <div id="infobar" class="level is-mobile">
+        <div class="level-left">
+            
+            <div class="level-item">
+                <p class="subtitle info date">Jan 9, 2025
+                </p>
+            </div>
+            
+
+            <div class="level-item">
+                <p class="subtitle info">
+                    23 mins read
+                </p>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            <div class="tags">
+                
+                <a class="tag is-dark is-rounded" href="/tags/paper">Paper</a>
+                
+            </div>
+        </div>
+    </div>
+
+    <div class="tags is-hidden-desktop">
+        
+        <a class="tag is-dark is-rounded" href="/tags/paper">Paper</a>
+        
+    </div>
+
+    <div class="blog-text">
+        
+
+        <h2 id="abstract">Abstract</h2>
+<blockquote>
+<p>10.1016/j.compeleceng.2024.110053</p>
+<p>Group vehicle trajectory prediction model based on multi-graph fusion</p>
+</blockquote>
+<p>Group vehicle trajectory prediction <strong>is crucial for</strong> autonomous driving systems to make safe and reliable decisions. <strong>However</strong>, existing models are deficient in integrating vehicle history information to capture dynamic interaction features at different time steps <strong>and</strong> exhibit limitations in handling vehicle history states with varying speeds. <strong>To address these issues</strong>, this paper <strong>proposes</strong> a multi-graph fusion group vehicle trajectory prediction model <strong>that aims to</strong> integrate spatio-temporal features(融合时空特征) to accurately predict the future trajectories of groups of vehicles. The model <strong>employs</strong> a graph attention mechanism to model the correlations between vehicles&rsquo; dynamic information and combines the learned dynamic associations with prior knowledge to extract richer interaction features. <strong>Furthermore</strong>, the model <strong>utilizes</strong> multi-scale spatio-temporal graph convolution（多尺度时空图卷积） to adaptively extract spatio-temporal features of vehicles with different speeds. <strong>In addition</strong>, this paper designs an omni-dimensional dynamic decoder to parse the spatio-temporal features through an omni-dimensional attention mechanism, <strong>thereby</strong> improving the accuracy and effectiveness of the predicted trajectories. <strong>Finally</strong>, experimental results demonstrate that the proposed model achieves higher prediction accuracy with fewer parameters on the NGSIM(Next Generation Simulation) and highD datasets.</p>
+<hr>
+<blockquote>
+<p>10.1109/tiv.2024.3381990</p>
+<p>Graph Representation Learning in the ITS: Car-Following Informed Spatiotemporal Network for Vehicle Trajectory Predictions</p>
+</blockquote>
+<p>Multimodal synchronization（多模态同步） has become the research highlight of the ITS, <strong>where</strong> complex driving scenarios, various types of vehicles and diverse data sources <strong>are crucial constituents</strong>. <strong>As</strong>（由于） real-time microscopic traffic characteristics can be vividly represented by graph data, we <strong>strive to</strong> achieve accurate trajectory predictions via graph-structured series for the stability and the efficiency of transportation. <strong>Although</strong> the existing data-driven algorithms have achieved fabulous accuracy in various simulation tasks, <strong>there are limitations in</strong> the distribution and the number of vehicles under investigation. With car-following patterns applied as physical information, we derive the adjacency matrix and design graph filters to explore the spatial dependence between vehicles via the graph-represented multi-lane traffic. The multi-head attention layer is attached to the spatiotemporal convolutional network as an extension. The rationality and the superiority of our model are validated on two calibrated datasets. Through error comparisons, we discuss the role of changeable hyper-parameters to deduce the optimal model for one-step and multi-step predictions. <strong>Novel ideas are shared in this paper to</strong> simplify the complexity of trajectory prediction in the synchronized transportation system.</p>
+<hr>
+<blockquote>
+<p><a href="http://dx.doi.org/10.1109/tiv.2024.3406507">10.1109/tiv.2024.3406507</a></p>
+<p>Dynamic Spatio-temporal Graph Neural Network for Surrounding-aware Trajectory Prediction of Autonomous Vehicles</p>
+</blockquote>
+<p>Trajectory prediction <strong>is a critical aspect of</strong> understanding and estimating the motion of dynamic systems, <strong>including</strong> robotics and autonomous vehicles (AVs). <strong>For</strong> safe and efficient driving behavior, an AV should predict its own motion and the motions of surrounding vehicles in the upcoming time steps. <strong>To achieve this</strong>, understanding the interaction among vehicles is crucial for accurate trajectory prediction. <strong>In this research, we implement</strong> a dynamic Spatio-temporal graph convolutional network to predict the trajectory distribution of vehicles in a traffic scene. We perform the graph convolutional network (GCN) operation on directed graphs to capture the spatial dependencies among vehicles in each traffic scene. To accurately replicate the interaction among vehicles, <strong>we propose</strong> a novel weighted adjacency matrix derived by the strategic positions of vehicles (angular encoding) and the reciprocal of distances among vehicles in a traffic scene. <strong>Additionally</strong>, we employ the temporal convolution network (TCN) to learn the temporal dependencies of a trajectory sequence and decode the future driving status using historic trajectories. We test the model with a naturalistic trajectory dataset (HighD) and conduct performance evaluation. The findings reveal that the proposed model could significantly improve accuracy compared to existing state-of-the-art models. <strong>Meanwhile</strong>, we conduct transfer learning to test the generalizability of our model on low data availability scenario using NGSIM (US-101) dataset. The results show that the relearned model perform comparability well and depicts competing performance in comparison to the state-of-the-art methods.</p>
+<hr>
+<blockquote>
+<p><a href="http://dx.doi.org/10.1109/tiv.2024.3376074">10.1109/tiv.2024.3376074</a></p>
+<p>A Cognitive-Based Trajectory Prediction Approach for Autonomous Driving</p>
+</blockquote>
+<p>In autonomous vehicle (AV) technology, the ability to accurately predict the movements of surrounding vehicles <strong>is paramount for</strong>（对于&hellip;至关重要） ensuring safety and operational efficiency. Incorporating human decision-making insights <strong>enables</strong> AVs to more effectively anticipate the potential actions of other vehicles, <strong>significantly improving</strong> prediction accuracy and responsiveness in dynamic environments. <strong>This paper introduces</strong> the Human-Like Trajectory Prediction (HLTP) model, which adopts a teacher-student knowledge distillation framework inspired by human cognitive processes. The HLTP model incorporates a sophisticated teacher-student knowledge distillation framework. The “teacher” model, equipped with an adaptive visual sector, mimics the visual processing of the human brain, particularly the functions of the occipital and temporal lobes. The “student” model focuses on real-time interaction and decision-making, drawing parallels to prefrontal and parietal cortex functions. This approach allows for dynamic adaptation to changing driving scenarios, capturing essential perceptual cues for accurate prediction. Evaluated using the Macao Connected and Autonomous Driving (MoCAD) dataset, <strong>along with</strong> the NGSIM and HighD benchmarks, HLTP demonstrates superior performance compared to existing models, <strong>particularly in</strong> challenging environments with incomplete data.</p>
+<hr>
+<blockquote>
+<p>10.1109/tiv.2024.3404658</p>
+<p>A Lane-Changing Trajectory Planning Algorithm Based on Lane-Change Impact Prediction</p>
+</blockquote>
+<p><strong>Current research on</strong> lane-changing trajectory planning typically focuses on the benefits of the Subject Vehicle (SV), <strong>including</strong> factors such as lane-changing efficiency, comfort, and safety. <strong>However</strong>, this can result in disturbances to the normal driving of the following vehicles. <strong>To address this issue</strong>, <strong>this paper proposes</strong> a lane-changing trajectory planning algorithm that takes into account the impact of lane changes. Based on the trajectories of the following vehicles, a gap distance-based evaluation scheme <strong>is first proposed</strong> to judge whether a vehicle is affected by the lane change of SV. An ordered probit model is <strong>then</strong> developed to predict the number of vehicles affected, with their efficiency and comfort benefits incorporated into the cost function for SV&rsquo;s lane-changing trajectory planning. Safety evaluation of the planned trajectories is <strong>further</strong> performed using an improved predictive risk field that can comprehensively quantify the risk posed by the surrounding vehicles. <strong>Finally</strong>, verification is conducted using the Simulation of Urban Mobility (SUMO) platform, and <strong>the results show</strong> that the proposed algorithm generates optimal lane-changing trajectories that maximize the overall benefits for multiple relevant vehicles when compared with other existing algorithms.</p>
+<hr>
+<blockquote>
+<p>A Self-Trajectory Prediction Approach for Autonomous Vehicles Using Distributed Decouple LSTM</p>
+<p>10.1109/tii.2024.3352231</p>
+</blockquote>
+<p>Vehicle trajectory prediction <strong>plays a crucial role</strong> in ensuring the driving safety of autonomous vehicles in complex traffic scenes. To accurately predict the trajectory of autonomous vehicles, in this article, we propose a distributed decouple long short-term memory (LSTM) self-trajectory prediction method for autonomous driving. The proposed new recurrent network includes a decouple-LSTM unit and corresponding distributed network architecture. To characterize the closed-loop dynamics of autonomous vehicles, a decouple gate and a control gate are proposed to build the decouple-LSTM unit. The data are processed in different ways according to whether the data participates in the recurrent. The decouple gate filters the data participating in the recurrent, while the control gate handles the data outside the recurrent. By leveraging the decouple-LSTM unit, a distributed network architecture is established, which corresponds with the general vehicle motion control architecture, which effectively models the vehicle motion processes. The proposed method is trained using an actual vehicle dataset and validated through vehicle experiments. The prediction horizon ranges from 0.5 to 3 s. When the prediction horizon is set to 3 s, compared with the LSTM method, the mean square error of the proposed method decreases by 98.0%. Results show that the proposed method significantly improves vehicle trajectory prediction accuracy.</p>
+<hr>
+<blockquote>
+<p>10.1109/tfuzz.2024.3360946</p>
+<p>EMSIN: Enhanced Multi-Stream Interaction Network for Vehicle Trajectory Prediction</p>
+</blockquote>
+<p>（提出问题）Predicting the future trajectories of dynamic traffic actors is the <strong>Gordian knot</strong>（高尔丁死结”一词用作一切疑难问题的代称） for autonomous vehicles to achieve collision-free driving. （现状）Most existing works suffer from a gap in characterizing the evolving interactions of scenario components and ensuring the physical feasibility of predictions, particularly in highly heterogeneous scenarios. （提出解决方案）<strong>Therefore</strong>, we propose an Enhanced Multi-Stream Interaction Network (EMSIN), which is devoted to providing accurate trajectory predictions. EMSIN highlights several threads of high-level time-varying interactions, including agent-traffic semantic, self-trend, and agentagent dependencies. A novelly-designed trend-aware mechanism is developed to capture the self-trend interactions from different representation subspaces sufficiently. （又提出来）<strong>To</strong> model the spatial information of traffic agents and extract their evolutions, we present a dynamic adaptive graph convolutional network that extends previously predefined graph paradigms. The adaptive and dynamic graphs in EMSIN are created using learnable node embeddings, allowing the model to discern interaction strengths without additional attention modules. <strong>Finally</strong>, all highlevel feature spaces elaborating multi-stream interactions are fused to generate possible agent actions with corresponding confidence values.（结果、数据集） <strong>Comprehensive experiments</strong> conducted on both L5kit and nuScenes datasets demonstrate that EMSIN surpasses its counterparts, boasting smaller prediction errors and faster inference times. <strong>This study also introduces</strong> a fuzzy-based metric to probe the physical feasibility of predicted trajectories, providing valuable insights into appraising the performance of various prediction models from the perspective of fuzziness.</p>
+<hr>
+<blockquote>
+<p>10.1016/j.eswa.2023.121412</p>
+<p>Intention-convolution and hybrid-attention network for vehicle trajectory prediction</p>
+</blockquote>
+<p>Trajectory prediction <strong>aims to</strong> estimate the future location of the vehicle based on its historical motion state, which <strong>is essential for</strong> driving decision-making and local motion planning of smart vehicles. <strong>However</strong>, affected by the multiple complex interaction in the traffic scene, predicting future trajectory accurately <strong>is a challenging task</strong>. （现状）The majority of existing methods <strong>only focus on</strong> modeling the inter-vehicle interaction, <strong>while ignoring</strong> the influence of road alignment and driver’s lane-change intention, making the poor performance of models, especially for long-term prediction or when the vehicle maneuvers laterally. （提出解决方案）<strong>To overcome the deficiencies</strong>, this paper proposes Intention-convolution and Hybrid-Attention Network (IH-Net) for reliable trajectory prediction. （咋实现的）<strong>Specifically</strong>, we analyze the correlation of lane-change behavior and the motion state of the vehicle, and then the Intention-convolutional Social Pooling module (I-CS) is introduced to extract complete interaction including the driver’s lane-change intention and inter-vehicle interaction. <strong>In addition</strong>, we construct a novel Hybrid Attention Mechanism (H-AM) to explore the trajectory periodicity formed under the restriction of road alignment, <strong>as well as</strong> the impacts of different features on trajectory prediction, which is used to improve the model’s long-term prediction capacity. （结果、数据集）The model’s prediction accuracy with <a href="https://www.sciencedirect.com/topics/engineering/root-mean-squared-error">RMSE</a> loss function is tested on two public datasets NGSIM and highD, and the results demonstrate that IH-Net remarkably outperforms the state-of-art methods in long-term prediction.</p>
+<hr>
+<blockquote>
+<p>10.1016/j.ymssp.2023.110854</p>
+<p>Lane change trajectory prediction considering driving style uncertainty for autonomous vehicles</p>
+</blockquote>
+<p>Lane change trajectory prediction <strong>is crucial for</strong> autonomous vehicles (AVs) to assess their own driving safety in advance. （提出问题）<strong>However</strong>, there are significant uncertainties in the implementation of such prediction, including different behaviors caused by agent–agent interaction and driving styles of drivers. （稍微解释了一下又一个转折）<strong>While</strong> prototype trajectories can serve as a means to represent typical motion patterns and enhance trajectory prediction performance, their utilization in modeling motion patterns tends to overlook the influence of agent–agent interactions and vehicle dynamics. （提出解决方案）<strong>This paper proposes</strong> a fusion algorithm that considers driving style and vehicle dynamics to address these uncertainties. The algorithm involves a long short-term memory (LSTM) <a href="https://www.sciencedirect.com/topics/engineering/lane-change-behavior">lane change behavior</a> recognition model that mines key features of agent–agent interaction through the <a href="https://www.sciencedirect.com/topics/computer-science/attention-machine-learning">attention mechanism</a>. The <a href="https://www.sciencedirect.com/topics/physics-and-astronomy/gaussian-distribution">Gaussian</a> process (GP) motion modeling trajectory prediction (GPMM-TP) algorithm considers the driving style of the prototype trajectory based on the behavior recognition results. <strong>To further improve</strong> short-term and long-term prediction, the interactive multi-model (IMM) algorithm is used to assign probability weights to the <a href="https://www.sciencedirect.com/topics/computer-science/gaussian-process-model">GP model</a> and the <a href="https://www.sciencedirect.com/topics/engineering/extended-kalman-filter">Extended Kalman Filter</a> (EKF) model based on prediction accuracy, taking into account the driving styles and the vehicle dynamics. （结果说明有效、数据集）<strong>The proposed algorithm provides a promising approach</strong> to improving the accuracy of lane change trajectory prediction for AVs, and its effectiveness is demonstrated using the HighD dataset.</p>
+<hr>
+<blockquote>
+<p>10.1109/tim.2024.3400338</p>
+<p>Hybrid Kalman Recurrent Neural Network for Vehicle Trajectory Prediction</p>
+</blockquote>
+<p>Accurately forecasting the motion of surrounding vehicles <strong>is a crucial prerequisite</strong>（重要前提） for achieving safe autonomous driving (AD). （现在的方法）Methods for trajectory prediction encompass both physics- and learning-based approaches. （提出问题）<strong>Despite</strong> the significant advancements made by learning-based methods in enhancing performance, ensuring that predicted trajectories are realistic, interpretable, and physically feasible remains a challenging problem.（提出解决方案） <strong>In this study</strong>, we propose a physics-based deep learning (DL) framework founded on an encoder–decoder architecture, modeling the historical motion of traffic agents effectively coupled with the surrounding environment information through attention mechanisms. <strong>Our model</strong> incorporates the vehicle dynamic model (VDM) to couple with vehicle motion and utilizes the Kalman filter to fuse scene context information for multistep accurate and feasible multimodal trajectory prediction. <strong>Our method</strong> leverages the strengths of both learning- and physics-based models. （结果、数据集）The extensive experiment results on the Lyft l5 dataset demonstrate that our model outperforms various baseline approaches in terms of metrics including prediction errors, feasibility, and explainability.</p>
+<hr>
+<p><a href="/images/Paper/A-co-evolutionary-lane-changing-trajectory-planning-metho_2023_Accident-Anal.pdf">A-co-evolutionary-lane-changing-trajectory-planning-metho_2023_Accident-Anal.pdf</a></p>
+<p>提出一种CLTP方法（协同变道轨迹规划），使用HighD数据集，</p>
+<blockquote>
+<p>为什么提出CLTP方法？</p>
+<p>因为现有的模型都是在默认为周围车辆是手动驾驶车辆，而没有考虑假如周围是自动驾驶车辆时，道路中换道将具有随机性和不确定性。</p>
+<p>所以CLTP方法可以做到根据预测车辆轨迹推导出车辆的时间和空间风险，以评估换道安全性。为帮助车辆做好安全换道的准备，可以利用基于停车距离指数（SDI）的纵向位置调整策略来获取起止点位置。基于梯形加速度（TA）方法和遗传算法（GA）设计换道横向和纵向轨迹，旨在给定曲率、速度和瞬时风险的约束下，降低换道方案的总体风险系数。</p>
+</blockquote>
+<ul>
+<li>
+<p>使用深度学习神经网络（GRU）来捕获变道车辆周围车辆移动的轨迹运动学，其次使用<strong>故障树分析方法</strong>建立变道事件时空风险识别的数学模型，目标是获得未来的交通环境信息，将变道风险最小化。</p>
+<ul>
+<li>GRU是一种改进的循环神经网络（RNN）模型，通过引入重置门、更新门和输入调制门来解决长期记忆和反向传播中的梯度消失问题，可以对历史数据的状态流和输入流进行细微的修改。因此，与长短期记忆（LSTM）和RNN相比，GRU更容易训练，训练效率和性能也更好。</li>
+</ul>
+</li>
+<li>
+<p>基于加减速超车规则和梯形加速度方法，设计了变道过程中的纵向和横向位移方案。最后利用遗传算法获取纵向和横向位移的运动参数，形成理想的变道轨迹。</p>
+</li>
+</ul>
+<p>优点：考虑到了SV（目标车辆）换道过程中原来车道的FV、RV对其的影响，预测瞬时风险克服静态或在线数据的滞后性，设计了换道起点和终点确定模块，以提供在安全换道前纵向位置的动态调整策略，克服了以往研究中静态起点和终点灵活性差的问题。</p>
+<p>总结：提供了一种新思路，算法与深度学习相结合，<em><strong>RRT（快速随机树）/MPC（模型预测控制）车辆路径规划和深度学习预测车辆换道意图这部分可以提供换道的可能性以及换道时机的信息</strong></em>，生成最优路径。</p>
+<hr>
+<p><a href="/images/Paper/Driver-influence-on-vehicle-trajectory-predi_2021_Accident-Analysis---Preven.pdf">Driver-influence-on-vehicle-trajectory-predi_2021_Accident-Analysis&mdash;Preven.pdf</a></p>
+<p>文章将驾驶员特征（如高风险和低风险分类）和驾驶表现（如风险行为和非风险行为）纳入了轨迹预测系统中，使用卷积LSTM进行轨迹预测，使用SHRP2数据集，然后将预测结果与实际的驾驶轨迹进行了对比分析。通过这种对比，研究发现驾驶员的特征对轨迹预测系统的准确性有显著影响：</p>
+<ul>
+<li>低风险（LR）驾驶员在非风险行为（NRB）情境下，轨迹预测误差最低，表明系统在这些情境下的预测更为准确。</li>
+<li>高风险（HR）驾驶员在风险行为（RB）情境下，轨迹预测误差最高，显示出驾驶员特征确实对轨迹预测的效果产生了重要影响。</li>
+</ul>
+<p><img src="/images/Paper/01.png" alt="01"></p>
+<p>本研究的重点是研究驾驶员概况、驾驶表现和其他影响因素（如交通密度、次要任务、性别和年龄组）对轨迹预测系统性能的影响。方法评估基于驾驶员概况和驾驶相关因素如何影响轨迹预测系统性能。将驾驶员概况分类为低风险和高风险，将驾驶表现分类为风险行为和非风险行为集群，以及对其他影响因素的重要分析。第一步，使用从SHRP2中提取的一组驾驶样本训练预测模型，然后评估系统性能以进行进一步分析。每个驾驶场景的实际值与预测值之间的差异被报告为预测误差。之后，该预测误差用于评估驾驶员概况、驾驶表现以及驾驶员受损、交通密度和次要任务等影响因素对轨迹预测系统准确性的相关性和影响。</p>
+<p>使用随机森林 (RF) 评估其他影响系统性能的因素的影响。将 RF 拟合到数据中，根据因素与回归问题的相关性对其进行排序，以减少高维数据集中的模型输入数量，从而提高计算效率。</p>
+<p>研究的目的是探索驾驶员概况和驾驶表现对轨迹预测系统性能的影响。本文根据驾驶员概况和驾驶表现，探讨了根据个体差异对车辆轨迹预测性能的影响。调查显示，基于自我报告问卷的驾驶员概况不会影响系统的性能。然而，驾驶表现会影响轨迹预测性能。特别是，在表现出风险较高的概况（即驾驶距离太近或从事危险行为）的驾驶员中，轨迹预测比表现出更安全行为的驾驶员表现出更多的错误。这凸显了一个重要问题。也就是说，轨迹性能预测对于表现出更多危险驾驶倾向的驾驶员来说效果较差，未来的研究还需要考虑在车辆轨迹预测系统中使用驾驶行为。使用具有相同分布的分类数据并分析特定模式将导致设计个性化的轨迹预测系统，从而提高系统性能和道路安全。</p>
+<p>总结：确定将换道意图加入轨迹预测，和该文方法一致。可以使用驾驶员特征进行换道意图识别（个性化行为分析），可以提高换道意图预测的准确性。</p>
+
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fpaper%2f1stgroupmeeting%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=%e8%ae%ba%e6%96%87%e7%ac%94%e8%ae%b0&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fpaper%2f1stgroupmeeting%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fpaper%2f1stgroupmeeting%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fpaper%2f1stgroupmeeting%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fpaper%2f1stgroupmeeting%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fpaper%2f1stgroupmeeting%2f
+			&title=%e8%ae%ba%e6%96%87%e7%ac%94%e8%ae%b0&summary=Abstract%2010.1016%2fj.compeleceng.2024.110053%0aGroup%20vehicle%20trajectory%20prediction%20model%20based%20on%20multi-graph%20fusion%0aGroup%20vehicle%20trajectory%20prediction%20is%20crucial%20for%20autonomous%20driving%20systems%20to%20make%20safe%20and%20reliable%20decisions.%20However%2c%20existing%20models%20are%20deficient%20in%20integrating%20vehicle%20history%20information%20to%20capture%20dynamic%20interaction%20features%20at%20different%20time%20steps%20and%20exhibit%20limitations%20in%20handling%20vehicle%20history%20states%20with%20varying%20speeds.%20To%20address%20these%20issues%2c%20this%20paper%20proposes%20a%20multi-graph%20fusion%20group%20vehicle%20trajectory%20prediction%20model%20that%20aims%20to%20integrate%20spatio-temporal%20features%28%e8%9e%8d%e5%90%88%e6%97%b6%e7%a9%ba%e7%89%b9%e5%be%81%29%20to%20accurately%20predict%20the%20future%20trajectories%20of%20groups%20of%20vehicles.&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=%e8%ae%ba%e6%96%87%e7%ac%94%e8%ae%b0&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fpaper%2f1stgroupmeeting%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+<script async src="https://cse.google.com/cse.js?cx=google-search-code"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+
+
+<footer class="footer has-background-dark">
+    <div class="content has-text-centered has-text-white">
+        <p>
+            © 2024 GeeTeng.My
+            <a class="has-text-light" href="https://github.com/GeeTeng" target="_blank">
+            GitHub</a>. 
+
+	    Email: 15143483@qq.com
+        </p>
+    </div>
+</footer>
+
+<div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>
