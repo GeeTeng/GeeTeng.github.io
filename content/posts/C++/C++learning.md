@@ -10,6 +10,139 @@ chordsheet: true
 
 
 
+
+
+
+
+
+
+---
+
+#### 友元函数
+
+全局函数做友元
+
+```c++
+class Building
+{
+	friend void goodGuy(Building* building);
+public:
+	Building()
+	{
+		m_SittingRoom = "客厅";
+		m_BedRoom = "卧室";
+	}
+public:
+	std::string m_SittingRoom; // 客厅
+
+private:
+	std::string m_BedRoom; // 卧室
+};
+
+// 全局函数
+void goodGuy(Building* building)
+{
+	std::cout << "好朋友全局函数正在访问：" << building->m_SittingRoom << std::endl;
+	std::cout << "好朋友全局函数正在访问：" << building->m_BedRoom << std::endl;
+}
+
+int main()
+{
+	Building building; // 输出：好朋友全局函数正在访问：客厅
+	goodGuy(&building);// 输出：好朋友全局函数正在访问：卧室
+}
+```
+
+**类做友元**也是同样的道理
+
+`friend class GoodGuy;`
+
+**类的成员函数**也是同样的道理
+
+`friend void GoodGuy::visit();`
+
+---
+
+#### 模板函数
+
+##### 类模板和函数模板区别
+
+- 类模板没有自动类型推导
+
+- 类模板可以设置默认类型
+
+  `template<class NameType, class AgeType = int>`
+
+
+
+##### 类模板与继承
+
+```c++
+template<class T>
+class Base
+{
+	T m;
+};
+class Son :public Base{}; // 错误：必须要知道父类中的T类型才能继承给子类
+class Son :public Base<int>{}; // 正确
+
+template<class T1, class T2>
+class Son2 : public Base<T2>
+{
+public:
+	T1 obj;
+	Son2()
+	{
+        // 声明Son2<int, char> S2;
+		std::cout << "T1类型为" << typeid(T1).name() << std::endl; // int
+		std::cout << "T2类型为" << typeid(T2).name() << std::endl; // char
+	}
+};
+```
+
+---
+
+#### 回调函数
+
+在函数中把你的回调函数名称转化为地址作为 一个参数，以便于系统调用。
+
+```c++
+void myCallbcak(int value)
+{
+	cout << "callback called with value: " << value << endl;
+}
+void process(int x, void(*callback)(int))
+{
+	cout << "Processing Value: " << x << endl;
+	callback(x * 2);
+}
+int main()
+{
+	process(5, myCallbcak);
+}
+```
+
+---
+
+#### 一致性哈希
+
+一致性哈希用于数据分区，帮助数据库最大限度地减少平衡期间的数据移动。一致性hash的基本思想就是使用相同的hash算法将数据和结点都映射到图中的环形哈希空间中。
+
+- 我们使用均匀分布的哈希函数将服务器和对象映射到哈希环上
+- 为了找到对象的服务器，我们从对象的位置沿着环顺时针移动直到找到服务器。
+
+当删除其中一个对象的时候，只需要将服务器分给逆时针最近的环。
+
+当增加一个对象的时候，只需要将逆时针第一个对象移动到它的右边（防止这个对象找不到它对应的服务器），这样无需移动所有对象的位置，更方便。
+
+![consistenthash](/images/C++basic/consistenthash.png)
+
+缺点：环上服务器节点分布不均匀，就算是一开始分布均匀，如果服务器频繁的上下线，也会变得分布不均匀。最终导致很多个客户端。
+
+于是提出**虚拟节点**，通过虚拟节点，每个服务器可以处理环上的多个网段。
+
+![consistenthash01](/images/C++basic/consistenthash01.png)
+
 ---
 
 #### 静态多态和动态多态
