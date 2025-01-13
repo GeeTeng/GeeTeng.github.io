@@ -27,7 +27,7 @@ chordsheet: true
 
 由于点光源有大小，会形成如图所示的（Umbra）本影区域和半影（Penumbra）区域。所以会形成阴影的过渡。
 
-![02](D:\GeeSite\static\images\RayTracing\/images/RayTracing/02.png)
+![02](/images/RayTracing/02.png)
 
 > Question：为什么需要光线追踪？
 >

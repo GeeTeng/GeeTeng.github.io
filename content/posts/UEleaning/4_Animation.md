@@ -1,3 +1,15 @@
+---
+title: "Animation"
+date: 2024-12-23
+tags: [UE5]
+description: "动画系统 作业待完成"
+showDate: true
+math: true
+chordsheet: true
+---
+
+
+
 #### 序列帧动画 
 
 无需计算，直接显示图片逻辑简单。**缺点**：占用空间大，不适合复杂动画。
@@ -18,18 +30,18 @@
 
   **蒙皮矩阵的计算（Skinning Matrix）:**
   $$
-  M_{skin} =M_{bone}×M_{inverse}
+  M_{skin} =M_{bone}×M_{inverse}
   $$
   M_inverse是你绑定矩阵，用于骨骼从骨骼空间转换到模型空间的变换。
-
+  
   **Quaternion NLerp**用于物体旋转的平滑过渡。
-
+  
   NLerp和SLerp（球面线性插值）
-
+  
   **NLerp** 比 **Slerp** 更简单，计算开销较小，因为它只进行线性插值，不涉及球面插值的复杂计算。
-
+  
   当旋转角度较大时，使用Slerp。
-
+  
 - **基于物理的动画（Physics-based Animation）**
 
   - 布娃娃系统（Ragdoll）

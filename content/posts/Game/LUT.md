@@ -8,7 +8,7 @@ math: true
 chordsheet: true
 ---
 
-#### LUT（LookUp Table）查找表
+## LUT（LookUp Table）查找表
 
 LUT是一种常见的优化或效果实现工具，用于通过查表得方式快速映射输入数据到目标结果，避免复杂的实时计算
 

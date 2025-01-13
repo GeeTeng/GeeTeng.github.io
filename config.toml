@@ -25,6 +25,10 @@ enableemoji = false
 
 [taxonomies]
     tag = "tags"
+[markup]
+  [markup.tableOfContents]
+    startLevel = 2
+    endLevel = 5
 
 [markup.goldmark.renderer]
     unsafe = true

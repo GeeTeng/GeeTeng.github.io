@@ -1,6 +1,6 @@
 ---
 title: "GAMES101作业0"
-date: 2024-11-12
+date: 2024-11-01
 tags: [Computer-Graphics]
 description: "坐标变换及虚拟机创建"
 showDate: true
@@ -8,7 +8,7 @@ math: true
 chordsheet: true
 ---
 
-**作业描述** 
+## 作业
 
 给定一个点P=(2,1),将该点绕原点先逆时针旋转45◦，再平移(1,2),计算出 变换后点的坐标。（要求用齐次坐标进行计算）
 

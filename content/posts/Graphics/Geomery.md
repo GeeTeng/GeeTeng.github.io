@@ -12,7 +12,7 @@ chordsheet: true
 
 几何的表示方法可以分为两类：**隐式几何（explicit）**、**显式几何（implicit）**。
 
-### 隐式几何
+## 隐式几何
 
 **缺点**：很难通过表达式看出是什么图形，难以描述复杂形状
 
@@ -20,15 +20,15 @@ chordsheet: true
 
 例子：
 
-- ##### 代数曲面（Algebraic Surfaces）
+- ### 代数曲面（Algebraic Surfaces）
 
   只能用代数方程表达一些简单的形状，却无法处理复杂的图形。
 
-- ##### CSG(Constructive Solid Geometry)
+- ### CSG(Constructive Solid Geometry)
 
   布尔运算，采用集合的交并差运算思想。
 
-- ##### 距离函数（Distance Functions）
+- ### 距离函数（Distance Functions）
 
   **距离函数SDF**：Signed Distance Function
 
@@ -52,33 +52,31 @@ chordsheet: true
 
   ![02](/images/Geometry/02.png)
 
-- ##### 分型
+- ### 分型
 
   描述具有自相似形的物体，雪花、微生物。
 
 
 
-### 显式几何
+## 显式几何
 
 **缺点**：难以判断某点与物体的位置关系
 
 例子：
 
-- ##### 点云(Point Cloud)
+- ### 点云(Point Cloud)
 
   除了原始数据很少被使用，密度低时无法成面
 
-- ##### 多边形网格
+- ### 多边形网格
 
-- ##### Wavefront Object File（.obj）格式
+- ### Wavefront Object File（.obj）格式
 
   描述立方体的一堆点、法线、纹理坐标及他们之间的关系
 
 ---
 
-### 曲线与曲面
-
-#### 贝塞尔曲线
+## 贝塞尔曲线
 
 曲线一定要经过起始点p0到终止点p3，且切线为p0p1方向、p2p3方向。
 
@@ -86,7 +84,7 @@ chordsheet: true
 
 在b0 b1上找一点t 同理其他两条边，连接后变成3个点，找到b30点和该点切线
 
-##### **迪卡斯特里奥算法**
+### 迪卡斯特里奥算法
 
 ![04](/images/Geometry/04.png)
 
@@ -112,18 +110,19 @@ chordsheet: true
 
 
 
-#### 样条曲线（Splines）
+### 样条曲线（Splines）
 
-##### B-Splines（B样条）
+#### B-Splines（B样条）
 
 - 对贝塞尔曲线的一个扩展。
+
 - 局部性：贝塞尔曲线如果动一个控制点，整个贝塞尔曲线都要进行变换，比较麻烦，B样条则不需要。
 
-
+  
 
 ---
 
-#### 贝塞尔曲面
+## 贝塞尔曲面
 
 对于曲线只有一个参数t，但是对于面来说，有u和v在[0, 1]区间上。
 
@@ -133,11 +132,11 @@ chordsheet: true
 
 **几何处理**
 
-#### 曲面细分（Mesh Subdivision）
+### 曲面细分（Mesh Subdivision）
 
 将模型的面分为更多小的面，提高模型精度。
 
-##### 	Loop细分算法
+#### 	Loop细分算法
 
 ​	将1个三角形分成4个三角形，图中新的顶点（白点）需要被更新，加权平均。
 
@@ -149,7 +148,7 @@ chordsheet: true
 
 
 
-##### 	Catmull-Clark Subdivision算法
+#### 	Catmull-Clark Subdivision算法
 
 ​	奇异点：度数 != 4的点，图中有两个奇异点和2个非四边形面。
 
@@ -170,11 +169,11 @@ chordsheet: true
 
 
 
-#### 曲面简化 （Mesh Simplification）
+### 曲面简化 （Mesh Simplification）
 
 降低模型精度，LOD技术。
 
-##### 边坍缩
+#### 边坍缩
 
 想象一下将几个点捏成同一个点
 
@@ -190,7 +189,7 @@ chordsheet: true
 
 
 
-#### **曲面规则化 （Mesh Regularization）**
+### 曲面规则化 （Mesh Regularization）
 
 ​	将三角形面变得尽可能相同（正三角形），也可以提高模型效果。
 

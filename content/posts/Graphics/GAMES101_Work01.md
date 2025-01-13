@@ -8,9 +8,9 @@ math: true
 chordsheet: true
 ---
 
-### 2D Transformations
+## 2D Transformations
 
-#### Scale
+### Scale
 $$
 S(s_x, s_y) = 
 \begin{pmatrix}
@@ -20,12 +20,12 @@ s_x & 0 & 0 \\
 \end{pmatrix}
 $$
 
-#### Rotation
+### Rotation
 $$
 R(\alpha) = \begin{pmatrix} \cos \alpha & -\sin \alpha & 0 \\ \sin \alpha & \cos \alpha & 0 \\ 0 & 0 & 1 \end{pmatrix}
 $$
 
-#### Translation
+### Translation
 $$
 T(t_x, t_y) = \begin{pmatrix} 1 & 0 & t_x \\ 0 & 1 & t_y \\ 0 & 0 & 1 \end{pmatrix}
 $$
@@ -48,7 +48,7 @@ $$
 
 
 
-#### **如果想绕着C点进行旋转**
+## 如果想绕着C点进行旋转
 
 先平移到原点，然后再旋转，最后再平移回去
 
@@ -59,7 +59,7 @@ $$
 
 
 
-### 旋转矩阵（围绕 x, y, z 轴）
+## 旋转矩阵（围绕 x, y, z 轴）
 
 **围绕 x 轴的旋转矩阵**：
 $$
@@ -154,7 +154,7 @@ l = -r
 
 
 
-#### 旋转矩阵的罗德里格斯公式
+## 旋转矩阵的罗德里格斯公式
 
 $$
 R = I \cos \theta + (1 - \cos \theta)(\mathbf{k} \mathbf{k}^T) + \sin \theta 
@@ -175,7 +175,7 @@ $$
 
   
 
-#### 作业描述
+## 作业描述
 
 > 本次作业的任务是填写一个**旋转矩阵**和一个**透视投影矩阵**
 >
@@ -262,7 +262,7 @@ Eigen::Matrix4f getRotation(Vector3f axis, float angle){
 
 
 
-## Assignment1 文件下载        
+## Assignment1 文件       
 
 - [Assignment1.pdf](/code/Assignment1/Assignment1.pdf)
 - [CMakeLists.txt](/code/Assignment1/CMakeLists.txt)

@@ -8,7 +8,7 @@ math: true
 chordsheet: true
 ---
 
-### Z-Buffer(深度缓存）
+## Z-Buffer(深度缓存）
 
 用来处理可见性问题，即**确定每个像素最前层物体**。
 
@@ -20,7 +20,7 @@ chordsheet: true
 
 Z-Buffer处理不了透明物体，透明物体需要特殊处理。
 
-#### Z-Buffer Algorithm
+### Z-Buffer Algorithm
 
 ![code](/images/Shader/code.jpg)
 
@@ -44,7 +44,7 @@ R代表无穷大，如果有三角形，就覆盖掉这些无穷大的像素
 
 ---
 
-### Shader
+## Shader
 
 **定义：对不同的物体应用不同材质的过程**
 
@@ -54,7 +54,7 @@ R代表无穷大，如果有三角形，就覆盖掉这些无穷大的像素
 
 
 
-#### Blinn-Phong 反射模型
+### Blinn-Phong 反射模型
 
 Blinn-Phong 反射模型是计算光照和表面反射的常用模型。它将光照分为三部分：
 
@@ -64,7 +64,7 @@ Blinn-Phong 反射模型是计算光照和表面反射的常用模型。它将�
 
 ---
 
-##### diffuse reflection
+#### diffuse reflection
 
 通常假设反射光是一个半球，并计算每个着色点（shading point）接收到的能量。漫反射的强度与光照方向和表面法线之间的夹角有关。
 
@@ -83,7 +83,7 @@ $$
 
 ---
 
-##### Specular Highlights
+#### Specular Highlights
 
 v和R足够接近的时候，会看到高光，其中v是观测方向，R是光线反射方向。
 
@@ -105,7 +105,7 @@ $$
 
 ---
 
-##### Ambient Lighting
+#### Ambient Lighting
 
 环境光
 $$
@@ -114,7 +114,7 @@ $$
 
 ---
 
-##### Blinn-Phong Reflection
+#### Blinn-Phong Reflection
 
 $$
 L=L_{a}+L_{d}+L_{s}
@@ -122,13 +122,13 @@ $$
 
 ---
 
-##### Problem of Blinn-Phong
+#### Problem of Blinn-Phong
 
 ![problem](/images/Shader/problem.png)
 
 ---
 
-#### ShadingFrequency
+### ShadingFrequency
 
 ![shadingFrequencies](/images/Shader/shadingFrequencies.png)
 
@@ -138,7 +138,7 @@ $$
 
 ---
 
-#### 逐顶点求法线方向
+### 逐顶点求法线方向
 
 当你知道一个模型对应的是什么物体的时候，你会通过下图（比如说有一个球形物体，和模型之间的接触的法线方向）
 
@@ -148,13 +148,13 @@ $$
 
 ---
 
-#### Graphics Pipeline
+### Graphics Pipeline
 
 ![Pipeline](/images/Shader/Pipeline.png)
 
 ---
 
-#### Shader概念
+### Shader概念
 
 - shader是写一个通用的程序，只需要管一个像素怎么运作
 - 如果操作一个顶点顶点着色器，如果操作一个像素像素（片源）着色器
@@ -163,7 +163,7 @@ $$
 
 ---
 
-#### GPU
+## GPU
 
 GPU 有成百上千个核心，这些核心被分为不同的小组，每一组可以执行不同 / 相同的人物，GPU的并行架构为处理大规模的**相同类型操作**而设计。
 
@@ -175,7 +175,7 @@ SIMD(Single Instruction, Multiple Data)是一种并行计算技术，它通过�
 
 ---
 
-#### Texture
+## Texture
 
 比如说我们对一个物体求它在灯光下的漫反射，但是这个物体的材质是不同的，这个物体表面有不同的颜色，呢么它的漫反射系数也是不同的。所以我们需要知道物体的表面信息，引出纹理。
 
@@ -187,7 +187,7 @@ SIMD(Single Instruction, Multiple Data)是一种并行计算技术，它通过�
 
 ---
 
-#### 重心坐标
+## 重心坐标
 
 **用重心坐标在三角形内部做任何形式的插值**
 
@@ -203,7 +203,7 @@ A点的重心坐标是（1，0，0） 因为αA+βB+γC = A
 
 ---
 
-#### Texture Magnification（纹理映射）
+## Texture Magnification（纹理映射）
 
 **纹理过小时引发的问题**
 
@@ -227,7 +227,7 @@ Solution：一种直观的解决方法就是Supersampling（超采样），如�
 
 ---
 
-#### Mipmap 范围查询
+## Mipmap 范围查询
 
 ![mipmap](/images/Shader/mipmap.png)
 
@@ -239,7 +239,7 @@ Solution：一种直观的解决方法就是Supersampling（超采样），如�
 
 ---
 
-#### 作业
+## 作业
 
 基于包围盒的光栅化，用三角形的重心坐标对颜色、法线、纹理坐标做插值。将插值传递给fragment_shader_payload，调用 fragment_shader 计算最终像素颜色
 
