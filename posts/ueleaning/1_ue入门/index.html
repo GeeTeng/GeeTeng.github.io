@@ -202,22 +202,14 @@
     <nav id="TableOfContents" class="table-of-contents">
         <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#安装ue544源码">安装UE5.4.4源码</a>
       <ul>
-        <li>
-          <ul>
-            <li><a href="#安装ue544源码">安装UE5.4.4源码</a>
-              <ul>
-                <li><a href="#1-在github上下载ue544源码">1 在GitHub上下载UE5.4.4源码</a></li>
-                <li><a href="#2-生成sln文件">2 生成sln文件</a></li>
-                <li><a href="#3-配置vs">3 配置VS</a></li>
-                <li><a href="#4-生成ue5">4 生成UE5</a></li>
-                <li><a href="#5-新建c项目">5 新建C++项目</a></li>
-                <li><a href="#6-打包">6 打包</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
+        <li><a href="#1-在github上下载ue544源码">1 在GitHub上下载UE5.4.4源码</a></li>
+        <li><a href="#2-生成sln文件">2 生成sln文件</a></li>
+        <li><a href="#3-配置vs">3 配置VS</a></li>
+        <li><a href="#4-生成ue5">4 生成UE5</a></li>
+        <li><a href="#5-新建c项目">5 新建C++项目</a></li>
+        <li><a href="#6-打包">6 打包</a></li>
       </ul>
     </li>
   </ul>
@@ -262,21 +254,21 @@
         <div class="blog-text">
             
 
-            <h4 id="安装ue544源码">安装UE5.4.4源码</h4>
-<h5 id="1-在github上下载ue544源码">1 在GitHub上下载UE5.4.4源码</h5>
+            <h2 id="安装ue544源码">安装UE5.4.4源码</h2>
+<h3 id="1-在github上下载ue544源码">1 在GitHub上下载UE5.4.4源码</h3>
 <p>在这之前需要关联账号并验证至虚幻引擎</p>
 <p><a href="https://github.com/EpicGames/UnrealEngine/tree/5.4.4-release">EpicGames/UnrealEngine at 5.4.4-release</a></p>
 <p>我直接下载文件压缩包，没有使用git拉取，原因是网络不稳定</p>
-<h5 id="2-生成sln文件">2 生成sln文件</h5>
+<h3 id="2-生成sln文件">2 生成sln文件</h3>
 <p>解压文件，并将文件夹改名为UE，以防后续因为文件名太长而出错</p>
 <p>启动Setup.bat文件  注意：网络一定要通畅并且不能自行关闭 安静等待&hellip;</p>
 <p>之后运行GenerateProjectFiles.bat文件 会生成一个UE5.sln文件</p>
-<h5 id="3-配置vs">3 配置VS</h5>
+<h3 id="3-配置vs">3 配置VS</h3>
 <p>一定要增加UnrealEngine安装程序 建议VisualStudio2022 17.8版本</p>
 <p>因为之前试过17.12版本发现一些NuGet包无法还原 不知道什么原因</p>
 <p>打开UE5.sln 在右侧会提示安装插件 点击后可以安装额外的插件 配置如下：</p>
 <p><img src="/images/UE%E5%85%A5%E9%97%A8/VSConfig.png" alt="VSConfig"></p>
-<h5 id="4-生成ue5">4 生成UE5</h5>
+<h3 id="4-生成ue5">4 生成UE5</h3>
 <p>将UE5设为启动项 点击生成UE5 不要点生成解决方案</p>
 <p>为了使编译速度快一些 我试过使用Incredibuild 速度是很快 但是会发现有一些文件属于嵌套关系 并行编译时会出错 于是乎换用其他方式</p>
 <p>&ldquo;C:\Users\用户名\AppData\Roaming\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml&quot;修改BuildConfiguration.xml文件</p>
@@ -290,7 +282,7 @@
 <p>成功生成UE5后不要再点任何重新生成解决方案/项目 否则会清理掉几个小时编译的文件</p>
 <p>编译完成后会生成这样的文件结构 exe文件位于\Engine\Binaries\Win64中 双击即可运行</p>
 <p><img src="/images/UE%E5%85%A5%E9%97%A8/UEFileStructure.png" alt="UEFileStructure"></p>
-<h5 id="5-新建c项目">5 新建C++项目</h5>
+<h3 id="5-新建c项目">5 新建C++项目</h3>
 <p>创建一个第一人称模板项目 选择C++</p>
 <p>点击创建之后会跳出vs界面</p>
 <p>点击执行 会加载出UE5界面 第一次加载时间会很长 之后时间会缩短一些</p>
@@ -301,7 +293,7 @@
 <p>我没有关闭实时编译Living Code 但是新建项目后可以在偏好设置中 将AssetEditorOpenLocation设置为MainWindow</p>
 <p>创建完了之后在VS中可以看到项目目录下有所创建的cpp和.h文件</p>
 <p><img src="/images/UE%E5%85%A5%E9%97%A8/CppFiles.png" alt="CppFiles"></p>
-<h5 id="6-打包">6 打包</h5>
+<h3 id="6-打包">6 打包</h3>
 <p>在打包的时候我新建了一个空项目 因为时间会快一些 所以细心的你会发现两个截图的项目名称不一样</p>
 <p>选择Platform后的windows平台 其中Development是方便调试的打包 而Shipping是发布的打包</p>
 <p>这里我没有选择打包Android平台 是因为我没有安卓手机 所以就只打包了windows平台</p>

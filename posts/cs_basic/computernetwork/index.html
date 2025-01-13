@@ -296,7 +296,7 @@
 
             <h2 id="概述">概述</h2>
 <h3 id="计算机网络分类">计算机网络分类</h3>
-<p><img src="D:%5CGeeSite%5Cstatic%5Cimages%5CCS_Basic%5CComputerNetwork%5C00.png" alt="00"></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/00.png" alt="00"></p>
 <hr>
 <h3 id="计算机网络体系结构">计算机网络体系结构</h3>
 <h4 id="七层osi模型">七层OSI模型</h4>
@@ -305,7 +305,7 @@
 <p>应用层、传输层、网络层、数据链路层、物理层</p>
 <h4 id="tcpip四层模型">TCP/IP四层模型</h4>
 <p>应用层（HTTP\SMTP\DNS\RTP）、运输层(TCP\UDP)、网络层(IP)、网络接口层</p>
-<p><img src="D:%5CGeeSite%5Cstatic%5Cimages%5CCS_Basic%5CComputerNetwork%5C03.png" alt="03"></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/03.png" alt="03"></p>
 <p><strong>协议三要素：</strong></p>
 <ul>
 <li><strong>语法</strong>：定义交换信息的格式</li>
@@ -328,11 +328,11 @@
 <p><strong>发送方</strong>：构造分组、发送分组</p>
 <p><strong>路由器</strong>：缓存分组、转发分组</p>
 <p><strong>接收方</strong>：接受分组、还原报文</p>
-<p><img src="D:%5CGeeSite%5Cstatic%5Cimages%5CCS_Basic%5CComputerNetwork%5C01.png" alt="01"></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/01.png" alt="01"></p>
 <h4 id="报文交换">报文交换</h4>
 <p>用于早期的电报通信网，现在较少使用，通常被分组交换方式所取代。</p>
 <h4 id="对比">对比</h4>
-<p><img src="D:%5CGeeSite%5Cstatic%5Cimages%5CCS_Basic%5CComputerNetwork%5C02.png" alt="02"></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/02.png" alt="02"></p>
 <hr>
 <h2 id="物理层">物理层</h2>
 <h3 id="物理层的基本概念">物理层的基本概念</h3>
@@ -368,25 +368,25 @@
 <hr>
 <h3 id="封装成帧">封装成帧</h3>
 <p>应用层传递应用层协议数据单元给运输层，运输层加上运输层协议首部传递给网络层，网络层将数据添加网络层协议首部传递给数据链路层，数据链路层添加<strong>帧头</strong>和<strong>帧尾</strong>。</p>
-<p><img src="D:%5CGeeSite%5Cstatic%5Cimages%5CCS_Basic%5CComputerNetwork%5C04.png" alt="04"></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/04.png" alt="04"></p>
 <p>帧头和帧尾的作用之一就是<strong>帧定界</strong>。如下图，红色部分就是P2P帧定界标志。但是以太网MAC帧并没有帧定界标志。</p>
 <blockquote>
 <p><strong>那以太网的MAC帧怎么被提取一个个帧呢？</strong></p>
 <p>实际上以太网V2的MAC帧交付给物理层后会添加前导码，前导码中前7个字节为<strong>前同步码</strong>，作用是使接收方的时针同步，之后的1字节为<strong>帧开始定界符</strong>。</p>
 </blockquote>
-<p><img src="D:%5CGeeSite%5Cstatic%5Cimages%5CCS_Basic%5CComputerNetwork%5C05.png" alt="05"></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/05.png" alt="05"></p>
 <p><strong>透明传输</strong></p>
 <p>透明传输是指不管所传数据是什么样的比特组合，都应当能够在链路上传送。<strong>当所传数据中的比特组合恰巧与某一个控制信息完全一样时，就必须采取适当的措施，使接收方不会将这样的数据误认为是某种控制信息</strong>。这样才能保证数据链路层的传输是透明的。</p>
 <blockquote>
 <p><strong>如何判断发送的数据中是帧定位符还是帧的数据？</strong></p>
 <p>下图是P2P帧的格式，在数据部分每遇到5个1可以添加1个0，和帧的首尾区分开，在读取的时候再删除这个0。</p>
 </blockquote>
-<p><img src="D:%5CGeeSite%5Cstatic%5Cimages%5CCS_Basic%5CComputerNetwork%5C06.png" alt="06"></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/06.png" alt="06"></p>
 <p>为了提高帧的传输效率，应当使帧的数据部分尽可能大一些。</p>
 <hr>
 <h3 id="差错检测">差错检测</h3>
 <p>帧在传输过程中可能会出现误码，所以进行差错检测，在以太网V2的MAC帧中如上图，FCS就是检错码，通过检错算法就可以检查到是否出现了误码。</p>
-<p><img src="D:%5CGeeSite%5Cstatic%5Cimages%5CCS_Basic%5CComputerNetwork%5C07.png" alt="07"></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/07.png" alt="07"></p>
 <h4 id="奇偶校验">奇偶校验</h4>
 <p>如果有奇数个位发生误码，则奇偶性发生变化，可以检查出误码；</p>
 <p>如果有偶数个位发生误码，则奇偶性不发生变化，无法检查出误码；</p>
@@ -402,7 +402,7 @@ $$
 G(x) = x^4 + x^2 + x + 1
 $$
 <p>
-<img src="D:%5CGeeSite%5Cstatic%5Cimages%5CCS_Basic%5CComputerNetwork%5C08.png" alt="08"></p>
+<img src="/images/CS_Basic/ComputerNetwork/08.png" alt="08"></p>
 <hr>
 <h3 id="可靠传输">可靠传输</h3>
 <p>尽管误码不能完全避免，但如果能实现<strong>发送方发送什么，接收方就能收到什么</strong>，就成为可靠传输。</p>
@@ -415,14 +415,14 @@ $$
 <hr>
 <h4 id="停止-等待协议sw">停止-等待协议SW</h4>
 <p>如果接收方没有收到数据，发送方一直都收不到接收方传送回来的ACK，于是一直等待，所以要设置超时重传，选择略大于”从发送方到接收方的平均往返时间“，这样当超时的时候，发送方会重新传送数据。</p>
-<p><img src="D:%5CGeeSite%5Cstatic%5Cimages%5CCS_Basic%5CComputerNetwork%5C09.png" alt="09"></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/09.png" alt="09"></p>
 <p>如果接收方发送的ACK丢失，发送方就不知道数据是否已经被接收，于是又发送一条DATA0数据给接收方，这时候接收方无法判断该数据是否接受过，所以要将分组带上序号，保证每次接收到的都是新的数据。</p>
-<p><img src="D:%5CGeeSite%5Cstatic%5Cimages%5CCS_Basic%5CComputerNetwork%5C10.png" alt="10"></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/10.png" alt="10"></p>
 <p>但是接收方传送的ACK，发送方怎么判断是第几条信息的传送成功呢？当DATA0和DATA1同时发送时，如果都返回的是ACK，当有一条数据没有收到时，就无法判断出是哪条信息丢失了，所以要对ACK也编号。</p>
 <p>但是数据链路层中一般不会出现ACK分组迟到的情况，因此在数据链路层中可以不用给ACK分组编号。</p>
-<p><img src="D:%5CGeeSite%5Cstatic%5Cimages%5CCS_Basic%5CComputerNetwork%5C11.png" alt="11"></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/11.png" alt="11"></p>
 <p>停止-等待协议的信道利用率太低了，于是出现了其他两种协议，即<strong>后退N帧协议GBN</strong>和<strong>选择重传协议SR</strong>。</p>
-<p><img src="D:%5CGeeSite%5Cstatic%5Cimages%5CCS_Basic%5CComputerNetwork%5C12.png" alt="12"></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/12.png" alt="12"></p>
 <h4 id="使用广播信道的数据链路层共享式局域网">使用广播信道的数据链路层（共享式局域网）</h4>
 <p><strong>CSMA/CD（载波监听多点接入/碰撞检测）</strong></p>
 <p>使用无线局域网</p>

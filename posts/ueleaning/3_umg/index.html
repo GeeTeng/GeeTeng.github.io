@@ -202,23 +202,15 @@
     <nav id="TableOfContents" class="table-of-contents">
         <nav id="TableOfContents">
   <ul>
-    <li>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#创建主页面">创建主页面</a></li>
-            <li><a href="#切换面板">切换面板</a></li>
-            <li><a href="#更改屏幕分辨率">更改屏幕分辨率</a></li>
-            <li><a href="#更改语言">更改语言</a></li>
-            <li><a href="#背景音乐">背景音乐</a></li>
-            <li><a href="#更改操作键">更改操作键</a></li>
-            <li><a href="#登录">登录</a></li>
-            <li><a href="#注册">注册</a></li>
-            <li><a href="#场景加载">场景加载</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
+    <li><a href="#创建主页面">创建主页面</a></li>
+    <li><a href="#切换面板">切换面板</a></li>
+    <li><a href="#更改屏幕分辨率">更改屏幕分辨率</a></li>
+    <li><a href="#更改语言">更改语言</a></li>
+    <li><a href="#背景音乐">背景音乐</a></li>
+    <li><a href="#更改操作键">更改操作键</a></li>
+    <li><a href="#登录">登录</a></li>
+    <li><a href="#注册">注册</a></li>
+    <li><a href="#场景加载">场景加载</a></li>
   </ul>
 </nav>
     </nav>
@@ -263,7 +255,7 @@
 
             <p>可直接跳转到文末查看最终效果图</p>
 <hr>
-<h4 id="创建主页面">创建主页面</h4>
+<h2 id="创建主页面">创建主页面</h2>
 <p>新建HUD类-MainUIHUD和GameMode-MainMenuGameMode，并新建BP_UIGameMode蓝图类。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// 将该HUD绑定到该GameMode上
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>AMainMenuGameMode<span style="color:#f92672">::</span>AMainMenuGameMode() {
@@ -323,17 +315,17 @@
 <p>BackgoundBlur设置模糊且Visible（防止点击到下一层）</p>
 <p><img src="/images/UMG/UMG_Option.png" alt="UMG_Option"></p>
 <hr>
-<h4 id="切换面板">切换面板</h4>
+<h2 id="切换面板">切换面板</h2>
 <p>选择面板的蓝图，通过SetActiveWidgetIndex来切换面板</p>
 <p><img src="/images/UMG/UMG_Option01.png" alt="UMG_Option01"></p>
 <hr>
-<h4 id="更改屏幕分辨率">更改屏幕分辨率</h4>
+<h2 id="更改屏幕分辨率">更改屏幕分辨率</h2>
 <p>Widget_NormalOption蓝图，新增了一个纯函数Get Window Mode（仅依赖传入的参数，不会改变外部状态）。</p>
 <p><img src="/images/UMG/Widget_NormalOption.png" alt="Widget_NormalOption"></p>
 <p>新增了一个EWindowMode类型的输出命名为Mode</p>
 <p><img src="/images/UMG/GetWindowMode.png" alt="GetWindowMode"></p>
 <hr>
-<h4 id="更改语言">更改语言</h4>
+<h2 id="更改语言">更改语言</h2>
 <p>打开Tool-Localization Dashboard</p>
 <p>勾选想要翻译的部分，C++中增加的FText和项目中有的文字。</p>
 <p>![LocalizationDashboard]/images/UMG/LocalizationDashboard.png)</p>
@@ -342,14 +334,14 @@
 <p>翻译完之后点击CountWords和Compile Text就可以看到是百分百的状态。随着不断地增加字段，也需要更新这个操作。</p>
 <p><img src="/images/UMG/Widget_NormalOption01.png" alt="Widget_NormalOption01"></p>
 <hr>
-<h4 id="背景音乐">背景音乐</h4>
+<h2 id="背景音乐">背景音乐</h2>
 <p>下载一个比较贴切FPS游戏的背景音乐，然后加载到资产中，新建一个SoundCue、一个混音器和一个音效类。SoundCue中右键Wave Player，添加背景音乐。左侧面板设置音效类。音效类添加passive sound mix modifiers设置混音器。</p>
 <p>在Wiget_NormalOption中设置Slider的值变化与音效相关，并且需要在主面板的蓝图中Event Construct中Play Sound 2D选择背景音乐，这样才会一进入游戏就会播放。</p>
 <p><img src="/images/UMG/SoundBGM.png" alt="SoundBGM"></p>
 <p>至此基础设置面板结束，开始制作按键设置面板，预览图效果如下。</p>
 <p><img src="/images/UMG/UMG_Normal.gif" alt="UMG_Normal"></p>
 <hr>
-<h4 id="更改操作键">更改操作键</h4>
+<h2 id="更改操作键">更改操作键</h2>
 <p>新建C++类-UserWidget - KeyInfoWidget，并新建蓝图继承它，用来按键集合</p>
 <p>新增数据表格Data Table 选择KeyInfoHeader，在这之前需要有一些InputAction。</p>
 <p>默认跳跃空格 移动WASD 开火左键</p>
@@ -458,7 +450,7 @@
 </span></span></code></pre></div><p>最终效果图如下</p>
 <p><img src="/images/UMG/KeyInfo.gif" alt="KeyInfo"></p>
 <hr>
-<h4 id="登录">登录</h4>
+<h2 id="登录">登录</h2>
 <p>新建LoginUserWidget类（登陆注册界面）</p>
 <p>在MainUIHUD中绑定该界面，由于要绑定的界面太多了，可以写一个模板函数去复用这个操作。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
@@ -561,7 +553,7 @@
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><hr>
-<h4 id="注册">注册</h4>
+<h2 id="注册">注册</h2>
 <p>新建C++类 - RegisterUserWidget 和 蓝图类 - UMG_Register</p>
 <p>同样在MainUIHUD中绑定该页面</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMainUIHUD<span style="color:#f92672">::</span>ShowRegisterUI()
@@ -748,7 +740,7 @@
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>可以看到存储下来的密码都是加密过的。</p>
 <p><img src="/images/UMG/RegisterSaveGame.png" alt="RegisterSaveGame"></p>
-<h4 id="场景加载">场景加载</h4>
+<h2 id="场景加载">场景加载</h2>
 <p>下载了插件Async Loading Screen</p>
 <p>然后在ProjectSetting中有一个AsyncLoadingScreen，在当中可以设置场景跳转的时候加载什么图片，修改颜色等。同时也可以设置开场动画。</p>
 <p>我在网上随便找了一个CG动画作为游戏的开场动画。</p>

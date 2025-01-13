@@ -244,6 +244,9 @@ kbd {
     overflow: hidden; /* 防止溢出 */
 }
 
+#TableOfContents {
+    width: 300px;  /* 固定目录宽度 */
+}
 
 
 .content.blog {

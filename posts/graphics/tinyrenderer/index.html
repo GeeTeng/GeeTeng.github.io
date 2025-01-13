@@ -202,19 +202,15 @@
     <nav id="TableOfContents" class="table-of-contents">
         <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#1-画线">1 画线</a>
       <ul>
-        <li><a href="#1-画线">1 画线</a>
-          <ul>
-            <li><a href="#线框渲染">线框渲染</a></li>
-          </ul>
-        </li>
-        <li><a href="#2-画面">2 画面</a>
-          <ul>
-            <li><a href="#逐行扫描填充法">逐行扫描填充法</a></li>
-            <li><a href="#重心坐标法">重心坐标法</a></li>
-          </ul>
-        </li>
+        <li><a href="#线框渲染">线框渲染</a></li>
+      </ul>
+    </li>
+    <li><a href="#2-画面">2 画面</a>
+      <ul>
+        <li><a href="#逐行扫描填充法">逐行扫描填充法</a></li>
+        <li><a href="#重心坐标法">重心坐标法</a></li>
       </ul>
     </li>
   </ul>
@@ -259,7 +255,7 @@
         <div class="blog-text">
             
 
-            <h3 id="1-画线">1 画线</h3>
+            <h2 id="1-画线">1 画线</h2>
 <p>mainCRTStartup</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">line</span>(<span style="color:#66d9ef">int</span> x0, <span style="color:#66d9ef">int</span> y0, <span style="color:#66d9ef">int</span> x1, <span style="color:#66d9ef">int</span> y1, TGAImage<span style="color:#f92672">&amp;</span> image, TGAColor color)
 </span></span><span style="display:flex;"><span>{
@@ -332,7 +328,7 @@
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p><img src="/images/TinyRenderer/final.png" alt="final"></p>
-<h4 id="线框渲染">线框渲染</h4>
+<h3 id="线框渲染">线框渲染</h3>
 <p>打开Obj文件以文本编辑器形式</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>v -0.000581696 -0.734665 -0.623267
 </span></span><span style="display:flex;"><span>v 0.000283538 -1 0.286843
@@ -403,13 +399,13 @@
 </ul>
 <p><img src="/images/TinyRenderer/line02.png" alt="line02"></p>
 <hr>
-<h3 id="2-画面">2 画面</h3>
+<h2 id="2-画面">2 画面</h2>
 <blockquote>
 <p>已经有了线框三角形，如何把三角形绘制出颜色？</p>
 </blockquote>
 <p>可以使用一根根线绘制出三角形，就像是用一个个点绘制直线一样。将三角形从上至下分成一条条直线，通过遍历 Y，得到线的两个端点，再去绘制线在每个 Y 处。</p>
 <p>由于三角形的不规则，所以必须要分为两部分，通过相似三角形，可以求出线的 X, Y 点。</p>
-<h4 id="逐行扫描填充法">逐行扫描填充法</h4>
+<h3 id="逐行扫描填充法">逐行扫描填充法</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">triangle</span>(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage<span style="color:#f92672">&amp;</span> image, TGAColor color) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (t0.y <span style="color:#f92672">&gt;</span> t1.y) std<span style="color:#f92672">::</span>swap(t1, t0);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (t1.y <span style="color:#f92672">&gt;</span> t2.y) std<span style="color:#f92672">::</span>swap(t2, t1);
@@ -440,7 +436,7 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p><img src="/images/TinyRenderer/trangle.png" alt="trangle"></p>
-<h4 id="重心坐标法">重心坐标法</h4>
+<h3 id="重心坐标法">重心坐标法</h3>
 <p>遍历三角形的包围盒中的所有像素，使用重心坐标法<strong>判断当前像素是否位于三角形内部</strong>。</p>
 <p>包围盒算法（待实现）<a href="https://github.com/ssloy/tinyrenderer/wiki/Lesson-2:-Triangle-rasterization-and-back-face-culling">第 2 课：三角形栅格化和背面剔除 ·ssloy/tinyrenderer 维基</a></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>Vec3f <span style="color:#a6e22e">barycentric</span>(Vec2i <span style="color:#f92672">*</span>pts, Vec2i P) { 
