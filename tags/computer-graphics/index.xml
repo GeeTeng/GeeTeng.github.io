@@ -20,7 +20,7 @@
       <link>https://geeteng.github.io/posts/graphics/geomery/</link>
       <pubDate>Thu, 02 Jan 2025 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/graphics/geomery/</guid>
-      <description>几何的表示方法可以分为两类：隐式几何（explicit）、显式几何（implicit）。&#xA;隐式几何 缺点：很难通过表达式看出是什么图形，难以描述复杂形状&#xA;优点：容易判断一个点与物体的位置关系（内外上），易于处理拓扑变化、做光线和表面的相交。&#xA;例子：&#xA;代数曲面（Algebraic Surfaces） 只能用代数方程表达一些简单的形状，却无法处理复杂的图形。&#xA;CSG(Constructive Solid Geometry) 布尔运算，采用集合的交并差运算思想。&#xA;距离函数（Distance Functions） 距离函数SDF：Signed Distance Function&#xA;SDF = 0：位于物体表面&#xA;SDF &amp;gt; 0：位于物体外部&#xA;SDF &amp;lt; 0：位于物体内部&#xA;Question：如果将图片A和图片B混合，A中灰色物体占1/3, B中灰色物体占2/3，中间状态是什么样？&#xA;Answer：如果直接线性混合，会出现1/3黑色物体、1/3灰色物体、1/3没有物体，过度会很生硬。&#xA;如果构造SDF，边界(SDF = 0)处于图片中间，可以得到平滑的融合效果。&#xA;使用网格存储距离信息，网格值为0的地方是物体表面，在地理中称作等高线。&#xA;分型 描述具有自相似形的物体，雪花、微生物。&#xA;显式几何 缺点：难以判断某点与物体的位置关系&#xA;例子：&#xA;点云(Point Cloud) 除了原始数据很少被使用，密度低时无法成面&#xA;多边形网格 Wavefront Object File（.obj）格式 描述立方体的一堆点、法线、纹理坐标及他们之间的关系&#xA;曲线与曲面 贝塞尔曲线 曲线一定要经过起始点p0到终止点p3，且切线为p0p1方向、p2p3方向。&#xA;在b0 b1上找一点t 同理其他两条边，连接后变成3个点，找到b30点和该点切线&#xA;迪卡斯特里奥算法 类似二项式的展开，起点系数为(1 - t)&#xA;但是当n = 10时，会很难通过点去控制每条曲线，所以引出逐段贝塞尔曲线。&#xA;像是Photoshop中的钢笔工具一样，当两个点的距离相等和斜率相同时两条曲线连续。&#xA;性质：&#xA;规定了起点和终点 t = 0一定在起点 t = 1一定在终点&#xA;起点终点的斜率确定</description>
+      <description>几何的表示方法可以分为两类：隐式几何（explicit）、显式几何（implicit）。&#xA;隐式几何 缺点：很难通过表达式看出是什么图形，难以描述复杂形状&#xA;优点：容易判断一个点与物体的位置关系（内外上），易于处理拓扑变化、做光线和表面的相交。&#xA;例子：&#xA;代数曲面（Algebraic Surfaces） 只能用代数方程表达一些简单的形状，却无法处理复杂的图形。&#xA;CSG(Constructive Solid Geometry) 布尔运算，采用集合的交并差运算思想。&#xA;距离函数（Distance Functions） 距离函数SDF：Signed Distance Function&#xA;SDF = 0：位于物体表面&#xA;SDF &amp;gt; 0：位于物体外部&#xA;SDF &amp;lt; 0：位于物体内部&#xA;Question：如果将图片A和图片B混合，A中灰色物体占1/3, B中灰色物体占2/3，中间状态是什么样？&#xA;Answer：如果直接线性混合，会出现1/3黑色物体、1/3灰色物体、1/3没有物体，过度会很生硬。&#xA;如果构造SDF，边界(SDF = 0)处于图片中间，可以得到平滑的融合效果。&#xA;使用网格存储距离信息，网格值为0的地方是物体表面，在地理中称作等高线。&#xA;分型 描述具有自相似形的物体，雪花、微生物。&#xA;显式几何 缺点：难以判断某点与物体的位置关系&#xA;例子：&#xA;点云(Point Cloud) 除了原始数据很少被使用，密度低时无法成面&#xA;多边形网格 Wavefront Object File（.obj）格式 描述立方体的一堆点、法线、纹理坐标及他们之间的关系&#xA;贝塞尔曲线 曲线一定要经过起始点p0到终止点p3，且切线为p0p1方向、p2p3方向。&#xA;在b0 b1上找一点t 同理其他两条边，连接后变成3个点，找到b30点和该点切线&#xA;迪卡斯特里奥算法 类似二项式的展开，起点系数为(1 - t)&#xA;但是当n = 10时，会很难通过点去控制每条曲线，所以引出逐段贝塞尔曲线。&#xA;像是Photoshop中的钢笔工具一样，当两个点的距离相等和斜率相同时两条曲线连续。&#xA;性质：&#xA;规定了起点和终点 t = 0一定在起点 t = 1一定在终点&#xA;起点终点的斜率确定&#xA;对贝塞尔曲线的仿射变换可以用在控制点上，对控制点进行仿射变换后，再重新画出贝塞尔曲线就可以了。（仿射变换可以，但是投影不可以）</description>
     </item>
     <item>
       <title>Shader</title>
@@ -41,14 +41,7 @@
       <link>https://geeteng.github.io/posts/graphics/rasterize/</link>
       <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/graphics/rasterize/</guid>
-      <description>光栅化 rasterize 屏幕坐标系 屏幕空间 - 在屏幕上建立一个坐标系&#xA;屏幕的左下角是原点（0，0） 向上是Y 向右是x&#xA;视口变换 要做的事：[-1, 1]^3映射到屏幕上&#xA;其中：width 和 height 是屏幕或视口的宽度和高度&#xA;在标准化设备坐标中，3D物体的投影结果被限制在 (−1,−1)到 (1,1) 的范围：&#xA;(−1,−1) 代表左下角 (1,1) 代表右上角 这是一个对称的正方形坐标系，中心点是 (0,0) 我们需要将这个范围映射到屏幕坐标系：&#xA;左下角是 (0,0)，右上角是 (width,height) $$&#xD;M_{viewport} = \begin{pmatrix}&#xD;\frac{width}{2} &amp; 0 &amp; 0 &amp; \frac{width}{2}\\&#xD;0 &amp; \frac{height}{2} &amp; 0 &amp; \frac{height}{2}\\&#xD;0 &amp; 0 &amp; 1 &amp; 0 \\&#xD;0 &amp; 0 &amp; 0 &amp; 1&#xD;\end{pmatrix}&#xD;$$ 光栅显示设备 示波器（曾经做过的物理实验）和早期显示器相同原理 ​&#x9;阴极射线管 电子经过加速穿过显示设备 发生偏转 就可以看到CRT屏幕 （Cathode Ray Tube）</description>
-    </item>
-    <item>
-      <title>GAMES101作业0</title>
-      <link>https://geeteng.github.io/posts/graphics/games101_work0/</link>
-      <pubDate>Tue, 12 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/games101_work0/</guid>
-      <description>作业描述&#xA;给定一个点P=(2,1),将该点绕原点先逆时针旋转45◦，再平移(1,2),计算出 变换后点的坐标。（要求用齐次坐标进行计算）&#xA;编译&#xA;为方便之后的作业编写，本次作业要求使用cmake进行编译。&#xA;首先，编写好本次作业的程序main.cpp。 然后, 在 main.cpp 所在目录下，打开终端(命令行)，依次输入：&#xA;• mkdir build: 创建名为 build 的文件夹。&#xA;• cd build: 移动到 build 文件夹下。&#xA;• cmake ..: 注意其中’..’ 表示上一级目录，若为’.’ 则表示当前目录。&#xA;• make: 编译程序，错误提示会显示在终端中。&#xA;**• ./Transformation：**若上一步无错误，则可运行程序(这里的Transformation 为可执行文件名，可参照CMakeLists.txt 中修改)。&#xA;#include&amp;lt;cmath&amp;gt; #include&amp;lt;eigen3/Eigen/Core&amp;gt; #include&amp;lt;eigen3/Eigen/Dense&amp;gt; #include&amp;lt;iostream&amp;gt; int main(){ // init point Eigen::Vector3f p(2.0f, 1.0f, 1.0f); // rotate and transformation matrix // x&amp;#39; = xcos - ysin // y&amp;#39; = xsin + ycos // x&amp;#39; = x + tx // y&amp;#39; = y + ty Eigen::Matrix3f R, T; // cos45 = sin45 = sqrt(2) / 2 float ftheta = sqrt(2.</description>
+      <description>屏幕坐标系 屏幕空间 - 在屏幕上建立一个坐标系&#xA;屏幕的左下角是原点（0，0） 向上是Y 向右是x&#xA;视口变换 要做的事：[-1, 1]^3映射到屏幕上&#xA;其中：width 和 height 是屏幕或视口的宽度和高度&#xA;在标准化设备坐标中，3D物体的投影结果被限制在 (−1,−1)到 (1,1) 的范围：&#xA;(−1,−1) 代表左下角 (1,1) 代表右上角 这是一个对称的正方形坐标系，中心点是 (0,0) 我们需要将这个范围映射到屏幕坐标系：&#xA;左下角是 (0,0)，右上角是 (width,height) $$&#xD;M_{viewport} = \begin{pmatrix}&#xD;\frac{width}{2} &amp; 0 &amp; 0 &amp; \frac{width}{2}\\&#xD;0 &amp; \frac{height}{2} &amp; 0 &amp; \frac{height}{2}\\&#xD;0 &amp; 0 &amp; 1 &amp; 0 \\&#xD;0 &amp; 0 &amp; 0 &amp; 1&#xD;\end{pmatrix}&#xD;$$ 光栅显示设备 示波器（曾经做过的物理实验）和早期显示器相同原理 ​&#x9;阴极射线管 电子经过加速穿过显示设备 发生偏转 就可以看到CRT屏幕 （Cathode Ray Tube）</description>
     </item>
     <item>
       <title>Model-View-Projection</title>
@@ -56,6 +49,13 @@
       <pubDate>Sat, 02 Nov 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/graphics/games101_work01/</guid>
       <description>2D Transformations Scale $$&#xD;S(s_x, s_y) = \begin{pmatrix}&#xD;s_x &amp; 0 &amp; 0 \\&#xD;0 &amp; s_y &amp; 0 \\&#xD;0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Rotation $$&#xD;R(\alpha) = \begin{pmatrix} \cos \alpha &amp; -\sin \alpha &amp; 0 \\ \sin \alpha &amp; \cos \alpha &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Translation $$&#xD;T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \\ 0 &amp; 1 &amp; t_y \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ 齐次坐标的最后一位为 0 表示方向或无穷远点</description>
+    </item>
+    <item>
+      <title>GAMES101作业0</title>
+      <link>https://geeteng.github.io/posts/graphics/games101_work0/</link>
+      <pubDate>Fri, 01 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/graphics/games101_work0/</guid>
+      <description>作业 给定一个点P=(2,1),将该点绕原点先逆时针旋转45◦，再平移(1,2),计算出 变换后点的坐标。（要求用齐次坐标进行计算）&#xA;编译&#xA;为方便之后的作业编写，本次作业要求使用cmake进行编译。&#xA;首先，编写好本次作业的程序main.cpp。 然后, 在 main.cpp 所在目录下，打开终端(命令行)，依次输入：&#xA;• mkdir build: 创建名为 build 的文件夹。&#xA;• cd build: 移动到 build 文件夹下。&#xA;• cmake ..: 注意其中’..’ 表示上一级目录，若为’.’ 则表示当前目录。&#xA;• make: 编译程序，错误提示会显示在终端中。&#xA;**• ./Transformation：**若上一步无错误，则可运行程序(这里的Transformation 为可执行文件名，可参照CMakeLists.txt 中修改)。&#xA;#include&amp;lt;cmath&amp;gt; #include&amp;lt;eigen3/Eigen/Core&amp;gt; #include&amp;lt;eigen3/Eigen/Dense&amp;gt; #include&amp;lt;iostream&amp;gt; int main(){ // init point Eigen::Vector3f p(2.0f, 1.0f, 1.0f); // rotate and transformation matrix // x&amp;#39; = xcos - ysin // y&amp;#39; = xsin + ycos // x&amp;#39; = x + tx // y&amp;#39; = y + ty Eigen::Matrix3f R, T; // cos45 = sin45 = sqrt(2) / 2 float ftheta = sqrt(2.</description>
     </item>
   </channel>
 </rss>

@@ -6,8 +6,15 @@
     <description>Recent content in Game on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 23 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 08 Jan 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/tags/game/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>游戏网络基础</title>
+      <link>https://geeteng.github.io/posts/game/onlinegame/</link>
+      <pubDate>Wed, 08 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/game/onlinegame/</guid>
+      <description>多人网络游戏的挑战： 网络同步 网络延迟、丢包 玩家开挂 不同游戏平台连接 高性能服务器 TCP协议 面向连接的 可靠、有序 流量控制 拥塞控制 TCP重传机制&#xA;正常发包1,2,3,4,5,6,7,8，收包都会带一个ACK序号，收包1,2,3,4,5,6,7,8&#xA;如果5号包丢了的话，那么收到的就是1,2,3,4,4,4,4,4&#xA;Question：什么时候使用TCP / UDP？&#xA;Answer：对于实时性要求不高的游戏会采用TCP协议 - 炉石传说&#xA;需要低延迟的游戏会采用UDP协议 - CSGO&#xA;但是登陆验证、商城等数据会使用TCP协议，因为对数据的可靠性要求高。&#xA;UDP协议 现在很多游戏不会直接使用原生的UDP，因为UDP本身并不可靠、数据的到达顺序也是混乱的，如说喝了一瓶药恢复魔法值再释放一个技能结果变成了释放了技能却没有魔法值之后再喝了药，因此通常会在UDP上进行优化增加类似于TCP的可靠性。&#xA;自动重传请求机制ARQ：是基于ACK的错误控制方法，发送端会等待接收端的ACK，如果确认未到达或收到的是错误反馈，发送端会自动重传未正确到达的数据。&#xA;滑窗协议(sliding window protocol) 滑窗协议是经典的ARQ实现方法&#xA;Stop-and-Wait ARQ&#xA;发送端发送一个数据包，等待接收端的确认（ACK）。如果超时未收到 ACK，重新发送数据包。&#xA;特点：实现简单，但效率低（管道中只能同时传输一个包）。&#xA;Go-Back-N ARQ&#xA;发送端可以连续发送多个数据包，而无需等待每个包的确认。&#xA;如果一个包出错，接收端会丢弃当前包和其后的所有包，发送端需要重发从出错包开始的所有数据包。&#xA;特点：提高了管道利用率，但重传开销大。&#xA;Selective Repeat ARQ&#xA;发送端可以连续发送多个数据包，接收端仅请求重传错误的包。&#xA;特点：管道利用率高，重传开销小，但实现复杂。&#xA;FEC算法（Forward Error Correction） 异或校验位&#xA;Reed-Solomon codes&#xA;NTP时间同步协议（Network Time Protocol） 由于网络通信延迟的存在，客户端向服务器端发送一个包后都需要等待一定的时间才能收到回包，这个间隔的时间称为round-trip time(RTT)。&#xA;NTP：为了尽可能精准地将客户端的时间与时间服务器同步。&#xA;NTP消息中包含4个关键时间戳：&#xA;T1（客户端发送请求的时间）： 客户端向服务器发送请求时的本地时间。 T2（服务器接收请求的时间）： 时间服务器接收到客户端请求时的时间。 T3（服务器发送响应的时间）： 时间服务器准备响应时的时间。 T4（客户端接收响应的时间）： 客户端接收到服务器响应时的本地时间。 偏移量如图所示&#xA;客户端时间正确是17：01：35，客户端接收后增加偏移量。&#xA;尽管利用socket我们可以实现客户端和服务器的通信，但对于网络游戏来说完全基于socket的通信非常复杂。这主要是因为网络游戏中客户端需要向服务器发送大量不同类型的消息，同时客户端也需要解析相应类型的反馈，这就会导致游戏逻辑变得无比复杂。</description>
+    </item>
     <item>
       <title>Piccolo LUT</title>
       <link>https://geeteng.github.io/posts/game/lut/</link>
@@ -20,7 +27,7 @@
       <link>https://geeteng.github.io/posts/game/spatialdatastructures/</link>
       <pubDate>Tue, 17 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/game/spatialdatastructures/</guid>
-      <description>多人在线游戏中，由于玩家规模十分庞大，如果想通过计算每一个玩家与其他 n - 1 个玩家之间的信息，时间复杂度会达到n^2，性能会变得很低。于是需要正确的处理这些数据，优化性能。&#xA;包围体层次结构 (BVH, Bounding Volume Hierarchy) 层次包围盒树，根节点是一个大的包围盒，往下是其子包围盒。&#xA;AABB（Axis-Aligned Bounding Box） 是一种常用的 包围盒（Bounding Box）类型&#xA;在 2D 空间 中，AABB 可以表示为：&#xA;Min = (x_min, y_min) Max = (x_max, y_max) 在 3D 空间 中，AABB 可以表示为：&#xA;Min = (x_min, y_min, z_min) Max = (x_max, y_max, z_max) 在游戏引擎中，大部分物体都会动态更新，而层次包围盒树 / 层次球包围盒树可以动态更新，从叶节点一级一级的往上更新上面的节点，使包围体包住子节点。&#xA;BSP (Binary Space Partitioning) BSP 树是一棵二叉树，关键是递归地将空间划分为两部分（分区），每次分割都使用一个超平面，通过超平面可以有效地将三维空间分割成多个较小的部分。&#xA;二叉树结构：每个节点代表一个超平面。要构造出一棵尽可能平衡的 BSP 树，在每次添加节点（增加超平面）的时候，让其左右子树节点相差不多（超平面前方多边形数和后方相差不多）。&#xA;BSP 树构造的最坏时间复杂度为 O(N²logN) ，平均时间复杂度为 O(N²)。&#xA;BSP 应用：自动生成室内 portal（门户），进行额外的视野剔除&amp;hellip;&#xA;k-d 树&#xA;k-d 树就是一种特殊形式的BSP树（轴对齐的BSP树），其每个节点都代表一个k维坐标点，树的每层都是对应一个划分维度。</description>
+      <description>多人在线游戏中，由于玩家规模十分庞大，如果想通过计算每一个玩家与其他 n - 1 个玩家之间的信息，时间复杂度会达到n^2，性能会变得很低。于是需要正确的处理这些数据，优化性能。&#xA;包围体层次结构 (BVH, Bounding Volume Hierarchy) 层次包围盒树，根节点是一个大的包围盒，往下是其子包围盒。&#xA;AABB（Axis-Aligned Bounding Box） 是一种常用的 包围盒（Bounding Box）类型&#xA;在 2D 空间 中，AABB 可以表示为：&#xA;Min = (x_min, y_min) Max = (x_max, y_max) 在 3D 空间 中，AABB 可以表示为：&#xA;Min = (x_min, y_min, z_min) Max = (x_max, y_max, z_max) 在游戏引擎中，大部分物体都会动态更新，而层次包围盒树 / 层次球包围盒树可以动态更新，从叶节点一级一级的往上更新上面的节点，使包围体包住子节点。&#xA;BSP (Binary Space Partitioning) BSP 树是一棵二叉树，关键是递归地将空间划分为两部分（分区），每次分割都使用一个超平面，通过超平面可以有效地将三维空间分割成多个较小的部分。&#xA;二叉树结构：每个节点代表一个超平面。要构造出一棵尽可能平衡的 BSP 树，在每次添加节点（增加超平面）的时候，让其左右子树节点相差不多（超平面前方多边形数和后方相差不多）。&#xA;BSP 树构造的最坏时间复杂度为 O(N²logN) ，平均时间复杂度为 O(N²)。&#xA;BSP 应用：自动生成室内 portal（门户），进行额外的视野剔除&amp;hellip;&#xA;k-d 树 k-d 树就是一种特殊形式的BSP树（轴对齐的BSP树），其每个节点都代表一个k维坐标点，树的每层都是对应一个划分维度。</description>
     </item>
     <item>
       <title>Piccolo引擎编译运行</title>

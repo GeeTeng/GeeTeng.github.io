@@ -48,6 +48,8 @@ input:focus::placeholder {
     margin-top: 2em;
     min-height: 75vh;
     position: relative;
+
+width:1200px;
 }
 
 .info {
@@ -69,12 +71,12 @@ input:focus::placeholder {
     margin-bottom: 0.5em;
 }
 
-.blog-text h1 {font-size: 1.75em;}
-.blog-text h2 {font-size: 1.5em;}
-.blog-text h3 {font-size: 1.25em;} 
-.blog-text h4 {font-size: 1.125em;}
-.blog-text h5 {font-size: 1em;}
-.blog-text h6 {font-size: 0.9em;}
+.blog-text h1 {font-size: 1.5em;}
+.blog-text h2 {font-size: 1.25em;}
+.blog-text h3 {font-size: 1.125em;} 
+.blog-text h4 {font-size: 1em;}
+.blog-text h5 {font-size: 0.825em;}
+.blog-text h6 {font-size: 0.7em;}
 
 .blog-text {
     font-size: 1.2em;
@@ -84,10 +86,11 @@ input:focus::placeholder {
 }
 
 .blog-text img {
-    /* max-width: 85%; */
+    max-width: 85%; 
     display: block;
     margin-left: auto;
     margin-right: auto;
+
     /* margin-top: 1em;
     margin-bottom: 1.5em; */
 }
@@ -231,4 +234,93 @@ kbd {
 
 #___gcse_0 {
     max-height: 0;
+}
+
+.content-wrapper {
+    display: flex;
+    gap: 20px;
+    width: 100%; /* 保证容器占满整个屏幕宽度 */
+    box-sizing: border-box; /* 包括边距和内填充 */
+    overflow: hidden; /* 防止溢出 */
+}
+
+
+
+.content.blog {
+    flex: 1; /* 让内容区域自动扩展 */
+    box-sizing: border-box; /* 包括边距和内填充 */
+    overflow: hidden; /* 防止溢出 */
+}
+
+/* 确保文章图片不会超出内容区域 */
+.blog-text img {
+    max-width: 100%; /* 图片宽度最大为100% */
+    height: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+
+/* 删除默认列表样式 */
+#TableOfContents li, #TableOfContents ul {
+  list-style-type: none;
+  margin: 0; /* 去除每个目录项的外边距 */
+  padding: 0; /* 去除每个目录项的内边距 */
+}
+
+/* 一级目录样式 */
+#TableOfContents li > a {
+  display: block;
+  padding: 8px 20px;
+  font-size: 16px;
+  color: #333；
+  white-space: nowrap; /* 强制不换行 */
+  overflow: hidden;
+  text-overflow: ellipsis; /* 超出部分显示省略号 */
+  border-left: 3px solid transparent;
+  transition: all 0.3s ease-in-out;
+  margin: 0; /* 去除空行 */
+}
+
+#TableOfContents li > a:hover,
+#TableOfContents li > a:focus {
+  color: #007acc;
+  background-color: #f1f1f1;
+  border-left: 3px solid #007acc;
+  text-decoration: none;
+}
+
+/* 高亮显示当前项 */
+#TableOfContents li.active > a,
+#TableOfContents li.active > a:hover,
+#TableOfContents li.active > a:focus {
+  color: #007acc;
+  font-weight: bold;
+  background-color: #e6f3ff;
+  border-left: 3px solid #007acc;
+}
+
+/* 二级目录样式 */
+#TableOfContents li > ul {
+  margin-top: 0; /* 去除二级目录的上边距 */
+  padding-left: 20px; /* 给二级目录添加左边距 */
+}
+
+#TableOfContents li li > a {
+  padding: 5px 20px;
+  font-size: 14px;
+  color: #555;
+  white-space: nowrap; /* 强制不换行 */
+  overflow: hidden;
+  text-overflow: ellipsis; /* 超出部分显示省略号 */
+  margin: 0; /* 去除空行 */
+}
+
+#TableOfContents li li > a:hover,
+#TableOfContents li li > a:focus {
+  color: #007acc;
+  background-color: #f9f9f9;
+  border-left: 3px solid #007acc;
 }

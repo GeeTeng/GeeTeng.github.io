@@ -6,8 +6,22 @@
     <description>Recent content in UE5 on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 13 Dec 2024 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 03 Jan 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/tags/ue5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>UE5源码阅读</title>
+      <link>https://geeteng.github.io/posts/ueleaning/uesourcecode/</link>
+      <pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/ueleaning/uesourcecode/</guid>
+      <description>启动文件 Launch.cpp&#xA;预初始化PreInit，此时会发生：&#xA;对于每个UCLASS类，引擎会创建一个类默认对象（CDO），为实例提供默认值，注册完成后 调用StartupModule进行模块初始化、对应的有ShutdownModule函数（卸载模块清理资源） 主循环中初始化阶段Init&#xA;读取引擎配置文件来确定使用哪个GameEngine类作为核心引擎 创建GEngine实例（全局对象），可以通过它访问渲染、输入、音频等 创建了引擎，它就会被初始化，完成后引擎循环会触发一个全局委托以指示引擎现已初始化。 加载配置为延迟加载的模块/项目 加载地图（加载之前已经有了UGameEngine、GameInstance、GameViewportClient、LocalPlayer） ​&#xA;1.其中在GameEngine.cpp中&#xA;​&#x9;引擎初始化阶段，主要做了些什么？&#xA;​&#x9;1.1 创建GameInstance&#xA;// Create game instance. For GameEngine, this should be the only GameInstance that ever gets created. { FSoftClassPath GameInstanceClassName = GetDefault&amp;lt;UGameMapsSettings&amp;gt;()-&amp;gt;GameInstanceClass; UClass* GameInstanceClass = (GameInstanceClassName.IsValid() ? LoadObject&amp;lt;UClass&amp;gt;(NULL, *GameInstanceClassName.ToString()) : UGameInstance::StaticClass()); GameInstance = NewObject&amp;lt;UGameInstance&amp;gt;(this, GameInstanceClass); GameInstance-&amp;gt;InitializeStandalone(); } ​&#x9;1.2 初始化视口GameViewportClient&#xA;ViewportClient = NewObject&amp;lt;UGameViewportClient&amp;gt;(this, GameViewportClientClass); ViewportClient-&amp;gt;Init(*GameInstance-&amp;gt;GetWorldContext(), GameInstance); GameViewport = ViewportClient; GameInstance-&amp;gt;GetWorldContext()-&amp;gt;GameViewport = ViewportClient; ​&#x9;1.</description>
+    </item>
+    <item>
+      <title>Animation</title>
+      <link>https://geeteng.github.io/posts/ueleaning/4_animation/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/ueleaning/4_animation/</guid>
+      <description>序列帧动画 无需计算，直接显示图片逻辑简单。缺点：占用空间大，不适合复杂动画。&#xA;模型动画 顶点动画&#xA;直接存储每个顶点的动画信息 。缺点：数据量大，迭代缓慢。&#xA;例子：水流、捏脸Morph Target Animation&#xA;骨骼动画（Skinned Animation） 通过改变骨骼的朝向和位置来生成动画 蒙皮：将mesh顶点附着到骨骼上（不同顶点权重不一样每个顶点可以被多个骨骼控制）&#xA;每个骨骼有一个变换矩阵，最终网格顶点的位置是多个骨骼变换矩阵的加权和。&#xA;蒙皮矩阵的计算（Skinning Matrix）: $$&#xD;M_{skin} =M_{bone}×M_{inverse}&#xD;$$ M_inverse是你绑定矩阵，用于骨骼从骨骼空间转换到模型空间的变换。&#xA;Quaternion NLerp用于物体旋转的平滑过渡。&#xA;NLerp和SLerp（球面线性插值）&#xA;NLerp 比 Slerp 更简单，计算开销较小，因为它只进行线性插值，不涉及球面插值的复杂计算。&#xA;当旋转角度较大时，使用Slerp。&#xA;基于物理的动画（Physics-based Animation）&#xA;布娃娃系统（Ragdoll）&#xA;布料和流体模拟（Cloth and Fluid simulation）&#xA;反向动力学（Inverse Kinematics(IK)）&#xA;（关节）Joint 两个Joint定义一个骨骼&#xA;Root Joint在人的双腿之间&#xA;Pelvis Joint（骨盆关节） 蹲起&#xA;Joint Pose有9个DOF（自由度） 放缩、平移、旋转&#xA;万向节锁（Gimbal Lock） 在三维空间中使用欧拉角表示旋转时，当旋转顺序导致某两个旋转轴对齐时，会丧失一个自由度，导致旋转不再是完全独立的，从而限制了旋转的自由度。这个现象被称为 万向节锁。&#xA;如：大疆无人机、pocket3的镜头防抖动，就是使用陀螺仪和万向节锁来实现的。&#xA;引出四元数解决万向节锁&#xA;骨骼动画资产类型 Skeleton ​&#x9;骨架资源，存储骨骼的层级、动画数据关联。&#xA;​&#x9;多个模型可以共享同一个骨架。&#xA;SkeletalMesh ​&#x9;骨骼网格体，用于渲染。&#xA;​&#x9;包含蒙皮信息，顶点如何受骨骼影响。&#xA;PhysicsAsset ​&#x9;定义骨骼与物理系统的交互。&#xA;​&#x9;用于 ragdoll、碰撞检测等。</description>
+    </item>
     <item>
       <title>UMG</title>
       <link>https://geeteng.github.io/posts/ueleaning/3_umg/</link>

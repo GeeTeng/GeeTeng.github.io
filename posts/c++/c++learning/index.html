@@ -34,7 +34,7 @@
   <meta itemprop="description" content="更新中">
   <meta itemprop="datePublished" content="2024-12-11T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-12-11T00:00:00+00:00">
-  <meta itemprop="wordCount" content="274">
+  <meta itemprop="wordCount" content="1097">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/" />
 
@@ -196,44 +196,190 @@
 </nav><div class="columns is-centered">
         <div id="page-body" class="column is-7">
 
-<div class="content blog">
-    <h1>C&#43;&#43;知识回顾</h1>
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#decltype">decltype</a></li>
+    <li><a href="#this指针">this指针</a>
+      <ul>
+        <li><a href="#delete-this">delete this</a></li>
+      </ul>
+    </li>
+    <li><a href="#右值引用移动语义">右值引用、移动语义</a></li>
+    <li><a href="#友元函数">友元函数</a></li>
+    <li><a href="#模板函数">模板函数</a>
+      <ul>
+        <li>
+          <ul>
+            <li>
+              <ul>
+                <li><a href="#类模板和函数模板区别">类模板和函数模板区别</a></li>
+                <li><a href="#类模板与继承">类模板与继承</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#回调函数">回调函数</a></li>
+    <li><a href="#一致性哈希">一致性哈希</a></li>
+    <li><a href="#静态多态和动态多态">静态多态和动态多态</a></li>
+    <li><a href="#虚函数">虚函数</a></li>
+    <li><a href="#纯虚函数">纯虚函数</a></li>
+    <li><a href="#虚析构函数">虚析构函数</a></li>
+    <li><a href="#虚函数表">虚函数表</a></li>
+    <li><a href="#智能指针">智能指针</a>
+      <ul>
+        <li><a href="#shared_ptr">shared_ptr</a></li>
+        <li><a href="#unique_ptr">unique_ptr</a></li>
+        <li><a href="#weak_ptr">weak_ptr</a></li>
+      </ul>
+    </li>
+    <li><a href="#手写实现智能指针">手写实现智能指针</a>
+      <ul>
+        <li><a href="#uniqueptr">UniquePtr</a></li>
+        <li><a href="#sharedptr">SharedPtr</a></li>
+      </ul>
+    </li>
+    <li><a href="#lambda函数--匿名函数--闭包">Lambda函数 / 匿名函数 / 闭包</a>
+      <ul>
+        <li><a href="#变量捕获">变量捕获</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
 
-    <div id="infobar" class="level is-mobile">
-        <div class="level-left">
-            
-            <div class="level-item">
-                <p class="subtitle info date">Dec 11, 2024
-                </p>
+    
+    <div class="content blog">
+        <h1>C&#43;&#43;知识回顾</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Dec 11, 2024
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        20 mins read
+                    </p>
+                </div>
             </div>
-            
-
-            <div class="level-item">
-                <p class="subtitle info">
-                    9 mins read
-                </p>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/c&#43;&#43;">C&#43;&#43;</a>
+                    
+                </div>
             </div>
         </div>
-        <div class="level-right is-hidden-touch">
-            <div class="tags">
-                
-                <a class="tag is-dark is-rounded" href="/tags/c&#43;&#43;">C&#43;&#43;</a>
-                
-            </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/c&#43;&#43;">C</a>
+            
         </div>
-    </div>
 
-    <div class="tags is-hidden-desktop">
-        
-        <a class="tag is-dark is-rounded" href="/tags/c&#43;&#43;">C</a>
-        
-    </div>
+        <div class="blog-text">
+            
 
-    <div class="blog-text">
-        
-
-        <hr>
-<h4 id="友元函数">友元函数</h4>
+            <hr>
+<h2 id="decltype">decltype</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">decltype</span>(a) b <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>;
+</span></span><span style="display:flex;"><span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">typeid</span>(b).name() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> e <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> f <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>e;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">decltype</span>(<span style="color:#66d9ef">auto</span>) j <span style="color:#f92672">=</span> f; <span style="color:#75715e">// decltype(auto) 会保留引用类型，但 auto 会丢弃引用类型。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">typeid</span>(j).name() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span></code></pre></div><hr>
+<h2 id="this指针">this指针</h2>
+<blockquote>
+<p>为什么要使用this指针？</p>
+</blockquote>
+<p>两个用法：</p>
+<ul>
+<li>区分成员变量和函数形参</li>
+<li>需要返回类本身</li>
+</ul>
+<p>当在类的非静态成员函数访问类的非静态成员时，编译器会自动将对象的地址传给作为隐含参数传递给函数，这个隐含参数就是this指针。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> getAge()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> age;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setAge</span>(<span style="color:#66d9ef">int</span> age)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 相当于自己赋值给自己 并不是赋值给Person的成员变量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		age <span style="color:#f92672">=</span> age;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// this-&gt;age = age;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;age = &#34;</span> <span style="color:#f92672">&lt;&lt;</span> age <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#75715e">// 输出age = 23
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 或者
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    Person <span style="color:#a6e22e">setAge</span>(<span style="color:#66d9ef">int</span> age)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">this</span><span style="color:#f92672">-&gt;</span>age <span style="color:#f92672">=</span> age;
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;age = &#34;</span> <span style="color:#f92672">&lt;&lt;</span> age <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> age;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Person p;
+</span></span><span style="display:flex;"><span>	p.setAge(<span style="color:#ae81ff">23</span>);
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> p.getAge(); <span style="color:#75715e">// 输出随机值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>this只能在成员函数中使用，<strong>全局函数、静态函数都不能使用this</strong>（因为静态成员函数不需要实例化对象可以直接调用，先于对象存在）。</p>
+<h3 id="delete-this">delete this</h3>
+<p>在类中定义一个如下的函数，当调用<code>delete this</code>时，内存会被释放，很<strong>危险</strong>。要确保调用后不会再访问该对象。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// 类内函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">destroy</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">delete</span> <span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Person p;
+</span></span><span style="display:flex;"><span>	p.destroy(); <span style="color:#75715e">// 会出错，因为在栈空间分配 尝试释放非堆内存是错误的
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在析构函数中调用时，delete this会去调用本对象的析构函数，而析构函数中又调用delete this，形成无限递归，造成<strong>堆栈溢出</strong>，系统崩溃。</p>
+<hr>
+<h2 id="右值引用移动语义">右值引用、移动语义</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> a)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;调用左值引用&#34;</span> <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;&amp;</span> a)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;调用右值引用&#34;</span> <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>	func(<span style="color:#ae81ff">20</span>); <span style="color:#75715e">// 输出：调用右值引用20
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	func(a); <span style="color:#75715e">// 输出：调用左值引用10
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h2 id="友元函数">友元函数</h2>
 <p>全局函数做友元</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Building</span>
 </span></span><span style="display:flex;"><span>{
@@ -268,7 +414,7 @@
 <p><strong>类的成员函数</strong>也是同样的道理</p>
 <p><code>friend void GoodGuy::visit();</code></p>
 <hr>
-<h4 id="模板函数">模板函数</h4>
+<h2 id="模板函数">模板函数</h2>
 <h5 id="类模板和函数模板区别">类模板和函数模板区别</h5>
 <ul>
 <li>
@@ -301,7 +447,7 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><hr>
-<h4 id="回调函数">回调函数</h4>
+<h2 id="回调函数">回调函数</h2>
 <p>在函数中把你的回调函数名称转化为地址作为 一个参数，以便于系统调用。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">myCallbcak</span>(<span style="color:#66d9ef">int</span> value)
 </span></span><span style="display:flex;"><span>{
@@ -317,7 +463,7 @@
 </span></span><span style="display:flex;"><span>	process(<span style="color:#ae81ff">5</span>, myCallbcak);
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><hr>
-<h4 id="一致性哈希">一致性哈希</h4>
+<h2 id="一致性哈希">一致性哈希</h2>
 <p>一致性哈希用于数据分区，帮助数据库最大限度地减少平衡期间的数据移动。一致性hash的基本思想就是使用相同的hash算法将数据和结点都映射到图中的环形哈希空间中。</p>
 <ul>
 <li>我们使用均匀分布的哈希函数将服务器和对象映射到哈希环上</li>
@@ -330,12 +476,12 @@
 <p>于是提出<strong>虚拟节点</strong>，通过虚拟节点，每个服务器可以处理环上的多个网段。</p>
 <p><img src="/images/C++basic/consistenthash01.png" alt="consistenthash01"></p>
 <hr>
-<h4 id="静态多态和动态多态">静态多态和动态多态</h4>
+<h2 id="静态多态和动态多态">静态多态和动态多态</h2>
 <p>静态多态 -&gt; <strong>函数重载、泛型编程（模板）</strong></p>
 <p>动态多态 -&gt; <strong>虚函数</strong></p>
 <p>静态多态带来了泛型设计的概念，比如STL库。</p>
 <p>**区别：**静态多态调用发生在编译时，效率高；动态多态函数调用发生在运行时，会引入一些性能开销。</p>
-<h4 id="虚函数">虚函数</h4>
+<h2 id="虚函数">虚函数</h2>
 <p>在多态会使用到虚函数，<strong>通过基类访问派生类定义的函数</strong>。</p>
 <p>它的特点是<strong>动态联编</strong>（函数的调用不是在编译时刻被确定的，而是在运行时刻被确定的）。</p>
 <p><strong>虚函数只能借助指针 / 引用达到多态的效果</strong></p>
@@ -361,7 +507,7 @@
 </span></span><span style="display:flex;"><span>    a<span style="color:#f92672">-&gt;</span>foo();   <span style="color:#75715e">// 在这里，a虽然是指向A的指针，但是被调用的函数(foo)却是B的!
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h4 id="纯虚函数">纯虚函数</h4>
+</span></span></code></pre></div><h2 id="纯虚函数">纯虚函数</h2>
 <p>在基类中没有定义，在函数原型后加 =0</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> funtion1()<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
 </span></span></code></pre></div><blockquote>
@@ -369,18 +515,255 @@
 </blockquote>
 <p>很多情况下，基类本身生成对象是不合理的。比如动物可以派生老虎、狮子等，但是动物生成对象不合理。</p>
 <p><strong>在派生类必须予以重写以实现多态性，含有纯虚函数的类称为抽象类，抽象类是不能生成对象的。</strong></p>
-<h4 id="虚析构函数">虚析构函数</h4>
+<h2 id="虚析构函数">虚析构函数</h2>
 <p><strong>虚析构函数的作用</strong>：当声明析构函数为虚函数时，执行 <code>delete a;</code> 会采用动态联编，首先调用派生类的析构函数，然后再调用基类的析构函数。</p>
 <p>如果没有声明基类的析构函数为虚函数，则在执行 <code>delete a;</code> 时，只会调用基类 <code>A</code> 的析构函数，而不会调用派生类 <code>B</code> 的析构函数。这会导致派生类 <code>B</code> 的资源未被正确释放，从而可能引发内存泄漏。</p>
-<h4 id="虚函数表">虚函数表</h4>
+<h2 id="虚函数表">虚函数表</h2>
 <p>虚函数通过一张虚函数表来实现的，虚表（vtable）是一个<strong>指针数组</strong>，每个元素对应一个虚函数的函数指针，在代码编译阶段构造出来的虚表。</p>
 <p>每个对象都拥有一个虚表指针（vptr），基类和派生类对象的<code>vptr</code>指向各自的虚函数表。当你通过基类指针或引用调用虚函数时，程序会通过该对象的vptr找到虚函数表，从虚函数表中获取函数地址，最后调用对应的虚函数。</p>
 <p><img src="/images/C++basic/vfptr.png" alt="vfptr"></p>
 <p><img src="/images/C++basic/vfptr1.png" alt="vfptr1"></p>
 <hr>
-<h4 id="模板编程">模板编程</h4>
-<p><strong>模板编程</strong>是C++<strong>实现泛型编程</strong>的手段，同一段代码逻辑可以接收多个类型的参数，无需为每种数据类型都编写单独的代码。</p>
-
+<h2 id="智能指针">智能指针</h2>
+<h3 id="shared_ptr">shared_ptr</h3>
+<p><strong>实现原理</strong>：共享式指针：采用引用计数器的方法，允许多个智能指针指向同一个对象，每当多一个指针指向该对象时，指向该对象的所有智能指针内部的引用计数加1，每当减少一个智能指针指向对象时，引用计数会减1，当计数为0的时候会自动的释放动态分配的资源。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;memory&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyClass</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	MyClass(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> name) <span style="color:#f92672">:</span> name(name)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;MyClass &#34;</span> <span style="color:#f92672">&lt;&lt;</span> name <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; constructed.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">~</span>MyClass()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;MyClass &#34;</span> <span style="color:#f92672">&lt;&lt;</span> name <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; destroyed.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sayHello</span>() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Hello from &#34;</span> <span style="color:#f92672">&lt;&lt;</span> name <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;!</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>string name;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>shared_ptr<span style="color:#f92672">&lt;</span>MyClass<span style="color:#f92672">&gt;</span> shared1 <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>make_shared<span style="color:#f92672">&lt;</span>MyClass<span style="color:#f92672">&gt;</span>(<span style="color:#e6db74">&#34;Shared1&#34;</span>); <span style="color:#75715e">// MyClass Shared1 constructed.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	{
+</span></span><span style="display:flex;"><span>		std<span style="color:#f92672">::</span>shared_ptr<span style="color:#f92672">&lt;</span>MyClass<span style="color:#f92672">&gt;</span> shared2 <span style="color:#f92672">=</span> shared1; <span style="color:#75715e">// 共享所有权
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		shared2<span style="color:#f92672">-&gt;</span>sayHello(); <span style="color:#75715e">// Hello from Shared1!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Shared pointer use count: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> shared1.use_count() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; <span style="color:#75715e">// Shared pointer use count: 2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
+</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Shared pointer use count after shared2 out of scope: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> shared1.use_count() <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; <span style="color:#75715e">// Shared pointer use count after shared2 out of scope: 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	shared1<span style="color:#f92672">-&gt;</span>sayHello(); <span style="color:#75715e">// Hello from Shared1!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// MyClass Shared1 destroyed.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="unique_ptr">unique_ptr</h3>
+<p>独占式指针，同一时刻只能有一个指针指向同一个对象</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// 上面的类
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	std<span style="color:#f92672">::</span>unique_ptr<span style="color:#f92672">&lt;</span>MyClass<span style="color:#f92672">&gt;</span> unique <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>make_unique<span style="color:#f92672">&lt;</span>MyClass<span style="color:#f92672">&gt;</span>(<span style="color:#e6db74">&#34;unique&#34;</span>); <span style="color:#75715e">// MyClass unique constructed.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	unique<span style="color:#f92672">-&gt;</span>sayHello(); <span style="color:#75715e">// Hello from unique!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// unique_ptr不允许拷贝，但是可以转移所有权
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	std<span style="color:#f92672">::</span>unique_ptr<span style="color:#f92672">&lt;</span>MyClass<span style="color:#f92672">&gt;</span> unique2 <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>move(unique);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>unique)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;unique pointer has been moved.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; <span style="color:#75715e">// unique pointer has been moved.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
+</span></span><span style="display:flex;"><span>	unique2<span style="color:#f92672">-&gt;</span>sayHello();<span style="color:#75715e">// Hello from unique!
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// MyClass unique destroyed.
+</span></span></span></code></pre></div><p>当你通过 <code>std::move</code> 将所有权从 <code>unique</code> 转移到 <code>unique2</code> 时，<code>unique</code> 不再持有该对象，也就是说它的内部指针变成了空指针（<code>nullptr</code>）。此时，<strong>资源并没有被销毁，而是由新的 <code>unique_ptr</code>（即 <code>unique2</code>）接管管理权</strong>。</p>
+<h3 id="weak_ptr">weak_ptr</h3>
+<p>弱引用，用来解决shared_ptr相互引用导致的死锁问题，类似一个观察者，不增加引用计数。</p>
+<p>例子：当两个对象（例如父节点和子节点）通过 <code>std::shared_ptr</code> 相互持有对方时，会导致 <strong>循环引用</strong>。</p>
+<ul>
+<li>父节点持有对子节点的 <code>shared_ptr</code>。</li>
+<li>子节点持有对父节点的 <code>shared_ptr</code>。</li>
+</ul>
+<p>由于 <code>shared_ptr</code> 通过引用计数来管理资源，这样的循环关系会导致引用计数永远不为 0，因为每个对象的引用计数都会被对方的 <code>shared_ptr</code> 所增加。这样，即使这两个对象都超出了作用域，它们的引用计数仍然没有减少到零，因此资源无法被释放，最终导致<strong>内存泄漏</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;memory&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Node</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>shared_ptr<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">&gt;</span> child; <span style="color:#75715e">// 子节点，shared_ptr
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>weak_ptr<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">&gt;</span> parent;  <span style="color:#75715e">// 父节点，使用 weak_ptr 避免循环引用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    Node() {
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Node created</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">~</span>Node() {
+</span></span><span style="display:flex;"><span>        std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Node destroyed</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 创建父节点和子节点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>shared_ptr<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">&gt;</span> parent <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>make_shared<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>shared_ptr<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">&gt;</span> child <span style="color:#f92672">=</span> std<span style="color:#f92672">::</span>make_shared<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 创建父子关系
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    parent<span style="color:#f92672">-&gt;</span>child <span style="color:#f92672">=</span> child; <span style="color:#75715e">// 父节点持有子节点的 shared_ptr
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    child<span style="color:#f92672">-&gt;</span>parent <span style="color:#f92672">=</span> parent; <span style="color:#75715e">// 子节点持有父节点的 weak_ptr
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 这里，parent 和 child 会正确销毁，因为 weak_ptr 不增加引用计数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h2 id="手写实现智能指针">手写实现智能指针</h2>
+<h3 id="uniqueptr">UniquePtr</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UniquePtr</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">explicit</span> UniquePtr(T<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#f92672">:</span>ptr(p) {}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 禁止拷贝构造
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UniquePtr(<span style="color:#66d9ef">const</span> UniquePtr<span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 禁止拷贝赋值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UniquePtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> UniquePtr<span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 移动构造函数 在构造一个新对象时被调用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UniquePtr(UniquePtr<span style="color:#f92672">&amp;&amp;</span> other) <span style="color:#66d9ef">noexcept</span> <span style="color:#f92672">:</span> ptr(other.ptr)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		other.ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//移动赋值运算符 在已经存在的对象上进行资源转移时被调用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UniquePtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(UniquePtr<span style="color:#f92672">&amp;&amp;</span> other)<span style="color:#66d9ef">noexcept</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>other)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">delete</span> ptr;
+</span></span><span style="display:flex;"><span>			ptr <span style="color:#f92672">=</span> other.ptr;
+</span></span><span style="display:flex;"><span>			other.ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 重载 * 和 -&gt; 运算符 让智能指针表现得像一个原始指针一样
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	T<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>ptr;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">-&gt;</span>() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> ptr;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 释放控制权
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	T<span style="color:#f92672">*</span> <span style="color:#a6e22e">release</span>()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		T<span style="color:#f92672">*</span> temp <span style="color:#f92672">=</span> ptr;
+</span></span><span style="display:flex;"><span>		ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> temp;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 重置指针
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">reset</span>(T<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">delete</span> ptr;
+</span></span><span style="display:flex;"><span>		ptr <span style="color:#f92672">=</span> p; <span style="color:#75715e">// // 指向新资源，或nullptr
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">~</span>UniquePtr()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">delete</span> ptr;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> ptr;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="sharedptr">SharedPtr</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SharedPtr</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> ptr;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// size_t是专门用于表示内存大小的类型 语义清晰 平台兼容性（大小自动调整）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	size_t<span style="color:#f92672">*</span> refCount;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">explicit</span> SharedPtr(T<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#f92672">:</span> ptr(p), refCount(<span style="color:#66d9ef">new</span> size_t(<span style="color:#ae81ff">1</span>)) { }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	SharedPtr(<span style="color:#66d9ef">const</span> SharedPtr<span style="color:#f92672">&amp;</span> other) <span style="color:#f92672">:</span> ptr(other.ptr), refCount(other.refCount)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">++</span>(<span style="color:#f92672">*</span>refCount); <span style="color:#75715e">// 增加引用计数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	SharedPtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> SharedPtr<span style="color:#f92672">&amp;</span> other)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>other)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			release();
+</span></span><span style="display:flex;"><span>			ptr <span style="color:#f92672">=</span> other.ptr;
+</span></span><span style="display:flex;"><span>			refCount <span style="color:#f92672">=</span> other.refCount;
+</span></span><span style="display:flex;"><span>			<span style="color:#f92672">++</span>(<span style="color:#f92672">*</span>refCount);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>ptr;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">-&gt;</span>() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> ptr;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	size_t <span style="color:#a6e22e">use_count</span>() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>refCount;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">~</span>SharedPtr()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		release();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> release()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#f92672">--</span>(<span style="color:#f92672">*</span>refCount) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">delete</span> ptr;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">delete</span> refCount;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	SharedPtr<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> sptr1(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>(<span style="color:#ae81ff">20</span>));
+</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;sptr1 use_count: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> sptr1.use_count() <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		SharedPtr<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> sptr2 <span style="color:#f92672">=</span> sptr1;
+</span></span><span style="display:flex;"><span>		std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;sptr1 use_count: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> sptr1.use_count() <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>		std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;sptr2 use_count: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> sptr2.use_count() <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;sp1 use_count after sptr2 destroyed: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> sptr1.use_count() <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
+<h2 id="lambda函数--匿名函数--闭包">Lambda函数 / 匿名函数 / 闭包</h2>
+<p>用法：参数列表两个int，返回int。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> f1 <span style="color:#f92672">=</span> [](<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b)<span style="color:#f92672">-&gt;</span><span style="color:#66d9ef">int</span> {<span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b; };
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> f1(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span></code></pre></div><h3 id="变量捕获">变量捕获</h3>
+<p>按引用捕获、按值捕获</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>, M <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">auto</span> g <span style="color:#f92672">=</span> [N, <span style="color:#f92672">&amp;</span>M, k <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>](<span style="color:#66d9ef">int</span> i)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		M <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>; <span style="color:#75715e">// &amp;M：按引用捕获，Lambda 表达式对 M 的修改会直接反映到外部变量 M 上。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> k <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl; <span style="color:#75715e">// 5
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">return</span> N <span style="color:#f92672">*</span> i;
+</span></span><span style="display:flex;"><span>	};
+</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> g(<span style="color:#ae81ff">10</span>) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> M <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span></code></pre></div>
+        </div>
     </div>
 </div><div id="social-media-share" class="has-text-centered">
 	<p><i>Sharing is caring!</i></p>
@@ -418,7 +801,7 @@
 	    </a>
 
 		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2fc%2b%2blearning%2f
-			&title=C%2b%2b%e7%9f%a5%e8%af%86%e5%9b%9e%e9%a1%be&summary=%e5%8f%8b%e5%85%83%e5%87%bd%e6%95%b0%20%e5%85%a8%e5%b1%80%e5%87%bd%e6%95%b0%e5%81%9a%e5%8f%8b%e5%85%83%0aclass%20Building%20%7b%20friend%20void%20goodGuy%28Building%2a%20building%29%3b%20public%3a%20Building%28%29%20%7b%20m_SittingRoom%20%3d%20%26%2334%3b%e5%ae%a2%e5%8e%85%26%2334%3b%3b%20m_BedRoom%20%3d%20%26%2334%3b%e5%8d%a7%e5%ae%a4%26%2334%3b%3b%20%7d%20public%3a%20std%3a%3astring%20m_SittingRoom%3b%20%2f%2f%20%e5%ae%a2%e5%8e%85%20private%3a%20std%3a%3astring%20m_BedRoom%3b%20%2f%2f%20%e5%8d%a7%e5%ae%a4%20%7d%3b%20%2f%2f%20%e5%85%a8%e5%b1%80%e5%87%bd%e6%95%b0%20void%20goodGuy%28Building%2a%20building%29%20%7b%20std%3a%3acout%20%26lt%3b%26lt%3b%20%26%2334%3b%e5%a5%bd%e6%9c%8b%e5%8f%8b%e5%85%a8%e5%b1%80%e5%87%bd%e6%95%b0%e6%ad%a3%e5%9c%a8%e8%ae%bf%e9%97%ae%ef%bc%9a%26%2334%3b%20%26lt%3b%26lt%3b%20building-%26gt%3bm_SittingRoom%20%26lt%3b%26lt%3b%20std%3a%3aendl%3b%20std%3a%3acout%20%26lt%3b%26lt%3b%20%26%2334%3b%e5%a5%bd%e6%9c%8b%e5%8f%8b%e5%85%a8%e5%b1%80%e5%87%bd%e6%95%b0%e6%ad%a3%e5%9c%a8%e8%ae%bf%e9%97%ae%ef%bc%9a%26%2334%3b%20%26lt%3b%26lt%3b%20building-%26gt%3bm_BedRoom%20%26lt%3b%26lt%3b%20std%3a%3aendl%3b%20%7d%20int%20main%28%29%20%7b%20Building%20building%3b%20%2f%2f%20%e8%be%93%e5%87%ba%ef%bc%9a%e5%a5%bd%e6%9c%8b%e5%8f%8b%e5%85%a8%e5%b1%80%e5%87%bd%e6%95%b0%e6%ad%a3%e5%9c%a8%e8%ae%bf%e9%97%ae%ef%bc%9a%e5%ae%a2%e5%8e%85%20goodGuy%28%26amp%3bbuilding%29%3b%2f%2f%20%e8%be%93%e5%87%ba%ef%bc%9a%e5%a5%bd%e6%9c%8b%e5%8f%8b%e5%85%a8%e5%b1%80%e5%87%bd%e6%95%b0%e6%ad%a3%e5%9c%a8%e8%ae%bf%e9%97%ae%ef%bc%9a%e5%8d%a7%e5%ae%a4%20%7d%20%e7%b1%bb%e5%81%9a%e5%8f%8b%e5%85%83%e4%b9%9f%e6%98%af%e5%90%8c%e6%a0%b7%e7%9a%84%e9%81%93%e7%90%86%0afriend%20class%20GoodGuy%3b%0a%e7%b1%bb%e7%9a%84%e6%88%90%e5%91%98%e5%87%bd%e6%95%b0%e4%b9%9f%e6%98%af%e5%90%8c%e6%a0%b7%e7%9a%84%e9%81%93%e7%90%86%0afriend%20void%20GoodGuy%3a%3avisit%28%29%3b&source=rafed123.github.io"
+			&title=C%2b%2b%e7%9f%a5%e8%af%86%e5%9b%9e%e9%a1%be&summary=decltype%20int%20a%20%3d%2010%3b%20decltype%28a%29%20b%20%3d%2020%3b%20cout%20%26lt%3b%26lt%3b%20typeid%28b%29.name%28%29%20%26lt%3b%26lt%3b%20endl%3b%20int%20e%20%3d%204%3b%20const%20int%2a%20f%20%3d%20%26amp%3be%3b%20decltype%28auto%29%20j%20%3d%20f%3b%20%2f%2f%20decltype%28auto%29%20%e4%bc%9a%e4%bf%9d%e7%95%99%e5%bc%95%e7%94%a8%e7%b1%bb%e5%9e%8b%ef%bc%8c%e4%bd%86%20auto%20%e4%bc%9a%e4%b8%a2%e5%bc%83%e5%bc%95%e7%94%a8%e7%b1%bb%e5%9e%8b%e3%80%82%20cout%20%26lt%3b%26lt%3b%20typeid%28j%29.name%28%29%20%26lt%3b%26lt%3b%20endl%3b%20this%e6%8c%87%e9%92%88%20%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e4%bd%bf%e7%94%a8this%e6%8c%87%e9%92%88%ef%bc%9f%0a%e4%b8%a4%e4%b8%aa%e7%94%a8%e6%b3%95%ef%bc%9a%0a%e5%8c%ba%e5%88%86%e6%88%90%e5%91%98%e5%8f%98%e9%87%8f%e5%92%8c%e5%87%bd%e6%95%b0%e5%bd%a2%e5%8f%82%20%e9%9c%80%e8%a6%81%e8%bf%94%e5%9b%9e%e7%b1%bb%e6%9c%ac%e8%ba%ab%20%e5%bd%93%e5%9c%a8%e7%b1%bb%e7%9a%84%e9%9d%9e%e9%9d%99%e6%80%81%e6%88%90%e5%91%98%e5%87%bd%e6%95%b0%e8%ae%bf%e9%97%ae%e7%b1%bb%e7%9a%84%e9%9d%9e%e9%9d%99%e6%80%81%e6%88%90%e5%91%98%e6%97%b6%ef%bc%8c%e7%bc%96%e8%af%91%e5%99%a8%e4%bc%9a%e8%87%aa%e5%8a%a8%e5%b0%86%e5%af%b9%e8%b1%a1%e7%9a%84%e5%9c%b0%e5%9d%80%e4%bc%a0%e7%bb%99%e4%bd%9c%e4%b8%ba%e9%9a%90%e5%90%ab%e5%8f%82%e6%95%b0%e4%bc%a0%e9%80%92%e7%bb%99%e5%87%bd%e6%95%b0%ef%bc%8c%e8%bf%99%e4%b8%aa%e9%9a%90%e5%90%ab%e5%8f%82%e6%95%b0%e5%b0%b1%e6%98%afthis%e6%8c%87%e9%92%88%e3%80%82%0aclass%20Person%20%7b%20public%3a%20int%20getAge%28%29%20%7b%20return%20age%3b%20%7d%20void%20setAge%28int%20age%29%20%7b%20%2f%2f%20%e7%9b%b8%e5%bd%93%e4%ba%8e%e8%87%aa%e5%b7%b1%e8%b5%8b%e5%80%bc%e7%bb%99%e8%87%aa%e5%b7%b1%20%e5%b9%b6%e4%b8%8d%e6%98%af%e8%b5%8b%e5%80%bc%e7%bb%99Person%e7%9a%84%e6%88%90%e5%91%98%e5%8f%98%e9%87%8f%20age%20%3d%20age%3b%20%2f%2f%20this-%26gt%3bage%20%3d%20age%3b%20cout%20%26lt%3b%26lt%3b%20%26%2334%3bage%20%3d%20%26%2334%3b%20%26lt%3b%26lt%3b%20age%20%26lt%3b%26lt%3b%20endl%3b%20%2f%2f%20%e8%be%93%e5%87%baage%20%3d%2023%20%7d%20%2f%2f%20%e6%88%96%e8%80%85%20Person%20setAge%28int%20age%29%20%7b%20this-%26gt%3bage%20%3d%20age%3b%20cout%20%26lt%3b%26lt%3b%20%26%2334%3bage%20%3d%20%26%2334%3b%20%26lt%3b%26lt%3b%20age%20%26lt%3b%26lt%3b%20endl%3b%20return%20%2athis%3b%20%7d%20private%3a%20int%20age%3b%20%7d%3b%20int%20main%28%29%20%7b%20Person%20p%3b%20p.&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>

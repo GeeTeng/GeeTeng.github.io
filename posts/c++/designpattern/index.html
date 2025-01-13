@@ -196,43 +196,64 @@
 </nav><div class="columns is-centered">
         <div id="page-body" class="column is-7">
 
-<div class="content blog">
-    <h1>设计模式</h1>
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#简单工厂模式">简单工厂模式</a></li>
+    <li><a href="#策略模式strategy">策略模式（Strategy）</a></li>
+    <li><a href="#单一职责原则">单一职责原则</a></li>
+    <li><a href="#开放-封闭原则">开放-封闭原则</a></li>
+    <li><a href="#依赖倒转原则">依赖倒转原则</a></li>
+    <li><a href="#里氏替换原则">里氏替换原则</a></li>
+    <li><a href="#装饰模式decorator-pattern">装饰模式（Decorator Pattern）</a></li>
+    <li><a href="#享元模式flyweight">享元模式（FlyWeight）</a></li>
+    <li><a href="#单例模式singleton">单例模式（Singleton）</a></li>
+  </ul>
+</nav>
+    </nav>
+    
 
-    <div id="infobar" class="level is-mobile">
-        <div class="level-left">
-            
-            <div class="level-item">
-                <p class="subtitle info date">Jan 8, 2025
-                </p>
+    
+    <div class="content blog">
+        <h1>设计模式</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Jan 8, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        11 mins read
+                    </p>
+                </div>
             </div>
-            
-
-            <div class="level-item">
-                <p class="subtitle info">
-                    11 mins read
-                </p>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/c&#43;&#43;">C&#43;&#43;</a>
+                    
+                </div>
             </div>
         </div>
-        <div class="level-right is-hidden-touch">
-            <div class="tags">
-                
-                <a class="tag is-dark is-rounded" href="/tags/c&#43;&#43;">C&#43;&#43;</a>
-                
-            </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/c&#43;&#43;">C</a>
+            
         </div>
-    </div>
 
-    <div class="tags is-hidden-desktop">
-        
-        <a class="tag is-dark is-rounded" href="/tags/c&#43;&#43;">C</a>
-        
-    </div>
+        <div class="blog-text">
+            
 
-    <div class="blog-text">
-        
-
-        <h4 id="简单工厂模式">简单工厂模式</h4>
+            <h2 id="简单工厂模式">简单工厂模式</h2>
 <p><strong>Factory</strong>：工厂类是整个模式的关键.包含了必要的逻辑判断,根据外界给定的信息,决定究竟应该创建哪个具体类的对象。</p>
 <p>客户端代码无需关心类的实现细节，如果需要新增运算，只需要新增对应的派生类，并在工厂中添加逻辑。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Operation</span>
@@ -317,7 +338,7 @@
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><hr>
-<h4 id="策略模式strategy">策略模式（Strategy）</h4>
+<h2 id="策略模式strategy">策略模式（Strategy）</h2>
 <p>举例超市促销活动，有打八折、满300 - 100的活动等，如果给每一种活动都增加一个实现方法，重复度太高不方便维护。所以要将每个算法封装起来，并且可以互相替换，不同的策略表现出不同的行为，这就是策略模式。</p>
 <p><strong>组成</strong>：</p>
 <ul>
@@ -407,18 +428,18 @@
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><hr>
-<h4 id="单一职责原则"><strong>单一职责原则</strong></h4>
+<h2 id="单一职责原则">单一职责原则</h2>
 <p>就一个类而言，应该仅有一个引起它变化的原因。</p>
 <p>如果一个类承担的职责过多，就等于把这些职责耦合在一起，一个职责的变化可能会削弱或者抑制这个类完成其他职责的能力。这种耦合会导致脆弱的设计，当变化发生时，设计会遭受到意想不到的破坏。</p>
-<h4 id="开放-封闭原则"><strong>开放-封闭原则</strong></h4>
+<h2 id="开放-封闭原则">开放-封闭原则</h2>
 <p>对于扩展是开放的，对于更改是封闭的。</p>
 <p>但无论模块是多么的封闭，都会存在一些无法对之封闭的变化。设计人员必须对他设计的模块应该对哪种变化封闭做出选择。他必须先猜测出最有可能发生的变化种类，然后构造抽象来隔离那些变化。</p>
 <p><strong>面对需求，对程序的改动是通过增加新代码进行的，而不是更改现有的代码</strong>。</p>
-<h4 id="依赖倒转原则">依赖倒转原则</h4>
+<h2 id="依赖倒转原则">依赖倒转原则</h2>
 <p>高层模块不应该依赖低层模块，两个都应该依赖抽象。</p>
 <p>抽象不应该依赖细节，细节应该依赖于抽象。</p>
 <p>总结：谁也不要依赖谁，除了约定的接口，大家都可以灵活自如。</p>
-<h4 id="里氏替换原则">里氏替换原则</h4>
+<h2 id="里氏替换原则">里氏替换原则</h2>
 <p><strong>子类可以替换父类，并且程序的行为不会发生变化</strong>。</p>
 <ul>
 <li>子类必须完全实现父类的所有行为：子类不能违背父类提供的行为契约。</li>
@@ -427,7 +448,7 @@
 </ul>
 <p>例子：正方形在数学中属于长方形，于是在代码中将正方形继承于长方形，但是宽高在设置的时候会出现冲突，导致最后计算面积出错。所以它不遵循里氏替换原则，需要将正方形、长方形类分离，实现共同的Shape接口。</p>
 <hr>
-<h4 id="装饰模式decorator-pattern">装饰模式（Decorator Pattern）</h4>
+<h2 id="装饰模式decorator-pattern">装饰模式（Decorator Pattern）</h2>
 <p><strong>组成</strong>：</p>
 <ul>
 <li>抽象接口：定义核心功能的接口（或基类）。</li>
@@ -436,7 +457,7 @@
 <li>具体装饰器（Concrete Decorator）：扩展装饰器基类，通过额外的功能装饰具体组件。</li>
 </ul>
 <hr>
-<h4 id="享元模式flyweight">享元模式（FlyWeight）</h4>
+<h2 id="享元模式flyweight">享元模式（FlyWeight）</h2>
 <p>主要目的是通过共享对象来减少系统种对象的数量，<strong>其本质就是缓存共享对象，降低内存消耗</strong>。</p>
 <p>享元模式将需要重复使用的对象分为两个部分：<strong>内部状态</strong>和<strong>外部状态</strong>。比如用户的账号是外部状态不能被共享，内部状态是可以共享的。</p>
 <p><strong>组成</strong>：</p>
@@ -447,7 +468,7 @@
 </ul>
 <p>例子：如围棋游戏，只需要存储两个棋子对象，而不是每盘棋创建几百个棋子对象，比如.Net中的String，相同的字符串只有一个实例。</p>
 <hr>
-<h4 id="单例模式singleton">单例模式（Singleton）</h4>
+<h2 id="单例模式singleton">单例模式（Singleton）</h2>
 <p>保证一个类只能产生一个实例，声明周期为整个程序的声明周期，通过Get访问到任何非静态方法。</p>
 <p>懒汉式：需要时才会创建 线程不安全</p>
 <p>饿汉式：一运行就创建实例，需要时直接调用。</p>
@@ -509,6 +530,7 @@
 </span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cin.get();
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
+        </div>
     </div>
 </div><div id="social-media-share" class="has-text-centered">
 	<p><i>Sharing is caring!</i></p>

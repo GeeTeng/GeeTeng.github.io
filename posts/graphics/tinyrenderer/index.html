@@ -196,43 +196,70 @@
 </nav><div class="columns is-centered">
         <div id="page-body" class="column is-7">
 
-<div class="content blog">
-    <h1>TinyRenderer</h1>
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#1-画线">1 画线</a>
+          <ul>
+            <li><a href="#线框渲染">线框渲染</a></li>
+          </ul>
+        </li>
+        <li><a href="#2-画面">2 画面</a>
+          <ul>
+            <li><a href="#逐行扫描填充法">逐行扫描填充法</a></li>
+            <li><a href="#重心坐标法">重心坐标法</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
 
-    <div id="infobar" class="level is-mobile">
-        <div class="level-left">
-            
-            <div class="level-item">
-                <p class="subtitle info date">Dec 16, 2024
-                </p>
+    
+    <div class="content blog">
+        <h1>TinyRenderer</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Dec 16, 2024
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        10 mins read
+                    </p>
+                </div>
             </div>
-            
-
-            <div class="level-item">
-                <p class="subtitle info">
-                    10 mins read
-                </p>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer-Graphics</a>
+                    
+                </div>
             </div>
         </div>
-        <div class="level-right is-hidden-touch">
-            <div class="tags">
-                
-                <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer-Graphics</a>
-                
-            </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer graphics</a>
+            
         </div>
-    </div>
 
-    <div class="tags is-hidden-desktop">
-        
-        <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer graphics</a>
-        
-    </div>
+        <div class="blog-text">
+            
 
-    <div class="blog-text">
-        
-
-        <h3 id="1-画线">1 画线</h3>
+            <h3 id="1-画线">1 画线</h3>
 <p>mainCRTStartup</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">line</span>(<span style="color:#66d9ef">int</span> x0, <span style="color:#66d9ef">int</span> y0, <span style="color:#66d9ef">int</span> x1, <span style="color:#66d9ef">int</span> y1, TGAImage<span style="color:#f92672">&amp;</span> image, TGAColor color)
 </span></span><span style="display:flex;"><span>{
@@ -473,6 +500,7 @@
 </span></span></code></pre></div><p><img src="/images/TinyRenderer/linenormal.png" alt="linenormal"></p>
 <p>但是出现了问题：模型有一些地方比较奇怪，嘴巴部分。为什么会出现这样的情况？因为模型有一些内部的面覆盖了外面的面，所以引出来了ZBuffer。</p>
 
+        </div>
     </div>
 </div><div id="social-media-share" class="has-text-centered">
 	<p><i>Sharing is caring!</i></p>

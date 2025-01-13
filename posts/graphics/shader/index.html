@@ -196,49 +196,102 @@
 </nav><div class="columns is-centered">
         <div id="page-body" class="column is-7">
 
-<div class="content blog">
-    <h1>Shader</h1>
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#z-buffer深度缓存">Z-Buffer(深度缓存）</a>
+      <ul>
+        <li><a href="#z-buffer-algorithm">Z-Buffer Algorithm</a></li>
+      </ul>
+    </li>
+    <li><a href="#shader">Shader</a>
+      <ul>
+        <li><a href="#blinn-phong-反射模型">Blinn-Phong 反射模型</a>
+          <ul>
+            <li><a href="#diffuse-reflection">diffuse reflection</a></li>
+            <li><a href="#specular-highlights">Specular Highlights</a></li>
+            <li><a href="#ambient-lighting">Ambient Lighting</a></li>
+            <li><a href="#blinn-phong-reflection">Blinn-Phong Reflection</a></li>
+            <li><a href="#problem-of-blinn-phong">Problem of Blinn-Phong</a></li>
+          </ul>
+        </li>
+        <li><a href="#shadingfrequency">ShadingFrequency</a></li>
+        <li><a href="#逐顶点求法线方向">逐顶点求法线方向</a></li>
+        <li><a href="#graphics-pipeline">Graphics Pipeline</a></li>
+        <li><a href="#shader概念">Shader概念</a></li>
+      </ul>
+    </li>
+    <li><a href="#gpu">GPU</a></li>
+    <li><a href="#texture">Texture</a></li>
+    <li><a href="#重心坐标">重心坐标</a></li>
+    <li><a href="#texture-magnification纹理映射">Texture Magnification（纹理映射）</a>
+      <ul>
+        <li>
+          <ul>
+            <li>
+              <ul>
+                <li><a href="#bilinear-interpolation双线性插值">Bilinear Interpolation双线性插值</a></li>
+                <li><a href="#bicubic-双三次插值">Bicubic 双三次插值</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#mipmap-范围查询">Mipmap 范围查询</a></li>
+    <li><a href="#作业">作业</a></li>
+  </ul>
+</nav>
+    </nav>
+    
 
-    <div id="infobar" class="level is-mobile">
-        <div class="level-left">
-            
-            <div class="level-item">
-                <p class="subtitle info date">Dec 16, 2024
-                </p>
+    
+    <div class="content blog">
+        <h1>Shader</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Dec 16, 2024
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        16 mins read
+                    </p>
+                </div>
             </div>
-            
-
-            <div class="level-item">
-                <p class="subtitle info">
-                    16 mins read
-                </p>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer-Graphics</a>
+                    
+                </div>
             </div>
         </div>
-        <div class="level-right is-hidden-touch">
-            <div class="tags">
-                
-                <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer-Graphics</a>
-                
-            </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer graphics</a>
+            
         </div>
-    </div>
 
-    <div class="tags is-hidden-desktop">
-        
-        <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer graphics</a>
-        
-    </div>
+        <div class="blog-text">
+            
 
-    <div class="blog-text">
-        
-
-        <h3 id="z-buffer深度缓存">Z-Buffer(深度缓存）</h3>
+            <h2 id="z-buffer深度缓存">Z-Buffer(深度缓存）</h2>
 <p>用来处理可见性问题，即<strong>确定每个像素最前层物体</strong>。</p>
 <p><strong>Frame Buffer</strong>(帧缓冲区：用于存储最终图像数据)、<strong>Depth Buffer</strong>（深度缓冲区：判断哪些物体在前，哪些物体被遮挡）</p>
 <p><img src="/images/Shader/Z-buffer.png" alt="Z-buffer"></p>
 <p>工作原理：近处是更黑的，远处是发白的。</p>
 <p>Z-Buffer处理不了透明物体，透明物体需要特殊处理。</p>
-<h4 id="z-buffer-algorithm">Z-Buffer Algorithm</h4>
+<h3 id="z-buffer-algorithm">Z-Buffer Algorithm</h3>
 <p><img src="/images/Shader/code.jpg" alt="code"></p>
 <p><img src="/images/Shader/Z-BufferAlgorithm.png" alt="Z-BufferAlgorithm"></p>
 <p>R代表无穷大，如果有三角形，就覆盖掉这些无穷大的像素</p>
@@ -250,11 +303,11 @@
 <p>**Answer：**其实它不是排序，只是在对每个像素一直求最小值。</p>
 </blockquote>
 <hr>
-<h3 id="shader">Shader</h3>
+<h2 id="shader">Shader</h2>
 <p><strong>定义：对不同的物体应用不同材质的过程</strong></p>
 <p>物体在经过MVP（模型、视图、投影矩阵变换）、ViewPort之后现在我们会得到一系列旋转的立方体</p>
 <p>需要对他做着色（Shading）</p>
-<h4 id="blinn-phong-反射模型">Blinn-Phong 反射模型</h4>
+<h3 id="blinn-phong-反射模型">Blinn-Phong 反射模型</h3>
 <p>Blinn-Phong 反射模型是计算光照和表面反射的常用模型。它将光照分为三部分：</p>
 <ul>
 <li><strong>漫反射（Diffuse Reflection）</strong>：表示光照与物体表面相互作用后，光线在不同方向上散射的现象，通常效果比较均匀，不会有明显的亮点。</li>
@@ -262,7 +315,7 @@
 <li><strong>环境光照（Ambient Lighting）</strong>：表示全局环境中的光照，通常是一个常量，作用于整个场景，不依赖于具体的物体或光源。</li>
 </ul>
 <hr>
-<h5 id="diffuse-reflection">diffuse reflection</h5>
+<h4 id="diffuse-reflection">diffuse reflection</h4>
 <p>通常假设反射光是一个半球，并计算每个着色点（shading point）接收到的能量。漫反射的强度与光照方向和表面法线之间的夹角有关。</p>
 <p><strong>Lambert‘s cosine law：描述漫反射光照强度与光照方向和法线之间夹角的关系</strong>，公式如下：
 </p>
@@ -274,7 +327,7 @@ L_d:漫反射分量（反射光强度）\qquad k_d:漫反射系数（物体表�
 $$
 <p><strong>注意</strong>：漫反射不考虑其他物体的影响，只关注当前着色点的表面法线与光照方向的关系。</p>
 <hr>
-<h5 id="specular-highlights">Specular Highlights</h5>
+<h4 id="specular-highlights">Specular Highlights</h4>
 <p>v和R足够接近的时候，会看到高光，其中v是观测方向，R是光线反射方向。</p>
 <p>实际上是n法线方向和h半程向量很接近，利用平行四边形法则，可以求v+l向量，再求单位向量就是半程向量h。</p>
 <p>镜面反射光的公式
@@ -287,54 +340,54 @@ $$
 <p>高光非常亮，且集中在一个很小的角度里，所以要有指数，将角度范围缩小，高光就会越来越小。</p>
 <p><img src="/images/Shader/specular02.png" alt="specular02"></p>
 <hr>
-<h5 id="ambient-lighting">Ambient Lighting</h5>
+<h4 id="ambient-lighting">Ambient Lighting</h4>
 <p>环境光
 </p>
 $$
 L_{a}=k_{a}I_{a}
 $$
 <hr>
-<h5 id="blinn-phong-reflection">Blinn-Phong Reflection</h5>
+<h4 id="blinn-phong-reflection">Blinn-Phong Reflection</h4>
 $$
 L=L_{a}+L_{d}+L_{s}
 $$
 <hr>
-<h5 id="problem-of-blinn-phong">Problem of Blinn-Phong</h5>
+<h4 id="problem-of-blinn-phong">Problem of Blinn-Phong</h4>
 <p><img src="/images/Shader/problem.png" alt="problem"></p>
 <hr>
-<h4 id="shadingfrequency">ShadingFrequency</h4>
+<h3 id="shadingfrequency">ShadingFrequency</h3>
 <p><img src="/images/Shader/shadingFrequencies.png" alt="shadingFrequencies"></p>
 <p><strong>Phong shading</strong>（每个像素进行着色）</p>
 <p>当几何模型的面数不断增加，着色频率也会增加，也可以使用FlatShading，但是取决于具体的物体，因为模型比较复杂的话，反倒可能会用phong shading会更好，但是大多数情况，选择phong shading是不会错的。</p>
 <hr>
-<h4 id="逐顶点求法线方向">逐顶点求法线方向</h4>
+<h3 id="逐顶点求法线方向">逐顶点求法线方向</h3>
 <p>当你知道一个模型对应的是什么物体的时候，你会通过下图（比如说有一个球形物体，和模型之间的接触的法线方向）</p>
 <p>但是事实上你不知道模型是什么样的物体，于是只能通过计算每个平面的法线的平均值得到该点的法线方向，求加权平均值可能会得到更好的结果（面更大的求更大占比的法线方向向量），所有法线都要归一化。</p>
 <p><img src="/images/Shader/vertexNormal.png" alt="vertexNormal"></p>
 <hr>
-<h4 id="graphics-pipeline">Graphics Pipeline</h4>
+<h3 id="graphics-pipeline">Graphics Pipeline</h3>
 <p><img src="/images/Shader/Pipeline.png" alt="Pipeline"></p>
 <hr>
-<h4 id="shader概念">Shader概念</h4>
+<h3 id="shader概念">Shader概念</h3>
 <ul>
 <li>shader是写一个通用的程序，只需要管一个像素怎么运作</li>
 <li>如果操作一个顶点顶点着色器，如果操作一个像素像素（片源）着色器</li>
 </ul>
 <p>分享一个网站<a href="https://www.shadertoy.com/">Shadertoy BETA</a></p>
 <hr>
-<h4 id="gpu">GPU</h4>
+<h2 id="gpu">GPU</h2>
 <p>GPU 有成百上千个核心，这些核心被分为不同的小组，每一组可以执行不同 / 相同的人物，GPU的并行架构为处理大规模的<strong>相同类型操作</strong>而设计。</p>
 <p>核心的数量 = 并行的数量，GPU并行度的速度远超过CPU的几十倍。</p>
 <p>SIMD(Single Instruction, Multiple Data)是一种并行计算技术，它通过向量寄存器存储多个数据元素，并使用单条指令同时对这些数据元素进行处理，从而提高了计算效率。</p>
 <p><img src="/images/Shader/gpu.png" alt="gpu"></p>
 <hr>
-<h4 id="texture">Texture</h4>
+<h2 id="texture">Texture</h2>
 <p>比如说我们对一个物体求它在灯光下的漫反射，但是这个物体的材质是不同的，这个物体表面有不同的颜色，呢么它的漫反射系数也是不同的。所以我们需要知道物体的表面信息，引出纹理。</p>
 <p>将一个三维物体贴到一个二维的平面。</p>
 <p><img src="/images/Shader/texture.png" alt="texture"></p>
 <p>纹理的坐标系通常使用 U, V 来表示，横轴 U，纵轴 V。通常 UV 的范围是 [ 0, 1 ] 之内。</p>
 <hr>
-<h4 id="重心坐标">重心坐标</h4>
+<h2 id="重心坐标">重心坐标</h2>
 <p><strong>用重心坐标在三角形内部做任何形式的插值</strong></p>
 <p><img src="/images/Shader/coordinate.png" alt="coordinate"></p>
 <p>A点的重心坐标是（1，0，0） 因为αA+βB+γC = A</p>
@@ -342,7 +395,7 @@ $$
 <p><img src="/images/Shader/coordinate02.png" alt="coordinate02"></p>
 <p><strong>注意：<strong>但是</strong>需要在三维中求重心坐标</strong>，如果在投影之后再求重心坐标，呢么结果会不准确，因为在投影前后的重心坐标从三维变二维是会发生变化的。</p>
 <hr>
-<h4 id="texture-magnification纹理映射">Texture Magnification（纹理映射）</h4>
+<h2 id="texture-magnification纹理映射">Texture Magnification（纹理映射）</h2>
 <p><strong>纹理过小时引发的问题</strong></p>
 <p>比如说将一张100*100 分辨率的纹理贴图应用在500*500的屏幕上，必然会走样，因为屏幕上好几个像素点对应纹理UV坐标都是一样的，那么会变成低分辨率的图像，所以应该怎么做？</p>
 <h5 id="bilinear-interpolation双线性插值">Bilinear Interpolation双线性插值</h5>
@@ -356,13 +409,13 @@ $$
 <p>Answer：No，反而麻烦会更大，由于屏幕空间一个点会对应纹理贴图中一大片点，所以会得到远处的摩尔纹和近处的锯齿（走样）。</p>
 <p>Solution：一种直观的解决方法就是Supersampling（超采样），如果一个像素点不足以代表一个区域的颜色信息，那么便把一个像素细分为更多个小的采样点。但是代价十分的高，计算量特别巨大。</p>
 <hr>
-<h4 id="mipmap-范围查询">Mipmap 范围查询</h4>
+<h2 id="mipmap-范围查询">Mipmap 范围查询</h2>
 <p><img src="/images/Shader/mipmap.png" alt="mipmap"></p>
 <p>通过设置不同的Level值来查询不同精度的纹理。Level值越大像素点被合并的越少</p>
 <p><img src="/images/Shader/mipmap02.png" alt="mipmap02"></p>
 <p><img src="/images/Shader/mipmap03.png" alt="mipmap03"></p>
 <hr>
-<h4 id="作业">作业</h4>
+<h2 id="作业">作业</h2>
 <p>基于包围盒的光栅化，用三角形的重心坐标对颜色、法线、纹理坐标做插值。将插值传递给fragment_shader_payload，调用 fragment_shader 计算最终像素颜色</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> rst<span style="color:#f92672">::</span>rasterizer<span style="color:#f92672">::</span>rasterize_triangle(<span style="color:#66d9ef">const</span> Triangle<span style="color:#f92672">&amp;</span> t, <span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>array<span style="color:#f92672">&lt;</span>Eigen<span style="color:#f92672">::</span>Vector3f, <span style="color:#ae81ff">3</span><span style="color:#f92672">&gt;&amp;</span> view_pos) 
 </span></span><span style="display:flex;"><span>{
@@ -459,6 +512,7 @@ $$
 </span></span></code></pre></div><p>![texture (2)](/images/Shader/texture (2).png)</p>
 <p>凹凸效果和位移贴图待更新&hellip;</p>
 
+        </div>
     </div>
 </div><div id="social-media-share" class="has-text-centered">
 	<p><i>Sharing is caring!</i></p>

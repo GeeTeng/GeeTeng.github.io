@@ -196,43 +196,60 @@
 </nav><div class="columns is-centered">
         <div id="page-body" class="column is-7">
 
-<div class="content blog">
-    <h1>RayTracing光线追踪</h1>
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#shadowmapping阴影贴图">ShadowMapping（阴影贴图）</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
 
-    <div id="infobar" class="level is-mobile">
-        <div class="level-left">
-            
-            <div class="level-item">
-                <p class="subtitle info date">Jan 3, 2025
-                </p>
+    
+    <div class="content blog">
+        <h1>RayTracing光线追踪</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Jan 3, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        1 min read
+                    </p>
+                </div>
             </div>
-            
-
-            <div class="level-item">
-                <p class="subtitle info">
-                    1 min read
-                </p>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer-Graphics</a>
+                    
+                </div>
             </div>
         </div>
-        <div class="level-right is-hidden-touch">
-            <div class="tags">
-                
-                <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer-Graphics</a>
-                
-            </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer graphics</a>
+            
         </div>
-    </div>
 
-    <div class="tags is-hidden-desktop">
-        
-        <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer graphics</a>
-        
-    </div>
+        <div class="blog-text">
+            
 
-    <div class="blog-text">
-        
-
-        <h3 id="shadowmapping阴影贴图">ShadowMapping（阴影贴图）</h3>
+            <h3 id="shadowmapping阴影贴图">ShadowMapping（阴影贴图）</h3>
 <ol>
 <li>从光源视角生成深度图，存储深度值。</li>
 <li>主摄像机渲染场景并计算阴影，与存储的深度值进行比较，如果当前点深度大于阴影贴图深度，说明该点被遮挡是阴影点；否则是光照射的点。</li>
@@ -245,12 +262,13 @@
 <li>浮点精度比较问题</li>
 </ul>
 <p>由于点光源有大小，会形成如图所示的（Umbra）本影区域和半影（Penumbra）区域。所以会形成阴影的过渡。</p>
-<p><img src="D:%5CGeeSite%5Cstatic%5Cimages%5CRayTracing/images/RayTracing/02.png" alt="02"></p>
+<p><img src="/images/RayTracing/02.png" alt="02"></p>
 <blockquote>
 <p>Question：为什么需要光线追踪？</p>
 <p>Answer：光栅化难以做软阴影、难以表现光线多次弹射、光栅化（实时 游戏 快），光线追踪（离线 动画 慢）</p>
 </blockquote>
 
+        </div>
     </div>
 </div><div id="social-media-share" class="has-text-centered">
 	<p><i>Sharing is caring!</i></p>
