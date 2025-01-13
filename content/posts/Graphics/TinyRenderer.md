@@ -8,7 +8,7 @@ math: true
 chordsheet: true
 ---
 
-### 1 画线
+## 1 画线
 
 mainCRTStartup
 
@@ -100,7 +100,7 @@ void line(int x0, int y0, int x1, int y1, TGAImage& image, TGAColor color)
 
 ![final](/images/TinyRenderer/final.png)
 
-#### 线框渲染
+### 线框渲染
 
 打开Obj文件以文本编辑器形式
 
@@ -188,7 +188,7 @@ for (int i=0; i<model->nfaces(); i++) {
 
 ---
 
-### 2 画面
+## 2 画面
 
 > 已经有了线框三角形，如何把三角形绘制出颜色？
 
@@ -196,7 +196,7 @@ for (int i=0; i<model->nfaces(); i++) {
 
 由于三角形的不规则，所以必须要分为两部分，通过相似三角形，可以求出线的 X, Y 点。
 
-#### 逐行扫描填充法
+### 逐行扫描填充法
 
 ```c++
 void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage& image, TGAColor color) {
@@ -232,7 +232,7 @@ void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage& image, TGAColor color) {
 
 ![trangle](/images/TinyRenderer/trangle.png)
 
-#### 重心坐标法
+### 重心坐标法
 
 遍历三角形的包围盒中的所有像素，使用重心坐标法**判断当前像素是否位于三角形内部**。
 

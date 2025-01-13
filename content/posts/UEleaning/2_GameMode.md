@@ -8,13 +8,9 @@ math: true
 chordsheet: true
 ---
 
-### 笔记
-
----
 
 
-
-#### 平行世界？World
+## 平行世界？World
 
 UE中有三个世界
 
@@ -28,7 +24,7 @@ UE中有三个世界
 
 ---
 
-#### **游戏中最重要的实体AActor**
+## 游戏中最重要的实体AActor
 
 AActor 标志所有权的Owner指针，标志本地权限的Role枚举，作为网格同步的基础单位，根组件提供世界变化信息
 
@@ -74,7 +70,7 @@ Actor不只是3D中的表示，一些不可见对象也可以是Actor，如*AInf
 
 ---
 
-#### **APawn（可操控的棋子)**
+## APawn（可操控的棋子)
 
 最重要的特性：可以被controller控制 提供了输入、移动框架的支持
 
@@ -112,7 +108,7 @@ UE提供了一个默认的Pawn - **DeflaultPawn**
 
 ---
 
-#### **MVC模式（显示、数据、算法）** 
+## MVC模式（显示、数据、算法）
 
 **显示（View）**：
 
@@ -133,7 +129,7 @@ UE提供了一个默认的Pawn - **DeflaultPawn**
 
 
 
-#### **继承和层次结构**
+## 继承和层次结构
 
 1. **AController 继承自 AActor**：
    - AController 是一个专门用于控制 APawn 行为的类。
@@ -160,7 +156,7 @@ UE提供了一个默认的Pawn - **DeflaultPawn**
 
 ------
 
-#### **具体功能与模块**
+## 具体功能与模块
 
 **APlayerController（提线木偶操控者）**：
 
@@ -199,14 +195,14 @@ UE提供了一个默认的Pawn - **DeflaultPawn**
 
 ------
 
-#### AGameMode 真·游戏模式
+## AGameMode 真·游戏模式
 
 玩家如何加入游戏 游戏特定行为（获胜）
 所有GameMode均为 AGameMode的子类 AGameModeBase包含大量可覆盖的基础功能
 
 ---
 
-#### AgameState游戏状态
+## AgameState游戏状态
 
 同mode基类子类
 
@@ -215,7 +211,7 @@ playerState Character、Controller的职责区别
 
 ---
 
-#### Question？
+## Question？
 
 > 如果你来设计游戏，以下数据应该存放在哪里，是否需要同步给玩家？
 > 玩家血量、玩家得分、队友位置、毒圈空头信息
@@ -244,13 +240,13 @@ playerState Character、Controller的职责区别
 
 ---
 
-### 作业
+## 作业
 
 ---
 
 创建一个空项目，新建C++Character类。
 
-#### 创建摄像机
+### 创建摄像机
 
 **PlayerCharaCharacter.h**文件
 
@@ -297,7 +293,7 @@ APlayerCharacter::APlayerCharacter()
 
 ---
 
-#### 角色移动增强输入
+### 角色移动增强输入
 
 创建InputAction(IA_Look和IA_Move)和InputMappingContext，并设置如下图。
 
@@ -387,7 +383,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 
 ---
 
-#### 角色动画
+### 角色动画
 
 完成人物的移动后，需要加上动画效果，应该让人物在静止的时候是一个自然的状态，跑动的时候是跑动的动画。
 
@@ -464,7 +460,7 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 
 ---
 
-#### 音效
+### 音效
 
 导入音效资源，选取喜欢的一些开枪射击音效，右键Creat Sound Cue，制作一个随机生成且混合起来的音效。
 
@@ -503,7 +499,7 @@ void APlayerCharacter::Fire(const FInputActionValue& Value)
 
 ---
 
-#### 特效
+### 特效
 
 首先要找到开火的位置，在gun_barrel下新建一个Socket，将枪口位置命名为GunBarrelSocket，确认枪口的坐标轴X方向指向枪口正对位置。
 
@@ -541,7 +537,7 @@ public:
 
 ---
 
-#### 射线检测
+### 射线检测
 
 **PlayerCharacter.cpp文件 - Fire方法**
 
@@ -614,7 +610,7 @@ public:
 
 ---
 
-#### 更改第一人称视角
+### 更改第一人称视角
 
 将角色蓝图中Pawn - Use Controller Rotation Yaw勾选
 

@@ -14,7 +14,7 @@ chordsheet: true
 
 ---
 
-#### 创建主页面
+## 创建主页面
 
 新建HUD类-MainUIHUD和GameMode-MainMenuGameMode，并新建BP_UIGameMode蓝图类。
 
@@ -102,7 +102,7 @@ BackgoundBlur设置模糊且Visible（防止点击到下一层）
 
 ---
 
-#### 切换面板
+## 切换面板
 
 选择面板的蓝图，通过SetActiveWidgetIndex来切换面板
 
@@ -110,7 +110,7 @@ BackgoundBlur设置模糊且Visible（防止点击到下一层）
 
 ---
 
-#### 更改屏幕分辨率
+## 更改屏幕分辨率
 
 Widget_NormalOption蓝图，新增了一个纯函数Get Window Mode（仅依赖传入的参数，不会改变外部状态）。
 
@@ -122,7 +122,7 @@ Widget_NormalOption蓝图，新增了一个纯函数Get Window Mode（仅依赖�
 
 ---
 
-#### 更改语言
+## 更改语言
 
 打开Tool-Localization Dashboard
 
@@ -140,7 +140,7 @@ Widget_NormalOption蓝图，新增了一个纯函数Get Window Mode（仅依赖�
 
 ---
 
-#### 背景音乐
+## 背景音乐
 
 下载一个比较贴切FPS游戏的背景音乐，然后加载到资产中，新建一个SoundCue、一个混音器和一个音效类。SoundCue中右键Wave Player，添加背景音乐。左侧面板设置音效类。音效类添加passive sound mix modifiers设置混音器。
 
@@ -154,7 +154,7 @@ Widget_NormalOption蓝图，新增了一个纯函数Get Window Mode（仅依赖�
 
 ---
 
-#### 更改操作键
+## 更改操作键
 
 新建C++类-UserWidget - KeyInfoWidget，并新建蓝图继承它，用来按键集合
 
@@ -281,7 +281,7 @@ void UKeyOptionWidget::ResetAllKey()
 
 ---
 
-#### 登录
+## 登录
 
 新建LoginUserWidget类（登陆注册界面）
 
@@ -415,7 +415,7 @@ void ULoginUserWidget::NativeOnInitialized()
 
 ---
 
-#### 注册
+## 注册
 
 新建C++类 - RegisterUserWidget 和 蓝图类 - UMG_Register
 
@@ -633,7 +633,7 @@ void ULoginUserWidget::LoginGame()
 
 ![RegisterSaveGame](/images/UMG/RegisterSaveGame.png)
 
-#### 场景加载
+## 场景加载
 
 下载了插件Async Loading Screen
 

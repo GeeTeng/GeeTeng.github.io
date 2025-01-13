@@ -12,7 +12,7 @@ chordsheet: true
 
 ### 计算机网络分类
 
-![00](D:\GeeSite\static\images\CS_Basic\ComputerNetwork\00.png)
+![00](/images/CS_Basic/ComputerNetwork/00.png)
 
 ---
 
@@ -30,7 +30,7 @@ chordsheet: true
 
 应用层（HTTP\SMTP\DNS\RTP）、运输层(TCP\UDP)、网络层(IP)、网络接口层
 
-![03](D:\GeeSite\static\images\CS_Basic\ComputerNetwork\03.png)
+![03](/images/CS_Basic/ComputerNetwork/03.png)
 
 **协议三要素：**
 
@@ -66,7 +66,7 @@ chordsheet: true
 
 **接收方**：接受分组、还原报文
 
-![01](D:\GeeSite\static\images\CS_Basic\ComputerNetwork\01.png)
+![01](/images/CS_Basic/ComputerNetwork/01.png)
 
 
 
@@ -78,7 +78,7 @@ chordsheet: true
 
 #### 对比
 
-![02](D:\GeeSite\static\images\CS_Basic\ComputerNetwork\02.png)
+![02](/images/CS_Basic/ComputerNetwork/02.png)
 
 ---
 
@@ -143,7 +143,7 @@ chordsheet: true
 
 应用层传递应用层协议数据单元给运输层，运输层加上运输层协议首部传递给网络层，网络层将数据添加网络层协议首部传递给数据链路层，数据链路层添加**帧头**和**帧尾**。
 
-![04](D:\GeeSite\static\images\CS_Basic\ComputerNetwork\04.png)
+![04](/images/CS_Basic/ComputerNetwork/04.png)
 
 帧头和帧尾的作用之一就是**帧定界**。如下图，红色部分就是P2P帧定界标志。但是以太网MAC帧并没有帧定界标志。
 
@@ -151,7 +151,7 @@ chordsheet: true
 >
 > 实际上以太网V2的MAC帧交付给物理层后会添加前导码，前导码中前7个字节为**前同步码**，作用是使接收方的时针同步，之后的1字节为**帧开始定界符**。
 
-![05](D:\GeeSite\static\images\CS_Basic\ComputerNetwork\05.png)
+![05](/images/CS_Basic/ComputerNetwork/05.png)
 
 **透明传输**
 
@@ -163,7 +163,7 @@ chordsheet: true
 >
 > 下图是P2P帧的格式，在数据部分每遇到5个1可以添加1个0，和帧的首尾区分开，在读取的时候再删除这个0。
 
-![06](D:\GeeSite\static\images\CS_Basic\ComputerNetwork\06.png)
+![06](/images/CS_Basic/ComputerNetwork/06.png)
 
 
 
@@ -175,7 +175,7 @@ chordsheet: true
 
 帧在传输过程中可能会出现误码，所以进行差错检测，在以太网V2的MAC帧中如上图，FCS就是检错码，通过检错算法就可以检查到是否出现了误码。
 
-![07](D:\GeeSite\static\images\CS_Basic\ComputerNetwork\07.png)
+![07](/images/CS_Basic/ComputerNetwork/07.png)
 
 #### 奇偶校验
 
@@ -193,7 +193,7 @@ chordsheet: true
 $$
 G(x) = x^4 + x^2 + x + 1
 $$
-![08](D:\GeeSite\static\images\CS_Basic\ComputerNetwork\08.png)
+![08](/images/CS_Basic/ComputerNetwork/08.png)
 
 ---
 
@@ -221,21 +221,21 @@ $$
 
 如果接收方没有收到数据，发送方一直都收不到接收方传送回来的ACK，于是一直等待，所以要设置超时重传，选择略大于”从发送方到接收方的平均往返时间“，这样当超时的时候，发送方会重新传送数据。
 
-![09](D:\GeeSite\static\images\CS_Basic\ComputerNetwork\09.png)
+![09](/images/CS_Basic/ComputerNetwork/09.png)
 
 如果接收方发送的ACK丢失，发送方就不知道数据是否已经被接收，于是又发送一条DATA0数据给接收方，这时候接收方无法判断该数据是否接受过，所以要将分组带上序号，保证每次接收到的都是新的数据。
 
-![10](D:\GeeSite\static\images\CS_Basic\ComputerNetwork\10.png)
+![10](/images/CS_Basic/ComputerNetwork/10.png)
 
 但是接收方传送的ACK，发送方怎么判断是第几条信息的传送成功呢？当DATA0和DATA1同时发送时，如果都返回的是ACK，当有一条数据没有收到时，就无法判断出是哪条信息丢失了，所以要对ACK也编号。
 
 但是数据链路层中一般不会出现ACK分组迟到的情况，因此在数据链路层中可以不用给ACK分组编号。
 
-![11](D:\GeeSite\static\images\CS_Basic\ComputerNetwork\11.png)
+![11](/images/CS_Basic/ComputerNetwork/11.png)
 
 停止-等待协议的信道利用率太低了，于是出现了其他两种协议，即**后退N帧协议GBN**和**选择重传协议SR**。
 
-![12](D:\GeeSite\static\images\CS_Basic\ComputerNetwork\12.png)
+![12](/images/CS_Basic/ComputerNetwork/12.png)
 
 
 

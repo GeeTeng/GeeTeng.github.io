@@ -10,11 +10,11 @@ chordsheet: true
 
 
 
-#### 序列帧动画 
+## 序列帧动画 
 
 无需计算，直接显示图片逻辑简单。**缺点**：占用空间大，不适合复杂动画。
 
-#### 模型动画
+### 模型动画
 
 - **顶点动画** 
 
@@ -52,7 +52,7 @@ chordsheet: true
 
 ---
 
-#### （关节）Joint
+## （关节）Joint
 
 ![jointandbone](/images/Animation/jointandbone.png)
 
@@ -68,7 +68,7 @@ chordsheet: true
 
 ---
 
-#### 万向节锁（Gimbal Lock）
+## 万向节锁（Gimbal Lock）
 
 在三维空间中使用欧拉角表示旋转时，当旋转顺序导致某两个旋转轴对齐时，会丧失一个自由度，导致旋转不再是完全独立的，从而限制了旋转的自由度。这个现象被称为 **万向节锁**。
 
@@ -78,7 +78,7 @@ chordsheet: true
 
 ---
 
-#### **骨骼动画资产类型**
+## 骨骼动画资产类型
 
 - **Skeleton**
 
@@ -100,7 +100,7 @@ chordsheet: true
 
 ---
 
-#### 动画图表
+## 动画图表
 
 - **EventGraph**
 
@@ -112,9 +112,9 @@ chordsheet: true
 
 ---
 
-#### 动画逻辑中的空间
+## 动画逻辑中的空间
 
-##### **Mesh Space vs Local Space**
+### Mesh Space vs Local Space
 
 - **Mesh Space**
 
@@ -132,15 +132,15 @@ chordsheet: true
 
 ---
 
-#### 动画高级控制
+## 动画高级控制
 
-- ##### **Blend Space**
+- ### Blend Space
 
 ​	定义不同动画之间的平滑混合（如跑步、行走、站立）。
 
 ​	**Aim Offset**：通过 Blend Space 实现瞄准时的身体姿态调整。
 
-- ##### **Montage**
+- ### Montage
 
 ​	依赖具体的 **Anim Sequence**。
 
@@ -150,19 +150,19 @@ chordsheet: true
 
 ---
 
-#### **反向动力学（IK）**
+## 反向动力学（IK）
 
 动态调整骨骼的姿态，使角色的特定部分（如手、脚）精确触碰目标位置。
 
 ##### **IK 节点类型**
 
-- **Two Bone IK**：
+- ### Two Bone IK：
 
 ​	控制具有两个骨骼的链条（如大腿、膝盖、小腿）。
 
 ​	使用场景：脚精确接触地面，膝盖自然弯曲。
 
-- **FABRIK（Forward And Backward Reaching Inverse Kinematics）**：
+- ### FABRIK（Forward And Backward Reaching Inverse Kinematics）：
 
 ​	一种通用的 IK 算法，适合任意长的骨骼链。
 
