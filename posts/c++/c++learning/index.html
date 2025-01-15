@@ -34,7 +34,7 @@
   <meta itemprop="description" content="更新中">
   <meta itemprop="datePublished" content="2024-12-11T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-12-11T00:00:00+00:00">
-  <meta itemprop="wordCount" content="1097">
+  <meta itemprop="wordCount" content="1683">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/" />
 
@@ -212,25 +212,26 @@
     <li><a href="#友元函数">友元函数</a></li>
     <li><a href="#模板函数">模板函数</a>
       <ul>
-        <li>
-          <ul>
-            <li>
-              <ul>
-                <li><a href="#类模板和函数模板区别">类模板和函数模板区别</a></li>
-                <li><a href="#类模板与继承">类模板与继承</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
+        <li><a href="#类模板和函数模板区别">类模板和函数模板区别</a></li>
+        <li><a href="#类模板与继承">类模板与继承</a></li>
+        <li><a href="#模板特例化">模板特例化</a></li>
+        <li><a href="#类模板特例化">类模板特例化</a></li>
       </ul>
     </li>
     <li><a href="#回调函数">回调函数</a></li>
+    <li><a href="#内联函数">内联函数</a></li>
     <li><a href="#一致性哈希">一致性哈希</a></li>
-    <li><a href="#静态多态和动态多态">静态多态和动态多态</a></li>
-    <li><a href="#虚函数">虚函数</a></li>
-    <li><a href="#纯虚函数">纯虚函数</a></li>
-    <li><a href="#虚析构函数">虚析构函数</a></li>
-    <li><a href="#虚函数表">虚函数表</a></li>
+    <li><a href="#多态">多态</a>
+      <ul>
+        <li><a href="#静态多态和动态多态">静态多态和动态多态</a></li>
+        <li><a href="#虚函数">虚函数</a></li>
+        <li><a href="#纯虚函数">纯虚函数</a></li>
+        <li><a href="#虚析构函数">虚析构函数</a></li>
+        <li><a href="#虚函数表">虚函数表</a></li>
+        <li><a href="#总结的疑问">总结的疑问</a></li>
+        <li><a href="#crtp奇特重现模板模式">CRTP(奇特重现模板模式)</a></li>
+      </ul>
+    </li>
     <li><a href="#智能指针">智能指针</a>
       <ul>
         <li><a href="#shared_ptr">shared_ptr</a></li>
@@ -247,6 +248,15 @@
     <li><a href="#lambda函数--匿名函数--闭包">Lambda函数 / 匿名函数 / 闭包</a>
       <ul>
         <li><a href="#变量捕获">变量捕获</a></li>
+      </ul>
+    </li>
+    <li><a href="#左值与右值">左值与右值</a></li>
+    <li><a href="#右值引用">右值引用</a></li>
+    <li><a href="#移动语义">移动语义</a></li>
+    <li><a href="#完美转发">完美转发</a></li>
+    <li><a href="#constexpr">constexpr</a>
+      <ul>
+        <li><a href="#const-和-constexpr-变量之间的主要区别">const 和 constexpr 变量之间的主要区别</a></li>
       </ul>
     </li>
   </ul>
@@ -269,7 +279,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        20 mins read
+                        37 mins read
                     </p>
                 </div>
             </div>
@@ -415,7 +425,7 @@
 <p><code>friend void GoodGuy::visit();</code></p>
 <hr>
 <h2 id="模板函数">模板函数</h2>
-<h5 id="类模板和函数模板区别">类模板和函数模板区别</h5>
+<h3 id="类模板和函数模板区别">类模板和函数模板区别</h3>
 <ul>
 <li>
 <p>类模板没有自动类型推导</p>
@@ -425,7 +435,7 @@
 <p><code>template&lt;class NameType, class AgeType = int&gt;</code></p>
 </li>
 </ul>
-<h5 id="类模板与继承">类模板与继承</h5>
+<h3 id="类模板与继承">类模板与继承</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Base</span>
 </span></span><span style="display:flex;"><span>{
@@ -446,6 +456,63 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;T2类型为&#34;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">typeid</span>(T2).name() <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl; <span style="color:#75715e">// char
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
 </span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="模板特例化">模板特例化</h3>
+<p><strong>全特例化</strong>：全特例化必须为特定类型提供完整的实现，并且不能包含模板参数。</p>
+<p>例如，<code>template &lt;&gt; class MyClass&lt;int&gt;</code> 就是对 <code>MyClass</code> 模板在 <code>int</code> 类型上的完全特例化。</p>
+<p><strong>偏特例化</strong>：偏特例化允许你为模板的部分类型参数提供一个特定实现。例如，<code>template &lt;typename T&gt; class MyClass&lt;T*, int&gt;</code> 就是为所有指针类型和 <code>int</code> 提供一个偏特例化的实现。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T, <span style="color:#66d9ef">typename</span> U<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyClass</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> print()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Generic Template&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyClass</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">*</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> print()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Template specialized for pointer types and int&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyClass</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span>, <span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> print()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Template specialized for char and float&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	MyClass<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;</span> obj1; <span style="color:#75715e">// 使用普通模板
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	MyClass<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">*</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> obj2; <span style="color:#75715e">// 使用偏特例化
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	MyClass<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span>, <span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;</span> obj3; <span style="color:#75715e">// 使用完全特例化模板
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	obj1.print(); <span style="color:#75715e">// 输出 &#34;Generic Template&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	obj2.print(); <span style="color:#75715e">// 输出 &#34;Template specialized for pointer types and int&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	obj3.print(); <span style="color:#75715e">// 输出 &#34;Template specialized for char and float&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h3 id="类模板特例化">类模板特例化</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Foo</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> Bar();
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> Foo<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;::</span>Bar()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Bar的int类型特例化&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><hr>
 <h2 id="回调函数">回调函数</h2>
 <p>在函数中把你的回调函数名称转化为地址作为 一个参数，以便于系统调用。</p>
@@ -463,6 +530,37 @@
 </span></span><span style="display:flex;"><span>	process(<span style="color:#ae81ff">5</span>, myCallbcak);
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><hr>
+<h2 id="内联函数">内联函数</h2>
+<p>内联函数是通过 <code>inline</code> 关键字声明的函数，目的是告诉编译器尝试将函数调用的代码插入到调用点，而不是进行常规的函数调用（即跳转到函数实现的过程）。这种方法通常能<strong>减少函数调用的开销</strong>，尤其是对于短小的函数。</p>
+<p>然而，内联并不是绝对的，<strong>编译器有时会根据函数的复杂度或其他因素决定是否内联展开</strong>。编译器会根据启用内联的提示做优化，但<strong>并不会强制内联</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Base</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> foo()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Base foo&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Derived</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> Base
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> foo() <span style="color:#66d9ef">override</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Derived foo&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Base<span style="color:#f92672">*</span> bPtr <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Derived();
+</span></span><span style="display:flex;"><span>	bPtr<span style="color:#f92672">-&gt;</span>foo(); <span style="color:#75715e">// 通过指针调用虚函数（不会内联展开）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	Derived dObj;
+</span></span><span style="display:flex;"><span>	dObj.foo(); <span style="color:#75715e">// 通过对象调用虚函数（可能内联展开）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">//是当用对象调用虚函数（此时不具有多态性）时，就内联展开
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">delete</span> bPtr;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><hr>
 <h2 id="一致性哈希">一致性哈希</h2>
 <p>一致性哈希用于数据分区，帮助数据库最大限度地减少平衡期间的数据移动。一致性hash的基本思想就是使用相同的hash算法将数据和结点都映射到图中的环形哈希空间中。</p>
 <ul>
@@ -476,12 +574,20 @@
 <p>于是提出<strong>虚拟节点</strong>，通过虚拟节点，每个服务器可以处理环上的多个网段。</p>
 <p><img src="/images/C++basic/consistenthash01.png" alt="consistenthash01"></p>
 <hr>
-<h2 id="静态多态和动态多态">静态多态和动态多态</h2>
+<h2 id="多态">多态</h2>
+<h3 id="静态多态和动态多态">静态多态和动态多态</h3>
 <p>静态多态 -&gt; <strong>函数重载、泛型编程（模板）</strong></p>
 <p>动态多态 -&gt; <strong>虚函数</strong></p>
 <p>静态多态带来了泛型设计的概念，比如STL库。</p>
 <p>**区别：**静态多态调用发生在编译时，效率高；动态多态函数调用发生在运行时，会引入一些性能开销。</p>
-<h2 id="虚函数">虚函数</h2>
+<h3 id="虚函数">虚函数</h3>
+<p>多态的过程：</p>
+<ol>
+<li>编辑器发现基类中有虚函数时，会自动为每个含有虚函数的类生成一份虚表，该表是一个一维数组，保存了虚函数的入口地址。</li>
+<li>在每个对象前4个字节中保存一个虚表指针vptr，指向对象所属类的虚表。在构造时初始化vptr。</li>
+<li>在构造子类对象时，会先调用父类的构造函数，<strong>为父类对象初始化虚表指针</strong>，令它指向父类的虚表；当调用子类的构造函数时，为<strong>子类对象初始化虚表指针</strong>，令它指向子类的虚表。</li>
+<li><strong>当派生类对基类的虚函数没有重写时，派生类的虚表指针指向的是基类的虚表</strong>；<strong>当派生类对基类 的虚函数重写时，派生类的虚表指针指向的是自身的虚表</strong>；</li>
+</ol>
 <p>在多态会使用到虚函数，<strong>通过基类访问派生类定义的函数</strong>。</p>
 <p>它的特点是<strong>动态联编</strong>（函数的调用不是在编译时刻被确定的，而是在运行时刻被确定的）。</p>
 <p><strong>虚函数只能借助指针 / 引用达到多态的效果</strong></p>
@@ -507,7 +613,7 @@
 </span></span><span style="display:flex;"><span>    a<span style="color:#f92672">-&gt;</span>foo();   <span style="color:#75715e">// 在这里，a虽然是指向A的指针，但是被调用的函数(foo)却是B的!
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="纯虚函数">纯虚函数</h2>
+</span></span></code></pre></div><h3 id="纯虚函数">纯虚函数</h3>
 <p>在基类中没有定义，在函数原型后加 =0</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> funtion1()<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>
 </span></span></code></pre></div><blockquote>
@@ -515,16 +621,103 @@
 </blockquote>
 <p>很多情况下，基类本身生成对象是不合理的。比如动物可以派生老虎、狮子等，但是动物生成对象不合理。</p>
 <p><strong>在派生类必须予以重写以实现多态性，含有纯虚函数的类称为抽象类，抽象类是不能生成对象的。</strong></p>
-<h2 id="虚析构函数">虚析构函数</h2>
+<h3 id="虚析构函数">虚析构函数</h3>
 <p><strong>虚析构函数的作用</strong>：当声明析构函数为虚函数时，执行 <code>delete a;</code> 会采用动态联编，首先调用派生类的析构函数，然后再调用基类的析构函数。</p>
 <p>如果没有声明基类的析构函数为虚函数，则在执行 <code>delete a;</code> 时，只会调用基类 <code>A</code> 的析构函数，而不会调用派生类 <code>B</code> 的析构函数。这会导致派生类 <code>B</code> 的资源未被正确释放，从而可能引发内存泄漏。</p>
-<h2 id="虚函数表">虚函数表</h2>
+<h3 id="虚函数表">虚函数表</h3>
 <p>虚函数通过一张虚函数表来实现的，虚表（vtable）是一个<strong>指针数组</strong>，每个元素对应一个虚函数的函数指针，在代码编译阶段构造出来的虚表。</p>
 <p>每个对象都拥有一个虚表指针（vptr），基类和派生类对象的<code>vptr</code>指向各自的虚函数表。当你通过基类指针或引用调用虚函数时，程序会通过该对象的vptr找到虚函数表，从虚函数表中获取函数地址，最后调用对应的虚函数。</p>
+<p>C++中虚函数表位于只读数据段（.rodata），也就是C++内存模型中的常量区；而虚函数则位于代码段 （.text），也就是C++内存模型中的代码区。</p>
 <p><img src="/images/C++basic/vfptr.png" alt="vfptr"></p>
 <p><img src="/images/C++basic/vfptr1.png" alt="vfptr1"></p>
+<h3 id="总结的疑问">总结的疑问</h3>
+<p>一些我自己总结的疑问：</p>
+<p><strong>1.子类虚表中会有父类的虚函数地址吗？</strong></p>
+<p>回答：子类和父类各有自己的虚函数表。</p>
+<p>子类虚表的结构</p>
+<ul>
+<li><strong>继承未重写的虚函数</strong>
+如果子类没有重写父类的某些虚函数，子类的虚表中相应的条目会直接指向父类的实现。</li>
+<li><strong>重写的虚函数</strong>
+当子类重写父类的虚函数时，子类的虚表会将父类虚函数的条目替换为子类实现的版本。</li>
+<li><strong>新增的虚函数</strong>
+子类的虚表会新增条目，记录子类特有的虚函数。</li>
+</ul>
+<p>当子类对象要调用自己的虚函数的时候，直接会在自己的虚表中查到。</p>
+<p><strong>2.为什么析构函数一般写成虚函数？</strong></p>
+<p>如果析构函数不被声明成虚函数，则编译器实施静态绑定，在删除基类指针时，只会调用基类的析构函数而不调用派生类析构函数，这样就会造成派生类对象析构不完全，造成内存泄漏。</p>
+<p>如果析构函数是虚函数，<strong>会从子类开始调用析构函数，然后依次调用父类的析构函数</strong>，保证对象的完全销毁。</p>
+<p><strong>3.那为什么构造函数不需要写成虚函数</strong></p>
+<p>**构造顺序：**从父类开始，依次向下构造子类。</p>
+<p>**析构顺序：**从子类开始，依次向上析构父类。</p>
+<p>而且对象在构造时并未完全构造出来，因此无法正确地调用虚函数。</p>
+<p>如果派生类构造函数是虚函数，创建派生类对象的时候，还没有初始化虚表和虚指针，就无法调用自己重写的虚函数，可能是调用基类的虚函数，调用错误的虚函数了。其次第二个可能发生的就是如果基类的构造函数是虚函数那么创建基类对象的时候无法调用虚函数，因为还没构造出虚表和虚指针。</p>
 <hr>
+<h3 id="crtp奇特重现模板模式">CRTP(奇特重现模板模式)</h3>
+<p>CRTP最常见的应用场景之一是实现静态多态性。在传统的多态性实现中，通常使用虚函数和动态绑定，而CRTP则通过模板和静态绑定实现同样的功能，避免了运行时开销。例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Shape</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> draw()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">*&gt;</span>(<span style="color:#66d9ef">this</span>)<span style="color:#f92672">-&gt;</span>draw();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Circle</span> <span style="color:#f92672">:</span><span style="color:#66d9ef">public</span> Shape<span style="color:#f92672">&lt;</span>Circle<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> draw()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;画圆</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>在游戏开发中，CRTP可以用于实现高效的游戏对象管理和行为控制，通过CRTP，可以在编译期间确定游戏对象的具体行为，减少运行时的多态性开销，从而提高游戏的执行效率。如下面在游戏开发中的典型应用场景：</p>
+<p>游戏中的每个对象，如玩家和敌人，都需要在每一帧中进行更新操作。传统的多态性通常通过虚函数实现，这会在每次调用时引入一定的运行时开销。而使用CRTP，可以在编译期间确定对象的具体类型和行为，避免运行时的虚函数调用，从而提高效率。例如：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">GameObject</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> update() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span>T<span style="color:#f92672">*&gt;</span>(<span style="color:#66d9ef">this</span>)<span style="color:#f92672">-&gt;</span>update_impl();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Player</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> GameObject<span style="color:#f92672">&lt;</span>Player<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> update_impl() {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Implementation of player update logic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Enemy</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> GameObject<span style="color:#f92672">&lt;</span>Enemy<span style="color:#f92672">&gt;</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> update_impl() {
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// Implementation of enemy update logic
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>在上面例子中需要显示转换成派生类类型，才能调用派生类方法，但是<strong>C++23 deducing this</strong>特性可以不用显式使用static_cast。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Base</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> interface(<span style="color:#66d9ef">this</span> T<span style="color:#f92672">&amp;</span> self)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		self.impl();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Derived</span> <span style="color:#f92672">:</span><span style="color:#66d9ef">public</span> Base<span style="color:#f92672">&lt;</span>Derived<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> impl()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Derived class specific implementation</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><hr>
 <h2 id="智能指针">智能指针</h2>
+<p>C++ 标准库中的智能指针（如 <code>std::unique_ptr</code> 和 <code>std::shared_ptr</code>）是 RAII 的典型应用。</p>
 <h3 id="shared_ptr">shared_ptr</h3>
 <p><strong>实现原理</strong>：共享式指针：采用引用计数器的方法，允许多个智能指针指向同一个对象，每当多一个指针指向该对象时，指向该对象的所有智能指针内部的引用计数加1，每当减少一个智能指针指向对象时，引用计数会减1，当计数为0的时候会自动的释放动态分配的资源。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;memory&gt;
@@ -762,7 +955,98 @@
 </span></span><span style="display:flex;"><span>	};
 </span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> g(<span style="color:#ae81ff">10</span>) <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
 </span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> M <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</span></span></code></pre></div>
+</span></span></code></pre></div><hr>
+<h2 id="左值与右值">左值与右值</h2>
+<p>左值可以取地址&amp;，右值通常是一个临时对象，无法取地址。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;  <span style="color:#75715e">// a 是左值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>a; <span style="color:#75715e">// 可以对左值取地址
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> b <span style="color:#f92672">=</span> a <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>; <span style="color:#75715e">// (a + 5) 是右值，结果是一个临时值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>(a <span style="color:#f92672">+</span> <span style="color:#ae81ff">5</span>); <span style="color:#75715e">// 错误，不能对右值取地址
+</span></span></span></code></pre></div><p>C++11之后将右值进一步细分：纯右值、将亡值</p>
+<p><strong>纯右值</strong>：某个对象的值/计算表达式的结果</p>
+<p><strong>将亡值</strong>：即将销毁的右值，资源很快会被回收，如下：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>std<span style="color:#f92672">::</span>string createString() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;Hello&#34;</span>; <span style="color:#75715e">// 返回一个临时的 std::string 对象（将亡值）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;&amp;</span> rvalueRef <span style="color:#f92672">=</span> createString(); <span style="color:#75715e">// 捕获将亡值
+</span></span></span></code></pre></div><hr>
+<h2 id="右值引用">右值引用</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PrintName</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> name) {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;[lvalue] &#34;</span> <span style="color:#f92672">&lt;&lt;</span> name <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PrintName</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;&amp;</span> name) {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;[rvalue] &#34;</span> <span style="color:#f92672">&lt;&lt;</span> name <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>string firstName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Yan&#34;</span>;
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>string lastName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Chernikov&#34;</span>;
+</span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>string fullName <span style="color:#f92672">=</span> firstName <span style="color:#f92672">+</span> lastName;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>PrintName(fullName); <span style="color:#75715e">// [lvalue] YanChernikov
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>PrintName(firstName <span style="color:#f92672">+</span> lastName); <span style="color:#75715e">// [rvalue] YanChernikov
+</span></span></span></code></pre></div><h2 id="移动语义">移动语义</h2>
+<p><strong>移动语义</strong>：C++11引入了右值引用（<code>T&amp;&amp;</code>）和 <code>std::move</code>，用于高效地转移临时对象的资源，而不是进行昂贵的深拷贝。<strong>避免复制</strong>。</p>
+<p>比如UniquePtr智能指针就实现了移动语义，UniquePtr类中含有<strong>移动构造函数</strong>和<strong>移动赋值运算符</strong>，可以通过<strong>move</strong>来转移所有权给另一个对象。</p>
+<p>使用 <code>std::move</code> 的对象会进入“将亡”状态</p>
+<hr>
+<h2 id="完美转发">完美转发</h2>
+<p>完美转发目的是让一个函数能够<strong>将其接收到的参数原封不动地转发给另一个函数</strong>。</p>
+<p>主要用于<strong>模板函数</strong>，通过结合<strong>万能引用</strong>和<code>std::forward</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">f</span>(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> s)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;左值&#34;</span> <span style="color:#f92672">&lt;&lt;</span> s <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">f</span>(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;&amp;</span> s)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;右值&#34;</span> <span style="color:#f92672">&lt;&lt;</span> s <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">g</span>(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;</span> s)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	f(<span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;&gt;</span>(s));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">g</span>(<span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;&amp;</span> s)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	f(<span style="color:#66d9ef">static_cast</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">const</span> string<span style="color:#f92672">&amp;&amp;&gt;</span>(s));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	g(string(<span style="color:#e6db74">&#34;Hello1&#34;</span>)); <span style="color:#75715e">// 右值Hello1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	string s1(<span style="color:#e6db74">&#34;Hello2&#34;</span>);
+</span></span><span style="display:flex;"><span>	g(s1); <span style="color:#75715e">// 左值Hello2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在完美转发中专门有forward做类型转换，防止编译器自动类型转换 <code>f(std::forward&lt;const string&amp;&amp;&gt;(s));</code></p>
+<p>当有多个函数参数时，我们不可能写很多句类型转换的代码对参数一个个强制转换，所以要结合函数模板使用。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 万能引用 既可以绑定右值又可以绑定左值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> g(T<span style="color:#f92672">&amp;&amp;</span> v)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	f(std<span style="color:#f92672">::</span>forward<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>(v));
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>以<code>g(string(&quot;Hello1&quot;));</code>为例，在这个过程中发生了，将string传递给g，T变成string，调用右值的函数。</p>
+<p>如果是s1则是string&amp;传递进去，T变成string&amp; &amp;&amp;，<strong>引用折叠规则</strong>变成了string&amp;，调用左值的函数。</p>
+<hr>
+<h2 id="constexpr">constexpr</h2>
+<p>当用constexpr声明一个函数/变量时，编译器可以<strong>在编译时就计算出它的值</strong>，提高程序的运行效率。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">GetLen</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 不加constexpr就无法声明arr 加了之后就会返回常数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> arr[GetLen(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>)];
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="const-和-constexpr-变量之间的主要区别">const 和 constexpr 变量之间的主要区别</h3>
+<ul>
+<li>const 变量的初始化可以延迟到运行时，而 constexpr 变量必须在编译时进行初始化。</li>
+<li>const修饰一个对象表示它是常量。constexpr是修饰一个常量表达式。</li>
+</ul>
+
         </div>
     </div>
 </div><div id="social-media-share" class="has-text-centered">

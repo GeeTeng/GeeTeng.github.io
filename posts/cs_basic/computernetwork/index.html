@@ -34,7 +34,7 @@
   <meta itemprop="description" content="计算机网络知识 胡科大教书匠笔记">
   <meta itemprop="datePublished" content="2025-01-13T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-01-13T00:00:00+00:00">
-  <meta itemprop="wordCount" content="109">
+  <meta itemprop="wordCount" content="120">
   <meta itemprop="keywords" content="CS Basic">
 <link rel="canonical" href="https://geeteng.github.io/posts/cs_basic/computernetwork/" />
 
@@ -247,9 +247,11 @@
         <li><a href="#可靠传输">可靠传输</a>
           <ul>
             <li><a href="#停止-等待协议sw">停止-等待协议SW</a></li>
-            <li><a href="#使用广播信道的数据链路层共享式局域网">使用广播信道的数据链路层（共享式局域网）</a></li>
           </ul>
         </li>
+        <li><a href="#回退n帧协议gbngo-back-n">回退N帧协议GBN（Go-Back-N）</a></li>
+        <li><a href="#选择重传协议sr">选择重传协议SR</a></li>
+        <li><a href="#使用广播信道的数据链路层共享式局域网">使用广播信道的数据链路层（共享式局域网）</a></li>
       </ul>
     </li>
   </ul>
@@ -272,7 +274,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        13 mins read
+                        14 mins read
                     </p>
                 </div>
             </div>
@@ -423,7 +425,16 @@ $$
 <p><img src="/images/CS_Basic/ComputerNetwork/11.png" alt="11"></p>
 <p>停止-等待协议的信道利用率太低了，于是出现了其他两种协议，即<strong>后退N帧协议GBN</strong>和<strong>选择重传协议SR</strong>。</p>
 <p><img src="/images/CS_Basic/ComputerNetwork/12.png" alt="12"></p>
-<h4 id="使用广播信道的数据链路层共享式局域网">使用广播信道的数据链路层（共享式局域网）</h4>
+<hr>
+<h3 id="回退n帧协议gbngo-back-n">回退N帧协议GBN（Go-Back-N）</h3>
+<p>如果Wt = 1，则跟停止等待协议相同了。</p>
+<p>如果Wt &gt; 2^n - 1则接收方无法分辨新、旧数据分组。</p>
+<p><img src="/images/CS_Basic/ComputerNetwork/13.png" alt="13"></p>
+<p>缺点：<strong>一个数据分组的误码会导致后续多个数据不能被接收方按序接收而丢弃</strong>。为了提高性能，接收窗口的尺寸不应该再等于1（而应该大于1），以便接收方线收下失序到达但无误码的那些数据分组，等所缺分组收齐后再一并送交上层，于是引出选择重传协议。</p>
+<hr>
+<h3 id="选择重传协议sr">选择重传协议SR</h3>
+<hr>
+<h3 id="使用广播信道的数据链路层共享式局域网">使用广播信道的数据链路层（共享式局域网）</h3>
 <p><strong>CSMA/CD（载波监听多点接入/碰撞检测）</strong></p>
 <p>使用无线局域网</p>
 <p>CSMA/CA（载波监听多点接入/碰撞避免）</p>
