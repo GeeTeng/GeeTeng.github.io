@@ -178,7 +178,7 @@ int main()
 
 ## 模板函数
 
-##### 类模板和函数模板区别
+### 类模板和函数模板区别
 
 - 类模板没有自动类型推导
 
@@ -188,7 +188,7 @@ int main()
 
 
 
-##### 类模板与继承
+### 类模板与继承
 
 ```c++
 template<class T>
@@ -212,6 +212,78 @@ public:
 	}
 };
 ```
+
+
+
+### 模板特例化
+
+**全特例化**：全特例化必须为特定类型提供完整的实现，并且不能包含模板参数。
+
+例如，`template <> class MyClass<int>` 就是对 `MyClass` 模板在 `int` 类型上的完全特例化。
+
+**偏特例化**：偏特例化允许你为模板的部分类型参数提供一个特定实现。例如，`template <typename T> class MyClass<T*, int>` 就是为所有指针类型和 `int` 提供一个偏特例化的实现。
+
+```c++
+template <typename T, typename U>
+class MyClass
+{
+public:
+	void print()
+	{
+		cout << "Generic Template" << endl;
+	}
+};
+
+template<typename T>
+class MyClass<T*, int>
+{
+public:
+	void print()
+	{
+		cout << "Template specialized for pointer types and int" << endl;
+	}
+};
+
+template<>
+class MyClass<char, float>
+{
+public:
+	void print()
+	{
+		cout << "Template specialized for char and float" << endl;
+	}
+};
+
+int main()
+{
+	MyClass<int, float> obj1; // 使用普通模板
+	MyClass<int*, int> obj2; // 使用偏特例化
+	MyClass<char, float> obj3; // 使用完全特例化模板
+
+	obj1.print(); // 输出 "Generic Template"
+	obj2.print(); // 输出 "Template specialized for pointer types and int"
+	obj3.print(); // 输出 "Template specialized for char and float"
+}
+```
+
+### 类模板特例化
+
+```c++
+template<typename T>
+class Foo
+{
+public:
+	void Bar();
+};
+
+template<>
+void Foo<int>::Bar()
+{
+	cout << "Bar的int类型特例化" << endl;
+}
+```
+
+
 
 ---
 
@@ -237,6 +309,46 @@ int main()
 
 ---
 
+## 内联函数
+
+内联函数是通过 `inline` 关键字声明的函数，目的是告诉编译器尝试将函数调用的代码插入到调用点，而不是进行常规的函数调用（即跳转到函数实现的过程）。这种方法通常能**减少函数调用的开销**，尤其是对于短小的函数。
+
+然而，内联并不是绝对的，**编译器有时会根据函数的复杂度或其他因素决定是否内联展开**。编译器会根据启用内联的提示做优化，但**并不会强制内联**。
+
+```c++
+class Base
+{
+public:
+	virtual inline void foo()
+	{
+		cout << "Base foo" << endl;
+	}
+};
+class Derived : public Base
+{
+public:
+	inline void foo() override
+	{
+		cout << "Derived foo" << endl;
+	}
+};
+int main()
+{
+	Base* bPtr = new Derived();
+	bPtr->foo(); // 通过指针调用虚函数（不会内联展开）
+
+	Derived dObj;
+	dObj.foo(); // 通过对象调用虚函数（可能内联展开）
+	//是当用对象调用虚函数（此时不具有多态性）时，就内联展开
+	delete bPtr;
+	return 0;
+}
+```
+
+
+
+---
+
 ## 一致性哈希
 
 一致性哈希用于数据分区，帮助数据库最大限度地减少平衡期间的数据移动。一致性hash的基本思想就是使用相同的hash算法将数据和结点都映射到图中的环形哈希空间中。
@@ -258,7 +370,9 @@ int main()
 
 ---
 
-## 静态多态和动态多态
+## 多态
+
+### 静态多态和动态多态
 
 静态多态 -> **函数重载、泛型编程（模板）**
 
@@ -268,7 +382,16 @@ int main()
 
 **区别：**静态多态调用发生在编译时，效率高；动态多态函数调用发生在运行时，会引入一些性能开销。
 
-## 虚函数
+### 虚函数
+
+多态的过程：
+
+1. 编辑器发现基类中有虚函数时，会自动为每个含有虚函数的类生成一份虚表，该表是一个一维数组，保存了虚函数的入口地址。
+2. 在每个对象前4个字节中保存一个虚表指针vptr，指向对象所属类的虚表。在构造时初始化vptr。
+3. 在构造子类对象时，会先调用父类的构造函数，**为父类对象初始化虚表指针**，令它指向父类的虚表；当调用子类的构造函数时，为**子类对象初始化虚表指针**，令它指向子类的虚表。
+4. **当派生类对基类的虚函数没有重写时，派生类的虚表指针指向的是基类的虚表**；**当派生类对基类 的虚函数重写时，派生类的虚表指针指向的是自身的虚表**；
+
+
 
 在多态会使用到虚函数，**通过基类访问派生类定义的函数**。
 
@@ -303,7 +426,7 @@ int main(void)
 
 
 
-## 纯虚函数
+### 纯虚函数
 
 在基类中没有定义，在函数原型后加 =0
 
@@ -319,7 +442,7 @@ virtual void funtion1()=0
 
 
 
-## 虚析构函数
+### 虚析构函数
 
 **虚析构函数的作用**：当声明析构函数为虚函数时，执行 `delete a;` 会采用动态联编，首先调用派生类的析构函数，然后再调用基类的析构函数。
 
@@ -327,19 +450,140 @@ virtual void funtion1()=0
 
 
 
-## 虚函数表
+### 虚函数表
 
 虚函数通过一张虚函数表来实现的，虚表（vtable）是一个**指针数组**，每个元素对应一个虚函数的函数指针，在代码编译阶段构造出来的虚表。
 
 每个对象都拥有一个虚表指针（vptr），基类和派生类对象的`vptr`指向各自的虚函数表。当你通过基类指针或引用调用虚函数时，程序会通过该对象的vptr找到虚函数表，从虚函数表中获取函数地址，最后调用对应的虚函数。
 
+C++中虚函数表位于只读数据段（.rodata），也就是C++内存模型中的常量区；而虚函数则位于代码段 （.text），也就是C++内存模型中的代码区。
+
 ![vfptr](/images/C++basic/vfptr.png)
 
 ![vfptr1](/images/C++basic/vfptr1.png)
 
+
+
+### 总结的疑问
+
+一些我自己总结的疑问：
+
+**1.子类虚表中会有父类的虚函数地址吗？**
+
+回答：子类和父类各有自己的虚函数表。
+
+子类虚表的结构
+
+- **继承未重写的虚函数**
+  如果子类没有重写父类的某些虚函数，子类的虚表中相应的条目会直接指向父类的实现。
+- **重写的虚函数**
+  当子类重写父类的虚函数时，子类的虚表会将父类虚函数的条目替换为子类实现的版本。
+- **新增的虚函数**
+  子类的虚表会新增条目，记录子类特有的虚函数。
+
+当子类对象要调用自己的虚函数的时候，直接会在自己的虚表中查到。
+
+**2.为什么析构函数一般写成虚函数？**
+
+如果析构函数不被声明成虚函数，则编译器实施静态绑定，在删除基类指针时，只会调用基类的析构函数而不调用派生类析构函数，这样就会造成派生类对象析构不完全，造成内存泄漏。
+
+如果析构函数是虚函数，**会从子类开始调用析构函数，然后依次调用父类的析构函数**，保证对象的完全销毁。
+
+**3.那为什么构造函数不需要写成虚函数**
+
+**构造顺序：**从父类开始，依次向下构造子类。
+
+**析构顺序：**从子类开始，依次向上析构父类。
+
+而且对象在构造时并未完全构造出来，因此无法正确地调用虚函数。
+
+如果派生类构造函数是虚函数，创建派生类对象的时候，还没有初始化虚表和虚指针，就无法调用自己重写的虚函数，可能是调用基类的虚函数，调用错误的虚函数了。其次第二个可能发生的就是如果基类的构造函数是虚函数那么创建基类对象的时候无法调用虚函数，因为还没构造出虚表和虚指针。
+
+---
+
+### CRTP(奇特重现模板模式)
+
+CRTP最常见的应用场景之一是实现静态多态性。在传统的多态性实现中，通常使用虚函数和动态绑定，而CRTP则通过模板和静态绑定实现同样的功能，避免了运行时开销。例如：
+
+```c++
+template<typename T>
+class Shape
+{
+public:
+	void draw()
+	{
+		static_cast<T*>(this)->draw();
+	}
+};
+
+class Circle :public Shape<Circle>
+{
+public:
+	void draw()
+	{
+		std::cout << "画圆\n";
+	}
+};
+```
+
+在游戏开发中，CRTP可以用于实现高效的游戏对象管理和行为控制，通过CRTP，可以在编译期间确定游戏对象的具体行为，减少运行时的多态性开销，从而提高游戏的执行效率。如下面在游戏开发中的典型应用场景：
+
+游戏中的每个对象，如玩家和敌人，都需要在每一帧中进行更新操作。传统的多态性通常通过虚函数实现，这会在每次调用时引入一定的运行时开销。而使用CRTP，可以在编译期间确定对象的具体类型和行为，避免运行时的虚函数调用，从而提高效率。例如：
+
+```c++
+template <typename T>
+class GameObject {
+public:
+    void update() {
+        static_cast<T*>(this)->update_impl();
+    }
+};
+ 
+class Player : public GameObject<Player> {
+public:
+    void update_impl() {
+        // Implementation of player update logic
+    }
+};
+ 
+class Enemy : public GameObject<Enemy> {
+public:
+    void update_impl() {
+        // Implementation of enemy update logic
+    }
+};
+```
+
+在上面例子中需要显示转换成派生类类型，才能调用派生类方法，但是**C++23 deducing this**特性可以不用显式使用static_cast。
+
+```c++
+template <typename T>
+class Base
+{
+public:
+	void interface(this T& self)
+	{
+		self.impl();
+	}
+};
+
+class Derived :public Base<Derived>
+{
+public:
+	void impl()
+	{
+		std::cout << "Derived class specific implementation\n";
+	}
+};
+```
+
+
+
 ---
 
 ## 智能指针
+
+C++ 标准库中的智能指针（如 `std::unique_ptr` 和 `std::shared_ptr`）是 RAII 的典型应用。
 
 ### shared_ptr
 
@@ -617,3 +861,137 @@ std::cout << f1(1, 2) << std::endl;
 	std::cout << M << std::endl;
 ```
 
+---
+
+## 左值与右值
+
+ 左值可以取地址&，右值通常是一个临时对象，无法取地址。
+
+```c++
+int a = 10;  // a 是左值
+int* p = &a; // 可以对左值取地址
+
+int b = a + 5; // (a + 5) 是右值，结果是一个临时值
+int* p = &(a + 5); // 错误，不能对右值取地址
+```
+
+C++11之后将右值进一步细分：纯右值、将亡值
+
+**纯右值**：某个对象的值/计算表达式的结果
+
+**将亡值**：即将销毁的右值，资源很快会被回收，如下：
+
+```c++
+std::string createString() {
+    return "Hello"; // 返回一个临时的 std::string 对象（将亡值）
+}
+
+std::string&& rvalueRef = createString(); // 捕获将亡值
+```
+
+---
+
+## 右值引用
+
+```c++
+void PrintName(const std::string& name) {
+    std::cout << "[lvalue] " << name << std::endl;
+}
+void PrintName(const std::string&& name) {
+    std::cout << "[rvalue] " << name << std::endl;
+}
+ 
+std::string firstName = "Yan";
+std::string lastName = "Chernikov";
+std::string fullName = firstName + lastName;
+ 
+PrintName(fullName); // [lvalue] YanChernikov
+PrintName(firstName + lastName); // [rvalue] YanChernikov
+```
+
+
+
+
+## 移动语义
+
+**移动语义**：C++11引入了右值引用（`T&&`）和 `std::move`，用于高效地转移临时对象的资源，而不是进行昂贵的深拷贝。**避免复制**。
+
+比如UniquePtr智能指针就实现了移动语义，UniquePtr类中含有**移动构造函数**和**移动赋值运算符**，可以通过**move**来转移所有权给另一个对象。
+
+使用 `std::move` 的对象会进入“将亡”状态
+
+---
+
+## 完美转发
+
+完美转发目的是让一个函数能够**将其接收到的参数原封不动地转发给另一个函数**。
+
+主要用于**模板函数**，通过结合**万能引用**和`std::forward`。
+
+```c++
+void f(const string& s)
+{
+	cout << "左值" << s << endl;
+}
+void f(const string&& s)
+{
+	cout << "右值" << s << endl;
+}
+void g(const string& s)
+{
+	f(static_cast<const string&>(s));
+}
+void g(const string&& s)
+{
+	f(static_cast<const string&&>(s));
+}
+int main()
+{
+	g(string("Hello1")); // 右值Hello1
+	string s1("Hello2");
+	g(s1); // 左值Hello2
+	return 0;
+}
+```
+
+在完美转发中专门有forward做类型转换，防止编译器自动类型转换 `f(std::forward<const string&&>(s));`
+
+当有多个函数参数时，我们不可能写很多句类型转换的代码对参数一个个强制转换，所以要结合函数模板使用。
+
+```c++
+template<class T>
+// 万能引用 既可以绑定右值又可以绑定左值
+void g(T&& v)
+{
+	f(std::forward<T>(v));
+}
+```
+
+以`g(string("Hello1"));`为例，在这个过程中发生了，将string传递给g，T变成string，调用右值的函数。
+
+如果是s1则是string&传递进去，T变成string& &&，**引用折叠规则**变成了string&，调用左值的函数。
+
+---
+
+## constexpr
+
+当用constexpr声明一个函数/变量时，编译器可以**在编译时就计算出它的值**，提高程序的运行效率。
+
+```c++
+constexpr int GetLen(int a, int b)
+{
+	return a + b;
+}
+
+int main()
+{
+	// 不加constexpr就无法声明arr 加了之后就会返回常数
+	int arr[GetLen(1, 2)];
+	return 0;
+}
+```
+
+### const 和 constexpr 变量之间的主要区别
+
+- const 变量的初始化可以延迟到运行时，而 constexpr 变量必须在编译时进行初始化。
+- const修饰一个对象表示它是常量。constexpr是修饰一个常量表达式。
