@@ -918,7 +918,7 @@ PrintName(firstName + lastName); // [rvalue] YanChernikov
 
 比如UniquePtr智能指针就实现了移动语义，UniquePtr类中含有**移动构造函数**和**移动赋值运算符**，可以通过**move**来转移所有权给另一个对象。
 
-使用 `std::move` 的对象会进入“将亡”状态
+使用 `std::move` 的对象会进入“将亡”状态。
 
 ---
 
