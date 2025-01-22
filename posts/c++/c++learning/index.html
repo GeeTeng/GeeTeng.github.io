@@ -989,7 +989,7 @@
 </span></span></span></code></pre></div><h2 id="移动语义">移动语义</h2>
 <p><strong>移动语义</strong>：C++11引入了右值引用（<code>T&amp;&amp;</code>）和 <code>std::move</code>，用于高效地转移临时对象的资源，而不是进行昂贵的深拷贝。<strong>避免复制</strong>。</p>
 <p>比如UniquePtr智能指针就实现了移动语义，UniquePtr类中含有<strong>移动构造函数</strong>和<strong>移动赋值运算符</strong>，可以通过<strong>move</strong>来转移所有权给另一个对象。</p>
-<p>使用 <code>std::move</code> 的对象会进入“将亡”状态</p>
+<p>使用 <code>std::move</code> 的对象会进入“将亡”状态。</p>
 <hr>
 <h2 id="完美转发">完美转发</h2>
 <p>完美转发目的是让一个函数能够<strong>将其接收到的参数原封不动地转发给另一个函数</strong>。</p>
