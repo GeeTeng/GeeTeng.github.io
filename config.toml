@@ -27,7 +27,7 @@ enableemoji = false
     tag = "tags"
 [markup]
   [markup.tableOfContents]
-    startLevel = 2
+    startLevel = 1
     endLevel = 5
 
 [markup.goldmark.renderer]
