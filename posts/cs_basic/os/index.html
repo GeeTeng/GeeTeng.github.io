@@ -34,7 +34,7 @@
   <meta itemprop="description" content="操作系统知识笔记">
   <meta itemprop="datePublished" content="2025-01-10T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-01-10T00:00:00+00:00">
-  <meta itemprop="wordCount" content="138">
+  <meta itemprop="wordCount" content="250">
   <meta itemprop="keywords" content="CS Basic">
 <link rel="canonical" href="https://geeteng.github.io/posts/cs_basic/os/" />
 
@@ -202,37 +202,52 @@
     <nav id="TableOfContents" class="table-of-contents">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#11-操作系统概念特征">1.1 操作系统概念、特征</a>
+    <li><a href="#1-第一章-操作系统概述">1. 第一章 操作系统概述</a>
       <ul>
-        <li><a href="#并发">并发</a></li>
-        <li><a href="#共享">共享</a></li>
-        <li><a href="#虚拟">虚拟</a></li>
-        <li><a href="#异步">异步</a></li>
-        <li><a href="#操作系统的目标和功能">操作系统的目标和功能</a></li>
-        <li><a href="#操作系统的结构">操作系统的结构</a></li>
+        <li><a href="#11-操作系统概念特征">1.1 操作系统概念、特征</a>
+          <ul>
+            <li><a href="#操作系统的目标和功能">操作系统的目标和功能</a></li>
+            <li><a href="#操作系统的结构">操作系统的结构</a></li>
+          </ul>
+        </li>
+        <li><a href="#13-操作系统的运行环境">1.3 操作系统的运行环境</a>
+          <ul>
+            <li><a href="#中断和异常">中断和异常</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
-    <li><a href="#13-操作系统的运行环境">1.3 操作系统的运行环境</a>
+    <li><a href="#2-第二章-进程管理">2. 第二章 进程管理</a>
       <ul>
-        <li><a href="#中断和异常">中断和异常</a></li>
-      </ul>
-    </li>
-  </ul>
-
-  <ul>
-    <li><a href="#进程与线程">进程与线程</a>
-      <ul>
-        <li><a href="#进程的特征">进程的特征</a></li>
-        <li><a href="#进程的组织">进程的组织</a></li>
-        <li><a href="#进程控制">进程控制</a></li>
-        <li><a href="#进程的状态与转换">进程的状态与转换</a></li>
-        <li><a href="#进程的通信">进程的通信</a></li>
-      </ul>
-    </li>
-    <li><a href="#死锁">死锁</a>
-      <ul>
-        <li><a href="#死锁发生的4个必要条件"><strong>死锁发生的4个必要条件：</strong></a></li>
-        <li><a href="#怎么避免死锁">怎么避免死锁？</a></li>
+        <li><a href="#21-进程与线程">2.1 进程与线程</a>
+          <ul>
+            <li><a href="#进程的特征">进程的特征</a></li>
+            <li><a href="#进程的组织">进程的组织</a></li>
+            <li><a href="#进程控制">进程控制</a></li>
+            <li><a href="#进程的状态与转换">进程的状态与转换</a></li>
+            <li><a href="#进程的通信">进程的通信</a></li>
+            <li><a href="#线程概念和多线程模型">线程概念和多线程模型</a></li>
+          </ul>
+        </li>
+        <li><a href="#22-调度">2.2 调度</a>
+          <ul>
+            <li><a href="#进程调度的方式">进程调度的方式</a></li>
+            <li><a href="#调度算法评价指标">调度算法评价指标</a></li>
+            <li><a href="#先来先服务fcfs">先来先服务FCFS</a></li>
+            <li><a href="#短作业优先sjf">短作业优先SJF</a></li>
+            <li><a href="#高响应比优先hrrn">高响应比优先HRRN</a></li>
+            <li><a href="#时间片轮转调度算法rr">时间片轮转调度算法（RR）</a></li>
+            <li><a href="#优先级调度算法">优先级调度算法</a></li>
+            <li><a href="#多级反馈队列调度算法">多级反馈队列调度算法</a></li>
+            <li><a href="#多级队列调度算法">多级队列调度算法</a></li>
+          </ul>
+        </li>
+        <li><a href="#24-死锁">2.4 死锁</a>
+          <ul>
+            <li><a href="#死锁发生的4个必要条件">死锁发生的4个必要条件：</a></li>
+            <li><a href="#怎么避免死锁">怎么避免死锁？</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -255,7 +270,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        17 mins read
+                        29 mins read
                     </p>
                 </div>
             </div>
@@ -277,14 +292,16 @@
         <div class="blog-text">
             
 
-            <hr>
-<hr>
-<h1 id="1-第一章-操作系统概述">1. 第一章 操作系统概述</h1>
+            <h1 id="1-第一章-操作系统概述">1. 第一章 操作系统概述</h1>
 <h2 id="11-操作系统概念特征">1.1 操作系统概念、特征</h2>
 <p>操作系统是指<strong>控制和管理整个计算机系统的硬件和软件资源</strong>，并<strong>合理的组织调度计算机的工作和资源的分配</strong>，以提供给用户和其他软件方便的接口和环境集合。</p>
-<h3 id="并发">并发</h3>
+<ul>
+<li><strong>并发</strong></li>
+</ul>
 <p>并发是指<strong>两个或多个事件在同一时间间隔内发生</strong>。操作系统的并发是通过分时得以实现的。操作系统的并发性是指计算机系统中同时存在多个运行着的程序，因此它具有处理和调度多个程序同时执行的能力。</p>
-<h3 id="共享">共享</h3>
+<ul>
+<li><strong>共享</strong></li>
+</ul>
 <p>资源共享就是共享，系统中的资源<strong>可供内存中多个并发执行的进程同时使用</strong>，可分为以下两种。</p>
 <ol>
 <li>
@@ -296,12 +313,16 @@
 <p>交替的对该资源进行访问 “分时共享”。</p>
 </li>
 </ol>
-<h3 id="虚拟">虚拟</h3>
+<ul>
+<li><strong>虚拟</strong></li>
+</ul>
 <p>操作系统中利用了多种虚拟技术，分别用来实现<strong>虚拟处理机</strong>、<strong>虚拟内存</strong>和<strong>虚拟外部设备</strong>。</p>
 <p>在虚拟处理器技术中，<strong>让多道程序并发执行来分时使用一台处理器</strong>，虽然只有一台处理器，但是能同时为多个用户服务。把一台物理上的CPU虚拟为多态逻辑上的CPU称为虚拟处理器。</p>
 <p>虚拟存储器，从逻辑上来扩充存储器的容量。</p>
 <p>虚拟设备技术，将一台物理IO设备虚拟为多台逻辑上的IO设备，允许多个用户同时访问的共享设备。</p>
-<h3 id="异步">异步</h3>
+<ul>
+<li><strong>异步</strong></li>
+</ul>
 <p>在多道程序环境下，允许多个程序并发执行，但由于资源有限，进程的执行不是一贯到底，而是走走停停，以不可预知的速度向前推进，这就是进程的异步性。</p>
 <h3 id="操作系统的目标和功能">操作系统的目标和功能</h3>
 <p>为了给多道程序提供良好的运行环境，操作系统应该具有：<strong>处理器管理</strong>、<strong>存储器管理</strong>、<strong>文件管理</strong>和<strong>设备管理</strong>，还必须向用户提供接口，同时操作系统可用来扩充机器，以提供更方便的服务、更高的资源利用率。</p>
@@ -371,8 +392,8 @@
 </ul>
 <p>一些由用户态转为核心态的例子：1）用户程序要求系统服务 2）发生一次中断 3）用户程序产生错误 4）用户程序企图执行特权指令</p>
 <hr>
-<h1 id="第二章-进程管理">第二章 进程管理</h1>
-<h2 id="进程与线程">进程与线程</h2>
+<h1 id="2-第二章-进程管理">2. 第二章 进程管理</h1>
+<h2 id="21-进程与线程">2.1 进程与线程</h2>
 <p>进程控制块（PCB）描述进程的基本情况和运行状态，<strong>PCB是进程存在的唯一标志</strong>。</p>
 <p>进程由<strong>PCB</strong>、<strong>程序段</strong>、<strong>数据段</strong>组成。</p>
 <h3 id="进程的特征">进程的特征</h3>
@@ -435,9 +456,110 @@
 <p><img src="/images/CS_Basic/OS/08.png" alt="08"></p>
 </li>
 </ol>
-<h2 id="死锁">死锁</h2>
+<h3 id="线程概念和多线程模型">线程概念和多线程模型</h3>
+<p>引入线程是为了减小程序在并发执行时所付出的时空开销，比如：QQ应用程序打视频的同时要打字、传文件。</p>
+<p><strong>线程不拥有系统资源，同一进程的各线程间共享进程的资源，进程内的线程对其他进程不可见。</strong></p>
+<p><strong>线程是独立调度的基本单位，进程是资源拥有的基本单位。</strong></p>
+<p><img src="/images/CS_Basic/OS/13.png" alt="13"></p>
+<ul>
+<li>
+<p><strong>一对一模型</strong></p>
+<p>一个用户级线程映射到一个内核级线程，一个进程占用多个内核级线程。</p>
+<p><img src="/images/CS_Basic/OS/10.png" alt="10"></p>
+</li>
+<li>
+<p><strong>多对一模型</strong></p>
+<p>多个用户级线程映射到一个内核级线程</p>
+<p><img src="/images/CS_Basic/OS/11.png" alt="11"></p>
+</li>
+<li>
+<p><strong>多对多模型</strong></p>
+<p>n个用户级线程映射到m个内核级线程（n &gt;= m）</p>
+<p><img src="/images/CS_Basic/OS/12.png" alt="12"></p>
+</li>
+</ul>
+<h2 id="22-调度">2.2 调度</h2>
+<p>一个作业从开始到完成，需要经历三级调度：<strong>作业调度（高级调度）</strong>、<strong>内存调度（中级调度）</strong>、<strong>进程调度（低级调度）</strong></p>
+<p><img src="/images/CS_Basic/OS/09.png" alt="09"></p>
+<p>什么时候会调度？</p>
+<ol>
+<li>当前运行进程<strong>主动放弃</strong>处理机（进程完成/发生异常。主动请求阻塞）</li>
+<li>当前运行进程<strong>被动放弃</strong>处理机（时间片用完/处理更紧急的事/更高优先级）</li>
+</ol>
+<p>什么时候不能进行进程调度/切换？</p>
+<ol>
+<li>在处理中断的过程中</li>
+<li>进程在操作系统<strong>内核程序临界区</strong>中</li>
+<li>在原子操作过程中</li>
+</ol>
+<h3 id="进程调度的方式">进程调度的方式</h3>
+<ol>
+<li>
+<p>非剥夺调度方式（只允许进程主动放弃处理机）</p>
+<p>只有运行进程阻塞或退出才触发调度程序工作。</p>
+</li>
+<li>
+<p>剥夺调度方式（可以抢占处理机）</p>
+<p>每个时钟中断或k个时钟中断会触发调度程序工作。</p>
+</li>
+</ol>
+<h3 id="调度算法评价指标">调度算法评价指标</h3>
+<p><strong>CPU利用率</strong> = 忙碌的时间 / 总时间</p>
+<p><strong>系统吞吐量</strong> = 总共完成多少道作业 / 总共花了多少时间</p>
+<p><strong>周转时间</strong> = 作业完成时间 - 作业提交时间 | 平均周转时间 = 各作业周转时间之和 / 作业数</p>
+<p>带权周转时间 = 作业周转时间 / 作业实际运行时间 （ &gt;= 1）平均带权周转时间 = 各作业带权周转时间 / 作业数</p>
+<p><strong>等待时间</strong> = 进程建立后等待被服务的时间之和</p>
+<p><strong>响应时间</strong> = 提交请求到首次响应所用的时间</p>
+<h3 id="先来先服务fcfs">先来先服务FCFS</h3>
+<p>类似排队，按照先后顺序进行服务。<strong>不会导致饥饿</strong>。<strong>非抢占式</strong>。</p>
+<p>优点：公平</p>
+<p><strong>缺点</strong>：<strong>对短作业不利</strong></p>
+<h3 id="短作业优先sjf">短作业优先SJF</h3>
+<p><strong>非抢占式</strong>，运行时间越短的越先被服务。</p>
+<p>下图，p1先到达，其他作业还没有到达，所以先执行p1。7s执行结束后所有作业都已经到达，选择运行时间最短的执行。</p>
+<p><img src="/images/CS_Basic/OS/14.png" alt="14"></p>
+<p>还有<strong>抢占式的短作业优先算法SRTN</strong></p>
+<p>下图，p1先到达先执行，在2s之后p2到达，而p2运行时间比p1短，所以抢占处理机运行p2。运行了2s之后p3到达，p3的运行时间小于p2，所以运行p3。1s之后p3完成，p4刚好到达，此时p2运行时间最短，依次处理。</p>
+<p><img src="/images/CS_Basic/OS/15.png" alt="15"></p>
+<p>优点：最短平均等待时间（作业到达时间差不多的时候）</p>
+<p><strong>缺点</strong>：长作业不利，可能会导致饥饿（如果一直有短作业到来）</p>
+<h3 id="高响应比优先hrrn">高响应比优先HRRN</h3>
+<p>在每次调度时计算各个作业的响应比，<strong>选择响应比最高的作业</strong>为其服务。<strong>非抢占式</strong>，不会导致饥饿。</p>
+<p>p1进程先到达，运行p1直到完成。在7s时，p2到达时间2s已经等待了5s，p3等待3s，p4等待2s。响应比是（等待时间 + 运行时间）/ 运行时间。p3响应比最高，先运行p3，以此类推。</p>
+<p><img src="/images/CS_Basic/OS/16.png" alt="16"></p>
+<p>优点：综合了FCFS和SJF的优点。</p>
+<p>等待时间相同时，要求服务时间短的优先（SJF 的优点）
+要求服务时间相同时，等待时间长的优先（FCFS 的优点）</p>
+<blockquote>
+<p>以上3种调度算法适合于早期的批处理系统，对于用户来说无法区分任务的紧急程度。所以引出交互式系统调度算法。</p>
+</blockquote>
+<h3 id="时间片轮转调度算法rr">时间片轮转调度算法（RR）</h3>
+<p>伴随着分时操作系统出现，按照各进程到达就绪队列的顺序，轮流让各进程执行一个<strong>时间片</strong>（如100ms），若进程没有在一个时间片内执行完，就会被剥夺处理机，将进程重新放到就绪队列的队尾重新排队。<strong>抢占式算法，由时钟装置发出时钟中断来通知CPU时间片已到</strong>。</p>
+<blockquote>
+<p>如果时间片太大，使得每个进程都可以在一个时间片就能完成，就会退化成FCFS调度算法。</p>
+<p>如果时间片太小，进程切换过于频繁，系统会花费大量时间切换进程，而实际执行的时间减少。</p>
+</blockquote>
+<p>优点：公平、响应快</p>
+<p><strong>缺点</strong>：不区分紧急程度、切换进程会有开销</p>
+<h3 id="优先级调度算法">优先级调度算法</h3>
+<p>每个作业都有各自的优先级，调度时选择优先级最高的作业执行。<strong>会发生饥饿</strong>（不断有优先级更高的作业）。</p>
+<p>下图是<strong>非抢占式的优先级调度算法</strong>，优先级相同时选择先到达的执行。</p>
+<p><img src="/images/CS_Basic/OS/17.png" alt="17"></p>
+<p>也有<strong>抢占式的优先级调度算法</strong>，当新作业到达时，如果优先级高于当前进程，则可以抢占处理机。</p>
+<p>就绪队列未必只有一个，也有<strong>静态优先级</strong>和<strong>动态优先级</strong>（优先级可在过程中变化）。</p>
+<h3 id="多级反馈队列调度算法">多级反馈队列调度算法</h3>
+<p>其他算法的折中权衡，<strong>抢占式算法</strong>，会导致饥饿。</p>
+<p>1.设置多级就绪队列，各级队列优先级从高到低，时间片从小到大。</p>
+<p>2.新进程到达时先进入第一级队列，按照FCFS原则等待被分配时间片。<strong>如果时间片用完，则进入下一级队列队尾</strong>。如果此时已经再最下级的队列，则重新放回该队列队尾。</p>
+<p>3.只有第k级队列为空时，才会为k+1级队头的进程分配时间片。</p>
+<p>下图中，p1先到达进入第1级队列中先执行，第1级队列时间片为1，之后p1时间片结束进入到第2级队列中，同时p2到达，运行p2后同样放入到第2级队列p1后面（队尾），执行时间片2s后p1还没执行完则放入第3级队列中，再执行第2级队列中的p2。在执行1s之后p3到达了，这个时候p3进入到第1级队列中，抢占了处理机。运行完p3后再运行，p2继续运行2个单位的时间片，最后执行p1。</p>
+<p><img src="/images/CS_Basic/OS/18.png" alt="18"></p>
+<p>优点：公平、新到达的进程很快得到响应（RR），短进程较少时间可以完成（SPF），避免用户作假（缩短进程时间）、可灵活调整各类进程的偏好程度（CPU密集型进程、I/O密集型进程）</p>
+<h3 id="多级队列调度算法">多级队列调度算法</h3>
+<p><img src="/images/CS_Basic/OS/19.png" alt="19"></p>
+<h2 id="24-死锁">2.4 死锁</h2>
 <p><strong>定义</strong>：在并发环境下，各进程因竟争自由而造成的一种互相等待对方手里的资源，导致各进程都阻塞，无法向前推进的现象。</p>
-<h3 id="死锁发生的4个必要条件"><strong>死锁发生的4个必要条件：</strong></h3>
+<h3 id="死锁发生的4个必要条件">死锁发生的4个必要条件：</h3>
 <ul>
 <li><strong>互斥</strong>条件：必须互斥使用的资源的争抢才会导致死锁。</li>
 <li><strong>不剥夺</strong>条件：进程所获得资源在使用完之前，<em>不能由其他进程强行夺走</em>，只能主动释放。</li>
@@ -519,7 +641,7 @@
 	    </a>
 
 		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2fos%2f
-			&title=%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f&summary=1.%20%e7%ac%ac%e4%b8%80%e7%ab%a0%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e6%a6%82%e8%bf%b0%201.1%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e6%a6%82%e5%bf%b5%e3%80%81%e7%89%b9%e5%be%81%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e6%98%af%e6%8c%87%e6%8e%a7%e5%88%b6%e5%92%8c%e7%ae%a1%e7%90%86%e6%95%b4%e4%b8%aa%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%b3%bb%e7%bb%9f%e7%9a%84%e7%a1%ac%e4%bb%b6%e5%92%8c%e8%bd%af%e4%bb%b6%e8%b5%84%e6%ba%90%ef%bc%8c%e5%b9%b6%e5%90%88%e7%90%86%e7%9a%84%e7%bb%84%e7%bb%87%e8%b0%83%e5%ba%a6%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%9a%84%e5%b7%a5%e4%bd%9c%e5%92%8c%e8%b5%84%e6%ba%90%e7%9a%84%e5%88%86%e9%85%8d%ef%bc%8c%e4%bb%a5%e6%8f%90%e4%be%9b%e7%bb%99%e7%94%a8%e6%88%b7%e5%92%8c%e5%85%b6%e4%bb%96%e8%bd%af%e4%bb%b6%e6%96%b9%e4%be%bf%e7%9a%84%e6%8e%a5%e5%8f%a3%e5%92%8c%e7%8e%af%e5%a2%83%e9%9b%86%e5%90%88%e3%80%82%0a%e5%b9%b6%e5%8f%91%20%e5%b9%b6%e5%8f%91%e6%98%af%e6%8c%87%e4%b8%a4%e4%b8%aa%e6%88%96%e5%a4%9a%e4%b8%aa%e4%ba%8b%e4%bb%b6%e5%9c%a8%e5%90%8c%e4%b8%80%e6%97%b6%e9%97%b4%e9%97%b4%e9%9a%94%e5%86%85%e5%8f%91%e7%94%9f%e3%80%82%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e5%b9%b6%e5%8f%91%e6%98%af%e9%80%9a%e8%bf%87%e5%88%86%e6%97%b6%e5%be%97%e4%bb%a5%e5%ae%9e%e7%8e%b0%e7%9a%84%e3%80%82%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e5%b9%b6%e5%8f%91%e6%80%a7%e6%98%af%e6%8c%87%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%b3%bb%e7%bb%9f%e4%b8%ad%e5%90%8c%e6%97%b6%e5%ad%98%e5%9c%a8%e5%a4%9a%e4%b8%aa%e8%bf%90%e8%a1%8c%e7%9d%80%e7%9a%84%e7%a8%8b%e5%ba%8f%ef%bc%8c%e5%9b%a0%e6%ad%a4%e5%ae%83%e5%85%b7%e6%9c%89%e5%a4%84%e7%90%86%e5%92%8c%e8%b0%83%e5%ba%a6%e5%a4%9a%e4%b8%aa%e7%a8%8b%e5%ba%8f%e5%90%8c%e6%97%b6%e6%89%a7%e8%a1%8c%e7%9a%84%e8%83%bd%e5%8a%9b%e3%80%82%0a%e5%85%b1%e4%ba%ab%20%e8%b5%84%e6%ba%90%e5%85%b1%e4%ba%ab%e5%b0%b1%e6%98%af%e5%85%b1%e4%ba%ab%ef%bc%8c%e7%b3%bb%e7%bb%9f%e4%b8%ad%e7%9a%84%e8%b5%84%e6%ba%90%e5%8f%af%e4%be%9b%e5%86%85%e5%ad%98%e4%b8%ad%e5%a4%9a%e4%b8%aa%e5%b9%b6%e5%8f%91%e6%89%a7%e8%a1%8c%e7%9a%84%e8%bf%9b%e7%a8%8b%e5%90%8c%e6%97%b6%e4%bd%bf%e7%94%a8%ef%bc%8c%e5%8f%af%e5%88%86%e4%b8%ba%e4%bb%a5%e4%b8%8b%e4%b8%a4%e7%a7%8d%e3%80%82%0a%e4%ba%92%e6%96%a5%e5%85%b1%e4%ba%ab%e6%96%b9%e5%bc%8f%0a%e6%af%94%e5%a6%82%e6%89%93%e5%8d%b0%e6%9c%ba%ef%bc%8c%e4%b8%8d%e8%83%bd%e5%90%8c%e6%97%b6%e6%89%93%e5%8d%b0%e4%b8%a4%e4%bb%bd%e5%86%85%e5%ae%b9%ef%bc%8c%e4%b8%8d%e7%84%b6%e4%bc%9a%e9%80%a0%e6%88%90%e5%86%85%e5%ae%b9%e6%b7%b7%e6%b7%86%e3%80%82%0a%e5%90%8c%e6%97%b6%e8%ae%bf%e9%97%ae%e6%96%b9%e5%bc%8f%0a%e4%ba%a4%e6%9b%bf%e7%9a%84%e5%af%b9%e8%af%a5%e8%b5%84%e6%ba%90%e8%bf%9b%e8%a1%8c%e8%ae%bf%e9%97%ae%20%e2%80%9c%e5%88%86%e6%97%b6%e5%85%b1%e4%ba%ab%e2%80%9d%e3%80%82%0a%e8%99%9a%e6%8b%9f%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e4%b8%ad%e5%88%a9%e7%94%a8%e4%ba%86%e5%a4%9a%e7%a7%8d%e8%99%9a%e6%8b%9f%e6%8a%80%e6%9c%af%ef%bc%8c%e5%88%86%e5%88%ab%e7%94%a8%e6%9d%a5%e5%ae%9e%e7%8e%b0%e8%99%9a%e6%8b%9f%e5%a4%84%e7%90%86%e6%9c%ba%e3%80%81%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e5%92%8c%e8%99%9a%e6%8b%9f%e5%a4%96%e9%83%a8%e8%ae%be%e5%a4%87%e3%80%82%0a%e5%9c%a8%e8%99%9a%e6%8b%9f%e5%a4%84%e7%90%86%e5%99%a8%e6%8a%80%e6%9c%af%e4%b8%ad%ef%bc%8c%e8%ae%a9%e5%a4%9a%e9%81%93%e7%a8%8b%e5%ba%8f%e5%b9%b6%e5%8f%91%e6%89%a7%e8%a1%8c%e6%9d%a5%e5%88%86%e6%97%b6%e4%bd%bf%e7%94%a8%e4%b8%80%e5%8f%b0%e5%a4%84%e7%90%86%e5%99%a8%ef%bc%8c%e8%99%bd%e7%84%b6%e5%8f%aa%e6%9c%89%e4%b8%80%e5%8f%b0%e5%a4%84%e7%90%86%e5%99%a8%ef%bc%8c%e4%bd%86%e6%98%af%e8%83%bd%e5%90%8c%e6%97%b6%e4%b8%ba%e5%a4%9a%e4%b8%aa%e7%94%a8%e6%88%b7%e6%9c%8d%e5%8a%a1%e3%80%82%e6%8a%8a%e4%b8%80%e5%8f%b0%e7%89%a9%e7%90%86%e4%b8%8a%e7%9a%84CPU%e8%99%9a%e6%8b%9f%e4%b8%ba%e5%a4%9a%e6%80%81%e9%80%bb%e8%be%91%e4%b8%8a%e7%9a%84CPU%e7%a7%b0%e4%b8%ba%e8%99%9a%e6%8b%9f%e5%a4%84%e7%90%86%e5%99%a8%e3%80%82%0a%e8%99%9a%e6%8b%9f%e5%ad%98%e5%82%a8%e5%99%a8%ef%bc%8c%e4%bb%8e%e9%80%bb%e8%be%91%e4%b8%8a%e6%9d%a5%e6%89%a9%e5%85%85%e5%ad%98%e5%82%a8%e5%99%a8%e7%9a%84%e5%ae%b9%e9%87%8f%e3%80%82%0a%e8%99%9a%e6%8b%9f%e8%ae%be%e5%a4%87%e6%8a%80%e6%9c%af%ef%bc%8c%e5%b0%86%e4%b8%80%e5%8f%b0%e7%89%a9%e7%90%86IO%e8%ae%be%e5%a4%87%e8%99%9a%e6%8b%9f%e4%b8%ba%e5%a4%9a%e5%8f%b0%e9%80%bb%e8%be%91%e4%b8%8a%e7%9a%84IO%e8%ae%be%e5%a4%87%ef%bc%8c%e5%85%81%e8%ae%b8%e5%a4%9a%e4%b8%aa%e7%94%a8%e6%88%b7%e5%90%8c%e6%97%b6%e8%ae%bf%e9%97%ae%e7%9a%84%e5%85%b1%e4%ba%ab%e8%ae%be%e5%a4%87%e3%80%82%0a%e5%bc%82%e6%ad%a5%20%e5%9c%a8%e5%a4%9a%e9%81%93%e7%a8%8b%e5%ba%8f%e7%8e%af%e5%a2%83%e4%b8%8b%ef%bc%8c%e5%85%81%e8%ae%b8%e5%a4%9a%e4%b8%aa%e7%a8%8b%e5%ba%8f%e5%b9%b6%e5%8f%91%e6%89%a7%e8%a1%8c%ef%bc%8c%e4%bd%86%e7%94%b1%e4%ba%8e%e8%b5%84%e6%ba%90%e6%9c%89%e9%99%90%ef%bc%8c%e8%bf%9b%e7%a8%8b%e7%9a%84%e6%89%a7%e8%a1%8c%e4%b8%8d%e6%98%af%e4%b8%80%e8%b4%af%e5%88%b0%e5%ba%95%ef%bc%8c%e8%80%8c%e6%98%af%e8%b5%b0%e8%b5%b0%e5%81%9c%e5%81%9c%ef%bc%8c%e4%bb%a5%e4%b8%8d%e5%8f%af%e9%a2%84%e7%9f%a5%e7%9a%84%e9%80%9f%e5%ba%a6%e5%90%91%e5%89%8d%e6%8e%a8%e8%bf%9b%ef%bc%8c%e8%bf%99%e5%b0%b1%e6%98%af%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%bc%82%e6%ad%a5%e6%80%a7%e3%80%82%0a%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e7%9b%ae%e6%a0%87%e5%92%8c%e5%8a%9f%e8%83%bd%20%e4%b8%ba%e4%ba%86%e7%bb%99%e5%a4%9a%e9%81%93%e7%a8%8b%e5%ba%8f%e6%8f%90%e4%be%9b%e8%89%af%e5%a5%bd%e7%9a%84%e8%bf%90%e8%a1%8c%e7%8e%af%e5%a2%83%ef%bc%8c%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%ba%94%e8%af%a5%e5%85%b7%e6%9c%89%ef%bc%9a%e5%a4%84%e7%90%86%e5%99%a8%e7%ae%a1%e7%90%86%e3%80%81%e5%ad%98%e5%82%a8%e5%99%a8%e7%ae%a1%e7%90%86%e3%80%81%e6%96%87%e4%bb%b6%e7%ae%a1%e7%90%86%e5%92%8c%e8%ae%be%e5%a4%87%e7%ae%a1%e7%90%86%ef%bc%8c%e8%bf%98%e5%bf%85%e9%a1%bb%e5%90%91%e7%94%a8%e6%88%b7%e6%8f%90%e4%be%9b%e6%8e%a5%e5%8f%a3%ef%bc%8c%e5%90%8c%e6%97%b6%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%8f%af%e7%94%a8%e6%9d%a5%e6%89%a9%e5%85%85%e6%9c%ba%e5%99%a8%ef%bc%8c%e4%bb%a5%e6%8f%90%e4%be%9b%e6%9b%b4%e6%96%b9%e4%be%bf%e7%9a%84%e6%9c%8d%e5%8a%a1%e3%80%81%e6%9b%b4%e9%ab%98%e7%9a%84%e8%b5%84%e6%ba%90%e5%88%a9%e7%94%a8%e7%8e%87%e3%80%82%0a%e5%a4%84%e7%90%86%e5%99%a8%e7%ae%a1%e7%90%86%0a%e5%af%b9%e5%a4%84%e7%90%86%e5%99%a8%e7%9a%84%e7%ae%a1%e7%90%86%e5%8f%af%e5%bd%92%e7%bb%93%e4%b8%ba%e5%af%b9%e8%bf%9b%e7%a8%8b%e7%9a%84%e7%ae%a1%e7%90%86%ef%bc%8c%e4%b8%bb%e8%a6%81%e5%8a%9f%e8%83%bd%e6%9c%89%ef%bc%9a%e8%bf%9b%e7%a8%8b%e6%8e%a7%e5%88%b6%e3%80%81%e8%bf%9b%e7%a8%8b%e5%90%8c%e6%ad%a5%e3%80%81%e8%bf%9b%e7%a8%8b%e9%80%9a%e4%bf%a1%e3%80%81%e6%ad%bb%e9%94%81%e5%a4%84%e7%90%86%e3%80%81%e5%a4%84%e7%90%86%e5%99%a8%e8%b0%83%e5%ba%a6%e7%ad%89%e3%80%82%0a%e5%ad%98%e5%82%a8%e5%99%a8%e7%ae%a1%e7%90%86%0a%e6%96%b9%e4%be%bf%e7%94%a8%e6%88%b7%e4%bd%bf%e7%94%a8%e4%bb%a5%e5%8f%8a%e6%8f%90%e9%ab%98%e5%86%85%e5%ad%98%e7%9a%84%e5%88%a9%e7%94%a8%e7%8e%87%ef%bc%8c%e5%ad%98%e5%82%a8%e5%99%a8%e7%ae%a1%e7%90%86%e5%ba%94%e5%85%b7%e5%a4%87%ef%bc%9a%e5%86%85%e5%ad%98%e5%88%86%e9%85%8d%e3%80%81%e5%9c%b0%e5%9d%80%e6%98%a0%e5%b0%84%e3%80%81%e5%86%85%e5%ad%98%e4%bf%9d%e6%8a%a4%e3%80%81%e5%85%b1%e4%ba%ab%e5%92%8c%e5%86%85%e5%ad%98%e6%89%a9%e5%85%85%e7%ad%89%e3%80%82%0a%e6%96%87%e4%bb%b6%e7%ae%a1%e7%90%86%0a%e5%8c%85%e6%8b%ac%e6%96%87%e4%bb%b6%e7%9a%84%e5%ad%98%e5%82%a8%e7%a9%ba%e9%97%b4%e7%ae%a1%e7%90%86%e3%80%81%e7%9b%ae%e5%bd%95%e7%ae%a1%e7%90%86%e5%92%8c%e6%96%87%e4%bb%b6%e8%af%bb%e5%86%99%e7%ae%a1%e7%90%86%e3%80%81%e6%96%87%e4%bb%b6%e4%bf%9d%e6%8a%a4%e3%80%82%0a%e8%ae%be%e5%a4%87%e7%ae%a1%e7%90%86%0a%e5%ae%8c%e6%88%90%e7%94%a8%e6%88%b7%e7%9a%84IO%e8%af%b7%e6%b1%82%ef%bc%8c%e4%b8%bb%e8%a6%81%e5%8c%85%e6%8b%ac%e6%b7%b7%e5%85%85%e7%ae%a1%e7%90%86%e3%80%81%e8%ae%be%e5%a4%87%e5%88%86%e9%85%8d%e3%80%81%e8%ae%be%e5%a4%87%e5%a4%84%e7%90%86%e5%92%8c%e8%99%9a%e6%8b%9f%e8%ae%be%e5%a4%87%e7%ad%89%e3%80%82%0a%e4%b8%ba%e4%ba%86%e6%96%b9%e4%be%bf%e7%94%a8%e6%88%b7%e4%bd%bf%e7%94%a8%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%ef%bc%8c%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e8%bf%98%e6%8f%90%e4%be%9b%e4%ba%86%e7%94%a8%e6%88%b7%e6%8e%a5%e5%8f%a3%ef%bc%8c%e5%88%86%e4%b8%ba%e4%bb%a5%e4%b8%8b%e4%b8%a4%e7%b1%bb%e3%80%82%0a%e5%91%bd%e4%bb%a4%e6%8e%a5%e5%8f%a3%0a%e4%bd%bf%e7%94%a8%e5%91%bd%e4%bb%a4%e6%8e%a5%e5%8f%a3%e8%bf%9b%e8%a1%8c%e4%bd%9c%e4%b8%9a%e6%8e%a7%e5%88%b6%e7%9a%84%e4%b8%bb%e8%a6%81%e6%96%b9%e5%bc%8f%e6%9c%89%e4%b8%a4%e7%a7%8d%ef%bc%9a%e8%81%94%e6%9c%ba%e5%91%bd%e4%bb%a4%e6%8e%a5%e5%8f%a3%e5%92%8c%e8%84%b1%e6%9c%ba%e5%91%bd%e4%bb%a4%e6%8e%a5%e5%8f%a3%e3%80%82%0a%e7%a8%8b%e5%ba%8f%e6%8e%a5%e5%8f%a3%0a%e7%a8%8b%e5%ba%8f%e6%8e%a5%e5%8f%a3%e7%94%b1%e4%b8%80%e7%bb%84%e7%b3%bb%e7%bb%9f%e8%b0%83%e7%94%a8%e5%91%bd%e4%bb%a4%e7%bb%84%e6%88%90%ef%bc%8c%e7%94%a8%e6%88%b7%e5%8f%af%e4%bb%a5%e7%9b%b4%e6%8e%a5%e4%bd%bf%e7%94%a8%e5%91%bd%e4%bb%a4%e5%90%91%e7%b3%bb%e7%bb%9f%e6%8f%90%e5%87%ba%e5%90%84%e7%a7%8d%e8%af%b7%e6%b1%82%e3%80%82%0a%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e7%bb%93%e6%9e%84%20%e7%ae%80%e5%8d%95%e7%bb%93%e6%9e%84%e3%80%81%e6%a8%a1%e5%9d%97%e5%8c%96%e7%bb%93%e6%9e%84%e3%80%81%e5%88%86%e5%b1%82%e5%bc%8f%e7%bb%93%e6%9e%84%e3%80%81%e5%be%ae%e5%86%85%e6%a0%b8%e7%bb%93%e6%9e%84%e3%80%82%0a1.3%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e8%bf%90%e8%a1%8c%e7%8e%af%e5%a2%83%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%9c%a8%e5%85%b7%e4%bd%93%e5%ae%9e%e7%8e%b0%e4%b8%8a%e5%88%92%e5%88%86%e4%ba%86%e7%94%a8%e6%88%b7%e6%80%81%e3%80%81%e6%a0%b8%e5%bf%83%e6%80%81%e3%80%82%0a%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%86%85%e6%a0%b8%e5%8c%85%e6%8b%ac%e4%bb%a5%e4%b8%8b4%e6%96%b9%e9%9d%a2%ef%bc%9a%0a%e6%97%b6%e9%92%9f%e7%ae%a1%e7%90%86%0a%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e9%9c%80%e8%a6%81%e9%80%9a%e8%bf%87%e6%97%b6%e9%92%9f%e7%ae%a1%e7%90%86%ef%bc%8c%e5%90%91%e7%94%a8%e6%88%b7%e6%8f%90%e4%be%9b%e6%a0%87%e5%87%86%e7%9a%84%e7%b3%bb%e7%bb%9f%e6%97%b6%e9%97%b4%e3%80%82%e9%80%9a%e8%bf%87%e6%97%b6%e9%92%9f%e4%b8%ad%e6%96%ad%e7%9a%84%e7%ae%a1%e7%90%86%ef%bc%8c%e5%8f%af%e4%bb%a5%e5%ae%9e%e7%8e%b0%e8%bf%9b%e7%a8%8b%e5%88%87%e6%8d%a2%e3%80%82%0a%e4%b8%ad%e6%96%ad%e6%9c%ba%e5%88%b6%0a%e5%bc%95%e5%85%a5%e4%b8%ad%e6%96%ad%e6%9c%ba%e5%88%b6%e6%98%af%e4%b8%ba%e4%ba%86%e6%8f%90%e9%ab%98%e5%a4%9a%e9%81%93%e7%a8%8b%e5%ba%8f%e8%bf%90%e8%a1%8c%e7%8e%af%e5%a2%83%e4%b8%adCPU%e7%9a%84%e5%88%a9%e7%94%a8%e7%8e%87%e3%80%82%0a%e5%8e%9f%e8%af%ad%0a%e5%8e%9f%e8%af%ad%e5%a4%84%e4%ba%8e%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e6%9c%80%e5%ba%95%e5%b1%82%ef%bc%8c%e6%98%af%e6%9c%80%e6%8e%a5%e8%bf%91%e7%a1%ac%e4%bb%b6%e7%9a%84%e9%83%a8%e5%88%86%ef%bc%9b%e5%85%b7%e6%9c%89%e5%8e%9f%e5%ad%90%e6%80%a7%ef%bc%88%e4%b8%80%e6%b0%94%e5%91%b5%e6%88%90%ef%bc%8c%e4%b8%8d%e5%8f%af%e4%b8%ad%e6%96%ad%ef%bc%89%ef%bc%9b%e8%bf%90%e8%a1%8c%e6%97%b6%e9%97%b4%e7%9f%ad%e3%80%81%e8%b0%83%e7%94%a8%e9%a2%91%e7%b9%81%e3%80%82%0a%e7%b3%bb%e7%bb%9f%e6%8e%a7%e5%88%b6%e7%9a%84%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e5%8f%8a%e5%a4%84%e7%90%86%0a%e5%b8%b8%e8%a7%81%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%93%8d%e4%bd%9c%e6%9c%89%e4%bb%a5%e4%b8%8b3%e7%a7%8d%ef%bc%8c%e8%bf%9b%e7%a8%8b%e7%ae%a1%e7%90%86%e3%80%81%e5%ad%98%e5%82%a8%e5%99%a8%e7%ae%a1%e7%90%86%e3%80%81%e8%ae%be%e5%a4%87%e7%ae%a1%e7%90%86%e3%80%82%0a%e4%b8%ad%e6%96%ad%e5%92%8c%e5%bc%82%e5%b8%b8%20%e5%bc%95%e5%85%a5%e6%a0%b8%e5%bf%83%e6%80%81%e5%92%8c%e7%94%a8%e6%88%b7%e6%80%81%e4%b9%8b%e5%90%8e%ef%bc%8c%e5%b0%b1%e9%9c%80%e8%a6%81%e8%80%83%e8%99%91%e5%a6%82%e4%bd%95%e5%9c%a8%e8%bf%99%e4%b8%a4%e7%a7%8d%e7%8a%b6%e6%80%81%e4%b8%8b%e5%88%87%e6%8d%a2%e3%80%82%2a%2a%e4%b8%ad%e6%96%ad%e6%98%af%e8%ae%a9%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%86%85%e6%a0%b8%e5%a4%ba%e5%9b%9eCPU%e4%bd%bf%e7%94%a8%e6%9d%83%e7%9a%84%e5%94%af%e4%b8%80%e9%80%94%e5%be%84%e3%80%82%2a%2a%e5%86%85%e6%a0%b8%e5%b7%a5%e4%bd%9c%e5%9c%a8%e6%a0%b8%e5%bf%83%e6%80%81%ef%bc%8c%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e5%b7%a5%e4%bd%9c%e5%9c%a8%e7%94%a8%e6%88%b7%e6%80%81%ef%bc%8c%e7%b3%bb%e7%bb%9f%e4%b8%8d%e5%85%81%e8%ae%b8%e7%94%a8%e6%88%b7%e4%bd%bf%e7%94%a8%e6%a0%b8%e5%bf%83%e6%80%81%e7%9a%84%e5%8a%9f%e8%83%bd%ef%bc%8c%e4%bd%86%e6%98%af%e5%ae%83%e4%bb%ac%e5%8f%88%e5%bf%85%e9%a1%bb%e4%bd%bf%e7%94%a8%e3%80%82%0a%e4%b8%ad%e6%96%ad%ef%bc%88%e5%a4%96%e4%b8%ad%e6%96%ad%ef%bc%89%0a%e4%b8%ad%e6%96%ad%e4%bf%a1%e5%8f%b7%e6%9d%a5%e6%ba%90%e4%ba%8eCPU%e5%a4%96%e9%83%a8%ef%bc%8c%e4%b8%8e%e5%bd%93%e5%89%8d%e6%89%a7%e8%a1%8c%e7%9a%84%e6%8c%87%e4%bb%a4%e6%97%a0%e5%85%b3%e3%80%82%e6%af%94%e5%a6%82%e8%af%b4%e6%97%b6%e9%92%9f%e4%b8%ad%e6%96%ad%e5%92%8cI%2fO%e4%b8%ad%e6%96%ad%e8%af%b7%e6%b1%82%ef%bc%8c%e5%bd%93%e8%be%93%e5%85%a5%e8%be%93%e5%87%ba%e4%bb%bb%e5%8a%a1%e5%ae%8c%e6%88%90%e6%97%b6%ef%bc%8c%e5%90%91CPU%e5%8f%91%e9%80%81%e4%b8%ad%e6%96%ad%e4%bf%a1%e5%8f%b7%ef%bc%8c%e6%88%96%e6%97%b6%e9%92%9f%e9%83%a8%e4%bb%b6%e6%af%8f%e9%9a%9450ms%e5%8f%91%e9%80%81%e4%b8%80%e4%b8%aa%e4%b8%ad%e6%96%ad%e4%bf%a1%e5%8f%b7%e3%80%82%0a%e5%bc%82%e5%b8%b8%ef%bc%88%e5%86%85%e4%b8%ad%e6%96%ad%ef%bc%89%0a%e6%ba%90%e4%ba%8eCPU%e6%89%a7%e8%a1%8c%e6%8c%87%e4%bb%a4%e5%86%85%e9%83%a8%ef%bc%8c%e6%af%94%e5%a6%82%e7%a8%8b%e5%ba%8f%e7%9a%84%e9%9d%9e%e6%b3%95%e6%93%8d%e4%bd%9c%e3%80%82%0a%e4%b8%80%e4%ba%9b%e7%94%b1%e7%94%a8%e6%88%b7%e6%80%81%e8%bd%ac%e4%b8%ba%e6%a0%b8%e5%bf%83%e6%80%81%e7%9a%84%e4%be%8b%e5%ad%90%ef%bc%9a1%ef%bc%89%e7%94%a8%e6%88%b7%e7%a8%8b%e5%ba%8f%e8%a6%81%e6%b1%82%e7%b3%bb%e7%bb%9f%e6%9c%8d%e5%8a%a1%202%ef%bc%89%e5%8f%91%e7%94%9f%e4%b8%80%e6%ac%a1%e4%b8%ad%e6%96%ad%203%ef%bc%89%e7%94%a8%e6%88%b7%e7%a8%8b%e5%ba%8f%e4%ba%a7%e7%94%9f%e9%94%99%e8%af%af%204%ef%bc%89%e7%94%a8%e6%88%b7%e7%a8%8b%e5%ba%8f%e4%bc%81%e5%9b%be%e6%89%a7%e8%a1%8c%e7%89%b9%e6%9d%83%e6%8c%87%e4%bb%a4%0a%e7%ac%ac%e4%ba%8c%e7%ab%a0%20%e8%bf%9b%e7%a8%8b%e7%ae%a1%e7%90%86%20%e8%bf%9b%e7%a8%8b%e4%b8%8e%e7%ba%bf%e7%a8%8b%20%e8%bf%9b%e7%a8%8b%e6%8e%a7%e5%88%b6%e5%9d%97%ef%bc%88PCB%ef%bc%89%e6%8f%8f%e8%bf%b0%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%83%85%e5%86%b5%e5%92%8c%e8%bf%90%e8%a1%8c%e7%8a%b6%e6%80%81%ef%bc%8cPCB%e6%98%af%e8%bf%9b%e7%a8%8b%e5%ad%98%e5%9c%a8%e7%9a%84%e5%94%af%e4%b8%80%e6%a0%87%e5%bf%97%e3%80%82%0a%e8%bf%9b%e7%a8%8b%e7%94%b1PCB%e3%80%81%e7%a8%8b%e5%ba%8f%e6%ae%b5%e3%80%81%e6%95%b0%e6%8d%ae%e6%ae%b5%e7%bb%84%e6%88%90%e3%80%82%0a%e8%bf%9b%e7%a8%8b%e7%9a%84%e7%89%b9%e5%be%81%20%e5%8a%a8%e6%80%81%e6%80%a7%28%e6%9c%80%e5%9f%ba%e6%9c%ac%e7%9a%84%e7%89%b9%e6%80%a7%29%e3%80%81%e5%b9%b6%e5%8f%91%e6%80%a7%e3%80%81%e7%8b%ac%e7%ab%8b%e6%80%a7%e3%80%81%e5%bc%82%e6%ad%a5%e6%80%a7%e3%80%81%e7%bb%93%e6%9e%84%e6%80%a7%e3%80%82%0a%e7%8b%ac%e7%ab%8b%e6%80%a7%ef%bc%9a%e8%83%bd%e5%a4%9f%e7%8b%ac%e7%ab%8b%e8%bf%90%e8%a1%8c%e3%80%81%e7%8b%ac%e7%ab%8b%e8%8e%b7%e5%be%97%e8%b5%84%e6%ba%90%e3%80%81%e7%8b%ac%e7%ab%8b%e6%8e%a5%e5%8f%97%e8%b0%83%e5%ba%a6%e7%9a%84%e5%9f%ba%e6%9c%ac%e5%8d%95%e4%bd%8d%e3%80%82&source=rafed123.github.io"
+			&title=%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f&summary=1.%20%e7%ac%ac%e4%b8%80%e7%ab%a0%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e6%a6%82%e8%bf%b0%201.1%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e6%a6%82%e5%bf%b5%e3%80%81%e7%89%b9%e5%be%81%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e6%98%af%e6%8c%87%e6%8e%a7%e5%88%b6%e5%92%8c%e7%ae%a1%e7%90%86%e6%95%b4%e4%b8%aa%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%b3%bb%e7%bb%9f%e7%9a%84%e7%a1%ac%e4%bb%b6%e5%92%8c%e8%bd%af%e4%bb%b6%e8%b5%84%e6%ba%90%ef%bc%8c%e5%b9%b6%e5%90%88%e7%90%86%e7%9a%84%e7%bb%84%e7%bb%87%e8%b0%83%e5%ba%a6%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%9a%84%e5%b7%a5%e4%bd%9c%e5%92%8c%e8%b5%84%e6%ba%90%e7%9a%84%e5%88%86%e9%85%8d%ef%bc%8c%e4%bb%a5%e6%8f%90%e4%be%9b%e7%bb%99%e7%94%a8%e6%88%b7%e5%92%8c%e5%85%b6%e4%bb%96%e8%bd%af%e4%bb%b6%e6%96%b9%e4%be%bf%e7%9a%84%e6%8e%a5%e5%8f%a3%e5%92%8c%e7%8e%af%e5%a2%83%e9%9b%86%e5%90%88%e3%80%82%0a%e5%b9%b6%e5%8f%91%20%e5%b9%b6%e5%8f%91%e6%98%af%e6%8c%87%e4%b8%a4%e4%b8%aa%e6%88%96%e5%a4%9a%e4%b8%aa%e4%ba%8b%e4%bb%b6%e5%9c%a8%e5%90%8c%e4%b8%80%e6%97%b6%e9%97%b4%e9%97%b4%e9%9a%94%e5%86%85%e5%8f%91%e7%94%9f%e3%80%82%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e5%b9%b6%e5%8f%91%e6%98%af%e9%80%9a%e8%bf%87%e5%88%86%e6%97%b6%e5%be%97%e4%bb%a5%e5%ae%9e%e7%8e%b0%e7%9a%84%e3%80%82%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e5%b9%b6%e5%8f%91%e6%80%a7%e6%98%af%e6%8c%87%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%b3%bb%e7%bb%9f%e4%b8%ad%e5%90%8c%e6%97%b6%e5%ad%98%e5%9c%a8%e5%a4%9a%e4%b8%aa%e8%bf%90%e8%a1%8c%e7%9d%80%e7%9a%84%e7%a8%8b%e5%ba%8f%ef%bc%8c%e5%9b%a0%e6%ad%a4%e5%ae%83%e5%85%b7%e6%9c%89%e5%a4%84%e7%90%86%e5%92%8c%e8%b0%83%e5%ba%a6%e5%a4%9a%e4%b8%aa%e7%a8%8b%e5%ba%8f%e5%90%8c%e6%97%b6%e6%89%a7%e8%a1%8c%e7%9a%84%e8%83%bd%e5%8a%9b%e3%80%82%0a%e5%85%b1%e4%ba%ab%20%e8%b5%84%e6%ba%90%e5%85%b1%e4%ba%ab%e5%b0%b1%e6%98%af%e5%85%b1%e4%ba%ab%ef%bc%8c%e7%b3%bb%e7%bb%9f%e4%b8%ad%e7%9a%84%e8%b5%84%e6%ba%90%e5%8f%af%e4%be%9b%e5%86%85%e5%ad%98%e4%b8%ad%e5%a4%9a%e4%b8%aa%e5%b9%b6%e5%8f%91%e6%89%a7%e8%a1%8c%e7%9a%84%e8%bf%9b%e7%a8%8b%e5%90%8c%e6%97%b6%e4%bd%bf%e7%94%a8%ef%bc%8c%e5%8f%af%e5%88%86%e4%b8%ba%e4%bb%a5%e4%b8%8b%e4%b8%a4%e7%a7%8d%e3%80%82%0a%e4%ba%92%e6%96%a5%e5%85%b1%e4%ba%ab%e6%96%b9%e5%bc%8f%0a%e6%af%94%e5%a6%82%e6%89%93%e5%8d%b0%e6%9c%ba%ef%bc%8c%e4%b8%8d%e8%83%bd%e5%90%8c%e6%97%b6%e6%89%93%e5%8d%b0%e4%b8%a4%e4%bb%bd%e5%86%85%e5%ae%b9%ef%bc%8c%e4%b8%8d%e7%84%b6%e4%bc%9a%e9%80%a0%e6%88%90%e5%86%85%e5%ae%b9%e6%b7%b7%e6%b7%86%e3%80%82%0a%e5%90%8c%e6%97%b6%e8%ae%bf%e9%97%ae%e6%96%b9%e5%bc%8f%0a%e4%ba%a4%e6%9b%bf%e7%9a%84%e5%af%b9%e8%af%a5%e8%b5%84%e6%ba%90%e8%bf%9b%e8%a1%8c%e8%ae%bf%e9%97%ae%20%e2%80%9c%e5%88%86%e6%97%b6%e5%85%b1%e4%ba%ab%e2%80%9d%e3%80%82%0a%e8%99%9a%e6%8b%9f%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e4%b8%ad%e5%88%a9%e7%94%a8%e4%ba%86%e5%a4%9a%e7%a7%8d%e8%99%9a%e6%8b%9f%e6%8a%80%e6%9c%af%ef%bc%8c%e5%88%86%e5%88%ab%e7%94%a8%e6%9d%a5%e5%ae%9e%e7%8e%b0%e8%99%9a%e6%8b%9f%e5%a4%84%e7%90%86%e6%9c%ba%e3%80%81%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e5%92%8c%e8%99%9a%e6%8b%9f%e5%a4%96%e9%83%a8%e8%ae%be%e5%a4%87%e3%80%82%0a%e5%9c%a8%e8%99%9a%e6%8b%9f%e5%a4%84%e7%90%86%e5%99%a8%e6%8a%80%e6%9c%af%e4%b8%ad%ef%bc%8c%e8%ae%a9%e5%a4%9a%e9%81%93%e7%a8%8b%e5%ba%8f%e5%b9%b6%e5%8f%91%e6%89%a7%e8%a1%8c%e6%9d%a5%e5%88%86%e6%97%b6%e4%bd%bf%e7%94%a8%e4%b8%80%e5%8f%b0%e5%a4%84%e7%90%86%e5%99%a8%ef%bc%8c%e8%99%bd%e7%84%b6%e5%8f%aa%e6%9c%89%e4%b8%80%e5%8f%b0%e5%a4%84%e7%90%86%e5%99%a8%ef%bc%8c%e4%bd%86%e6%98%af%e8%83%bd%e5%90%8c%e6%97%b6%e4%b8%ba%e5%a4%9a%e4%b8%aa%e7%94%a8%e6%88%b7%e6%9c%8d%e5%8a%a1%e3%80%82%e6%8a%8a%e4%b8%80%e5%8f%b0%e7%89%a9%e7%90%86%e4%b8%8a%e7%9a%84CPU%e8%99%9a%e6%8b%9f%e4%b8%ba%e5%a4%9a%e6%80%81%e9%80%bb%e8%be%91%e4%b8%8a%e7%9a%84CPU%e7%a7%b0%e4%b8%ba%e8%99%9a%e6%8b%9f%e5%a4%84%e7%90%86%e5%99%a8%e3%80%82%0a%e8%99%9a%e6%8b%9f%e5%ad%98%e5%82%a8%e5%99%a8%ef%bc%8c%e4%bb%8e%e9%80%bb%e8%be%91%e4%b8%8a%e6%9d%a5%e6%89%a9%e5%85%85%e5%ad%98%e5%82%a8%e5%99%a8%e7%9a%84%e5%ae%b9%e9%87%8f%e3%80%82%0a%e8%99%9a%e6%8b%9f%e8%ae%be%e5%a4%87%e6%8a%80%e6%9c%af%ef%bc%8c%e5%b0%86%e4%b8%80%e5%8f%b0%e7%89%a9%e7%90%86IO%e8%ae%be%e5%a4%87%e8%99%9a%e6%8b%9f%e4%b8%ba%e5%a4%9a%e5%8f%b0%e9%80%bb%e8%be%91%e4%b8%8a%e7%9a%84IO%e8%ae%be%e5%a4%87%ef%bc%8c%e5%85%81%e8%ae%b8%e5%a4%9a%e4%b8%aa%e7%94%a8%e6%88%b7%e5%90%8c%e6%97%b6%e8%ae%bf%e9%97%ae%e7%9a%84%e5%85%b1%e4%ba%ab%e8%ae%be%e5%a4%87%e3%80%82%0a%e5%bc%82%e6%ad%a5%20%e5%9c%a8%e5%a4%9a%e9%81%93%e7%a8%8b%e5%ba%8f%e7%8e%af%e5%a2%83%e4%b8%8b%ef%bc%8c%e5%85%81%e8%ae%b8%e5%a4%9a%e4%b8%aa%e7%a8%8b%e5%ba%8f%e5%b9%b6%e5%8f%91%e6%89%a7%e8%a1%8c%ef%bc%8c%e4%bd%86%e7%94%b1%e4%ba%8e%e8%b5%84%e6%ba%90%e6%9c%89%e9%99%90%ef%bc%8c%e8%bf%9b%e7%a8%8b%e7%9a%84%e6%89%a7%e8%a1%8c%e4%b8%8d%e6%98%af%e4%b8%80%e8%b4%af%e5%88%b0%e5%ba%95%ef%bc%8c%e8%80%8c%e6%98%af%e8%b5%b0%e8%b5%b0%e5%81%9c%e5%81%9c%ef%bc%8c%e4%bb%a5%e4%b8%8d%e5%8f%af%e9%a2%84%e7%9f%a5%e7%9a%84%e9%80%9f%e5%ba%a6%e5%90%91%e5%89%8d%e6%8e%a8%e8%bf%9b%ef%bc%8c%e8%bf%99%e5%b0%b1%e6%98%af%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%bc%82%e6%ad%a5%e6%80%a7%e3%80%82%0a%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e7%9b%ae%e6%a0%87%e5%92%8c%e5%8a%9f%e8%83%bd%20%e4%b8%ba%e4%ba%86%e7%bb%99%e5%a4%9a%e9%81%93%e7%a8%8b%e5%ba%8f%e6%8f%90%e4%be%9b%e8%89%af%e5%a5%bd%e7%9a%84%e8%bf%90%e8%a1%8c%e7%8e%af%e5%a2%83%ef%bc%8c%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%ba%94%e8%af%a5%e5%85%b7%e6%9c%89%ef%bc%9a%e5%a4%84%e7%90%86%e5%99%a8%e7%ae%a1%e7%90%86%e3%80%81%e5%ad%98%e5%82%a8%e5%99%a8%e7%ae%a1%e7%90%86%e3%80%81%e6%96%87%e4%bb%b6%e7%ae%a1%e7%90%86%e5%92%8c%e8%ae%be%e5%a4%87%e7%ae%a1%e7%90%86%ef%bc%8c%e8%bf%98%e5%bf%85%e9%a1%bb%e5%90%91%e7%94%a8%e6%88%b7%e6%8f%90%e4%be%9b%e6%8e%a5%e5%8f%a3%ef%bc%8c%e5%90%8c%e6%97%b6%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%8f%af%e7%94%a8%e6%9d%a5%e6%89%a9%e5%85%85%e6%9c%ba%e5%99%a8%ef%bc%8c%e4%bb%a5%e6%8f%90%e4%be%9b%e6%9b%b4%e6%96%b9%e4%be%bf%e7%9a%84%e6%9c%8d%e5%8a%a1%e3%80%81%e6%9b%b4%e9%ab%98%e7%9a%84%e8%b5%84%e6%ba%90%e5%88%a9%e7%94%a8%e7%8e%87%e3%80%82%0a%e5%a4%84%e7%90%86%e5%99%a8%e7%ae%a1%e7%90%86%0a%e5%af%b9%e5%a4%84%e7%90%86%e5%99%a8%e7%9a%84%e7%ae%a1%e7%90%86%e5%8f%af%e5%bd%92%e7%bb%93%e4%b8%ba%e5%af%b9%e8%bf%9b%e7%a8%8b%e7%9a%84%e7%ae%a1%e7%90%86%ef%bc%8c%e4%b8%bb%e8%a6%81%e5%8a%9f%e8%83%bd%e6%9c%89%ef%bc%9a%e8%bf%9b%e7%a8%8b%e6%8e%a7%e5%88%b6%e3%80%81%e8%bf%9b%e7%a8%8b%e5%90%8c%e6%ad%a5%e3%80%81%e8%bf%9b%e7%a8%8b%e9%80%9a%e4%bf%a1%e3%80%81%e6%ad%bb%e9%94%81%e5%a4%84%e7%90%86%e3%80%81%e5%a4%84%e7%90%86%e5%99%a8%e8%b0%83%e5%ba%a6%e7%ad%89%e3%80%82%0a%e5%ad%98%e5%82%a8%e5%99%a8%e7%ae%a1%e7%90%86%0a%e6%96%b9%e4%be%bf%e7%94%a8%e6%88%b7%e4%bd%bf%e7%94%a8%e4%bb%a5%e5%8f%8a%e6%8f%90%e9%ab%98%e5%86%85%e5%ad%98%e7%9a%84%e5%88%a9%e7%94%a8%e7%8e%87%ef%bc%8c%e5%ad%98%e5%82%a8%e5%99%a8%e7%ae%a1%e7%90%86%e5%ba%94%e5%85%b7%e5%a4%87%ef%bc%9a%e5%86%85%e5%ad%98%e5%88%86%e9%85%8d%e3%80%81%e5%9c%b0%e5%9d%80%e6%98%a0%e5%b0%84%e3%80%81%e5%86%85%e5%ad%98%e4%bf%9d%e6%8a%a4%e3%80%81%e5%85%b1%e4%ba%ab%e5%92%8c%e5%86%85%e5%ad%98%e6%89%a9%e5%85%85%e7%ad%89%e3%80%82%0a%e6%96%87%e4%bb%b6%e7%ae%a1%e7%90%86%0a%e5%8c%85%e6%8b%ac%e6%96%87%e4%bb%b6%e7%9a%84%e5%ad%98%e5%82%a8%e7%a9%ba%e9%97%b4%e7%ae%a1%e7%90%86%e3%80%81%e7%9b%ae%e5%bd%95%e7%ae%a1%e7%90%86%e5%92%8c%e6%96%87%e4%bb%b6%e8%af%bb%e5%86%99%e7%ae%a1%e7%90%86%e3%80%81%e6%96%87%e4%bb%b6%e4%bf%9d%e6%8a%a4%e3%80%82%0a%e8%ae%be%e5%a4%87%e7%ae%a1%e7%90%86%0a%e5%ae%8c%e6%88%90%e7%94%a8%e6%88%b7%e7%9a%84IO%e8%af%b7%e6%b1%82%ef%bc%8c%e4%b8%bb%e8%a6%81%e5%8c%85%e6%8b%ac%e6%b7%b7%e5%85%85%e7%ae%a1%e7%90%86%e3%80%81%e8%ae%be%e5%a4%87%e5%88%86%e9%85%8d%e3%80%81%e8%ae%be%e5%a4%87%e5%a4%84%e7%90%86%e5%92%8c%e8%99%9a%e6%8b%9f%e8%ae%be%e5%a4%87%e7%ad%89%e3%80%82%0a%e4%b8%ba%e4%ba%86%e6%96%b9%e4%be%bf%e7%94%a8%e6%88%b7%e4%bd%bf%e7%94%a8%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%ef%bc%8c%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e8%bf%98%e6%8f%90%e4%be%9b%e4%ba%86%e7%94%a8%e6%88%b7%e6%8e%a5%e5%8f%a3%ef%bc%8c%e5%88%86%e4%b8%ba%e4%bb%a5%e4%b8%8b%e4%b8%a4%e7%b1%bb%e3%80%82%0a%e5%91%bd%e4%bb%a4%e6%8e%a5%e5%8f%a3%0a%e4%bd%bf%e7%94%a8%e5%91%bd%e4%bb%a4%e6%8e%a5%e5%8f%a3%e8%bf%9b%e8%a1%8c%e4%bd%9c%e4%b8%9a%e6%8e%a7%e5%88%b6%e7%9a%84%e4%b8%bb%e8%a6%81%e6%96%b9%e5%bc%8f%e6%9c%89%e4%b8%a4%e7%a7%8d%ef%bc%9a%e8%81%94%e6%9c%ba%e5%91%bd%e4%bb%a4%e6%8e%a5%e5%8f%a3%e5%92%8c%e8%84%b1%e6%9c%ba%e5%91%bd%e4%bb%a4%e6%8e%a5%e5%8f%a3%e3%80%82%0a%e7%a8%8b%e5%ba%8f%e6%8e%a5%e5%8f%a3%0a%e7%a8%8b%e5%ba%8f%e6%8e%a5%e5%8f%a3%e7%94%b1%e4%b8%80%e7%bb%84%e7%b3%bb%e7%bb%9f%e8%b0%83%e7%94%a8%e5%91%bd%e4%bb%a4%e7%bb%84%e6%88%90%ef%bc%8c%e7%94%a8%e6%88%b7%e5%8f%af%e4%bb%a5%e7%9b%b4%e6%8e%a5%e4%bd%bf%e7%94%a8%e5%91%bd%e4%bb%a4%e5%90%91%e7%b3%bb%e7%bb%9f%e6%8f%90%e5%87%ba%e5%90%84%e7%a7%8d%e8%af%b7%e6%b1%82%e3%80%82%0a%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e7%bb%93%e6%9e%84%20%e7%ae%80%e5%8d%95%e7%bb%93%e6%9e%84%e3%80%81%e6%a8%a1%e5%9d%97%e5%8c%96%e7%bb%93%e6%9e%84%e3%80%81%e5%88%86%e5%b1%82%e5%bc%8f%e7%bb%93%e6%9e%84%e3%80%81%e5%be%ae%e5%86%85%e6%a0%b8%e7%bb%93%e6%9e%84%e3%80%82%0a1.3%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e8%bf%90%e8%a1%8c%e7%8e%af%e5%a2%83%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%9c%a8%e5%85%b7%e4%bd%93%e5%ae%9e%e7%8e%b0%e4%b8%8a%e5%88%92%e5%88%86%e4%ba%86%e7%94%a8%e6%88%b7%e6%80%81%e3%80%81%e6%a0%b8%e5%bf%83%e6%80%81%e3%80%82%0a%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%86%85%e6%a0%b8%e5%8c%85%e6%8b%ac%e4%bb%a5%e4%b8%8b4%e6%96%b9%e9%9d%a2%ef%bc%9a%0a%e6%97%b6%e9%92%9f%e7%ae%a1%e7%90%86%0a%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e9%9c%80%e8%a6%81%e9%80%9a%e8%bf%87%e6%97%b6%e9%92%9f%e7%ae%a1%e7%90%86%ef%bc%8c%e5%90%91%e7%94%a8%e6%88%b7%e6%8f%90%e4%be%9b%e6%a0%87%e5%87%86%e7%9a%84%e7%b3%bb%e7%bb%9f%e6%97%b6%e9%97%b4%e3%80%82%e9%80%9a%e8%bf%87%e6%97%b6%e9%92%9f%e4%b8%ad%e6%96%ad%e7%9a%84%e7%ae%a1%e7%90%86%ef%bc%8c%e5%8f%af%e4%bb%a5%e5%ae%9e%e7%8e%b0%e8%bf%9b%e7%a8%8b%e5%88%87%e6%8d%a2%e3%80%82%0a%e4%b8%ad%e6%96%ad%e6%9c%ba%e5%88%b6%0a%e5%bc%95%e5%85%a5%e4%b8%ad%e6%96%ad%e6%9c%ba%e5%88%b6%e6%98%af%e4%b8%ba%e4%ba%86%e6%8f%90%e9%ab%98%e5%a4%9a%e9%81%93%e7%a8%8b%e5%ba%8f%e8%bf%90%e8%a1%8c%e7%8e%af%e5%a2%83%e4%b8%adCPU%e7%9a%84%e5%88%a9%e7%94%a8%e7%8e%87%e3%80%82%0a%e5%8e%9f%e8%af%ad%0a%e5%8e%9f%e8%af%ad%e5%a4%84%e4%ba%8e%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e6%9c%80%e5%ba%95%e5%b1%82%ef%bc%8c%e6%98%af%e6%9c%80%e6%8e%a5%e8%bf%91%e7%a1%ac%e4%bb%b6%e7%9a%84%e9%83%a8%e5%88%86%ef%bc%9b%e5%85%b7%e6%9c%89%e5%8e%9f%e5%ad%90%e6%80%a7%ef%bc%88%e4%b8%80%e6%b0%94%e5%91%b5%e6%88%90%ef%bc%8c%e4%b8%8d%e5%8f%af%e4%b8%ad%e6%96%ad%ef%bc%89%ef%bc%9b%e8%bf%90%e8%a1%8c%e6%97%b6%e9%97%b4%e7%9f%ad%e3%80%81%e8%b0%83%e7%94%a8%e9%a2%91%e7%b9%81%e3%80%82%0a%e7%b3%bb%e7%bb%9f%e6%8e%a7%e5%88%b6%e7%9a%84%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e5%8f%8a%e5%a4%84%e7%90%86%0a%e5%b8%b8%e8%a7%81%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%93%8d%e4%bd%9c%e6%9c%89%e4%bb%a5%e4%b8%8b3%e7%a7%8d%ef%bc%8c%e8%bf%9b%e7%a8%8b%e7%ae%a1%e7%90%86%e3%80%81%e5%ad%98%e5%82%a8%e5%99%a8%e7%ae%a1%e7%90%86%e3%80%81%e8%ae%be%e5%a4%87%e7%ae%a1%e7%90%86%e3%80%82%0a%e4%b8%ad%e6%96%ad%e5%92%8c%e5%bc%82%e5%b8%b8%20%e5%bc%95%e5%85%a5%e6%a0%b8%e5%bf%83%e6%80%81%e5%92%8c%e7%94%a8%e6%88%b7%e6%80%81%e4%b9%8b%e5%90%8e%ef%bc%8c%e5%b0%b1%e9%9c%80%e8%a6%81%e8%80%83%e8%99%91%e5%a6%82%e4%bd%95%e5%9c%a8%e8%bf%99%e4%b8%a4%e7%a7%8d%e7%8a%b6%e6%80%81%e4%b8%8b%e5%88%87%e6%8d%a2%e3%80%82%2a%2a%e4%b8%ad%e6%96%ad%e6%98%af%e8%ae%a9%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%86%85%e6%a0%b8%e5%a4%ba%e5%9b%9eCPU%e4%bd%bf%e7%94%a8%e6%9d%83%e7%9a%84%e5%94%af%e4%b8%80%e9%80%94%e5%be%84%e3%80%82%2a%2a%e5%86%85%e6%a0%b8%e5%b7%a5%e4%bd%9c%e5%9c%a8%e6%a0%b8%e5%bf%83%e6%80%81%ef%bc%8c%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e5%b7%a5%e4%bd%9c%e5%9c%a8%e7%94%a8%e6%88%b7%e6%80%81%ef%bc%8c%e7%b3%bb%e7%bb%9f%e4%b8%8d%e5%85%81%e8%ae%b8%e7%94%a8%e6%88%b7%e4%bd%bf%e7%94%a8%e6%a0%b8%e5%bf%83%e6%80%81%e7%9a%84%e5%8a%9f%e8%83%bd%ef%bc%8c%e4%bd%86%e6%98%af%e5%ae%83%e4%bb%ac%e5%8f%88%e5%bf%85%e9%a1%bb%e4%bd%bf%e7%94%a8%e3%80%82%0a%e4%b8%ad%e6%96%ad%ef%bc%88%e5%a4%96%e4%b8%ad%e6%96%ad%ef%bc%89%0a%e4%b8%ad%e6%96%ad%e4%bf%a1%e5%8f%b7%e6%9d%a5%e6%ba%90%e4%ba%8eCPU%e5%a4%96%e9%83%a8%ef%bc%8c%e4%b8%8e%e5%bd%93%e5%89%8d%e6%89%a7%e8%a1%8c%e7%9a%84%e6%8c%87%e4%bb%a4%e6%97%a0%e5%85%b3%e3%80%82%e6%af%94%e5%a6%82%e8%af%b4%e6%97%b6%e9%92%9f%e4%b8%ad%e6%96%ad%e5%92%8cI%2fO%e4%b8%ad%e6%96%ad%e8%af%b7%e6%b1%82%ef%bc%8c%e5%bd%93%e8%be%93%e5%85%a5%e8%be%93%e5%87%ba%e4%bb%bb%e5%8a%a1%e5%ae%8c%e6%88%90%e6%97%b6%ef%bc%8c%e5%90%91CPU%e5%8f%91%e9%80%81%e4%b8%ad%e6%96%ad%e4%bf%a1%e5%8f%b7%ef%bc%8c%e6%88%96%e6%97%b6%e9%92%9f%e9%83%a8%e4%bb%b6%e6%af%8f%e9%9a%9450ms%e5%8f%91%e9%80%81%e4%b8%80%e4%b8%aa%e4%b8%ad%e6%96%ad%e4%bf%a1%e5%8f%b7%e3%80%82%0a%e5%bc%82%e5%b8%b8%ef%bc%88%e5%86%85%e4%b8%ad%e6%96%ad%ef%bc%89%0a%e6%ba%90%e4%ba%8eCPU%e6%89%a7%e8%a1%8c%e6%8c%87%e4%bb%a4%e5%86%85%e9%83%a8%ef%bc%8c%e6%af%94%e5%a6%82%e7%a8%8b%e5%ba%8f%e7%9a%84%e9%9d%9e%e6%b3%95%e6%93%8d%e4%bd%9c%e3%80%82%0a%e4%b8%80%e4%ba%9b%e7%94%b1%e7%94%a8%e6%88%b7%e6%80%81%e8%bd%ac%e4%b8%ba%e6%a0%b8%e5%bf%83%e6%80%81%e7%9a%84%e4%be%8b%e5%ad%90%ef%bc%9a1%ef%bc%89%e7%94%a8%e6%88%b7%e7%a8%8b%e5%ba%8f%e8%a6%81%e6%b1%82%e7%b3%bb%e7%bb%9f%e6%9c%8d%e5%8a%a1%202%ef%bc%89%e5%8f%91%e7%94%9f%e4%b8%80%e6%ac%a1%e4%b8%ad%e6%96%ad%203%ef%bc%89%e7%94%a8%e6%88%b7%e7%a8%8b%e5%ba%8f%e4%ba%a7%e7%94%9f%e9%94%99%e8%af%af%204%ef%bc%89%e7%94%a8%e6%88%b7%e7%a8%8b%e5%ba%8f%e4%bc%81%e5%9b%be%e6%89%a7%e8%a1%8c%e7%89%b9%e6%9d%83%e6%8c%87%e4%bb%a4%0a2.%20%e7%ac%ac%e4%ba%8c%e7%ab%a0%20%e8%bf%9b%e7%a8%8b%e7%ae%a1%e7%90%86%202.1%20%e8%bf%9b%e7%a8%8b%e4%b8%8e%e7%ba%bf%e7%a8%8b%20%e8%bf%9b%e7%a8%8b%e6%8e%a7%e5%88%b6%e5%9d%97%ef%bc%88PCB%ef%bc%89%e6%8f%8f%e8%bf%b0%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%83%85%e5%86%b5%e5%92%8c%e8%bf%90%e8%a1%8c%e7%8a%b6%e6%80%81%ef%bc%8cPCB%e6%98%af%e8%bf%9b%e7%a8%8b%e5%ad%98%e5%9c%a8%e7%9a%84%e5%94%af%e4%b8%80%e6%a0%87%e5%bf%97%e3%80%82%0a%e8%bf%9b%e7%a8%8b%e7%94%b1PCB%e3%80%81%e7%a8%8b%e5%ba%8f%e6%ae%b5%e3%80%81%e6%95%b0%e6%8d%ae%e6%ae%b5%e7%bb%84%e6%88%90%e3%80%82%0a%e8%bf%9b%e7%a8%8b%e7%9a%84%e7%89%b9%e5%be%81%20%e5%8a%a8%e6%80%81%e6%80%a7%28%e6%9c%80%e5%9f%ba%e6%9c%ac%e7%9a%84%e7%89%b9%e6%80%a7%29%e3%80%81%e5%b9%b6%e5%8f%91%e6%80%a7%e3%80%81%e7%8b%ac%e7%ab%8b%e6%80%a7%e3%80%81%e5%bc%82%e6%ad%a5%e6%80%a7%e3%80%81%e7%bb%93%e6%9e%84%e6%80%a7%e3%80%82&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>

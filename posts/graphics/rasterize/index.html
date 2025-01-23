@@ -202,48 +202,52 @@
     <nav id="TableOfContents" class="table-of-contents">
         <nav id="TableOfContents">
   <ul>
-    <li><a href="#屏幕坐标系">屏幕坐标系</a></li>
-    <li><a href="#视口变换">视口变换</a></li>
-    <li><a href="#光栅显示设备">光栅显示设备</a></li>
-    <li><a href="#光栅化方法">光栅化方法</a>
+    <li>
       <ul>
-        <li><a href="#采样">采样</a></li>
-        <li><a href="#判断点是否在三角形">判断点是否在三角形</a></li>
-        <li><a href="#光栅化计算加速三角形遍历方法">光栅化计算加速（三角形遍历方法）</a>
+        <li><a href="#屏幕坐标系">屏幕坐标系</a></li>
+        <li><a href="#视口变换">视口变换</a></li>
+        <li><a href="#光栅显示设备">光栅显示设备</a></li>
+        <li><a href="#光栅化方法">光栅化方法</a>
           <ul>
-            <li><a href="#包围盒遍历">包围盒遍历</a></li>
-            <li><a href="#增量三角形遍历">增量三角形遍历</a></li>
+            <li><a href="#采样">采样</a></li>
+            <li><a href="#判断点是否在三角形">判断点是否在三角形</a></li>
+            <li><a href="#光栅化计算加速三角形遍历方法">光栅化计算加速（三角形遍历方法）</a>
+              <ul>
+                <li><a href="#包围盒遍历">包围盒遍历</a></li>
+                <li><a href="#增量三角形遍历">增量三角形遍历</a></li>
+              </ul>
+            </li>
           </ul>
         </li>
+        <li><a href="#抗锯齿--反走样anti-aliasing">抗锯齿 / 反走样（Anti Aliasing）</a>
+          <ul>
+            <li><a href="#锯齿aliasing">锯齿（Aliasing）</a></li>
+            <li><a href="#傅里叶级数展开">傅里叶级数展开</a></li>
+          </ul>
+        </li>
+        <li><a href="#频率与采样">频率与采样</a></li>
+        <li><a href="#滤波">滤波</a>
+          <ul>
+            <li><a href="#高通滤波high-pass-filter">高通滤波（High-Pass Filter）</a></li>
+            <li><a href="#低通滤波low-pass-filter">低通滤波（Low-Pass Filter）</a></li>
+            <li><a href="#带通滤波band-pass-filter">带通滤波（Band-Pass Filter）</a></li>
+          </ul>
+        </li>
+        <li><a href="#卷积">卷积</a></li>
+        <li><a href="#采样与频域">采样与频域</a></li>
+        <li><a href="#走样">走样</a></li>
+        <li><a href="#反走样方法">反走样方法</a>
+          <ul>
+            <li><a href="#多重采样msaa">多重采样MSAA</a></li>
+            <li><a href="#快速近似抗锯齿fxaa">快速近似抗锯齿FXAA</a></li>
+            <li><a href="#时间抗锯齿taa">时间抗锯齿TAA</a></li>
+            <li><a href="#深度学习超级采样dlss">深度学习超级采样DLSS</a></li>
+            <li><a href="#msaa和ssaa区别">MSAA和SSAA区别</a></li>
+          </ul>
+        </li>
+        <li><a href="#作业">作业</a></li>
       </ul>
     </li>
-    <li><a href="#抗锯齿--反走样anti-aliasing">抗锯齿 / 反走样（Anti Aliasing）</a>
-      <ul>
-        <li><a href="#锯齿aliasing">锯齿（Aliasing）</a></li>
-        <li><a href="#傅里叶级数展开">傅里叶级数展开</a></li>
-      </ul>
-    </li>
-    <li><a href="#频率与采样">频率与采样</a></li>
-    <li><a href="#滤波">滤波</a>
-      <ul>
-        <li><a href="#高通滤波high-pass-filter">高通滤波（High-Pass Filter）</a></li>
-        <li><a href="#低通滤波low-pass-filter">低通滤波（Low-Pass Filter）</a></li>
-        <li><a href="#带通滤波band-pass-filter">带通滤波（Band-Pass Filter）</a></li>
-      </ul>
-    </li>
-    <li><a href="#卷积">卷积</a></li>
-    <li><a href="#采样与频域">采样与频域</a></li>
-    <li><a href="#走样">走样</a></li>
-    <li><a href="#反走样方法">反走样方法</a>
-      <ul>
-        <li><a href="#多重采样msaa">多重采样MSAA</a></li>
-        <li><a href="#快速近似抗锯齿fxaa">快速近似抗锯齿FXAA</a></li>
-        <li><a href="#时间抗锯齿taa">时间抗锯齿TAA</a></li>
-        <li><a href="#深度学习超级采样dlss">深度学习超级采样DLSS</a></li>
-        <li><a href="#msaa和ssaa区别">MSAA和SSAA区别</a></li>
-      </ul>
-    </li>
-    <li><a href="#作业">作业</a></li>
   </ul>
 </nav>
     </nav>
