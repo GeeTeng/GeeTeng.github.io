@@ -34,7 +34,7 @@
   <meta itemprop="description" content="更新中">
   <meta itemprop="datePublished" content="2024-12-11T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-12-11T00:00:00+00:00">
-  <meta itemprop="wordCount" content="1683">
+  <meta itemprop="wordCount" content="2235">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/" />
 
@@ -261,6 +261,16 @@
             <li><a href="#const-和-constexpr-变量之间的主要区别">const 和 constexpr 变量之间的主要区别</a></li>
           </ul>
         </li>
+        <li><a href="#多线程">多线程</a>
+          <ul>
+            <li><a href="#join与detach区别">join与detach区别</a></li>
+            <li><a href="#线程组成部分">线程组成部分</a></li>
+            <li><a href="#线程同步机制">线程同步机制</a></li>
+            <li><a href="#互斥锁mutex">互斥锁mutex</a></li>
+            <li><a href="#lock_guard">lock_guard</a></li>
+            <li><a href="#unique_lock">unique_lock</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -283,7 +293,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        37 mins read
+                        49 mins read
                     </p>
                 </div>
             </div>
@@ -1050,6 +1060,264 @@
 <li>const 变量的初始化可以延迟到运行时，而 constexpr 变量必须在编译时进行初始化。</li>
 <li>const修饰一个对象表示它是常量。constexpr是修饰一个常量表达式。</li>
 </ul>
+<hr>
+<h2 id="多线程">多线程</h2>
+<p>传递函数指针</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sayhello</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;hello&#34;</span> <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> b <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sayhello2</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> a, <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> b)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	a <span style="color:#f92672">+=</span> <span style="color:#ae81ff">5</span>, b <span style="color:#f92672">+=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> a <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;,&#34;</span> <span style="color:#f92672">&lt;&lt;</span> b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 创建子线程
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// 传递一个可调对象
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">thread</span> t1(sayhello, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">20</span>);
+</span></span><span style="display:flex;"><span>	t1.join();<span style="color:#75715e">// 阻塞主线程
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// main所在线程就是主线程
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;this is main&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>, y <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">thread</span> t2(sayhello2, ref(x), ref(y));<span style="color:#75715e">//引用传递
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>传递成员函数指针</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>	MyClass obj;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 传递成员函数指针和成员函数对象
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">thread</span> <span style="color:#a6e22e">t</span>(<span style="color:#f92672">&amp;</span>MyClass<span style="color:#f92672">::</span>memberFunctionTask, <span style="color:#f92672">&amp;</span>obj);
+</span></span><span style="display:flex;"><span>	t.join();
+</span></span></code></pre></div><p>传递lambda表达式</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">thread</span> <span style="color:#a6e22e">t1</span>([]() {cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;hello lambda</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; });
+</span></span><span style="display:flex;"><span>t1.join();
+</span></span></code></pre></div><p>传递仿函数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Functor</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">operator</span>()()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Functor task executed</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Functor f;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">thread</span> t(f);
+</span></span><span style="display:flex;"><span>	t.join();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>传递绑定对象</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">auto</span> boundFunc <span style="color:#f92672">=</span> bind(functionWithArgs, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">thread</span> <span style="color:#a6e22e">t</span>(boundFunc);
+</span></span><span style="display:flex;"><span>t.join();
+</span></span></code></pre></div><h3 id="join与detach区别">join与detach区别</h3>
+<p><strong>join方法</strong>：当一个线程调用join方法时，会阻塞当前线程（调用join线程），直到join线程执行完成。这样确保了子线程执行完毕之前不会结束主线程的执行。使用join可确保资源被正确地回收和清理。</p>
+<p><strong>detach方法</strong>：当调用detach时，线程将与其所属的线程（即调用detach的线程分离），一旦线程被分离，将不再受到主线程的控制，主线程无法调用join来等待它的结束。分离的线程在执行完毕后系统会自动回收其资源。</p>
+<h3 id="线程组成部分">线程组成部分</h3>
+<ul>
+<li><strong>线程ID</strong>:TID唯一标识符。</li>
+<li><strong>线程栈</strong>：每个线程都有自己私有的栈空间，用于存储局部变量，函数调用时的参数和返回地址等信息。线程栈在创建线程时分配，并在线程结束时释放。</li>
+<li><strong>线程状态</strong>：创建、就绪、允许、阻塞、终止。</li>
+<li><strong>线程上下文</strong>：包含了线程执行时所有信息，包括cpu寄存器内容，程序计数器PC的值，栈指针等，当进程被切换时，上下文会被保存，以便之后恢复执行时能够继续执行。</li>
+<li><strong>线程函数</strong>：线程执行的具体逻辑，包含线程需要执行的代码。</li>
+<li><strong>线程优先级</strong>：优先级较高会得到更多处理器时间。</li>
+<li><strong>线程属性</strong>：栈大小、安全属性。</li>
+<li><strong>线程同步原语</strong>：为了协调多个线程并发执行，如互斥锁、条件变量、信号量等。</li>
+</ul>
+<p><code>this_thread::get_id()</code>：获取当前线程ID</p>
+<p><code>this_thread::sleep_for(1s)</code>:使当前线程休眠</p>
+<h3 id="线程同步机制">线程同步机制</h3>
+<p><strong>互斥锁</strong>：如果锁被其他线程持有，呢么该进程将被阻塞，直到锁释放。</p>
+<p><strong>条件变量</strong>：通常与互斥锁一起使用，在等待条件成立时释放锁。</p>
+<p><strong>信号量</strong>：PV操作，信号量内部维护一个计数器，表示可用资源的数量。</p>
+<p><strong>原子操作</strong>：不可中断操作。</p>
+<hr>
+<h3 id="互斥锁mutex">互斥锁mutex</h3>
+<p><strong>互斥性</strong>、<strong>原子性</strong>、<strong>可重入性</strong>（允许同一线程多次获取同一个锁，但不建议这么做，容易死锁）、<strong>非阻塞性</strong>（在某些高级实现比如尝试锁，不会阻塞，会做一些其他任务）</p>
+<p>如果不加锁的话，两个线程可能会同时访问counter，最终结果是不可预计的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include&lt;thread&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include&lt;mutex&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 共享变量 没有使用互斥锁/原子操作
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">int</span> counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>mutex myMutex; <span style="color:#75715e">//声明互斥锁
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 线程函数 对counter进行递增操作
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">increment_counter</span>(<span style="color:#66d9ef">int</span> times)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> times; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		myMutex.lock(); <span style="color:#75715e">// 加锁
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		counter<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>		myMutex.unlock(); <span style="color:#75715e">// 解锁
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">thread</span> t1(increment_counter, <span style="color:#ae81ff">100000</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">thread</span> t2(increment_counter, <span style="color:#ae81ff">100000</span>);
+</span></span><span style="display:flex;"><span>	t1.join();
+</span></span><span style="display:flex;"><span>	t2.join();
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;最终的结果&#34;</span> <span style="color:#f92672">&lt;&lt;</span> counter <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>使用RAII管理锁：通过<code>lock_guard</code> / <code>unique_lock</code>来确保锁在不需要时自动释放，类同智能指针。</p>
+<p>避免长时间持有锁：提高程序的并发性能。</p>
+<p><strong>mutex的4种类型</strong></p>
+<ol>
+<li>
+<p><code>mutex</code>：不允许递归锁定，同一线程不能多次锁定同一个mutex，会引发死锁。</p>
+</li>
+<li>
+<p><code>recursive_mutex</code>：递归互斥量，与mutex相反.</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>recursive_mutex mtx;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">recursive_function</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	mtx.lock();
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Thread locked mutex&#34;</span> <span style="color:#f92672">&lt;&lt;</span> this_thread<span style="color:#f92672">::</span>get_id() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	mtx.lock();
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Thread locked mutex recursively&#34;</span> <span style="color:#f92672">&lt;&lt;</span> this_thread<span style="color:#f92672">::</span>get_id() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	mtx.unlock();
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Thread unlocked mutex once&#34;</span> <span style="color:#f92672">&lt;&lt;</span> this_thread<span style="color:#f92672">::</span>get_id() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	mtx.unlock();
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Thread unlocked mutex again&#34;</span> <span style="color:#f92672">&lt;&lt;</span> this_thread<span style="color:#f92672">::</span>get_id() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p><code>timed_mutex</code>：时限锁，除了提供基本的锁定和解锁操作外，还允许线程在一定时间内锁定互斥量。如果在指定时间内无法获取锁，try_lock_for() / try_lock_until()将返回失败，而线程不会被阻塞。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>timed_mutex mtx2;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">timed_lock_function</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">auto</span> start <span style="color:#f92672">=</span> chrono<span style="color:#f92672">::</span>high_resolution_clock<span style="color:#f92672">::</span>now();
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 尝试在指定时间内获取锁
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> (mtx2.try_lock_for(chrono<span style="color:#f92672">::</span>seconds(<span style="color:#ae81ff">2</span>)))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Thread locked mutex&#34;</span> <span style="color:#f92672">&lt;&lt;</span> this_thread<span style="color:#f92672">::</span>get_id() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>		this_thread<span style="color:#f92672">::</span>sleep_for(chrono<span style="color:#f92672">::</span>seconds(<span style="color:#ae81ff">3</span>));
+</span></span><span style="display:flex;"><span>		mtx2.unlock();
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Thread unlocked mutex&#34;</span> <span style="color:#f92672">&lt;&lt;</span> this_thread<span style="color:#f92672">::</span>get_id() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Thread failed to locked mutex&#34;</span> <span style="color:#f92672">&lt;&lt;</span> this_thread<span style="color:#f92672">::</span>get_id() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">auto</span> end <span style="color:#f92672">=</span> chrono<span style="color:#f92672">::</span>high_resolution_clock<span style="color:#f92672">::</span>now();
+</span></span><span style="display:flex;"><span>	chrono<span style="color:#f92672">::</span>duration<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">double</span><span style="color:#f92672">&gt;</span> diff <span style="color:#f92672">=</span> end <span style="color:#f92672">-</span> start;
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Thread took &#34;</span> <span style="color:#f92672">&lt;&lt;</span> diff.count() <span style="color:#f92672">&lt;&lt;</span> this_thread<span style="color:#f92672">::</span>get_id() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">thread</span> t1(timed_lock_function);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">thread</span> t2(timed_lock_function);
+</span></span><span style="display:flex;"><span>	t1.join();	
+</span></span><span style="display:flex;"><span>	t2.join();
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	Thread locked mutex 2736
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	Thread failed to locked mutex 26236
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	Thread took 2.01198 26236
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	Thread unlocked mutex 2736
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	Thread took 3.00277 2736
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	*/</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p><code>recursive_timed_mutex</code>：递归时限锁</p>
+</li>
+</ol>
+<h3 id="lock_guard">lock_guard</h3>
+<p>lock_guard是一个模板类，位于mutex头文件中，符合RAII风格，主要用于管理mutex的声明周期，确保mutex正确的上锁解锁。</p>
+<blockquote>
+<p>为什么需要lock_guard？</p>
+</blockquote>
+<ul>
+<li>抛出异常需要正确解锁</li>
+<li>复杂的逻辑手动解锁复杂</li>
+<li>防止死锁</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sum</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	lock_guard<span style="color:#f92672">&lt;</span>mutex<span style="color:#f92672">&gt;</span> lock(mymutex); <span style="color:#75715e">// 保护的是mutex类型的锁mymutex
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10000</span>; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		mycount<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>	}<span style="color:#75715e">// 超出生命周期自动解锁
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p><strong>不可复制不可移动</strong>（独占性质）因为禁用了拷贝构造函数和拷贝赋值函数。</p>
+<h3 id="unique_lock">unique_lock</h3>
+<p>lock_guard的问题是只有生命周期结束才会解锁，无法在中途解锁（只管控一部分，除非使用{}作用域，但也不灵活），所以使用unique_lock</p>
+<p>unique_lock有如下常用成员函数：</p>
+<p><code>lock()</code>、<code>unlock()</code></p>
+<p><code>try_lock()</code>：尝试锁定mutex，如果锁定成功返回true，否则返回false。</p>
+<p><code>owns_lock()</code>：返回一个布尔值，指示unique_lock是否拥有mutex的所有权。</p>
+<p>unique_lock的三个参数：</p>
+<ol>
+<li>
+<p>defer_lock</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>mutex mtx;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> counter <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> counter2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">example_defer_lock</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	unique_lock<span style="color:#f92672">&lt;</span>mutex<span style="color:#f92672">&gt;</span> lock(mtx, defer_lock); <span style="color:#75715e">// 不会立刻锁定
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// 执行一些操作
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">100000</span>; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		counter <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	lock.lock();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (size_t i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">100000</span>; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		counter2<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;locked with defer_lock&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	lock.unlock();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">thread</span> t1(example_defer_lock);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">thread</span> t2(example_defer_lock);
+</span></span><span style="display:flex;"><span>	t1.join();
+</span></span><span style="display:flex;"><span>	t2.join();
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> counter <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> counter2 <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    locked with defer_lock
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    locked with defer_lock
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    101971 200000
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">    */</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>adopt_lock_t</p>
+<p>接管已上锁的锁</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">example_adopt_lock</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	mtx3.lock();
+</span></span><span style="display:flex;"><span>	unique_lock<span style="color:#f92672">&lt;</span>mutex<span style="color:#f92672">&gt;</span> lock(mtx3, adopt_lock); <span style="color:#75715e">// 接管已锁定的互斥锁
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Locked with adopt_lock&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+<li>
+<p>try_to_lock_t</p>
+<p>以防没有锁上而重复释放锁 / 上锁了又重复上锁的操作</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">example_try_to_lock</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	unique_lock<span style="color:#f92672">&lt;</span>mutex<span style="color:#f92672">&gt;</span> lock(mtx, try_to_lock);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (lock.owns_lock())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;locked successfully&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;failed to lock&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div></li>
+</ol>
 
         </div>
     </div>

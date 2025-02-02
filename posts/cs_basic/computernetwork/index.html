@@ -34,7 +34,7 @@
   <meta itemprop="description" content="计算机网络知识 胡科大教书匠笔记">
   <meta itemprop="datePublished" content="2025-01-13T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-01-13T00:00:00+00:00">
-  <meta itemprop="wordCount" content="120">
+  <meta itemprop="wordCount" content="177">
   <meta itemprop="keywords" content="CS Basic">
 <link rel="canonical" href="https://geeteng.github.io/posts/cs_basic/computernetwork/" />
 
@@ -202,58 +202,55 @@
     <nav id="TableOfContents" class="table-of-contents">
         <nav id="TableOfContents">
   <ul>
-    <li>
+    <li><a href="#1-第一章-概述">1. 第一章 概述</a>
       <ul>
-        <li><a href="#概述">概述</a>
+        <li><a href="#11-计算机网络体系结构">1.1 计算机网络体系结构</a></li>
+        <li><a href="#12-计算机网络分类">1.2 计算机网络分类</a></li>
+        <li><a href="#13-三种交换方式">1.3 三种交换方式</a>
           <ul>
-            <li><a href="#计算机网络分类">计算机网络分类</a></li>
-            <li><a href="#计算机网络体系结构">计算机网络体系结构</a>
-              <ul>
-                <li><a href="#七层osi模型">七层OSI模型</a></li>
-                <li><a href="#五层模型">五层模型</a></li>
-                <li><a href="#tcpip四层模型">TCP/IP四层模型</a></li>
-              </ul>
-            </li>
-            <li><a href="#三种交换方式">三种交换方式</a>
+            <li>
               <ul>
                 <li><a href="#电路交换">电路交换</a></li>
                 <li><a href="#分组交换">分组交换</a></li>
                 <li><a href="#报文交换">报文交换</a></li>
-                <li><a href="#对比">对比</a></li>
               </ul>
             </li>
           </ul>
         </li>
-        <li><a href="#物理层">物理层</a>
+      </ul>
+    </li>
+    <li><a href="#2-第二章-物理层">2. 第二章 物理层</a>
+      <ul>
+        <li><a href="#21-物理层的基本概念">2.1 物理层的基本概念</a></li>
+        <li><a href="#22-传输媒体和传输方式">2.2 传输媒体和传输方式</a></li>
+      </ul>
+    </li>
+    <li><a href="#3-第三章-数据链路层">3. 第三章 数据链路层</a>
+      <ul>
+        <li><a href="#31-数据链路层概述">3.1 数据链路层概述</a></li>
+        <li><a href="#32-封装成帧">3.2 封装成帧</a>
           <ul>
-            <li><a href="#物理层的基本概念">物理层的基本概念</a></li>
-            <li><a href="#传输媒体">传输媒体</a></li>
-            <li><a href="#传输方式">传输方式</a>
-              <ul>
-                <li><a href="#串行传输--并行传输">串行传输 / 并行传输</a></li>
-                <li><a href="#同步传输--异步传输">同步传输 / 异步传输</a></li>
-                <li><a href="#单项通信单工-双向交替通信半双工双向同时通信全双工">单项通信（单工）/ 双向交替通信（半双工）/双向同时通信（全双工）</a></li>
-              </ul>
-            </li>
+            <li><a href="#透明传输"><strong>透明传输</strong></a></li>
           </ul>
         </li>
-        <li><a href="#数据链路层">数据链路层</a>
+        <li><a href="#33-差错检测">3.3 差错检测</a>
           <ul>
-            <li><a href="#数据链路层概述">数据链路层概述</a></li>
-            <li><a href="#封装成帧">封装成帧</a></li>
-            <li><a href="#差错检测">差错检测</a>
-              <ul>
-                <li><a href="#奇偶校验">奇偶校验</a></li>
-              </ul>
-            </li>
-            <li><a href="#可靠传输">可靠传输</a>
-              <ul>
-                <li><a href="#停止-等待协议sw">停止-等待协议SW</a></li>
-              </ul>
-            </li>
+            <li><a href="#奇偶校验">奇偶校验</a></li>
+            <li><a href="#循环冗余校验crc">循环冗余校验CRC</a></li>
+          </ul>
+        </li>
+        <li><a href="#34-可靠传输">3.4 可靠传输</a>
+          <ul>
+            <li><a href="#停止-等待协议sw">停止-等待协议SW</a></li>
             <li><a href="#回退n帧协议gbngo-back-n">回退N帧协议GBN（Go-Back-N）</a></li>
             <li><a href="#选择重传协议sr">选择重传协议SR</a></li>
-            <li><a href="#使用广播信道的数据链路层共享式局域网">使用广播信道的数据链路层（共享式局域网）</a></li>
+          </ul>
+        </li>
+        <li><a href="#35-点对点协议ppp">3.5 点对点协议PPP</a>
+          <ul>
+            <li><a href="#36-媒体接入控制mac">3.6 媒体接入控制MAC</a></li>
+            <li><a href="#静态划分信道">静态划分信道</a></li>
+            <li><a href="#动态接入控制">动态接入控制</a></li>
           </ul>
         </li>
       </ul>
@@ -278,7 +275,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        14 mins read
+                        17 mins read
                     </p>
                 </div>
             </div>
@@ -300,16 +297,13 @@
         <div class="blog-text">
             
 
-            <h2 id="概述">概述</h2>
-<h3 id="计算机网络分类">计算机网络分类</h3>
-<p><img src="/images/CS_Basic/ComputerNetwork/00.png" alt="00"></p>
-<hr>
-<h3 id="计算机网络体系结构">计算机网络体系结构</h3>
-<h4 id="七层osi模型">七层OSI模型</h4>
+            <h1 id="1-第一章-概述">1. 第一章 概述</h1>
+<h2 id="11-计算机网络体系结构">1.1 计算机网络体系结构</h2>
+<p><strong>七层OSI模型</strong></p>
 <p>应用层、表示层、会话层、传输层、网络层、数据链路层、物理层</p>
-<h4 id="五层模型">五层模型</h4>
+<p><strong>五层模型</strong></p>
 <p>应用层、传输层、网络层、数据链路层、物理层</p>
-<h4 id="tcpip四层模型">TCP/IP四层模型</h4>
+<p><strong>TCP/IP四层模型</strong></p>
 <p>应用层（HTTP\SMTP\DNS\RTP）、运输层(TCP\UDP)、网络层(IP)、网络接口层</p>
 <p><img src="/images/CS_Basic/ComputerNetwork/03.png" alt="03"></p>
 <p><strong>协议三要素：</strong></p>
@@ -318,31 +312,44 @@
 <li><strong>语义</strong>：定义收发双方要完成的操作</li>
 <li><strong>同步</strong>：定义收发双方的时序关系</li>
 </ul>
-<hr>
-<h3 id="三种交换方式">三种交换方式</h3>
-<h4 id="电路交换">电路交换</h4>
-<p>电话交换机接通电话线的方式称为电路交换，使用电路交换传送计算机数据时，其线路的传输效率往往很低。</p>
-<p><strong>三个步骤</strong>：</p>
+<h2 id="12-计算机网络分类">1.2 计算机网络分类</h2>
+<p><img src="/images/CS_Basic/ComputerNetwork/00.png" alt="00"></p>
+<h2 id="13-三种交换方式">1.3 三种交换方式</h2>
 <ul>
+<li>
+<h4 id="电路交换">电路交换</h4>
+</li>
+</ul>
+<p>​	电话交换机接通电话线的方式称为电路交换，使用电路交换传送计算机数据时，其线路的传输效率往往很低。</p>
+<p>​	<strong>三个步骤</strong>：</p>
+<ol>
 <li>建立连接</li>
 <li>通话</li>
 <li>释放连接</li>
-</ul>
+</ol>
+<ul>
+<li>
 <h4 id="分组交换">分组交换</h4>
-<p>分组交换采用的是<strong>存储转发</strong>技术</p>
-<p>在发送报文之前，先把较长的报文划分成一个个<strong>更小的等长</strong>的数据段；然后在数据段的前面加上一些由必要的控制信息组成的<strong>首部</strong>后，就构成了一个<strong>分组</strong></p>
-<p><strong>发送方</strong>：构造分组、发送分组</p>
-<p><strong>路由器</strong>：缓存分组、转发分组</p>
-<p><strong>接收方</strong>：接受分组、还原报文</p>
-<p><img src="/images/CS_Basic/ComputerNetwork/01.png" alt="01"></p>
+</li>
+</ul>
+<p>​	分组交换采用的是<strong>存储转发</strong>技术</p>
+<p>​	在发送报文之前，先把较长的报文划分成一个个<strong>更小的等长</strong>的数据段；然后在数据段的前面加上一些由必要的控制信息组成的<strong>首部</strong>	后，就构成了一个<strong>分组</strong></p>
+<p>​	<strong>发送方</strong>：构造分组、发送分组</p>
+<p>​	<strong>路由器</strong>：缓存分组、转发分组</p>
+<p>​	<strong>接收方</strong>：接受分组、还原报文</p>
+<p>​	<img src="/images/CS_Basic/ComputerNetwork/01.png" alt="01"></p>
+<ul>
+<li>
 <h4 id="报文交换">报文交换</h4>
-<p>用于早期的电报通信网，现在较少使用，通常被分组交换方式所取代。</p>
-<h4 id="对比">对比</h4>
+</li>
+</ul>
+<p>​	用于早期的电报通信网，现在较少使用，通常被分组交换方式所取代。</p>
+<p><strong>对比</strong></p>
 <p><img src="/images/CS_Basic/ComputerNetwork/02.png" alt="02"></p>
 <hr>
-<h2 id="物理层">物理层</h2>
-<h3 id="物理层的基本概念">物理层的基本概念</h3>
-<p>解决再各种传输媒体上传输比特0和1的问题，给数据链路层提供透明传输比特流的服务，如：双绞线、同轴电缆、光纤等。</p>
+<h1 id="2-第二章-物理层">2. 第二章 物理层</h1>
+<h2 id="21-物理层的基本概念">2.1 物理层的基本概念</h2>
+<p>解决在各种传输媒体上传输比特0和1的问题，给数据链路层提供透明传输比特流的服务，如：双绞线、同轴电缆、光纤等。</p>
 <p>物理层协议的主要任务</p>
 <ul>
 <li><strong>机械特性</strong>：指明接口所用接线器的<strong>形状</strong>和<strong>尺寸</strong>、引脚数目和排列、固定和锁定装置。</li>
@@ -350,29 +357,25 @@
 <li><strong>功能特性</strong>：指明某条线上出现的某一电平的<strong>电压表示何种意义</strong>。</li>
 <li><strong>过程特性</strong>：指明对于不同功能的各种可能<strong>事件的出现顺序</strong>。</li>
 </ul>
-<hr>
-<h3 id="传输媒体">传输媒体</h3>
+<h2 id="22-传输媒体和传输方式">2.2 传输媒体和传输方式</h2>
 <p><strong>导引型传输媒体</strong>：同轴电缆、双绞线、光纤（多模光纤、单模光纤）、电力线</p>
 <p><strong>非导引性传输媒体</strong>：无线电波、微波、红外线、可见光</p>
-<hr>
-<h3 id="传输方式">传输方式</h3>
-<h4 id="串行传输--并行传输">串行传输 / 并行传输</h4>
+<p><strong>串行传输 / 并行传输</strong></p>
 <p>计算机远距离传输采用串行传输，计算机内部采用并行传输</p>
-<h4 id="同步传输--异步传输">同步传输 / 异步传输</h4>
+<p><strong>同步传输 / 异步传输</strong></p>
 <p>内同步（曼彻斯特编码）</p>
 <p>异步是指字节之间异步</p>
-<h4 id="单项通信单工-双向交替通信半双工双向同时通信全双工">单项通信（单工）/ 双向交替通信（半双工）/双向同时通信（全双工）</h4>
+<p><strong>单项通信（单工）/ 双向交替通信（半双工）/双向同时通信（全双工）</strong></p>
 <p><strong>单项通信</strong>：<strong>一种方向</strong>，无线电广播就是这样的方式。</p>
 <p><strong>双向交替通信</strong>：<strong>双方可以相互传输数据</strong>，比如对讲机，但是不能同时传输。</p>
 <p><strong>双向同时通信</strong>：双方可以<strong>同时发送、接收信息</strong>，比如手机。</p>
 <hr>
-<h2 id="数据链路层">数据链路层</h2>
-<h3 id="数据链路层概述">数据链路层概述</h3>
+<h1 id="3-第三章-数据链路层">3. 第三章 数据链路层</h1>
+<h2 id="31-数据链路层概述">3.1 数据链路层概述</h2>
 <p><strong>链路</strong>就是从一个结点到相邻结点的一段物理线路，而中间没有任何其他的交换结点。</p>
 <p><strong>数据链路</strong>是指把实现通信协议的硬件和软件加到链路上，就构成了链路。</p>
 <p>数据链路层<strong>以帧为单位传输和处理数据</strong></p>
-<hr>
-<h3 id="封装成帧">封装成帧</h3>
+<h2 id="32-封装成帧">3.2 封装成帧</h2>
 <p>应用层传递应用层协议数据单元给运输层，运输层加上运输层协议首部传递给网络层，网络层将数据添加网络层协议首部传递给数据链路层，数据链路层添加<strong>帧头</strong>和<strong>帧尾</strong>。</p>
 <p><img src="/images/CS_Basic/ComputerNetwork/04.png" alt="04"></p>
 <p>帧头和帧尾的作用之一就是<strong>帧定界</strong>。如下图，红色部分就是P2P帧定界标志。但是以太网MAC帧并没有帧定界标志。</p>
@@ -381,7 +384,7 @@
 <p>实际上以太网V2的MAC帧交付给物理层后会添加前导码，前导码中前7个字节为<strong>前同步码</strong>，作用是使接收方的时针同步，之后的1字节为<strong>帧开始定界符</strong>。</p>
 </blockquote>
 <p><img src="/images/CS_Basic/ComputerNetwork/05.png" alt="05"></p>
-<p><strong>透明传输</strong></p>
+<h3 id="透明传输"><strong>透明传输</strong></h3>
 <p>透明传输是指不管所传数据是什么样的比特组合，都应当能够在链路上传送。<strong>当所传数据中的比特组合恰巧与某一个控制信息完全一样时，就必须采取适当的措施，使接收方不会将这样的数据误认为是某种控制信息</strong>。这样才能保证数据链路层的传输是透明的。</p>
 <blockquote>
 <p><strong>如何判断发送的数据中是帧定位符还是帧的数据？</strong></p>
@@ -389,14 +392,13 @@
 </blockquote>
 <p><img src="/images/CS_Basic/ComputerNetwork/06.png" alt="06"></p>
 <p>为了提高帧的传输效率，应当使帧的数据部分尽可能大一些。</p>
-<hr>
-<h3 id="差错检测">差错检测</h3>
+<h2 id="33-差错检测">3.3 差错检测</h2>
 <p>帧在传输过程中可能会出现误码，所以进行差错检测，在以太网V2的MAC帧中如上图，FCS就是检错码，通过检错算法就可以检查到是否出现了误码。</p>
 <p><img src="/images/CS_Basic/ComputerNetwork/07.png" alt="07"></p>
-<h4 id="奇偶校验">奇偶校验</h4>
+<h3 id="奇偶校验">奇偶校验</h3>
 <p>如果有奇数个位发生误码，则奇偶性发生变化，可以检查出误码；</p>
 <p>如果有偶数个位发生误码，则奇偶性不发生变化，无法检查出误码；</p>
-<p>循环冗余校验CRC</p>
+<h3 id="循环冗余校验crc">循环冗余校验CRC</h3>
 <ul>
 <li>收发双方约定好一个生成多项式G(x)；</li>
 <li>发送方基于发送的数据和生成多项式计算出差错检测码（冗余码），将其添加到待传输数据的后面一起传输；</li>
@@ -409,8 +411,7 @@ G(x) = x^4 + x^2 + x + 1
 $$
 <p>
 <img src="/images/CS_Basic/ComputerNetwork/08.png" alt="08"></p>
-<hr>
-<h3 id="可靠传输">可靠传输</h3>
+<h2 id="34-可靠传输">3.4 可靠传输</h2>
 <p>尽管误码不能完全避免，但如果能实现<strong>发送方发送什么，接收方就能收到什么</strong>，就成为可靠传输。</p>
 <p>不可靠传输服务：仅仅丢弃有误码的帧，其他什么也不做。</p>
 <p><strong>TCP</strong>向其上层提供面向连接的可靠传输服务</p>
@@ -418,30 +419,74 @@ $$
 <p><strong>IP</strong>向其上层提供无连接、不可靠传输服务</p>
 <p><strong>802.11无线局域网</strong>要求数据链路层实现可靠传输</p>
 <p><strong>以太网</strong>不要求数据链路层实现可靠传输</p>
-<hr>
-<h4 id="停止-等待协议sw">停止-等待协议SW</h4>
-<p>如果接收方没有收到数据，发送方一直都收不到接收方传送回来的ACK，于是一直等待，所以要设置超时重传，选择略大于”从发送方到接收方的平均往返时间“，这样当超时的时候，发送方会重新传送数据。</p>
+<h3 id="停止-等待协议sw">停止-等待协议SW</h3>
+<p>如果接收方没有收到数据，发送方一直都收不到接收方传送回来的ACK，于是一直等待，所以要<strong>设置超时重传</strong>，<strong>选择略大于”从发送方到接收方的平均往返时间“</strong>，这样当超时的时候，发送方会重新传送数据。</p>
 <p><img src="/images/CS_Basic/ComputerNetwork/09.png" alt="09"></p>
-<p>如果接收方发送的ACK丢失，发送方就不知道数据是否已经被接收，于是又发送一条DATA0数据给接收方，这时候接收方无法判断该数据是否接受过，所以要将分组带上序号，保证每次接收到的都是新的数据。</p>
+<p>如果接收方发送的ACK丢失，发送方就不知道数据是否已经被接收，于是又发送一条DATA0数据给接收方，这时候接收方无法判断该数据是否接受过，所以要<strong>将分组带上序号</strong>，保证每次接收到的都是新的数据。</p>
 <p><img src="/images/CS_Basic/ComputerNetwork/10.png" alt="10"></p>
 <p>但是接收方传送的ACK，发送方怎么判断是第几条信息的传送成功呢？当DATA0和DATA1同时发送时，如果都返回的是ACK，当有一条数据没有收到时，就无法判断出是哪条信息丢失了，所以要对ACK也编号。</p>
-<p>但是数据链路层中一般不会出现ACK分组迟到的情况，因此在数据链路层中可以不用给ACK分组编号。</p>
-<p><img src="/images/CS_Basic/ComputerNetwork/11.png" alt="11"></p>
-<p>停止-等待协议的信道利用率太低了，于是出现了其他两种协议，即<strong>后退N帧协议GBN</strong>和<strong>选择重传协议SR</strong>。</p>
-<p><img src="/images/CS_Basic/ComputerNetwork/12.png" alt="12"></p>
-<hr>
+<p>但是<strong>数据链路层中一般不会出现ACK分组迟到的情况，因此在数据链路层中可以不用给ACK分组编号</strong>。</p>
+<p>由于停止-等待协议的信道利用率太低了，于是出现了其他两种协议，即后退N帧协议GBN和选择重传协议SR。</p>
 <h3 id="回退n帧协议gbngo-back-n">回退N帧协议GBN（Go-Back-N）</h3>
-<p>如果Wt = 1，则跟停止等待协议相同了。</p>
-<p>如果Wt &gt; 2^n - 1则接收方无法分辨新、旧数据分组。</p>
+<p>如果Wt = 1，则跟停止等待协议相同了。发送窗口最大2^n -1，最小1。</p>
+<p>对n号帧的确认采用<strong>累计确认</strong>方式，表明接收方已经收到n号帧和它之前的全部帧。</p>
+<p>如果正确收到，则为n帧发出ACK；</p>
+<p>否则全部丢弃，重传从最后一个确认开始。</p>
 <p><img src="/images/CS_Basic/ComputerNetwork/13.png" alt="13"></p>
-<p>缺点：<strong>一个数据分组的误码会导致后续多个数据不能被接收方按序接收而丢弃</strong>。为了提高性能，接收窗口的尺寸不应该再等于1（而应该大于1），以便接收方线收下失序到达但无误码的那些数据分组，等所缺分组收齐后再一并送交上层，于是引出选择重传协议。</p>
-<hr>
+<p>缺点：<strong>必须按序接收帧，不按序会被丢弃</strong>。为了提高性能，接收窗口的尺寸不应该再等于1（而应该大于1），以便接收方线收下失序到达但无误码的那些数据分组，等所缺分组收齐后再一并送交上层，于是引出选择重传协议。</p>
 <h3 id="选择重传协议sr">选择重传协议SR</h3>
-<hr>
-<h3 id="使用广播信道的数据链路层共享式局域网">使用广播信道的数据链路层（共享式局域网）</h3>
+<p>发送方一次可以发送N帧，可以不按序接收，重传没有确认的帧。</p>
+<p>对每个正确收到的数据逐一确认，如果Wr = 1则与回退N帧协议相同了。</p>
+<h2 id="35-点对点协议ppp">3.5 点对点协议PPP</h2>
+<p>帧格式</p>
+<p><img src="/images/CS_Basic/ComputerNetwork/14.png" alt="14"></p>
+<p>透明传输</p>
+<ol>
+<li>面向比特的同步链路采用插入比特0的比特填充法</li>
+<li>面向字节的异步链路采用插入转义字符的字节填充法，如下：</li>
+</ol>
+<p><img src="/images/CS_Basic/ComputerNetwork/15.png" alt="15"></p>
+<p>差错检测 使用循环冗余码检查FCS之前数据</p>
+<p><img src="/images/CS_Basic/ComputerNetwork/16.png" alt="16"></p>
+<h3 id="36-媒体接入控制mac">3.6 媒体接入控制MAC</h3>
+<p>共享信道要着重考虑的一个问题就是如何协调多个发送和接受站点对一个共享传输媒体的占用，即MAC。</p>
+<p><img src="/images/CS_Basic/ComputerNetwork/17.png" alt="17"></p>
+<h3 id="静态划分信道">静态划分信道</h3>
+<ol>
+<li>
+<p><strong>频分复用FDM</strong></p>
+<p>所有用户同时占用不同的频带资源并行通信。</p>
+<p><img src="/images/CS_Basic/ComputerNetwork/18.png" alt="18"></p>
+</li>
+<li>
+<p><strong>时分复用TDM</strong></p>
+<p>时分复用技术将时间划分成一段段等长的时分复用帧，占用固定的时隙。</p>
+<p><img src="/images/CS_Basic/ComputerNetwork/19.png" alt="19"></p>
+</li>
+<li>
+<p><strong>波分复用WDM</strong></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/20.png" alt="20"></p>
+</li>
+<li>
+<p><strong>码分复用CDM</strong></p>
+<p>该技术主要用于多址接入（多点接入：处理动态分配信道给用户），常被叫做码分多址CDMA。</p>
+<p>同理，频分复用FDM和时分复用TDM同样可用于多址接入，FDMA和TDMA。</p>
+<p>在CDMA中，每一个比特时间再划分为m个短的间隔，称为码片，通常m = 64 / 128。</p>
+<ul>
+<li>
+<p>如果一个站要发送比特1，则发送它自己的m bit码片序列；</p>
+</li>
+<li>
+<p>如果一个站要发送比特0，则发送它自己的m bit码片序列的二进制反码。</p>
+</li>
+</ul>
+<p>eg：码片序列为00011011，发送比特1：00011011，发送比特0：11100100。<strong>按惯例将0写为-1，1写为+1</strong>（直接序列扩频DSSS），所以该站点的码片序列为（-1，-1，-1，+1，+1，-1，+1，+1）</p>
+</li>
+</ol>
+<h3 id="动态接入控制">动态接入控制</h3>
 <p><strong>CSMA/CD（载波监听多点接入/碰撞检测）</strong></p>
 <p>使用无线局域网</p>
-<p>CSMA/CA（载波监听多点接入/碰撞避免）</p>
+<p><strong>CSMA/CA（载波监听多点接入/碰撞避免）</strong></p>
 
         </div>
     </div>
@@ -481,7 +526,7 @@ $$
 	    </a>
 
 		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2fcomputernetwork%2f
-			&title=%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c&summary=%e6%a6%82%e8%bf%b0%20%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c%e5%88%86%e7%b1%bb%20%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c%e4%bd%93%e7%b3%bb%e7%bb%93%e6%9e%84%20%e4%b8%83%e5%b1%82OSI%e6%a8%a1%e5%9e%8b%20%e5%ba%94%e7%94%a8%e5%b1%82%e3%80%81%e8%a1%a8%e7%a4%ba%e5%b1%82%e3%80%81%e4%bc%9a%e8%af%9d%e5%b1%82%e3%80%81%e4%bc%a0%e8%be%93%e5%b1%82%e3%80%81%e7%bd%91%e7%bb%9c%e5%b1%82%e3%80%81%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e3%80%81%e7%89%a9%e7%90%86%e5%b1%82%0a%e4%ba%94%e5%b1%82%e6%a8%a1%e5%9e%8b%20%e5%ba%94%e7%94%a8%e5%b1%82%e3%80%81%e4%bc%a0%e8%be%93%e5%b1%82%e3%80%81%e7%bd%91%e7%bb%9c%e5%b1%82%e3%80%81%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e3%80%81%e7%89%a9%e7%90%86%e5%b1%82%0aTCP%2fIP%e5%9b%9b%e5%b1%82%e6%a8%a1%e5%9e%8b%20%e5%ba%94%e7%94%a8%e5%b1%82%ef%bc%88HTTP%5cSMTP%5cDNS%5cRTP%ef%bc%89%e3%80%81%e8%bf%90%e8%be%93%e5%b1%82%28TCP%5cUDP%29%e3%80%81%e7%bd%91%e7%bb%9c%e5%b1%82%28IP%29%e3%80%81%e7%bd%91%e7%bb%9c%e6%8e%a5%e5%8f%a3%e5%b1%82%0a%e5%8d%8f%e8%ae%ae%e4%b8%89%e8%a6%81%e7%b4%a0%ef%bc%9a%0a%e8%af%ad%e6%b3%95%ef%bc%9a%e5%ae%9a%e4%b9%89%e4%ba%a4%e6%8d%a2%e4%bf%a1%e6%81%af%e7%9a%84%e6%a0%bc%e5%bc%8f%20%e8%af%ad%e4%b9%89%ef%bc%9a%e5%ae%9a%e4%b9%89%e6%94%b6%e5%8f%91%e5%8f%8c%e6%96%b9%e8%a6%81%e5%ae%8c%e6%88%90%e7%9a%84%e6%93%8d%e4%bd%9c%20%e5%90%8c%e6%ad%a5%ef%bc%9a%e5%ae%9a%e4%b9%89%e6%94%b6%e5%8f%91%e5%8f%8c%e6%96%b9%e7%9a%84%e6%97%b6%e5%ba%8f%e5%85%b3%e7%b3%bb%20%e4%b8%89%e7%a7%8d%e4%ba%a4%e6%8d%a2%e6%96%b9%e5%bc%8f%20%e7%94%b5%e8%b7%af%e4%ba%a4%e6%8d%a2%20%e7%94%b5%e8%af%9d%e4%ba%a4%e6%8d%a2%e6%9c%ba%e6%8e%a5%e9%80%9a%e7%94%b5%e8%af%9d%e7%ba%bf%e7%9a%84%e6%96%b9%e5%bc%8f%e7%a7%b0%e4%b8%ba%e7%94%b5%e8%b7%af%e4%ba%a4%e6%8d%a2%ef%bc%8c%e4%bd%bf%e7%94%a8%e7%94%b5%e8%b7%af%e4%ba%a4%e6%8d%a2%e4%bc%a0%e9%80%81%e8%ae%a1%e7%ae%97%e6%9c%ba%e6%95%b0%e6%8d%ae%e6%97%b6%ef%bc%8c%e5%85%b6%e7%ba%bf%e8%b7%af%e7%9a%84%e4%bc%a0%e8%be%93%e6%95%88%e7%8e%87%e5%be%80%e5%be%80%e5%be%88%e4%bd%8e%e3%80%82%0a%e4%b8%89%e4%b8%aa%e6%ad%a5%e9%aa%a4%ef%bc%9a%0a%e5%bb%ba%e7%ab%8b%e8%bf%9e%e6%8e%a5%20%e9%80%9a%e8%af%9d%20%e9%87%8a%e6%94%be%e8%bf%9e%e6%8e%a5%20%e5%88%86%e7%bb%84%e4%ba%a4%e6%8d%a2%20%e5%88%86%e7%bb%84%e4%ba%a4%e6%8d%a2%e9%87%87%e7%94%a8%e7%9a%84%e6%98%af%e5%ad%98%e5%82%a8%e8%bd%ac%e5%8f%91%e6%8a%80%e6%9c%af%0a%e5%9c%a8%e5%8f%91%e9%80%81%e6%8a%a5%e6%96%87%e4%b9%8b%e5%89%8d%ef%bc%8c%e5%85%88%e6%8a%8a%e8%be%83%e9%95%bf%e7%9a%84%e6%8a%a5%e6%96%87%e5%88%92%e5%88%86%e6%88%90%e4%b8%80%e4%b8%aa%e4%b8%aa%e6%9b%b4%e5%b0%8f%e7%9a%84%e7%ad%89%e9%95%bf%e7%9a%84%e6%95%b0%e6%8d%ae%e6%ae%b5%ef%bc%9b%e7%84%b6%e5%90%8e%e5%9c%a8%e6%95%b0%e6%8d%ae%e6%ae%b5%e7%9a%84%e5%89%8d%e9%9d%a2%e5%8a%a0%e4%b8%8a%e4%b8%80%e4%ba%9b%e7%94%b1%e5%bf%85%e8%a6%81%e7%9a%84%e6%8e%a7%e5%88%b6%e4%bf%a1%e6%81%af%e7%bb%84%e6%88%90%e7%9a%84%e9%a6%96%e9%83%a8%e5%90%8e%ef%bc%8c%e5%b0%b1%e6%9e%84%e6%88%90%e4%ba%86%e4%b8%80%e4%b8%aa%e5%88%86%e7%bb%84%0a%e5%8f%91%e9%80%81%e6%96%b9%ef%bc%9a%e6%9e%84%e9%80%a0%e5%88%86%e7%bb%84%e3%80%81%e5%8f%91%e9%80%81%e5%88%86%e7%bb%84%0a%e8%b7%af%e7%94%b1%e5%99%a8%ef%bc%9a%e7%bc%93%e5%ad%98%e5%88%86%e7%bb%84%e3%80%81%e8%bd%ac%e5%8f%91%e5%88%86%e7%bb%84%0a%e6%8e%a5%e6%94%b6%e6%96%b9%ef%bc%9a%e6%8e%a5%e5%8f%97%e5%88%86%e7%bb%84%e3%80%81%e8%bf%98%e5%8e%9f%e6%8a%a5%e6%96%87%0a%e6%8a%a5%e6%96%87%e4%ba%a4%e6%8d%a2%20%e7%94%a8%e4%ba%8e%e6%97%a9%e6%9c%9f%e7%9a%84%e7%94%b5%e6%8a%a5%e9%80%9a%e4%bf%a1%e7%bd%91%ef%bc%8c%e7%8e%b0%e5%9c%a8%e8%be%83%e5%b0%91%e4%bd%bf%e7%94%a8%ef%bc%8c%e9%80%9a%e5%b8%b8%e8%a2%ab%e5%88%86%e7%bb%84%e4%ba%a4%e6%8d%a2%e6%96%b9%e5%bc%8f%e6%89%80%e5%8f%96%e4%bb%a3%e3%80%82%0a%e5%af%b9%e6%af%94%20%e7%89%a9%e7%90%86%e5%b1%82%20%e7%89%a9%e7%90%86%e5%b1%82%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5%20%e8%a7%a3%e5%86%b3%e5%86%8d%e5%90%84%e7%a7%8d%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%e4%b8%8a%e4%bc%a0%e8%be%93%e6%af%94%e7%89%b90%e5%92%8c1%e7%9a%84%e9%97%ae%e9%a2%98%ef%bc%8c%e7%bb%99%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e6%8f%90%e4%be%9b%e9%80%8f%e6%98%8e%e4%bc%a0%e8%be%93%e6%af%94%e7%89%b9%e6%b5%81%e7%9a%84%e6%9c%8d%e5%8a%a1%ef%bc%8c%e5%a6%82%ef%bc%9a%e5%8f%8c%e7%bb%9e%e7%ba%bf%e3%80%81%e5%90%8c%e8%bd%b4%e7%94%b5%e7%bc%86%e3%80%81%e5%85%89%e7%ba%a4%e7%ad%89%e3%80%82%0a%e7%89%a9%e7%90%86%e5%b1%82%e5%8d%8f%e8%ae%ae%e7%9a%84%e4%b8%bb%e8%a6%81%e4%bb%bb%e5%8a%a1%0a%e6%9c%ba%e6%a2%b0%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e6%8e%a5%e5%8f%a3%e6%89%80%e7%94%a8%e6%8e%a5%e7%ba%bf%e5%99%a8%e7%9a%84%e5%bd%a2%e7%8a%b6%e5%92%8c%e5%b0%ba%e5%af%b8%e3%80%81%e5%bc%95%e8%84%9a%e6%95%b0%e7%9b%ae%e5%92%8c%e6%8e%92%e5%88%97%e3%80%81%e5%9b%ba%e5%ae%9a%e5%92%8c%e9%94%81%e5%ae%9a%e8%a3%85%e7%bd%ae%e3%80%82%20%e7%94%b5%e6%b0%94%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e5%9c%a8%e6%8e%a5%e5%8f%a3%e7%94%b5%e7%bc%86%e7%9a%84%e5%90%84%e6%9d%a1%e7%ba%bf%e4%b8%8a%e5%87%ba%e7%8e%b0%e7%9a%84%e7%94%b5%e5%8e%8b%e7%9a%84%e8%8c%83%e5%9b%b4%e3%80%82%20%e5%8a%9f%e8%83%bd%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e6%9f%90%e6%9d%a1%e7%ba%bf%e4%b8%8a%e5%87%ba%e7%8e%b0%e7%9a%84%e6%9f%90%e4%b8%80%e7%94%b5%e5%b9%b3%e7%9a%84%e7%94%b5%e5%8e%8b%e8%a1%a8%e7%a4%ba%e4%bd%95%e7%a7%8d%e6%84%8f%e4%b9%89%e3%80%82%20%e8%bf%87%e7%a8%8b%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e5%af%b9%e4%ba%8e%e4%b8%8d%e5%90%8c%e5%8a%9f%e8%83%bd%e7%9a%84%e5%90%84%e7%a7%8d%e5%8f%af%e8%83%bd%e4%ba%8b%e4%bb%b6%e7%9a%84%e5%87%ba%e7%8e%b0%e9%a1%ba%e5%ba%8f%e3%80%82%20%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%20%e5%af%bc%e5%bc%95%e5%9e%8b%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%ef%bc%9a%e5%90%8c%e8%bd%b4%e7%94%b5%e7%bc%86%e3%80%81%e5%8f%8c%e7%bb%9e%e7%ba%bf%e3%80%81%e5%85%89%e7%ba%a4%ef%bc%88%e5%a4%9a%e6%a8%a1%e5%85%89%e7%ba%a4%e3%80%81%e5%8d%95%e6%a8%a1%e5%85%89%e7%ba%a4%ef%bc%89%e3%80%81%e7%94%b5%e5%8a%9b%e7%ba%bf%0a%e9%9d%9e%e5%af%bc%e5%bc%95%e6%80%a7%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%ef%bc%9a%e6%97%a0%e7%ba%bf%e7%94%b5%e6%b3%a2%e3%80%81%e5%be%ae%e6%b3%a2%e3%80%81%e7%ba%a2%e5%a4%96%e7%ba%bf%e3%80%81%e5%8f%af%e8%a7%81%e5%85%89%0a%e4%bc%a0%e8%be%93%e6%96%b9%e5%bc%8f%20%e4%b8%b2%e8%a1%8c%e4%bc%a0%e8%be%93%20%2f%20%e5%b9%b6%e8%a1%8c%e4%bc%a0%e8%be%93%20%e8%ae%a1%e7%ae%97%e6%9c%ba%e8%bf%9c%e8%b7%9d%e7%a6%bb%e4%bc%a0%e8%be%93%e9%87%87%e7%94%a8%e4%b8%b2%e8%a1%8c%e4%bc%a0%e8%be%93%ef%bc%8c%e8%ae%a1%e7%ae%97%e6%9c%ba%e5%86%85%e9%83%a8%e9%87%87%e7%94%a8%e5%b9%b6%e8%a1%8c%e4%bc%a0%e8%be%93%0a%e5%90%8c%e6%ad%a5%e4%bc%a0%e8%be%93%20%2f%20%e5%bc%82%e6%ad%a5%e4%bc%a0%e8%be%93%20%e5%86%85%e5%90%8c%e6%ad%a5%ef%bc%88%e6%9b%bc%e5%bd%bb%e6%96%af%e7%89%b9%e7%bc%96%e7%a0%81%ef%bc%89%0a%e5%bc%82%e6%ad%a5%e6%98%af%e6%8c%87%e5%ad%97%e8%8a%82%e4%b9%8b%e9%97%b4%e5%bc%82%e6%ad%a5%0a%e5%8d%95%e9%a1%b9%e9%80%9a%e4%bf%a1%ef%bc%88%e5%8d%95%e5%b7%a5%ef%bc%89%2f%20%e5%8f%8c%e5%90%91%e4%ba%a4%e6%9b%bf%e9%80%9a%e4%bf%a1%ef%bc%88%e5%8d%8a%e5%8f%8c%e5%b7%a5%ef%bc%89%2f%e5%8f%8c%e5%90%91%e5%90%8c%e6%97%b6%e9%80%9a%e4%bf%a1%ef%bc%88%e5%85%a8%e5%8f%8c%e5%b7%a5%ef%bc%89%20%e5%8d%95%e9%a1%b9%e9%80%9a%e4%bf%a1%ef%bc%9a%e4%b8%80%e7%a7%8d%e6%96%b9%e5%90%91%ef%bc%8c%e6%97%a0%e7%ba%bf%e7%94%b5%e5%b9%bf%e6%92%ad%e5%b0%b1%e6%98%af%e8%bf%99%e6%a0%b7%e7%9a%84%e6%96%b9%e5%bc%8f%e3%80%82%0a%e5%8f%8c%e5%90%91%e4%ba%a4%e6%9b%bf%e9%80%9a%e4%bf%a1%ef%bc%9a%e5%8f%8c%e6%96%b9%e5%8f%af%e4%bb%a5%e7%9b%b8%e4%ba%92%e4%bc%a0%e8%be%93%e6%95%b0%e6%8d%ae%ef%bc%8c%e6%af%94%e5%a6%82%e5%af%b9%e8%ae%b2%e6%9c%ba%ef%bc%8c%e4%bd%86%e6%98%af%e4%b8%8d%e8%83%bd%e5%90%8c%e6%97%b6%e4%bc%a0%e8%be%93%e3%80%82%0a%e5%8f%8c%e5%90%91%e5%90%8c%e6%97%b6%e9%80%9a%e4%bf%a1%ef%bc%9a%e5%8f%8c%e6%96%b9%e5%8f%af%e4%bb%a5%e5%90%8c%e6%97%b6%e5%8f%91%e9%80%81%e3%80%81%e6%8e%a5%e6%94%b6%e4%bf%a1%e6%81%af%ef%bc%8c%e6%af%94%e5%a6%82%e6%89%8b%e6%9c%ba%e3%80%82%0a%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%20%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e6%a6%82%e8%bf%b0%20%e9%93%be%e8%b7%af%e5%b0%b1%e6%98%af%e4%bb%8e%e4%b8%80%e4%b8%aa%e7%bb%93%e7%82%b9%e5%88%b0%e7%9b%b8%e9%82%bb%e7%bb%93%e7%82%b9%e7%9a%84%e4%b8%80%e6%ae%b5%e7%89%a9%e7%90%86%e7%ba%bf%e8%b7%af%ef%bc%8c%e8%80%8c%e4%b8%ad%e9%97%b4%e6%b2%a1%e6%9c%89%e4%bb%bb%e4%bd%95%e5%85%b6%e4%bb%96%e7%9a%84%e4%ba%a4%e6%8d%a2%e7%bb%93%e7%82%b9%e3%80%82%0a%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e6%98%af%e6%8c%87%e6%8a%8a%e5%ae%9e%e7%8e%b0%e9%80%9a%e4%bf%a1%e5%8d%8f%e8%ae%ae%e7%9a%84%e7%a1%ac%e4%bb%b6%e5%92%8c%e8%bd%af%e4%bb%b6%e5%8a%a0%e5%88%b0%e9%93%be%e8%b7%af%e4%b8%8a%ef%bc%8c%e5%b0%b1%e6%9e%84%e6%88%90%e4%ba%86%e9%93%be%e8%b7%af%e3%80%82%0a%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e4%bb%a5%e5%b8%a7%e4%b8%ba%e5%8d%95%e4%bd%8d%e4%bc%a0%e8%be%93%e5%92%8c%e5%a4%84%e7%90%86%e6%95%b0%e6%8d%ae%0a%e5%b0%81%e8%a3%85%e6%88%90%e5%b8%a7%20%e5%ba%94%e7%94%a8%e5%b1%82%e4%bc%a0%e9%80%92%e5%ba%94%e7%94%a8%e5%b1%82%e5%8d%8f%e8%ae%ae%e6%95%b0%e6%8d%ae%e5%8d%95%e5%85%83%e7%bb%99%e8%bf%90%e8%be%93%e5%b1%82%ef%bc%8c%e8%bf%90%e8%be%93%e5%b1%82%e5%8a%a0%e4%b8%8a%e8%bf%90%e8%be%93%e5%b1%82%e5%8d%8f%e8%ae%ae%e9%a6%96%e9%83%a8%e4%bc%a0%e9%80%92%e7%bb%99%e7%bd%91%e7%bb%9c%e5%b1%82%ef%bc%8c%e7%bd%91%e7%bb%9c%e5%b1%82%e5%b0%86%e6%95%b0%e6%8d%ae%e6%b7%bb%e5%8a%a0%e7%bd%91%e7%bb%9c%e5%b1%82%e5%8d%8f%e8%ae%ae%e9%a6%96%e9%83%a8%e4%bc%a0%e9%80%92%e7%bb%99%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%ef%bc%8c%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e6%b7%bb%e5%8a%a0%e5%b8%a7%e5%a4%b4%e5%92%8c%e5%b8%a7%e5%b0%be%e3%80%82%0a%e5%b8%a7%e5%a4%b4%e5%92%8c%e5%b8%a7%e5%b0%be%e7%9a%84%e4%bd%9c%e7%94%a8%e4%b9%8b%e4%b8%80%e5%b0%b1%e6%98%af%e5%b8%a7%e5%ae%9a%e7%95%8c%e3%80%82%e5%a6%82%e4%b8%8b%e5%9b%be%ef%bc%8c%e7%ba%a2%e8%89%b2%e9%83%a8%e5%88%86%e5%b0%b1%e6%98%afP2P%e5%b8%a7%e5%ae%9a%e7%95%8c%e6%a0%87%e5%bf%97%e3%80%82%e4%bd%86%e6%98%af%e4%bb%a5%e5%a4%aa%e7%bd%91MAC%e5%b8%a7%e5%b9%b6%e6%b2%a1%e6%9c%89%e5%b8%a7%e5%ae%9a%e7%95%8c%e6%a0%87%e5%bf%97%e3%80%82%0a%e9%82%a3%e4%bb%a5%e5%a4%aa%e7%bd%91%e7%9a%84MAC%e5%b8%a7%e6%80%8e%e4%b9%88%e8%a2%ab%e6%8f%90%e5%8f%96%e4%b8%80%e4%b8%aa%e4%b8%aa%e5%b8%a7%e5%91%a2%ef%bc%9f%0a%e5%ae%9e%e9%99%85%e4%b8%8a%e4%bb%a5%e5%a4%aa%e7%bd%91V2%e7%9a%84MAC%e5%b8%a7%e4%ba%a4%e4%bb%98%e7%bb%99%e7%89%a9%e7%90%86%e5%b1%82%e5%90%8e%e4%bc%9a%e6%b7%bb%e5%8a%a0%e5%89%8d%e5%af%bc%e7%a0%81%ef%bc%8c%e5%89%8d%e5%af%bc%e7%a0%81%e4%b8%ad%e5%89%8d7%e4%b8%aa%e5%ad%97%e8%8a%82%e4%b8%ba%e5%89%8d%e5%90%8c%e6%ad%a5%e7%a0%81%ef%bc%8c%e4%bd%9c%e7%94%a8%e6%98%af%e4%bd%bf%e6%8e%a5%e6%94%b6%e6%96%b9%e7%9a%84%e6%97%b6%e9%92%88%e5%90%8c%e6%ad%a5%ef%bc%8c%e4%b9%8b%e5%90%8e%e7%9a%841%e5%ad%97%e8%8a%82%e4%b8%ba%e5%b8%a7%e5%bc%80%e5%a7%8b%e5%ae%9a%e7%95%8c%e7%ac%a6%e3%80%82%0a%e9%80%8f%e6%98%8e%e4%bc%a0%e8%be%93%0a%e9%80%8f%e6%98%8e%e4%bc%a0%e8%be%93%e6%98%af%e6%8c%87%e4%b8%8d%e7%ae%a1%e6%89%80%e4%bc%a0%e6%95%b0%e6%8d%ae%e6%98%af%e4%bb%80%e4%b9%88%e6%a0%b7%e7%9a%84%e6%af%94%e7%89%b9%e7%bb%84%e5%90%88%ef%bc%8c%e9%83%bd%e5%ba%94%e5%bd%93%e8%83%bd%e5%a4%9f%e5%9c%a8%e9%93%be%e8%b7%af%e4%b8%8a%e4%bc%a0%e9%80%81%e3%80%82%e5%bd%93%e6%89%80%e4%bc%a0%e6%95%b0%e6%8d%ae%e4%b8%ad%e7%9a%84%e6%af%94%e7%89%b9%e7%bb%84%e5%90%88%e6%81%b0%e5%b7%a7%e4%b8%8e%e6%9f%90%e4%b8%80%e4%b8%aa%e6%8e%a7%e5%88%b6%e4%bf%a1%e6%81%af%e5%ae%8c%e5%85%a8%e4%b8%80%e6%a0%b7%e6%97%b6%ef%bc%8c%e5%b0%b1%e5%bf%85%e9%a1%bb%e9%87%87%e5%8f%96%e9%80%82%e5%bd%93%e7%9a%84%e6%8e%aa%e6%96%bd%ef%bc%8c%e4%bd%bf%e6%8e%a5%e6%94%b6%e6%96%b9%e4%b8%8d%e4%bc%9a%e5%b0%86%e8%bf%99%e6%a0%b7%e7%9a%84%e6%95%b0%e6%8d%ae%e8%af%af%e8%ae%a4%e4%b8%ba%e6%98%af%e6%9f%90%e7%a7%8d%e6%8e%a7%e5%88%b6%e4%bf%a1%e6%81%af%e3%80%82%e8%bf%99%e6%a0%b7%e6%89%8d%e8%83%bd%e4%bf%9d%e8%af%81%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e7%9a%84%e4%bc%a0%e8%be%93%e6%98%af%e9%80%8f%e6%98%8e%e7%9a%84%e3%80%82%0a%e5%a6%82%e4%bd%95%e5%88%a4%e6%96%ad%e5%8f%91%e9%80%81%e7%9a%84%e6%95%b0%e6%8d%ae%e4%b8%ad%e6%98%af%e5%b8%a7%e5%ae%9a%e4%bd%8d%e7%ac%a6%e8%bf%98%e6%98%af%e5%b8%a7%e7%9a%84%e6%95%b0%e6%8d%ae%ef%bc%9f%0a%e4%b8%8b%e5%9b%be%e6%98%afP2P%e5%b8%a7%e7%9a%84%e6%a0%bc%e5%bc%8f%ef%bc%8c%e5%9c%a8%e6%95%b0%e6%8d%ae%e9%83%a8%e5%88%86%e6%af%8f%e9%81%87%e5%88%b05%e4%b8%aa1%e5%8f%af%e4%bb%a5%e6%b7%bb%e5%8a%a01%e4%b8%aa0%ef%bc%8c%e5%92%8c%e5%b8%a7%e7%9a%84%e9%a6%96%e5%b0%be%e5%8c%ba%e5%88%86%e5%bc%80%ef%bc%8c%e5%9c%a8%e8%af%bb%e5%8f%96%e7%9a%84%e6%97%b6%e5%80%99%e5%86%8d%e5%88%a0%e9%99%a4%e8%bf%99%e4%b8%aa0%e3%80%82%0a%e4%b8%ba%e4%ba%86%e6%8f%90%e9%ab%98%e5%b8%a7%e7%9a%84%e4%bc%a0%e8%be%93%e6%95%88%e7%8e%87%ef%bc%8c%e5%ba%94%e5%bd%93%e4%bd%bf%e5%b8%a7%e7%9a%84%e6%95%b0%e6%8d%ae%e9%83%a8%e5%88%86%e5%b0%bd%e5%8f%af%e8%83%bd%e5%a4%a7%e4%b8%80%e4%ba%9b%e3%80%82&source=rafed123.github.io"
+			&title=%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c&summary=1.%20%e7%ac%ac%e4%b8%80%e7%ab%a0%20%e6%a6%82%e8%bf%b0%201.1%20%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c%e4%bd%93%e7%b3%bb%e7%bb%93%e6%9e%84%20%e4%b8%83%e5%b1%82OSI%e6%a8%a1%e5%9e%8b%0a%e5%ba%94%e7%94%a8%e5%b1%82%e3%80%81%e8%a1%a8%e7%a4%ba%e5%b1%82%e3%80%81%e4%bc%9a%e8%af%9d%e5%b1%82%e3%80%81%e4%bc%a0%e8%be%93%e5%b1%82%e3%80%81%e7%bd%91%e7%bb%9c%e5%b1%82%e3%80%81%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e3%80%81%e7%89%a9%e7%90%86%e5%b1%82%0a%e4%ba%94%e5%b1%82%e6%a8%a1%e5%9e%8b%0a%e5%ba%94%e7%94%a8%e5%b1%82%e3%80%81%e4%bc%a0%e8%be%93%e5%b1%82%e3%80%81%e7%bd%91%e7%bb%9c%e5%b1%82%e3%80%81%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e3%80%81%e7%89%a9%e7%90%86%e5%b1%82%0aTCP%2fIP%e5%9b%9b%e5%b1%82%e6%a8%a1%e5%9e%8b%0a%e5%ba%94%e7%94%a8%e5%b1%82%ef%bc%88HTTP%5cSMTP%5cDNS%5cRTP%ef%bc%89%e3%80%81%e8%bf%90%e8%be%93%e5%b1%82%28TCP%5cUDP%29%e3%80%81%e7%bd%91%e7%bb%9c%e5%b1%82%28IP%29%e3%80%81%e7%bd%91%e7%bb%9c%e6%8e%a5%e5%8f%a3%e5%b1%82%0a%e5%8d%8f%e8%ae%ae%e4%b8%89%e8%a6%81%e7%b4%a0%ef%bc%9a%0a%e8%af%ad%e6%b3%95%ef%bc%9a%e5%ae%9a%e4%b9%89%e4%ba%a4%e6%8d%a2%e4%bf%a1%e6%81%af%e7%9a%84%e6%a0%bc%e5%bc%8f%20%e8%af%ad%e4%b9%89%ef%bc%9a%e5%ae%9a%e4%b9%89%e6%94%b6%e5%8f%91%e5%8f%8c%e6%96%b9%e8%a6%81%e5%ae%8c%e6%88%90%e7%9a%84%e6%93%8d%e4%bd%9c%20%e5%90%8c%e6%ad%a5%ef%bc%9a%e5%ae%9a%e4%b9%89%e6%94%b6%e5%8f%91%e5%8f%8c%e6%96%b9%e7%9a%84%e6%97%b6%e5%ba%8f%e5%85%b3%e7%b3%bb%201.2%20%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c%e5%88%86%e7%b1%bb%201.3%20%e4%b8%89%e7%a7%8d%e4%ba%a4%e6%8d%a2%e6%96%b9%e5%bc%8f%20%e7%94%b5%e8%b7%af%e4%ba%a4%e6%8d%a2%20%e2%80%8b%09%e7%94%b5%e8%af%9d%e4%ba%a4%e6%8d%a2%e6%9c%ba%e6%8e%a5%e9%80%9a%e7%94%b5%e8%af%9d%e7%ba%bf%e7%9a%84%e6%96%b9%e5%bc%8f%e7%a7%b0%e4%b8%ba%e7%94%b5%e8%b7%af%e4%ba%a4%e6%8d%a2%ef%bc%8c%e4%bd%bf%e7%94%a8%e7%94%b5%e8%b7%af%e4%ba%a4%e6%8d%a2%e4%bc%a0%e9%80%81%e8%ae%a1%e7%ae%97%e6%9c%ba%e6%95%b0%e6%8d%ae%e6%97%b6%ef%bc%8c%e5%85%b6%e7%ba%bf%e8%b7%af%e7%9a%84%e4%bc%a0%e8%be%93%e6%95%88%e7%8e%87%e5%be%80%e5%be%80%e5%be%88%e4%bd%8e%e3%80%82%0a%e2%80%8b%09%e4%b8%89%e4%b8%aa%e6%ad%a5%e9%aa%a4%ef%bc%9a%0a%e5%bb%ba%e7%ab%8b%e8%bf%9e%e6%8e%a5%20%e9%80%9a%e8%af%9d%20%e9%87%8a%e6%94%be%e8%bf%9e%e6%8e%a5%20%e5%88%86%e7%bb%84%e4%ba%a4%e6%8d%a2%20%e2%80%8b%09%e5%88%86%e7%bb%84%e4%ba%a4%e6%8d%a2%e9%87%87%e7%94%a8%e7%9a%84%e6%98%af%e5%ad%98%e5%82%a8%e8%bd%ac%e5%8f%91%e6%8a%80%e6%9c%af%0a%e2%80%8b%09%e5%9c%a8%e5%8f%91%e9%80%81%e6%8a%a5%e6%96%87%e4%b9%8b%e5%89%8d%ef%bc%8c%e5%85%88%e6%8a%8a%e8%be%83%e9%95%bf%e7%9a%84%e6%8a%a5%e6%96%87%e5%88%92%e5%88%86%e6%88%90%e4%b8%80%e4%b8%aa%e4%b8%aa%e6%9b%b4%e5%b0%8f%e7%9a%84%e7%ad%89%e9%95%bf%e7%9a%84%e6%95%b0%e6%8d%ae%e6%ae%b5%ef%bc%9b%e7%84%b6%e5%90%8e%e5%9c%a8%e6%95%b0%e6%8d%ae%e6%ae%b5%e7%9a%84%e5%89%8d%e9%9d%a2%e5%8a%a0%e4%b8%8a%e4%b8%80%e4%ba%9b%e7%94%b1%e5%bf%85%e8%a6%81%e7%9a%84%e6%8e%a7%e5%88%b6%e4%bf%a1%e6%81%af%e7%bb%84%e6%88%90%e7%9a%84%e9%a6%96%e9%83%a8%09%e5%90%8e%ef%bc%8c%e5%b0%b1%e6%9e%84%e6%88%90%e4%ba%86%e4%b8%80%e4%b8%aa%e5%88%86%e7%bb%84%0a%e2%80%8b%09%e5%8f%91%e9%80%81%e6%96%b9%ef%bc%9a%e6%9e%84%e9%80%a0%e5%88%86%e7%bb%84%e3%80%81%e5%8f%91%e9%80%81%e5%88%86%e7%bb%84%0a%e2%80%8b%09%e8%b7%af%e7%94%b1%e5%99%a8%ef%bc%9a%e7%bc%93%e5%ad%98%e5%88%86%e7%bb%84%e3%80%81%e8%bd%ac%e5%8f%91%e5%88%86%e7%bb%84%0a%e2%80%8b%09%e6%8e%a5%e6%94%b6%e6%96%b9%ef%bc%9a%e6%8e%a5%e5%8f%97%e5%88%86%e7%bb%84%e3%80%81%e8%bf%98%e5%8e%9f%e6%8a%a5%e6%96%87%0a%e2%80%8b%09%e6%8a%a5%e6%96%87%e4%ba%a4%e6%8d%a2%20%e2%80%8b%09%e7%94%a8%e4%ba%8e%e6%97%a9%e6%9c%9f%e7%9a%84%e7%94%b5%e6%8a%a5%e9%80%9a%e4%bf%a1%e7%bd%91%ef%bc%8c%e7%8e%b0%e5%9c%a8%e8%be%83%e5%b0%91%e4%bd%bf%e7%94%a8%ef%bc%8c%e9%80%9a%e5%b8%b8%e8%a2%ab%e5%88%86%e7%bb%84%e4%ba%a4%e6%8d%a2%e6%96%b9%e5%bc%8f%e6%89%80%e5%8f%96%e4%bb%a3%e3%80%82%0a%e5%af%b9%e6%af%94%0a2.%20%e7%ac%ac%e4%ba%8c%e7%ab%a0%20%e7%89%a9%e7%90%86%e5%b1%82%202.1%20%e7%89%a9%e7%90%86%e5%b1%82%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5%20%e8%a7%a3%e5%86%b3%e5%9c%a8%e5%90%84%e7%a7%8d%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%e4%b8%8a%e4%bc%a0%e8%be%93%e6%af%94%e7%89%b90%e5%92%8c1%e7%9a%84%e9%97%ae%e9%a2%98%ef%bc%8c%e7%bb%99%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e6%8f%90%e4%be%9b%e9%80%8f%e6%98%8e%e4%bc%a0%e8%be%93%e6%af%94%e7%89%b9%e6%b5%81%e7%9a%84%e6%9c%8d%e5%8a%a1%ef%bc%8c%e5%a6%82%ef%bc%9a%e5%8f%8c%e7%bb%9e%e7%ba%bf%e3%80%81%e5%90%8c%e8%bd%b4%e7%94%b5%e7%bc%86%e3%80%81%e5%85%89%e7%ba%a4%e7%ad%89%e3%80%82%0a%e7%89%a9%e7%90%86%e5%b1%82%e5%8d%8f%e8%ae%ae%e7%9a%84%e4%b8%bb%e8%a6%81%e4%bb%bb%e5%8a%a1%0a%e6%9c%ba%e6%a2%b0%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e6%8e%a5%e5%8f%a3%e6%89%80%e7%94%a8%e6%8e%a5%e7%ba%bf%e5%99%a8%e7%9a%84%e5%bd%a2%e7%8a%b6%e5%92%8c%e5%b0%ba%e5%af%b8%e3%80%81%e5%bc%95%e8%84%9a%e6%95%b0%e7%9b%ae%e5%92%8c%e6%8e%92%e5%88%97%e3%80%81%e5%9b%ba%e5%ae%9a%e5%92%8c%e9%94%81%e5%ae%9a%e8%a3%85%e7%bd%ae%e3%80%82%20%e7%94%b5%e6%b0%94%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e5%9c%a8%e6%8e%a5%e5%8f%a3%e7%94%b5%e7%bc%86%e7%9a%84%e5%90%84%e6%9d%a1%e7%ba%bf%e4%b8%8a%e5%87%ba%e7%8e%b0%e7%9a%84%e7%94%b5%e5%8e%8b%e7%9a%84%e8%8c%83%e5%9b%b4%e3%80%82%20%e5%8a%9f%e8%83%bd%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e6%9f%90%e6%9d%a1%e7%ba%bf%e4%b8%8a%e5%87%ba%e7%8e%b0%e7%9a%84%e6%9f%90%e4%b8%80%e7%94%b5%e5%b9%b3%e7%9a%84%e7%94%b5%e5%8e%8b%e8%a1%a8%e7%a4%ba%e4%bd%95%e7%a7%8d%e6%84%8f%e4%b9%89%e3%80%82%20%e8%bf%87%e7%a8%8b%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e5%af%b9%e4%ba%8e%e4%b8%8d%e5%90%8c%e5%8a%9f%e8%83%bd%e7%9a%84%e5%90%84%e7%a7%8d%e5%8f%af%e8%83%bd%e4%ba%8b%e4%bb%b6%e7%9a%84%e5%87%ba%e7%8e%b0%e9%a1%ba%e5%ba%8f%e3%80%82%202.2%20%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%e5%92%8c%e4%bc%a0%e8%be%93%e6%96%b9%e5%bc%8f%20%e5%af%bc%e5%bc%95%e5%9e%8b%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%ef%bc%9a%e5%90%8c%e8%bd%b4%e7%94%b5%e7%bc%86%e3%80%81%e5%8f%8c%e7%bb%9e%e7%ba%bf%e3%80%81%e5%85%89%e7%ba%a4%ef%bc%88%e5%a4%9a%e6%a8%a1%e5%85%89%e7%ba%a4%e3%80%81%e5%8d%95%e6%a8%a1%e5%85%89%e7%ba%a4%ef%bc%89%e3%80%81%e7%94%b5%e5%8a%9b%e7%ba%bf%0a%e9%9d%9e%e5%af%bc%e5%bc%95%e6%80%a7%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%ef%bc%9a%e6%97%a0%e7%ba%bf%e7%94%b5%e6%b3%a2%e3%80%81%e5%be%ae%e6%b3%a2%e3%80%81%e7%ba%a2%e5%a4%96%e7%ba%bf%e3%80%81%e5%8f%af%e8%a7%81%e5%85%89%0a%e4%b8%b2%e8%a1%8c%e4%bc%a0%e8%be%93%20%2f%20%e5%b9%b6%e8%a1%8c%e4%bc%a0%e8%be%93%0a%e8%ae%a1%e7%ae%97%e6%9c%ba%e8%bf%9c%e8%b7%9d%e7%a6%bb%e4%bc%a0%e8%be%93%e9%87%87%e7%94%a8%e4%b8%b2%e8%a1%8c%e4%bc%a0%e8%be%93%ef%bc%8c%e8%ae%a1%e7%ae%97%e6%9c%ba%e5%86%85%e9%83%a8%e9%87%87%e7%94%a8%e5%b9%b6%e8%a1%8c%e4%bc%a0%e8%be%93%0a%e5%90%8c%e6%ad%a5%e4%bc%a0%e8%be%93%20%2f%20%e5%bc%82%e6%ad%a5%e4%bc%a0%e8%be%93%0a%e5%86%85%e5%90%8c%e6%ad%a5%ef%bc%88%e6%9b%bc%e5%bd%bb%e6%96%af%e7%89%b9%e7%bc%96%e7%a0%81%ef%bc%89%0a%e5%bc%82%e6%ad%a5%e6%98%af%e6%8c%87%e5%ad%97%e8%8a%82%e4%b9%8b%e9%97%b4%e5%bc%82%e6%ad%a5%0a%e5%8d%95%e9%a1%b9%e9%80%9a%e4%bf%a1%ef%bc%88%e5%8d%95%e5%b7%a5%ef%bc%89%2f%20%e5%8f%8c%e5%90%91%e4%ba%a4%e6%9b%bf%e9%80%9a%e4%bf%a1%ef%bc%88%e5%8d%8a%e5%8f%8c%e5%b7%a5%ef%bc%89%2f%e5%8f%8c%e5%90%91%e5%90%8c%e6%97%b6%e9%80%9a%e4%bf%a1%ef%bc%88%e5%85%a8%e5%8f%8c%e5%b7%a5%ef%bc%89&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>
