@@ -995,3 +995,322 @@ int main()
 
 - const 变量的初始化可以延迟到运行时，而 constexpr 变量必须在编译时进行初始化。
 - const修饰一个对象表示它是常量。constexpr是修饰一个常量表达式。
+
+---
+
+## 多线程
+
+传递函数指针
+
+```c++
+void sayhello(int a, int b)
+{
+	cout << "hello" << a << b << endl;
+}
+void sayhello2(int& a, int& b)
+{
+	a += 5, b += 10;
+	cout << a << "," << b;
+}
+int main()
+{
+	// 创建子线程
+	// 传递一个可调对象
+	thread t1(sayhello, 10, 20);
+	t1.join();// 阻塞主线程
+	// main所在线程就是主线程
+	cout << "this is main" << endl;
+
+    int x = 10, y = 20;
+	thread t2(sayhello2, ref(x), ref(y));//引用传递
+	return 0;
+}
+```
+
+传递成员函数指针
+
+```c++
+	MyClass obj;
+	// 传递成员函数指针和成员函数对象
+	thread t(&MyClass::memberFunctionTask, &obj);
+	t.join();
+```
+
+传递lambda表达式
+
+```c++
+thread t1([]() {cout << "hello lambda\n"; });
+t1.join();
+```
+
+传递仿函数
+
+```c++
+struct Functor
+{
+	void operator()()
+	{
+		cout << "Functor task executed\n";
+	}
+};
+int main()
+{
+	Functor f;
+	thread t(f);
+	t.join();
+	return 0;
+}
+```
+
+传递绑定对象
+
+```c++
+auto boundFunc = bind(functionWithArgs, 1, 2);
+thread t(boundFunc);
+t.join();
+```
+
+### join与detach区别
+
+**join方法**：当一个线程调用join方法时，会阻塞当前线程（调用join线程），直到join线程执行完成。这样确保了子线程执行完毕之前不会结束主线程的执行。使用join可确保资源被正确地回收和清理。
+
+**detach方法**：当调用detach时，线程将与其所属的线程（即调用detach的线程分离），一旦线程被分离，将不再受到主线程的控制，主线程无法调用join来等待它的结束。分离的线程在执行完毕后系统会自动回收其资源。
+
+### 线程组成部分
+
+- **线程ID**:TID唯一标识符。
+- **线程栈**：每个线程都有自己私有的栈空间，用于存储局部变量，函数调用时的参数和返回地址等信息。线程栈在创建线程时分配，并在线程结束时释放。
+- **线程状态**：创建、就绪、允许、阻塞、终止。
+- **线程上下文**：包含了线程执行时所有信息，包括cpu寄存器内容，程序计数器PC的值，栈指针等，当进程被切换时，上下文会被保存，以便之后恢复执行时能够继续执行。
+- **线程函数**：线程执行的具体逻辑，包含线程需要执行的代码。
+- **线程优先级**：优先级较高会得到更多处理器时间。
+- **线程属性**：栈大小、安全属性。
+- **线程同步原语**：为了协调多个线程并发执行，如互斥锁、条件变量、信号量等。
+
+`this_thread::get_id()`：获取当前线程ID
+
+`this_thread::sleep_for(1s)`:使当前线程休眠
+
+### 线程同步机制
+
+**互斥锁**：如果锁被其他线程持有，呢么该进程将被阻塞，直到锁释放。
+
+**条件变量**：通常与互斥锁一起使用，在等待条件成立时释放锁。
+
+**信号量**：PV操作，信号量内部维护一个计数器，表示可用资源的数量。
+
+**原子操作**：不可中断操作。
+
+---
+
+### 互斥锁mutex
+
+**互斥性**、**原子性**、**可重入性**（允许同一线程多次获取同一个锁，但不建议这么做，容易死锁）、**非阻塞性**（在某些高级实现比如尝试锁，不会阻塞，会做一些其他任务）
+
+如果不加锁的话，两个线程可能会同时访问counter，最终结果是不可预计的。
+
+```c++
+#include<iostream>
+#include<thread>
+#include<mutex>
+using namespace std;
+// 共享变量 没有使用互斥锁/原子操作
+int counter = 0;
+mutex myMutex; //声明互斥锁
+// 线程函数 对counter进行递增操作
+void increment_counter(int times)
+{
+	for (int i = 0; i < times; i++)
+	{
+		myMutex.lock(); // 加锁
+		counter++;
+		myMutex.unlock(); // 解锁
+	}
+}
+int main()
+{
+	thread t1(increment_counter, 100000);
+	thread t2(increment_counter, 100000);
+	t1.join();
+	t2.join();
+	cout << "最终的结果" << counter << endl;
+	return 0;
+}
+```
+
+使用RAII管理锁：通过`lock_guard` / `unique_lock`来确保锁在不需要时自动释放，类同智能指针。
+
+避免长时间持有锁：提高程序的并发性能。
+
+**mutex的4种类型**
+
+1. `mutex`：不允许递归锁定，同一线程不能多次锁定同一个mutex，会引发死锁。
+
+2. `recursive_mutex`：递归互斥量，与mutex相反.
+
+   ```c++
+   recursive_mutex mtx;
+   void recursive_function()
+   {
+   	mtx.lock();
+   	cout << "Thread locked mutex" << this_thread::get_id() << endl;
+   	mtx.lock();
+   	cout << "Thread locked mutex recursively" << this_thread::get_id() << endl;
+   	mtx.unlock();
+   	cout << "Thread unlocked mutex once" << this_thread::get_id() << endl;
+   	mtx.unlock();
+   	cout << "Thread unlocked mutex again" << this_thread::get_id() << endl;
+   }
+   ```
+
+3. `timed_mutex`：时限锁，除了提供基本的锁定和解锁操作外，还允许线程在一定时间内锁定互斥量。如果在指定时间内无法获取锁，try_lock_for() / try_lock_until()将返回失败，而线程不会被阻塞。
+
+   ```c++
+   timed_mutex mtx2;
+   void timed_lock_function()
+   {
+   	auto start = chrono::high_resolution_clock::now();
+   	// 尝试在指定时间内获取锁
+   	if (mtx2.try_lock_for(chrono::seconds(2)))
+   	{
+   		cout << "Thread locked mutex" << this_thread::get_id() << endl;
+   		this_thread::sleep_for(chrono::seconds(3));
+   		mtx2.unlock();
+   		cout << "Thread unlocked mutex" << this_thread::get_id() << endl;
+   	}
+   	else
+   	{
+   		cout << "Thread failed to locked mutex" << this_thread::get_id() << endl;
+   	}
+   	auto end = chrono::high_resolution_clock::now();
+   	chrono::duration<double> diff = end - start;
+   	cout << "Thread took " << diff.count() << this_thread::get_id() << endl;
+   }
+   int main()
+   {
+   	thread t1(timed_lock_function);
+   	thread t2(timed_lock_function);
+   	t1.join();	
+   	t2.join();
+   	/*
+   	Thread locked mutex 2736
+   	Thread failed to locked mutex 26236
+   	Thread took 2.01198 26236
+   	Thread unlocked mutex 2736
+   	Thread took 3.00277 2736
+   	*/
+   	return 0;
+   }
+   ```
+
+4. `recursive_timed_mutex`：递归时限锁
+
+### lock_guard
+
+lock_guard是一个模板类，位于mutex头文件中，符合RAII风格，主要用于管理mutex的声明周期，确保mutex正确的上锁解锁。
+
+> 为什么需要lock_guard？
+
+- 抛出异常需要正确解锁
+- 复杂的逻辑手动解锁复杂
+- 防止死锁
+
+```c++
+void sum()
+{
+	lock_guard<mutex> lock(mymutex); // 保护的是mutex类型的锁mymutex
+	for (size_t i = 0; i < 10000; i++)
+	{
+		mycount++;
+	}// 超出生命周期自动解锁
+}
+```
+
+**不可复制不可移动**（独占性质）因为禁用了拷贝构造函数和拷贝赋值函数。
+
+### unique_lock
+
+lock_guard的问题是只有生命周期结束才会解锁，无法在中途解锁（只管控一部分，除非使用{}作用域，但也不灵活），所以使用unique_lock
+
+unique_lock有如下常用成员函数：
+
+`lock()`、`unlock()`
+
+`try_lock()`：尝试锁定mutex，如果锁定成功返回true，否则返回false。
+
+`owns_lock()`：返回一个布尔值，指示unique_lock是否拥有mutex的所有权。
+
+unique_lock的三个参数：
+
+1. defer_lock
+
+   ```c++
+   mutex mtx;
+   int counter = 0;
+   int counter2 = 0;
+   void example_defer_lock()
+   {
+   	unique_lock<mutex> lock(mtx, defer_lock); // 不会立刻锁定
+   	// 执行一些操作
+   	for (size_t i = 0; i < 100000; i++)
+   	{
+   		counter ++;
+   	}
+   	lock.lock();
+   	for (size_t i = 0; i < 100000; i++)
+   	{
+   		counter2++;
+   	}
+   	cout << "locked with defer_lock" << endl;
+   	lock.unlock();
+   }
+   
+   int main()
+   {
+   	thread t1(example_defer_lock);
+   	thread t2(example_defer_lock);
+   	t1.join();
+   	t2.join();
+   	cout << counter << " " << counter2 << endl;
+       /*
+       locked with defer_lock
+       locked with defer_lock
+       101971 200000
+       */
+   	return 0;
+   }
+   ```
+
+2. adopt_lock_t
+
+   接管已上锁的锁
+
+   ```c++
+   void example_adopt_lock()
+   {
+   	mtx3.lock();
+   	unique_lock<mutex> lock(mtx3, adopt_lock); // 接管已锁定的互斥锁
+   	cout << "Locked with adopt_lock" << endl;
+   }
+   ```
+
+3. try_to_lock_t
+
+   以防没有锁上而重复释放锁 / 上锁了又重复上锁的操作
+
+   ```c++
+   void example_try_to_lock()
+   {
+   	unique_lock<mutex> lock(mtx, try_to_lock);
+   	if (lock.owns_lock())
+   	{
+   		cout << "locked successfully" << endl;
+   	}
+   	else
+   	{
+   		cout << "failed to lock" << endl;
+   	}
+   }
+   ```
+
+   
