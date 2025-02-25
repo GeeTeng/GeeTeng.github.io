@@ -1281,7 +1281,7 @@ unique_lock的三个参数：
    }
    ```
 
-2. adopt_lock_t
+2. adopt_lock
 
    接管已上锁的锁
 
@@ -1294,7 +1294,7 @@ unique_lock的三个参数：
    }
    ```
 
-3. try_to_lock_t
+3. try_to_lock
 
    以防没有锁上而重复释放锁 / 上锁了又重复上锁的操作
 
@@ -1313,4 +1313,123 @@ unique_lock的三个参数：
    }
    ```
 
-   
+
+---
+
+**线程间同步的方式**：互斥锁、读写锁、条件变量、信号量、原子操作、栅栏（c++20）
+
+### 条件变量
+
+等待和通知机制：等待某个条件的改变，而不需要一直占用CPU资源
+
+与互斥锁配合使用
+
+工作原理：当线程调用wait方法时，会首先释放与unique_lock关联的互斥锁，为了允许其他线程可以访问共享数据。然后该线程进入等待队列，变成阻塞状态。等待条件/通知（notify_one / notify_all），重新尝试获取锁，再去判断条件是否为true，如果条件为真继续执行。
+
+```c++
+mutex mtx;
+condition_variable cv;
+bool flag = false;
+void myprint(int i)
+{
+	unique_lock<mutex> lck(mtx);
+	while (!flag)
+	{
+		cv.wait(lck); // 条件不成立 进入阻塞状态 释放掉锁 等待别人唤醒
+	}
+	cout << this_thread::get_id() << "-" << i << endl;
+}
+void updateflag()
+{
+	cout << "this is update" << endl;
+	this_thread::sleep_for(3s);
+	unique_lock<mutex> lck(mtx);
+	flag = true;
+	cv.notify_all(); // 通知所有的线程
+	// cv.notify_one(); // 通知一个
+}
+int main()
+{
+	vector<thread> mybox;
+	for (size_t i = 0; i < 10; i++)
+		mybox.emplace_back(myprint, i);
+	updateflag();
+	for (thread& t : mybox)
+		t.join();
+	return 0;
+}
+```
+
+```c++
+mutex mtx;
+condition_variable cv;
+int myvalue = 0;
+bool turn = false;
+void increment(int id)
+{
+	for (int i = 0; i < 10; i++)
+	{
+		unique_lock<mutex> lock(mtx);
+		cv.wait(lock, [&] {return (id == 1) ? !turn : turn; });
+		++myvalue;
+		cout << "thread " << id << " " << myvalue << endl;
+		turn = !turn;
+		cv.notify_all();
+	}
+}
+int main()
+{
+	thread t1(increment, 1);
+	thread t2(increment, 2);
+	t1.join();
+	t2.join();
+	cout << myvalue << endl; // t1 t2交替执行 thread 1 1 thread 2 2 thread 1 3 thread 2 4...
+	return 0;
+}
+```
+
+### 读写锁
+
+读操作可以共享，写操作必须互斥，读写之间也要互斥。适用于读多写少的场景。
+
+**共享锁允许多个线程同时持有，不能和独占锁同时持有**。
+
+只有一个线程能持有独占锁，**当持有独占锁时其他线程不能持有共享锁 / 独占锁**。
+
+排他性：lock、try_lock、unlock
+
+共享性：lock_shared、try_lock_shared、unlock_shared
+
+```c++
+shared_mutex rw_mutex;
+int shared_data = 0;
+void reader()
+{
+	shared_lock<shared_mutex> lock(rw_mutex);
+	cout << "reader thread " << this_thread::get_id() << "value " << shared_data << endl;
+}
+void writer(int value)
+{
+	unique_lock<shared_mutex> lock(rw_mutex);
+	shared_data = value;
+	cout << "writer thread " << this_thread::get_id() << "value " << shared_data << endl;
+}
+int main()
+{
+	vector<thread> threads;
+	for (int i = 0; i < 5; i++)
+	{
+		threads.emplace_back(reader);
+	}
+	for (int i = 0; i < 5; i++)
+	{
+		threads.emplace_back(writer, i);
+	}
+	for (auto& t : threads)
+	{
+		t.join();
+	}
+	return 0;
+}
+```
+
