@@ -34,7 +34,7 @@
   <meta itemprop="description" content="计算机网络知识 胡科大教书匠笔记">
   <meta itemprop="datePublished" content="2025-01-13T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-01-13T00:00:00+00:00">
-  <meta itemprop="wordCount" content="273">
+  <meta itemprop="wordCount" content="398">
   <meta itemprop="keywords" content="CS Basic">
 <link rel="canonical" href="https://geeteng.github.io/posts/cs_basic/computernetwork/" />
 
@@ -261,6 +261,17 @@
             <li><a href="#域名解析记录">域名解析记录</a></li>
           </ul>
         </li>
+        <li><a href="#文字编码">文字编码</a></li>
+        <li><a href="#arp协议">ARP协议</a>
+          <ul>
+            <li><a href="#tcp三次握手">TCP三次握手</a>
+              <ul>
+                <li><a href="#为什么tcp客户端最后还要发送一次确认呢">为什么TCP客户端最后还要发送一次确认呢？</a></li>
+              </ul>
+            </li>
+            <li><a href="#tcp四次挥手">TCP四次挥手</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -283,7 +294,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        26 mins read
+                        38 mins read
                     </p>
                 </div>
             </div>
@@ -559,6 +570,57 @@ $$
 </span></span></code></pre></div><h3 id="域名解析记录">域名解析记录</h3>
 <p>主要分为A记录、MX记录、CNAME记录、NS记录和TXT记录</p>
 <p><a href="https://blog.csdn.net/bangshao1989/article/details/121913780">DNS域名详细解析过程(最全面，看这一篇就够)_dns解析-CSDN博客</a></p>
+<h2 id="文字编码">文字编码</h2>
+<p>ASCII码 <strong>每个字符占1字节</strong>，不支持中文。00000000 - 11111111涵盖256种符号。</p>
+<p>GB2312 是由于ASCII不支持中文而诞生来的，<strong>每个中文占2个字节</strong>，但是只涵盖6700多个，其他字符占1个字节。</p>
+<p>GBK 升级了GB2312，涵盖了2w多个中文。</p>
+<p>Unicode 每个国家都有自己的语言，于是出现了万国码，<strong>每个字符占4个字节</strong>。</p>
+<p>utf-8 由于Unicode的英文占据太多空间，所以推出可变长编码，<strong>一个英文1个字节，1个汉字3个字节</strong>。</p>
+<h2 id="arp协议">ARP协议</h2>
+<p>ARP协议的作用是<strong>将ip地址解析成mac地址</strong>，工作在网络层和数据链路层中间，在七层模型中属于<strong>数据链路层</strong>。</p>
+<p>假设在局域网内，一台交换机连接多台设备，当192.168.19.11：57101想发送给192.168.19.16：80时，arp广播会请求寻找目标mac地址在哪。</p>
+<h3 id="tcp三次握手">TCP三次握手</h3>
+<p><img src="/images/CS_Basic/ComputerNetwork/21.png" alt="21"></p>
+<ul>
+<li>源端口和目的端口，各占2个字节，分别写入源端口和目的端口；</li>
+<li>序号，占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。例如，一段报文的序号字段值是 301 ，而携带的数据共有100字段，显然下一个报文段（如果还有的话）的数据序号应该从401开始；</li>
+<li>确认号，占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。例如，B收到了A发送过来的报文，其序列号字段是501，而数据长度是200字节，这表明B正确的收到了A发送的到序号700为止的数据。因此，B期望收到A的下一个数据序号是701，于是B在发送给A的确认报文段中把确认号置为701；</li>
+<li>数据偏移，占4位，它指出TCP报文的数据距离TCP报文段的起始处有多远；</li>
+<li>保留，占6位，保留今后使用，但目前应都位0；</li>
+<li>紧急URG，当URG=1，表明紧急指针字段有效。告诉系统此报文段中有紧急数据；</li>
+<li>确认ACK，仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1；</li>
+<li>推送PSH，当两个应用进程进行交互式通信时，有时在一端的应用进程希望在键入一个命令后立即就能收到对方的响应，这时候就将PSH=1；</li>
+<li>复位RST，当RST=1，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立连接；</li>
+<li>同步SYN，在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1；</li>
+<li>终止FIN，用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放；</li>
+<li>窗口，占2字节，指的是通知接收方，发送本报文你需要有多大的空间来接受；</li>
+<li>检验和，占2字节，校验首部和数据这两部分；</li>
+<li>紧急指针，占2字节，指出本报文段中的紧急数据的字节数；</li>
+<li>选项，长度可变，定义一些其他的可选的参数。</li>
+</ul>
+<p><img src="/images/CS_Basic/ComputerNetwork/22.png" alt="22"></p>
+<ul>
+<li>第一次握手：客户端创建传输控制块TCB，进入监听Listen状态。设置<code>SYN = 1</code>，发送给服务器，设置序列号为<code>seq = x</code>，此时客户端处于同步已发送<code>SYN-SENT</code>状态。</li>
+<li>第二次握手：设置<code>ACK = 1</code>表示确认应答，<code>ack = x + 1</code>表示已收到客户端x之前的数据，希望下次数据从x+1开始，设置<code>SYN = 1</code>，发送给客户端，设置序列号<code>seq = y</code>，此时服务器处于同步已接受SY<code>N-RCVD</code>状态。</li>
+<li>第三次握手：设置<code>ACK = 1</code>表示确认应答，<code>ack = y + 1</code>，<code>seq = x + 1</code>表示接着上一个数据包seq = x继续发送。至此建立连接ESTABLISHED。</li>
+</ul>
+<blockquote>
+<h4 id="为什么tcp客户端最后还要发送一次确认呢">为什么TCP客户端最后还要发送一次确认呢？</h4>
+<p>防止已经失效的连接请求报文又突然传送到了服务器。</p>
+<p>两次握手的机制将会让客户端和服务器再次建立连接，这将导致不必要的错误和资源的浪费。</p>
+</blockquote>
+<h3 id="tcp四次挥手">TCP四次挥手</h3>
+<p>第一次挥手：客户端向服务端发送<code>FIN=1</code>，其序号为<code>seq=u</code>，它等于前面以传送过的数据的最后一个字节的序号加1。</p>
+<p>第二次挥手：服务端收到释放连接请求，<code>ACK = 1</code>,<code>ack = u + 1</code>，<code>seq = v</code>，这个序号v是等于前面已传送过的数据的最后一个字节的序号加1，然后B就进入<code>CLOSE-WAIT(关闭等待)</code>状态。</p>
+<p>第三次挥手：客户端收到来自服务端的确认后，就进入了<code>FIN-WAIT-2(终止等待2)</code>状态满等待B发出的连接释放报文段。若已经没有要发送的数据，其应用进程就通知TCP释放连接，这时服务端发出的连接释放报文段必须使<code>FIN = 1</code>，<code>seq = w</code>，还必须重复上次已发送过的确认号<code>ack = u + 1</code>。这时服务端就进入<code>LAST-ACK(最后确认)状态</code>，等待客户端的确认。</p>
+<p>第四次挥手：客户端收到连接释放报文段后，必须确认，<code>ACK = 1</code>，<code>ack = w + 1</code>，<code>seq = u + 1</code>(因为FIN报文段要消耗1个序号)，然后客户端进入<code>TIME-WAIT(时间等待)</code>状态。</p>
+<p>现在TCP连接并没有释放掉，必须经过<code>2MSL</code>后，才可以进入到<code>CLOSED状态</code>。</p>
+<blockquote>
+<p>为什么要等待2MSL？</p>
+<p>如果客户端发送的 ACK 报文段丢失，服务器在接收不到 ACK 的情况下会一直重发 FIN 报文段，因此客户端为了确保服务器收到了 ACK，会设置一个定时器，并在 TIME-WAIT 状态等待 2MSL 的时间，如果在此期间又收到了来自服务器的 FIN 报文段，那么客户端会重新设置计时器并再次等待 2MSL 的时间，如果在这段时间内没有收到来自服务器的 FIN 报文，那就说明服务器已经成功收到了 ACK 报文，此时客户端就可以进入 CLOSED 状态了。</p>
+<p>2MSL是任何报文在网络上存在的最长时间，超过这个时间报文将被丢弃，这样新的连接中不会出现旧连接的请求报文</p>
+</blockquote>
+<p><a href="https://blog.csdn.net/weixin_45304503/article/details/142427461">图解 TCP 四次挥手｜深度解析｜为什么是四次｜为什么要等2MSL_tcp链接谁先发送-CSDN博客</a></p>
 
         </div>
     </div>
