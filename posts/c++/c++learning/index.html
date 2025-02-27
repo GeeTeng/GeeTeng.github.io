@@ -34,7 +34,7 @@
   <meta itemprop="description" content="更新中">
   <meta itemprop="datePublished" content="2024-12-11T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-12-11T00:00:00+00:00">
-  <meta itemprop="wordCount" content="2523">
+  <meta itemprop="wordCount" content="2608">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/" />
 
@@ -204,7 +204,15 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#decltype">decltype</a></li>
+        <li><a href="#const用法和constexpr">const用法和constexpr</a>
+          <ul>
+            <li><a href="#顶层const和底层const">顶层const和底层const</a></li>
+            <li><a href="#函数内的const">函数内的const</a></li>
+            <li><a href="#const-和-constexpr-变量之间的主要区别">const 和 constexpr 变量之间的主要区别</a></li>
+          </ul>
+        </li>
+        <li><a href="#decltype和auto">decltype和auto</a></li>
+        <li><a href="#static">static</a></li>
         <li><a href="#this指针">this指针</a>
           <ul>
             <li><a href="#delete-this">delete this</a></li>
@@ -256,11 +264,6 @@
         <li><a href="#右值引用">右值引用</a></li>
         <li><a href="#移动语义">移动语义</a></li>
         <li><a href="#完美转发">完美转发</a></li>
-        <li><a href="#constexpr">constexpr</a>
-          <ul>
-            <li><a href="#const-和-constexpr-变量之间的主要区别">const 和 constexpr 变量之间的主要区别</a></li>
-          </ul>
-        </li>
         <li><a href="#多线程">多线程</a>
           <ul>
             <li><a href="#join与detach区别">join与detach区别</a></li>
@@ -295,7 +298,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        53 mins read
+                        59 mins read
                     </p>
                 </div>
             </div>
@@ -324,7 +327,53 @@
 <p>只读存储器ROM</p>
 <p>只能读出 所存数据稳定，断电后数据不会改变。存放<strong>代码区</strong>和<strong>常量区</strong>。</p>
 <hr>
-<h2 id="decltype">decltype</h2>
+<h2 id="const用法和constexpr">const用法和constexpr</h2>
+<p>const用法：</p>
+<ol>
+<li>修饰变量    变量不能修改</li>
+<li>指针常量 （先出现指针 再出现const）</li>
+<li>常量指针 （先出现const 再出现指针）</li>
+<li>修饰引用    不能通过引用修改值</li>
+<li>修饰成员函数 相当于修饰了成员函数隐藏的this指针</li>
+</ol>
+<h3 id="顶层const和底层const">顶层const和底层const</h3>
+<p>顶层const指的是<strong>const修饰的变量本身是一个常量</strong>，如<code>int* const p</code>，底层const指的是<strong>const修饰的变量所指向的对象是一个常量</strong>，如<code>const int* p</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">const</span> p3 <span style="color:#f92672">=</span> p2 <span style="color:#75715e">// 靠右的const是顶层const，靠左的是底层const
+</span></span></span></code></pre></div><p>constexpr用法：</p>
+<p>当用constexpr声明一个函数/变量时，编译器可以<strong>在编译时就计算出它的值</strong>，提高程序的运行效率。而且<strong>编译器会自动验证变量是否是一个常量表达式</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">GetLen</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 不加constexpr就无法声明arr 加了之后就会返回常数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> arr[GetLen(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>)];
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>如果constexpr声明中定义了一个指针，<strong>限定符constexpr仅对指针有效</strong>（只限定p指向的地址不可改变），而与指针所指的对象无关。</p>
+<h3 id="函数内的const">函数内的const</h3>
+<p>const修饰成员函数</p>
+<p>在成员函数的声明后加上 <code>const</code>，表示该函数承诺<strong>不会修改类的成员变量</strong>，也不会调用其他修改成员变量的非 <code>const</code> 成员函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> value;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">changeValue</span>() <span style="color:#66d9ef">const</span> {
+</span></span><span style="display:flex;"><span>        value <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;  <span style="color:#75715e">// 编译错误：不能在 const 函数中修改成员变量
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span></code></pre></div><p>const修饰函数形参</p>
+<p>传递对象时会优化，<strong>避免不必要的复制和避免创建临时对象</strong>；如果不加<code>const</code>，会调用拷贝构造和析构，在对象较大的时候会影响性能。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func1</span>(std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> vec);  <span style="color:#75715e">// 按值传递，会进行复制
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">func2</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> vec);  <span style="color:#75715e">// 按引用传递，不会复制
+</span></span></span></code></pre></div><h3 id="const-和-constexpr-变量之间的主要区别">const 和 constexpr 变量之间的主要区别</h3>
+<ul>
+<li>const 变量的初始化可以延迟到运行时，而 constexpr 变量必须在编译时进行初始化。</li>
+<li>const修饰一个对象表示它是常量。constexpr是修饰一个常量表达式。</li>
+</ul>
+<hr>
+<h2 id="decltype和auto">decltype和auto</h2>
+<p>deltype和auto是c++11引入的两种类型推导机制，<code>delctype</code>作用主要是查询（而不是推导），返回一个表达式的实际类型。</p>
+<p>delctype在处理顶层const和引用的方式和auto不同，decltype会返回<strong>顶层const</strong>和<strong>引用</strong>的类型，而auto不保留引用和const，除非使用auto&amp;和const auto。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">decltype</span>(a) b <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>;
 </span></span><span style="display:flex;"><span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">typeid</span>(b).name() <span style="color:#f92672">&lt;&lt;</span> endl;
@@ -334,6 +383,26 @@
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">decltype</span>(<span style="color:#66d9ef">auto</span>) j <span style="color:#f92672">=</span> f; <span style="color:#75715e">// decltype(auto) 会保留引用类型，但 auto 会丢弃引用类型。
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">typeid</span>(j).name() <span style="color:#f92672">&lt;&lt;</span> endl;
 </span></span></code></pre></div><hr>
+<h2 id="static">static</h2>
+<ol>
+<li>
+<p>静态局部变量</p>
+<p>静态局部变量在函数调用结束后<strong>不会被销毁</strong>，而是保持其值，直到程序结束时才会销毁。在函数内部声明一个 <code>static</code> 变量，表示该变量的生命周期<strong>跨越多次函数调用</strong>。</p>
+</li>
+<li>
+<p>静态全局变量</p>
+<p>当在一个源文件中使用static声明一个函数时，这个函数的作用域仅限于当前文件，无法在其他文件访问，因为<strong>static限制了作用域</strong>。</p>
+</li>
+<li>
+<p>静态成员变量</p>
+<p>静态成员变量<strong>属于类而不是对象</strong>，对于类的所有对象是共享的。</p>
+</li>
+<li>
+<p>静态成员函数</p>
+<p>类中的 <code>static</code> 成员函数是属于类本身的，而不是对象的实例。它们只能访问静态成员变量和静态成员函数，不能访问非静态成员。</p>
+</li>
+</ol>
+<hr>
 <h2 id="this指针">this指针</h2>
 <blockquote>
 <p>为什么要使用this指针？</p>
@@ -344,6 +413,7 @@
 <li>需要返回类本身</li>
 </ul>
 <p>当在类的非静态成员函数访问类的非静态成员时，编译器会自动将对象的地址传给作为隐含参数传递给函数，这个隐含参数就是this指针。</p>
+<p>this指针实际上是<code>Type* const this</code>，不能通过 <code>this</code> 改变它指向的对象的地址。对象地址作为实参传递给this形参；对象是不存储this指针的，通过形参由寄存器来传递的。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Person</span>
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
@@ -1050,25 +1120,6 @@
 </span></span></code></pre></div><p>以<code>g(string(&quot;Hello1&quot;));</code>为例，在这个过程中发生了，将string传递给g，T变成string，调用右值的函数。</p>
 <p>如果是s1则是string&amp;传递进去，T变成string&amp; &amp;&amp;，<strong>引用折叠规则</strong>变成了string&amp;，调用左值的函数。</p>
 <hr>
-<h2 id="constexpr">constexpr</h2>
-<p>当用constexpr声明一个函数/变量时，编译器可以<strong>在编译时就计算出它的值</strong>，提高程序的运行效率。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">constexpr</span> <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">GetLen</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b)
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 不加constexpr就无法声明arr 加了之后就会返回常数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">int</span> arr[GetLen(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>)];
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="const-和-constexpr-变量之间的主要区别">const 和 constexpr 变量之间的主要区别</h3>
-<ul>
-<li>const 变量的初始化可以延迟到运行时，而 constexpr 变量必须在编译时进行初始化。</li>
-<li>const修饰一个对象表示它是常量。constexpr是修饰一个常量表达式。</li>
-</ul>
-<hr>
 <h2 id="多线程">多线程</h2>
 <p>传递函数指针</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sayhello</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b)
@@ -1463,7 +1514,7 @@
 	    </a>
 
 		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2fc%2b%2blearning%2f
-			&title=C%2b%2b%e7%9f%a5%e8%af%86%e5%9b%9e%e9%a1%be&summary=%e9%9a%8f%e6%9c%ba%e5%ad%98%e5%82%a8%e5%99%a8RAM%ef%bc%88%e4%b8%bb%e5%ad%98%ef%bc%89%0a%e4%b8%8eCPU%e7%9b%b4%e6%8e%a5%e4%ba%a4%e6%8d%a2%e6%95%b0%e6%8d%ae%ef%bc%8c%e5%8f%af%e8%af%bb%e5%86%99%e5%8c%ba%e5%9f%9f%ef%bc%8c%e5%ad%98%e6%94%be%e5%85%a8%e5%b1%80%ef%bc%88%e9%9d%99%e6%80%81%ef%bc%89%e5%8c%ba%e3%80%81%e5%a0%86%e5%8c%ba%e3%80%81%e6%a0%88%e5%8c%ba%e3%80%82%0a%e5%8f%aa%e8%af%bb%e5%ad%98%e5%82%a8%e5%99%a8ROM%0a%e5%8f%aa%e8%83%bd%e8%af%bb%e5%87%ba%20%e6%89%80%e5%ad%98%e6%95%b0%e6%8d%ae%e7%a8%b3%e5%ae%9a%ef%bc%8c%e6%96%ad%e7%94%b5%e5%90%8e%e6%95%b0%e6%8d%ae%e4%b8%8d%e4%bc%9a%e6%94%b9%e5%8f%98%e3%80%82%e5%ad%98%e6%94%be%e4%bb%a3%e7%a0%81%e5%8c%ba%e5%92%8c%e5%b8%b8%e9%87%8f%e5%8c%ba%e3%80%82%0adecltype%20int%20a%20%3d%2010%3b%20decltype%28a%29%20b%20%3d%2020%3b%20cout%20%26lt%3b%26lt%3b%20typeid%28b%29.name%28%29%20%26lt%3b%26lt%3b%20endl%3b%20int%20e%20%3d%204%3b%20const%20int%2a%20f%20%3d%20%26amp%3be%3b%20decltype%28auto%29%20j%20%3d%20f%3b%20%2f%2f%20decltype%28auto%29%20%e4%bc%9a%e4%bf%9d%e7%95%99%e5%bc%95%e7%94%a8%e7%b1%bb%e5%9e%8b%ef%bc%8c%e4%bd%86%20auto%20%e4%bc%9a%e4%b8%a2%e5%bc%83%e5%bc%95%e7%94%a8%e7%b1%bb%e5%9e%8b%e3%80%82%20cout%20%26lt%3b%26lt%3b%20typeid%28j%29.name%28%29%20%26lt%3b%26lt%3b%20endl%3b%20this%e6%8c%87%e9%92%88%20%e4%b8%ba%e4%bb%80%e4%b9%88%e8%a6%81%e4%bd%bf%e7%94%a8this%e6%8c%87%e9%92%88%ef%bc%9f%0a%e4%b8%a4%e4%b8%aa%e7%94%a8%e6%b3%95%ef%bc%9a%0a%e5%8c%ba%e5%88%86%e6%88%90%e5%91%98%e5%8f%98%e9%87%8f%e5%92%8c%e5%87%bd%e6%95%b0%e5%bd%a2%e5%8f%82%20%e9%9c%80%e8%a6%81%e8%bf%94%e5%9b%9e%e7%b1%bb%e6%9c%ac%e8%ba%ab%20%e5%bd%93%e5%9c%a8%e7%b1%bb%e7%9a%84%e9%9d%9e%e9%9d%99%e6%80%81%e6%88%90%e5%91%98%e5%87%bd%e6%95%b0%e8%ae%bf%e9%97%ae%e7%b1%bb%e7%9a%84%e9%9d%9e%e9%9d%99%e6%80%81%e6%88%90%e5%91%98%e6%97%b6%ef%bc%8c%e7%bc%96%e8%af%91%e5%99%a8%e4%bc%9a%e8%87%aa%e5%8a%a8%e5%b0%86%e5%af%b9%e8%b1%a1%e7%9a%84%e5%9c%b0%e5%9d%80%e4%bc%a0%e7%bb%99%e4%bd%9c%e4%b8%ba%e9%9a%90%e5%90%ab%e5%8f%82%e6%95%b0%e4%bc%a0%e9%80%92%e7%bb%99%e5%87%bd%e6%95%b0%ef%bc%8c%e8%bf%99%e4%b8%aa%e9%9a%90%e5%90%ab%e5%8f%82%e6%95%b0%e5%b0%b1%e6%98%afthis%e6%8c%87%e9%92%88%e3%80%82%0aclass%20Person%20%7b%20public%3a%20int%20getAge%28%29%20%7b%20return%20age%3b%20%7d%20void%20setAge%28int%20age%29%20%7b%20%2f%2f%20%e7%9b%b8%e5%bd%93%e4%ba%8e%e8%87%aa%e5%b7%b1%e8%b5%8b%e5%80%bc%e7%bb%99%e8%87%aa%e5%b7%b1%20%e5%b9%b6%e4%b8%8d%e6%98%af%e8%b5%8b%e5%80%bc%e7%bb%99Person%e7%9a%84%e6%88%90%e5%91%98%e5%8f%98%e9%87%8f%20age%20%3d%20age%3b%20%2f%2f%20this-%26gt%3bage%20%3d%20age%3b%20cout%20%26lt%3b%26lt%3b%20%26%2334%3bage%20%3d%20%26%2334%3b%20%26lt%3b%26lt%3b%20age%20%26lt%3b%26lt%3b%20endl%3b%20%2f%2f%20%e8%be%93%e5%87%baage%20%3d%2023%20%7d%20%2f%2f%20%e6%88%96%e8%80%85%20Person%20setAge%28int%20age%29%20%7b%20this-%26gt%3bage%20%3d%20age%3b%20cout%20%26lt%3b%26lt%3b%20%26%2334%3bage%20%3d%20%26%2334%3b%20%26lt%3b%26lt%3b%20age%20%26lt%3b%26lt%3b%20endl%3b%20return%20%2athis%3b%20%7d%20private%3a%20int%20age%3b%20%7d%3b%20int%20main%28%29%20%7b%20Person%20p%3b%20p.&source=rafed123.github.io"
+			&title=C%2b%2b%e7%9f%a5%e8%af%86%e5%9b%9e%e9%a1%be&summary=%e9%9a%8f%e6%9c%ba%e5%ad%98%e5%82%a8%e5%99%a8RAM%ef%bc%88%e4%b8%bb%e5%ad%98%ef%bc%89%0a%e4%b8%8eCPU%e7%9b%b4%e6%8e%a5%e4%ba%a4%e6%8d%a2%e6%95%b0%e6%8d%ae%ef%bc%8c%e5%8f%af%e8%af%bb%e5%86%99%e5%8c%ba%e5%9f%9f%ef%bc%8c%e5%ad%98%e6%94%be%e5%85%a8%e5%b1%80%ef%bc%88%e9%9d%99%e6%80%81%ef%bc%89%e5%8c%ba%e3%80%81%e5%a0%86%e5%8c%ba%e3%80%81%e6%a0%88%e5%8c%ba%e3%80%82%0a%e5%8f%aa%e8%af%bb%e5%ad%98%e5%82%a8%e5%99%a8ROM%0a%e5%8f%aa%e8%83%bd%e8%af%bb%e5%87%ba%20%e6%89%80%e5%ad%98%e6%95%b0%e6%8d%ae%e7%a8%b3%e5%ae%9a%ef%bc%8c%e6%96%ad%e7%94%b5%e5%90%8e%e6%95%b0%e6%8d%ae%e4%b8%8d%e4%bc%9a%e6%94%b9%e5%8f%98%e3%80%82%e5%ad%98%e6%94%be%e4%bb%a3%e7%a0%81%e5%8c%ba%e5%92%8c%e5%b8%b8%e9%87%8f%e5%8c%ba%e3%80%82%0aconst%e7%94%a8%e6%b3%95%e5%92%8cconstexpr%20const%e7%94%a8%e6%b3%95%ef%bc%9a%0a%e4%bf%ae%e9%a5%b0%e5%8f%98%e9%87%8f%20%e5%8f%98%e9%87%8f%e4%b8%8d%e8%83%bd%e4%bf%ae%e6%94%b9%20%e6%8c%87%e9%92%88%e5%b8%b8%e9%87%8f%20%ef%bc%88%e5%85%88%e5%87%ba%e7%8e%b0%e6%8c%87%e9%92%88%20%e5%86%8d%e5%87%ba%e7%8e%b0const%ef%bc%89%20%e5%b8%b8%e9%87%8f%e6%8c%87%e9%92%88%20%ef%bc%88%e5%85%88%e5%87%ba%e7%8e%b0const%20%e5%86%8d%e5%87%ba%e7%8e%b0%e6%8c%87%e9%92%88%ef%bc%89%20%e4%bf%ae%e9%a5%b0%e5%bc%95%e7%94%a8%20%e4%b8%8d%e8%83%bd%e9%80%9a%e8%bf%87%e5%bc%95%e7%94%a8%e4%bf%ae%e6%94%b9%e5%80%bc%20%e4%bf%ae%e9%a5%b0%e6%88%90%e5%91%98%e5%87%bd%e6%95%b0%20%e7%9b%b8%e5%bd%93%e4%ba%8e%e4%bf%ae%e9%a5%b0%e4%ba%86%e6%88%90%e5%91%98%e5%87%bd%e6%95%b0%e9%9a%90%e8%97%8f%e7%9a%84this%e6%8c%87%e9%92%88%20%e9%a1%b6%e5%b1%82const%e5%92%8c%e5%ba%95%e5%b1%82const%20%e9%a1%b6%e5%b1%82const%e6%8c%87%e7%9a%84%e6%98%afconst%e4%bf%ae%e9%a5%b0%e7%9a%84%e5%8f%98%e9%87%8f%e6%9c%ac%e8%ba%ab%e6%98%af%e4%b8%80%e4%b8%aa%e5%b8%b8%e9%87%8f%ef%bc%8c%e5%a6%82int%2a%20const%20p%ef%bc%8c%e5%ba%95%e5%b1%82const%e6%8c%87%e7%9a%84%e6%98%afconst%e4%bf%ae%e9%a5%b0%e7%9a%84%e5%8f%98%e9%87%8f%e6%89%80%e6%8c%87%e5%90%91%e7%9a%84%e5%af%b9%e8%b1%a1%e6%98%af%e4%b8%80%e4%b8%aa%e5%b8%b8%e9%87%8f%ef%bc%8c%e5%a6%82const%20int%2a%20p%e3%80%82%0aconst%20int%20%2a%20const%20p3%20%3d%20p2%20%2f%2f%20%e9%9d%a0%e5%8f%b3%e7%9a%84const%e6%98%af%e9%a1%b6%e5%b1%82const%ef%bc%8c%e9%9d%a0%e5%b7%a6%e7%9a%84%e6%98%af%e5%ba%95%e5%b1%82const%20constexpr%e7%94%a8%e6%b3%95%ef%bc%9a%0a%e5%bd%93%e7%94%a8constexpr%e5%a3%b0%e6%98%8e%e4%b8%80%e4%b8%aa%e5%87%bd%e6%95%b0%2f%e5%8f%98%e9%87%8f%e6%97%b6%ef%bc%8c%e7%bc%96%e8%af%91%e5%99%a8%e5%8f%af%e4%bb%a5%e5%9c%a8%e7%bc%96%e8%af%91%e6%97%b6%e5%b0%b1%e8%ae%a1%e7%ae%97%e5%87%ba%e5%ae%83%e7%9a%84%e5%80%bc%ef%bc%8c%e6%8f%90%e9%ab%98%e7%a8%8b%e5%ba%8f%e7%9a%84%e8%bf%90%e8%a1%8c%e6%95%88%e7%8e%87%e3%80%82%e8%80%8c%e4%b8%94%e7%bc%96%e8%af%91%e5%99%a8%e4%bc%9a%e8%87%aa%e5%8a%a8%e9%aa%8c%e8%af%81%e5%8f%98%e9%87%8f%e6%98%af%e5%90%a6%e6%98%af%e4%b8%80%e4%b8%aa%e5%b8%b8%e9%87%8f%e8%a1%a8%e8%be%be%e5%bc%8f%e3%80%82%0aconstexpr%20int%20GetLen%28int%20a%2c%20int%20b%29%20%7b%20return%20a%20%2b%20b%3b%20%7d%20int%20main%28%29%20%7b%20%2f%2f%20%e4%b8%8d%e5%8a%a0constexpr%e5%b0%b1%e6%97%a0%e6%b3%95%e5%a3%b0%e6%98%8earr%20%e5%8a%a0%e4%ba%86%e4%b9%8b%e5%90%8e%e5%b0%b1%e4%bc%9a%e8%bf%94%e5%9b%9e%e5%b8%b8%e6%95%b0%20int%20arr%5bGetLen%281%2c%202%29%5d%3b%20return%200%3b%20%7d%20%e5%a6%82%e6%9e%9cconstexpr%e5%a3%b0%e6%98%8e%e4%b8%ad%e5%ae%9a%e4%b9%89%e4%ba%86%e4%b8%80%e4%b8%aa%e6%8c%87%e9%92%88%ef%bc%8c%e9%99%90%e5%ae%9a%e7%ac%a6constexpr%e4%bb%85%e5%af%b9%e6%8c%87%e9%92%88%e6%9c%89%e6%95%88%ef%bc%88%e5%8f%aa%e9%99%90%e5%ae%9ap%e6%8c%87%e5%90%91%e7%9a%84%e5%9c%b0%e5%9d%80%e4%b8%8d%e5%8f%af%e6%94%b9%e5%8f%98%ef%bc%89%ef%bc%8c%e8%80%8c%e4%b8%8e%e6%8c%87%e9%92%88%e6%89%80%e6%8c%87%e7%9a%84%e5%af%b9%e8%b1%a1%e6%97%a0%e5%85%b3%e3%80%82%0a%e5%87%bd%e6%95%b0%e5%86%85%e7%9a%84const%20const%e4%bf%ae%e9%a5%b0%e6%88%90%e5%91%98%e5%87%bd%e6%95%b0%0a%e5%9c%a8%e6%88%90%e5%91%98%e5%87%bd%e6%95%b0%e7%9a%84%e5%a3%b0%e6%98%8e%e5%90%8e%e5%8a%a0%e4%b8%8a%20const%ef%bc%8c%e8%a1%a8%e7%a4%ba%e8%af%a5%e5%87%bd%e6%95%b0%e6%89%bf%e8%af%ba%e4%b8%8d%e4%bc%9a%e4%bf%ae%e6%94%b9%e7%b1%bb%e7%9a%84%e6%88%90%e5%91%98%e5%8f%98%e9%87%8f%ef%bc%8c%e4%b9%9f%e4%b8%8d%e4%bc%9a%e8%b0%83%e7%94%a8%e5%85%b6%e4%bb%96%e4%bf%ae%e6%94%b9%e6%88%90%e5%91%98%e5%8f%98%e9%87%8f%e7%9a%84%e9%9d%9e%20const%20%e6%88%90%e5%91%98%e5%87%bd%e6%95%b0%e3%80%82%0aprivate%3a%20int%20value%3b%20void%20changeValue%28%29%20const%20%7b%20value%20%3d%2010%3b%20%2f%2f%20%e7%bc%96%e8%af%91%e9%94%99%e8%af%af%ef%bc%9a%e4%b8%8d%e8%83%bd%e5%9c%a8%20const%20%e5%87%bd%e6%95%b0%e4%b8%ad%e4%bf%ae%e6%94%b9%e6%88%90%e5%91%98%e5%8f%98%e9%87%8f%20%7d%20const%e4%bf%ae%e9%a5%b0%e5%87%bd%e6%95%b0%e5%bd%a2%e5%8f%82&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>
