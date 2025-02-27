@@ -26,7 +26,81 @@ chordsheet: true
 
 ---
 
-## decltype
+## const用法和constexpr
+
+const用法：
+
+1. 修饰变量    变量不能修改
+2. 指针常量 （先出现指针 再出现const）
+3. 常量指针 （先出现const 再出现指针）
+4. 修饰引用    不能通过引用修改值
+5. 修饰成员函数 相当于修饰了成员函数隐藏的this指针
+
+### 顶层const和底层const
+
+顶层const指的是**const修饰的变量本身是一个常量**，如`int* const p`，底层const指的是**const修饰的变量所指向的对象是一个常量**，如`const int* p`。
+
+```c++
+const int * const p3 = p2 // 靠右的const是顶层const，靠左的是底层const
+```
+
+constexpr用法：
+
+当用constexpr声明一个函数/变量时，编译器可以**在编译时就计算出它的值**，提高程序的运行效率。而且**编译器会自动验证变量是否是一个常量表达式**。
+
+```c++
+constexpr int GetLen(int a, int b)
+{
+	return a + b;
+}
+
+int main()
+{
+	// 不加constexpr就无法声明arr 加了之后就会返回常数
+	int arr[GetLen(1, 2)];
+	return 0;
+}
+```
+
+如果constexpr声明中定义了一个指针，**限定符constexpr仅对指针有效**（只限定p指向的地址不可改变），而与指针所指的对象无关。
+
+### 函数内的const
+
+const修饰成员函数
+
+在成员函数的声明后加上 `const`，表示该函数承诺**不会修改类的成员变量**，也不会调用其他修改成员变量的非 `const` 成员函数。
+
+```c++
+private:
+    int value;
+    void changeValue() const {
+        value = 10;  // 编译错误：不能在 const 函数中修改成员变量
+    }
+```
+
+const修饰函数形参
+
+传递对象时会优化，**避免不必要的复制和避免创建临时对象**；如果不加`const`，会调用拷贝构造和析构，在对象较大的时候会影响性能。
+
+```c++
+void func1(std::vector<int> vec);  // 按值传递，会进行复制
+void func2(const std::vector<int>& vec);  // 按引用传递，不会复制
+```
+
+
+
+### const 和 constexpr 变量之间的主要区别
+
+- const 变量的初始化可以延迟到运行时，而 constexpr 变量必须在编译时进行初始化。
+- const修饰一个对象表示它是常量。constexpr是修饰一个常量表达式。
+
+---
+
+## decltype和auto
+
+deltype和auto是c++11引入的两种类型推导机制，`delctype`作用主要是查询（而不是推导），返回一个表达式的实际类型。
+
+delctype在处理顶层const和引用的方式和auto不同，decltype会返回**顶层const**和**引用**的类型，而auto不保留引用和const，除非使用auto&和const auto。
 
 ```c++
 int a = 10;
@@ -41,6 +115,26 @@ cout << typeid(j).name() << endl;
 
 ---
 
+## static
+
+1. 静态局部变量
+
+   静态局部变量在函数调用结束后**不会被销毁**，而是保持其值，直到程序结束时才会销毁。在函数内部声明一个 `static` 变量，表示该变量的生命周期**跨越多次函数调用**。
+
+2. 静态全局变量
+
+   当在一个源文件中使用static声明一个函数时，这个函数的作用域仅限于当前文件，无法在其他文件访问，因为**static限制了作用域**。
+
+3. 静态成员变量
+
+   静态成员变量**属于类而不是对象**，对于类的所有对象是共享的。
+
+4. 静态成员函数
+
+   类中的 `static` 成员函数是属于类本身的，而不是对象的实例。它们只能访问静态成员变量和静态成员函数，不能访问非静态成员。
+
+---
+
 ## this指针
 
 > 为什么要使用this指针？
@@ -51,6 +145,8 @@ cout << typeid(j).name() << endl;
 - 需要返回类本身
 
 当在类的非静态成员函数访问类的非静态成员时，编译器会自动将对象的地址传给作为隐含参数传递给函数，这个隐含参数就是this指针。
+
+this指针实际上是`Type* const this`，不能通过 `this` 改变它指向的对象的地址。对象地址作为实参传递给this形参；对象是不存储this指针的，通过形参由寄存器来传递的。
 
 ```c++
 class Person
@@ -978,31 +1074,6 @@ void g(T&& v)
 以`g(string("Hello1"));`为例，在这个过程中发生了，将string传递给g，T变成string，调用右值的函数。
 
 如果是s1则是string&传递进去，T变成string& &&，**引用折叠规则**变成了string&，调用左值的函数。
-
----
-
-## constexpr
-
-当用constexpr声明一个函数/变量时，编译器可以**在编译时就计算出它的值**，提高程序的运行效率。
-
-```c++
-constexpr int GetLen(int a, int b)
-{
-	return a + b;
-}
-
-int main()
-{
-	// 不加constexpr就无法声明arr 加了之后就会返回常数
-	int arr[GetLen(1, 2)];
-	return 0;
-}
-```
-
-### const 和 constexpr 变量之间的主要区别
-
-- const 变量的初始化可以延迟到运行时，而 constexpr 变量必须在编译时进行初始化。
-- const修饰一个对象表示它是常量。constexpr是修饰一个常量表达式。
 
 ---
 
