@@ -14,7 +14,7 @@ chordsheet: true
 
 屏幕的左下角是原点（0，0） 向上是Y 向右是x
 
-![Screen](/images/光栅化/Screen.png)
+![Screen](/images/Graphics/Rasterize/Screen.png)
 
 
 
@@ -111,7 +111,7 @@ inside函数判断像素点中心是否在三角形内部，如果在返回1，�
 
   
 
-  ![BoundingBox](/images/光栅化/BoundingBox.png)
+  ![BoundingBox](/images/Graphics/Rasterize/BoundingBox.png)
 
   包围盒的大小如下
   $$
@@ -122,7 +122,7 @@ inside函数判断像素点中心是否在三角形内部，如果在返回1，�
 
 
 
-![ITT](/images/光栅化/ITT.png)
+![ITT](/images/Graphics/Rasterize/ITT.png)
 
 通过计算三角形边的直线方程 利用直线生成布雷森汉姆算法（Bresenham algorithm），可以确定三角形每一行的左边界和右边界
 
@@ -151,11 +151,11 @@ $$
 
 如图，如果函数频率不断增加，而采样频率相同，采样结果就会出现偏差，就会产生走样现象
 
-![frequency_sampling](/images/光栅化/frequency_sampling.png)
+![frequency_sampling](/images/Graphics/Rasterize/frequency_sampling.png)
 
 而下图会发现，两种截然不同的两种函数（黑线和蓝线）却能得出相同的结果，无法区分来自哪个函数，就会出现走样现象
 
-![twoFx](/images/光栅化/twoFx.png)
+![twoFx](/images/Graphics/Rasterize/twoFx.png)
 
 ---
 
@@ -169,7 +169,7 @@ $$
 
   原因：傅里叶变换前物体的边界，颜色变化剧烈，会产生剧烈变化的信号，剧烈变化会产生高频信号。
 
-  ![highPassFilter](/images/光栅化/highPassFilter.png)
+  ![highPassFilter](/images/Graphics/Rasterize/highPassFilter.png)
 
 - ### 低通滤波（Low-Pass Filter）
 
@@ -177,7 +177,7 @@ $$
 
   图片模糊了是因为过滤掉了表示图像边界的高频信号
 
-  ![lowPassFilter](/images/光栅化/lowPassFilter.png)
+  ![lowPassFilter](/images/Graphics/Rasterize/lowPassFilter.png)
 
 - ### 带通滤波（Band-Pass Filter）
 
@@ -191,7 +191,7 @@ $$
 
 第一个信号和最后一个信号要特殊处理一下，第一个信号，最左边并没有信号对应卷积核的第一个值。对于缺省的信号需要自动补零。第一个信号取得的31的信号值分别为0,1,3，然后进行卷积操作，得到的结果为 (0 * 1/4) + (1 * 1/2) + (3 * 1/4) = 1.25
 
-![Convolution](/images/光栅化/Convolution.png)
+![Convolution](/images/Graphics/Rasterize/Convolution.png)
 
 > **时域上的卷积相当于频域上的乘积**
 
@@ -209,7 +209,7 @@ c是采样函数，d是采样函数在频域上的体现
 
 使用a函数与c函数相乘 = e函数（采样的结果） 等价于 b卷积d = f
 
-![sampling](/images/光栅化/sampling.png)
+![sampling](/images/Graphics/Rasterize/sampling.png)
 
 ---
 
@@ -217,7 +217,7 @@ c是采样函数，d是采样函数在频域上的体现
 
 采样时复制粘贴频谱发生混叠
 
-![Aliasing](/images/光栅化/Aliasing.png)
+![Aliasing](/images/Graphics/Rasterize/Aliasing.png)
 
 ---
 
@@ -229,9 +229,9 @@ c是采样函数，d是采样函数在频域上的体现
 
 增加采样点 没有提高屏幕分辨率
 
-![MSAA1](/images/光栅化/MSAA1.png)
+![MSAA1](/images/Graphics/Rasterize/MSAA1.png)
 
-![MSAA2](/images/光栅化/MSAA2.png)
+![MSAA2](/images/Graphics/Rasterize/MSAA2.png)
 
 ### 快速近似抗锯齿FXAA
 
@@ -258,7 +258,7 @@ c是采样函数，d是采样函数在频域上的体现
 
 ## 作业
 
-![hw](/images/光栅化/hw.png)
+![hw](/images/Graphics/Rasterize/hw.png)
 
 ```c++
 void rst::rasterizer::rasterize_triangle(const Triangle& t)

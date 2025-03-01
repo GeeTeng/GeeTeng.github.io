@@ -46,11 +46,11 @@ chordsheet: true
   >
   > 如果构造SDF，边界(SDF = 0)处于图片中间，可以得到平滑的融合效果。
 
-  ![01](/images/Geometry/01.png)
+  ![01](/images/Graphics/Geometry/01.png)
 
   使用网格存储距离信息，网格值为0的地方是物体表面，在地理中称作等高线。
 
-  ![02](/images/Geometry/02.png)
+  ![02](/images/Graphics/Geometry/02.png)
 
 - ### 分型
 
@@ -80,25 +80,25 @@ chordsheet: true
 
 曲线一定要经过起始点p0到终止点p3，且切线为p0p1方向、p2p3方向。
 
-![03](/images/Geometry/03.png)
+![03](/images/Graphics/Geometry/03.png)
 
 在b0 b1上找一点t 同理其他两条边，连接后变成3个点，找到b30点和该点切线
 
 ### 迪卡斯特里奥算法
 
-![04](/images/Geometry/04.png)
+![04](/images/Graphics/Geometry/04.png)
 
 类似二项式的展开，起点系数为(1 - t)
 
-![05](/images/Geometry/05.png)
+![05](/images/Graphics/Geometry/05.png)
 
-![06](/images/Geometry/06.png)
+![06](/images/Graphics/Geometry/06.png)
 
 但是当n = 10时，会很难通过点去控制每条曲线，所以引出**逐段贝塞尔曲线**。
 
 像是Photoshop中的钢笔工具一样，当两个点的距离相等和斜率相同时两条曲线连续。
 
-![07](/images/Geometry/07.png)
+![07](/images/Graphics/Geometry/07.png)
 
 性质：
 
@@ -128,7 +128,7 @@ chordsheet: true
 
 规定了4 x 4的控制点，利用u参数得到4个蓝色点，再利用v参数得出哪个点。遍历所有的u、v可以得到一个贝塞尔曲面。
 
-![08](/images/Geometry/08.png)
+![08](/images/Graphics/Geometry/08.png)
 
 **几何处理**
 
@@ -140,9 +140,9 @@ chordsheet: true
 
 ​	将1个三角形分成4个三角形，图中新的顶点（白点）需要被更新，加权平均。
 
-​	![10](/images/Geometry/10.png)
+​	![10](/images/Graphics/Geometry/10.png)
 
-​	旧的顶点也需![11](/images/Geometry/11.png)要被更新，根据自己原本的位置和周围顶点的位置来做加权平均。
+​	旧的顶点也需![11](/images/Graphics/Geometry/11.png)要被更新，根据自己原本的位置和周围顶点的位置来做加权平均。
 
 ​	但是**loop细分只能解决三角形网格**，对于四边形多边形就无法细分，所以引出Catmull-Clark。
 
@@ -152,20 +152,20 @@ chordsheet: true
 
 ​	奇异点：度数 != 4的点，图中有两个奇异点和2个非四边形面。
 
-​	![12](/images/Geometry/12.png)
+​	![12](/images/Graphics/Geometry/12.png)
 
 - 取每个面的一个点（比如重心）
 
 - 取每个边的中点
 - 将所有新增的点连接
 
-​	![13](/images/Geometry/13.png)
+​	![13](/images/Graphics/Geometry/13.png)
 
 ​	细分后多出两个新的奇异点，所有非四边形面消失。（每个非四边形面会变成一个奇异点，且之后不会发生改变）
 
 ​	对于新增的点更新规则和旧的点的更新规则
 
-​	![14](/images/Geometry/14.png)
+​	![14](/images/Graphics/Geometry/14.png)
 
 
 
@@ -177,7 +177,7 @@ chordsheet: true
 
 想象一下将几个点捏成同一个点
 
-![15](/images/Geometry/15.png)
+![15](/images/Graphics/Geometry/15.png)
 
 使用**二次误差度量**来简化曲面简化带来的误差大小
 
@@ -193,7 +193,7 @@ chordsheet: true
 
 ​	将三角形面变得尽可能相同（正三角形），也可以提高模型效果。
 
-![09](/images/Geometry/09.png)
+![09](/images/Graphics/Geometry/09.png)
 
 
 

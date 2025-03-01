@@ -15,7 +15,7 @@ chordsheet: true
 1. 从光源视角生成深度图，存储深度值。
 2. 主摄像机渲染场景并计算阴影，与存储的深度值进行比较，如果当前点深度大于阴影贴图深度，说明该点被遮挡是阴影点；否则是光照射的点。
 
-![01](/images/RayTracing/01.png)
+![01](/images/Graphics/RayTracing/01.png)
 
 **缺点：**
 
@@ -27,7 +27,7 @@ chordsheet: true
 
 由于点光源有大小，会形成如图所示的（Umbra）本影区域和半影（Penumbra）区域。所以会形成阴影的过渡。
 
-![02](/images/RayTracing/02.png)
+![02](/images/Graphics/RayTracing/02.png)
 
 > Question：为什么需要光线追踪？
 >
@@ -57,7 +57,7 @@ chordsheet: true
 
 然后对该点进行局部光照模型计算，得到该像素的颜色。
 
-![03](/images/RayTracing/03.png)
+![03](/images/Graphics/RayTracing/03.png)
 
 假设人眼是一个点，且光线打到物体后会进行完美的反射 / 折射。
 
@@ -67,21 +67,21 @@ chordsheet: true
 
 每一个交点的颜色贡献来源于直接光照、反射方向间接光、折射方向间接光。
 
-![04](/images/RayTracing/04.png)
+![04](/images/Graphics/RayTracing/04.png)
 
 
 
-## 光线与物体的交点
+## 求光线与物体的交点
 
 光线的定义如下：
 
-![05](/images/RayTracing/05.png)
+![05](/images/Graphics/RayTracing/05.png)
 
 求光与球的交点，将光线公式代入到球公式中，解t。可以判断和球是否有交点，有几个交点。
 
 如果是其他隐式几何也是同样联合光线方程。
 
-![06](/images/RayTracing/06.png)
+![06](/images/Graphics/RayTracing/06.png)
 
 真正在图形学中运用的其实是显式曲面，很多个三角形，因此判断的是光线与三角面的交点。与三角面的焦点可以想象成三角形在一个平面上，就变成了光线与平面的交点了。
 
@@ -89,7 +89,7 @@ chordsheet: true
 
 之后再判断交点是否在三角形的内部。
 
-![08](/images/RayTracing/08.png)
+![08](/images/Graphics/RayTracing/08.png)
 
 但是这样一个个计算太麻烦了，于是有了更方便地方法——Möller–Trumbore算法
 
@@ -97,7 +97,7 @@ chordsheet: true
 
 利用向量的外积和重心坐标来计算是否相交，大大的提高了效率。
 
-![07](/images/RayTracing/07.png)
+![07](/images/Graphics/RayTracing/07.png)
 
 ---
 
@@ -105,15 +105,17 @@ chordsheet: true
 
 所以会使用一些**加速结构**（包围盒树、八叉树等）来减少三角形数量，使得光线与场景的相交测试只需要在较小的区域内执行，而非全部三角形。
 
-## Bounding Volumes
+
+
+## Bounding Volumes包围盒结构
 
 如果一个光线连包围盒都碰不到，也绝对不会碰到包围盒里的物体。
 
-![09](/images/RayTracing/09.png)
+![09](/images/Graphics/RayTracing/09.png)
 
 轴对称包围盒：将长方体用3对不同的平面包围住，任何一对平面都与x轴y轴z轴垂直，所以称为AABB包围盒。
 
-![10](/images/RayTracing/10.png)
+![10](/images/Graphics/RayTracing/10.png)
 
 下图为光线穿过包围盒的3个对面所经历的时间，取这3个时间的交集，就是光线在包围盒里的时间段。
 
@@ -122,22 +124,103 @@ chordsheet: true
   最晚进入盒子的时间：t_{enter} = max\{t_{min}\}
   $$
   
-
 - 离开包围盒：离开**任一**对面
   $$
   最早离开盒子的时间：t_{exit} = min\{t_{max}\}
   $$
   
 
-![11](/images/RayTracing/11.png)
+![11](/images/Graphics/RayTracing/11.png)
 
 然而光线并不是直线，光线是一条射线，所以要判断t是否为正数。
 
 当离开的时间<0时，说明盒子在光线的背后；当离开的时间>=0，进入的时间<0，代表光线起点在盒子里面。
 
-![12](/images/RayTracing/12.png)
+![12](/images/Graphics/RayTracing/12.png)
 
 为什么轴对称包围盒可以提高效率，因为计算公式变得简洁了很多。
 $$
 t = \frac{(p' - o)·N}{d·N} \qquad t = \frac{p'-o_x}{d_x}
 $$
+**光线和盒子有交点并不意味着光线和盒子里的物体相交**。
+
+
+
+> 如何用AABB加速光线追踪
+
+1. 把场景包围盒分成多个格子，判断哪些格子可能会有物体。
+
+   ![15](/images/Graphics/RayTracing/15.png)
+
+2. 光线遇到格子后，如果格子中有物体，就会做一个光线和物体的求交。
+
+   ![16](/images/Graphics/RayTracing/16.png)
+
+> 如何划分格子？
+
+格子不能太稀疏（1个格子几个物体）也不能太密集（效率低）。**格子的数量 = 27（经验所得）* 物体的数量**。
+
+毕竟光线会经过所有相交的格子，有些格子也并没有物体。所以在既有大规模的集中，又有大规模的空白，均匀划分格子的方法并不适合。该怎么去划分格子，以至效率高，所以引出了——空间划分的概念。
+
+
+
+## Spatial Partitions空间划分
+
+在物体稀疏的地方是并不需要很多格子的，在物体密集的时候可以多用一些更小的格子。
+
+[空间数据结构 | GeeTeng](https://geeteng.github.io/posts/game/spatialdatastructures/)
+
+近些年KD-Tree很少被使用了，原因是
+
+1. **很难去求得三角形和包围盒有交集**
+2. **如果一个物体同时存在好几个包围盒中，那么一个物体会在多个叶子结点中**
+
+![13](/images/Graphics/RayTracing/13.png)
+
+对于一个场景，场景都是三角形构成的，那通过空间划分的方式会产生一个问题，就是如果给定一个三维空间中的包围盒，我要知道它和哪些三角形有交集，虽然有这个算法，但很难判定一个三角形是否与包围盒（或者立方体）有交集。
+
+虽然三角形只要有一个顶点在盒子里，它俩就算相交了，但有时会出现，三角形的三个顶点都不在盒子里，但它们却是相交的（盒子在三角形内时）
+
+## Object Partitions物体划分
+
+BVH的加速结构在图形学中得到了非常广泛的应用，不管是实时的光线追踪，还是离线的结构。
+
+BVH将物体划分成n个部分，划分到一个节点中只有5个三角形为止。
+
+![14](/images/Graphics/RayTracing/14.png)
+
+BVH避免了求包围盒和物体的交集（因为就是按物体来划分的），也不可能一个物体包含在多个包围盒中，解决了KD-Tree的问题。
+
+但是**BVH并没有将空间的严格的划分开，不同的Bounding box可以相交的**。所以在实际中要尽可能避免它们之间重叠。
+
+
+
+如下是BVH的伪代码，分为三种情况：
+
+1. 当光线与包围盒没有交点则return
+2. 当交点是叶结点时，和包围盒里的所有物体求交点，返回最近的交点
+3. 如果不是叶结点，就递归地求子部分，最后返回离的最近的交点
+
+![18](/images/Graphics/RayTracing/18.png)
+
+## 辐射度量学
+
+辐射度量学是一个精准的给我们一系列物理量的方法，将光精准的定义出来。
+
+Radiant Energy定义：电磁辐射的能量
+$$
+Q[J = Joule]
+$$
+Radiant flux(power) 辐射通量的定义：单位时间的能量，单位是瓦特 / 流明（lumen）
+$$
+ \Phi\equiv\frac{dQ}{dt} [W = Watt] [lm = lumen]
+$$
+flux的另外一个定义：光线在传播中辐射的各种各样的光子，假如有一个感光平面，单位时间内通过光子的数量就是它的flux。
+
+![19](/images/Graphics/RayTracing/19.png)
+
+球的立体角是4Π，下图中，可以通过蓝色箭头指的两个参数来计算出立体角。
+
+![20](/images/Graphics/RayTracing/RayTracing/20.png)
+
+![21](/images/Graphics/RayTracing/RayTracing/21.png)

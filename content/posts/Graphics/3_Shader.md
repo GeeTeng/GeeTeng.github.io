@@ -14,7 +14,7 @@ chordsheet: true
 
 **Frame Buffer**(帧缓冲区：用于存储最终图像数据)、**Depth Buffer**（深度缓冲区：判断哪些物体在前，哪些物体被遮挡）
 
-![Z-buffer](/images/Shader/Z-buffer.png)
+![Z-buffer](/images/Graphics/Shader/Z-buffer.png)
 
 工作原理：近处是更黑的，远处是发白的。
 
@@ -22,11 +22,11 @@ Z-Buffer处理不了透明物体，透明物体需要特殊处理。
 
 ### Z-Buffer Algorithm
 
-![code](/images/Shader/code.jpg)
+![code](/images/Graphics/Shader/code.jpg)
 
 
 
-![Z-BufferAlgorithm](/images/Shader/Z-BufferAlgorithm.png)
+![Z-BufferAlgorithm](/images/Graphics/Shader/Z-BufferAlgorithm.png)
 
 R代表无穷大，如果有三角形，就覆盖掉这些无穷大的像素
 
@@ -93,13 +93,13 @@ v和R足够接近的时候，会看到高光，其中v是观测方向，R是光�
 $$
 L_{s}=k_{s}\left(I / r^{2}\right) \max (0, \mathbf{n} \cdot \mathbf{h})^p
 $$
-![halfvector](/images/Shader/halfvector.png)
+![halfvector](/images/Graphics/Shader/halfvector.png)
 
 
 
 高光非常亮，且集中在一个很小的角度里，所以要有指数，将角度范围缩小，高光就会越来越小。
 
-![specular02](/images/Shader/specular02.png)
+![specular02](/images/Graphics/Shader/specular02.png)
 
 
 
@@ -124,13 +124,13 @@ $$
 
 #### Problem of Blinn-Phong
 
-![problem](/images/Shader/problem.png)
+![problem](/images/Graphics/Shader/problem.png)
 
 ---
 
 ### ShadingFrequency
 
-![shadingFrequencies](/images/Shader/shadingFrequencies.png)
+![shadingFrequencies](/images/Graphics/Shader/shadingFrequencies.png)
 
 **Phong shading**（每个像素进行着色）
 
@@ -144,13 +144,13 @@ $$
 
 但是事实上你不知道模型是什么样的物体，于是只能通过计算每个平面的法线的平均值得到该点的法线方向，求加权平均值可能会得到更好的结果（面更大的求更大占比的法线方向向量），所有法线都要归一化。
 
-![vertexNormal](/images/Shader/vertexNormal.png)
+![vertexNormal](/images/Graphics/Shader/vertexNormal.png)
 
 ---
 
 ### Graphics Pipeline
 
-![Pipeline](/images/Shader/Pipeline.png)
+![Pipeline](/images/Graphics/Shader/Pipeline.png)
 
 ---
 
@@ -171,7 +171,7 @@ GPU 有成百上千个核心，这些核心被分为不同的小组，每一组�
 
 SIMD(Single Instruction, Multiple Data)是一种并行计算技术，它通过向量寄存器存储多个数据元素，并使用单条指令同时对这些数据元素进行处理，从而提高了计算效率。
 
-![gpu](/images/Shader/gpu.png)
+![gpu](/images/Graphics/Shader/gpu.png)
 
 ---
 
@@ -181,7 +181,7 @@ SIMD(Single Instruction, Multiple Data)是一种并行计算技术，它通过�
 
 将一个三维物体贴到一个二维的平面。
 
-![texture](/images/Shader/texture.png)
+![texture](/images/Graphics/Shader/texture.png)
 
 纹理的坐标系通常使用 U, V 来表示，横轴 U，纵轴 V。通常 UV 的范围是 [ 0, 1 ] 之内。
 
@@ -191,13 +191,13 @@ SIMD(Single Instruction, Multiple Data)是一种并行计算技术，它通过�
 
 **用重心坐标在三角形内部做任何形式的插值**
 
-![coordinate](/images/Shader/coordinate.png)
+![coordinate](/images/Graphics/Shader/coordinate.png)
 
 A点的重心坐标是（1，0，0） 因为αA+βB+γC = A
 
 如果任意一点，它的中心坐标如下
 
-![coordinate02](/images/Shader/coordinate02.png)
+![coordinate02](/images/Graphics/Shader/coordinate02.png)
 
 **注意：**但是**需要在三维中求重心坐标**，如果在投影之后再求重心坐标，呢么结果会不准确，因为在投影前后的重心坐标从三维变二维是会发生变化的。
 
@@ -213,7 +213,7 @@ A点的重心坐标是（1，0，0） 因为αA+βB+γC = A
 
 通过两次线性插值，来缓解走样的现象。
 
-![Bilinear Interpolation](/images/Shader/Bilinear Interpolation.png)
+![Bilinear Interpolation](/images/Graphics/Shader/Bilinear Interpolation.png)
 
 ##### Bicubic 双三次插值
 
@@ -229,13 +229,13 @@ Solution：一种直观的解决方法就是Supersampling（超采样），如�
 
 ## Mipmap 范围查询
 
-![mipmap](/images/Shader/mipmap.png)
+![mipmap](/images/Graphics/Shader/mipmap.png)
 
 通过设置不同的Level值来查询不同精度的纹理。Level值越大像素点被合并的越少
 
-![mipmap02](/images/Shader/mipmap02.png)
+![mipmap02](/images/Graphics/Shader/mipmap02.png)
 
-![mipmap03](/images/Shader/mipmap03.png)
+![mipmap03](/images/Graphics/Shader/mipmap03.png)
 
 ---
 
@@ -291,7 +291,7 @@ void rst::rasterizer::rasterize_triangle(const Triangle& t, const std::array<Eig
 
 Blinn-Phong模型，计算漫反射、环境光反射、高光反射的值。
 
-![normal](/images/Shader/normal.png)
+![normal](/images/Graphics/Shader/normal.png)
 
 ```c++
 Eigen::Vector3f phong_fragment_shader(const fragment_shader_payload& payload)
@@ -335,7 +335,7 @@ Eigen::Vector3f phong_fragment_shader(const fragment_shader_payload& payload)
 }
 ```
 
-![phong](/images/Shader/phong.png)
+![phong](/images/Graphics/Shader/phong.png)
 
 纹理贴图同上
 
@@ -348,6 +348,6 @@ if (payload.texture)
 }
 ```
 
-![texture (2)](/images/Shader/texture (2).png)
+![texture (2)](/images/Graphics/Shader/texture (2).png)
 
 凹凸效果和位移贴图待更新...

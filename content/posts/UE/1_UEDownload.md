@@ -38,7 +38,7 @@ chordsheet: true
 
 打开UE5.sln 在右侧会提示安装插件 点击后可以安装额外的插件 配置如下：
 
-![VSConfig](/images/UE入门/VSConfig.png)
+![VSConfig](/images/UE/UEDownload/VSConfig.png)
 
 
 
@@ -67,7 +67,7 @@ chordsheet: true
 
 编译完成后会生成这样的文件结构 exe文件位于\Engine\Binaries\Win64中 双击即可运行
 
-![UEFileStructure](/images/UE入门/UEFileStructure.png)
+![UEFileStructure](/images/UE/UEDownload/UEFileStructure.png)
 
 
 
@@ -79,19 +79,19 @@ chordsheet: true
 
 点击执行 会加载出UE5界面 第一次加载时间会很长 之后时间会缩短一些
 
-![creatProject](/images/UE入门/creatProject.png)
+![creatProject](/images/UE/UEDownload/creatProject.png)
 
 将General - SourceCode设置为VisualStudio2022编辑器
 
 在下方内容区可以右键创建C++ Class
 
-![createCppClass](/images/UE入门/createCppClass.png)
+![createCppClass](/images/UE/UEDownload/createCppClass.png)
 
 我没有关闭实时编译Living Code 但是新建项目后可以在偏好设置中 将AssetEditorOpenLocation设置为MainWindow
 
 创建完了之后在VS中可以看到项目目录下有所创建的cpp和.h文件
 
-![CppFiles](/images/UE入门/CppFiles.png)
+![CppFiles](/images/UE/UEDownload/CppFiles.png)
 
 ### 6 打包
 
@@ -103,4 +103,4 @@ chordsheet: true
 
 在outputLog窗口中等待一段时间会出现BUILD SUCCESSFUL 代表打包成功
 
-![package](/images/UE入门/package.png)
+![package](/images/UE/UEDownload/package.png)

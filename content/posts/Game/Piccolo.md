@@ -14,7 +14,7 @@ chordsheet: true
 
 构建Piccolo的sln文件，运行在Visual Studio2022中
 
-![build](/images/Piccolo/build.png)
+![build](/images/Game/Piccolo/build.png)
 
 
 
@@ -22,7 +22,7 @@ chordsheet: true
 
 在Runtime文件夹下面有四个子文件夹，核心层、功能层、资源层、平台层，以及engine.cpp和engine.h（整个引擎的入口）。
 
-![structure](/images/Piccolo/structure.png)
+![structure](/images/Game/Piccolo/structure.png)
 
 打开engine.cpp其中有4个重要的函数，**StartEngine**、**shutdownEngine**、**run**、**tickOneFrame**。
 

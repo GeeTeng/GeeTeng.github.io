@@ -2,7 +2,7 @@
 title: "Model-View-Projection"
 date: 2024-11-02
 tags: [Computer-Graphics]
-description: "MVP变换及GAMES101作业1"
+description: "MVP变换及GAMES101作业0和作业1"
 showDate: true
 math: true
 chordsheet: true
@@ -52,7 +52,7 @@ $$
 
 先平移到原点，然后再旋转，最后再平移回去
 
-![How to rotate around a given point C?](/images/rotatePointC.png)
+![How to rotate around a given point C?](/images/Graphics/Transform/rotatePointC.png)
 $$
 T(c) \cdot R(\alpha) \cdot T(-c)
 $$
@@ -175,11 +175,71 @@ $$
 
   
 
-## 作业描述
+## 作业0
 
-> 本次作业的任务是填写一个**旋转矩阵**和一个**透视投影矩阵**
->
-> 给定三维下三个点v0(2.0,0.0,−2.0),v1(0.0,2.0,−2.0),v2(−2.0,0.0,−2.0), 你需要将这三个点的坐标变换为屏幕坐标并在屏幕上绘制出对应的线框三角形(在代码框架中，我们已经提供了 draw_triangle 函数，所以你只需要去构建变换矩阵即可)。简而言之，我们需要进行模型、视图、投影、视口等变换来将三角形显示在屏幕上。在提供 的代码框架中，我们留下了模型变换和投影变换的部分给你去完成。
+给定一个点P=(2,1),将该点绕原点先逆时针旋转45◦，再平移(1,2),计算出 变换后点的坐标。（要求用齐次坐标进行计算）
+
+**编译** 
+
+为方便之后的作业编写，本次作业要求使用cmake进行编译。 
+
+首先，编写好本次作业的程序main.cpp。 然后, 在 main.cpp 所在目录下，打开终端(命令行)，依次输入：
+
+ • **mkdir build:** 创建名为 build 的文件夹。
+
+ **• cd build:** 移动到 build 文件夹下。
+
+ **• cmake ..:** 注意其中’..’ 表示上一级目录，若为’.’ 则表示当前目录。
+
+ • **make:** 编译程序，错误提示会显示在终端中。 
+
+**• ./Transformation：**若上一步无错误，则可运行程序(这里的Transformation 为可执行文件名，可参照CMakeLists.txt 中修改)。
+
+```c++
+#include<cmath>
+#include<eigen3/Eigen/Core>
+#include<eigen3/Eigen/Dense>
+#include<iostream>
+
+int main(){
+    // init point
+    Eigen::Vector3f p(2.0f, 1.0f, 1.0f);
+
+    // rotate and transformation matrix
+    // x' = xcos - ysin
+    // y' = xsin + ycos
+    // x' = x + tx
+    // y' = y + ty
+    Eigen::Matrix3f R, T;
+    // cos45 = sin45 = sqrt(2) / 2
+    float ftheta = sqrt(2.0f) / 2;
+    R << ftheta, -ftheta, 0,
+         ftheta, ftheta, 0,
+         0, 0,1.0f;
+
+    T << 1.0f, 0, 1.0f,
+         0, 1.0f, 2.0f,
+         0, 0, 1.0f;
+
+    p = R * p;
+    std::cout << "After Rotate \n";
+    std::cout << p << std::endl;
+
+    p = T * p;
+    std::cout << "After Transformation \n";
+    std::cout << p << std::endl;
+
+    return 0;
+}
+```
+
+**附件** 
+
+[pa0.pdf](/code/pa0.pdf) 
+
+ [CMakeLists.txt](/code/CMakeLists.txt) 
+
+## 作业1
 
 **模型变换矩阵**
 
@@ -260,9 +320,7 @@ Eigen::Matrix4f getRotation(Vector3f axis, float angle){
 
 ```
 
-
-
-## Assignment1 文件       
+ **附件**       
 
 - [Assignment1.pdf](/code/Assignment1/Assignment1.pdf)
 - [CMakeLists.txt](/code/Assignment1/CMakeLists.txt)

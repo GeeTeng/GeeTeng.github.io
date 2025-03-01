@@ -86,7 +86,7 @@ chordsheet: true
 
 - **异或校验位**
 
-  ![01](/images/OnlineGame/01.png)
+  ![01](/images/Game/OnlineGame/01.png)
 
 - **Reed-Solomon codes**
 
@@ -107,7 +107,7 @@ NTP消息中包含4个关键时间戳：
 
 偏移量如图所示
 
-![02](/images/OnlineGame/02.png)
+![02](/images/Game/OnlineGame/02.png)
 
 客户端时间正确是17：01：35，客户端接收后增加偏移量。
 

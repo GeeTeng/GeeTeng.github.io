@@ -54,7 +54,7 @@ chordsheet: true
 
 ## （关节）Joint
 
-![jointandbone](/images/Animation/jointandbone.png)
+![jointandbone](/images/UE/Animation/jointandbone.png)
 
 两个Joint定义一个骨骼
 
@@ -62,7 +62,7 @@ chordsheet: true
 
 **Pelvis Joint**（骨盆关节） 蹲起
 
-![bindpose](/images/Animation/bindpose.png)
+![bindpose](/images/UE/Animation/bindpose.png)
 
 **Joint Pose**有9个DOF（自由度） 放缩、平移、旋转
 
@@ -128,7 +128,7 @@ chordsheet: true
 
   使用场景：装弹，动作只依赖局部骨骼的朝向，不受整体移动影响。
 
-![spaces](/images/Animation/spaces.png)
+![spaces](/images/UE/Animation/spaces.png)
 
 ---
 

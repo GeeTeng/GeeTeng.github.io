@@ -57,7 +57,7 @@ void AMainUIHUD::BeginPlay()
 
 创建主页面（图片文字为后加上的）
 
-![UMG_MainUI](/images/UMG/UMG_MainUI.png)
+![UMG_MainUI](/images/UE/GameMode/UMG_MainUI.png)
 
 MainUserWidget
 
@@ -87,7 +87,7 @@ void UMainUserWidget::NativeConstruct()
 
 按钮的背景图是自己制作的 - 新建一个Material，提取UV坐标的R，[0, 1] * [1, 0] = > 中间最大值为0.25 两边为0的渐变色
 
-![BtnMaterial](/images/UMG/BtnMaterial.png)
+![BtnMaterial](/images/UE/GameMode/BtnMaterial.png)
 
 为了做设置面板，要新建OptionUserWidget，设置面板分为两个面板基础设置和按键设置
 
@@ -98,7 +98,7 @@ void UMainUserWidget::NativeConstruct()
 
 BackgoundBlur设置模糊且Visible（防止点击到下一层）
 
-![UMG_Option](/images/UMG/UMG_Option.png)
+![UMG_Option](/images/UE/GameMode/UMG_Option.png)
 
 ---
 
@@ -106,7 +106,7 @@ BackgoundBlur设置模糊且Visible（防止点击到下一层）
 
 选择面板的蓝图，通过SetActiveWidgetIndex来切换面板
 
-![UMG_Option01](/images/UMG/UMG_Option01.png)
+![UMG_Option01](/images/UE/GameMode/UMG_Option01.png)
 
 ---
 
@@ -114,11 +114,11 @@ BackgoundBlur设置模糊且Visible（防止点击到下一层）
 
 Widget_NormalOption蓝图，新增了一个纯函数Get Window Mode（仅依赖传入的参数，不会改变外部状态）。
 
-![Widget_NormalOption](/images/UMG/Widget_NormalOption.png)
+![Widget_NormalOption](/images/UE/GameMode/Widget_NormalOption.png)
 
 新增了一个EWindowMode类型的输出命名为Mode
 
-![GetWindowMode](/images/UMG/GetWindowMode.png)
+![GetWindowMode](/images/UE/GameMode/GetWindowMode.png)
 
 ---
 
@@ -128,15 +128,15 @@ Widget_NormalOption蓝图，新增了一个纯函数Get Window Mode（仅依赖�
 
 勾选想要翻译的部分，C++中增加的FText和项目中有的文字。
 
-![LocalizationDashboard]/images/UMG/LocalizationDashboard.png)
+![LocalizationDashboard]/images/UE/GameMode/LocalizationDashboard.png)
 
 向下滑，由于游戏的语言是中文，所以默认是中文语言，新增一个语言（English），然后点击Gather Text，此时会看到中文是100%的进度，而英文是0%进度，所以点击右侧第一个按钮Edit translations for this culture，去自己增加对应的英文翻译。
 
-![GatherText](/images/UMG/GatherText.png)
+![GatherText](/images/UE/GameMode/GatherText.png)
 
 翻译完之后点击CountWords和Compile Text就可以看到是百分百的状态。随着不断地增加字段，也需要更新这个操作。
 
-![Widget_NormalOption01](/images/UMG/Widget_NormalOption01.png)
+![Widget_NormalOption01](/images/UE/GameMode/Widget_NormalOption01.png)
 
 ---
 
@@ -146,11 +146,11 @@ Widget_NormalOption蓝图，新增了一个纯函数Get Window Mode（仅依赖�
 
 在Wiget_NormalOption中设置Slider的值变化与音效相关，并且需要在主面板的蓝图中Event Construct中Play Sound 2D选择背景音乐，这样才会一进入游戏就会播放。
 
-![SoundBGM](/images/UMG/SoundBGM.png)
+![SoundBGM](/images/UE/GameMode/SoundBGM.png)
 
 至此基础设置面板结束，开始制作按键设置面板，预览图效果如下。
 
-![UMG_Normal](/images/UMG/UMG_Normal.gif)
+![UMG_Normal](/images/UE/GameMode/UMG_Normal.gif)
 
 ---
 
@@ -162,7 +162,7 @@ Widget_NormalOption蓝图，新增了一个纯函数Get Window Mode（仅依赖�
 
 默认跳跃空格 移动WASD 开火左键
 
-![DT_KeyInfo](/images/UMG/DT_KeyInfo.png)
+![DT_KeyInfo](/images/UE/GameMode/DT_KeyInfo.png)
 
 KeyInfoWidget文件
 
@@ -277,7 +277,7 @@ void UKeyOptionWidget::ResetAllKey()
 
 最终效果图如下
 
-![KeyInfo](/images/UMG/KeyInfo.gif)
+![KeyInfo](/images/UE/GameMode/KeyInfo.gif)
 
 ---
 
@@ -310,7 +310,7 @@ void AMainUIHUD::MakeUserWidget(T*& Widget, const TCHAR* Path)
 #undef MAKEUSERWIDFETOBJ
 ```
 
-![UMG_Login](/images/UMG/UMG_Login.png)
+![UMG_Login](/images/UE/GameMode/UMG_Login.png)
 
 ```c++
 protected:
@@ -331,11 +331,11 @@ protected:
 
 强制绑定需要修改蓝图中的名称 一一对应上。
 
-![UMGLogin01](/images/UMG/UMGLogin01.png)
+![UMGLogin01](/images/UE/GameMode/UMGLogin01.png)
 
 新建一个C++类继承SaveGame - LoginSaveGame
 
-![SaveGame](/images/UMG/SaveGame.png)
+![SaveGame](/images/UE/GameMode/SaveGame.png)
 
 ```c++
 // 需要存储的字段
@@ -435,11 +435,11 @@ void AMainUIHUD::ShowRegisterUI()
 
 这里做一个邮箱发送验证码的伪功能，而不是真正的发送邮件。
 
-![UMG_Register](/images/UMG/UMG_Register.png)
+![UMG_Register](/images/UE/GameMode/UMG_Register.png)
 
 该页面是通过登录页面中的注册账号按钮跳转过来，所以要在UMG_Login蓝图类中让它显示出来。
 
-![UMG_Login02](/images/UMG/UMG_Login02.png)
+![UMG_Login02](/images/UE/GameMode/UMG_Login02.png)
 
 RegisterUserWidget文件 - 发送邮件倒计时逻辑
 
@@ -631,7 +631,7 @@ void ULoginUserWidget::LoginGame()
 
 可以看到存储下来的密码都是加密过的。
 
-![RegisterSaveGame](/images/UMG/RegisterSaveGame.png)
+![RegisterSaveGame](/images/UE/GameMode/RegisterSaveGame.png)
 
 ## 场景加载
 
@@ -643,7 +643,7 @@ void ULoginUserWidget::LoginGame()
 
 最终效果图如下
 
-![Login](/images/UMG/Final.gif)
+![Login](/images/UE/GameMode/Final.gif)
 
 ---
 

@@ -289,7 +289,7 @@ APlayerCharacter::APlayerCharacter()
 
 设置相机不随人物旋转，让视角保持固定位置。
 
-![Camera](/images/GameMode/Camera.png)
+![Camera](/images/UE/GameMode/Camera.png)
 
 ---
 
@@ -297,7 +297,7 @@ APlayerCharacter::APlayerCharacter()
 
 创建InputAction(IA_Look和IA_Move)和InputMappingContext，并设置如下图。
 
-![EnhancedInput](/images/GameMode/EnhancedInput.png)
+![EnhancedInput](/images/UE/GameMode/EnhancedInput.png)
 
 **PlayerCharaCharacter.h**文件
 
@@ -440,23 +440,23 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 
 在BlendSpace中设置水平轴名称为Speed最大值为350，Loop勾选上。在AssetBrowser中找到人物的走路动画和跑步动画拖动到下方窗口中。可以使用ctrl + shift + 鼠标单击看效果。
 
-![BlendSpace1D](/images/GameMode/BlendSpace1D.png)
+![BlendSpace1D](/images/UE/GameMode/BlendSpace1D.png)
 
 在蓝图中创建一个状态机（StateMachine 命名为IdleWalkRun）指向Output Pose。
 
 双击进入到StateMachine中，新增一个状态IdleWalkRun，再次双击进去。
 
-![ABP_AnimInstance](/images/GameMode/ABP_AnimInstance.png)
+![ABP_AnimInstance](/images/UE/GameMode/ABP_AnimInstance.png)
 
 在角色蓝图中添加做好的AnimClass后，运行就可以看到角色有动画了，但是会发现鼠标移动转向的时候，角色的跑动方向也会发生变化。
 
 我希望只有键盘会操纵角色的移动朝向，而不是鼠标。
 
-![ControllerRotation01](/images/GameMode/ControllerRotation01.png)
+![ControllerRotation01](/images/UE/GameMode/ControllerRotation01.png)
 
 使角色的朝向与其移动的方向一致。
 
-![Movement](/images/GameMode/Movement.png)
+![Movement](/images/UE/GameMode/Movement.png)
 
 ---
 
@@ -466,7 +466,7 @@ void UPlayerAnimInstance::NativeUpdateAnimation(float DeltaTime)
 
 这样音效就会从两组音效中随机挑出两个音效合成。当音源和听者之间的距离发生变化时，**Crossfade by Distance** 会动态调整不同音轨（或音频配置）的混合比例。
 
-![SourceRandom](/images/GameMode/SourceRandom.png)
+![SourceRandom](/images/UE/GameMode/SourceRandom.png)
 
 在这之前我们要创建一个InputAction-IA——Fire用于射击，方法与之前人物移动同理。
 
@@ -495,7 +495,7 @@ void APlayerCharacter::Fire(const FInputActionValue& Value)
 
 编译后暴露给蓝图，在蓝图中添加制作的SoundCue
 
-![SoundCue](/images/GameMode/SoundCue.png)
+![SoundCue](/images/UE/GameMode/SoundCue.png)
 
 ---
 
@@ -503,7 +503,7 @@ void APlayerCharacter::Fire(const FInputActionValue& Value)
 
 首先要找到开火的位置，在gun_barrel下新建一个Socket，将枪口位置命名为GunBarrelSocket，确认枪口的坐标轴X方向指向枪口正对位置。
 
-![e01d93502179c66d0006e93365bcde74_](/images/GameMode/GunSocket.png)
+![e01d93502179c66d0006e93365bcde74_](/images/UE/GameMode/GunSocket.png)
 
 **PlayerCharacter.h文件**
 
@@ -533,7 +533,7 @@ public:
 
 在角色控制蓝图中添加特效
 
-![MuzzleFlash](/images/GameMode/MuzzleFlash.png)
+![MuzzleFlash](/images/UE/GameMode/MuzzleFlash.png)
 
 ---
 
@@ -564,7 +564,7 @@ public:
 	}
 ```
 
-![FireLineTrace](/images/GameMode/FireLineTrace.gif)
+![FireLineTrace](/images/UE/GameMode/FireLineTrace.gif)
 
 增加弹道轨迹和碰撞到物体的特效，隐藏掉绘制的射线。
 
@@ -572,9 +572,9 @@ public:
 
 新增一个Cascade Particle System，新增Target、Source，对各项进行一些设置，如：Target最小输入输出、最大输入输出、Lifetime、Required中的Material、Kill on Deativate、Kill on Completed等。
 
-![WeaponTrail](/images/GameMode/WeaponTrail.png)
+![WeaponTrail](/images/UE/GameMode/WeaponTrail.png)
 
-![ParticleSystem](/images/GameMode/ParticleSystem.png)
+![ParticleSystem](/images/UE/GameMode/ParticleSystem.png)
 
 **PlayerCharacter.cpp文件 - Fire方法**
 
@@ -620,7 +620,7 @@ public:
 
 准星位置为屏幕大小 / 2 - 准星大小 / 2
 
-![CrossHUD](/images/GameMode/CrossHUD.png)
+![CrossHUD](/images/UE/GameMode/CrossHUD.png)
 
 更改发射位置，起点为枪口位置，终点为准星的屏幕坐标转化成世界坐标位置延长点。
 
@@ -675,7 +675,7 @@ public:
 
 简单添加一个TextBlock组件
 
-![Score](/images/GameMode/Score.png)
+![Score](/images/UE/GameMode/Score.png)
 
 **PlayerUserWidget.h文件**
 
@@ -797,7 +797,7 @@ int32 APlayerCharacter::GetScore() const
 
 最终效果图如下
 
-![CubeScore](/images/GameMode/CubeScore.gif)
+![CubeScore](/images/UE/GameMode/CubeScore.gif)
 
 本次作业遗留下的改进点：
 

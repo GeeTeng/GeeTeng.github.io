@@ -24,7 +24,7 @@ void line(int x0, int y0, int x1, int y1, TGAImage& image, TGAColor color)
 }
 ```
 
-![line](/images/TinyRenderer/line.png)
+![line](/images/Graphics/TinyRenderer/line.png)
 
 描绘了100个点，但是能否用x来遍历，这样可以从13 - 80 只需要描绘67个点
 
@@ -56,7 +56,7 @@ line(80, 40, 13, 20, image, red);
 
 2. 第二条线段是离散的点而不连续
 
-![line01](/images/TinyRenderer/line01.png)
+![line01](/images/Graphics/TinyRenderer/line01.png)
 
 **Answer：**
 
@@ -98,7 +98,7 @@ void line(int x0, int y0, int x1, int y1, TGAImage& image, TGAColor color)
 }
 ```
 
-![final](/images/TinyRenderer/final.png)
+![final](/images/Graphics/TinyRenderer/final.png)
 
 ### 线框渲染
 
@@ -184,7 +184,7 @@ for (int i=0; i<model->nfaces(); i++) {
 - 将归一化范围 [0,1] 放大到屏幕分辨率范围。
 - width/2 和 height/2 是 NDC 范围 [0, 1] 到屏幕范围的比例因子。
 
-![line02](/images/TinyRenderer/line02.png)
+![line02](/images/Graphics/TinyRenderer/line02.png)
 
 ---
 
@@ -230,7 +230,7 @@ void triangle(Vec2i t0, Vec2i t1, Vec2i t2, TGAImage& image, TGAColor color) {
 }
 ```
 
-![trangle](/images/TinyRenderer/trangle.png)
+![trangle](/images/Graphics/TinyRenderer/trangle.png)
 
 ### 重心坐标法
 
@@ -301,6 +301,6 @@ for (int i = 0; i < model->nfaces(); i++)
 }
 ```
 
-![linenormal](/images/TinyRenderer/linenormal.png)
+![linenormal](/images/Graphics/TinyRenderer/linenormal.png)
 
 但是出现了问题：模型有一些地方比较奇怪，嘴巴部分。为什么会出现这样的情况？因为模型有一些内部的面覆盖了外面的面，所以引出来了ZBuffer。
