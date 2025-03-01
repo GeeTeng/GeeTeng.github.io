@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>
+    RayTracing光线追踪 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="光线追踪 更新中
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/graphics/5_raytracing/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="RayTracing光线追踪">
+  <meta property="og:description" content="光线追踪 更新中">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-01-03T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-01-03T00:00:00+00:00">
+    <meta property="article:tag" content="Computer-Graphics">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="RayTracing光线追踪">
+  <meta name="twitter:description" content="光线追踪 更新中">
+
+
+  <meta itemprop="name" content="RayTracing光线追踪">
+  <meta itemprop="description" content="光线追踪 更新中">
+  <meta itemprop="datePublished" content="2025-01-03T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-01-03T00:00:00+00:00">
+  <meta itemprop="wordCount" content="141">
+  <meta itemprop="keywords" content="Computer-Graphics">
+<link rel="canonical" href="https://geeteng.github.io/posts/graphics/5_raytracing/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        <div id="page-body" class="column is-7">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#shadowmapping阴影贴图">ShadowMapping（阴影贴图）</a></li>
+        <li><a href="#whitted-style光线追踪">Whitted-Style光线追踪</a></li>
+        <li><a href="#求光线与物体的交点">求光线与物体的交点</a>
+          <ul>
+            <li><a href="#möllertrumbore">Möller–Trumbore</a></li>
+          </ul>
+        </li>
+        <li><a href="#bounding-volumes包围盒结构">Bounding Volumes包围盒结构</a></li>
+        <li><a href="#spatial-partitions空间划分">Spatial Partitions空间划分</a></li>
+        <li><a href="#object-partitions物体划分">Object Partitions物体划分</a></li>
+        <li><a href="#辐射度量学">辐射度量学</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>RayTracing光线追踪</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Jan 3, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        15 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer-Graphics</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer graphics</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h2 id="shadowmapping阴影贴图">ShadowMapping（阴影贴图）</h2>
+<ol>
+<li>从光源视角生成深度图，存储深度值。</li>
+<li>主摄像机渲染场景并计算阴影，与存储的深度值进行比较，如果当前点深度大于阴影贴图深度，说明该点被遮挡是阴影点；否则是光照射的点。</li>
+</ol>
+<p><img src="/images/Graphics/RayTracing/01.png" alt="01"></p>
+<p><strong>缺点：</strong></p>
+<ul>
+<li>生成的是硬阴影（点光源）</li>
+<li>效果取决于shadowmap分辨率</li>
+<li>浮点精度比较问题</li>
+</ul>
+<p>由于点光源有大小，会形成如图所示的（Umbra）本影区域和半影（Penumbra）区域。所以会形成阴影的过渡。</p>
+<p><img src="/images/Graphics/RayTracing/02.png" alt="02"></p>
+<blockquote>
+<p>Question：为什么需要光线追踪？</p>
+<p>Answer：光栅化难以做软阴影、难以表现光线多次弹射、光栅化（实时 游戏 快），光线追踪（离线 动画 慢）</p>
+</blockquote>
+<hr>
+<p>光栅化：实时渲染，速度快，但是质量低。</p>
+<p>光线追踪：离线渲染，速度慢，但是质量高。</p>
+<p>比如疯狂动物城里的一张画面，每一帧渲染需要 10KCPU 核心小时，相当于如果只有100个CPU核，将会花费100个小时才可以渲染完成。</p>
+<h2 id="whitted-style光线追踪">Whitted-Style光线追踪</h2>
+<pre tabindex="0"><code>关于光线3个假设：
+
+1. 假设光线是直线的。
+2. 当光线相交时，不会发生碰撞。
+3. 光线从光源传播到眼睛，路径是可逆的。（互异性Reciprocity）
+
+其中第3点意味着，当光从光源发出进行弹射后，最终进入眼睛；其实也可以认为是眼睛发射了一束感知光线进行弹射，最终回到光源。
+</code></pre><p>从观察者（相机）出发，射出光线到场景中的物体表面，如果和某个物体相交，说明眼睛能看到这里。再让焦点与光线连接，判断是否有遮挡，如果没有遮挡就形成了一条有效的光路，否则为阴影。</p>
+<p>然后对该点进行局部光照模型计算，得到该像素的颜色。</p>
+<p><img src="/images/Graphics/RayTracing/03.png" alt="03"></p>
+<p>假设人眼是一个点，且光线打到物体后会进行完美的反射 / 折射。</p>
+<ul>
+<li>primary ray：人眼到第一个点的光线路径</li>
+<li>secondary ray：除了primary ray的其他光线</li>
+<li>shadow ray：光线与物体交点到光源的光线</li>
+</ul>
+<p>每一个交点的颜色贡献来源于直接光照、反射方向间接光、折射方向间接光。</p>
+<p><img src="/images/Graphics/RayTracing/04.png" alt="04"></p>
+<h2 id="求光线与物体的交点">求光线与物体的交点</h2>
+<p>光线的定义如下：</p>
+<p><img src="/images/Graphics/RayTracing/05.png" alt="05"></p>
+<p>求光与球的交点，将光线公式代入到球公式中，解t。可以判断和球是否有交点，有几个交点。</p>
+<p>如果是其他隐式几何也是同样联合光线方程。</p>
+<p><img src="/images/Graphics/RayTracing/06.png" alt="06"></p>
+<p>真正在图形学中运用的其实是显式曲面，很多个三角形，因此判断的是光线与三角面的交点。与三角面的焦点可以想象成三角形在一个平面上，就变成了光线与平面的交点了。</p>
+<p>光线与平面的交点假设是p‘，那么交点与平面上任何一点p的连线，将会与N（平面的法线）垂直。</p>
+<p>之后再判断交点是否在三角形的内部。</p>
+<p><img src="/images/Graphics/RayTracing/08.png" alt="08"></p>
+<p>但是这样一个个计算太麻烦了，于是有了更方便地方法——Möller–Trumbore算法</p>
+<h3 id="möllertrumbore">Möller–Trumbore</h3>
+<p>利用向量的外积和重心坐标来计算是否相交，大大的提高了效率。</p>
+<p><img src="/images/Graphics/RayTracing/07.png" alt="07"></p>
+<hr>
+<p>在光线追踪中，光线与场景的相交检测是最核心的计算之一。简单的光线相交检测对于每一道光线需要逐一检查是否与每一个物体相交，会遍历每一个三角形进行相交测试，找出离光线最近的交点（最小t值）。但是当场景变得复杂时，三角形数量会变多，使得计算开销增加。</p>
+<p>所以会使用一些<strong>加速结构</strong>（包围盒树、八叉树等）来减少三角形数量，使得光线与场景的相交测试只需要在较小的区域内执行，而非全部三角形。</p>
+<h2 id="bounding-volumes包围盒结构">Bounding Volumes包围盒结构</h2>
+<p>如果一个光线连包围盒都碰不到，也绝对不会碰到包围盒里的物体。</p>
+<p><img src="/images/Graphics/RayTracing/09.png" alt="09"></p>
+<p>轴对称包围盒：将长方体用3对不同的平面包围住，任何一对平面都与x轴y轴z轴垂直，所以称为AABB包围盒。</p>
+<p><img src="/images/Graphics/RayTracing/10.png" alt="10"></p>
+<p>下图为光线穿过包围盒的3个对面所经历的时间，取这3个时间的交集，就是光线在包围盒里的时间段。</p>
+<ul>
+<li>
+<p>进入包围盒：进入<strong>所有</strong>对面
+</p>
+$$
+  最晚进入盒子的时间：t_{enter} = max\{t_{min}\}
+  $$
+</li>
+<li>
+<p>离开包围盒：离开<strong>任一</strong>对面
+</p>
+$$
+  最早离开盒子的时间：t_{exit} = min\{t_{max}\}
+  $$
+</li>
+</ul>
+<p><img src="/images/Graphics/RayTracing/11.png" alt="11"></p>
+<p>然而光线并不是直线，光线是一条射线，所以要判断t是否为正数。</p>
+<p>当离开的时间&lt;0时，说明盒子在光线的背后；当离开的时间&gt;=0，进入的时间&lt;0，代表光线起点在盒子里面。</p>
+<p><img src="/images/Graphics/RayTracing/12.png" alt="12"></p>
+<p>为什么轴对称包围盒可以提高效率，因为计算公式变得简洁了很多。
+</p>
+$$
+t = \frac{(p' - o)·N}{d·N} \qquad t = \frac{p'-o_x}{d_x}
+$$
+<p>
+<strong>光线和盒子有交点并不意味着光线和盒子里的物体相交</strong>。</p>
+<blockquote>
+<p>如何用AABB加速光线追踪</p>
+</blockquote>
+<ol>
+<li>
+<p>把场景包围盒分成多个格子，判断哪些格子可能会有物体。</p>
+<p><img src="/images/Graphics/RayTracing/15.png" alt="15"></p>
+</li>
+<li>
+<p>光线遇到格子后，如果格子中有物体，就会做一个光线和物体的求交。</p>
+<p><img src="/images/Graphics/RayTracing/16.png" alt="16"></p>
+</li>
+</ol>
+<blockquote>
+<p>如何划分格子？</p>
+</blockquote>
+<p>格子不能太稀疏（1个格子几个物体）也不能太密集（效率低）。<em><em>格子的数量 = 27（经验所得）</em> 物体的数量</em>*。</p>
+<p>毕竟光线会经过所有相交的格子，有些格子也并没有物体。所以在既有大规模的集中，又有大规模的空白，均匀划分格子的方法并不适合。该怎么去划分格子，以至效率高，所以引出了——空间划分的概念。</p>
+<h2 id="spatial-partitions空间划分">Spatial Partitions空间划分</h2>
+<p>在物体稀疏的地方是并不需要很多格子的，在物体密集的时候可以多用一些更小的格子。</p>
+<p><a href="https://geeteng.github.io/posts/game/spatialdatastructures/">空间数据结构 | GeeTeng</a></p>
+<p>近些年KD-Tree很少被使用了，原因是</p>
+<ol>
+<li><strong>很难去求得三角形和包围盒有交集</strong></li>
+<li><strong>如果一个物体同时存在好几个包围盒中，那么一个物体会在多个叶子结点中</strong></li>
+</ol>
+<p><img src="/images/Graphics/RayTracing/13.png" alt="13"></p>
+<p>对于一个场景，场景都是三角形构成的，那通过空间划分的方式会产生一个问题，就是如果给定一个三维空间中的包围盒，我要知道它和哪些三角形有交集，虽然有这个算法，但很难判定一个三角形是否与包围盒（或者立方体）有交集。</p>
+<p>虽然三角形只要有一个顶点在盒子里，它俩就算相交了，但有时会出现，三角形的三个顶点都不在盒子里，但它们却是相交的（盒子在三角形内时）</p>
+<h2 id="object-partitions物体划分">Object Partitions物体划分</h2>
+<p>BVH的加速结构在图形学中得到了非常广泛的应用，不管是实时的光线追踪，还是离线的结构。</p>
+<p>BVH将物体划分成n个部分，划分到一个节点中只有5个三角形为止。</p>
+<p><img src="/images/Graphics/RayTracing/14.png" alt="14"></p>
+<p>BVH避免了求包围盒和物体的交集（因为就是按物体来划分的），也不可能一个物体包含在多个包围盒中，解决了KD-Tree的问题。</p>
+<p>但是<strong>BVH并没有将空间的严格的划分开，不同的Bounding box可以相交的</strong>。所以在实际中要尽可能避免它们之间重叠。</p>
+<p>如下是BVH的伪代码，分为三种情况：</p>
+<ol>
+<li>当光线与包围盒没有交点则return</li>
+<li>当交点是叶结点时，和包围盒里的所有物体求交点，返回最近的交点</li>
+<li>如果不是叶结点，就递归地求子部分，最后返回离的最近的交点</li>
+</ol>
+<p><img src="/images/Graphics/RayTracing/18.png" alt="18"></p>
+<h2 id="辐射度量学">辐射度量学</h2>
+<p>辐射度量学是一个精准的给我们一系列物理量的方法，将光精准的定义出来。</p>
+<p>Radiant Energy定义：电磁辐射的能量
+</p>
+$$
+Q[J = Joule]
+$$
+<p>
+Radiant flux(power) 辐射通量的定义：单位时间的能量，单位是瓦特 / 流明（lumen）
+</p>
+$$
+ \Phi\equiv\frac{dQ}{dt} [W = Watt] [lm = lumen]
+$$
+<p>
+flux的另外一个定义：光线在传播中辐射的各种各样的光子，假如有一个感光平面，单位时间内通过光子的数量就是它的flux。</p>
+<p><img src="/images/Graphics/RayTracing/19.png" alt="19"></p>
+<p>球的立体角是4Π，下图中，可以通过蓝色箭头指的两个参数来计算出立体角。</p>
+<p><img src="/images/Graphics/RayTracing/RayTracing/20.png" alt="20"></p>
+<p><img src="/images/Graphics/RayTracing/RayTracing/21.png" alt="21"></p>
+
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f5_raytracing%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=RayTracing%e5%85%89%e7%ba%bf%e8%bf%bd%e8%b8%aa&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f5_raytracing%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f5_raytracing%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f5_raytracing%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f5_raytracing%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f5_raytracing%2f
+			&title=RayTracing%e5%85%89%e7%ba%bf%e8%bf%bd%e8%b8%aa&summary=ShadowMapping%ef%bc%88%e9%98%b4%e5%bd%b1%e8%b4%b4%e5%9b%be%ef%bc%89%20%e4%bb%8e%e5%85%89%e6%ba%90%e8%a7%86%e8%a7%92%e7%94%9f%e6%88%90%e6%b7%b1%e5%ba%a6%e5%9b%be%ef%bc%8c%e5%ad%98%e5%82%a8%e6%b7%b1%e5%ba%a6%e5%80%bc%e3%80%82%20%e4%b8%bb%e6%91%84%e5%83%8f%e6%9c%ba%e6%b8%b2%e6%9f%93%e5%9c%ba%e6%99%af%e5%b9%b6%e8%ae%a1%e7%ae%97%e9%98%b4%e5%bd%b1%ef%bc%8c%e4%b8%8e%e5%ad%98%e5%82%a8%e7%9a%84%e6%b7%b1%e5%ba%a6%e5%80%bc%e8%bf%9b%e8%a1%8c%e6%af%94%e8%be%83%ef%bc%8c%e5%a6%82%e6%9e%9c%e5%bd%93%e5%89%8d%e7%82%b9%e6%b7%b1%e5%ba%a6%e5%a4%a7%e4%ba%8e%e9%98%b4%e5%bd%b1%e8%b4%b4%e5%9b%be%e6%b7%b1%e5%ba%a6%ef%bc%8c%e8%af%b4%e6%98%8e%e8%af%a5%e7%82%b9%e8%a2%ab%e9%81%ae%e6%8c%a1%e6%98%af%e9%98%b4%e5%bd%b1%e7%82%b9%ef%bc%9b%e5%90%a6%e5%88%99%e6%98%af%e5%85%89%e7%85%a7%e5%b0%84%e7%9a%84%e7%82%b9%e3%80%82%20%e7%bc%ba%e7%82%b9%ef%bc%9a%0a%e7%94%9f%e6%88%90%e7%9a%84%e6%98%af%e7%a1%ac%e9%98%b4%e5%bd%b1%ef%bc%88%e7%82%b9%e5%85%89%e6%ba%90%ef%bc%89%20%e6%95%88%e6%9e%9c%e5%8f%96%e5%86%b3%e4%ba%8eshadowmap%e5%88%86%e8%be%a8%e7%8e%87%20%e6%b5%ae%e7%82%b9%e7%b2%be%e5%ba%a6%e6%af%94%e8%be%83%e9%97%ae%e9%a2%98%20%e7%94%b1%e4%ba%8e%e7%82%b9%e5%85%89%e6%ba%90%e6%9c%89%e5%a4%a7%e5%b0%8f%ef%bc%8c%e4%bc%9a%e5%bd%a2%e6%88%90%e5%a6%82%e5%9b%be%e6%89%80%e7%a4%ba%e7%9a%84%ef%bc%88Umbra%ef%bc%89%e6%9c%ac%e5%bd%b1%e5%8c%ba%e5%9f%9f%e5%92%8c%e5%8d%8a%e5%bd%b1%ef%bc%88Penumbra%ef%bc%89%e5%8c%ba%e5%9f%9f%e3%80%82%e6%89%80%e4%bb%a5%e4%bc%9a%e5%bd%a2%e6%88%90%e9%98%b4%e5%bd%b1%e7%9a%84%e8%bf%87%e6%b8%a1%e3%80%82%0aQuestion%ef%bc%9a%e4%b8%ba%e4%bb%80%e4%b9%88%e9%9c%80%e8%a6%81%e5%85%89%e7%ba%bf%e8%bf%bd%e8%b8%aa%ef%bc%9f%0aAnswer%ef%bc%9a%e5%85%89%e6%a0%85%e5%8c%96%e9%9a%be%e4%bb%a5%e5%81%9a%e8%bd%af%e9%98%b4%e5%bd%b1%e3%80%81%e9%9a%be%e4%bb%a5%e8%a1%a8%e7%8e%b0%e5%85%89%e7%ba%bf%e5%a4%9a%e6%ac%a1%e5%bc%b9%e5%b0%84%e3%80%81%e5%85%89%e6%a0%85%e5%8c%96%ef%bc%88%e5%ae%9e%e6%97%b6%20%e6%b8%b8%e6%88%8f%20%e5%bf%ab%ef%bc%89%ef%bc%8c%e5%85%89%e7%ba%bf%e8%bf%bd%e8%b8%aa%ef%bc%88%e7%a6%bb%e7%ba%bf%20%e5%8a%a8%e7%94%bb%20%e6%85%a2%ef%bc%89%0a%e5%85%89%e6%a0%85%e5%8c%96%ef%bc%9a%e5%ae%9e%e6%97%b6%e6%b8%b2%e6%9f%93%ef%bc%8c%e9%80%9f%e5%ba%a6%e5%bf%ab%ef%bc%8c%e4%bd%86%e6%98%af%e8%b4%a8%e9%87%8f%e4%bd%8e%e3%80%82%0a%e5%85%89%e7%ba%bf%e8%bf%bd%e8%b8%aa%ef%bc%9a%e7%a6%bb%e7%ba%bf%e6%b8%b2%e6%9f%93%ef%bc%8c%e9%80%9f%e5%ba%a6%e6%85%a2%ef%bc%8c%e4%bd%86%e6%98%af%e8%b4%a8%e9%87%8f%e9%ab%98%e3%80%82%0a%e6%af%94%e5%a6%82%e7%96%af%e7%8b%82%e5%8a%a8%e7%89%a9%e5%9f%8e%e9%87%8c%e7%9a%84%e4%b8%80%e5%bc%a0%e7%94%bb%e9%9d%a2%ef%bc%8c%e6%af%8f%e4%b8%80%e5%b8%a7%e6%b8%b2%e6%9f%93%e9%9c%80%e8%a6%81%2010KCPU%20%e6%a0%b8%e5%bf%83%e5%b0%8f%e6%97%b6%ef%bc%8c%e7%9b%b8%e5%bd%93%e4%ba%8e%e5%a6%82%e6%9e%9c%e5%8f%aa%e6%9c%89100%e4%b8%aaCPU%e6%a0%b8%ef%bc%8c%e5%b0%86%e4%bc%9a%e8%8a%b1%e8%b4%b9100%e4%b8%aa%e5%b0%8f%e6%97%b6%e6%89%8d%e5%8f%af%e4%bb%a5%e6%b8%b2%e6%9f%93%e5%ae%8c%e6%88%90%e3%80%82%0aWhitted-Style%e5%85%89%e7%ba%bf%e8%bf%bd%e8%b8%aa%20%e5%85%b3%e4%ba%8e%e5%85%89%e7%ba%bf3%e4%b8%aa%e5%81%87%e8%ae%be%ef%bc%9a%0d1.%20%e5%81%87%e8%ae%be%e5%85%89%e7%ba%bf%e6%98%af%e7%9b%b4%e7%ba%bf%e7%9a%84%e3%80%82%0d2.%20%e5%bd%93%e5%85%89%e7%ba%bf%e7%9b%b8%e4%ba%a4%e6%97%b6%ef%bc%8c%e4%b8%8d%e4%bc%9a%e5%8f%91%e7%94%9f%e7%a2%b0%e6%92%9e%e3%80%82%0d3.%20%e5%85%89%e7%ba%bf%e4%bb%8e%e5%85%89%e6%ba%90%e4%bc%a0%e6%92%ad%e5%88%b0%e7%9c%bc%e7%9d%9b%ef%bc%8c%e8%b7%af%e5%be%84%e6%98%af%e5%8f%af%e9%80%86%e7%9a%84%e3%80%82%ef%bc%88%e4%ba%92%e5%bc%82%e6%80%a7Reciprocity%ef%bc%89%0d%e5%85%b6%e4%b8%ad%e7%ac%ac3%e7%82%b9%e6%84%8f%e5%91%b3%e7%9d%80%ef%bc%8c%e5%bd%93%e5%85%89%e4%bb%8e%e5%85%89%e6%ba%90%e5%8f%91%e5%87%ba%e8%bf%9b%e8%a1%8c%e5%bc%b9%e5%b0%84%e5%90%8e%ef%bc%8c%e6%9c%80%e7%bb%88%e8%bf%9b%e5%85%a5%e7%9c%bc%e7%9d%9b%ef%bc%9b%e5%85%b6%e5%ae%9e%e4%b9%9f%e5%8f%af%e4%bb%a5%e8%ae%a4%e4%b8%ba%e6%98%af%e7%9c%bc%e7%9d%9b%e5%8f%91%e5%b0%84%e4%ba%86%e4%b8%80%e6%9d%9f%e6%84%9f%e7%9f%a5%e5%85%89%e7%ba%bf%e8%bf%9b%e8%a1%8c%e5%bc%b9%e5%b0%84%ef%bc%8c%e6%9c%80%e7%bb%88%e5%9b%9e%e5%88%b0%e5%85%89%e6%ba%90%e3%80%82%20%e4%bb%8e%e8%a7%82%e5%af%9f%e8%80%85%ef%bc%88%e7%9b%b8%e6%9c%ba%ef%bc%89%e5%87%ba%e5%8f%91%ef%bc%8c%e5%b0%84%e5%87%ba%e5%85%89%e7%ba%bf%e5%88%b0%e5%9c%ba%e6%99%af%e4%b8%ad%e7%9a%84%e7%89%a9%e4%bd%93%e8%a1%a8%e9%9d%a2%ef%bc%8c%e5%a6%82%e6%9e%9c%e5%92%8c%e6%9f%90%e4%b8%aa%e7%89%a9%e4%bd%93%e7%9b%b8%e4%ba%a4%ef%bc%8c%e8%af%b4%e6%98%8e%e7%9c%bc%e7%9d%9b%e8%83%bd%e7%9c%8b%e5%88%b0%e8%bf%99%e9%87%8c%e3%80%82%e5%86%8d%e8%ae%a9%e7%84%a6%e7%82%b9%e4%b8%8e%e5%85%89%e7%ba%bf%e8%bf%9e%e6%8e%a5%ef%bc%8c%e5%88%a4%e6%96%ad%e6%98%af%e5%90%a6%e6%9c%89%e9%81%ae%e6%8c%a1%ef%bc%8c%e5%a6%82%e6%9e%9c%e6%b2%a1%e6%9c%89%e9%81%ae%e6%8c%a1%e5%b0%b1%e5%bd%a2%e6%88%90%e4%ba%86%e4%b8%80%e6%9d%a1%e6%9c%89%e6%95%88%e7%9a%84%e5%85%89%e8%b7%af%ef%bc%8c%e5%90%a6%e5%88%99%e4%b8%ba%e9%98%b4%e5%bd%b1%e3%80%82%0a%e7%84%b6%e5%90%8e%e5%af%b9%e8%af%a5%e7%82%b9%e8%bf%9b%e8%a1%8c%e5%b1%80%e9%83%a8%e5%85%89%e7%85%a7%e6%a8%a1%e5%9e%8b%e8%ae%a1%e7%ae%97%ef%bc%8c%e5%be%97%e5%88%b0%e8%af%a5%e5%83%8f%e7%b4%a0%e7%9a%84%e9%a2%9c%e8%89%b2%e3%80%82%0a%e5%81%87%e8%ae%be%e4%ba%ba%e7%9c%bc%e6%98%af%e4%b8%80%e4%b8%aa%e7%82%b9%ef%bc%8c%e4%b8%94%e5%85%89%e7%ba%bf%e6%89%93%e5%88%b0%e7%89%a9%e4%bd%93%e5%90%8e%e4%bc%9a%e8%bf%9b%e8%a1%8c%e5%ae%8c%e7%be%8e%e7%9a%84%e5%8f%8d%e5%b0%84%20%2f%20%e6%8a%98%e5%b0%84%e3%80%82%0aprimary%20ray%ef%bc%9a%e4%ba%ba%e7%9c%bc%e5%88%b0%e7%ac%ac%e4%b8%80%e4%b8%aa%e7%82%b9%e7%9a%84%e5%85%89%e7%ba%bf%e8%b7%af%e5%be%84%20secondary%20ray%ef%bc%9a%e9%99%a4%e4%ba%86primary%20ray%e7%9a%84%e5%85%b6%e4%bb%96%e5%85%89%e7%ba%bf%20shadow%20ray%ef%bc%9a%e5%85%89%e7%ba%bf%e4%b8%8e%e7%89%a9%e4%bd%93%e4%ba%a4%e7%82%b9%e5%88%b0%e5%85%89%e6%ba%90%e7%9a%84%e5%85%89%e7%ba%bf%20%e6%af%8f%e4%b8%80%e4%b8%aa%e4%ba%a4%e7%82%b9%e7%9a%84%e9%a2%9c%e8%89%b2%e8%b4%a1%e7%8c%ae%e6%9d%a5%e6%ba%90%e4%ba%8e%e7%9b%b4%e6%8e%a5%e5%85%89%e7%85%a7%e3%80%81%e5%8f%8d%e5%b0%84%e6%96%b9%e5%90%91%e9%97%b4%e6%8e%a5%e5%85%89%e3%80%81%e6%8a%98%e5%b0%84%e6%96%b9%e5%90%91%e9%97%b4%e6%8e%a5%e5%85%89%e3%80%82%0a%e6%b1%82%e5%85%89%e7%ba%bf%e4%b8%8e%e7%89%a9%e4%bd%93%e7%9a%84%e4%ba%a4%e7%82%b9%20%e5%85%89%e7%ba%bf%e7%9a%84%e5%ae%9a%e4%b9%89%e5%a6%82%e4%b8%8b%ef%bc%9a%0a%e6%b1%82%e5%85%89%e4%b8%8e%e7%90%83%e7%9a%84%e4%ba%a4%e7%82%b9%ef%bc%8c%e5%b0%86%e5%85%89%e7%ba%bf%e5%85%ac%e5%bc%8f%e4%bb%a3%e5%85%a5%e5%88%b0%e7%90%83%e5%85%ac%e5%bc%8f%e4%b8%ad%ef%bc%8c%e8%a7%a3t%e3%80%82%e5%8f%af%e4%bb%a5%e5%88%a4%e6%96%ad%e5%92%8c%e7%90%83%e6%98%af%e5%90%a6%e6%9c%89%e4%ba%a4%e7%82%b9%ef%bc%8c%e6%9c%89%e5%87%a0%e4%b8%aa%e4%ba%a4%e7%82%b9%e3%80%82%0a%e5%a6%82%e6%9e%9c%e6%98%af%e5%85%b6%e4%bb%96%e9%9a%90%e5%bc%8f%e5%87%a0%e4%bd%95%e4%b9%9f%e6%98%af%e5%90%8c%e6%a0%b7%e8%81%94%e5%90%88%e5%85%89%e7%ba%bf%e6%96%b9%e7%a8%8b%e3%80%82%0a%e7%9c%9f%e6%ad%a3%e5%9c%a8%e5%9b%be%e5%bd%a2%e5%ad%a6%e4%b8%ad%e8%bf%90%e7%94%a8%e7%9a%84%e5%85%b6%e5%ae%9e%e6%98%af%e6%98%be%e5%bc%8f%e6%9b%b2%e9%9d%a2%ef%bc%8c%e5%be%88%e5%a4%9a%e4%b8%aa%e4%b8%89%e8%a7%92%e5%bd%a2%ef%bc%8c%e5%9b%a0%e6%ad%a4%e5%88%a4%e6%96%ad%e7%9a%84%e6%98%af%e5%85%89%e7%ba%bf%e4%b8%8e%e4%b8%89%e8%a7%92%e9%9d%a2%e7%9a%84%e4%ba%a4%e7%82%b9%e3%80%82%e4%b8%8e%e4%b8%89%e8%a7%92%e9%9d%a2%e7%9a%84%e7%84%a6%e7%82%b9%e5%8f%af%e4%bb%a5%e6%83%b3%e8%b1%a1%e6%88%90%e4%b8%89%e8%a7%92%e5%bd%a2%e5%9c%a8%e4%b8%80%e4%b8%aa%e5%b9%b3%e9%9d%a2%e4%b8%8a%ef%bc%8c%e5%b0%b1%e5%8f%98%e6%88%90%e4%ba%86%e5%85%89%e7%ba%bf%e4%b8%8e%e5%b9%b3%e9%9d%a2%e7%9a%84%e4%ba%a4%e7%82%b9%e4%ba%86%e3%80%82%0a%e5%85%89%e7%ba%bf%e4%b8%8e%e5%b9%b3%e9%9d%a2%e7%9a%84%e4%ba%a4%e7%82%b9%e5%81%87%e8%ae%be%e6%98%afp%e2%80%98%ef%bc%8c%e9%82%a3%e4%b9%88%e4%ba%a4%e7%82%b9%e4%b8%8e%e5%b9%b3%e9%9d%a2%e4%b8%8a%e4%bb%bb%e4%bd%95%e4%b8%80%e7%82%b9p%e7%9a%84%e8%bf%9e%e7%ba%bf%ef%bc%8c%e5%b0%86%e4%bc%9a%e4%b8%8eN%ef%bc%88%e5%b9%b3%e9%9d%a2%e7%9a%84%e6%b3%95%e7%ba%bf%ef%bc%89%e5%9e%82%e7%9b%b4%e3%80%82%0a%e4%b9%8b%e5%90%8e%e5%86%8d%e5%88%a4%e6%96%ad%e4%ba%a4%e7%82%b9%e6%98%af%e5%90%a6%e5%9c%a8%e4%b8%89%e8%a7%92%e5%bd%a2%e7%9a%84%e5%86%85%e9%83%a8%e3%80%82%0a%e4%bd%86%e6%98%af%e8%bf%99%e6%a0%b7%e4%b8%80%e4%b8%aa%e4%b8%aa%e8%ae%a1%e7%ae%97%e5%a4%aa%e9%ba%bb%e7%83%a6%e4%ba%86%ef%bc%8c%e4%ba%8e%e6%98%af%e6%9c%89%e4%ba%86%e6%9b%b4%e6%96%b9%e4%be%bf%e5%9c%b0%e6%96%b9%e6%b3%95%e2%80%94%e2%80%94M%c3%b6ller%e2%80%93Trumbore%e7%ae%97%e6%b3%95%0aM%c3%b6ller%e2%80%93Trumbore%20%e5%88%a9%e7%94%a8%e5%90%91%e9%87%8f%e7%9a%84%e5%a4%96%e7%a7%af%e5%92%8c%e9%87%8d%e5%bf%83%e5%9d%90%e6%a0%87%e6%9d%a5%e8%ae%a1%e7%ae%97%e6%98%af%e5%90%a6%e7%9b%b8%e4%ba%a4%ef%bc%8c%e5%a4%a7%e5%a4%a7%e7%9a%84%e6%8f%90%e9%ab%98%e4%ba%86%e6%95%88%e7%8e%87%e3%80%82%0a%e5%9c%a8%e5%85%89%e7%ba%bf%e8%bf%bd%e8%b8%aa%e4%b8%ad%ef%bc%8c%e5%85%89%e7%ba%bf%e4%b8%8e%e5%9c%ba%e6%99%af%e7%9a%84%e7%9b%b8%e4%ba%a4%e6%a3%80%e6%b5%8b%e6%98%af%e6%9c%80%e6%a0%b8%e5%bf%83%e7%9a%84%e8%ae%a1%e7%ae%97%e4%b9%8b%e4%b8%80%e3%80%82%e7%ae%80%e5%8d%95%e7%9a%84%e5%85%89%e7%ba%bf%e7%9b%b8%e4%ba%a4%e6%a3%80%e6%b5%8b%e5%af%b9%e4%ba%8e%e6%af%8f%e4%b8%80%e9%81%93%e5%85%89%e7%ba%bf%e9%9c%80%e8%a6%81%e9%80%90%e4%b8%80%e6%a3%80%e6%9f%a5%e6%98%af%e5%90%a6%e4%b8%8e%e6%af%8f%e4%b8%80%e4%b8%aa%e7%89%a9%e4%bd%93%e7%9b%b8%e4%ba%a4%ef%bc%8c%e4%bc%9a%e9%81%8d%e5%8e%86%e6%af%8f%e4%b8%80%e4%b8%aa%e4%b8%89%e8%a7%92%e5%bd%a2%e8%bf%9b%e8%a1%8c%e7%9b%b8%e4%ba%a4%e6%b5%8b%e8%af%95%ef%bc%8c%e6%89%be%e5%87%ba%e7%a6%bb%e5%85%89%e7%ba%bf%e6%9c%80%e8%bf%91%e7%9a%84%e4%ba%a4%e7%82%b9%ef%bc%88%e6%9c%80%e5%b0%8ft%e5%80%bc%ef%bc%89%e3%80%82%e4%bd%86%e6%98%af%e5%bd%93%e5%9c%ba%e6%99%af%e5%8f%98%e5%be%97%e5%a4%8d%e6%9d%82%e6%97%b6%ef%bc%8c%e4%b8%89%e8%a7%92%e5%bd%a2%e6%95%b0%e9%87%8f%e4%bc%9a%e5%8f%98%e5%a4%9a%ef%bc%8c%e4%bd%bf%e5%be%97%e8%ae%a1%e7%ae%97%e5%bc%80%e9%94%80%e5%a2%9e%e5%8a%a0%e3%80%82%0a%e6%89%80%e4%bb%a5%e4%bc%9a%e4%bd%bf%e7%94%a8%e4%b8%80%e4%ba%9b%e5%8a%a0%e9%80%9f%e7%bb%93%e6%9e%84%ef%bc%88%e5%8c%85%e5%9b%b4%e7%9b%92%e6%a0%91%e3%80%81%e5%85%ab%e5%8f%89%e6%a0%91%e7%ad%89%ef%bc%89%e6%9d%a5%e5%87%8f%e5%b0%91%e4%b8%89%e8%a7%92%e5%bd%a2%e6%95%b0%e9%87%8f%ef%bc%8c%e4%bd%bf%e5%be%97%e5%85%89%e7%ba%bf%e4%b8%8e%e5%9c%ba%e6%99%af%e7%9a%84%e7%9b%b8%e4%ba%a4%e6%b5%8b%e8%af%95%e5%8f%aa%e9%9c%80%e8%a6%81%e5%9c%a8%e8%be%83%e5%b0%8f%e7%9a%84%e5%8c%ba%e5%9f%9f%e5%86%85%e6%89%a7%e8%a1%8c%ef%bc%8c%e8%80%8c%e9%9d%9e%e5%85%a8%e9%83%a8%e4%b8%89%e8%a7%92%e5%bd%a2%e3%80%82%0aBounding%20Volumes%e5%8c%85%e5%9b%b4%e7%9b%92%e7%bb%93%e6%9e%84%20%e5%a6%82%e6%9e%9c%e4%b8%80%e4%b8%aa%e5%85%89%e7%ba%bf%e8%bf%9e%e5%8c%85%e5%9b%b4%e7%9b%92%e9%83%bd%e7%a2%b0%e4%b8%8d%e5%88%b0%ef%bc%8c%e4%b9%9f%e7%bb%9d%e5%af%b9%e4%b8%8d%e4%bc%9a%e7%a2%b0%e5%88%b0%e5%8c%85%e5%9b%b4%e7%9b%92%e9%87%8c%e7%9a%84%e7%89%a9%e4%bd%93%e3%80%82%0a%e8%bd%b4%e5%af%b9%e7%a7%b0%e5%8c%85%e5%9b%b4%e7%9b%92%ef%bc%9a%e5%b0%86%e9%95%bf%e6%96%b9%e4%bd%93%e7%94%a83%e5%af%b9%e4%b8%8d%e5%90%8c%e7%9a%84%e5%b9%b3%e9%9d%a2%e5%8c%85%e5%9b%b4%e4%bd%8f%ef%bc%8c%e4%bb%bb%e4%bd%95%e4%b8%80%e5%af%b9%e5%b9%b3%e9%9d%a2%e9%83%bd%e4%b8%8ex%e8%bd%b4y%e8%bd%b4z%e8%bd%b4%e5%9e%82%e7%9b%b4%ef%bc%8c%e6%89%80%e4%bb%a5%e7%a7%b0%e4%b8%baAABB%e5%8c%85%e5%9b%b4%e7%9b%92%e3%80%82%0a%e4%b8%8b%e5%9b%be%e4%b8%ba%e5%85%89%e7%ba%bf%e7%a9%bf%e8%bf%87%e5%8c%85%e5%9b%b4%e7%9b%92%e7%9a%843%e4%b8%aa%e5%af%b9%e9%9d%a2%e6%89%80%e7%bb%8f%e5%8e%86%e7%9a%84%e6%97%b6%e9%97%b4%ef%bc%8c%e5%8f%96%e8%bf%993%e4%b8%aa%e6%97%b6%e9%97%b4%e7%9a%84%e4%ba%a4%e9%9b%86%ef%bc%8c%e5%b0%b1%e6%98%af%e5%85%89%e7%ba%bf%e5%9c%a8%e5%8c%85%e5%9b%b4%e7%9b%92%e9%87%8c%e7%9a%84%e6%97%b6%e9%97%b4%e6%ae%b5%e3%80%82%0a%e8%bf%9b%e5%85%a5%e5%8c%85%e5%9b%b4%e7%9b%92%ef%bc%9a%e8%bf%9b%e5%85%a5%e6%89%80%e6%9c%89%e5%af%b9%e9%9d%a2%20%24%24%0d%e6%9c%80%e6%99%9a%e8%bf%9b%e5%85%a5%e7%9b%92%e5%ad%90%e7%9a%84%e6%97%b6%e9%97%b4%ef%bc%9at_%7benter%7d%20%3d%20max%5c%7bt_%7bmin%7d%5c%7d%0d%24%24%20%e7%a6%bb%e5%bc%80%e5%8c%85%e5%9b%b4%e7%9b%92%ef%bc%9a%e7%a6%bb%e5%bc%80%e4%bb%bb%e4%b8%80%e5%af%b9%e9%9d%a2%20%24%24%0d%e6%9c%80%e6%97%a9%e7%a6%bb%e5%bc%80%e7%9b%92%e5%ad%90%e7%9a%84%e6%97%b6%e9%97%b4%ef%bc%9at_%7bexit%7d%20%3d%20min%5c%7bt_%7bmax%7d%5c%7d%0d%24%24%20%e7%84%b6%e8%80%8c%e5%85%89%e7%ba%bf%e5%b9%b6%e4%b8%8d%e6%98%af%e7%9b%b4%e7%ba%bf%ef%bc%8c%e5%85%89%e7%ba%bf%e6%98%af%e4%b8%80%e6%9d%a1%e5%b0%84%e7%ba%bf%ef%bc%8c%e6%89%80%e4%bb%a5%e8%a6%81%e5%88%a4%e6%96%adt%e6%98%af%e5%90%a6%e4%b8%ba%e6%ad%a3%e6%95%b0%e3%80%82&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=RayTracing%e5%85%89%e7%ba%bf%e8%bf%bd%e8%b8%aa&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f5_raytracing%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+<script async src="https://cse.google.com/cse.js?cx=google-search-code"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+
+
+<footer class="footer has-background-dark">
+    <div class="content has-text-centered has-text-white">
+        <p>
+            © 2024 GeeTeng.My
+            <a class="has-text-light" href="https://github.com/GeeTeng" target="_blank">
+            GitHub</a>. 
+
+	    Email: 15143483@qq.com
+        </p>
+    </div>
+</footer>
+
+<div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
     <title>
     GameMode游戏模式 | 
     
@@ -13,7 +13,7 @@
     ">
 
 
-<meta property="og:url" content="https://geeteng.github.io/posts/ueleaning/2_gamemode/">
+<meta property="og:url" content="http://localhost:1313/posts/ueleaning/2_gamemode/">
   <meta property="og:site_name" content="GeeTeng">
   <meta property="og:title" content="GameMode游戏模式">
   <meta property="og:description" content="课程笔记及作业">
@@ -36,9 +36,9 @@
   <meta itemprop="dateModified" content="2024-11-23T00:00:00+00:00">
   <meta itemprop="wordCount" content="1142">
   <meta itemprop="keywords" content="UE5">
-<link rel="canonical" href="https://geeteng.github.io/posts/ueleaning/2_gamemode/" />
+<link rel="canonical" href="http://localhost:1313/posts/ueleaning/2_gamemode/" />
 
-<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+<link rel="icon" type="image/png" href="http://localhost:1313/image/favicon.ico">
 
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/bulma.min.css">
@@ -53,28 +53,6 @@
           ],
           throwOnError: false
         });"></script>
-
-
-  
-    
-      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
-      <script>
-        var doNotTrack = false;
-        if ( false ) {
-          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
-          var doNotTrack = (dnt == "1" || dnt == "yes");
-        }
-        if (!doNotTrack) {
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'analytics-code');
-        }
-      </script>
-    
-  
-
-
 
 
 <script src=/js/ramium.js></script>
@@ -527,11 +505,11 @@ playerState Character、Controller的职责区别</p>
 </span></span></code></pre></div><p>红色线是摄像机杆，之所以设置这个位置是为了在制作的过程中可以更方便观察角色，后面会改动至第一人称位置。</p>
 <p>设置 Spring Arm（弹簧臂）组件，使其跟随玩家角色的旋转。当角色转动时，Spring Arm 会自动旋转，保持与角色的相对位置。</p>
 <p>设置相机不随人物旋转，让视角保持固定位置。</p>
-<p><img src="/images/GameMode/Camera.png" alt="Camera"></p>
+<p><img src="/images/UE/GameMode/Camera.png" alt="Camera"></p>
 <hr>
 <h3 id="角色移动增强输入">角色移动增强输入</h3>
 <p>创建InputAction(IA_Look和IA_Move)和InputMappingContext，并设置如下图。</p>
-<p><img src="/images/GameMode/EnhancedInput.png" alt="EnhancedInput"></p>
+<p><img src="/images/UE/GameMode/EnhancedInput.png" alt="EnhancedInput"></p>
 <p><strong>PlayerCharaCharacter.h</strong>文件</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;InputActionValue.h&#34;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
@@ -649,20 +627,20 @@ playerState Character、Controller的职责区别</p>
 </span></span></code></pre></div><p>创建一个ABP_AnimInstance蓝图继承PlayerAnimInstance，Target Skeleton选择玩家的骨骼</p>
 <p>创建BlendSpace1D用于平滑动画，选择玩家的骨骼。</p>
 <p>在BlendSpace中设置水平轴名称为Speed最大值为350，Loop勾选上。在AssetBrowser中找到人物的走路动画和跑步动画拖动到下方窗口中。可以使用ctrl + shift + 鼠标单击看效果。</p>
-<p><img src="/images/GameMode/BlendSpace1D.png" alt="BlendSpace1D"></p>
+<p><img src="/images/UE/GameMode/BlendSpace1D.png" alt="BlendSpace1D"></p>
 <p>在蓝图中创建一个状态机（StateMachine 命名为IdleWalkRun）指向Output Pose。</p>
 <p>双击进入到StateMachine中，新增一个状态IdleWalkRun，再次双击进去。</p>
-<p><img src="/images/GameMode/ABP_AnimInstance.png" alt="ABP_AnimInstance"></p>
+<p><img src="/images/UE/GameMode/ABP_AnimInstance.png" alt="ABP_AnimInstance"></p>
 <p>在角色蓝图中添加做好的AnimClass后，运行就可以看到角色有动画了，但是会发现鼠标移动转向的时候，角色的跑动方向也会发生变化。</p>
 <p>我希望只有键盘会操纵角色的移动朝向，而不是鼠标。</p>
-<p><img src="/images/GameMode/ControllerRotation01.png" alt="ControllerRotation01"></p>
+<p><img src="/images/UE/GameMode/ControllerRotation01.png" alt="ControllerRotation01"></p>
 <p>使角色的朝向与其移动的方向一致。</p>
-<p><img src="/images/GameMode/Movement.png" alt="Movement"></p>
+<p><img src="/images/UE/GameMode/Movement.png" alt="Movement"></p>
 <hr>
 <h3 id="音效">音效</h3>
 <p>导入音效资源，选取喜欢的一些开枪射击音效，右键Creat Sound Cue，制作一个随机生成且混合起来的音效。</p>
 <p>这样音效就会从两组音效中随机挑出两个音效合成。当音源和听者之间的距离发生变化时，<strong>Crossfade by Distance</strong> 会动态调整不同音轨（或音频配置）的混合比例。</p>
-<p><img src="/images/GameMode/SourceRandom.png" alt="SourceRandom"></p>
+<p><img src="/images/UE/GameMode/SourceRandom.png" alt="SourceRandom"></p>
 <p>在这之前我们要创建一个InputAction-IA——Fire用于射击，方法与之前人物移动同理。</p>
 <p><strong>PlayerCharacter.h文件</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
@@ -679,11 +657,11 @@ playerState Character、Controller的职责区别</p>
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>编译后暴露给蓝图，在蓝图中添加制作的SoundCue</p>
-<p><img src="/images/GameMode/SoundCue.png" alt="SoundCue"></p>
+<p><img src="/images/UE/GameMode/SoundCue.png" alt="SoundCue"></p>
 <hr>
 <h3 id="特效">特效</h3>
 <p>首先要找到开火的位置，在gun_barrel下新建一个Socket，将枪口位置命名为GunBarrelSocket，确认枪口的坐标轴X方向指向枪口正对位置。</p>
-<p><img src="/images/GameMode/GunSocket.png" alt="e01d93502179c66d0006e93365bcde74_"></p>
+<p><img src="/images/UE/GameMode/GunSocket.png" alt="e01d93502179c66d0006e93365bcde74_"></p>
 <p><strong>PlayerCharacter.h文件</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Combat&#34;</span>)
@@ -703,7 +681,7 @@ playerState Character、Controller的职责区别</p>
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div><p>在角色控制蓝图中添加特效</p>
-<p><img src="/images/GameMode/MuzzleFlash.png" alt="MuzzleFlash"></p>
+<p><img src="/images/UE/GameMode/MuzzleFlash.png" alt="MuzzleFlash"></p>
 <hr>
 <h3 id="射线检测">射线检测</h3>
 <p><strong>PlayerCharacter.cpp文件 - Fire方法</strong></p>
@@ -727,12 +705,12 @@ playerState Character、Controller的职责区别</p>
 </span></span><span style="display:flex;"><span>		DrawDebugLine(GetWorld(), Start, End, FColor<span style="color:#f92672">::</span>Red, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>);
 </span></span><span style="display:flex;"><span>		DrawDebugSphere(GetWorld(), HitRst.Location, <span style="color:#ae81ff">10</span>, <span style="color:#ae81ff">10</span>, FColor<span style="color:#f92672">::</span>Blue, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">2</span>);
 </span></span><span style="display:flex;"><span>	}
-</span></span></code></pre></div><p><img src="/images/GameMode/FireLineTrace.gif" alt="FireLineTrace"></p>
+</span></span></code></pre></div><p><img src="/images/UE/GameMode/FireLineTrace.gif" alt="FireLineTrace"></p>
 <p>增加弹道轨迹和碰撞到物体的特效，隐藏掉绘制的射线。</p>
 <p>在资源包中找到一个合适的弹道轨迹的Texture，新增一个Material材质，将Texture添加进去。</p>
 <p>新增一个Cascade Particle System，新增Target、Source，对各项进行一些设置，如：Target最小输入输出、最大输入输出、Lifetime、Required中的Material、Kill on Deativate、Kill on Completed等。</p>
-<p><img src="/images/GameMode/WeaponTrail.png" alt="WeaponTrail"></p>
-<p><img src="/images/GameMode/ParticleSystem.png" alt="ParticleSystem"></p>
+<p><img src="/images/UE/GameMode/WeaponTrail.png" alt="WeaponTrail"></p>
+<p><img src="/images/UE/GameMode/ParticleSystem.png" alt="ParticleSystem"></p>
 <p><strong>PlayerCharacter.cpp文件 - Fire方法</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>	<span style="color:#75715e">/* Impact Effect */</span> 
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (HitRst.bBlockingHit)
@@ -767,7 +745,7 @@ playerState Character、Controller的职责区别</p>
 <p>将摄像机调整到人物的头部位置，Mesh - Owner No See勾选</p>
 <p>添加准星，新建HUD蓝图，在World Setting中设置HUD Class为新建的蓝图</p>
 <p>准星位置为屏幕大小 / 2 - 准星大小 / 2</p>
-<p><img src="/images/GameMode/CrossHUD.png" alt="CrossHUD"></p>
+<p><img src="/images/UE/GameMode/CrossHUD.png" alt="CrossHUD"></p>
 <p>更改发射位置，起点为枪口位置，终点为准星的屏幕坐标转化成世界坐标位置延长点。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>    <span style="color:#75715e">// 获取枪口位置（起点）
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    FVector Start <span style="color:#f92672">=</span> SocketTransform.GetLocation();
@@ -811,7 +789,7 @@ playerState Character、Controller的职责区别</p>
 </span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div><p>新建UserWidget蓝图类</p>
 <p>简单添加一个TextBlock组件</p>
-<p><img src="/images/GameMode/Score.png" alt="Score"></p>
+<p><img src="/images/UE/GameMode/Score.png" alt="Score"></p>
 <p><strong>PlayerUserWidget.h文件</strong></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UPROPERTY(EditAnywhere, meta <span style="color:#f92672">=</span> (BindWidget))
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UTextBlock</span><span style="color:#f92672">*</span> TextScore;
@@ -905,7 +883,7 @@ playerState Character、Controller的职责区别</p>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> AmountScore;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>最终效果图如下</p>
-<p><img src="/images/GameMode/CubeScore.gif" alt="CubeScore"></p>
+<p><img src="/images/UE/GameMode/CubeScore.gif" alt="CubeScore"></p>
 <p>本次作业遗留下的改进点：</p>
 <ol>
 <li>
@@ -929,44 +907,44 @@ playerState Character、Controller的职责区别</p>
 	<br>
 	
 	<div class="share-buttons">
-	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fueleaning%2f2_gamemode%2f"
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fueleaning%2f2_gamemode%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Facebook. Opens in a new window.">
 	        <img src=/img/icons/45px/facebook.png>
 	    </a>
 
-	    <a  href="https://twitter.com/intent/tweet?text=GameMode%e6%b8%b8%e6%88%8f%e6%a8%a1%e5%bc%8f&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fueleaning%2f2_gamemode%2f"
+	    <a  href="https://twitter.com/intent/tweet?text=GameMode%e6%b8%b8%e6%88%8f%e6%a8%a1%e5%bc%8f&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fueleaning%2f2_gamemode%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Twitter. Opens in a new window." >
 	        <img src=/img/icons/45px/twitter.png>
 	    </a>
 
-		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fueleaning%2f2_gamemode%2f"
+		<a  href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fueleaning%2f2_gamemode%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Reddit. Opens in a new window." >
 	        <img src=/img/icons/45px/reddit.png>
 	    </a>
 
-	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fueleaning%2f2_gamemode%2f"
+	    <a  href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fueleaning%2f2_gamemode%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Pinterest. Opens in a new window." >
 	        <img src=/img/icons/45px/pinterest.png>
 	    </a>
 
-	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fueleaning%2f2_gamemode%2f"
+	    <a  href="http://www.tumblr.com/share/link?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fueleaning%2f2_gamemode%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Tumblr. Opens in a new window." >
 	        <img src=/img/icons/45px/tumblr.png>
 	    </a>
 
-		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fueleaning%2f2_gamemode%2f
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fueleaning%2f2_gamemode%2f
 			&title=GameMode%e6%b8%b8%e6%88%8f%e6%a8%a1%e5%bc%8f&summary=%e5%b9%b3%e8%a1%8c%e4%b8%96%e7%95%8c%ef%bc%9fWorld%20UE%e4%b8%ad%e6%9c%89%e4%b8%89%e4%b8%aa%e4%b8%96%e7%95%8c%0a%e6%b8%b8%e6%88%8f%e4%b8%96%e7%95%8c%20%e7%bc%96%e8%be%91%e5%99%a8%e4%b8%96%e7%95%8c%20%e9%a2%84%e8%a7%88%e4%b8%96%e7%95%8c%20%e5%85%b3%e5%8d%a1%e8%93%9d%e5%9b%be-%e5%ae%9a%e4%b9%89%e5%85%b3%e5%8d%a1%e8%a7%84%e5%88%99%0aUGameInstance%20%e5%ad%98%e5%9c%a8%e4%ba%8e%e6%b8%b8%e6%88%8f%e7%9a%84%e6%95%b4%e4%b8%aa%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e4%b8%ad%20%e4%b8%8d%e4%bc%9a%e9%9a%8f%e7%9d%80%e5%9c%b0%e5%9b%be%e5%88%87%e6%8d%a2%20%e9%94%80%e6%af%81%20%e9%80%82%e5%90%88%e4%b8%9a%e5%8a%a1%e5%85%a8%e5%b1%80%e7%ae%a1%e7%90%86%e6%93%8d%e4%bd%9c%ef%bc%8cUengine%20%e7%ae%a1%e7%90%86%20GameInstance%0a%e6%b8%b8%e6%88%8f%e4%b8%ad%e6%9c%80%e9%87%8d%e8%a6%81%e7%9a%84%e5%ae%9e%e4%bd%93AActor%20AActor%20%e6%a0%87%e5%bf%97%e6%89%80%e6%9c%89%e6%9d%83%e7%9a%84Owner%e6%8c%87%e9%92%88%ef%bc%8c%e6%a0%87%e5%bf%97%e6%9c%ac%e5%9c%b0%e6%9d%83%e9%99%90%e7%9a%84Role%e6%9e%9a%e4%b8%be%ef%bc%8c%e4%bd%9c%e4%b8%ba%e7%bd%91%e6%a0%bc%e5%90%8c%e6%ad%a5%e7%9a%84%e5%9f%ba%e7%a1%80%e5%8d%95%e4%bd%8d%ef%bc%8c%e6%a0%b9%e7%bb%84%e4%bb%b6%e6%8f%90%e4%be%9b%e4%b8%96%e7%95%8c%e5%8f%98%e5%8c%96%e4%bf%a1%e6%81%af%0aActor%e4%b8%8d%e5%8f%aa%e6%98%af3D%e4%b8%ad%e7%9a%84%e8%a1%a8%e7%a4%ba%ef%bc%8c%e4%b8%80%e4%ba%9b%e4%b8%8d%e5%8f%af%e8%a7%81%e5%af%b9%e8%b1%a1%e4%b9%9f%e5%8f%af%e4%bb%a5%e6%98%afActor%ef%bc%8c%e5%a6%82AInfo%ef%bc%88%e6%b4%be%e7%94%9f%e7%b1%bbAworldsetting%ef%bc%8cAGameMode%ef%bc%8cAgameState%26hellip%3b%ef%bc%89%0aActor%e5%9c%a8UE%e4%b8%ad%e5%b0%b1%e5%83%8f%e6%98%af%e4%b8%96%e7%95%8c%e9%87%8c%e7%9a%84%e5%85%83%e7%b4%a0%0aComponent%20%e6%98%af%20Actor%20%e7%9a%84%e7%bb%84%e6%88%90%e9%83%a8%e5%88%86%ef%bc%8c%e7%94%a8%e4%ba%8e%e5%ae%9a%e4%b9%89%20Actor%20%e7%9a%84%e7%89%b9%e6%80%a7%e5%92%8c%e8%a1%8c%e4%b8%ba%0aRootComponent%e6%98%afActor%e7%9a%84%e6%a0%b8%e5%bf%83%e7%bb%84%e4%bb%b6%ef%bc%8c%e5%86%b3%e5%ae%9a%e4%ba%86Actor%e5%9c%a8%e5%9c%ba%e6%99%af%e4%b8%ad%e7%9a%84%e4%bd%8d%e7%bd%ae%e3%80%81%e6%97%8b%e8%bd%ac%e5%92%8c%e7%bc%a9%e6%94%be%20SceneComponent%20%e6%98%af%e4%b8%80%e4%b8%aa%e5%9f%ba%e7%a1%80%e7%bb%84%e4%bb%b6%ef%bc%8c%e4%b8%bb%e8%a6%81%e7%94%a8%e4%ba%8e%e5%ae%9a%e4%b9%89%e5%9c%ba%e6%99%af%e4%b8%ad%e5%af%b9%e8%b1%a1%e7%9a%84%e4%bd%8d%e7%bd%ae%e3%80%81%e6%97%8b%e8%bd%ac%e5%92%8c%e7%bc%a9%e6%94%be%e3%80%82%e5%ae%83%e6%9c%ac%e8%ba%ab%e6%98%af%e4%b8%80%e4%b8%aa%e6%8a%bd%e8%b1%a1%e7%bb%84%e4%bb%b6%ef%bc%8c%e4%b8%8d%e4%bc%9a%e7%9b%b4%e6%8e%a5%e6%b8%b2%e6%9f%93%e6%88%96%e6%98%be%e7%a4%ba%e3%80%82%20Actor%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e8%af%a6%e8%a7%a3%0a%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f1%0aactor%e5%88%86%e4%b8%ba%0a%e9%9d%99%e6%80%81%e7%9a%84actor%20-%20%e5%9c%a8%e5%85%b3%e5%8d%a1%e7%bc%96%e8%be%91%e5%99%a8%e9%87%8c%e7%9b%b4%e6%8e%a5%e6%94%be%e7%bd%ae%e7%9a%84Actor%20%e5%8a%a8%e6%80%81%e5%88%9b%e5%bb%ba%e7%9a%84actor%ef%bc%88spawnActor%ef%bc%89%20-%20%e9%80%9a%e8%bf%87%e4%bb%a3%e7%a0%81%e6%88%96%e8%93%9d%e5%9b%be%e5%9c%a8%e8%bf%90%e8%a1%8c%e6%97%b6%e5%8a%a8%e6%80%81%e7%94%9f%e6%88%90%e7%9a%84%20Actor%20%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f2%20%e9%87%8d%e8%a6%81%e7%9a%84%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f%e5%87%bd%e6%95%b0%0aBeginPlay%20-%20%e5%9c%a8Actor%e6%bf%80%e6%b4%bb%e6%97%b6%e8%b0%83%e7%94%a8%20%e5%88%9d%e5%a7%8b%e5%8c%96%0aTick%20-%20%e6%af%8f%e5%b8%a7%e8%b0%83%e7%94%a8%e4%b8%80%e6%ac%a1%20%e5%a4%84%e7%90%86%e9%80%bb%e8%be%91%0aEndPlay%20-%20%e5%9c%a8Actor%e5%8d%b3%e5%b0%86%e9%94%80%e6%af%81%e6%97%b6%e8%b0%83%e7%94%a8%20%e6%b8%85%e7%90%86%e8%b5%84%e6%ba%90%0a%e7%94%9f%e5%91%bd%e5%91%a8%e6%9c%9f3%20GC%e5%ae%8c%e6%88%90%e6%94%b6%e5%b0%be%20%e6%b3%a8%e6%84%8f%e6%9c%89%e6%95%88%e6%80%a7%e7%9a%84%e5%88%a4%e6%96%ad%0aif%20%28IsValid%28MyActor%29%29%20%7b%20%2f%2f%20Actor%20%e6%9c%89%e6%95%88%20%7d%20if%20%28MyActor%20%26amp%3b%26amp%3b%20%21MyActor-%26gt%3bIsPendingKill%28%29%29%20%7b%20%2f%2f%20Actor%20%e6%b2%a1%e6%9c%89%e8%a2%ab%e6%a0%87%e8%ae%b0%e4%b8%ba%e9%94%80%e6%af%81%20%7d%20isPendingKill%e6%98%af%e5%90%a6%e5%b7%b2%e8%a2%ab%e6%a0%87%e8%ae%b0%e4%b8%ba%e5%8d%b3%e5%b0%86%e9%94%80%e6%af%81%ef%bc%8c%e4%bd%86%e5%b0%9a%e6%9c%aa%e8%a2%ab%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6%e7%b3%bb%e7%bb%9f%ef%bc%88GC%ef%bc%89%e5%ae%8c%e5%85%a8%e7%a7%bb%e9%99%a4%e3%80%82&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>
 	    </a>
 
-	    <a  href="mailto:?subject=GameMode%e6%b8%b8%e6%88%8f%e6%a8%a1%e5%bc%8f&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fueleaning%2f2_gamemode%2f"
+	    <a  href="mailto:?subject=GameMode%e6%b8%b8%e6%88%8f%e6%a8%a1%e5%bc%8f&amp;body=Check out this site http%3a%2f%2flocalhost%3a1313%2fposts%2fueleaning%2f2_gamemode%2f"
 	        title="Share via Email. Opens in a new window." >
 	        <img src=/img/icons/45px/mail.png>
 	    </a>

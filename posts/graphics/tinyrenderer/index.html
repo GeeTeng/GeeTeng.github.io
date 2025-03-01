@@ -270,7 +270,7 @@
 </span></span><span style="display:flex;"><span>		image.set(x, y, color);
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><img src="/images/TinyRenderer/line.png" alt="line"></p>
+</span></span></code></pre></div><p><img src="/images/Graphics/TinyRenderer/line.png" alt="line"></p>
 <p>描绘了100个点，但是能否用x来遍历，这样可以从13 - 80 只需要描绘67个点</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">line</span>(<span style="color:#66d9ef">int</span> x0, <span style="color:#66d9ef">int</span> y0, <span style="color:#66d9ef">int</span> x1, <span style="color:#66d9ef">int</span> y1, TGAImage<span style="color:#f92672">&amp;</span> image, TGAColor color)
 </span></span><span style="display:flex;"><span>{
@@ -295,7 +295,7 @@
 <p>第二条线段是离散的点而不连续</p>
 </li>
 </ol>
-<p><img src="/images/TinyRenderer/line01.png" alt="line01"></p>
+<p><img src="/images/Graphics/TinyRenderer/line01.png" alt="line01"></p>
 <p><strong>Answer：</strong></p>
 <ol>
 <li>我们的函数只处理了x1 &gt; x0的情况</li>
@@ -331,7 +331,7 @@
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><img src="/images/TinyRenderer/final.png" alt="final"></p>
+</span></span></code></pre></div><p><img src="/images/Graphics/TinyRenderer/final.png" alt="final"></p>
 <h3 id="线框渲染">线框渲染</h3>
 <p>打开Obj文件以文本编辑器形式</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-text" data-lang="text"><span style="display:flex;"><span>v -0.000581696 -0.734665 -0.623267
@@ -401,7 +401,7 @@
 <li>将归一化范围 [0,1] 放大到屏幕分辨率范围。</li>
 <li>width/2 和 height/2 是 NDC 范围 [0, 1] 到屏幕范围的比例因子。</li>
 </ul>
-<p><img src="/images/TinyRenderer/line02.png" alt="line02"></p>
+<p><img src="/images/Graphics/TinyRenderer/line02.png" alt="line02"></p>
 <hr>
 <h2 id="2-画面">2 画面</h2>
 <blockquote>
@@ -439,7 +439,7 @@
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><img src="/images/TinyRenderer/trangle.png" alt="trangle"></p>
+</span></span></code></pre></div><p><img src="/images/Graphics/TinyRenderer/trangle.png" alt="trangle"></p>
 <h3 id="重心坐标法">重心坐标法</h3>
 <p>遍历三角形的包围盒中的所有像素，使用重心坐标法<strong>判断当前像素是否位于三角形内部</strong>。</p>
 <p>包围盒算法（待实现）<a href="https://github.com/ssloy/tinyrenderer/wiki/Lesson-2:-Triangle-rasterization-and-back-face-culling">第 2 课：三角形栅格化和背面剔除 ·ssloy/tinyrenderer 维基</a></p>
@@ -497,7 +497,7 @@
 </span></span><span style="display:flex;"><span>        triangle(screen_coords[<span style="color:#ae81ff">0</span>], screen_coords[<span style="color:#ae81ff">1</span>], screen_coords[<span style="color:#ae81ff">2</span>], image, TGAColor(intensity <span style="color:#f92672">*</span> <span style="color:#ae81ff">255</span>, intensity <span style="color:#f92672">*</span> <span style="color:#ae81ff">255</span>, intensity <span style="color:#f92672">*</span> <span style="color:#ae81ff">255</span>, <span style="color:#ae81ff">255</span>));
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><img src="/images/TinyRenderer/linenormal.png" alt="linenormal"></p>
+</span></span></code></pre></div><p><img src="/images/Graphics/TinyRenderer/linenormal.png" alt="linenormal"></p>
 <p>但是出现了问题：模型有一些地方比较奇怪，嘴巴部分。为什么会出现这样的情况？因为模型有一些内部的面覆盖了外面的面，所以引出来了ZBuffer。</p>
 
         </div>

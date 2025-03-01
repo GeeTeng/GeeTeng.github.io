@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>
+    刷题笔记 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="练习算法题时整理的思路
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/c&#43;&#43;/algorithm/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="刷题笔记">
+  <meta property="og:description" content="练习算法题时整理的思路">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:tag" content="C&#43;&#43;">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="刷题笔记">
+  <meta name="twitter:description" content="练习算法题时整理的思路">
+
+
+  <meta itemprop="name" content="刷题笔记">
+  <meta itemprop="description" content="练习算法题时整理的思路">
+  <meta itemprop="wordCount" content="260">
+  <meta itemprop="keywords" content="C&#43;&#43;">
+<link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/algorithm/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        <div id="page-body" class="column is-7">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#剑指offer">剑指offer</a>
+          <ul>
+            <li><a href="#jz23链表中环的入口结点">JZ23链表中环的入口结点</a></li>
+            <li><a href="#jz24反转链表">JZ24反转链表</a></li>
+            <li><a href="#jz25合并两个排序的链表">JZ25合并两个排序的链表</a></li>
+            <li><a href="#jz26-树的子结构">JZ26 树的子结构</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>刷题笔记</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Jan 1, 0001
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        5 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/c&#43;&#43;">C&#43;&#43;</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/c&#43;&#43;">C</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h2 id="剑指offer">剑指offer</h2>
+<h3 id="jz23链表中环的入口结点">JZ23链表中环的入口结点</h3>
+<p><strong>方法一：哈希集合</strong></p>
+<p>环的入口结点就是第一个在哈希集合中已存在的结点。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">EntryNodeOfLoop</span>(ListNode<span style="color:#f92672">*</span> pHead) {
+</span></span><span style="display:flex;"><span>    unordered_set<span style="color:#f92672">&lt;</span>ListNode<span style="color:#f92672">*&gt;</span> st;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span>(pHead){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(st.count(pHead)) <span style="color:#66d9ef">return</span> pHead;
+</span></span><span style="display:flex;"><span>        st.insert(pHead);
+</span></span><span style="display:flex;"><span>        pHead <span style="color:#f92672">=</span> pHead<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pHead;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>方法二：快慢指针</strong></p>
+<ol>
+<li>判断是否有环：快指针每次向后移动2位，慢指针每次向后移动1位，如果有环，两个指针必定会相遇；</li>
+<li>如果有环，就将快指针从头重新开始，每次移动1位，慢指针也每次移动1位，最终相遇的点就是环的入口结点。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">EntryNodeOfLoop</span>(ListNode<span style="color:#f92672">*</span> pHead) {
+</span></span><span style="display:flex;"><span>    ListNode<span style="color:#f92672">*</span> fast <span style="color:#f92672">=</span> pHead, <span style="color:#f92672">*</span>slow <span style="color:#f92672">=</span> pHead;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span>(fast <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(fast<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>        fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(fast <span style="color:#f92672">==</span> slow){
+</span></span><span style="display:flex;"><span>            fast <span style="color:#f92672">=</span> pHead;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span>(fast <span style="color:#f92672">!=</span> slow){
+</span></span><span style="display:flex;"><span>                fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>                slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> fast;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="jz24反转链表">JZ24反转链表</h3>
+<p><strong>迭代法:</strong></p>
+<p>声明2个指针cur和pre，分别指向当前结点和前一个结点，同时用tmp来临时存储cur的后一个结点，以防cur在将next指针指向pre的时候断开链表。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">ReverseList</span>(ListNode<span style="color:#f92672">*</span> head) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(head <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>    ListNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>    ListNode<span style="color:#f92672">*</span> pre <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span>(cur <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>){
+</span></span><span style="display:flex;"><span>        ListNode<span style="color:#f92672">*</span> tmp <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> pre; <span style="color:#75715e">// 指向前一个
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        pre <span style="color:#f92672">=</span> cur;
+</span></span><span style="display:flex;"><span>        cur <span style="color:#f92672">=</span> tmp;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pre;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="jz25合并两个排序的链表">JZ25合并两个排序的链表</h3>
+<p>新建一个头节点，如果p1值更小，则连p1；如果p2小则连p2，不断更新下一位置。</p>
+<p>如果其中一个遍历完，另外一个链表还有剩余节点，则全部接到res之后。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">Merge</span>(ListNode<span style="color:#f92672">*</span> p1, ListNode<span style="color:#f92672">*</span> p2) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(p1 <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> p2; <span style="color:#75715e">// 一个空了返回另一个
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(p2 <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> p1;
+</span></span><span style="display:flex;"><span>    ListNode<span style="color:#f92672">*</span> res <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    ListNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> res;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span>(p1 <span style="color:#f92672">&amp;&amp;</span> p2){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(p1<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&lt;</span> p2<span style="color:#f92672">-&gt;</span>val){
+</span></span><span style="display:flex;"><span>            cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> p1;
+</span></span><span style="display:flex;"><span>            p1 <span style="color:#f92672">=</span> p1<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span>{
+</span></span><span style="display:flex;"><span>            cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> p2;
+</span></span><span style="display:flex;"><span>            p2 <span style="color:#f92672">=</span> p2<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(p1) cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> p1;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> p2;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="jz26-树的子结构">JZ26 树的子结构</h3>
+<p>首先要判断pRoot1和pRoot2树是否为空，如果为空则返回false。在它俩都不为空的前提条件下去判断pRoot2是否为pRoot1的子树，首先去找pRoot1是否某个节点和pRoot2相等，如果存在的的话，就调用recursion函数，递归遍历判断是否完全匹配。</p>
+<p>如果不完全匹配的话，就向下继续寻找，递归调用HasSubtree的左子树和右子树。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> HasSubtree(TreeNode<span style="color:#f92672">*</span> pRoot1, TreeNode<span style="color:#f92672">*</span> pRoot2) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">bool</span> result <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(pRoot1 <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">&amp;&amp;</span> pRoot2 <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>){
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span>(pRoot1<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">==</span> pRoot2<span style="color:#f92672">-&gt;</span>val)
+</span></span><span style="display:flex;"><span>				result <span style="color:#f92672">=</span> recursion(pRoot1, pRoot2);
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 如果匹配失败就向下继续寻找
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>result)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				result <span style="color:#f92672">=</span> HasSubtree(pRoot1<span style="color:#f92672">-&gt;</span>left, pRoot2) <span style="color:#f92672">||</span>
+</span></span><span style="display:flex;"><span>				HasSubtree(pRoot1<span style="color:#f92672">-&gt;</span>right, pRoot2);
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> result;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 当匹配到pRoo1的某个结点值与pRoot2根结点相等时，进行递归 判断是否完全匹配
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">recursion</span>(TreeNode<span style="color:#f92672">*</span> pRoot1, TreeNode<span style="color:#f92672">*</span> pRoot2){
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(pRoot2 <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(pRoot1 <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(pRoot1<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">!=</span> pRoot2<span style="color:#f92672">-&gt;</span>val) <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> recursion(pRoot1<span style="color:#f92672">-&gt;</span>left, pRoot2<span style="color:#f92672">-&gt;</span>left) <span style="color:#f92672">&amp;&amp;</span> recursion(pRoot1<span style="color:#f92672">-&gt;</span>right, pRoot2<span style="color:#f92672">-&gt;</span>right);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div>
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2falgorithm%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=%e5%88%b7%e9%a2%98%e7%ac%94%e8%ae%b0&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2falgorithm%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2falgorithm%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2falgorithm%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2falgorithm%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2falgorithm%2f
+			&title=%e5%88%b7%e9%a2%98%e7%ac%94%e8%ae%b0&summary=%e5%89%91%e6%8c%87offer%20JZ23%e9%93%be%e8%a1%a8%e4%b8%ad%e7%8e%af%e7%9a%84%e5%85%a5%e5%8f%a3%e7%bb%93%e7%82%b9%20%e6%96%b9%e6%b3%95%e4%b8%80%ef%bc%9a%e5%93%88%e5%b8%8c%e9%9b%86%e5%90%88%0a%e7%8e%af%e7%9a%84%e5%85%a5%e5%8f%a3%e7%bb%93%e7%82%b9%e5%b0%b1%e6%98%af%e7%ac%ac%e4%b8%80%e4%b8%aa%e5%9c%a8%e5%93%88%e5%b8%8c%e9%9b%86%e5%90%88%e4%b8%ad%e5%b7%b2%e5%ad%98%e5%9c%a8%e7%9a%84%e7%bb%93%e7%82%b9%e3%80%82%0aListNode%2a%20EntryNodeOfLoop%28ListNode%2a%20pHead%29%20%7b%20unordered_set%26lt%3bListNode%2a%26gt%3b%20st%3b%20while%28pHead%29%7b%20if%28st.count%28pHead%29%29%20return%20pHead%3b%20st.insert%28pHead%29%3b%20pHead%20%3d%20pHead-%26gt%3bnext%3b%20%7d%20return%20pHead%3b%20%7d%20%e6%96%b9%e6%b3%95%e4%ba%8c%ef%bc%9a%e5%bf%ab%e6%85%a2%e6%8c%87%e9%92%88%0a%e5%88%a4%e6%96%ad%e6%98%af%e5%90%a6%e6%9c%89%e7%8e%af%ef%bc%9a%e5%bf%ab%e6%8c%87%e9%92%88%e6%af%8f%e6%ac%a1%e5%90%91%e5%90%8e%e7%a7%bb%e5%8a%a82%e4%bd%8d%ef%bc%8c%e6%85%a2%e6%8c%87%e9%92%88%e6%af%8f%e6%ac%a1%e5%90%91%e5%90%8e%e7%a7%bb%e5%8a%a81%e4%bd%8d%ef%bc%8c%e5%a6%82%e6%9e%9c%e6%9c%89%e7%8e%af%ef%bc%8c%e4%b8%a4%e4%b8%aa%e6%8c%87%e9%92%88%e5%bf%85%e5%ae%9a%e4%bc%9a%e7%9b%b8%e9%81%87%ef%bc%9b%20%e5%a6%82%e6%9e%9c%e6%9c%89%e7%8e%af%ef%bc%8c%e5%b0%b1%e5%b0%86%e5%bf%ab%e6%8c%87%e9%92%88%e4%bb%8e%e5%a4%b4%e9%87%8d%e6%96%b0%e5%bc%80%e5%a7%8b%ef%bc%8c%e6%af%8f%e6%ac%a1%e7%a7%bb%e5%8a%a81%e4%bd%8d%ef%bc%8c%e6%85%a2%e6%8c%87%e9%92%88%e4%b9%9f%e6%af%8f%e6%ac%a1%e7%a7%bb%e5%8a%a81%e4%bd%8d%ef%bc%8c%e6%9c%80%e7%bb%88%e7%9b%b8%e9%81%87%e7%9a%84%e7%82%b9%e5%b0%b1%e6%98%af%e7%8e%af%e7%9a%84%e5%85%a5%e5%8f%a3%e7%bb%93%e7%82%b9%e3%80%82%20ListNode%2a%20EntryNodeOfLoop%28ListNode%2a%20pHead%29%20%7b%20ListNode%2a%20fast%20%3d%20pHead%2c%20%2aslow%20%3d%20pHead%3b%20while%28fast%20%21%3d%20nullptr%29%7b%20if%28fast-%26gt%3bnext%20%3d%3d%20nullptr%29%20return%20nullptr%3b%20fast%20%3d%20fast-%26gt%3bnext-%26gt%3bnext%3b%20slow%20%3d%20slow-%26gt%3bnext%3b%20if%28fast%20%3d%3d%20slow%29%7b%20fast%20%3d%20pHead%3b%20while%28fast%20%21%3d%20slow%29%7b%20fast%20%3d%20fast-%26gt%3bnext%3b%20slow%20%3d%20slow-%26gt%3bnext%3b%20%7d%20return%20fast%3b%20%7d%20%7d%20return%20nullptr%3b%20%7d%20JZ24%e5%8f%8d%e8%bd%ac%e9%93%be%e8%a1%a8%20%e8%bf%ad%e4%bb%a3%e6%b3%95%3a&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=%e5%88%b7%e9%a2%98%e7%ac%94%e8%ae%b0&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2falgorithm%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+<script async src="https://cse.google.com/cse.js?cx=google-search-code"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+
+
+<footer class="footer has-background-dark">
+    <div class="content has-text-centered has-text-white">
+        <p>
+            © 2024 GeeTeng.My
+            <a class="has-text-light" href="https://github.com/GeeTeng" target="_blank">
+            GitHub</a>. 
+
+	    Email: 15143483@qq.com
+        </p>
+    </div>
+</footer>
+
+<div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

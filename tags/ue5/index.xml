@@ -10,37 +10,37 @@
     <atom:link href="https://geeteng.github.io/tags/ue5/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>UE5源码阅读</title>
-      <link>https://geeteng.github.io/posts/ueleaning/uesourcecode/</link>
+      <link>https://geeteng.github.io/posts/ue/uesourcecode/</link>
       <pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ueleaning/uesourcecode/</guid>
+      <guid>https://geeteng.github.io/posts/ue/uesourcecode/</guid>
       <description>启动文件 Launch.cpp&#xA;预初始化PreInit，此时会发生：&#xA;对于每个UCLASS类，引擎会创建一个类默认对象（CDO），为实例提供默认值，注册完成后 调用StartupModule进行模块初始化、对应的有ShutdownModule函数（卸载模块清理资源） 主循环中初始化阶段Init&#xA;读取引擎配置文件来确定使用哪个GameEngine类作为核心引擎 创建GEngine实例（全局对象），可以通过它访问渲染、输入、音频等 创建了引擎，它就会被初始化，完成后引擎循环会触发一个全局委托以指示引擎现已初始化。 加载配置为延迟加载的模块/项目 加载地图（加载之前已经有了UGameEngine、GameInstance、GameViewportClient、LocalPlayer） ​&#xA;1.其中在GameEngine.cpp中&#xA;​&#x9;引擎初始化阶段，主要做了些什么？&#xA;​&#x9;1.1 创建GameInstance&#xA;// Create game instance. For GameEngine, this should be the only GameInstance that ever gets created. { FSoftClassPath GameInstanceClassName = GetDefault&amp;lt;UGameMapsSettings&amp;gt;()-&amp;gt;GameInstanceClass; UClass* GameInstanceClass = (GameInstanceClassName.IsValid() ? LoadObject&amp;lt;UClass&amp;gt;(NULL, *GameInstanceClassName.ToString()) : UGameInstance::StaticClass()); GameInstance = NewObject&amp;lt;UGameInstance&amp;gt;(this, GameInstanceClass); GameInstance-&amp;gt;InitializeStandalone(); } ​&#x9;1.2 初始化视口GameViewportClient&#xA;ViewportClient = NewObject&amp;lt;UGameViewportClient&amp;gt;(this, GameViewportClientClass); ViewportClient-&amp;gt;Init(*GameInstance-&amp;gt;GetWorldContext(), GameInstance); GameViewport = ViewportClient; GameInstance-&amp;gt;GetWorldContext()-&amp;gt;GameViewport = ViewportClient; ​&#x9;1.</description>
     </item>
     <item>
       <title>Animation</title>
-      <link>https://geeteng.github.io/posts/ueleaning/4_animation/</link>
+      <link>https://geeteng.github.io/posts/ue/4_animation/</link>
       <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ueleaning/4_animation/</guid>
+      <guid>https://geeteng.github.io/posts/ue/4_animation/</guid>
       <description>序列帧动画 无需计算，直接显示图片逻辑简单。缺点：占用空间大，不适合复杂动画。&#xA;模型动画 顶点动画&#xA;直接存储每个顶点的动画信息 。缺点：数据量大，迭代缓慢。&#xA;例子：水流、捏脸Morph Target Animation&#xA;骨骼动画（Skinned Animation） 通过改变骨骼的朝向和位置来生成动画 蒙皮：将mesh顶点附着到骨骼上（不同顶点权重不一样每个顶点可以被多个骨骼控制）&#xA;每个骨骼有一个变换矩阵，最终网格顶点的位置是多个骨骼变换矩阵的加权和。&#xA;蒙皮矩阵的计算（Skinning Matrix）: $$&#xD;M_{skin} =M_{bone}×M_{inverse}&#xD;$$ M_inverse是你绑定矩阵，用于骨骼从骨骼空间转换到模型空间的变换。&#xA;Quaternion NLerp用于物体旋转的平滑过渡。&#xA;NLerp和SLerp（球面线性插值）&#xA;NLerp 比 Slerp 更简单，计算开销较小，因为它只进行线性插值，不涉及球面插值的复杂计算。&#xA;当旋转角度较大时，使用Slerp。&#xA;基于物理的动画（Physics-based Animation）&#xA;布娃娃系统（Ragdoll）&#xA;布料和流体模拟（Cloth and Fluid simulation）&#xA;反向动力学（Inverse Kinematics(IK)）&#xA;（关节）Joint 两个Joint定义一个骨骼&#xA;Root Joint在人的双腿之间&#xA;Pelvis Joint（骨盆关节） 蹲起&#xA;Joint Pose有9个DOF（自由度） 放缩、平移、旋转&#xA;万向节锁（Gimbal Lock） 在三维空间中使用欧拉角表示旋转时，当旋转顺序导致某两个旋转轴对齐时，会丧失一个自由度，导致旋转不再是完全独立的，从而限制了旋转的自由度。这个现象被称为 万向节锁。&#xA;如：大疆无人机、pocket3的镜头防抖动，就是使用陀螺仪和万向节锁来实现的。&#xA;引出四元数解决万向节锁&#xA;骨骼动画资产类型 Skeleton ​&#x9;骨架资源，存储骨骼的层级、动画数据关联。&#xA;​&#x9;多个模型可以共享同一个骨架。&#xA;SkeletalMesh ​&#x9;骨骼网格体，用于渲染。&#xA;​&#x9;包含蒙皮信息，顶点如何受骨骼影响。&#xA;PhysicsAsset ​&#x9;定义骨骼与物理系统的交互。&#xA;​&#x9;用于 ragdoll、碰撞检测等。</description>
     </item>
     <item>
       <title>UMG</title>
-      <link>https://geeteng.github.io/posts/ueleaning/3_umg/</link>
+      <link>https://geeteng.github.io/posts/ue/3_umg/</link>
       <pubDate>Fri, 13 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ueleaning/3_umg/</guid>
+      <guid>https://geeteng.github.io/posts/ue/3_umg/</guid>
       <description>可直接跳转到文末查看最终效果图&#xA;创建主页面 新建HUD类-MainUIHUD和GameMode-MainMenuGameMode，并新建BP_UIGameMode蓝图类。&#xA;// 将该HUD绑定到该GameMode上 AMainMenuGameMode::AMainMenuGameMode() { HUDClass = AMainUIHUD::StaticClass(); } 在MainUIHUD中加载主界面，新建UserWidget类MainUIHUD和继承其的蓝图（往后每一个界面都是这样的创建方式）&#xA;class UMainUserWidget; protected: UPROPERTY() UMainUserWidget* MainUserWidget; #include &amp;#34;MenuLevel/MainUserWidget.h&amp;#34; void AMainUIHUD::BeginPlay() { Super::BeginPlay(); // 显示UI 加载蓝图类 TSubclassOf&amp;lt;UMainUserWidget&amp;gt; WidgetClass = LoadClass&amp;lt;UMainUserWidget&amp;gt;(nullptr,TEXT(&amp;#34;/Script/UMGEditor.WidgetBlueprint&amp;#39;/Game/FPSGame/UI/UMG/UMG_MainUI.UMG_MainUI_C&amp;#39;&amp;#34;)); if (WidgetClass) { // CreatWidget() MainUserWidget = CreateWidget&amp;lt;UMainUserWidget&amp;gt;(GetOwningPlayerController(), WidgetClass); if (MainUserWidget) { MainUserWidget-&amp;gt;AddToViewport(); } } // 显示鼠标 GetOwningPlayerController()-&amp;gt;bShowMouseCursor = true; } 创建主页面（图片文字为后加上的）&#xA;MainUserWidget&#xA;protected: virtual void NativeOnInitialized() override; virtual void NativeConstruct() override; UPROPERTY(meta=(BindWidgetAnim), Transient) UWidgetAnimation* MenuUIAni; void UMainUserWidget::NativeOnInitialized() { Super::NativeOnInitialized(); } void UMainUserWidget::NativeConstruct() { Super::NativeConstruct(); // 制作了一个简单的动画 - 进入游戏按钮的透明度改变，并且按钮点击有音效 PlayAnimation(MenuUIAni); } 按钮的背景图是自己制作的 - 新建一个Material，提取UV坐标的R，[0, 1] * [1, 0] = &amp;gt; 中间最大值为0.</description>
     </item>
     <item>
       <title>GameMode游戏模式</title>
-      <link>https://geeteng.github.io/posts/ueleaning/2_gamemode/</link>
+      <link>https://geeteng.github.io/posts/ue/2_gamemode/</link>
       <pubDate>Sat, 23 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ueleaning/2_gamemode/</guid>
+      <guid>https://geeteng.github.io/posts/ue/2_gamemode/</guid>
       <description>平行世界？World UE中有三个世界&#xA;游戏世界 编辑器世界 预览世界 关卡蓝图-定义关卡规则&#xA;UGameInstance 存在于游戏的整个生命周期中 不会随着地图切换 销毁 适合业务全局管理操作，Uengine 管理 GameInstance&#xA;游戏中最重要的实体AActor AActor 标志所有权的Owner指针，标志本地权限的Role枚举，作为网格同步的基础单位，根组件提供世界变化信息&#xA;Actor不只是3D中的表示，一些不可见对象也可以是Actor，如AInfo（派生类Aworldsetting，AGameMode，AgameState&amp;hellip;）&#xA;Actor在UE中就像是世界里的元素&#xA;Component 是 Actor 的组成部分，用于定义 Actor 的特性和行为&#xA;RootComponent是Actor的核心组件，决定了Actor在场景中的位置、旋转和缩放 SceneComponent 是一个基础组件，主要用于定义场景中对象的位置、旋转和缩放。它本身是一个抽象组件，不会直接渲染或显示。 Actor生命周期详解&#xA;生命周期1&#xA;actor分为&#xA;静态的actor - 在关卡编辑器里直接放置的Actor 动态创建的actor（spawnActor） - 通过代码或蓝图在运行时动态生成的 Actor 生命周期2 重要的生命周期函数&#xA;BeginPlay - 在Actor激活时调用 初始化&#xA;Tick - 每帧调用一次 处理逻辑&#xA;EndPlay - 在Actor即将销毁时调用 清理资源&#xA;生命周期3 GC完成收尾 注意有效性的判断&#xA;if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;amp;&amp;amp; !MyActor-&amp;gt;IsPendingKill()) { // Actor 没有被标记为销毁 } isPendingKill是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。</description>
     </item>
     <item>
       <title>UE入门</title>
-      <link>https://geeteng.github.io/posts/ueleaning/1_ue%E5%85%A5%E9%97%A8/</link>
+      <link>https://geeteng.github.io/posts/ue/1_uedownload/</link>
       <pubDate>Wed, 13 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ueleaning/1_ue%E5%85%A5%E9%97%A8/</guid>
+      <guid>https://geeteng.github.io/posts/ue/1_uedownload/</guid>
       <description>安装UE5.4.4源码 1 在GitHub上下载UE5.4.4源码 在这之前需要关联账号并验证至虚幻引擎&#xA;EpicGames/UnrealEngine at 5.4.4-release&#xA;我直接下载文件压缩包，没有使用git拉取，原因是网络不稳定&#xA;2 生成sln文件 解压文件，并将文件夹改名为UE，以防后续因为文件名太长而出错&#xA;启动Setup.bat文件 注意：网络一定要通畅并且不能自行关闭 安静等待&amp;hellip;&#xA;之后运行GenerateProjectFiles.bat文件 会生成一个UE5.sln文件&#xA;3 配置VS 一定要增加UnrealEngine安装程序 建议VisualStudio2022 17.8版本&#xA;因为之前试过17.12版本发现一些NuGet包无法还原 不知道什么原因&#xA;打开UE5.sln 在右侧会提示安装插件 点击后可以安装额外的插件 配置如下：&#xA;4 生成UE5 将UE5设为启动项 点击生成UE5 不要点生成解决方案&#xA;为了使编译速度快一些 我试过使用Incredibuild 速度是很快 但是会发现有一些文件属于嵌套关系 并行编译时会出错 于是乎换用其他方式&#xA;&amp;ldquo;C:\Users\用户名\AppData\Roaming\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml&amp;quot;修改BuildConfiguration.xml文件&#xA;// 指定构建时可以同时运行8个编译任务 &amp;lt;MaxParallelActions&amp;gt;8&amp;lt;/MaxParallelActions&amp;gt; // 设置最少需要使用 PCH 文件的源文件数量 &amp;lt;MinFilesUsingPrecompiledHeader&amp;gt;6&amp;lt;/MinFilesUsingPrecompiledHeader&amp;gt; 这样就将编译时间从五六个小时 缩短到了一个小时左右&#xA;切记：&#xA;不要参照网上exclude一些VS2013等文件 会导致之后因为奇怪的原因无法运行 白白浪费时间&#xA;成功生成UE5后不要再点任何重新生成解决方案/项目 否则会清理掉几个小时编译的文件&#xA;编译完成后会生成这样的文件结构 exe文件位于\Engine\Binaries\Win64中 双击即可运行&#xA;5 新建C++项目 创建一个第一人称模板项目 选择C++&#xA;点击创建之后会跳出vs界面&#xA;点击执行 会加载出UE5界面 第一次加载时间会很长 之后时间会缩短一些&#xA;将General - SourceCode设置为VisualStudio2022编辑器</description>
     </item>
   </channel>

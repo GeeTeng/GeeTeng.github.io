@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <title>
+    Animation | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="动画系统 作业待完成
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/ue/4_animation/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="Animation">
+  <meta property="og:description" content="动画系统 作业待完成">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-12-23T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-12-23T00:00:00+00:00">
+    <meta property="article:tag" content="UE5">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Animation">
+  <meta name="twitter:description" content="动画系统 作业待完成">
+
+
+  <meta itemprop="name" content="Animation">
+  <meta itemprop="description" content="动画系统 作业待完成">
+  <meta itemprop="datePublished" content="2024-12-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-12-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="142">
+  <meta itemprop="keywords" content="UE5">
+<link rel="canonical" href="https://geeteng.github.io/posts/ue/4_animation/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        <div id="page-body" class="column is-7">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#序列帧动画">序列帧动画</a>
+          <ul>
+            <li><a href="#模型动画">模型动画</a></li>
+          </ul>
+        </li>
+        <li><a href="#关节joint">（关节）Joint</a></li>
+        <li><a href="#万向节锁gimbal-lock">万向节锁（Gimbal Lock）</a></li>
+        <li><a href="#骨骼动画资产类型">骨骼动画资产类型</a></li>
+        <li><a href="#动画图表">动画图表</a></li>
+        <li><a href="#动画逻辑中的空间">动画逻辑中的空间</a>
+          <ul>
+            <li><a href="#mesh-space-vs-local-space">Mesh Space vs Local Space</a></li>
+          </ul>
+        </li>
+        <li><a href="#动画高级控制">动画高级控制</a>
+          <ul>
+            <li><a href="#blend-space">Blend Space</a></li>
+            <li><a href="#montage">Montage</a></li>
+          </ul>
+        </li>
+        <li><a href="#反向动力学ik">反向动力学（IK）</a>
+          <ul>
+            <li>
+              <ul>
+                <li>
+                  <ul>
+                    <li><a href="#ik-节点类型"><strong>IK 节点类型</strong></a></li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+            <li><a href="#two-bone-ik">Two Bone IK：</a></li>
+            <li><a href="#fabrikforward-and-backward-reaching-inverse-kinematics">FABRIK（Forward And Backward Reaching Inverse Kinematics）：</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>Animation</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Dec 23, 2024
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        7 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/ue5">UE5</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/ue5">Ue5</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h2 id="序列帧动画">序列帧动画</h2>
+<p>无需计算，直接显示图片逻辑简单。<strong>缺点</strong>：占用空间大，不适合复杂动画。</p>
+<h3 id="模型动画">模型动画</h3>
+<ul>
+<li>
+<p><strong>顶点动画</strong></p>
+<p>直接存储每个顶点的动画信息 。<strong>缺点</strong>：数据量大，迭代缓慢。</p>
+<p>例子：水流、捏脸Morph Target Animation</p>
+</li>
+<li>
+<p><strong>骨骼动画（Skinned Animation）</strong>
+通过改变骨骼的朝向和位置来生成动画
+<strong>蒙皮</strong>：将mesh顶点附着到骨骼上（不同顶点权重不一样每个顶点可以被多个骨骼控制）</p>
+<p>每个骨骼有一个变换矩阵，最终网格顶点的位置是多个骨骼变换矩阵的加权和。</p>
+<p><strong>蒙皮矩阵的计算（Skinning Matrix）:</strong>
+</p>
+$$
+  M_{skin} =M_{bone}×M_{inverse}
+  $$
+<p>
+M_inverse是你绑定矩阵，用于骨骼从骨骼空间转换到模型空间的变换。</p>
+<p><strong>Quaternion NLerp</strong>用于物体旋转的平滑过渡。</p>
+<p>NLerp和SLerp（球面线性插值）</p>
+<p><strong>NLerp</strong> 比 <strong>Slerp</strong> 更简单，计算开销较小，因为它只进行线性插值，不涉及球面插值的复杂计算。</p>
+<p>当旋转角度较大时，使用Slerp。</p>
+</li>
+<li>
+<p><strong>基于物理的动画（Physics-based Animation）</strong></p>
+<ul>
+<li>
+<p>布娃娃系统（Ragdoll）</p>
+</li>
+<li>
+<p>布料和流体模拟（Cloth and Fluid simulation）</p>
+</li>
+<li>
+<p>反向动力学（Inverse Kinematics(IK)）</p>
+</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h2 id="关节joint">（关节）Joint</h2>
+<p><img src="/images/UE/Animation/jointandbone.png" alt="jointandbone"></p>
+<p>两个Joint定义一个骨骼</p>
+<p><strong>Root Joint</strong>在人的双腿之间</p>
+<p><strong>Pelvis Joint</strong>（骨盆关节） 蹲起</p>
+<p><img src="/images/UE/Animation/bindpose.png" alt="bindpose"></p>
+<p><strong>Joint Pose</strong>有9个DOF（自由度） 放缩、平移、旋转</p>
+<hr>
+<h2 id="万向节锁gimbal-lock">万向节锁（Gimbal Lock）</h2>
+<p>在三维空间中使用欧拉角表示旋转时，当旋转顺序导致某两个旋转轴对齐时，会丧失一个自由度，导致旋转不再是完全独立的，从而限制了旋转的自由度。这个现象被称为 <strong>万向节锁</strong>。</p>
+<p>如：大疆无人机、pocket3的镜头防抖动，就是使用陀螺仪和万向节锁来实现的。</p>
+<p>引出<strong>四元数</strong>解决万向节锁</p>
+<hr>
+<h2 id="骨骼动画资产类型">骨骼动画资产类型</h2>
+<ul>
+<li><strong>Skeleton</strong></li>
+</ul>
+<p>​	骨架资源，存储骨骼的层级、动画数据关联。</p>
+<p>​	多个模型可以共享同一个骨架。</p>
+<ul>
+<li><strong>SkeletalMesh</strong></li>
+</ul>
+<p>​	骨骼网格体，用于渲染。</p>
+<p>​	包含蒙皮信息，顶点如何受骨骼影响。</p>
+<ul>
+<li><strong>PhysicsAsset</strong></li>
+</ul>
+<p>​	定义骨骼与物理系统的交互。</p>
+<p>​	用于 ragdoll、碰撞检测等。</p>
+<hr>
+<h2 id="动画图表">动画图表</h2>
+<ul>
+<li><strong>EventGraph</strong></li>
+</ul>
+<p>​	动画蓝图中逻辑部分，处理输入事件、动画状态等</p>
+<ul>
+<li><strong>AnimGraph</strong></li>
+</ul>
+<p>​	动画蓝图中动画部分，定义动画的混合逻辑、运算节点。</p>
+<hr>
+<h2 id="动画逻辑中的空间">动画逻辑中的空间</h2>
+<h3 id="mesh-space-vs-local-space">Mesh Space vs Local Space</h3>
+<ul>
+<li>
+<p><strong>Mesh Space</strong></p>
+<p>相对于整个模型的空间。</p>
+<p>使用场景：射击，确保角色朝向不同方向时，枪口始终指向准星。</p>
+</li>
+<li>
+<p><strong>Local Space</strong></p>
+<p>相对于骨骼或父节点的局部空间。</p>
+<p>使用场景：装弹，动作只依赖局部骨骼的朝向，不受整体移动影响。</p>
+</li>
+</ul>
+<p><img src="/images/UE/Animation/spaces.png" alt="spaces"></p>
+<hr>
+<h2 id="动画高级控制">动画高级控制</h2>
+<ul>
+<li>
+<h3 id="blend-space">Blend Space</h3>
+</li>
+</ul>
+<p>​	定义不同动画之间的平滑混合（如跑步、行走、站立）。</p>
+<p>​	<strong>Aim Offset</strong>：通过 Blend Space 实现瞄准时的身体姿态调整。</p>
+<ul>
+<li>
+<h3 id="montage">Montage</h3>
+</li>
+</ul>
+<p>​	依赖具体的 <strong>Anim Sequence</strong>。</p>
+<p>​	用于处理复杂的、可中断的动作序列（如攻击、技能）。</p>
+<p>​	根骨动画：需要客户端和服务器同步播放。若服务器不播动画或时间差太多，客户端会被拉扯（如技能瞬移）。</p>
+<hr>
+<h2 id="反向动力学ik">反向动力学（IK）</h2>
+<p>动态调整骨骼的姿态，使角色的特定部分（如手、脚）精确触碰目标位置。</p>
+<h5 id="ik-节点类型"><strong>IK 节点类型</strong></h5>
+<ul>
+<li>
+<h3 id="two-bone-ik">Two Bone IK：</h3>
+</li>
+</ul>
+<p>​	控制具有两个骨骼的链条（如大腿、膝盖、小腿）。</p>
+<p>​	使用场景：脚精确接触地面，膝盖自然弯曲。</p>
+<ul>
+<li>
+<h3 id="fabrikforward-and-backward-reaching-inverse-kinematics">FABRIK（Forward And Backward Reaching Inverse Kinematics）：</h3>
+</li>
+</ul>
+<p>​	一种通用的 IK 算法，适合任意长的骨骼链。</p>
+<p>adobe mixamo</p>
+<p>课后作业</p>
+<p>实现敌人的基础移动动画蓝图 并尽可能优化表现</p>
+<p>实现敌人的死亡动画 并尽可能优化表现 （多方向死亡动画）</p>
+<p>实现近战击败敌人的功能和动画表现（选做）</p>
+
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2f4_animation%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=Animation&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2f4_animation%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2f4_animation%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2f4_animation%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2f4_animation%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2f4_animation%2f
+			&title=Animation&summary=%e5%ba%8f%e5%88%97%e5%b8%a7%e5%8a%a8%e7%94%bb%20%e6%97%a0%e9%9c%80%e8%ae%a1%e7%ae%97%ef%bc%8c%e7%9b%b4%e6%8e%a5%e6%98%be%e7%a4%ba%e5%9b%be%e7%89%87%e9%80%bb%e8%be%91%e7%ae%80%e5%8d%95%e3%80%82%e7%bc%ba%e7%82%b9%ef%bc%9a%e5%8d%a0%e7%94%a8%e7%a9%ba%e9%97%b4%e5%a4%a7%ef%bc%8c%e4%b8%8d%e9%80%82%e5%90%88%e5%a4%8d%e6%9d%82%e5%8a%a8%e7%94%bb%e3%80%82%0a%e6%a8%a1%e5%9e%8b%e5%8a%a8%e7%94%bb%20%e9%a1%b6%e7%82%b9%e5%8a%a8%e7%94%bb%0a%e7%9b%b4%e6%8e%a5%e5%ad%98%e5%82%a8%e6%af%8f%e4%b8%aa%e9%a1%b6%e7%82%b9%e7%9a%84%e5%8a%a8%e7%94%bb%e4%bf%a1%e6%81%af%20%e3%80%82%e7%bc%ba%e7%82%b9%ef%bc%9a%e6%95%b0%e6%8d%ae%e9%87%8f%e5%a4%a7%ef%bc%8c%e8%bf%ad%e4%bb%a3%e7%bc%93%e6%85%a2%e3%80%82%0a%e4%be%8b%e5%ad%90%ef%bc%9a%e6%b0%b4%e6%b5%81%e3%80%81%e6%8d%8f%e8%84%b8Morph%20Target%20Animation%0a%e9%aa%a8%e9%aa%bc%e5%8a%a8%e7%94%bb%ef%bc%88Skinned%20Animation%ef%bc%89%20%e9%80%9a%e8%bf%87%e6%94%b9%e5%8f%98%e9%aa%a8%e9%aa%bc%e7%9a%84%e6%9c%9d%e5%90%91%e5%92%8c%e4%bd%8d%e7%bd%ae%e6%9d%a5%e7%94%9f%e6%88%90%e5%8a%a8%e7%94%bb%20%e8%92%99%e7%9a%ae%ef%bc%9a%e5%b0%86mesh%e9%a1%b6%e7%82%b9%e9%99%84%e7%9d%80%e5%88%b0%e9%aa%a8%e9%aa%bc%e4%b8%8a%ef%bc%88%e4%b8%8d%e5%90%8c%e9%a1%b6%e7%82%b9%e6%9d%83%e9%87%8d%e4%b8%8d%e4%b8%80%e6%a0%b7%e6%af%8f%e4%b8%aa%e9%a1%b6%e7%82%b9%e5%8f%af%e4%bb%a5%e8%a2%ab%e5%a4%9a%e4%b8%aa%e9%aa%a8%e9%aa%bc%e6%8e%a7%e5%88%b6%ef%bc%89%0a%e6%af%8f%e4%b8%aa%e9%aa%a8%e9%aa%bc%e6%9c%89%e4%b8%80%e4%b8%aa%e5%8f%98%e6%8d%a2%e7%9f%a9%e9%98%b5%ef%bc%8c%e6%9c%80%e7%bb%88%e7%bd%91%e6%a0%bc%e9%a1%b6%e7%82%b9%e7%9a%84%e4%bd%8d%e7%bd%ae%e6%98%af%e5%a4%9a%e4%b8%aa%e9%aa%a8%e9%aa%bc%e5%8f%98%e6%8d%a2%e7%9f%a9%e9%98%b5%e7%9a%84%e5%8a%a0%e6%9d%83%e5%92%8c%e3%80%82%0a%e8%92%99%e7%9a%ae%e7%9f%a9%e9%98%b5%e7%9a%84%e8%ae%a1%e7%ae%97%ef%bc%88Skinning%20Matrix%ef%bc%89%3a%20%24%24%0dM_%7bskin%7d%20%3dM_%7bbone%7d%c3%97M_%7binverse%7d%0d%24%24%20M_inverse%e6%98%af%e4%bd%a0%e7%bb%91%e5%ae%9a%e7%9f%a9%e9%98%b5%ef%bc%8c%e7%94%a8%e4%ba%8e%e9%aa%a8%e9%aa%bc%e4%bb%8e%e9%aa%a8%e9%aa%bc%e7%a9%ba%e9%97%b4%e8%bd%ac%e6%8d%a2%e5%88%b0%e6%a8%a1%e5%9e%8b%e7%a9%ba%e9%97%b4%e7%9a%84%e5%8f%98%e6%8d%a2%e3%80%82%0aQuaternion%20NLerp%e7%94%a8%e4%ba%8e%e7%89%a9%e4%bd%93%e6%97%8b%e8%bd%ac%e7%9a%84%e5%b9%b3%e6%bb%91%e8%bf%87%e6%b8%a1%e3%80%82%0aNLerp%e5%92%8cSLerp%ef%bc%88%e7%90%83%e9%9d%a2%e7%ba%bf%e6%80%a7%e6%8f%92%e5%80%bc%ef%bc%89%0aNLerp%20%e6%af%94%20Slerp%20%e6%9b%b4%e7%ae%80%e5%8d%95%ef%bc%8c%e8%ae%a1%e7%ae%97%e5%bc%80%e9%94%80%e8%be%83%e5%b0%8f%ef%bc%8c%e5%9b%a0%e4%b8%ba%e5%ae%83%e5%8f%aa%e8%bf%9b%e8%a1%8c%e7%ba%bf%e6%80%a7%e6%8f%92%e5%80%bc%ef%bc%8c%e4%b8%8d%e6%b6%89%e5%8f%8a%e7%90%83%e9%9d%a2%e6%8f%92%e5%80%bc%e7%9a%84%e5%a4%8d%e6%9d%82%e8%ae%a1%e7%ae%97%e3%80%82%0a%e5%bd%93%e6%97%8b%e8%bd%ac%e8%a7%92%e5%ba%a6%e8%be%83%e5%a4%a7%e6%97%b6%ef%bc%8c%e4%bd%bf%e7%94%a8Slerp%e3%80%82%0a%e5%9f%ba%e4%ba%8e%e7%89%a9%e7%90%86%e7%9a%84%e5%8a%a8%e7%94%bb%ef%bc%88Physics-based%20Animation%ef%bc%89%0a%e5%b8%83%e5%a8%83%e5%a8%83%e7%b3%bb%e7%bb%9f%ef%bc%88Ragdoll%ef%bc%89%0a%e5%b8%83%e6%96%99%e5%92%8c%e6%b5%81%e4%bd%93%e6%a8%a1%e6%8b%9f%ef%bc%88Cloth%20and%20Fluid%20simulation%ef%bc%89%0a%e5%8f%8d%e5%90%91%e5%8a%a8%e5%8a%9b%e5%ad%a6%ef%bc%88Inverse%20Kinematics%28IK%29%ef%bc%89%0a%ef%bc%88%e5%85%b3%e8%8a%82%ef%bc%89Joint%20%e4%b8%a4%e4%b8%aaJoint%e5%ae%9a%e4%b9%89%e4%b8%80%e4%b8%aa%e9%aa%a8%e9%aa%bc%0aRoot%20Joint%e5%9c%a8%e4%ba%ba%e7%9a%84%e5%8f%8c%e8%85%bf%e4%b9%8b%e9%97%b4%0aPelvis%20Joint%ef%bc%88%e9%aa%a8%e7%9b%86%e5%85%b3%e8%8a%82%ef%bc%89%20%e8%b9%b2%e8%b5%b7%0aJoint%20Pose%e6%9c%899%e4%b8%aaDOF%ef%bc%88%e8%87%aa%e7%94%b1%e5%ba%a6%ef%bc%89%20%e6%94%be%e7%bc%a9%e3%80%81%e5%b9%b3%e7%a7%bb%e3%80%81%e6%97%8b%e8%bd%ac%0a%e4%b8%87%e5%90%91%e8%8a%82%e9%94%81%ef%bc%88Gimbal%20Lock%ef%bc%89%20%e5%9c%a8%e4%b8%89%e7%bb%b4%e7%a9%ba%e9%97%b4%e4%b8%ad%e4%bd%bf%e7%94%a8%e6%ac%a7%e6%8b%89%e8%a7%92%e8%a1%a8%e7%a4%ba%e6%97%8b%e8%bd%ac%e6%97%b6%ef%bc%8c%e5%bd%93%e6%97%8b%e8%bd%ac%e9%a1%ba%e5%ba%8f%e5%af%bc%e8%87%b4%e6%9f%90%e4%b8%a4%e4%b8%aa%e6%97%8b%e8%bd%ac%e8%bd%b4%e5%af%b9%e9%bd%90%e6%97%b6%ef%bc%8c%e4%bc%9a%e4%b8%a7%e5%a4%b1%e4%b8%80%e4%b8%aa%e8%87%aa%e7%94%b1%e5%ba%a6%ef%bc%8c%e5%af%bc%e8%87%b4%e6%97%8b%e8%bd%ac%e4%b8%8d%e5%86%8d%e6%98%af%e5%ae%8c%e5%85%a8%e7%8b%ac%e7%ab%8b%e7%9a%84%ef%bc%8c%e4%bb%8e%e8%80%8c%e9%99%90%e5%88%b6%e4%ba%86%e6%97%8b%e8%bd%ac%e7%9a%84%e8%87%aa%e7%94%b1%e5%ba%a6%e3%80%82%e8%bf%99%e4%b8%aa%e7%8e%b0%e8%b1%a1%e8%a2%ab%e7%a7%b0%e4%b8%ba%20%e4%b8%87%e5%90%91%e8%8a%82%e9%94%81%e3%80%82%0a%e5%a6%82%ef%bc%9a%e5%a4%a7%e7%96%86%e6%97%a0%e4%ba%ba%e6%9c%ba%e3%80%81pocket3%e7%9a%84%e9%95%9c%e5%a4%b4%e9%98%b2%e6%8a%96%e5%8a%a8%ef%bc%8c%e5%b0%b1%e6%98%af%e4%bd%bf%e7%94%a8%e9%99%80%e8%9e%ba%e4%bb%aa%e5%92%8c%e4%b8%87%e5%90%91%e8%8a%82%e9%94%81%e6%9d%a5%e5%ae%9e%e7%8e%b0%e7%9a%84%e3%80%82%0a%e5%bc%95%e5%87%ba%e5%9b%9b%e5%85%83%e6%95%b0%e8%a7%a3%e5%86%b3%e4%b8%87%e5%90%91%e8%8a%82%e9%94%81%0a%e9%aa%a8%e9%aa%bc%e5%8a%a8%e7%94%bb%e8%b5%84%e4%ba%a7%e7%b1%bb%e5%9e%8b%20Skeleton%20%e2%80%8b%09%e9%aa%a8%e6%9e%b6%e8%b5%84%e6%ba%90%ef%bc%8c%e5%ad%98%e5%82%a8%e9%aa%a8%e9%aa%bc%e7%9a%84%e5%b1%82%e7%ba%a7%e3%80%81%e5%8a%a8%e7%94%bb%e6%95%b0%e6%8d%ae%e5%85%b3%e8%81%94%e3%80%82%0a%e2%80%8b%09%e5%a4%9a%e4%b8%aa%e6%a8%a1%e5%9e%8b%e5%8f%af%e4%bb%a5%e5%85%b1%e4%ba%ab%e5%90%8c%e4%b8%80%e4%b8%aa%e9%aa%a8%e6%9e%b6%e3%80%82%0aSkeletalMesh%20%e2%80%8b%09%e9%aa%a8%e9%aa%bc%e7%bd%91%e6%a0%bc%e4%bd%93%ef%bc%8c%e7%94%a8%e4%ba%8e%e6%b8%b2%e6%9f%93%e3%80%82%0a%e2%80%8b%09%e5%8c%85%e5%90%ab%e8%92%99%e7%9a%ae%e4%bf%a1%e6%81%af%ef%bc%8c%e9%a1%b6%e7%82%b9%e5%a6%82%e4%bd%95%e5%8f%97%e9%aa%a8%e9%aa%bc%e5%bd%b1%e5%93%8d%e3%80%82%0aPhysicsAsset%20%e2%80%8b%09%e5%ae%9a%e4%b9%89%e9%aa%a8%e9%aa%bc%e4%b8%8e%e7%89%a9%e7%90%86%e7%b3%bb%e7%bb%9f%e7%9a%84%e4%ba%a4%e4%ba%92%e3%80%82%0a%e2%80%8b%09%e7%94%a8%e4%ba%8e%20ragdoll%e3%80%81%e7%a2%b0%e6%92%9e%e6%a3%80%e6%b5%8b%e7%ad%89%e3%80%82&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=Animation&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2f4_animation%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+<script async src="https://cse.google.com/cse.js?cx=google-search-code"></script>
+<gcse:searchresults-only></gcse:searchresults-only>
+
+
+<footer class="footer has-background-dark">
+    <div class="content has-text-centered has-text-white">
+        <p>
+            © 2024 GeeTeng.My
+            <a class="has-text-light" href="https://github.com/GeeTeng" target="_blank">
+            GitHub</a>. 
+
+	    Email: 15143483@qq.com
+        </p>
+    </div>
+</footer>
+
+<div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>
