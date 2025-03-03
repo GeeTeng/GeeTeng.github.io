@@ -207,20 +207,84 @@ BVH避免了求包围盒和物体的交集（因为就是按物体来划分的�
 
 辐射度量学是一个精准的给我们一系列物理量的方法，将光精准的定义出来。
 
-Radiant Energy定义：电磁辐射的能量
+**Radiant Energy定义**：电磁辐射的能量
 $$
 Q[J = Joule]
 $$
-Radiant flux(power) 辐射通量的定义：单位时间的能量，单位是瓦特 / 流明（lumen）
+**Radiant flux(power) 辐射通量**的定义：单位时间的能量，单位是瓦特 / 流明（lumen）
 $$
- \Phi\equiv\frac{dQ}{dt} [W = Watt] [lm = lumen]
+\Phi\equiv\frac{dQ}{dt} [W = Watt] [lm = lumen]
 $$
 flux的另外一个定义：光线在传播中辐射的各种各样的光子，假如有一个感光平面，单位时间内通过光子的数量就是它的flux。
 
 ![19](/images/Graphics/RayTracing/19.png)
 
-球的立体角是4Π，下图中，可以通过蓝色箭头指的两个参数来计算出立体角。
+### 立体角
 
-![20](/images/Graphics/RayTracing/RayTracing/20.png)
+立体角时一个给定物体从某一特定点所覆盖的视场大小的度量。也就是说测量观察者在看物体时物体有多大的方法。
 
-![21](/images/Graphics/RayTracing/RayTracing/21.png)
+其中A是球面上一块截取的面积，r是半径。立体角是球面的面积与半径平方的比值。
+$$
+Ω= \frac{A}{r^2}
+$$
+![20](/images/Graphics/RayTracing/20.png)
+
+
+
+### 辐照度Irradiance
+
+单位面积接收到的辐射通量：
+$$
+E(X) \equiv \frac{d\Phi(X)}{dA}
+$$
+假设一个点光源以总功率 Φ进行均匀的**球面**辐射。内球半径为1，外球半径为r。
+
+内球的辐照度是flux / 4pi，其中4pi是球面的表面积
+
+intensity并没有改变，是irradiance变小了，原因是在传播过程中照射到的面积变大了。
+
+![21](/images/Graphics/RayTracing/21.png)
+
+
+
+### 辐亮度Radiance
+
+辐亮度是单位立体角和单位投影面积上，由表面反射、发射或接受的能量，在特定方向上的能量。
+
+![22](/images/Graphics/RayTracing/22.png)
+
+
+
+如果想计算总入射辐照度，需要对所有方向的辐射亮度积分。
+
+辐射亮度L（p，w）代表某个方向上的光线强度，如下公式表示Irradiance是Radiance在所有方向上的积分。
+
+**辐亮度强调方向性，某个方向的亮度，不随距离变化。而辐照度描述的是某个表面收到的光。** 
+
+![23](/images/Graphics/RayTracing/23.png)
+
+
+
+### BRDF
+
+一个点在接收一束光照射之后，会将这束光反射到空间半球中的任何一个可能的方向（取决于物体的材质），**BRDF描述的就是向某一个方向反射出去的光的量与这束入射光总的量的比值（从入射方向入射到表面后，在出射方向的反射比率）**。
+
+![24](/images/Graphics/RayTracing/24.png)
+
+
+
+## Rendering Equation渲染方程
+
+渲染方程由表面自身的辐射和环境的入射光构成。
+
+H平方或者Ω都代表半球。
+
+![25](/images/Graphics/RayTracing/25.png)
+
+如下图公式中包含了：由其他物体反射或发出的光线、多个点光源、存在面光源。
+
+![26](/images/Graphics/RayTracing/26.png)
+
+通过一系列将方程简化，得到下列式子，**光线弹射一次叫直接光照、光线弹射两次叫间接光照、光线弹射超过两次就叫做全局光照**。
+
+![27](/images/Graphics/RayTracing/27.png)
