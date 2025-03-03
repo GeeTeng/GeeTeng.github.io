@@ -30,7 +30,7 @@
 
   <meta itemprop="name" content="刷题笔记">
   <meta itemprop="description" content="练习算法题时整理的思路">
-  <meta itemprop="wordCount" content="260">
+  <meta itemprop="wordCount" content="684">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/algorithm/" />
 
@@ -202,10 +202,15 @@
       <ul>
         <li><a href="#剑指offer">剑指offer</a>
           <ul>
-            <li><a href="#jz23链表中环的入口结点">JZ23链表中环的入口结点</a></li>
-            <li><a href="#jz24反转链表">JZ24反转链表</a></li>
-            <li><a href="#jz25合并两个排序的链表">JZ25合并两个排序的链表</a></li>
+            <li><a href="#jz23-链表中环的入口结点">JZ23 链表中环的入口结点</a></li>
+            <li><a href="#jz24-反转链表">JZ24 反转链表</a></li>
+            <li><a href="#jz25-合并两个排序的链表">JZ25 合并两个排序的链表</a></li>
             <li><a href="#jz26-树的子结构">JZ26 树的子结构</a></li>
+            <li><a href="#jz33-二叉搜索树的后序遍历序列">JZ33 二叉搜索树的后序遍历序列</a></li>
+            <li><a href="#jz35-复杂链表的复制">JZ35 复杂链表的复制</a></li>
+            <li><a href="#jz36-二叉搜索树与双向链表">JZ36 二叉搜索树与双向链表</a></li>
+            <li><a href="#jz38-字符串的排列">JZ38 字符串的排列</a></li>
+            <li><a href="#jz39-数组中出现次数超过一半的数字">JZ39 数组中出现次数超过一半的数字</a></li>
           </ul>
         </li>
       </ul>
@@ -230,7 +235,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        5 mins read
+                        10 mins read
                     </p>
                 </div>
             </div>
@@ -253,7 +258,7 @@
             
 
             <h2 id="剑指offer">剑指offer</h2>
-<h3 id="jz23链表中环的入口结点">JZ23链表中环的入口结点</h3>
+<h3 id="jz23-链表中环的入口结点">JZ23 链表中环的入口结点</h3>
 <p><strong>方法一：哈希集合</strong></p>
 <p>环的入口结点就是第一个在哈希集合中已存在的结点。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">EntryNodeOfLoop</span>(ListNode<span style="color:#f92672">*</span> pHead) {
@@ -287,7 +292,7 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="jz24反转链表">JZ24反转链表</h3>
+</span></span></code></pre></div><h3 id="jz24-反转链表">JZ24 反转链表</h3>
 <p><strong>迭代法:</strong></p>
 <p>声明2个指针cur和pre，分别指向当前结点和前一个结点，同时用tmp来临时存储cur的后一个结点，以防cur在将next指针指向pre的时候断开链表。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">ReverseList</span>(ListNode<span style="color:#f92672">*</span> head) {
@@ -302,7 +307,7 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pre;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="jz25合并两个排序的链表">JZ25合并两个排序的链表</h3>
+</span></span></code></pre></div><h3 id="jz25-合并两个排序的链表">JZ25 合并两个排序的链表</h3>
 <p>新建一个头节点，如果p1值更小，则连p1；如果p2小则连p2，不断更新下一位置。</p>
 <p>如果其中一个遍历完，另外一个链表还有剩余节点，则全部接到res之后。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">Merge</span>(ListNode<span style="color:#f92672">*</span> p1, ListNode<span style="color:#f92672">*</span> p2) {
@@ -353,6 +358,137 @@
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> recursion(pRoot1<span style="color:#f92672">-&gt;</span>left, pRoot2<span style="color:#f92672">-&gt;</span>left) <span style="color:#f92672">&amp;&amp;</span> recursion(pRoot1<span style="color:#f92672">-&gt;</span>right, pRoot2<span style="color:#f92672">-&gt;</span>right);
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="jz33-二叉搜索树的后序遍历序列">JZ33 二叉搜索树的后序遍历序列</h3>
+<p>写一个判断check函数，用来递归判断子树是否符合后序遍历序列，传递sequence的左右位置。</p>
+<p>空树的时候返回false；</p>
+<p>首先从后往前找右子树的结束位置（左右子树的分界线），然后再从前往后遍历判断左子树中是否有大于根节点的值，如果有说明不符合后序遍历；否则就继续递归它的左右子树。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;vector&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> VerifySquenceOfBST(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> sequence) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(sequence.size() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">check</span>(sequence, <span style="color:#ae81ff">0</span>, sequence.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">check</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> sequence, <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(l <span style="color:#f92672">&gt;=</span> r) <span style="color:#66d9ef">return</span> true; <span style="color:#75715e">// 如果只剩下1个结点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">int</span> root <span style="color:#f92672">=</span> sequence[r];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> r <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> sequence[j] <span style="color:#f92672">&gt;</span> root) j <span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> l; i <span style="color:#f92672">&lt;=</span> j; i <span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(sequence[i] <span style="color:#f92672">&gt;</span> root) <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> check(sequence, l, j) <span style="color:#f92672">&amp;&amp;</span> check(sequence, j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, r <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="jz35-复杂链表的复制">JZ35 复杂链表的复制</h3>
+<p>将原链表的结点对应的拷贝结点连在其后，链表从A - B - C变成A - A&rsquo; - B - B&rsquo; - C - C&rsquo;。</p>
+<p>然后再去连接random指针；</p>
+<p>最后将原链表和复制的链表拆分，各自指向各自的下一节点。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    RandomListNode<span style="color:#f92672">*</span> Clone(RandomListNode<span style="color:#f92672">*</span> pHead) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>pHead) <span style="color:#66d9ef">return</span> pHead;
+</span></span><span style="display:flex;"><span>        RandomListNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> pHead;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (cur) {
+</span></span><span style="display:flex;"><span>            RandomListNode<span style="color:#f92672">*</span> tmp <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> RandomListNode(cur<span style="color:#f92672">-&gt;</span>label);
+</span></span><span style="display:flex;"><span>            tmp<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> tmp;
+</span></span><span style="display:flex;"><span>            cur <span style="color:#f92672">=</span> tmp<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        RandomListNode <span style="color:#f92672">*</span>old <span style="color:#f92672">=</span> pHead, <span style="color:#f92672">*</span>clone <span style="color:#f92672">=</span> pHead<span style="color:#f92672">-&gt;</span>next, <span style="color:#f92672">*</span>res <span style="color:#f92672">=</span> pHead<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (old) {
+</span></span><span style="display:flex;"><span>            clone<span style="color:#f92672">-&gt;</span>random <span style="color:#f92672">=</span> old<span style="color:#f92672">-&gt;</span>random <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">:</span> old<span style="color:#f92672">-&gt;</span>random<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(old<span style="color:#f92672">-&gt;</span>next) old <span style="color:#f92672">=</span> old<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(clone<span style="color:#f92672">-&gt;</span>next) clone <span style="color:#f92672">=</span> clone<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        old <span style="color:#f92672">=</span> pHead, clone <span style="color:#f92672">=</span> pHead<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(old){
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(old<span style="color:#f92672">-&gt;</span>next) old<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> old<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(clone<span style="color:#f92672">-&gt;</span>next) clone<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> clone<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            old <span style="color:#f92672">=</span> old<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            clone <span style="color:#f92672">=</span> clone<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="jz36-二叉搜索树与双向链表">JZ36 二叉搜索树与双向链表</h3>
+<p>举例子将二叉搜索树 1 - 2 - 3 变成双向链表，实际上是二叉树的中序遍历。</p>
+<p>先找到最左的叶节点Convert(1)，然后递归调用返回</p>
+<p>Convert(2)时pre = 1， pRootOfTree = 2；</p>
+<p>Convert(3)时pre = 2，pRootOfTree = 2；最后回溯到Convert(2)。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	TreeNode<span style="color:#f92672">*</span> head <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	TreeNode<span style="color:#f92672">*</span> pre <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>    TreeNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">Convert</span>(TreeNode<span style="color:#f92672">*</span> pRootOfTree) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(pRootOfTree <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>		Convert(pRootOfTree<span style="color:#f92672">-&gt;</span>left);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (pre <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>			head <span style="color:#f92672">=</span> pRootOfTree;
+</span></span><span style="display:flex;"><span>			pre <span style="color:#f92672">=</span> pRootOfTree;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>			pre<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> pRootOfTree; <span style="color:#75715e">// 1-&gt;right = 2 | 2-&gt;right = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			pRootOfTree<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> pre; <span style="color:#75715e">// 2-&gt;left = 1 | 3-&gt;left = 2
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			pre <span style="color:#f92672">=</span> pRootOfTree; <span style="color:#75715e">// pre = 2 | pre = 3
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		}
+</span></span><span style="display:flex;"><span>		Convert(pRootOfTree<span style="color:#f92672">-&gt;</span>right);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> head;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="jz38-字符串的排列">JZ38 字符串的排列</h3>
+<p>dfs 回溯方法，在原字符串的基础上交换，然后再交换回来。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(string <span style="color:#f92672">&amp;</span>s, <span style="color:#66d9ef">int</span> index, vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> <span style="color:#f92672">&amp;</span>res) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(index <span style="color:#f92672">==</span> s.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>            res.push_back(s);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        unordered_set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> vis;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> index; i <span style="color:#f92672">&lt;</span> s.size(); i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>vis.count(s[i])){
+</span></span><span style="display:flex;"><span>                vis.insert(s[i]);
+</span></span><span style="display:flex;"><span>                swap(s[i], s[index]);
+</span></span><span style="display:flex;"><span>                dfs(s, index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, res);
+</span></span><span style="display:flex;"><span>                swap(s[i], s[index]);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> Permutation(string str) {
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> res;
+</span></span><span style="display:flex;"><span>        dfs(str, <span style="color:#ae81ff">0</span>, res);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><h3 id="jz39-数组中出现次数超过一半的数字">JZ39 数组中出现次数超过一半的数字</h3>
+<p><strong>摩尔投票法步骤</strong></p>
+<ol>
+<li><strong>候选者 candidate</strong>：初始化为数组的第一个元素</li>
+<li><strong>计数器 count</strong>：初始化为 1</li>
+<li>遍历数组：
+<ul>
+<li><strong>当前元素等于 candidate</strong>：计数 <code>+1</code></li>
+<li><strong>当前元素不等于 candidate</strong>：计数 <code>-1</code></li>
+<li><strong>当计数变为 0</strong>：更换候选者，并将 <code>count</code> 设为 1</li>
+</ul>
+</li>
+<li><strong>最终的 candidate 就是超过一半的元素</strong>（在题目保证存在的情况下）</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">MoreThanHalfNum_Solution</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> numbers) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> candidate <span style="color:#f92672">=</span> numbers[<span style="color:#ae81ff">0</span>], count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> numbers.size(); i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(numbers[i] <span style="color:#f92672">==</span> candidate) {
+</span></span><span style="display:flex;"><span>                count <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                count <span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(count <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>                    candidate <span style="color:#f92672">=</span> numbers[i];
+</span></span><span style="display:flex;"><span>                    count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> candidate;
+</span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div>
         </div>
     </div>
@@ -392,7 +528,7 @@
 	    </a>
 
 		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2falgorithm%2f
-			&title=%e5%88%b7%e9%a2%98%e7%ac%94%e8%ae%b0&summary=%e5%89%91%e6%8c%87offer%20JZ23%e9%93%be%e8%a1%a8%e4%b8%ad%e7%8e%af%e7%9a%84%e5%85%a5%e5%8f%a3%e7%bb%93%e7%82%b9%20%e6%96%b9%e6%b3%95%e4%b8%80%ef%bc%9a%e5%93%88%e5%b8%8c%e9%9b%86%e5%90%88%0a%e7%8e%af%e7%9a%84%e5%85%a5%e5%8f%a3%e7%bb%93%e7%82%b9%e5%b0%b1%e6%98%af%e7%ac%ac%e4%b8%80%e4%b8%aa%e5%9c%a8%e5%93%88%e5%b8%8c%e9%9b%86%e5%90%88%e4%b8%ad%e5%b7%b2%e5%ad%98%e5%9c%a8%e7%9a%84%e7%bb%93%e7%82%b9%e3%80%82%0aListNode%2a%20EntryNodeOfLoop%28ListNode%2a%20pHead%29%20%7b%20unordered_set%26lt%3bListNode%2a%26gt%3b%20st%3b%20while%28pHead%29%7b%20if%28st.count%28pHead%29%29%20return%20pHead%3b%20st.insert%28pHead%29%3b%20pHead%20%3d%20pHead-%26gt%3bnext%3b%20%7d%20return%20pHead%3b%20%7d%20%e6%96%b9%e6%b3%95%e4%ba%8c%ef%bc%9a%e5%bf%ab%e6%85%a2%e6%8c%87%e9%92%88%0a%e5%88%a4%e6%96%ad%e6%98%af%e5%90%a6%e6%9c%89%e7%8e%af%ef%bc%9a%e5%bf%ab%e6%8c%87%e9%92%88%e6%af%8f%e6%ac%a1%e5%90%91%e5%90%8e%e7%a7%bb%e5%8a%a82%e4%bd%8d%ef%bc%8c%e6%85%a2%e6%8c%87%e9%92%88%e6%af%8f%e6%ac%a1%e5%90%91%e5%90%8e%e7%a7%bb%e5%8a%a81%e4%bd%8d%ef%bc%8c%e5%a6%82%e6%9e%9c%e6%9c%89%e7%8e%af%ef%bc%8c%e4%b8%a4%e4%b8%aa%e6%8c%87%e9%92%88%e5%bf%85%e5%ae%9a%e4%bc%9a%e7%9b%b8%e9%81%87%ef%bc%9b%20%e5%a6%82%e6%9e%9c%e6%9c%89%e7%8e%af%ef%bc%8c%e5%b0%b1%e5%b0%86%e5%bf%ab%e6%8c%87%e9%92%88%e4%bb%8e%e5%a4%b4%e9%87%8d%e6%96%b0%e5%bc%80%e5%a7%8b%ef%bc%8c%e6%af%8f%e6%ac%a1%e7%a7%bb%e5%8a%a81%e4%bd%8d%ef%bc%8c%e6%85%a2%e6%8c%87%e9%92%88%e4%b9%9f%e6%af%8f%e6%ac%a1%e7%a7%bb%e5%8a%a81%e4%bd%8d%ef%bc%8c%e6%9c%80%e7%bb%88%e7%9b%b8%e9%81%87%e7%9a%84%e7%82%b9%e5%b0%b1%e6%98%af%e7%8e%af%e7%9a%84%e5%85%a5%e5%8f%a3%e7%bb%93%e7%82%b9%e3%80%82%20ListNode%2a%20EntryNodeOfLoop%28ListNode%2a%20pHead%29%20%7b%20ListNode%2a%20fast%20%3d%20pHead%2c%20%2aslow%20%3d%20pHead%3b%20while%28fast%20%21%3d%20nullptr%29%7b%20if%28fast-%26gt%3bnext%20%3d%3d%20nullptr%29%20return%20nullptr%3b%20fast%20%3d%20fast-%26gt%3bnext-%26gt%3bnext%3b%20slow%20%3d%20slow-%26gt%3bnext%3b%20if%28fast%20%3d%3d%20slow%29%7b%20fast%20%3d%20pHead%3b%20while%28fast%20%21%3d%20slow%29%7b%20fast%20%3d%20fast-%26gt%3bnext%3b%20slow%20%3d%20slow-%26gt%3bnext%3b%20%7d%20return%20fast%3b%20%7d%20%7d%20return%20nullptr%3b%20%7d%20JZ24%e5%8f%8d%e8%bd%ac%e9%93%be%e8%a1%a8%20%e8%bf%ad%e4%bb%a3%e6%b3%95%3a&source=rafed123.github.io"
+			&title=%e5%88%b7%e9%a2%98%e7%ac%94%e8%ae%b0&summary=%e5%89%91%e6%8c%87offer%20JZ23%20%e9%93%be%e8%a1%a8%e4%b8%ad%e7%8e%af%e7%9a%84%e5%85%a5%e5%8f%a3%e7%bb%93%e7%82%b9%20%e6%96%b9%e6%b3%95%e4%b8%80%ef%bc%9a%e5%93%88%e5%b8%8c%e9%9b%86%e5%90%88%0a%e7%8e%af%e7%9a%84%e5%85%a5%e5%8f%a3%e7%bb%93%e7%82%b9%e5%b0%b1%e6%98%af%e7%ac%ac%e4%b8%80%e4%b8%aa%e5%9c%a8%e5%93%88%e5%b8%8c%e9%9b%86%e5%90%88%e4%b8%ad%e5%b7%b2%e5%ad%98%e5%9c%a8%e7%9a%84%e7%bb%93%e7%82%b9%e3%80%82%0aListNode%2a%20EntryNodeOfLoop%28ListNode%2a%20pHead%29%20%7b%20unordered_set%26lt%3bListNode%2a%26gt%3b%20st%3b%20while%28pHead%29%7b%20if%28st.count%28pHead%29%29%20return%20pHead%3b%20st.insert%28pHead%29%3b%20pHead%20%3d%20pHead-%26gt%3bnext%3b%20%7d%20return%20pHead%3b%20%7d%20%e6%96%b9%e6%b3%95%e4%ba%8c%ef%bc%9a%e5%bf%ab%e6%85%a2%e6%8c%87%e9%92%88%0a%e5%88%a4%e6%96%ad%e6%98%af%e5%90%a6%e6%9c%89%e7%8e%af%ef%bc%9a%e5%bf%ab%e6%8c%87%e9%92%88%e6%af%8f%e6%ac%a1%e5%90%91%e5%90%8e%e7%a7%bb%e5%8a%a82%e4%bd%8d%ef%bc%8c%e6%85%a2%e6%8c%87%e9%92%88%e6%af%8f%e6%ac%a1%e5%90%91%e5%90%8e%e7%a7%bb%e5%8a%a81%e4%bd%8d%ef%bc%8c%e5%a6%82%e6%9e%9c%e6%9c%89%e7%8e%af%ef%bc%8c%e4%b8%a4%e4%b8%aa%e6%8c%87%e9%92%88%e5%bf%85%e5%ae%9a%e4%bc%9a%e7%9b%b8%e9%81%87%ef%bc%9b%20%e5%a6%82%e6%9e%9c%e6%9c%89%e7%8e%af%ef%bc%8c%e5%b0%b1%e5%b0%86%e5%bf%ab%e6%8c%87%e9%92%88%e4%bb%8e%e5%a4%b4%e9%87%8d%e6%96%b0%e5%bc%80%e5%a7%8b%ef%bc%8c%e6%af%8f%e6%ac%a1%e7%a7%bb%e5%8a%a81%e4%bd%8d%ef%bc%8c%e6%85%a2%e6%8c%87%e9%92%88%e4%b9%9f%e6%af%8f%e6%ac%a1%e7%a7%bb%e5%8a%a81%e4%bd%8d%ef%bc%8c%e6%9c%80%e7%bb%88%e7%9b%b8%e9%81%87%e7%9a%84%e7%82%b9%e5%b0%b1%e6%98%af%e7%8e%af%e7%9a%84%e5%85%a5%e5%8f%a3%e7%bb%93%e7%82%b9%e3%80%82%20ListNode%2a%20EntryNodeOfLoop%28ListNode%2a%20pHead%29%20%7b%20ListNode%2a%20fast%20%3d%20pHead%2c%20%2aslow%20%3d%20pHead%3b%20while%28fast%20%21%3d%20nullptr%29%7b%20if%28fast-%26gt%3bnext%20%3d%3d%20nullptr%29%20return%20nullptr%3b%20fast%20%3d%20fast-%26gt%3bnext-%26gt%3bnext%3b%20slow%20%3d%20slow-%26gt%3bnext%3b%20if%28fast%20%3d%3d%20slow%29%7b%20fast%20%3d%20pHead%3b%20while%28fast%20%21%3d%20slow%29%7b%20fast%20%3d%20fast-%26gt%3bnext%3b%20slow%20%3d%20slow-%26gt%3bnext%3b%20%7d%20return%20fast%3b%20%7d%20%7d%20return%20nullptr%3b%20%7d%20JZ24%20%e5%8f%8d%e8%bd%ac%e9%93%be%e8%a1%a8%20%e8%bf%ad%e4%bb%a3%e6%b3%95%3a&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>

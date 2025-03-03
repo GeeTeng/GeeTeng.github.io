@@ -265,7 +265,7 @@
             <div class="level-item">
                 <a href="/posts/c&#43;&#43;/algorithm/">
                     <p class="subtitle info">
-                        5 mins read
+                        10 mins read
                     </p>
                 </a>
             </div>
@@ -349,6 +349,128 @@
         </div>
         <div class="level-right">
             <a href="/posts/ue/5_ai/">Continue reading <i class="fa fa-angle-double-right"
+                    aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <hr>
+</div><div class="blog-brief">
+    <a href="/posts/graphics/6_-materials/">
+        <h3 class="title is-4">
+            
+        </h3>
+    </a>
+
+    <div class="level is-mobile details">
+        <div class="level-left">
+
+            
+            <div class="level-item">
+                <a href="/posts/graphics/6_-materials/">
+                    <p class="subtitle info date">Jan 1, 0001
+                    </p>
+                </a>
+            </div>
+            
+
+
+            <div class="level-item">
+                <a href="/posts/graphics/6_-materials/">
+                    <p class="subtitle info">
+                        1 min read
+                    </p>
+                </a>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            
+        </div>
+    </div>
+
+    <div>
+        
+
+        <div>
+            <a href="/posts/graphics/6_-materials/">
+                <p class="summary">
+                    Materials and Appearance 
+                    
+                </p>
+            </a>
+        </div>
+    </div>
+
+    <div class="level is-mobile continue-reading">
+        <div class="level-left">
+        </div>
+        <div class="level-right">
+            <a href="/posts/graphics/6_-materials/">Continue reading <i class="fa fa-angle-double-right"
+                    aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <hr>
+</div><div class="blog-brief">
+    <a href="/posts/c&#43;&#43;/linux/">
+        <h3 class="title is-4">
+            
+        </h3>
+    </a>
+
+    <div class="level is-mobile details">
+        <div class="level-left">
+
+            
+            <div class="level-item">
+                <a href="/posts/c&#43;&#43;/linux/">
+                    <p class="subtitle info date">Jan 1, 0001
+                    </p>
+                </a>
+            </div>
+            
+
+
+            <div class="level-item">
+                <a href="/posts/c&#43;&#43;/linux/">
+                    <p class="subtitle info">
+                        3 mins read
+                    </p>
+                </a>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            
+        </div>
+    </div>
+
+    <div>
+        
+
+        <div>
+            <a href="/posts/c&#43;&#43;/linux/">
+                <p class="summary">
+                    静态库 动态库 静态库：程序在编译时会把库文件的二进制编码链接到目标程序中。
+如果多个程序中用到了同一静态库中的函数，就会存在多份拷贝。
+生成静态库
+g&#43;&#43; -c -o libpublic.a public.cpp 编译 demo.cpp 并链接一个名为 public 的库
+g&#43;&#43; -o demo demo.cpp -L/home/test1/codes/tools -lpublic 动态库（共享库）：编译时不会把库文件的二进制代码链接到目标程序中，运行时候才会被载入。
+如果多个进程在用到同一动态库中的函数 / 类，那么在内存中只有一份，避免了空间浪费的问题。
+程序升级比较简单 不需要重新编译 只需要更新动态库。
+如果静态库和动态库同时存在，会优先使用动态库。
+生成动态库
+g&#43;&#43; -gPIC -shared -o libpublic.so public.cpp 编译并链接动态库
+g&#43;&#43; -o demo demo.cpp -L/home/test1/codes/tools -lpublic 发现执行会报错显示找不到这样的文件 原因是需要设置好环境变量
+使用make来生成库，可以避免写呢么多代码。
+# 指定编译的目标文件是 libpublic.a 和 libpublic.so all:libpublic.a \ libpublic.so # 编译 libpublic.a 需要依赖 public.h 和 public.cpp # 如果被依赖文件内容发生了变化，将重新编译 libpublic.a libpublic.a:public.h public.cpp g&#43;&#43; -c -o libpublic.a public.
+                    
+                </p>
+            </a>
+        </div>
+    </div>
+
+    <div class="level is-mobile continue-reading">
+        <div class="level-left">
+        </div>
+        <div class="level-right">
+            <a href="/posts/c&#43;&#43;/linux/">Continue reading <i class="fa fa-angle-double-right"
                     aria-hidden="true"></i></a>
         </div>
     </div>

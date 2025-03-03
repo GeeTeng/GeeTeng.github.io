@@ -34,7 +34,7 @@
   <meta itemprop="description" content="光线追踪 更新中">
   <meta itemprop="datePublished" content="2025-01-03T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-01-03T00:00:00+00:00">
-  <meta itemprop="wordCount" content="141">
+  <meta itemprop="wordCount" content="173">
   <meta itemprop="keywords" content="Computer-Graphics">
 <link rel="canonical" href="https://geeteng.github.io/posts/graphics/5_raytracing/" />
 
@@ -214,7 +214,15 @@
         <li><a href="#bounding-volumes包围盒结构">Bounding Volumes包围盒结构</a></li>
         <li><a href="#spatial-partitions空间划分">Spatial Partitions空间划分</a></li>
         <li><a href="#object-partitions物体划分">Object Partitions物体划分</a></li>
-        <li><a href="#辐射度量学">辐射度量学</a></li>
+        <li><a href="#辐射度量学">辐射度量学</a>
+          <ul>
+            <li><a href="#立体角">立体角</a></li>
+            <li><a href="#辐照度irradiance">辐照度Irradiance</a></li>
+            <li><a href="#辐亮度radiance">辐亮度Radiance</a></li>
+            <li><a href="#brdf">BRDF</a></li>
+          </ul>
+        </li>
+        <li><a href="#rendering-equation渲染方程">Rendering Equation渲染方程</a></li>
       </ul>
     </li>
   </ul>
@@ -237,7 +245,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        15 mins read
+                        18 mins read
                     </p>
                 </div>
             </div>
@@ -394,23 +402,58 @@ $$
 <p><img src="/images/Graphics/RayTracing/18.png" alt="18"></p>
 <h2 id="辐射度量学">辐射度量学</h2>
 <p>辐射度量学是一个精准的给我们一系列物理量的方法，将光精准的定义出来。</p>
-<p>Radiant Energy定义：电磁辐射的能量
+<p><strong>Radiant Energy定义</strong>：电磁辐射的能量
 </p>
 $$
 Q[J = Joule]
 $$
 <p>
-Radiant flux(power) 辐射通量的定义：单位时间的能量，单位是瓦特 / 流明（lumen）
+<strong>Radiant flux(power) 辐射通量</strong>的定义：单位时间的能量，单位是瓦特 / 流明（lumen）
 </p>
 $$
- \Phi\equiv\frac{dQ}{dt} [W = Watt] [lm = lumen]
+\Phi\equiv\frac{dQ}{dt} [W = Watt] [lm = lumen]
 $$
 <p>
 flux的另外一个定义：光线在传播中辐射的各种各样的光子，假如有一个感光平面，单位时间内通过光子的数量就是它的flux。</p>
 <p><img src="/images/Graphics/RayTracing/19.png" alt="19"></p>
-<p>球的立体角是4Π，下图中，可以通过蓝色箭头指的两个参数来计算出立体角。</p>
-<p><img src="/images/Graphics/RayTracing/RayTracing/20.png" alt="20"></p>
-<p><img src="/images/Graphics/RayTracing/RayTracing/21.png" alt="21"></p>
+<h3 id="立体角">立体角</h3>
+<p>立体角时一个给定物体从某一特定点所覆盖的视场大小的度量。也就是说测量观察者在看物体时物体有多大的方法。</p>
+<p>其中A是球面上一块截取的面积，r是半径。立体角是球面的面积与半径平方的比值。
+</p>
+$$
+Ω= \frac{A}{r^2}
+$$
+<p>
+<img src="/images/Graphics/RayTracing/20.png" alt="20"></p>
+<h3 id="辐照度irradiance">辐照度Irradiance</h3>
+<p>单位面积接收到的辐射通量：
+</p>
+$$
+E(X) \equiv \frac{d\Phi(X)}{dA}
+$$
+<p>
+假设一个点光源以总功率 Φ进行均匀的<strong>球面</strong>辐射。内球半径为1，外球半径为r。</p>
+<p>内球的辐照度是flux / 4pi，其中4pi是球面的表面积</p>
+<p>intensity并没有改变，是irradiance变小了，原因是在传播过程中照射到的面积变大了。</p>
+<p><img src="/images/Graphics/RayTracing/21.png" alt="21"></p>
+<h3 id="辐亮度radiance">辐亮度Radiance</h3>
+<p>辐亮度是单位立体角和单位投影面积上，由表面反射、发射或接受的能量，在特定方向上的能量。</p>
+<p><img src="/images/Graphics/RayTracing/22.png" alt="22"></p>
+<p>如果想计算总入射辐照度，需要对所有方向的辐射亮度积分。</p>
+<p>辐射亮度L（p，w）代表某个方向上的光线强度，如下公式表示Irradiance是Radiance在所有方向上的积分。</p>
+<p><strong>辐亮度强调方向性，某个方向的亮度，不随距离变化。而辐照度描述的是某个表面收到的光。</strong></p>
+<p><img src="/images/Graphics/RayTracing/23.png" alt="23"></p>
+<h3 id="brdf">BRDF</h3>
+<p>一个点在接收一束光照射之后，会将这束光反射到空间半球中的任何一个可能的方向（取决于物体的材质），<strong>BRDF描述的就是向某一个方向反射出去的光的量与这束入射光总的量的比值（从入射方向入射到表面后，在出射方向的反射比率）</strong>。</p>
+<p><img src="/images/Graphics/RayTracing/24.png" alt="24"></p>
+<h2 id="rendering-equation渲染方程">Rendering Equation渲染方程</h2>
+<p>渲染方程由表面自身的辐射和环境的入射光构成。</p>
+<p>H平方或者Ω都代表半球。</p>
+<p><img src="/images/Graphics/RayTracing/25.png" alt="25"></p>
+<p>如下图公式中包含了：由其他物体反射或发出的光线、多个点光源、存在面光源。</p>
+<p><img src="/images/Graphics/RayTracing/26.png" alt="26"></p>
+<p>通过一系列将方程简化，得到下列式子，<strong>光线弹射一次叫直接光照、光线弹射两次叫间接光照、光线弹射超过两次就叫做全局光照</strong>。</p>
+<p><img src="/images/Graphics/RayTracing/27.png" alt="27"></p>
 
         </div>
     </div>

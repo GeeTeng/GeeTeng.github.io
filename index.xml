@@ -157,6 +157,20 @@
     </item>
     <item>
       <title></title>
+      <link>https://geeteng.github.io/posts/c&#43;&#43;/linux/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/c&#43;&#43;/linux/</guid>
+      <description>静态库 动态库 静态库：程序在编译时会把库文件的二进制编码链接到目标程序中。&#xA;如果多个程序中用到了同一静态库中的函数，就会存在多份拷贝。&#xA;生成静态库&#xA;g++ -c -o libpublic.a public.cpp 编译 demo.cpp 并链接一个名为 public 的库&#xA;g++ -o demo demo.cpp -L/home/test1/codes/tools -lpublic 动态库（共享库）：编译时不会把库文件的二进制代码链接到目标程序中，运行时候才会被载入。&#xA;如果多个进程在用到同一动态库中的函数 / 类，那么在内存中只有一份，避免了空间浪费的问题。&#xA;程序升级比较简单 不需要重新编译 只需要更新动态库。&#xA;如果静态库和动态库同时存在，会优先使用动态库。&#xA;生成动态库&#xA;g++ -gPIC -shared -o libpublic.so public.cpp 编译并链接动态库&#xA;g++ -o demo demo.cpp -L/home/test1/codes/tools -lpublic 发现执行会报错显示找不到这样的文件 原因是需要设置好环境变量&#xA;使用make来生成库，可以避免写呢么多代码。&#xA;# 指定编译的目标文件是 libpublic.a 和 libpublic.so all:libpublic.a \ libpublic.so # 编译 libpublic.a 需要依赖 public.h 和 public.cpp # 如果被依赖文件内容发生了变化，将重新编译 libpublic.a libpublic.a:public.h public.cpp g++ -c -o libpublic.a public.</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://geeteng.github.io/posts/graphics/6_-materials/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/graphics/6_-materials/</guid>
+      <description>Materials and Appearance </description>
+    </item>
+    <item>
+      <title></title>
       <link>https://geeteng.github.io/posts/ue/5_ai/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/ue/5_ai/</guid>
@@ -167,7 +181,7 @@
       <link>https://geeteng.github.io/posts/c&#43;&#43;/algorithm/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/c&#43;&#43;/algorithm/</guid>
-      <description>剑指offer JZ23链表中环的入口结点 方法一：哈希集合&#xA;环的入口结点就是第一个在哈希集合中已存在的结点。&#xA;ListNode* EntryNodeOfLoop(ListNode* pHead) { unordered_set&amp;lt;ListNode*&amp;gt; st; while(pHead){ if(st.count(pHead)) return pHead; st.insert(pHead); pHead = pHead-&amp;gt;next; } return pHead; } 方法二：快慢指针&#xA;判断是否有环：快指针每次向后移动2位，慢指针每次向后移动1位，如果有环，两个指针必定会相遇； 如果有环，就将快指针从头重新开始，每次移动1位，慢指针也每次移动1位，最终相遇的点就是环的入口结点。 ListNode* EntryNodeOfLoop(ListNode* pHead) { ListNode* fast = pHead, *slow = pHead; while(fast != nullptr){ if(fast-&amp;gt;next == nullptr) return nullptr; fast = fast-&amp;gt;next-&amp;gt;next; slow = slow-&amp;gt;next; if(fast == slow){ fast = pHead; while(fast != slow){ fast = fast-&amp;gt;next; slow = slow-&amp;gt;next; } return fast; } } return nullptr; } JZ24反转链表 迭代法:</description>
+      <description>剑指offer JZ23 链表中环的入口结点 方法一：哈希集合&#xA;环的入口结点就是第一个在哈希集合中已存在的结点。&#xA;ListNode* EntryNodeOfLoop(ListNode* pHead) { unordered_set&amp;lt;ListNode*&amp;gt; st; while(pHead){ if(st.count(pHead)) return pHead; st.insert(pHead); pHead = pHead-&amp;gt;next; } return pHead; } 方法二：快慢指针&#xA;判断是否有环：快指针每次向后移动2位，慢指针每次向后移动1位，如果有环，两个指针必定会相遇； 如果有环，就将快指针从头重新开始，每次移动1位，慢指针也每次移动1位，最终相遇的点就是环的入口结点。 ListNode* EntryNodeOfLoop(ListNode* pHead) { ListNode* fast = pHead, *slow = pHead; while(fast != nullptr){ if(fast-&amp;gt;next == nullptr) return nullptr; fast = fast-&amp;gt;next-&amp;gt;next; slow = slow-&amp;gt;next; if(fast == slow){ fast = pHead; while(fast != slow){ fast = fast-&amp;gt;next; slow = slow-&amp;gt;next; } return fast; } } return nullptr; } JZ24 反转链表 迭代法:</description>
     </item>
   </channel>
 </rss>
