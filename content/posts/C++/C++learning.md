@@ -14,7 +14,7 @@ chordsheet: true
 
 
 
-![01](/images/C++basic/01.png)
+![01](/images/C++/C++basic/01.png)
 
 随机存储器RAM（主存）
 
@@ -464,13 +464,13 @@ int main()
 
 当增加一个对象的时候，只需要将逆时针第一个对象移动到它的右边（防止这个对象找不到它对应的服务器），这样无需移动所有对象的位置，更方便。
 
-![consistenthash](/images/C++basic/consistenthash.png)
+![consistenthash](/images/C++/C++basic/consistenthash.png)
 
 缺点：环上服务器节点分布不均匀，就算是一开始分布均匀，如果服务器频繁的上下线，也会变得分布不均匀。最终导致很多个客户端。
 
 于是提出**虚拟节点**，通过虚拟节点，每个服务器可以处理环上的多个网段。
 
-![consistenthash01](/images/C++basic/consistenthash01.png)
+![consistenthash01](/images/C++/C++basic/consistenthash01.png)
 
 ---
 
@@ -562,9 +562,9 @@ virtual void funtion1()=0
 
 C++中虚函数表位于只读数据段（.rodata），也就是C++内存模型中的常量区；而虚函数则位于代码段 （.text），也就是C++内存模型中的代码区。
 
-![vfptr](/images/C++basic/vfptr.png)
+![vfptr](/images/C++/C++basic/vfptr.png)
 
-![vfptr1](/images/C++basic/vfptr1.png)
+![vfptr1](/images/C++/C++basic/vfptr1.png)
 
 
 

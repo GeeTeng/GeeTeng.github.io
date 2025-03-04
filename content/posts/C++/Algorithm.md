@@ -313,3 +313,97 @@ dfs 回溯方法，在原字符串的基础上交换，然后再交换回来。
     }
 ```
 
+
+
+### JZ41 数据流中的中位数
+
+**堆排序（双堆法）**
+
+使用**最大堆 + 最小堆**的方式：
+
+- **最大堆min**（存储较小的一半数据，堆顶是最大值）
+- **最小堆max**（存储较大的一半数据，堆顶是最小值）
+
+需要不断平衡两个堆的数量（min永远不会比max元素少），奇数个就在min堆里，偶数就通过求两个堆的堆顶元素就可以得到中位数。
+
+```c++
+public:
+    priority_queue<int> min;
+    priority_queue<int, vector<int>, greater<int>> max; 
+    void Insert(int num) {
+        // 先加入到min中，取出最大值加入max
+        min.push(num);
+        max.push(min.top());
+        min.pop();
+        if(min.size() < max.size()) {
+            min.push(max.top());
+            max.pop();
+        }
+    }
+
+    double GetMedian() { 
+        // 奇数个
+        if(min.size() > max.size()) return double(min.top());
+        else return double (min.top() + max.top()) / 2;
+    }
+```
+
+
+
+### JZ43 整数中1出现的次数
+
+1.如何获取每一位数字的 左边数字 和 右边数字？
+
+  数字3101592，假如现在cur = 0，base = 10000（是当前考虑的位数）， high是cur左边的部分、cur是当前位的数字、low是cur右边的部分。
+
+  high = n / （base * 10） = n / 100000 = 31
+
+​    cur = (n / base) % 10 = (n / 10000) % 10 = 0
+
+​    low = n % base = n % 10000 = 1592
+
+2.出现的次数取决于小于n的那些数，分情况讨论。
+
+计算1出现的次数需要计算所有位上1出现的次数的加和，所以要遍历每一位，不断更新当前位前后的数字是什么。假设当前位是1时，计算1出现的次数。
+
+- 当cur = 0时
+
+还是拿31 0 1592举例子，如果当前位出现1了，那必然是high是0-30区间内，因为如果是311开头就比n要大了。当high是0-30的时候，无论low怎么选都比n小，所以low的选法可以有0-9999种，而low的选法正好=base10000。将high * base就是这种情况下1出现的次数。
+
+- 当cur = 1时
+
+cur = 1时 比如说310 1 592，需要分类讨论：
+
+​        high从0 - 309时，low可以是0-999。所以是和cur = 0的情况一样的 => high * base
+
+​        high是310时（1种选法），low只能是0 - 592（593种选法，是low + 1），low如果再大于592就比n要大了。 => 1 * （low + 1）
+
+所以1的出现次数是（high * base） + （low + 1）
+
+- 当cur > 1时
+
+cur大于1时，不需要再去考虑high和low怎么选不会比n大了。比如3101 5 92，high可以从 0 - 3101 而 low 可以从 0 - 99，所以直接就是 （high + 1） * base。
+
+```c++
+int NumberOf1Between1AndN_Solution(int n) {
+    int base = 1;
+    int cnt = 0;
+    while(base <= n) {
+        int high = n / (base * 10);
+        int low = n % base;
+        int cur = (n / base) % 10;
+        if(cur == 0) {
+            cnt += high * base;
+        }
+        else if(cur == 1) {
+            cnt += (high * base) +  (low + 1);
+        }
+        else {
+            cnt += (high + 1) * base;
+        }
+        base *= 10;
+    }
+    return cnt;
+}
+```
+
