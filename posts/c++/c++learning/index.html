@@ -321,7 +321,7 @@
             
 
             <hr>
-<p><img src="/images/C++basic/01.png" alt="01"></p>
+<p><img src="/images/C++/C++basic/01.png" alt="01"></p>
 <p>随机存储器RAM（主存）</p>
 <p>与CPU直接交换数据，可读写区域，存放<strong>全局（静态）区</strong>、<strong>堆区</strong>、<strong>栈区</strong>。</p>
 <p>只读存储器ROM</p>
@@ -661,10 +661,10 @@
 </ul>
 <p>当删除其中一个对象的时候，只需要将服务器分给逆时针最近的环。</p>
 <p>当增加一个对象的时候，只需要将逆时针第一个对象移动到它的右边（防止这个对象找不到它对应的服务器），这样无需移动所有对象的位置，更方便。</p>
-<p><img src="/images/C++basic/consistenthash.png" alt="consistenthash"></p>
+<p><img src="/images/C++/C++basic/consistenthash.png" alt="consistenthash"></p>
 <p>缺点：环上服务器节点分布不均匀，就算是一开始分布均匀，如果服务器频繁的上下线，也会变得分布不均匀。最终导致很多个客户端。</p>
 <p>于是提出<strong>虚拟节点</strong>，通过虚拟节点，每个服务器可以处理环上的多个网段。</p>
-<p><img src="/images/C++basic/consistenthash01.png" alt="consistenthash01"></p>
+<p><img src="/images/C++/C++basic/consistenthash01.png" alt="consistenthash01"></p>
 <hr>
 <h2 id="多态">多态</h2>
 <h3 id="静态多态和动态多态">静态多态和动态多态</h3>
@@ -720,8 +720,8 @@
 <p>虚函数通过一张虚函数表来实现的，虚表（vtable）是一个<strong>指针数组</strong>，每个元素对应一个虚函数的函数指针，在代码编译阶段构造出来的虚表。</p>
 <p>每个对象都拥有一个虚表指针（vptr），基类和派生类对象的<code>vptr</code>指向各自的虚函数表。当你通过基类指针或引用调用虚函数时，程序会通过该对象的vptr找到虚函数表，从虚函数表中获取函数地址，最后调用对应的虚函数。</p>
 <p>C++中虚函数表位于只读数据段（.rodata），也就是C++内存模型中的常量区；而虚函数则位于代码段 （.text），也就是C++内存模型中的代码区。</p>
-<p><img src="/images/C++basic/vfptr.png" alt="vfptr"></p>
-<p><img src="/images/C++basic/vfptr1.png" alt="vfptr1"></p>
+<p><img src="/images/C++/C++basic/vfptr.png" alt="vfptr"></p>
+<p><img src="/images/C++/C++basic/vfptr1.png" alt="vfptr1"></p>
 <h3 id="总结的疑问">总结的疑问</h3>
 <p>一些我自己总结的疑问：</p>
 <p><strong>1.子类虚表中会有父类的虚函数地址吗？</strong></p>

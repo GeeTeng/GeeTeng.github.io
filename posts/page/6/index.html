@@ -185,9 +185,9 @@
 
 
 <div class="blog-brief">
-    <a href="/posts/cs_basic/computernetwork/">
+    <a href="/posts/c&#43;&#43;/linux/">
         <h3 class="title is-4">
-            计算机网络
+            
         </h3>
     </a>
 
@@ -196,8 +196,8 @@
 
             
             <div class="level-item">
-                <a href="/posts/cs_basic/computernetwork/">
-                    <p class="subtitle info date">Jan 13, 2025
+                <a href="/posts/c&#43;&#43;/linux/">
+                    <p class="subtitle info date">Jan 1, 0001
                     </p>
                 </a>
             </div>
@@ -205,16 +205,14 @@
 
 
             <div class="level-item">
-                <a href="/posts/cs_basic/computernetwork/">
+                <a href="/posts/c&#43;&#43;/linux/">
                     <p class="subtitle info">
-                        46 mins read
+                        10 mins read
                     </p>
                 </a>
             </div>
         </div>
         <div class="level-right is-hidden-touch">
-            
-            <a class="tag is-rounded" href="/tags/cs-basic">CS Basic</a>
             
         </div>
     </div>
@@ -223,9 +221,21 @@
         
 
         <div>
-            <a href="/posts/cs_basic/computernetwork/">
+            <a href="/posts/c&#43;&#43;/linux/">
                 <p class="summary">
-                    计算机网络知识 胡科大教书匠笔记
+                    Linux基础操作 静态库 动态库 静态库：程序在编译时会把库文件的二进制编码链接到目标程序中。
+如果多个程序中用到了同一静态库中的函数，就会存在多份拷贝。
+生成静态库
+g&#43;&#43; -c -o libpublic.a public.cpp 编译 demo.cpp 并链接一个名为 public 的库
+g&#43;&#43; -o demo demo.cpp -L/home/test1/codes/tools -lpublic 动态库（共享库）：编译时不会把库文件的二进制代码链接到目标程序中，运行时候才会被载入。
+如果多个进程在用到同一动态库中的函数 / 类，那么在内存中只有一份，避免了空间浪费的问题。
+程序升级比较简单 不需要重新编译 只需要更新动态库。
+如果静态库和动态库同时存在，会优先使用动态库。
+生成动态库
+g&#43;&#43; -gPIC -shared -o libpublic.so public.cpp 编译并链接动态库
+g&#43;&#43; -o demo demo.cpp -L/home/test1/codes/tools -lpublic 发现执行会报错显示找不到这样的文件 原因是需要设置好环境变量
+使用make来生成库，可以避免写呢么多代码。
+# 指定编译的目标文件是 libpublic.a 和 libpublic.so all:libpublic.a \ libpublic.so # 编译 libpublic.a 需要依赖 public.h 和 public.cpp # 如果被依赖文件内容发生了变化，将重新编译 libpublic.a libpublic.a:public.h public.cpp g&#43;&#43; -c -o libpublic.
                     
                 </p>
             </a>
@@ -236,235 +246,7 @@
         <div class="level-left">
         </div>
         <div class="level-right">
-            <a href="/posts/cs_basic/computernetwork/">Continue reading <i class="fa fa-angle-double-right"
-                    aria-hidden="true"></i></a>
-        </div>
-    </div>
-    <hr>
-</div><div class="blog-brief">
-    <a href="/posts/cs_basic/os/">
-        <h3 class="title is-4">
-            操作系统
-        </h3>
-    </a>
-
-    <div class="level is-mobile details">
-        <div class="level-left">
-
-            
-            <div class="level-item">
-                <a href="/posts/cs_basic/os/">
-                    <p class="subtitle info date">Jan 10, 2025
-                    </p>
-                </a>
-            </div>
-            
-
-
-            <div class="level-item">
-                <a href="/posts/cs_basic/os/">
-                    <p class="subtitle info">
-                        81 mins read
-                    </p>
-                </a>
-            </div>
-        </div>
-        <div class="level-right is-hidden-touch">
-            
-            <a class="tag is-rounded" href="/tags/cs-basic">CS Basic</a>
-            
-        </div>
-    </div>
-
-    <div>
-        
-
-        <div>
-            <a href="/posts/cs_basic/os/">
-                <p class="summary">
-                    操作系统知识笔记
-                    
-                </p>
-            </a>
-        </div>
-    </div>
-
-    <div class="level is-mobile continue-reading">
-        <div class="level-left">
-        </div>
-        <div class="level-right">
-            <a href="/posts/cs_basic/os/">Continue reading <i class="fa fa-angle-double-right"
-                    aria-hidden="true"></i></a>
-        </div>
-    </div>
-    <hr>
-</div><div class="blog-brief">
-    <a href="/posts/paper/2stgroupmeeting/">
-        <h3 class="title is-4">
-            论文笔记
-        </h3>
-    </a>
-
-    <div class="level is-mobile details">
-        <div class="level-left">
-
-            
-            <div class="level-item">
-                <a href="/posts/paper/2stgroupmeeting/">
-                    <p class="subtitle info date">Jan 9, 2025
-                    </p>
-                </a>
-            </div>
-            
-
-
-            <div class="level-item">
-                <a href="/posts/paper/2stgroupmeeting/">
-                    <p class="subtitle info">
-                        7 mins read
-                    </p>
-                </a>
-            </div>
-        </div>
-        <div class="level-right is-hidden-touch">
-            
-            <a class="tag is-rounded" href="/tags/paper">Paper</a>
-            
-        </div>
-    </div>
-
-    <div>
-        
-
-        <div>
-            <a href="/posts/paper/2stgroupmeeting/">
-                <p class="summary">
-                    记录读过的论文 更新中
-                    
-                </p>
-            </a>
-        </div>
-    </div>
-
-    <div class="level is-mobile continue-reading">
-        <div class="level-left">
-        </div>
-        <div class="level-right">
-            <a href="/posts/paper/2stgroupmeeting/">Continue reading <i class="fa fa-angle-double-right"
-                    aria-hidden="true"></i></a>
-        </div>
-    </div>
-    <hr>
-</div><div class="blog-brief">
-    <a href="/posts/paper/1stgroupmeeting/">
-        <h3 class="title is-4">
-            论文笔记
-        </h3>
-    </a>
-
-    <div class="level is-mobile details">
-        <div class="level-left">
-
-            
-            <div class="level-item">
-                <a href="/posts/paper/1stgroupmeeting/">
-                    <p class="subtitle info date">Jan 9, 2025
-                    </p>
-                </a>
-            </div>
-            
-
-
-            <div class="level-item">
-                <a href="/posts/paper/1stgroupmeeting/">
-                    <p class="subtitle info">
-                        30 mins read
-                    </p>
-                </a>
-            </div>
-        </div>
-        <div class="level-right is-hidden-touch">
-            
-            <a class="tag is-rounded" href="/tags/paper">Paper</a>
-            
-        </div>
-    </div>
-
-    <div>
-        
-
-        <div>
-            <a href="/posts/paper/1stgroupmeeting/">
-                <p class="summary">
-                    记录读过的论文 更新中
-                    
-                </p>
-            </a>
-        </div>
-    </div>
-
-    <div class="level is-mobile continue-reading">
-        <div class="level-left">
-        </div>
-        <div class="level-right">
-            <a href="/posts/paper/1stgroupmeeting/">Continue reading <i class="fa fa-angle-double-right"
-                    aria-hidden="true"></i></a>
-        </div>
-    </div>
-    <hr>
-</div><div class="blog-brief">
-    <a href="/posts/c&#43;&#43;/designpattern/">
-        <h3 class="title is-4">
-            设计模式
-        </h3>
-    </a>
-
-    <div class="level is-mobile details">
-        <div class="level-left">
-
-            
-            <div class="level-item">
-                <a href="/posts/c&#43;&#43;/designpattern/">
-                    <p class="subtitle info date">Jan 8, 2025
-                    </p>
-                </a>
-            </div>
-            
-
-
-            <div class="level-item">
-                <a href="/posts/c&#43;&#43;/designpattern/">
-                    <p class="subtitle info">
-                        11 mins read
-                    </p>
-                </a>
-            </div>
-        </div>
-        <div class="level-right is-hidden-touch">
-            
-            <a class="tag is-rounded" href="/tags/c&#43;&#43;">C&#43;&#43;</a>
-            
-        </div>
-    </div>
-
-    <div>
-        
-
-        <div>
-            <a href="/posts/c&#43;&#43;/designpattern/">
-                <p class="summary">
-                    设计模式 更新中
-                    
-                </p>
-            </a>
-        </div>
-    </div>
-
-    <div class="level is-mobile continue-reading">
-        <div class="level-left">
-        </div>
-        <div class="level-right">
-            <a href="/posts/c&#43;&#43;/designpattern/">Continue reading <i class="fa fa-angle-double-right"
+            <a href="/posts/c&#43;&#43;/linux/">Continue reading <i class="fa fa-angle-double-right"
                     aria-hidden="true"></i></a>
         </div>
     </div>
@@ -492,19 +274,6 @@
 
         
         
-
-        
-        
-
-    
-
-    
-    
-
-        
-
-        
-        
             
         
 
@@ -513,6 +282,9 @@
             
         
 
+    
+
+    
     
 
 
@@ -523,11 +295,11 @@
     <nav class="pagination is-centered">
 
         
-            <a class="pagination-previous" disabled>Previous</a>
+            <a class="pagination-previous is-dark" href="/posts/page/5/">Previous</a>
         
 
         
-            <a class="pagination-next" href="/posts/page/2/">Next page</a>
+            <a class="pagination-next" disabled>Next page</a>
         
 
 
@@ -538,31 +310,7 @@
             
             
 
-                <li><a href="/posts/" class="pagination-link is-current">1</a></li>
-
-                
-                
-
-            
-
-        
-
-            
-            
-
-                <li><a href="/posts/page/2/" class="pagination-link">2</a></li>
-
-                
-                
-
-            
-
-        
-
-            
-            
-
-                <li><a href="/posts/page/3/" class="pagination-link">3</a></li>
+                <li><a href="/posts/" class="pagination-link">1</a></li>
 
                 
                 
@@ -586,7 +334,31 @@
             
             
 
-                <li><a href="/posts/page/6/" class="pagination-link">6</a></li>
+                <li><a href="/posts/page/4/" class="pagination-link">4</a></li>
+
+                
+                
+
+            
+
+        
+
+            
+            
+
+                <li><a href="/posts/page/5/" class="pagination-link">5</a></li>
+
+                
+                
+
+            
+
+        
+
+            
+            
+
+                <li><a href="/posts/page/6/" class="pagination-link is-current">6</a></li>
 
                 
                 
