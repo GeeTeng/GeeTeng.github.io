@@ -1,3 +1,13 @@
+---
+title: "Linux学习"
+date: 2025-03-02
+tags: [C++]
+description: "linux基础操作、进程控制、网络编程等"
+showDate: true
+math: true
+chordsheet: true
+---
+
 
 
 
@@ -205,3 +215,10 @@ int main(int argc, char *argv[])
 `d_type`：文件的类型，有多种取值，最重要的是8和4。8是常规文件，4是子目录文件（A directory）。注意，d_name的数据类型是字符，不可直接显示。
 
 ![04](/images/C++/linux/04.png)
+
+
+
+### 系统错误
+
+整型全局变量`errno`，存放了函数调用过程中产生的错误代码。配合 `strerror()` 和 `perror()` 两个函数
+

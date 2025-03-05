@@ -407,3 +407,245 @@ int NumberOf1Between1AndN_Solution(int n) {
 }
 ```
 
+
+
+### JZ44 数字序列中某一位的数字
+
+**位数减法**：
+
+​	1-9 有9个数字
+
+​	10-99 有90个数字
+
+​	100-999 有900个数字
+
+**举例子：**n = 327，第一轮循环digit = 1， base是开始数字 = 1， sum = 9 * digit * base = 9， n -= 9 = 318；第二轮循环digit = 2，base = 10，sum = 180，n = 138；第三轮循环 n  <  2700(sum在循环里的更新)，所以停止循环，但是我们确定了n是三位数。
+
+然后确认是哪一个数字，且是该数字的哪一位。
+
+```c++
+int findNthDigit(int n) {
+    long long base = 1;
+    long long digit = 1; // 数字的位数
+    long long sum = 9; // 当前位数的总位数 9 180 2700
+    while(n > sum) {
+        n -= sum;
+        digit ++;
+        base *= 10;
+        sum = 9 * digit * base;
+    }
+    // 找到是哪个数字 n这个时候是n减去从该位数开始的数字
+    int num = base + (n - 1) / digit;
+    // 求数字的某一位是多少
+    int index = (n - 1) % digit;
+    return to_string(num)[index] - '0';
+}
+```
+
+
+
+### JZ45 把数组排成最小的数
+
+ 重载比较排序
+
+```c++
+static bool cmp(string &x, string &y) {
+    return x + y < y + x;
+}
+
+string PrintMinNumber(vector<int>& numbers) {
+    string res = "";
+    if(numbers.size() == 0) return res;
+    vector<string> nums;
+    for(int i = 0; i < numbers.size(); i ++) {
+        nums.push_back(to_string(numbers[i]));
+    }
+    sort(nums.begin(), nums.end(), cmp);
+    for(int i = 0; i < nums.size(); i ++) {
+        res += nums[i];
+    }
+    return res;
+}
+```
+
+
+
+### JZ46 把数字翻译成字符串
+
+**动态规划**
+
+首先排除一些特殊情况：
+
+1. 当字符串是0时，没有对应编码
+2. 当字符串是10或20时，对应1种编码
+3. 当字符串当中某个数字是0，但是这个数字的前一位不是1或0。比如说是30 40等，则没有对应编码。
+
+其次对字符串进行动态规划
+
+如果在11-19和21-26之间，则会有2种编码方式，dp[i] = dp[i - 1] + dp[i - 2]
+
+如果是在1-10之间和20时，则只有1种编码方式，dp[i] = dp[i - 1]
+
+```c++
+int solve(string nums) {
+    // 如果是0就返回0种编码，是10 20则只有一种编码，如果是0且前面不是1或2则是不规则编码。
+    if(nums == "0") return 0;
+    if(nums == "10" || nums == "20") return 1;
+    for(int i = 1; i < nums.length(); i ++) {
+        if(nums[i] == '0' && nums[i - 1] != '1' && nums[i - 1] != '2')
+                return 0;
+    }
+    // 动态规划 初始dp为1
+    vector<int> dp(nums.length() + 1, 1);
+    for(int i = 2; i <= nums.length(); i ++) {   
+        // 在11 - 19 和 21 - 26的情况
+        if(nums[i - 2] == '1' && nums[i - 1] != '0' || (nums[i - 2] == '2' && nums[i - 1] > '0' && nums[i - 1] < '7')) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        // 1 - 10和20情况
+        else {
+            dp[i] = dp[i - 1];
+        }
+    }
+    return dp[nums.length()];
+}
+```
+
+
+
+### JZ48 最长不含重复字符的字符串
+
+**哈希 双指针**：滑动窗口思想。
+
+r在每次循环中向右移动遍历字符串，每次记录在哈希表里。当遇到重复字符时，l也开始向右移动，直到重复字符消失。这个时候取现有子串和之前字串长度的最大值。
+
+```c++
+int lengthOfLongestSubstring(string s) {
+    unordered_map<char, int> mp;
+    int res = 0;
+    for(int l = 0, r = 0; r < s.length(); r ++)
+    {
+        mp[s[r]] ++;
+        while(mp[s[r]] > 1)
+        {
+            mp[s[l]] --;
+            l ++;
+        }
+        res = max(r - l + 1, res);
+    }
+    return res;
+}
+```
+
+
+
+### JZ49 丑数
+
+把只包含质因子2、3和5的数称作丑数，有了定义我们就可以知道，**丑数的形式就是2^x 3^y 5^z**。
+
+定义一个res数组存储丑数。已知第一个丑数是1，那么**根据公式乘2、3、5，可以得到之后一系列丑数**。
+
+1. **最小堆法**
+
+```c++
+int GetUglyNumber_Solution(int index) {
+    if(index == 0) return 0;
+    unordered_set<long> mp;
+    priority_queue<long, vector<long>, greater<long>> pq;
+    mp.insert(1);
+    pq.push(1);
+    long ugly = 1;
+    vector<int> primes = {2, 3, 5};
+    for(int i = 1; i <= index; i ++) {
+        ugly = pq.top();
+        pq.pop();
+        for(int prime : primes) {
+            long newUgly = ugly * prime;
+            if(!mp.count(newUgly)) {
+                pq.push(newUgly);
+                mp.insert(newUgly);
+            }
+        }
+    }
+    return ugly;
+}
+```
+
+**2.动态规划**
+
+```c++
+int GetUglyNumber_Solution(int index) {
+    if(index == 0) return 0;
+    vector<int> dp(index, 1);
+    int p2 = 0, p3 = 0, p5 = 0;
+    for(int i = 1; i < index; i ++) {
+        int nextUgly = min({dp[p2] * 2, dp[p3] * 3, dp[p5] * 5});
+        dp[i] = nextUgly;
+        if(nextUgly == dp[p2] * 2) p2 ++;
+        if(nextUgly == dp[p3] * 3) p3 ++;
+        if(nextUgly == dp[p5] * 5) p5 ++;
+    }
+    return dp[index - 1];
+}
+```
+
+
+
+### JZ51 数组中的逆序对
+
+**通过归并排序统计逆序对的方法**：
+
+左半部分 [l, mid] 已经是递增序列
+
+右半部分 [mid+1, r]也是递增序列
+
+但是当它们合并在一起时可能会形成逆序对，i在左半部分，j在右半部分。
+
+nums[j] < nums[i]时，nums[j]肯定大于nums[i]之前的所有数（否则早就加到tmp里了，也不会等到现在）。这个时候意味着，nums[i + 1], nums[i + 2], nums[i + 3]......都大于nums[j] (因为左半部分递增，nums[i]你都不大于，剩下的咋可能大于)，但是同时nums[j]是比右半部分的nums[j - 1], nums[j - 2]...那些大（也因为右半部分递增）。所以逆序对的数量就是 i 到 mid 中间那些大于j的数，包括i和mid，所以是i - mid + 1。
+
+动笔画一下就明白了。
+
+```c++
+const int MOD = 1e9 + 7;
+vector<int> tmp;
+long long mergesort(vector<int>& nums, int l, int r) {
+    if(l >= r) return 0;
+    int mid = l + r >> 1;
+    long long res = mergesort(nums, l, mid) + mergesort(nums, mid + 1, r);
+    int k = 0, i = l, j = mid + 1;
+    while(i <= mid && j <= r) {
+        if(nums[i] <= nums[j]) tmp[k ++] = nums[i ++];
+        else {
+            tmp[k ++] = nums[j ++]; 
+            res = (res + mid - i + 1) % MOD;
+        }
+    }
+    while(i <= mid) tmp[k ++] = nums[i ++];
+    while(j <= r) tmp[k ++] = nums[j ++];
+    for(int i = l, j = 0; i <= r; i ++, j ++) nums[i] = tmp[j];
+    return res;
+}
+
+int InversePairs(vector<int>& nums) {
+    tmp.resize(nums.size());
+    return mergesort(nums, 0, nums.size() - 1);
+}
+```
+
+
+
+### JZ52 两个链表的第一个公共结点
+
+两个指针p1，p2分别在两条链表上同时走，如果它们到达尾部则指向另一条链表继续走，当双指针相遇时则是它们第一个公共节点。如果没有公共结点也会同时走到nullptr。
+
+```c++
+ListNode* FindFirstCommonNode( ListNode* pHead1, ListNode* pHead2) {
+    ListNode *p1 = pHead1, *p2 = pHead2;
+    while(p1 != p2) {
+        p1 = p1 ? p1->next : pHead2;
+        p2 = p2 ? p2->next : pHead1;
+    }
+    return p1;
+}
+```
+
