@@ -6,8 +6,15 @@
     <description>Recent content in C&#43;&#43; on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 08 Jan 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 02 Mar 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/tags/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Linux学习</title>
+      <link>https://geeteng.github.io/posts/c&#43;&#43;/linux/</link>
+      <pubDate>Sun, 02 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/c&#43;&#43;/linux/</guid>
+      <description>Linux基础操作 静态库 动态库 静态库：程序在编译时会把库文件的二进制编码链接到目标程序中。&#xA;如果多个程序中用到了同一静态库中的函数，就会存在多份拷贝。&#xA;生成静态库&#xA;g++ -c -o libpublic.a public.cpp 编译 demo.cpp 并链接一个名为 public 的库&#xA;g++ -o demo demo.cpp -L/home/test1/codes/tools -lpublic 动态库（共享库）：编译时不会把库文件的二进制代码链接到目标程序中，运行时候才会被载入。&#xA;如果多个进程在用到同一动态库中的函数 / 类，那么在内存中只有一份，避免了空间浪费的问题。&#xA;程序升级比较简单 不需要重新编译 只需要更新动态库。&#xA;如果静态库和动态库同时存在，会优先使用动态库。&#xA;生成动态库&#xA;g++ -gPIC -shared -o libpublic.so public.cpp 编译并链接动态库&#xA;g++ -o demo demo.cpp -L/home/test1/codes/tools -lpublic 发现执行会报错显示找不到这样的文件 原因是需要设置好环境变量&#xA;使用make来生成库，可以避免写呢么多代码。&#xA;# 指定编译的目标文件是 libpublic.a 和 libpublic.so all:libpublic.a \ libpublic.so # 编译 libpublic.a 需要依赖 public.h 和 public.cpp # 如果被依赖文件内容发生了变化，将重新编译 libpublic.a libpublic.a:public.h public.cpp g++ -c -o libpublic.</description>
+    </item>
     <item>
       <title>设计模式</title>
       <link>https://geeteng.github.io/posts/c&#43;&#43;/designpattern/</link>
@@ -20,7 +27,7 @@
       <link>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</link>
       <pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</guid>
-      <description>随机存储器RAM（主存）&#xA;与CPU直接交换数据，可读写区域，存放全局（静态）区、堆区、栈区。&#xA;只读存储器ROM&#xA;只能读出 所存数据稳定，断电后数据不会改变。存放代码区和常量区。&#xA;const用法和constexpr const用法：&#xA;修饰变量 变量不能修改 指针常量 （先出现指针 再出现const） 常量指针 （先出现const 再出现指针） 修饰引用 不能通过引用修改值 修饰成员函数 相当于修饰了成员函数隐藏的this指针 顶层const和底层const 顶层const指的是const修饰的变量本身是一个常量，如int* const p，底层const指的是const修饰的变量所指向的对象是一个常量，如const int* p。&#xA;const int * const p3 = p2 // 靠右的const是顶层const，靠左的是底层const constexpr用法：&#xA;当用constexpr声明一个函数/变量时，编译器可以在编译时就计算出它的值，提高程序的运行效率。而且编译器会自动验证变量是否是一个常量表达式。&#xA;constexpr int GetLen(int a, int b) { return a + b; } int main() { // 不加constexpr就无法声明arr 加了之后就会返回常数 int arr[GetLen(1, 2)]; return 0; } 如果constexpr声明中定义了一个指针，限定符constexpr仅对指针有效（只限定p指向的地址不可改变），而与指针所指的对象无关。&#xA;函数内的const const修饰成员函数&#xA;在成员函数的声明后加上 const，表示该函数承诺不会修改类的成员变量，也不会调用其他修改成员变量的非 const 成员函数。&#xA;private: int value; void changeValue() const { value = 10; // 编译错误：不能在 const 函数中修改成员变量 } const修饰函数形参</description>
+      <description>C++ 内存布局 内存区域 存储内容 代码段（.text） 存储程序的可执行代码，包括普通函数和虚函数的实现 数据段（全局静态区）（.data 和 .bss） 存储全局/静态变量（已初始化的放在 .data，未初始化的放在 .bss） 只读数据段（常量区）（.rodata） 存储常量数据（如字符串字面量、const 变量、VTable） 堆区（Heap） 由 new/malloc 动态分配，程序员手动释放 栈区（Stack） 由函数的局部变量、函数调用帧等组成，自动管理 随机存储器RAM（主存）&#xA;与CPU直接交换数据，可读写区域，存放全局（静态）区、堆区、栈区。&#xA;只读存储器ROM&#xA;只能读出 所存数据稳定，断电后数据不会改变。存放代码区和常量区。&#xA;const用法和constexpr const用法：&#xA;修饰变量 变量不能修改 指针常量 （先出现指针 再出现const） 常量指针 （先出现const 再出现指针） 修饰引用 不能通过引用修改值 修饰成员函数 相当于修饰了成员函数隐藏的this指针 顶层const和底层const 顶层const指的是const修饰的变量本身是一个常量，如int* const p，底层const指的是const修饰的变量所指向的对象是一个常量，如const int* p。&#xA;const int * const p3 = p2 // 靠右的const是顶层const，靠左的是底层const constexpr用法：&#xA;当用constexpr声明一个函数/变量时，编译器可以在编译时就计算出它的值，提高程序的运行效率。而且编译器会自动验证变量是否是一个常量表达式。&#xA;constexpr int GetLen(int a, int b) { return a + b; } int main() { // 不加constexpr就无法声明arr 加了之后就会返回常数 int arr[GetLen(1, 2)]; return 0; } 如果constexpr声明中定义了一个指针，限定符constexpr仅对指针有效（只限定p指向的地址不可改变），而与指针所指的对象无关。</description>
     </item>
     <item>
       <title>刷题笔记</title>

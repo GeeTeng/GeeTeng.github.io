@@ -6,8 +6,22 @@
     <description>Recent content on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 13 Jan 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 05 Mar 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>路径规划算法</title>
+      <link>https://geeteng.github.io/posts/game/pathplaning/</link>
+      <pubDate>Wed, 05 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/game/pathplaning/</guid>
+      <description>A*搜索算法 A*算法是启发式搜索方法，但是在游戏开发中，A*算法会受到一些因素的制约：&#xA;计算开销和实时性问题 在图比较大的时候可能非常耗时，尤其是在需要频繁计算路径的实时游戏中。游戏中的路径寻找需要快速响应，尤其是在开放世界或有动态元素的场景中。而且A*算法通常是在静态地图上执行的，但是许多环境玩家、敌人、障碍物会发生改变，每当发生改变的时候都需要重新计算路径，导致性能问题。&#xA;平滑性&#xA;A*算法生成的路径通常是“阶梯状”的，并不自然。可能导致拐角过多，移动不平滑，而如果再去平滑路径，又增加了额外的计算开销。&#xA;把代价分成两部分：&#xA;当前代价：一共走过多少格子 预估代价：从当前位置到终点位置需要走多少格子 可以使用曼哈顿距离或欧拉距离，将两部分代价相加起来。永远走向代价最小的位置。</description>
+    </item>
+    <item>
+      <title>Linux学习</title>
+      <link>https://geeteng.github.io/posts/c&#43;&#43;/linux/</link>
+      <pubDate>Sun, 02 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/c&#43;&#43;/linux/</guid>
+      <description>Linux基础操作 静态库 动态库 静态库：程序在编译时会把库文件的二进制编码链接到目标程序中。&#xA;如果多个程序中用到了同一静态库中的函数，就会存在多份拷贝。&#xA;生成静态库&#xA;g++ -c -o libpublic.a public.cpp 编译 demo.cpp 并链接一个名为 public 的库&#xA;g++ -o demo demo.cpp -L/home/test1/codes/tools -lpublic 动态库（共享库）：编译时不会把库文件的二进制代码链接到目标程序中，运行时候才会被载入。&#xA;如果多个进程在用到同一动态库中的函数 / 类，那么在内存中只有一份，避免了空间浪费的问题。&#xA;程序升级比较简单 不需要重新编译 只需要更新动态库。&#xA;如果静态库和动态库同时存在，会优先使用动态库。&#xA;生成动态库&#xA;g++ -gPIC -shared -o libpublic.so public.cpp 编译并链接动态库&#xA;g++ -o demo demo.cpp -L/home/test1/codes/tools -lpublic 发现执行会报错显示找不到这样的文件 原因是需要设置好环境变量&#xA;使用make来生成库，可以避免写呢么多代码。&#xA;# 指定编译的目标文件是 libpublic.a 和 libpublic.so all:libpublic.a \ libpublic.so # 编译 libpublic.a 需要依赖 public.h 和 public.cpp # 如果被依赖文件内容发生了变化，将重新编译 libpublic.a libpublic.a:public.h public.cpp g++ -c -o libpublic.</description>
+    </item>
     <item>
       <title>计算机网络</title>
       <link>https://geeteng.github.io/posts/cs_basic/computernetwork/</link>
@@ -34,7 +48,7 @@
       <link>https://geeteng.github.io/posts/paper/2stgroupmeeting/</link>
       <pubDate>Thu, 09 Jan 2025 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/paper/2stgroupmeeting/</guid>
-      <description>1 基于驾驶员行为和交通环境构建的拓扑图的驾驶员变道意图预测人机共驾系统 设计了一种基于动态图卷积网络和语义注意力模块（DGCN-SAM）以及自监督引导学习（SGL-YTG）的DLCI预测模型。具体而言，设计 了一种具有拟人注意力机制的倒置残差模块（IRM-AAM），用于提取拓扑图中的重要特征。采用具有多头自注意力机制的 Transformer 来捕捉驾驶员头部姿态序列的全局依赖关系。开发了 DGCN-SAM 来建模图中不同类别或节点之间的关系。并且提出了 SGL-UTG 以提高泛化性能，并在缺乏足够 DLCI 数据的情况下防止过拟合。&#xA;**实验数据：**实验平台包含了一个配备六自由度（DOF）运动平台的人机交互驾驶模拟器，以及眼动设备。能够模拟真实的交通和车辆运动。选择20名志愿者参加试验，每位平均1.5个小时完成10公里的不同驾驶场景。将数据集表示为拓扑图，根据拓扑图，设计了一种基于动态图卷积网络(DGCN)与语义注意力模块（SAM）以及基于对拓扑图理解的自监督引导学习（SGL-UTG）的DLCL预测模型。&#xA;其中具有拟人注意力机制的倒置残差模块用于解决拓扑图的噪声问题，消除无关特征，提高精度。 多头注意力机制的 Transformer 模型，通过加权驾驶员头部姿态序列中不同元素的重要性来捕捉长期或全局依赖关系 其中动态图卷积网络与语义注意力模块，以拓扑图为输入，该图清晰地描绘了驾驶员行为与驾驶场景关键特征之间的互相作用。DGCN主要解决了如何在拓扑图中有效地、自适应地提取不同特征之间的交互关系。 其中SGL-UTG是因为实验数据获得的少，防止过拟合，提高泛化性能。 2 基于深度Q学习和请求 - 响应机制的变道系统 本研究构建了一个将交通车道离散化为单元格的变道模型，同时考虑了强制变道和自主变道操作，并提出了一种基于带有请求-响应机制的深度Q网络的新方法。所构建的变道系统被划分为孤立组和对称组，然后将独立的 Q 学习和“中央代理”的概念相结合，以简化训练过程。在所提出的方法中，这些组可以分为两类：请求组和响应组。在训练过程中，请求组和响应组分别进行训练。具体而言，请求组仅考虑组内的状态来训练代理，而响应组除了考虑组内的状态外，还评估来自请求组的叠加动作（即请求消息）。执行过程也以与训练过程相同的去中心化方式处理。然后，将基于规则的方法、基于博弈论的分解算法和简单的深度 Q 学习方法等基准方法与所提出的方法进行了比较。（实验输入数据为模拟数据 随机生成）&#xA;为什么提出这个方法？&#xA;交通拥堵问题：随着车辆出行需求的增加，交通拥堵问题日益严重，传统的变道控制方法在拥堵环境中表现不佳，无法有效调节交通流量。 现有方法的局限性： 基于规则的方法：在交通拥堵时效率低下，无法为车辆提供足够的变道空间。 基于博弈论的方法：随着参与者数量的增加，计算复杂度呈指数增长，计算时间过长。 基于深度强化学习的方法：虽然训练完成后执行时间较短，但大多数研究仅考虑单智能体系统，无法应对多车辆同时变道的复杂场景。 解决了什么问题？&#xA;变道效率：在拥堵的交通环境中，优化多车辆的变道操作，提高变道效率。&#xA;计算复杂度：减少变道系统的计算时间，尤其是在交通拥堵的情况下。&#xA;多智能体协作：解决多车辆同时变道时的协作问题，确保车辆能够高效、安全地完成变道操作。</description>
+      <description>1 基于驾驶员行为和交通环境构建的拓扑图的驾驶员变道意图预测人机共驾系统 设计了一种基于动态图卷积网络和语义注意力模块（DGCN-SAM）以及自监督引导学习（SGL-YTG）的DLCI预测模型。具体而言，设计 了一种具有拟人注意力机制的倒置残差模块（IRM-AAM），用于提取拓扑图中的重要特征。采用具有多头自注意力机制的 Transformer 来捕捉驾驶员头部姿态序列的全局依赖关系。开发了 DGCN-SAM 来建模图中不同类别或节点之间的关系。并且提出了 SGL-UTG 以提高泛化性能，并在缺乏足够 DLCI 数据的情况下防止过拟合。&#xA;**实验数据：**实验平台包含了一个配备六自由度（DOF）运动平台的人机交互驾驶模拟器，以及眼动设备。能够模拟真实的交通和车辆运动。选择20名志愿者参加试验，每位平均1.5个小时完成10公里的不同驾驶场景。将数据集表示为拓扑图，根据拓扑图，设计了一种基于动态图卷积网络(DGCN)与语义注意力模块（SAM）以及基于对拓扑图理解的自监督引导学习（SGL-UTG）的DLCL预测模型。&#xA;其中具有拟人注意力机制的倒置残差模块用于解决拓扑图的噪声问题，消除无关特征，提高精度。 多头注意力机制的 Transformer 模型，通过加权驾驶员头部姿态序列中不同元素的重要性来捕捉长期或全局依赖关系 其中动态图卷积网络与语义注意力模块，以拓扑图为输入，该图清晰地描绘了驾驶员行为与驾驶场景关键特征之间的互相作用。DGCN主要解决了如何在拓扑图中有效地、自适应地提取不同特征之间的交互关系。 其中SGL-UTG是因为实验数据获得的少，防止过拟合，提高泛化性能。 2 基于深度Q学习和请求 - 响应机制的变道系统 本研究构建了一个将交通车道离散化为单元格的变道模型，同时考虑了强制变道和自主变道操作，并提出了一种基于带有请求-响应机制的深度Q网络的新方法。所构建的变道系统被划分为孤立组和对称组，然后将独立的 Q 学习和“中央代理”的概念相结合，以简化训练过程。在所提出的方法中，这些组可以分为两类：请求组和响应组。在训练过程中，请求组和响应组分别进行训练。具体而言，请求组仅考虑组内的状态来训练代理，而响应组除了考虑组内的状态外，还评估来自请求组的叠加动作（即请求消息）。执行过程也以与训练过程相同的去中心化方式处理。然后，将基于规则的方法、基于博弈论的分解算法和简单的深度 Q 学习方法等基准方法与所提出的方法进行了比较。（实验输入数据为模拟数据 随机生成）&#xA;为什么提出这个方法？&#xA;交通拥堵问题：随着车辆出行需求的增加，交通拥堵问题日益严重，传统的变道控制方法在拥堵环境中表现不佳，无法有效调节交通流量。 现有方法的局限性： 基于规则的方法：在交通拥堵时效率低下，无法为车辆提供足够的变道空间。 基于博弈论的方法：随着参与者数量的增加，计算复杂度呈指数增长，计算时间过长。 基于深度强化学习的方法：虽然训练完成后执行时间较短，但大多数研究仅考虑单智能体系统，无法应对多车辆同时变道的复杂场景。 解决了什么问题？&#xA;变道效率：在拥堵的交通环境中，优化多车辆的变道操作，提高变道效率。&#xA;计算复杂度：减少变道系统的计算时间，尤其是在交通拥堵的情况下。&#xA;多智能体协作：解决多车辆同时变道时的协作问题，确保车辆能够高效、安全地完成变道操作。&#xA;3* 基于深度强化学习的自主车道变道速度控制对混合车辆组水平的研究 提出一种基于深度强化学习的编导模型，用于训练自动驾驶车辆在与不同人类驾驶行为的交互中完成变道。首先，从自然行驶轨迹中提取周围车辆的轨迹，构建了一个车辆群体级的混合流换道环境。然后，确定状态空间和动作空间，设计奖励函数，综合考虑安全性和效率性，引导自主车辆不发生碰撞，确定加速度和方向角完成换道行为，并在该方法中融入避碰策略，保证纵向运动的安全性。此外，训练后的模型可以学习成功换道的经验，导致在测试中无碰撞的成功率达到90%。最后，从安全性和效率评价指标两个方面对所提方法的行驶性能进行了分析，证明了所提方法能够提高换道过程的效率和安全性。使用highD数据集。&#xA;本研究中的混合流中的自主换道框架由两部分组成：混合流中的换道环境和基于SAC的控制。&#xA;用马尔可夫决策过程（MDP）建模变道问题，定义状态空间、动作空间、状态转移和奖励函数，让问题符合强化学习的框架。&#xA;用深度强化学习（SAC算法）来优化变道策略，让自主车辆在混合车流环境中通过试错学习（trial-and-error learning），不断调整加速度和方向角，以安全高效地完成变道。&#xA;本研究解决了当前变道建模的几个关键问题：&#xA;传统数值模型难以充分描述人类驾驶行为的多样性和复杂性，导致模拟环境中的变道决策适应性较差。 数据驱动方法虽然能模仿人类驾驶行为，但缺乏对优劣驾驶行为的区分能力，无法主动优化决策。 本研究通过引入深度强化学习，使自主车辆能够通过试错学习不断优化变道策略，提高变道的安全性和效率。 4 考虑对向车流的变道意图识别：深度学习进展揭示的新见解 本研究采用基于Transformer的深度学习方法进行变道意图识别。但是其中使用到了Logitech模拟驾驶座舱和Tobii Pro Glasses3眼动追踪设备，采集驾驶员眼动数据、车辆运动数据等信息。这篇论文的主要创新点就在于眼动追踪数据的引入和LIME解释模型的使用。所以和第一篇论文一样有局限性。&#xA;5 本研究提出了一种融合驾驶风格和车辆动力学的变道轨迹预测方法，采用深度学习与概率建模结合的方式来提高预测准确性。（highD数据集，将数据集分为 80%训练集 + 20%测试集）主要方法包括：&#xA;Attention-LSTM 变道行为识别模型 结合注意力机制（Attention Mechanism），提取车辆之间的交互特征，提高变道行为识别的准确性。 该模型能够从历史轨迹中学习驾驶风格，并对变道行为进行分类。 高斯过程运动建模轨迹预测（GPMM-TP） 采用高斯过程（Gaussian Process, GP）对变道轨迹进行建模，引入轨迹不确定性。 通过高斯混合模型（GMM）对不同驾驶风格进行聚类，并使用结构相似性匹配来选择最符合当前车辆行为的轨迹模式。 交互多模型（IMM）算法 结合CTRV（Constant Turn Rate and Velocity）运动模型，基于**扩展卡尔曼滤波（EKF）**进行短期预测（CTEKF-TP）。 通过IMM算法，动态分配GPMM-TP和CTEKF-TP的权重，使得预测方法兼顾短期和长期精度。 方法论的实现：</description>
     </item>
     <item>
       <title>游戏网络基础</title>
@@ -125,7 +139,7 @@
       <link>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</link>
       <pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</guid>
-      <description>随机存储器RAM（主存）&#xA;与CPU直接交换数据，可读写区域，存放全局（静态）区、堆区、栈区。&#xA;只读存储器ROM&#xA;只能读出 所存数据稳定，断电后数据不会改变。存放代码区和常量区。&#xA;const用法和constexpr const用法：&#xA;修饰变量 变量不能修改 指针常量 （先出现指针 再出现const） 常量指针 （先出现const 再出现指针） 修饰引用 不能通过引用修改值 修饰成员函数 相当于修饰了成员函数隐藏的this指针 顶层const和底层const 顶层const指的是const修饰的变量本身是一个常量，如int* const p，底层const指的是const修饰的变量所指向的对象是一个常量，如const int* p。&#xA;const int * const p3 = p2 // 靠右的const是顶层const，靠左的是底层const constexpr用法：&#xA;当用constexpr声明一个函数/变量时，编译器可以在编译时就计算出它的值，提高程序的运行效率。而且编译器会自动验证变量是否是一个常量表达式。&#xA;constexpr int GetLen(int a, int b) { return a + b; } int main() { // 不加constexpr就无法声明arr 加了之后就会返回常数 int arr[GetLen(1, 2)]; return 0; } 如果constexpr声明中定义了一个指针，限定符constexpr仅对指针有效（只限定p指向的地址不可改变），而与指针所指的对象无关。&#xA;函数内的const const修饰成员函数&#xA;在成员函数的声明后加上 const，表示该函数承诺不会修改类的成员变量，也不会调用其他修改成员变量的非 const 成员函数。&#xA;private: int value; void changeValue() const { value = 10; // 编译错误：不能在 const 函数中修改成员变量 } const修饰函数形参</description>
+      <description>C++ 内存布局 内存区域 存储内容 代码段（.text） 存储程序的可执行代码，包括普通函数和虚函数的实现 数据段（全局静态区）（.data 和 .bss） 存储全局/静态变量（已初始化的放在 .data，未初始化的放在 .bss） 只读数据段（常量区）（.rodata） 存储常量数据（如字符串字面量、const 变量、VTable） 堆区（Heap） 由 new/malloc 动态分配，程序员手动释放 栈区（Stack） 由函数的局部变量、函数调用帧等组成，自动管理 随机存储器RAM（主存）&#xA;与CPU直接交换数据，可读写区域，存放全局（静态）区、堆区、栈区。&#xA;只读存储器ROM&#xA;只能读出 所存数据稳定，断电后数据不会改变。存放代码区和常量区。&#xA;const用法和constexpr const用法：&#xA;修饰变量 变量不能修改 指针常量 （先出现指针 再出现const） 常量指针 （先出现const 再出现指针） 修饰引用 不能通过引用修改值 修饰成员函数 相当于修饰了成员函数隐藏的this指针 顶层const和底层const 顶层const指的是const修饰的变量本身是一个常量，如int* const p，底层const指的是const修饰的变量所指向的对象是一个常量，如const int* p。&#xA;const int * const p3 = p2 // 靠右的const是顶层const，靠左的是底层const constexpr用法：&#xA;当用constexpr声明一个函数/变量时，编译器可以在编译时就计算出它的值，提高程序的运行效率。而且编译器会自动验证变量是否是一个常量表达式。&#xA;constexpr int GetLen(int a, int b) { return a + b; } int main() { // 不加constexpr就无法声明arr 加了之后就会返回常数 int arr[GetLen(1, 2)]; return 0; } 如果constexpr声明中定义了一个指针，限定符constexpr仅对指针有效（只限定p指向的地址不可改变），而与指针所指的对象无关。</description>
     </item>
     <item>
       <title>光栅化Rasterize</title>
@@ -161,13 +175,6 @@
       <pubDate>Fri, 01 Nov 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/about-me/</guid>
       <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://geeteng.github.io/posts/c&#43;&#43;/linux/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/c&#43;&#43;/linux/</guid>
-      <description>Linux基础操作 静态库 动态库 静态库：程序在编译时会把库文件的二进制编码链接到目标程序中。&#xA;如果多个程序中用到了同一静态库中的函数，就会存在多份拷贝。&#xA;生成静态库&#xA;g++ -c -o libpublic.a public.cpp 编译 demo.cpp 并链接一个名为 public 的库&#xA;g++ -o demo demo.cpp -L/home/test1/codes/tools -lpublic 动态库（共享库）：编译时不会把库文件的二进制代码链接到目标程序中，运行时候才会被载入。&#xA;如果多个进程在用到同一动态库中的函数 / 类，那么在内存中只有一份，避免了空间浪费的问题。&#xA;程序升级比较简单 不需要重新编译 只需要更新动态库。&#xA;如果静态库和动态库同时存在，会优先使用动态库。&#xA;生成动态库&#xA;g++ -gPIC -shared -o libpublic.so public.cpp 编译并链接动态库&#xA;g++ -o demo demo.cpp -L/home/test1/codes/tools -lpublic 发现执行会报错显示找不到这样的文件 原因是需要设置好环境变量&#xA;使用make来生成库，可以避免写呢么多代码。&#xA;# 指定编译的目标文件是 libpublic.a 和 libpublic.so all:libpublic.a \ libpublic.so # 编译 libpublic.a 需要依赖 public.h 和 public.cpp # 如果被依赖文件内容发生了变化，将重新编译 libpublic.a libpublic.a:public.h public.cpp g++ -c -o libpublic.</description>
     </item>
     <item>
       <title></title>

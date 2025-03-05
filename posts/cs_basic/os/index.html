@@ -34,7 +34,7 @@
   <meta itemprop="description" content="操作系统知识笔记">
   <meta itemprop="datePublished" content="2025-01-10T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-01-10T00:00:00+00:00">
-  <meta itemprop="wordCount" content="610">
+  <meta itemprop="wordCount" content="615">
   <meta itemprop="keywords" content="CS Basic">
 <link rel="canonical" href="https://geeteng.github.io/posts/cs_basic/os/" />
 
@@ -316,7 +316,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        81 mins read
+                        82 mins read
                     </p>
                 </div>
             </div>
@@ -485,7 +485,12 @@
 </ol>
 <h3 id="进程的状态与转换">进程的状态与转换</h3>
 <p><img src="/images/CS_Basic/OS/03.png" alt="03"></p>
-<p>注意区别就绪状态和等待状态：就绪状态是指进程仅缺少处理器，只要活得处理器资源就立即执行；而等待状态是指进程需要其他资源或等待某一事件，及时处理器空闲也不能运行。</p>
+<p>注意区别就绪状态和等待状态：就绪状态是指进程仅缺少处理器，只要活得处理器资源就立即执行；而等待状态是指进程需要其他资源或等待某一事件，即使处理器空闲也不能运行。</p>
+<p>如果有大量处于阻塞状态的进程，进程会占用物理内存空间，但是物理内存空间是有限的，所以要解决这样的问题引入了虚拟内存管理。</p>
+<p>在虚拟内存管理中，通常会把阻塞状态的进程换出到硬盘，等到再次运行时再换入物理内存。</p>
+<p>挂起状态还可以分为：</p>
+<p>阻塞挂起状态：进程再外存，并等待着某个事件的出现。</p>
+<p>就绪挂起状态：进程在外存（硬盘），但只要进入内存，即刻立刻运行。</p>
 <h3 id="进程的通信">进程的通信</h3>
 <p>通信方法分为<strong>共享存储</strong>、<strong>消息传递</strong>、<strong>管道通信</strong>。</p>
 <ol>
