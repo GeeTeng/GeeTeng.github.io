@@ -649,3 +649,99 @@ ListNode* FindFirstCommonNode( ListNode* pHead1, ListNode* pHead2) {
 }
 ```
 
+
+
+### JZ54 二叉搜索树的第k个结点
+
+```c++
+#include<iostream>
+
+using namespace std;
+
+struct TreeNode
+{
+	int val;
+	struct TreeNode* left;
+	struct TreeNode* right;
+	TreeNode(int x) :val(x), left(nullptr), right(nullptr) {}
+};
+
+TreeNode* insertBST(TreeNode* root, int val) {
+	if (!root) return new TreeNode(val);
+	if (val < root->val) root->left = insertBST(root->left, val);
+	else root->right = insertBST(root->right, val);
+	return root;
+}
+
+void MidOrder(TreeNode* root, int& k, int& res) {
+	if (root == nullptr || k <= 0) return;
+	MidOrder(root->left, k, res);
+	k--;
+	if (k == 0) {
+		res = root->val;
+		return;
+	}
+	MidOrder(root->right, k, res);
+}
+
+int main() {
+	int n;
+	TreeNode* root = nullptr;
+	while (cin >> n) {
+		root = insertBST(root, n);
+		if (cin.get() == '\n') break;
+	}
+	int k;
+	cin >> k;
+	int res = 0;
+	MidOrder(root, k, res);
+	cout << res;
+	return 0;
+}
+```
+
+
+
+### JZ56 数组中只出现一次的两个数字
+
+异或运算，两个数一样异或结果为0，不一样则为1。
+
+所以如果一个数组中有两个只出现一次的数字，那么这两个数一定二进制中有一位为1。比如说a的二进制有一位是1，b的二进制那一位是0，所以按这一位来分组。
+
+首先把所有数异或，得到两个数不同的那几位的二进制，我们称为tmp。
+
+然后遍历数组，和tmp相同的分为一组，和tmp不同的为一组。这样刚好就给两个只出现过一次的数字分开了，并且也把出现两次的数字也分到一组了（因为出现两次 => 二进制相同 => &tmp一定相同）。
+
+```c++
+#include<iostream>
+using namespace std;
+
+const int N = 1010;
+int a[N], res[N];
+int n;
+
+void findNumAppearOnce(int* arr, int& res1, int& res2) {
+	int tmp = arr[0];
+	for (int i = 1; i < n; i++) {
+		tmp ^= arr[i];
+	}
+	int k = 1;
+	while ((tmp & k) == 0) k <<= 1;
+	for (int i = 0; i < n; i++) {
+		if (a[i] & k) res1 ^= arr[i];
+		else res2 ^= arr[i];
+	}
+}
+
+int main() {
+	cin >> n;
+	for (int i = 0; i < n; i++) {
+		cin >> a[i];
+	}
+	int res1 = 0, res2 = 0;
+	findNumAppearOnce(a, res1, res2);
+	cout << res1 << " " << res2;
+	return 0;
+}
+```
+
