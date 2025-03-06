@@ -34,7 +34,7 @@
   <meta itemprop="description" content="linux基础操作、进程控制、网络编程等">
   <meta itemprop="datePublished" content="2025-03-02T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-02T00:00:00+00:00">
-  <meta itemprop="wordCount" content="319">
+  <meta itemprop="wordCount" content="394">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/linux/" />
 
@@ -214,6 +214,11 @@
             <li><a href="#系统错误">系统错误</a></li>
           </ul>
         </li>
+        <li><a href="#进程控制和同步">进程控制和同步</a>
+          <ul>
+            <li><a href="#linux的信号">linux的信号</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -236,7 +241,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        10 mins read
+                        14 mins read
                     </p>
                 </div>
             </div>
@@ -451,6 +456,88 @@
 <p><img src="/images/C++/linux/04.png" alt="04"></p>
 <h3 id="系统错误">系统错误</h3>
 <p>整型全局变量<code>errno</code>，存放了函数调用过程中产生的错误代码。配合 <code>strerror()</code> 和 <code>perror()</code> 两个函数</p>
+<h2 id="进程控制和同步">进程控制和同步</h2>
+<h3 id="linux的信号">linux的信号</h3>
+<p><strong>发送信号命令：</strong></p>
+<p>kill -信号的类型 进程编号</p>
+<p>killall -信号的类型 进程名</p>
+<p>大部分操作默认信号15是终止进程，根据信号类型发送不同信号，比如1是挂起。</p>
+<p><strong>重要的信号如下</strong>：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">信号名</th>
+<th style="text-align:center">信号值</th>
+<th style="text-align:center">默认处理动作</th>
+<th style="text-align:left">发出信号的原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><strong>SIGINT</strong></td>
+<td style="text-align:center"><strong>2</strong></td>
+<td style="text-align:center"><strong>A</strong></td>
+<td style="text-align:left"><strong>键盘中断Ctrl+c</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>SIGKILL</strong></td>
+<td style="text-align:center"><strong>9</strong></td>
+<td style="text-align:center"><strong>AEF</strong></td>
+<td style="text-align:left"><strong>采用kill  -9 进程编号 强制杀死程序。</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>SIGSEGV</strong></td>
+<td style="text-align:center"><strong>11</strong></td>
+<td style="text-align:center"><strong>CEF</strong></td>
+<td style="text-align:left"><strong>无效的内存引用（数组越界、操作空指针和野指针等）</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>SIGALRM</strong></td>
+<td style="text-align:center"><strong>14</strong></td>
+<td style="text-align:center"><strong>A</strong></td>
+<td style="text-align:left"><strong>由闹钟alarm()函数发出的信号</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>SIGTERM</strong></td>
+<td style="text-align:center"><strong>15</strong></td>
+<td style="text-align:center"><strong>A</strong></td>
+<td style="text-align:left"><strong>采用“kill  进程编号”或“killall 程序名”通知程序。</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>SIGCHLD</strong></td>
+<td style="text-align:center"><strong>17</strong></td>
+<td style="text-align:center"><strong>B</strong></td>
+<td style="text-align:left"><strong>子进程结束信号</strong></td>
+</tr>
+</tbody>
+</table>
+<p>处理动作一项中的字母含义如下：</p>
+<ul>
+<li>A 缺省的动作是终止进程。</li>
+<li>B 缺省的动作是忽略此信号，将该信号丢弃，不做处理。</li>
+<li>C 缺省的动作是终止进程并进行内核映像转储（core dump）。</li>
+<li>D 缺省的动作是停止进程，进入停止状态的程序还能重新继续，一般是在调试的过程中。</li>
+<li>E 信号不能被捕获。</li>
+<li>F 信号不能被忽略。</li>
+</ul>
+<p><strong>进程对信号的处理方法有三种：</strong></p>
+<ol>
+<li>对该信号的处理采用系统的默认操作，大部分的信号的默认操作是终止进程。</li>
+<li>设置信号的处理函数，收到信号后，由该函数来处理。</li>
+<li>忽略某个信号，对该信号不做任何处理，就像未发生过一样。</li>
+<li></li>
+</ol>
+<p><code>signal()</code>函数可以设置程序对信号的处理方式。</p>
+<p><strong>函数声明：</strong><code>sighandler_t signal(int signum, sighandler_t handler);</code></p>
+<p>参数<code>signum</code>表示信号的编号（信号的值）。</p>
+<p>参数<code>handler</code>表示信号的处理方式，有三种情况：</p>
+<ol>
+<li>SIG_DFL：恢复参数signum信号的处理方法为默认行为。</li>
+<li>一个自定义的处理信号的函数，函数的形参是信号的编号。</li>
+<li>SIG_IGN：忽略参数signum所指的信号。</li>
+</ol>
+<p>服务程序运行在后台，如果杀掉它不是个好办法，因为进程被杀的时候，是突然死亡，没有安排善后工作。如果向服务程序发送一个信号，服务程序收到信号后，调用一个函数，在函数中编写善后的代码，程序就可以有计划的退出。</p>
+<p><strong>如果向服务程序发送0的信号，可以检测程序是否存活。</strong></p>
 
         </div>
     </div>

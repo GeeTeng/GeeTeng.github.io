@@ -30,7 +30,7 @@
 
   <meta itemprop="name" content="刷题笔记">
   <meta itemprop="description" content="练习算法题时整理的思路">
-  <meta itemprop="wordCount" content="1689">
+  <meta itemprop="wordCount" content="1944">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/algorithm/" />
 
@@ -220,6 +220,8 @@
             <li><a href="#jz49-丑数">JZ49 丑数</a></li>
             <li><a href="#jz51-数组中的逆序对">JZ51 数组中的逆序对</a></li>
             <li><a href="#jz52-两个链表的第一个公共结点">JZ52 两个链表的第一个公共结点</a></li>
+            <li><a href="#jz54-二叉搜索树的第k个结点">JZ54 二叉搜索树的第k个结点</a></li>
+            <li><a href="#jz56-数组中只出现一次的两个数字">JZ56 数组中只出现一次的两个数字</a></li>
           </ul>
         </li>
       </ul>
@@ -244,7 +246,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        25 mins read
+                        28 mins read
                     </p>
                 </div>
             </div>
@@ -742,6 +744,86 @@
 </span></span><span style="display:flex;"><span>        p2 <span style="color:#f92672">=</span> p2 <span style="color:#f92672">?</span> p2<span style="color:#f92672">-&gt;</span>next : pHead1;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> p1;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="jz54-二叉搜索树的第k个结点">JZ54 二叉搜索树的第k个结点</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TreeNode</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> val;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TreeNode</span><span style="color:#f92672">*</span> left;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TreeNode</span><span style="color:#f92672">*</span> right;
+</span></span><span style="display:flex;"><span>	TreeNode(<span style="color:#66d9ef">int</span> x) <span style="color:#f92672">:</span>val(x), left(<span style="color:#66d9ef">nullptr</span>), right(<span style="color:#66d9ef">nullptr</span>) {}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>TreeNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">insertBST</span>(TreeNode<span style="color:#f92672">*</span> root, <span style="color:#66d9ef">int</span> val) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>root) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> TreeNode(val);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (val <span style="color:#f92672">&lt;</span> root<span style="color:#f92672">-&gt;</span>val) root<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> insertBST(root<span style="color:#f92672">-&gt;</span>left, val);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span> root<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> insertBST(root<span style="color:#f92672">-&gt;</span>right, val);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> root;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">MidOrder</span>(TreeNode<span style="color:#f92672">*</span> root, <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> k, <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> res) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">||</span> k <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	MidOrder(root<span style="color:#f92672">-&gt;</span>left, k, res);
+</span></span><span style="display:flex;"><span>	k<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (k <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>		res <span style="color:#f92672">=</span> root<span style="color:#f92672">-&gt;</span>val;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	MidOrder(root<span style="color:#f92672">-&gt;</span>right, k, res);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>	TreeNode<span style="color:#f92672">*</span> root <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> (cin <span style="color:#f92672">&gt;&gt;</span> n) {
+</span></span><span style="display:flex;"><span>		root <span style="color:#f92672">=</span> insertBST(root, n);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (cin.get() <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;\n&#39;</span>) <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> k;
+</span></span><span style="display:flex;"><span>	cin <span style="color:#f92672">&gt;&gt;</span> k;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	MidOrder(root, k, res);
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> res;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="jz56-数组中只出现一次的两个数字">JZ56 数组中只出现一次的两个数字</h3>
+<p>异或运算，两个数一样异或结果为0，不一样则为1。</p>
+<p>所以如果一个数组中有两个只出现一次的数字，那么这两个数一定二进制中有一位为1。比如说a的二进制有一位是1，b的二进制那一位是0，所以按这一位来分组。</p>
+<p>首先把所有数异或，得到两个数不同的那几位的二进制，我们称为tmp。</p>
+<p>然后遍历数组，和tmp相同的分为一组，和tmp不同的为一组。这样刚好就给两个只出现过一次的数字分开了，并且也把出现两次的数字也分到一组了（因为出现两次 =&gt; 二进制相同 =&gt; &amp;tmp一定相同）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1010</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> a[N], res[N];
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">findNumAppearOnce</span>(<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> arr, <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> res1, <span style="color:#66d9ef">int</span><span style="color:#f92672">&amp;</span> res2) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> arr[<span style="color:#ae81ff">0</span>];
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>		tmp <span style="color:#f92672">^=</span> arr[i];
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> ((tmp <span style="color:#f92672">&amp;</span> k) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) k <span style="color:#f92672">&lt;&lt;=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (a[i] <span style="color:#f92672">&amp;</span> k) res1 <span style="color:#f92672">^=</span> arr[i];
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> res2 <span style="color:#f92672">^=</span> arr[i];
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	cin <span style="color:#f92672">&gt;&gt;</span> n;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>		cin <span style="color:#f92672">&gt;&gt;</span> a[i];
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> res1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, res2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	findNumAppearOnce(a, res1, res2);
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> res1 <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span> <span style="color:#f92672">&lt;&lt;</span> res2;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
         </div>

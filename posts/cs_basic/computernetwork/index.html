@@ -34,7 +34,7 @@
   <meta itemprop="description" content="计算机网络知识 胡科大教书匠笔记">
   <meta itemprop="datePublished" content="2025-01-13T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-01-13T00:00:00+00:00">
-  <meta itemprop="wordCount" content="458">
+  <meta itemprop="wordCount" content="477">
   <meta itemprop="keywords" content="CS Basic">
 <link rel="canonical" href="https://geeteng.github.io/posts/cs_basic/computernetwork/" />
 
@@ -273,7 +273,11 @@
             </li>
           </ul>
         </li>
-        <li><a href="#http">HTTP</a></li>
+        <li><a href="#http">HTTP</a>
+          <ul>
+            <li><a href="#http请求的完整过程">HTTP请求的完整过程</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -296,7 +300,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        46 mins read
+                        49 mins read
                     </p>
                 </div>
             </div>
@@ -545,10 +549,10 @@ $$
 <h3 id="dns解析流程">DNS解析流程</h3>
 <ul>
 <li>
-<p><strong>缓存查询</strong>：首先检查缓存能不能查到，如果缓存查不到就会检查操作系统缓存C盘host文件，如果还找不到就去本地DNS服务器缓存。</p>
+<p><strong>缓存查询</strong>：首先浏览器会检查本地DNS缓存能不能查到，如果查不到就会检查操作系统缓存C盘host文件，如果还找不到就去本地DNS服务器发送请求。</p>
 </li>
 <li>
-<p><strong>根DNS服务器查询</strong>：如果在本地查不到，就会去根域名服务器请求解析（全球只有13台DNS根服务器，.com域名服务器.com .cn .cloud就是顶级域名，.代表根的意思）</p>
+<p><strong>根DNS服务器查询</strong>：如果在本地DNS服务器缓存查不到，就会去根域名服务器请求解析（全球只有13台DNS根服务器，.com域名服务器.com .cn .cloud就是顶级域名，.代表根的意思）</p>
 </li>
 <li>
 <p><strong>顶级DNS服务器查询</strong>：根DNS服务器返回给本地DNS域名服务器一个顶级DNS服务器地址。</p>
@@ -663,6 +667,30 @@ $$
 </code></pre></li>
 </ol>
 <h2 id="http">HTTP</h2>
+<p>超文本传输协议（HTTP）：一种无状态的，以请求应答方式运行，可扩展（添加自定义头）的协议。</p>
+<p><strong>HTTP协议格式：</strong></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/26.png" alt="26"></p>
+<p><strong>请求行报文格式：</strong></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/27.png" alt="27"></p>
+<p><strong>响应行报文格式：</strong></p>
+<p><img src="/images/CS_Basic/ComputerNetwork/28.png" alt="28"></p>
+<h3 id="http请求的完整过程">HTTP请求的完整过程</h3>
+<ol>
+<li><strong>DNS解析：<strong>当用户输入网址后，首先</strong>DNS解析流程</strong>。</li>
+<li>**TCP三次握手：**解析完成后，TCP三次握手建立连接，客户端发送SYN包（同步请求），服务器返回SYN-ACK包（确认响应），客户端再返回ACK包（确认收到），连接建立成功。</li>
+<li>**HTTP请求：**建立TCP连接后，浏览器会通过该连接发送HTTP请求报文，向服务器请求所需的资源（比如网页）；</li>
+<li>**HTTP响应：**服务器收到请求后，返回HTTP响应报文，包括网页内容等；</li>
+<li>**网页渲染：**浏览器收到HTTP响应后会根据响应内容进行页面渲染；</li>
+<li>**TCP四次挥手：**一旦网页渲染完成，浏览器和服务器之间的连接通过TCP四次挥手断开。客户端发送FIN包（请求断开连接）。服务器返回ACK包（确认收到断开请求）。服务器发送FIN包（请求断开连接）。客户端返回ACK包（确认断开请求），连接完全关闭。</li>
+</ol>
+<p>由于HTTP天生明文的特点，整个传输过程完全透明，任何人都能够截获、修改报文。所以诞生了HTTPS协议。</p>
+<p><strong>对称加密</strong>使用xor异或，将原文与密钥异或得到密文，将密文与密钥异或得到原文。</p>
+<p><strong>非对称加密</strong>：有公钥和私钥，公钥可以公开给任何人使用，而私钥必须保密。用公钥把数据加密传送给服务端，只能通过私钥解密。</p>
+<ul>
+<li>使用公钥加密 使用私钥解密</li>
+<li>使用私钥加密 使用公钥解密</li>
+</ul>
+<p>TLS中使用混合加密方式，由于对称加密速度快而非对称加密速度慢。</p>
 <p><strong>五大类HTTP状态码</strong>：</p>
 <table>
 <thead>
