@@ -745,3 +745,90 @@ int main() {
 }
 ```
 
+
+
+### JZ61 扑克牌顺子
+
+先排序从大到小，然后计算有多少个0可以转换。
+
+计算一共需要多少距离，即相邻两个数字之间相差多少个0才可以补成顺子。最后进行判断。
+
+```c++
+bool IsContinuous(vector<int>& numbers) {
+    sort(numbers.begin(), numbers.end());
+    int zeronum = 0;
+    while(numbers[zeronum] == 0) zeronum ++;
+    int distance = 0;
+    for(int i = zeronum; i < numbers.size() - 1; i ++) { // 注意不要越界
+        if(numbers[i + 1] == numbers[i]) return false; //如果遇到相等数字则不是顺子
+        distance += numbers[i + 1] - numbers[i] - 1; 
+    }
+    if(distance <= zeronum) return true;
+    return false;
+}
+```
+
+
+
+### JZ62 孩子们的游戏（圆圈中最后剩下的数）
+
+**递归**
+
+n个数去掉第m位时，还剩下n - 1个数，但是m不变。所以从(n,m)的问题变成了(n−1,m)的子问题。
+
+其中若是(n−1,m)的子问题返回的最后一个数是x，则(n,m)返回的结果就是(m+x)%n。
+
+```c++
+int LastRemaining_Solution(int n, int m) {
+    if(n == 0 || m == 0) return 0;
+    if(n == 1) return 0;
+    int x = LastRemaining_Solution(n - 1, m);
+    return (m + x) % n;
+}
+```
+
+
+
+### JZ65 不用加减乘除做加法
+
+**位运算非递归**
+
+先异或，再与并向右移位，再更新sum。
+
+```c++
+int Add(int num1, int num2) {
+    int add = num2;
+    int sum = num1;
+    while(add != 0) {
+        int tmp = sum ^ add;
+        add = (add & sum) << 1;
+        // 更新sum为新的和
+        sum = tmp;
+    }
+    return sum;
+}
+```
+
+
+
+### JZ66 构建乘积数组
+
+B[i]该位置 = B左边 * B右边，右边需要从右向左累乘，左边需要从左向右累乘。
+
+```c++
+vector<int> multiply(vector<int>& A) {
+    vector<int> B(A.size(), 1);
+    // 从左到右累乘
+    for(int i = 1; i < A.size(); i ++) {
+        B[i] = B[i - 1] * A[i - 1];
+    }
+    int tmp = 1;
+    // 从右向左累乘
+    for(int i = A.size() - 1; i >= 0; i --) {
+        B[i] *= tmp;
+        tmp *= A[i];
+    }
+    return B;
+}
+```
+

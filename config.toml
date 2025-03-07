@@ -22,6 +22,8 @@ enableemoji = false
     paginatePostsPerPage = 5
     paginateTagsPerPage = 6
 
+  customCSS = ["css/custom.css"]
+
 
 [taxonomies]
     tag = "tags"
@@ -69,5 +71,7 @@ enableemoji = false
         ["\\(", "\\)"],
         ["$", "$"]
       ]
+
+
 
 
