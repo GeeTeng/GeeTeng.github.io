@@ -34,7 +34,7 @@
   <meta itemprop="description" content="计算机网络知识 胡科大教书匠笔记">
   <meta itemprop="datePublished" content="2025-01-13T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-01-13T00:00:00+00:00">
-  <meta itemprop="wordCount" content="477">
+  <meta itemprop="wordCount" content="483">
   <meta itemprop="keywords" content="CS Basic">
 <link rel="canonical" href="https://geeteng.github.io/posts/cs_basic/computernetwork/" />
 
@@ -300,7 +300,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        49 mins read
+                        51 mins read
                     </p>
                 </div>
             </div>
@@ -691,6 +691,12 @@ $$
 <li>使用私钥加密 使用公钥解密</li>
 </ul>
 <p>TLS中使用混合加密方式，由于对称加密速度快而非对称加密速度慢。</p>
+<blockquote>
+<p>如何做到缓存？</p>
+</blockquote>
+<p>客户端会把第一次请求和响应的数据保存到本地的磁盘上，<strong>请求URL作为key，响应作为value</strong>，形成映射关系。后续发起相同请求的时候，就可以通过key查找到value。</p>
+<p>为了防止缓存的响应不是最新的。响应头部中会有一个过期时间，如果客户端在查看的时候发现响应过期了，就会重新发送请求。</p>
+<p>如果请求后得到的资源没有变更（通过比对唯一标识判断是否同一资源、有无更新），则服务器返回不含有包体（304 Not Modified）响应，告诉客户端仍然有效，这样就可以减少响应资源在网络中传输的延时。</p>
 <p><strong>五大类HTTP状态码</strong>：</p>
 <table>
 <thead>

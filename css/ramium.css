@@ -7,7 +7,15 @@ body {
 .navbar-brand a {
     font-size: 20px;
 }
-
+.navbar {
+    position: fixed;
+    top: 0;  /* 固定在顶部 */
+    left: 0; /* 左对齐 */
+    width: 100%; /* 让导航栏宽度占满整个屏幕 */
+    z-index: 1000; /* 确保导航栏在所有内容之上 */
+    background-color: #fff; /* 设置背景颜色，避免透明导致的可见问题 */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 可选的阴影效果 */
+}
 input:focus::placeholder {
     color: transparent;
 }
@@ -46,6 +54,7 @@ input:focus::placeholder {
 
 #page-body {
     margin-top: 2em;
+    margin-left: 10em;
     min-height: 75vh;
     position: relative;
 
@@ -183,6 +192,10 @@ width:1200px;
     color: black;
     opacity: 0.84;
 }
+.blog .blog-text strong {
+    color: #3273dc /* 设置加粗文本颜色 */
+}
+
 
 .blog .blog-text blockquote p {
     margin-bottom: 0px;
@@ -243,16 +256,22 @@ kbd {
     box-sizing: border-box; /* 包括边距和内填充 */
     overflow: hidden; /* 防止溢出 */
 }
-
 #TableOfContents {
-    width: 300px;  /* 固定目录宽度 */
+    position: fixed;
+    top: 3.25rem;  /* 固定在页面顶部 */
+    left: 0px;  /* 固定在左侧 */
+    width: 320px;  /* 设置宽度 */
+    height: 100vh;  /* 让目录高度充满屏幕 */
+    overflow-y: auto;  /* 如果内容过长，可以滚动 */
 }
+
 
 
 .content.blog {
     flex: 1; /* 让内容区域自动扩展 */
     box-sizing: border-box; /* 包括边距和内填充 */
     overflow: hidden; /* 防止溢出 */
+    margin-top: 3.25rem; /* 根据导航栏的高度调整这里的值，确保内容区域在导航栏下面 */
 }
 
 /* 确保文章图片不会超出内容区域 */
