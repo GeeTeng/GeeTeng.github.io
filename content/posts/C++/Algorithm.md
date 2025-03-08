@@ -13,7 +13,7 @@ chordsheet: true
 
 ### JZ23 链表中环的入口结点
 
-**方法一：哈希集合**
+*方法一：哈希集合*
 
 环的入口结点就是第一个在哈希集合中已存在的结点。
 
@@ -29,7 +29,7 @@ ListNode* EntryNodeOfLoop(ListNode* pHead) {
 }
 ```
 
-**方法二：快慢指针**
+*方法二：快慢指针*
 
 1. 判断是否有环：快指针每次向后移动2位，慢指针每次向后移动1位，如果有环，两个指针必定会相遇；
 2. 如果有环，就将快指针从头重新开始，每次移动1位，慢指针也每次移动1位，最终相遇的点就是环的入口结点。
@@ -58,7 +58,7 @@ ListNode* EntryNodeOfLoop(ListNode* pHead) {
 
 ### JZ24 反转链表
 
-**迭代法:**
+*迭代法:*
 
 声明2个指针cur和pre，分别指向当前结点和前一个结点，同时用tmp来临时存储cur的后一个结点，以防cur在将next指针指向pre的时候断开链表。
 
@@ -284,15 +284,15 @@ dfs 回溯方法，在原字符串的基础上交换，然后再交换回来。
 
 ### JZ39 数组中出现次数超过一半的数字
 
-**摩尔投票法步骤**
+*摩尔投票法步骤*
 
-1. **候选者 candidate**：初始化为数组的第一个元素
-2. **计数器 count**：初始化为 1
+1. 候选者 candidate：初始化为数组的第一个元素
+2. 计数器 count：初始化为 1
 3. 遍历数组：
-   - **当前元素等于 candidate**：计数 `+1`
-   - **当前元素不等于 candidate**：计数 `-1`
-   - **当计数变为 0**：更换候选者，并将 `count` 设为 1
-4. **最终的 candidate 就是超过一半的元素**（在题目保证存在的情况下）
+   - 当前元素等于 candidate：计数 `+1`
+   - 当前元素不等于 candidate：计数 `-1`
+   - 当计数变为 0：更换候选者，并将 `count` 设为 1
+4. 最终的 candidate 就是超过一半的元素（在题目保证存在的情况下）
 
 ```c++
     int MoreThanHalfNum_Solution(vector<int>& numbers) {
@@ -317,7 +317,7 @@ dfs 回溯方法，在原字符串的基础上交换，然后再交换回来。
 
 ### JZ41 数据流中的中位数
 
-**堆排序（双堆法）**
+*堆排序（双堆法）*
 
 使用**最大堆 + 最小堆**的方式：
 
@@ -352,7 +352,7 @@ public:
 
 ### JZ43 整数中1出现的次数
 
-1.如何获取每一位数字的 左边数字 和 右边数字？
+*1.如何获取每一位数字的 左边数字 和 右边数字？*
 
   数字3101592，假如现在cur = 0，base = 10000（是当前考虑的位数）， high是cur左边的部分、cur是当前位的数字、low是cur右边的部分。
 
@@ -362,15 +362,15 @@ public:
 
 ​    low = n % base = n % 10000 = 1592
 
-2.出现的次数取决于小于n的那些数，分情况讨论。
+*2.出现的次数取决于小于n的那些数，分情况讨论。*
 
 计算1出现的次数需要计算所有位上1出现的次数的加和，所以要遍历每一位，不断更新当前位前后的数字是什么。假设当前位是1时，计算1出现的次数。
 
-- 当cur = 0时
+- **当cur = 0时**
 
 还是拿31 0 1592举例子，如果当前位出现1了，那必然是high是0-30区间内，因为如果是311开头就比n要大了。当high是0-30的时候，无论low怎么选都比n小，所以low的选法可以有0-9999种，而low的选法正好=base10000。将high * base就是这种情况下1出现的次数。
 
-- 当cur = 1时
+- **当cur = 1时**
 
 cur = 1时 比如说310 1 592，需要分类讨论：
 
@@ -380,7 +380,7 @@ cur = 1时 比如说310 1 592，需要分类讨论：
 
 所以1的出现次数是（high * base） + （low + 1）
 
-- 当cur > 1时
+- **当cur > 1时**
 
 cur大于1时，不需要再去考虑high和low怎么选不会比n大了。比如3101 5 92，high可以从 0 - 3101 而 low 可以从 0 - 99，所以直接就是 （high + 1） * base。
 
@@ -411,7 +411,7 @@ int NumberOf1Between1AndN_Solution(int n) {
 
 ### JZ44 数字序列中某一位的数字
 
-**位数减法**：
+*位数减法*：
 
 ​	1-9 有9个数字
 
@@ -419,7 +419,7 @@ int NumberOf1Between1AndN_Solution(int n) {
 
 ​	100-999 有900个数字
 
-**举例子：**n = 327，第一轮循环digit = 1， base是开始数字 = 1， sum = 9 * digit * base = 9， n -= 9 = 318；第二轮循环digit = 2，base = 10，sum = 180，n = 138；第三轮循环 n  <  2700(sum在循环里的更新)，所以停止循环，但是我们确定了n是三位数。
+*举例子：*n = 327，第一轮循环digit = 1， base是开始数字 = 1， sum = 9 * digit * base = 9， n -= 9 = 318；第二轮循环digit = 2，base = 10，sum = 180，n = 138；第三轮循环 n  <  2700(sum在循环里的更新)，所以停止循环，但是我们确定了n是三位数。
 
 然后确认是哪一个数字，且是该数字的哪一位。
 
@@ -446,7 +446,7 @@ int findNthDigit(int n) {
 
 ### JZ45 把数组排成最小的数
 
- 重载比较排序
+ *重载比较排序*
 
 ```c++
 static bool cmp(string &x, string &y) {
@@ -472,7 +472,7 @@ string PrintMinNumber(vector<int>& numbers) {
 
 ### JZ46 把数字翻译成字符串
 
-**动态规划**
+*动态规划*
 
 首先排除一些特殊情况：
 
@@ -515,7 +515,7 @@ int solve(string nums) {
 
 ### JZ48 最长不含重复字符的字符串
 
-**哈希 双指针**：滑动窗口思想。
+*哈希 双指针*：滑动窗口思想。
 
 r在每次循环中向右移动遍历字符串，每次记录在哈希表里。当遇到重复字符时，l也开始向右移动，直到重复字符消失。这个时候取现有子串和之前字串长度的最大值。
 
@@ -545,7 +545,7 @@ int lengthOfLongestSubstring(string s) {
 
 定义一个res数组存储丑数。已知第一个丑数是1，那么**根据公式乘2、3、5，可以得到之后一系列丑数**。
 
-1. **最小堆法**
+1. *最小堆法*
 
 ```c++
 int GetUglyNumber_Solution(int index) {
@@ -571,7 +571,7 @@ int GetUglyNumber_Solution(int index) {
 }
 ```
 
-**2.动态规划**
+2. *动态规划*
 
 ```c++
 int GetUglyNumber_Solution(int index) {
@@ -593,7 +593,7 @@ int GetUglyNumber_Solution(int index) {
 
 ### JZ51 数组中的逆序对
 
-**通过归并排序统计逆序对的方法**：
+*通过归并排序统计逆序对的方法*：
 
 左半部分 [l, mid] 已经是递增序列
 
@@ -652,6 +652,8 @@ ListNode* FindFirstCommonNode( ListNode* pHead1, ListNode* pHead2) {
 
 
 ### JZ54 二叉搜索树的第k个结点
+
+中序排列，不断k --，k=0时返回。
 
 ```c++
 #include<iostream>
@@ -772,7 +774,7 @@ bool IsContinuous(vector<int>& numbers) {
 
 ### JZ62 孩子们的游戏（圆圈中最后剩下的数）
 
-**递归**
+*递归*
 
 n个数去掉第m位时，还剩下n - 1个数，但是m不变。所以从(n,m)的问题变成了(n−1,m)的子问题。
 
@@ -791,7 +793,7 @@ int LastRemaining_Solution(int n, int m) {
 
 ### JZ65 不用加减乘除做加法
 
-**位运算非递归**
+*位运算非递归*
 
 先异或，再与并向右移位，再更新sum。
 
@@ -829,6 +831,176 @@ vector<int> multiply(vector<int>& A) {
         tmp *= A[i];
     }
     return B;
+}
+```
+
+
+
+### JZ68 二叉搜索树的最近公共祖先
+
+```c++
+int lowestCommonAncestor(TreeNode* root, int p, int q) {
+    if(root == nullptr) return -1;
+    if((p >= root->val && q <= root->val) || (p <= root->val && q >= root->val))
+        return root->val;
+    else if(p <= root->val && q <= root->val)
+        return lowestCommonAncestor(root->left, p, q);
+    else
+        return lowestCommonAncestor(root->right, p, q);
+}
+```
+
+
+
+### JZ69 跳台阶
+
+*方法一：递归 和斐波那契数列一样做法*
+
+```c++
+int jumpFloor(int number) {
+    if(number <= 1) return 1;
+    return jumpFloor(number - 1) + jumpFloor(number - 2);
+}
+```
+
+*方法二：记忆化搜索*
+
+由于存在很多重复的计算，所以用f数组来存储计算过的数值。
+
+```c++
+int f[50]{0};
+int jumpFloor(int number) {
+    if(number <= 1) return 1;
+    if(f[number] > 0) return f[number];
+    return f[number] = jumpFloor(number - 1) + jumpFloor(number - 2);
+}
+```
+
+*方法三：动态规划*
+
+```c++
+int dp[50]{0};
+int jumpFloor(int number) {
+    dp[0] = dp[1] = 1;
+    for(int i = 2; i <= number; i ++) {
+        dp[i] = dp[i - 1] + dp[i - 2];
+    }
+    return dp[number];
+}
+```
+
+继续优化
+
+```c++
+    int jumpFloor(int number) {
+        int a = 1, b = 1, c = 1;
+        for(int i = 2; i <= number; i ++) {
+            c = b + a, a = b; b = c;
+        }
+        return c;
+    }
+```
+
+**跳台阶问题和矩形覆盖问题一样的解法**。都是dp[i - 1] + dp[i - 2];
+
+*跳台阶扩展问题：*
+
+f(n) = f(n - 1) + f(n - 2) + ... + f(0)
+
+f(n - 1) = f(n - 2) + ... + f(0)
+
+所以f(n) = 2 * f(n - 1)
+
+
+
+### JZ74 和为S的连续正数序列
+
+*滑动窗口*
+
+```c++
+vector<vector<int> > FindContinuousSequence(int sum) {
+    vector<vector<int>> res;
+    vector<int> tmp;
+    for(int l = 1, r = 2; l < r; ) {
+        int sum1 = (l + r) * (r - l + 1) / 2;
+        if(sum1 == sum) {
+            tmp.clear();
+            for(int i = l; i <= r; i ++) {
+                tmp.push_back(i);
+            }
+            res.push_back(tmp);
+            l ++;
+        }
+        else if(sum1 < sum) r ++;
+        else l ++;
+    }
+    return res;
+}
+```
+
+
+
+### JZ75 删除链表中的重复节点
+
+由于是排序链表，所以用哈希表存储，但值＞1时，cur后续结点肯定是重复的。
+
+```c++
+#include<iostream>
+#include<unordered_map>
+using namespace std;
+
+struct ListNode
+{
+	int val;
+	ListNode* next;
+	ListNode(int x) :val(x),next(nullptr){ }
+};
+
+ListNode* insertList(ListNode* &head, int val) {
+	ListNode* newNode = new ListNode(val);
+	if (head == nullptr) return newNode;
+	ListNode* cur = head;
+	while (cur->next != nullptr) {
+		cur = cur->next;
+	}
+	cur->next = newNode;
+	return head;
+}
+
+ListNode* deleteDuplication(ListNode* head) {
+	unordered_map<int, int> mp;
+	ListNode* cur = head;
+	while (cur != nullptr) {
+		mp[cur->val]++;
+		cur = cur->next;
+	}
+	ListNode* res = new ListNode(0);
+	res->next = head;
+	cur = res;
+	while (cur->next != nullptr) {
+		if (mp[cur->next->val] != 1) cur->next = cur->next->next;
+		else cur = cur->next;
+	}
+	return res->next;
+}
+void printList(ListNode* head) {
+	ListNode* cur = head;
+	while (cur != nullptr) {
+		cout << cur->val << ' ';
+		cur = cur->next;
+	}
+}
+
+int main() {
+	int val;
+	ListNode* head = nullptr;
+	while (cin >> val) {
+		head = insertList(head, val);
+		if (cin.get() != ' ') break;
+	}
+	ListNode* res = deleteDuplication(head);
+	printList(res);
+	return 0;
 }
 ```
 
