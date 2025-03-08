@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
 
     <title>
     刷题笔记 | 
@@ -14,7 +14,7 @@
     ">
 
 
-<meta property="og:url" content="http://localhost:1313/posts/c&#43;&#43;/algorithm/">
+<meta property="og:url" content="https://geeteng.github.io/posts/c&#43;&#43;/algorithm/">
   <meta property="og:site_name" content="GeeTeng">
   <meta property="og:title" content="刷题笔记">
   <meta property="og:description" content="练习算法题时整理的思路">
@@ -31,11 +31,11 @@
 
   <meta itemprop="name" content="刷题笔记">
   <meta itemprop="description" content="练习算法题时整理的思路">
-  <meta itemprop="wordCount" content="2156">
+  <meta itemprop="wordCount" content="2610">
   <meta itemprop="keywords" content="C&#43;&#43;">
-<link rel="canonical" href="http://localhost:1313/posts/c&#43;&#43;/algorithm/" />
+<link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/algorithm/" />
 
-<link rel="icon" type="image/png" href="http://localhost:1313/image/favicon.ico">
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
 
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/bulma.min.css">
@@ -50,6 +50,28 @@
           ],
           throwOnError: false
         });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
 
 
 
@@ -206,6 +228,10 @@
             <li><a href="#jz62-孩子们的游戏圆圈中最后剩下的数">JZ62 孩子们的游戏（圆圈中最后剩下的数）</a></li>
             <li><a href="#jz65-不用加减乘除做加法">JZ65 不用加减乘除做加法</a></li>
             <li><a href="#jz66-构建乘积数组">JZ66 构建乘积数组</a></li>
+            <li><a href="#jz68-二叉搜索树的最近公共祖先">JZ68 二叉搜索树的最近公共祖先</a></li>
+            <li><a href="#jz69-跳台阶">JZ69 跳台阶</a></li>
+            <li><a href="#jz74-和为s的连续正数序列">JZ74 和为S的连续正数序列</a></li>
+            <li><a href="#jz75-删除链表中的重复节点">JZ75 删除链表中的重复节点</a></li>
           </ul>
         </li>
       </ul>
@@ -230,7 +256,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        30 mins read
+                        34 mins read
                     </p>
                 </div>
             </div>
@@ -254,7 +280,7 @@
 
             <h2 id="剑指offer">剑指offer</h2>
 <h3 id="jz23-链表中环的入口结点">JZ23 链表中环的入口结点</h3>
-<p><strong>方法一：哈希集合</strong></p>
+<p><em>方法一：哈希集合</em></p>
 <p>环的入口结点就是第一个在哈希集合中已存在的结点。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">EntryNodeOfLoop</span>(ListNode<span style="color:#f92672">*</span> pHead) {
 </span></span><span style="display:flex;"><span>    unordered_set<span style="color:#f92672">&lt;</span>ListNode<span style="color:#f92672">*&gt;</span> st;
@@ -265,7 +291,7 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pHead;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>方法二：快慢指针</strong></p>
+</span></span></code></pre></div><p><em>方法二：快慢指针</em></p>
 <ol>
 <li>判断是否有环：快指针每次向后移动2位，慢指针每次向后移动1位，如果有环，两个指针必定会相遇；</li>
 <li>如果有环，就将快指针从头重新开始，每次移动1位，慢指针也每次移动1位，最终相遇的点就是环的入口结点。</li>
@@ -288,7 +314,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="jz24-反转链表">JZ24 反转链表</h3>
-<p><strong>迭代法:</strong></p>
+<p><em>迭代法:</em></p>
 <p>声明2个指针cur和pre，分别指向当前结点和前一个结点，同时用tmp来临时存储cur的后一个结点，以防cur在将next指针指向pre的时候断开链表。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">ReverseList</span>(ListNode<span style="color:#f92672">*</span> head) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(head <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
@@ -455,18 +481,18 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
 </span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div><h3 id="jz39-数组中出现次数超过一半的数字">JZ39 数组中出现次数超过一半的数字</h3>
-<p><strong>摩尔投票法步骤</strong></p>
+<p><em>摩尔投票法步骤</em></p>
 <ol>
-<li><strong>候选者 candidate</strong>：初始化为数组的第一个元素</li>
-<li><strong>计数器 count</strong>：初始化为 1</li>
+<li>候选者 candidate：初始化为数组的第一个元素</li>
+<li>计数器 count：初始化为 1</li>
 <li>遍历数组：
 <ul>
-<li><strong>当前元素等于 candidate</strong>：计数 <code>+1</code></li>
-<li><strong>当前元素不等于 candidate</strong>：计数 <code>-1</code></li>
-<li><strong>当计数变为 0</strong>：更换候选者，并将 <code>count</code> 设为 1</li>
+<li>当前元素等于 candidate：计数 <code>+1</code></li>
+<li>当前元素不等于 candidate：计数 <code>-1</code></li>
+<li>当计数变为 0：更换候选者，并将 <code>count</code> 设为 1</li>
 </ul>
 </li>
-<li><strong>最终的 candidate 就是超过一半的元素</strong>（在题目保证存在的情况下）</li>
+<li>最终的 candidate 就是超过一半的元素（在题目保证存在的情况下）</li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">MoreThanHalfNum_Solution</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> numbers) {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> candidate <span style="color:#f92672">=</span> numbers[<span style="color:#ae81ff">0</span>], count <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
@@ -485,7 +511,7 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> candidate;
 </span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div><h3 id="jz41-数据流中的中位数">JZ41 数据流中的中位数</h3>
-<p><strong>堆排序（双堆法）</strong></p>
+<p><em>堆排序（双堆法）</em></p>
 <p>使用<strong>最大堆 + 最小堆</strong>的方式：</p>
 <ul>
 <li><strong>最大堆min</strong>（存储较小的一半数据，堆顶是最大值）</li>
@@ -512,26 +538,26 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">double</span> (min.top() <span style="color:#f92672">+</span> max.top()) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
 </span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div><h3 id="jz43-整数中1出现的次数">JZ43 整数中1出现的次数</h3>
-<p>1.如何获取每一位数字的 左边数字 和 右边数字？</p>
+<p><em>1.如何获取每一位数字的 左边数字 和 右边数字？</em></p>
 <p>数字3101592，假如现在cur = 0，base = 10000（是当前考虑的位数）， high是cur左边的部分、cur是当前位的数字、low是cur右边的部分。</p>
 <p>high = n / （base * 10） = n / 100000 = 31</p>
 <p>​    cur = (n / base) % 10 = (n / 10000) % 10 = 0</p>
 <p>​    low = n % base = n % 10000 = 1592</p>
-<p>2.出现的次数取决于小于n的那些数，分情况讨论。</p>
+<p><em>2.出现的次数取决于小于n的那些数，分情况讨论。</em></p>
 <p>计算1出现的次数需要计算所有位上1出现的次数的加和，所以要遍历每一位，不断更新当前位前后的数字是什么。假设当前位是1时，计算1出现的次数。</p>
 <ul>
-<li>当cur = 0时</li>
+<li><strong>当cur = 0时</strong></li>
 </ul>
 <p>还是拿31 0 1592举例子，如果当前位出现1了，那必然是high是0-30区间内，因为如果是311开头就比n要大了。当high是0-30的时候，无论low怎么选都比n小，所以low的选法可以有0-9999种，而low的选法正好=base10000。将high * base就是这种情况下1出现的次数。</p>
 <ul>
-<li>当cur = 1时</li>
+<li><strong>当cur = 1时</strong></li>
 </ul>
 <p>cur = 1时 比如说310 1 592，需要分类讨论：</p>
 <p>​        high从0 - 309时，low可以是0-999。所以是和cur = 0的情况一样的 =&gt; high * base</p>
 <p>​        high是310时（1种选法），low只能是0 - 592（593种选法，是low + 1），low如果再大于592就比n要大了。 =&gt; 1 * （low + 1）</p>
 <p>所以1的出现次数是（high * base） + （low + 1）</p>
 <ul>
-<li>当cur &gt; 1时</li>
+<li><strong>当cur &gt; 1时</strong></li>
 </ul>
 <p>cur大于1时，不需要再去考虑high和low怎么选不会比n大了。比如3101 5 92，high可以从 0 - 3101 而 low 可以从 0 - 99，所以直接就是 （high + 1） * base。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">NumberOf1Between1AndN_Solution</span>(<span style="color:#66d9ef">int</span> n) {
@@ -555,11 +581,11 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> cnt;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="jz44-数字序列中某一位的数字">JZ44 数字序列中某一位的数字</h3>
-<p><strong>位数减法</strong>：</p>
+<p><em>位数减法</em>：</p>
 <p>​	1-9 有9个数字</p>
 <p>​	10-99 有90个数字</p>
 <p>​	100-999 有900个数字</p>
-<p>**举例子：**n = 327，第一轮循环digit = 1， base是开始数字 = 1， sum = 9 * digit * base = 9， n -= 9 = 318；第二轮循环digit = 2，base = 10，sum = 180，n = 138；第三轮循环 n  &lt;  2700(sum在循环里的更新)，所以停止循环，但是我们确定了n是三位数。</p>
+<p>*举例子：*n = 327，第一轮循环digit = 1， base是开始数字 = 1， sum = 9 * digit * base = 9， n -= 9 = 318；第二轮循环digit = 2，base = 10，sum = 180，n = 138；第三轮循环 n  &lt;  2700(sum在循环里的更新)，所以停止循环，但是我们确定了n是三位数。</p>
 <p>然后确认是哪一个数字，且是该数字的哪一位。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">findNthDigit</span>(<span style="color:#66d9ef">int</span> n) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">long</span> <span style="color:#66d9ef">long</span> base <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
@@ -578,7 +604,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> to_string(num)[index] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;0&#39;</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="jz45-把数组排成最小的数">JZ45 把数组排成最小的数</h3>
-<p>重载比较排序</p>
+<p><em>重载比较排序</em></p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">cmp</span>(string <span style="color:#f92672">&amp;</span>x, string <span style="color:#f92672">&amp;</span>y) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> y <span style="color:#f92672">&lt;</span> y <span style="color:#f92672">+</span> x;
 </span></span><span style="display:flex;"><span>}
@@ -597,7 +623,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="jz46-把数字翻译成字符串">JZ46 把数字翻译成字符串</h3>
-<p><strong>动态规划</strong></p>
+<p><em>动态规划</em></p>
 <p>首先排除一些特殊情况：</p>
 <ol>
 <li>当字符串是0时，没有对应编码</li>
@@ -630,7 +656,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> dp[nums.length()];
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="jz48-最长不含重复字符的字符串">JZ48 最长不含重复字符的字符串</h3>
-<p><strong>哈希 双指针</strong>：滑动窗口思想。</p>
+<p><em>哈希 双指针</em>：滑动窗口思想。</p>
 <p>r在每次循环中向右移动遍历字符串，每次记录在哈希表里。当遇到重复字符时，l也开始向右移动，直到重复字符消失。这个时候取现有子串和之前字串长度的最大值。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">lengthOfLongestSubstring</span>(string s) {
 </span></span><span style="display:flex;"><span>    unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> mp;
@@ -651,7 +677,7 @@
 <p>把只包含质因子2、3和5的数称作丑数，有了定义我们就可以知道，<strong>丑数的形式就是2^x 3^y 5^z</strong>。</p>
 <p>定义一个res数组存储丑数。已知第一个丑数是1，那么<strong>根据公式乘2、3、5，可以得到之后一系列丑数</strong>。</p>
 <ol>
-<li><strong>最小堆法</strong></li>
+<li><em>最小堆法</em></li>
 </ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">GetUglyNumber_Solution</span>(<span style="color:#66d9ef">int</span> index) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(index <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
@@ -674,7 +700,9 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ugly;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p><strong>2.动态规划</strong></p>
+</span></span></code></pre></div><ol start="2">
+<li><em>动态规划</em></li>
+</ol>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">GetUglyNumber_Solution</span>(<span style="color:#66d9ef">int</span> index) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(index <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> dp(index, <span style="color:#ae81ff">1</span>);
@@ -689,7 +717,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> dp[index <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="jz51-数组中的逆序对">JZ51 数组中的逆序对</h3>
-<p><strong>通过归并排序统计逆序对的方法</strong>：</p>
+<p><em>通过归并排序统计逆序对的方法</em>：</p>
 <p>左半部分 [l, mid] 已经是递增序列</p>
 <p>右半部分 [mid+1, r]也是递增序列</p>
 <p>但是当它们合并在一起时可能会形成逆序对，i在左半部分，j在右半部分。</p>
@@ -730,6 +758,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> p1;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="jz54-二叉搜索树的第k个结点">JZ54 二叉搜索树的第k个结点</h3>
+<p>中序排列，不断k &ndash;，k=0时返回。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
@@ -825,7 +854,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> false;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="jz62-孩子们的游戏圆圈中最后剩下的数">JZ62 孩子们的游戏（圆圈中最后剩下的数）</h3>
-<p><strong>递归</strong></p>
+<p><em>递归</em></p>
 <p>n个数去掉第m位时，还剩下n - 1个数，但是m不变。所以从(n,m)的问题变成了(n−1,m)的子问题。</p>
 <p>其中若是(n−1,m)的子问题返回的最后一个数是x，则(n,m)返回的结果就是(m+x)%n。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">LastRemaining_Solution</span>(<span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> m) {
@@ -835,7 +864,7 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> (m <span style="color:#f92672">+</span> x) <span style="color:#f92672">%</span> n;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="jz65-不用加减乘除做加法">JZ65 不用加减乘除做加法</h3>
-<p><strong>位运算非递归</strong></p>
+<p><em>位运算非递归</em></p>
 <p>先异或，再与并向右移位，再更新sum。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">Add</span>(<span style="color:#66d9ef">int</span> num1, <span style="color:#66d9ef">int</span> num2) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> add <span style="color:#f92672">=</span> num2;
@@ -864,6 +893,131 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> B;
 </span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="jz68-二叉搜索树的最近公共祖先">JZ68 二叉搜索树的最近公共祖先</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">lowestCommonAncestor</span>(TreeNode<span style="color:#f92672">*</span> root, <span style="color:#66d9ef">int</span> p, <span style="color:#66d9ef">int</span> q) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>((p <span style="color:#f92672">&gt;=</span> root<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&amp;&amp;</span> q <span style="color:#f92672">&lt;=</span> root<span style="color:#f92672">-&gt;</span>val) <span style="color:#f92672">||</span> (p <span style="color:#f92672">&lt;=</span> root<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&amp;&amp;</span> q <span style="color:#f92672">&gt;=</span> root<span style="color:#f92672">-&gt;</span>val))
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> root<span style="color:#f92672">-&gt;</span>val;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span>(p <span style="color:#f92672">&lt;=</span> root<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&amp;&amp;</span> q <span style="color:#f92672">&lt;=</span> root<span style="color:#f92672">-&gt;</span>val)
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> lowestCommonAncestor(root<span style="color:#f92672">-&gt;</span>left, p, q);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> lowestCommonAncestor(root<span style="color:#f92672">-&gt;</span>right, p, q);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="jz69-跳台阶">JZ69 跳台阶</h3>
+<p><em>方法一：递归 和斐波那契数列一样做法</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">jumpFloor</span>(<span style="color:#66d9ef">int</span> number) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(number <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> jumpFloor(number <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> jumpFloor(number <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><em>方法二：记忆化搜索</em></p>
+<p>由于存在很多重复的计算，所以用f数组来存储计算过的数值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> f[<span style="color:#ae81ff">50</span>]{<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">jumpFloor</span>(<span style="color:#66d9ef">int</span> number) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(number <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(f[number] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> f[number];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> f[number] <span style="color:#f92672">=</span> jumpFloor(number <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> jumpFloor(number <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><em>方法三：动态规划</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> dp[<span style="color:#ae81ff">50</span>]{<span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">jumpFloor</span>(<span style="color:#66d9ef">int</span> number) {
+</span></span><span style="display:flex;"><span>    dp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> dp[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> number; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        dp[i] <span style="color:#f92672">=</span> dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> dp[number];
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>继续优化</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">jumpFloor</span>(<span style="color:#66d9ef">int</span> number) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, b <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> number; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            c <span style="color:#f92672">=</span> b <span style="color:#f92672">+</span> a, a <span style="color:#f92672">=</span> b; b <span style="color:#f92672">=</span> c;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> c;
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div><p><strong>跳台阶问题和矩形覆盖问题一样的解法</strong>。都是dp[i - 1] + dp[i - 2];</p>
+<p><em>跳台阶扩展问题：</em></p>
+<p>f(n) = f(n - 1) + f(n - 2) + &hellip; + f(0)</p>
+<p>f(n - 1) = f(n - 2) + &hellip; + f(0)</p>
+<p>所以f(n) = 2 * f(n - 1)</p>
+<h3 id="jz74-和为s的连续正数序列">JZ74 和为S的连续正数序列</h3>
+<p><em>滑动窗口</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> <span style="color:#f92672">&gt;</span> FindContinuousSequence(<span style="color:#66d9ef">int</span> sum) {
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> tmp;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> l <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, r <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; l <span style="color:#f92672">&lt;</span> r; ) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> sum1 <span style="color:#f92672">=</span> (l <span style="color:#f92672">+</span> r) <span style="color:#f92672">*</span> (r <span style="color:#f92672">-</span> l <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(sum1 <span style="color:#f92672">==</span> sum) {
+</span></span><span style="display:flex;"><span>            tmp.clear();
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> l; i <span style="color:#f92672">&lt;=</span> r; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                tmp.push_back(i);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            res.push_back(tmp);
+</span></span><span style="display:flex;"><span>            l <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(sum1 <span style="color:#f92672">&lt;</span> sum) r <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> l <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="jz75-删除链表中的重复节点">JZ75 删除链表中的重复节点</h3>
+<p>由于是排序链表，所以用哈希表存储，但值＞1时，cur后续结点肯定是重复的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include&lt;unordered_map&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ListNode</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> val;
+</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> next;
+</span></span><span style="display:flex;"><span>	ListNode(<span style="color:#66d9ef">int</span> x) <span style="color:#f92672">:</span>val(x),next(<span style="color:#66d9ef">nullptr</span>){ }
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">insertList</span>(ListNode<span style="color:#f92672">*</span> <span style="color:#f92672">&amp;</span>head, <span style="color:#66d9ef">int</span> val) {
+</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> newNode <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode(val);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (head <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> newNode;
+</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> (cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>		cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> newNode;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> head;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">deleteDuplication</span>(ListNode<span style="color:#f92672">*</span> head) {
+</span></span><span style="display:flex;"><span>	unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> mp;
+</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> (cur <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>		mp[cur<span style="color:#f92672">-&gt;</span>val]<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>		cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> res <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>	res<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>	cur <span style="color:#f92672">=</span> res;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> (cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (mp[cur<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>val] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">1</span>) cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> res<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">printList</span>(ListNode<span style="color:#f92672">*</span> head) {
+</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> (cur <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> cur<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#39; &#39;</span>;
+</span></span><span style="display:flex;"><span>		cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> val;
+</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> head <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> (cin <span style="color:#f92672">&gt;&gt;</span> val) {
+</span></span><span style="display:flex;"><span>		head <span style="color:#f92672">=</span> insertList(head, val);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (cin.get() <span style="color:#f92672">!=</span> <span style="color:#e6db74">&#39; &#39;</span>) <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> res <span style="color:#f92672">=</span> deleteDuplication(head);
+</span></span><span style="display:flex;"><span>	printList(res);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
         </div>
     </div>
@@ -872,44 +1026,44 @@
 	<br>
 	
 	<div class="share-buttons">
-	    <a  href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fc%2b%2b%2falgorithm%2f"
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2falgorithm%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Facebook. Opens in a new window.">
 	        <img src=/img/icons/45px/facebook.png>
 	    </a>
 
-	    <a  href="https://twitter.com/intent/tweet?text=%e5%88%b7%e9%a2%98%e7%ac%94%e8%ae%b0&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fc%2b%2b%2falgorithm%2f"
+	    <a  href="https://twitter.com/intent/tweet?text=%e5%88%b7%e9%a2%98%e7%ac%94%e8%ae%b0&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2falgorithm%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Twitter. Opens in a new window." >
 	        <img src=/img/icons/45px/twitter.png>
 	    </a>
 
-		<a  href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fc%2b%2b%2falgorithm%2f"
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2falgorithm%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Reddit. Opens in a new window." >
 	        <img src=/img/icons/45px/reddit.png>
 	    </a>
 
-	    <a  href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fc%2b%2b%2falgorithm%2f"
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2falgorithm%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Pinterest. Opens in a new window." >
 	        <img src=/img/icons/45px/pinterest.png>
 	    </a>
 
-	    <a  href="http://www.tumblr.com/share/link?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fc%2b%2b%2falgorithm%2f"
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2falgorithm%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Tumblr. Opens in a new window." >
 	        <img src=/img/icons/45px/tumblr.png>
 	    </a>
 
-		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fc%2b%2b%2falgorithm%2f
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2falgorithm%2f
 			&title=%e5%88%b7%e9%a2%98%e7%ac%94%e8%ae%b0&summary=%e5%89%91%e6%8c%87offer%20JZ23%20%e9%93%be%e8%a1%a8%e4%b8%ad%e7%8e%af%e7%9a%84%e5%85%a5%e5%8f%a3%e7%bb%93%e7%82%b9%20%e6%96%b9%e6%b3%95%e4%b8%80%ef%bc%9a%e5%93%88%e5%b8%8c%e9%9b%86%e5%90%88%0a%e7%8e%af%e7%9a%84%e5%85%a5%e5%8f%a3%e7%bb%93%e7%82%b9%e5%b0%b1%e6%98%af%e7%ac%ac%e4%b8%80%e4%b8%aa%e5%9c%a8%e5%93%88%e5%b8%8c%e9%9b%86%e5%90%88%e4%b8%ad%e5%b7%b2%e5%ad%98%e5%9c%a8%e7%9a%84%e7%bb%93%e7%82%b9%e3%80%82%0aListNode%2a%20EntryNodeOfLoop%28ListNode%2a%20pHead%29%20%7b%20unordered_set%26lt%3bListNode%2a%26gt%3b%20st%3b%20while%28pHead%29%7b%20if%28st.count%28pHead%29%29%20return%20pHead%3b%20st.insert%28pHead%29%3b%20pHead%20%3d%20pHead-%26gt%3bnext%3b%20%7d%20return%20pHead%3b%20%7d%20%e6%96%b9%e6%b3%95%e4%ba%8c%ef%bc%9a%e5%bf%ab%e6%85%a2%e6%8c%87%e9%92%88%0a%e5%88%a4%e6%96%ad%e6%98%af%e5%90%a6%e6%9c%89%e7%8e%af%ef%bc%9a%e5%bf%ab%e6%8c%87%e9%92%88%e6%af%8f%e6%ac%a1%e5%90%91%e5%90%8e%e7%a7%bb%e5%8a%a82%e4%bd%8d%ef%bc%8c%e6%85%a2%e6%8c%87%e9%92%88%e6%af%8f%e6%ac%a1%e5%90%91%e5%90%8e%e7%a7%bb%e5%8a%a81%e4%bd%8d%ef%bc%8c%e5%a6%82%e6%9e%9c%e6%9c%89%e7%8e%af%ef%bc%8c%e4%b8%a4%e4%b8%aa%e6%8c%87%e9%92%88%e5%bf%85%e5%ae%9a%e4%bc%9a%e7%9b%b8%e9%81%87%ef%bc%9b%20%e5%a6%82%e6%9e%9c%e6%9c%89%e7%8e%af%ef%bc%8c%e5%b0%b1%e5%b0%86%e5%bf%ab%e6%8c%87%e9%92%88%e4%bb%8e%e5%a4%b4%e9%87%8d%e6%96%b0%e5%bc%80%e5%a7%8b%ef%bc%8c%e6%af%8f%e6%ac%a1%e7%a7%bb%e5%8a%a81%e4%bd%8d%ef%bc%8c%e6%85%a2%e6%8c%87%e9%92%88%e4%b9%9f%e6%af%8f%e6%ac%a1%e7%a7%bb%e5%8a%a81%e4%bd%8d%ef%bc%8c%e6%9c%80%e7%bb%88%e7%9b%b8%e9%81%87%e7%9a%84%e7%82%b9%e5%b0%b1%e6%98%af%e7%8e%af%e7%9a%84%e5%85%a5%e5%8f%a3%e7%bb%93%e7%82%b9%e3%80%82%20ListNode%2a%20EntryNodeOfLoop%28ListNode%2a%20pHead%29%20%7b%20ListNode%2a%20fast%20%3d%20pHead%2c%20%2aslow%20%3d%20pHead%3b%20while%28fast%20%21%3d%20nullptr%29%7b%20if%28fast-%26gt%3bnext%20%3d%3d%20nullptr%29%20return%20nullptr%3b%20fast%20%3d%20fast-%26gt%3bnext-%26gt%3bnext%3b%20slow%20%3d%20slow-%26gt%3bnext%3b%20if%28fast%20%3d%3d%20slow%29%7b%20fast%20%3d%20pHead%3b%20while%28fast%20%21%3d%20slow%29%7b%20fast%20%3d%20fast-%26gt%3bnext%3b%20slow%20%3d%20slow-%26gt%3bnext%3b%20%7d%20return%20fast%3b%20%7d%20%7d%20return%20nullptr%3b%20%7d%20JZ24%20%e5%8f%8d%e8%bd%ac%e9%93%be%e8%a1%a8%20%e8%bf%ad%e4%bb%a3%e6%b3%95%3a&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>
 	    </a>
 
-	    <a  href="mailto:?subject=%e5%88%b7%e9%a2%98%e7%ac%94%e8%ae%b0&amp;body=Check out this site http%3a%2f%2flocalhost%3a1313%2fposts%2fc%2b%2b%2falgorithm%2f"
+	    <a  href="mailto:?subject=%e5%88%b7%e9%a2%98%e7%ac%94%e8%ae%b0&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2falgorithm%2f"
 	        title="Share via Email. Opens in a new window." >
 	        <img src=/img/icons/45px/mail.png>
 	    </a>
@@ -937,23 +1091,9 @@
 
         </div>
     </div>
-<script async src="https://cse.google.com/cse.js?cx=google-search-code"></script>
-<gcse:searchresults-only></gcse:searchresults-only>
 
 
-<footer class="footer has-background-dark">
-    <div class="content has-text-centered has-text-white">
-        <p>
-            © 2024 GeeTeng.My
-            <a class="has-text-light" href="https://github.com/GeeTeng" target="_blank">
-            GitHub</a>. 
-
-	    Email: 15143483@qq.com
-        </p>
-    </div>
-</footer>
-
-<div id="particles-js"></div>
+    <div id="particles-js"></div>
     <script src="/js/particles.min.js"></script>
     <script>
         particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en-us">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
 
     <title>
-    计算机网络 | 
+    计算机网络课程笔记 | 
     
     GeeTeng</title>
 
@@ -14,9 +14,9 @@
     ">
 
 
-<meta property="og:url" content="http://localhost:1313/posts/cs_basic/computernetwork/">
+<meta property="og:url" content="https://geeteng.github.io/posts/cs_basic/computernetwork/">
   <meta property="og:site_name" content="GeeTeng">
-  <meta property="og:title" content="计算机网络">
+  <meta property="og:title" content="计算机网络课程笔记">
   <meta property="og:description" content="计算机网络知识 胡科大教书匠笔记">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
@@ -27,19 +27,19 @@
 
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="计算机网络">
+  <meta name="twitter:title" content="计算机网络课程笔记">
   <meta name="twitter:description" content="计算机网络知识 胡科大教书匠笔记">
 
 
-  <meta itemprop="name" content="计算机网络">
+  <meta itemprop="name" content="计算机网络课程笔记">
   <meta itemprop="description" content="计算机网络知识 胡科大教书匠笔记">
   <meta itemprop="datePublished" content="2025-01-13T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-01-13T00:00:00+00:00">
-  <meta itemprop="wordCount" content="525">
+  <meta itemprop="wordCount" content="180">
   <meta itemprop="keywords" content="CS Basic">
-<link rel="canonical" href="http://localhost:1313/posts/cs_basic/computernetwork/" />
+<link rel="canonical" href="https://geeteng.github.io/posts/cs_basic/computernetwork/" />
 
-<link rel="icon" type="image/png" href="http://localhost:1313/image/favicon.ico">
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
 
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/bulma.min.css">
@@ -54,6 +54,28 @@
           ],
           throwOnError: false
         });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
 
 
 
@@ -234,44 +256,6 @@
         </li>
       </ul>
     </li>
-    <li><a href="#4-第四章-ip篇">4. 第四章 IP篇</a>
-      <ul>
-        <li><a href="#ip地址划分">ip地址划分</a></li>
-        <li><a href="#子网掩码">子网掩码</a></li>
-        <li><a href="#dns解析">DNS解析</a>
-          <ul>
-            <li><a href="#dns由来">DNS由来：</a></li>
-            <li><a href="#dns解析流程">DNS解析流程</a></li>
-            <li><a href="#域名解析记录">域名解析记录</a></li>
-          </ul>
-        </li>
-        <li><a href="#文字编码">文字编码</a></li>
-        <li><a href="#arp协议">ARP协议</a></li>
-        <li><a href="#nat">NAT</a></li>
-      </ul>
-    </li>
-    <li><a href="#5-第五章-tcp篇">5. 第五章 TCP篇</a>
-      <ul>
-        <li><a href="#tcp三次握手四次挥手">TCP三次握手、四次挥手</a>
-          <ul>
-            <li>
-              <ul>
-                <li><a href="#为什么tcp客户端最后还要发送一次确认呢">为什么TCP客户端最后还要发送一次确认呢？</a></li>
-              </ul>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </li>
-    <li><a href="#6第六章-http">6.第六章 HTTP</a>
-      <ul>
-        <li>
-          <ul>
-            <li><a href="#http请求的完整过程">HTTP请求的完整过程</a></li>
-          </ul>
-        </li>
-      </ul>
-    </li>
   </ul>
 </nav>
     </nav>
@@ -279,7 +263,7 @@
 
     
     <div class="content blog">
-        <h1>计算机网络</h1>
+        <h1>计算机网络课程笔记</h1>
 
         <div id="infobar" class="level is-mobile">
             <div class="level-left">
@@ -292,7 +276,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        57 mins read
+                        18 mins read
                     </p>
                 </div>
             </div>
@@ -478,21 +462,21 @@ $$
 <h3 id="静态划分信道">静态划分信道</h3>
 <ol>
 <li>
-<p><strong>频分复用FDM</strong></p>
+<p><em>频分复用FDM</em></p>
 <p>所有用户同时占用不同的频带资源并行通信。</p>
 <p><img src="/images/CS_Basic/ComputerNetwork/18.png" alt="18"></p>
 </li>
 <li>
-<p><strong>时分复用TDM</strong></p>
+<p><em>时分复用TDM</em></p>
 <p>时分复用技术将时间划分成一段段等长的时分复用帧，占用固定的时隙。</p>
 <p><img src="/images/CS_Basic/ComputerNetwork/19.png" alt="19"></p>
 </li>
 <li>
-<p><strong>波分复用WDM</strong></p>
+<p><em>波分复用WDM</em></p>
 <p><img src="/images/CS_Basic/ComputerNetwork/20.png" alt="20"></p>
 </li>
 <li>
-<p><strong>码分复用CDM</strong></p>
+<p><em>码分复用CDM</em></p>
 <p>该技术主要用于多址接入（多点接入：处理动态分配信道给用户），常被叫做码分多址CDMA。</p>
 <p>同理，频分复用FDM和时分复用TDM同样可用于多址接入，FDMA和TDMA。</p>
 <p>在CDMA中，每一个比特时间再划分为m个短的间隔，称为码片，通常m = 64 / 128。</p>
@@ -507,266 +491,6 @@ $$
 <p>eg：码片序列为00011011，发送比特1：00011011，发送比特0：11100100。<strong>按惯例将0写为-1，1写为+1</strong>（直接序列扩频DSSS），所以该站点的码片序列为（-1，-1，-1，+1，+1，-1，+1，+1）</p>
 </li>
 </ol>
-<hr>
-<p><a href="https://www.cnblogs.com/clschao/articles/9578922.html#_label8">网络通信协议(互联网协议) - cls超 - 博客园</a></p>
-<h1 id="4-第四章-ip篇">4. 第四章 IP篇</h1>
-<h2 id="ip地址划分">ip地址划分</h2>
-<blockquote>
-<p><strong>A类</strong>：1.0.0.1 ~ 126.255.255.254（0 - 127）</p>
-<p><strong>B类</strong>：128.0.0.1 ~ 191.255.255.254（128 - 192）</p>
-<p><strong>C类</strong>：192.0.0.1 ~ 223.255.255.254 （192 - 224）</p>
-<p>D类 组播 VRRP协议（224 - 239）</p>
-<p>E类 科研（240 - 255）</p>
-<p>其中<strong>127</strong>地址可用作本地软件环回测试，进程之间通信。127.0.0.1（本机地址） 是一个<strong>不可路由</strong>的<strong>私有 IP 地址</strong>。</p>
-<p>通过判断第1位地址为0还是1、第2位地址为0还是1..来判断是哪类地址。</p>
-</blockquote>
-<p>私有ip地址范围：</p>
-<p>A类 10.0.0.0 ~ 10.255.255.255</p>
-<p>B类 172.16.0.0 ~ 172.31.255.255</p>
-<p>C类 192.168.0.0 ~ 192.168.255.255</p>
-<p>默认网关 = 路由器地址公网ip（自己电脑看是内网ip）</p>
-<p>主机号全为0表示某个网络，主机号全为1表示某个网络下的所有主机，用于广播。</p>
-<p>广播地址用于在同一个链路中互相连接的主机之间发送数据包。</p>
-<h2 id="子网掩码">子网掩码</h2>
-<p>子网掩码表示子网络特征的一个参数，它的网络部分全部为1，主机部分全部为0，比如255.255.255.128。</p>
-<p>知道子网掩码就<strong>可以判断两个IP地址是否处于同一网段</strong>，将两个IP地址分别进行AND运算，比较结果是否相同，如果是的话就表明在同一网络中。</p>
-<p>假设有一个IP地址172.16.10.1的子网掩码是255.255.255.0（对应二进制有24个1），所以可以写为172.16.10.1/24。</p>
-<p><strong>IP协议的作用主要有两个，一个是为每一台计算机分配IP地址（DHCP动态分配），另一个是确定哪些地址在同一个子网络</strong>。</p>
-<h2 id="dns解析">DNS解析</h2>
-<p>DNS（Domain Name System）：域名系统，<strong>将域名解析成ip地址</strong>。</p>
-<p>计算机和计算机直接通信是通过ip:端口来实现的。</p>
-<h3 id="dns由来">DNS由来：</h3>
-<p>比如说你想访问百度，但是没办法记住它的ip地址，因为就算记住了百度，还有其他很多别的网站。于是计算机帮我们将ip地址保留在系统里，C:\windows\system32\drivers\etc\hosts文件</p>
-<p>后来有网站专门提供最新的host，但是不断更新很麻烦，所以出现了DNS服务器。</p>
-<p>比如阿里云的：235.5.5.5，谷歌 8.8.8.8。</p>
-<h3 id="dns解析流程">DNS解析流程</h3>
-<ul>
-<li>
-<p><strong>缓存查询</strong>：首先浏览器会检查本地DNS缓存能不能查到，如果查不到就会检查操作系统缓存C盘host文件，如果还找不到就去本地DNS服务器发送请求。</p>
-</li>
-<li>
-<p><strong>根DNS服务器查询</strong>：如果在本地DNS服务器缓存查不到，就会去根域名服务器请求解析（全球只有13台DNS根服务器，.com域名服务器.com .cn .cloud就是顶级域名，.代表根的意思）</p>
-</li>
-<li>
-<p><strong>顶级DNS服务器查询</strong>：根DNS服务器返回给本地DNS域名服务器一个顶级DNS服务器地址。</p>
-</li>
-<li>
-<p><strong>NameServer查询</strong>：本地DNS服务器再向刚才获得的顶级DNS服务器发送解析请求。顶级DNS服务器会<strong>返回此域名对应的Name Server域名服务器的地址</strong>。 比如我要访问www.baidu.com，而这个域名是从baidu公司注册获得的，那么baidu公司上的服务器一定有相关信息。</p>
-</li>
-<li>
-<p><strong>域名和IP映射关系返回</strong>：Name Server会查询并返回存储的域名和IP的映射关系表，连同TTL值。</p>
-</li>
-<li>
-<p><strong>本地DNS服务器缓存</strong>：本地DNS服务器会根据TTL值（Time To Live 缓存有效时间）缓存这个映射关系。</p>
-</li>
-<li>
-<p><strong>将IP地址返回给本地电脑</strong>：电脑根据TTL值缓存结果，完成域名解析。</p>
-</li>
-</ul>
-<p><strong>递归查询</strong>：客户端发起请求后，<strong>所有的查询工作由DNS服务器来完成</strong>，直到找到最终的IP地址。</p>
-<p><strong>迭代查询</strong>：<strong>客户端自己向每一层的DNS服务器发起查询请求</strong>，从根DNS服务器开始，到顶级DNS服务器，再到目标域名的授权DNS服务器，直到获得结果。</p>
-<hr>
-<p>linux上<strong>查看DNS解析信息的指令</strong>：dig、nslookup、host</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>www.  zhihu. com   .
-</span></span><span style="display:flex;"><span>三级域 二级域 顶级域 根域
-</span></span></code></pre></div><h3 id="域名解析记录">域名解析记录</h3>
-<p>主要分为A记录、MX记录、CNAME记录、NS记录和TXT记录</p>
-<p><a href="https://blog.csdn.net/bangshao1989/article/details/121913780">DNS域名详细解析过程(最全面，看这一篇就够)_dns解析-CSDN博客</a></p>
-<h2 id="文字编码">文字编码</h2>
-<p>ASCII码 <strong>每个字符占1字节</strong>，不支持中文。00000000 - 11111111涵盖256种符号。</p>
-<p>GB2312 是由于ASCII不支持中文而诞生来的，<strong>每个中文占2个字节</strong>，但是只涵盖6700多个，其他字符占1个字节。</p>
-<p>GBK 升级了GB2312，涵盖了2w多个中文。</p>
-<p>Unicode 每个国家都有自己的语言，于是出现了万国码，<strong>每个字符占4个字节</strong>。</p>
-<p>utf-8 由于Unicode的英文占据太多空间，所以推出可变长编码，<strong>一个英文1个字节，1个汉字3个字节</strong>。</p>
-<h2 id="arp协议">ARP协议</h2>
-<p>ARP协议的作用是<strong>将ip地址解析成mac地址</strong>，工作在网络层和数据链路层中间，在七层模型中属于<strong>数据链路层</strong>。</p>
-<p>假设在局域网内，一台交换机连接多台设备，当192.168.19.11：57101想发送给192.168.19.16：80时，arp广播会请求寻找目标mac地址在哪。</p>
-<p>主机会通过广播发送ARP请求，包含了目标主机的IP地址</p>
-<p>当同一个链路中的所有设备收到了ARP请求后，就会拆开请求包，去核对IP地址和自己的IP地址是否一致，如果一致的话，就将自己的MAC地址塞入ARP响应包，返回主机。</p>
-<p><code>RARP协议</code>与ARP协议相反，已知MAC地址求IP地址。</p>
-<p><img src="/images/CS_Basic/ComputerNetwork/25.png" alt="25"></p>
-<h2 id="nat">NAT</h2>
-<p>由于IPv4的地址非常紧缺，所以提出一种网络地址转换NAT的方法，简而言之就是把私有IP地址转换成公有IP地址。</p>
-<h1 id="5-第五章-tcp篇">5. 第五章 TCP篇</h1>
-<h2 id="tcp三次握手四次挥手">TCP三次握手、四次挥手</h2>
-<p><strong>TCP三次握手：</strong></p>
-<p><img src="/images/CS_Basic/ComputerNetwork/21.png" alt="21"></p>
-<ul>
-<li>源端口和目的端口，各占2个字节，分别写入源端口和目的端口；</li>
-<li>序号，占4个字节，TCP连接中传送的字节流中的每个字节都按顺序编号。例如，一段报文的序号字段值是 301 ，而携带的数据共有100字段，显然下一个报文段（如果还有的话）的数据序号应该从401开始；</li>
-<li>确认号，占4个字节，是期望收到对方下一个报文的第一个数据字节的序号。例如，B收到了A发送过来的报文，其序列号字段是501，而数据长度是200字节，这表明B正确的收到了A发送的到序号700为止的数据。因此，B期望收到A的下一个数据序号是701，于是B在发送给A的确认报文段中把确认号置为701；</li>
-<li>数据偏移，占4位，它指出TCP报文的数据距离TCP报文段的起始处有多远；</li>
-<li>保留，占6位，保留今后使用，但目前应都位0；</li>
-<li>紧急URG，当URG=1，表明紧急指针字段有效。告诉系统此报文段中有紧急数据；</li>
-<li>确认ACK，仅当ACK=1时，确认号字段才有效。TCP规定，在连接建立后所有报文的传输都必须把ACK置1；</li>
-<li>推送PSH，当两个应用进程进行交互式通信时，有时在一端的应用进程希望在键入一个命令后立即就能收到对方的响应，这时候就将PSH=1；</li>
-<li>复位RST，当RST=1，表明TCP连接中出现严重差错，必须释放连接，然后再重新建立连接；</li>
-<li>同步SYN，在连接建立时用来同步序号。当SYN=1，ACK=0，表明是连接请求报文，若同意连接，则响应报文中应该使SYN=1，ACK=1；</li>
-<li>终止FIN，用来释放连接。当FIN=1，表明此报文的发送方的数据已经发送完毕，并且要求释放；</li>
-<li>窗口，占2字节，指的是通知接收方，发送本报文你需要有多大的空间来接受；</li>
-<li>检验和，占2字节，校验首部和数据这两部分；</li>
-<li>紧急指针，占2字节，指出本报文段中的紧急数据的字节数；</li>
-<li>选项，长度可变，定义一些其他的可选的参数。</li>
-</ul>
-<p><img src="/images/CS_Basic/ComputerNetwork/22.png" alt="22"></p>
-<ul>
-<li>第一次握手：客户端创建传输控制块TCB，进入监听Listen状态。设置<code>SYN = 1</code>，发送给服务器，设置序列号为<code>seq = x</code>，此时客户端处于同步已发送<code>SYN-SENT</code>状态。</li>
-<li>第二次握手：设置<code>ACK = 1</code>表示确认应答，<code>ack = x + 1</code>表示已收到客户端x之前的数据，希望下次数据从x+1开始，设置<code>SYN = 1</code>，发送给客户端，设置序列号<code>seq = y</code>，此时服务器处于同步已接受SY<code>N-RCVD</code>状态。</li>
-<li>第三次握手：设置<code>ACK = 1</code>表示确认应答，<code>ack = y + 1</code>，<code>seq = x + 1</code>表示接着上一个数据包seq = x继续发送。至此建立连接ESTABLISHED。</li>
-</ul>
-<blockquote>
-<h4 id="为什么tcp客户端最后还要发送一次确认呢">为什么TCP客户端最后还要发送一次确认呢？</h4>
-<p>防止已经失效的连接请求报文又突然传送到了服务器。</p>
-<p>两次握手的机制将会让客户端和服务器再次建立连接，这将导致不必要的错误和资源的浪费。</p>
-</blockquote>
-<p><strong>TCP四次挥手：</strong></p>
-<p>第一次挥手：客户端向服务端发送<code>FIN=1</code>，其序号为<code>seq=u</code>，它等于前面以传送过的数据的最后一个字节的序号加1。</p>
-<p>第二次挥手：服务端收到释放连接请求，<code>ACK = 1</code>,<code>ack = u + 1</code>，<code>seq = v</code>，这个序号v是等于前面已传送过的数据的最后一个字节的序号加1，然后B就进入<code>CLOSE-WAIT(关闭等待)</code>状态。</p>
-<p>第三次挥手：客户端收到来自服务端的确认后，就进入了<code>FIN-WAIT-2(终止等待2)</code>状态满等待B发出的连接释放报文段。若已经没有要发送的数据，其应用进程就通知TCP释放连接，这时服务端发出的连接释放报文段必须使<code>FIN = 1</code>，<code>seq = w</code>，还必须重复上次已发送过的确认号<code>ack = u + 1</code>。这时服务端就进入<code>LAST-ACK(最后确认)状态</code>，等待客户端的确认。</p>
-<p>第四次挥手：客户端收到连接释放报文段后，必须确认，<code>ACK = 1</code>，<code>ack = w + 1</code>，<code>seq = u + 1</code>(因为FIN报文段要消耗1个序号)，然后客户端进入<code>TIME-WAIT(时间等待)</code>状态。</p>
-<p><img src="/images/CS_Basic/ComputerNetwork/23.png" alt="23"></p>
-<p>现在TCP连接并没有释放掉，必须经过<code>2MSL</code>后，才可以进入到<code>CLOSED状态</code>。</p>
-<blockquote>
-<p>为什么要等待2MSL？</p>
-</blockquote>
-<p>如果客户端发送的 ACK 报文段丢失，服务器在接收不到 ACK 的情况下会一直重发 FIN 报文段，因此客户端为了确保服务器收到了 ACK，会设置一个定时器，并在 TIME-WAIT 状态等待 2MSL 的时间，如果在此期间又收到了来自服务器的 FIN 报文段，那么客户端会重新设置计时器并再次等待 2MSL 的时间，如果在这段时间内没有收到来自服务器的 FIN 报文，那就说明服务器已经成功收到了 ACK 报文，此时客户端就可以进入 CLOSED 状态了。</p>
-<p>2MSL是任何报文在网络上存在的最长时间，超过这个时间报文将被丢弃，这样新的连接中不会出现旧连接的请求报文</p>
-<p><a href="https://blog.csdn.net/weixin_45304503/article/details/142427461">图解 TCP 四次挥手｜深度解析｜为什么是四次｜为什么要等2MSL_tcp链接谁先发送-CSDN博客</a></p>
-<blockquote>
-<p>为什么说TCP是面向字节流的协议而UDP是面向报文的协议？</p>
-</blockquote>
-<p>UDP传输时，操作系统不会对消息进行拆分，也就是说<strong>每个UDP报文就是一个用户消息的边界</strong>。接收方读一个UDP报文就能读取到完整的用户消息。</p>
-<p>那么如果收到了2个UDP报文，该怎么区分开？</p>
-<p>操作系统在收到UDP报文后，会将其插入到队列里，队列的每一个元素就是一个UDP报文，当用户调用recvfrom()时就会从队列中取出一个数据。</p>
-<p>而TCP传输时，消息会被分组成多个TCP报文。当发送数据时，数据并没有真正从网络上发送出去，只是从应用程序拷贝到了操作系统内核协议栈中。至于什么时候被发送，取决于发送窗口、拥塞窗口以及当前发送缓冲区的大小等条件。当两个消息的某个部分被分到同一个TCP报文时（比如说报文1Hello 报文2 World，变成了 报文1He 报文2lloWorld），就是粘包问题。</p>
-<blockquote>
-<p>如何解决粘包？</p>
-</blockquote>
-<ol>
-<li>
-<p>固定长度的消息</p>
-<p>规定一个消息长度是n字节，当接收方接受满n字节，就认为完整收到了。灵活性差。</p>
-</li>
-<li>
-<p>特殊字符作为边界</p>
-<p>在两个用户消息之间插入一个特殊的字符串，这样在接收数据时，如果读到这个特殊字符，就认为读完了一条完整的消息，<strong>比如HTTP</strong>。</p>
-</li>
-<li>
-<p>自定义消息结构</p>
-<p>首先用4个字节大小的变量来表示数据长度，数据紧跟其后。</p>
-<pre tabindex="0"><code>struct{
-	u_int32_t message_length;
-	char message_data[];
-}message;
-</code></pre></li>
-</ol>
-<h1 id="6第六章-http">6.第六章 HTTP</h1>
-<p>超文本传输协议（HTTP）：一种无状态的，以请求应答方式运行，可扩展（添加自定义头）的协议。</p>
-<p>无状态:服务器不会记忆HTTP状态，所以能减轻服务器的负担。但是在完成有关联性的操作时会非常麻烦，比如说在下单、结算、支付的时候每次都要问一遍身份信息。</p>
-<p>对于<strong>无状态可以使用Cookie技术来解决</strong>，通过在请求和响应报文中写入Cookie信息来控制客户端的状态。</p>
-<p><strong>HTTP协议格式：</strong></p>
-<p><img src="/images/CS_Basic/ComputerNetwork/26.png" alt="26"></p>
-<p><strong>请求行报文格式：</strong></p>
-<p><img src="/images/CS_Basic/ComputerNetwork/27.png" alt="27"></p>
-<p><strong>响应行报文格式：</strong></p>
-<p><img src="/images/CS_Basic/ComputerNetwork/28.png" alt="28"></p>
-<h3 id="http请求的完整过程">HTTP请求的完整过程</h3>
-<ol>
-<li><strong>DNS解析</strong>：当用户输入网址后，首先<strong>DNS解析流程</strong>。</li>
-<li><strong>TCP三次握手</strong>：解析完成后，TCP三次握手建立连接，客户端发送SYN包（同步请求），服务器返回SYN-ACK包（确认响应），客户端再返回ACK包（确认收到），连接建立成功。</li>
-<li><strong>HTTP请求</strong>：建立TCP连接后，浏览器会通过该连接发送HTTP请求报文，向服务器请求所需的资源（比如网页）；</li>
-<li><strong>HTTP响应</strong>：服务器收到请求后，返回HTTP响应报文，包括网页内容等；</li>
-<li><strong>网页渲染</strong>：浏览器收到HTTP响应后会根据响应内容进行页面渲染；</li>
-<li><strong>TCP四次挥手</strong>：一旦网页渲染完成，浏览器和服务器之间的连接通过TCP四次挥手断开。客户端发送FIN包（请求断开连接）。服务器返回ACK包（确认收到断开请求）。服务器发送FIN包（请求断开连接）。客户端返回ACK包（确认断开请求），连接完全关闭。</li>
-</ol>
-<p>由于HTTP天生明文的特点，整个传输过程完全透明，任何人都能够截获、修改报文。所以诞生了HTTPS协议。所以<strong>HTTP不安全</strong>，所以会引入HTTPS，通过<strong>引入SSL / TLS层</strong>。HTTPS 在 TCP 三次握手之后，还需进行 <code>SSL/TLS</code> 的握手过程，才可进入加密报文传输。</p>
-<blockquote>
-<p>HTTPS为什么安全？</p>
-</blockquote>
-<ol>
-<li>
-<p><em>混合加密</em></p>
-<p><strong>对称加密</strong>（通信建立前）使用xor异或，将原文与密钥异或得到密文，将密文与密钥异或得到原文。速度快。</p>
-<p><strong>非对称加密</strong>（通信过程中）：有公钥和私钥，公钥可以公开给任何人使用，而私钥必须保密。用公钥把数据加密传送给服务端，只能通过私钥解密。速度慢。</p>
-<ul>
-<li>使用公钥加密 使用私钥解密 保证内容传输的安全</li>
-<li><strong>使用私钥加密 使用公钥解密 保证消息不会被冒充</strong></li>
-</ul>
-<p><strong>TLS中使用混合加密方式</strong>，非对称加密的主要用途是通过**「私钥加密，公钥解密」的方式，来确认消息的身份**，也就是常说的数字签名算法。</p>
-</li>
-<li>
-<p><em>摘要算法</em></p>
-<p>为了保证内容不被篡改，我们需要对内容计算出一个指纹，对方收到后也计算出一个指纹，通过比对，如果相同则没有被篡改。</p>
-<p>摘要算法（哈希函数）计算内容的哈希值，哈希值是唯一的，且无法推导出内容。</p>
-<p>通过哈希算法可以保证内容不被篡改，但<strong>无法保证内容和哈希值不会被替换，因为缺少是否来源于服务端的证明</strong>。</p>
-</li>
-<li>
-<p><em>数字证书</em></p>
-<p>防止公钥被冒充。通过权威机构CA（数字证书认证机构），将服务器公钥放在数字证书中，只要证书可信，公钥就可信。</p>
-</li>
-</ol>
-<hr>
-<p>减少HTTP请求次数：1.缓存 2.减少重定向次数 3.合并请求</p>
-<blockquote>
-<p>如何做到缓存？</p>
-</blockquote>
-<p>客户端会把第一次请求和响应的数据保存到本地的磁盘上，<strong>请求URL作为key，响应作为value</strong>，形成映射关系。后续发起相同请求的时候，就可以通过key查找到value。</p>
-<p>为了防止缓存的响应不是最新的。响应头部中会有一个过期时间，如果客户端在查看的时候发现响应过期了，就会重新发送请求。</p>
-<p>如果请求后得到的资源没有变更（通过比对唯一标识判断是否同一资源、有无更新），则服务器返回不含有包体（<code>304 Not Modified</code>）响应，告诉客户端仍然有效，这样就可以减少响应资源在网络中传输的延时。</p>
-<pre tabindex="0"><code>缓存有两种实现方式，强制缓存和协商缓存
-强制缓存指的是：只要浏览器判断缓存没过期，则直接使用浏览器的本地缓存。决定是否使用缓存的主动权在浏览器这边。
-</code></pre><blockquote>
-<p>什么是重定向请求？</p>
-</blockquote>
-<p>客户端发送一个url1请求给服务端，但是服务器的资源已经从url1迁移到url2了，这个时候服务器返回<code>302响应码</code>和<code>Location头部</code>，告诉客户端资源已经迁移到url2了，这个时候客户端需要重新发送url2请求。</p>
-<p>但是重定向请求越多，客户端就要多次发起HTTP，而且服务端这一方往往不只有一台服务器，比如源服务器上一级是代理服务器，然后代理服务器才与客户端通信，这时客户端重定向就会导致客户端与代理服务器之间需要 2 次消息传递，所以会降低网络性能。</p>
-<p>如果重定向工作交由代理服务器完成，就能减少HTTP请求次数了。</p>
-<p><strong>合并请求：<strong>如果把多个访问小文件的请求合并成一个大的请求，虽然传输的总资源还是一样，但是减少请求，也就意味着</strong>减少了重复发送的 HTTP 头部</strong>。合并请求也会减少TCP连接的数量，省去了TCP握手和慢启动过程耗费的时间。</p>
-<p>**延迟发送请求：**请求网页时只获取用户所看到的网页资源，当用户往下滑动页面的时候，再向服务器获取接下来的资源。达到延迟发送请求的效果。</p>
-<hr>
-<p>减少HTTP响应的数据大小：<strong>无损压缩</strong>（文本、程序）、<strong>有损压缩</strong>（图片、视频）。举例子一个视频，只需要一个静态关键帧，然后使用增量数据来表达后续的帧。</p>
-<p><strong>五大类HTTP状态码</strong>：</p>
-<table>
-<thead>
-<tr>
-<th></th>
-<th>具体含义</th>
-<th>常见的状态码</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>1xx</td>
-<td>提示信息，表示协议处理的中间状态</td>
-<td></td>
-</tr>
-<tr>
-<td>2xx</td>
-<td>服务器成功处理了客户端请求</td>
-<td>200、204、206</td>
-</tr>
-<tr>
-<td>3xx</td>
-<td>重定向，资源位置发生变动，需要客户端重新发送请求</td>
-<td>301、302、304</td>
-</tr>
-<tr>
-<td>4xx</td>
-<td>客户端错误，请求报文有误，服务器无法处理</td>
-<td>400、403、404</td>
-</tr>
-<tr>
-<td>5xx</td>
-<td>服务器错误，服务器在处理请求时内部发生了错误</td>
-<td>500、501、502、503</td>
-</tr>
-</tbody>
-</table>
-<p><strong>HTTP常见字段：</strong></p>
-<p><code>Host</code>服务器域名、<code>Content-Length</code>数据长度、<code>Connection</code>可以要求服务器使用HTTP长连接机制、<code>Content-Type</code>告诉客户端本次数据是什么格式、<code>Content-Encoding</code>说明数据的压缩方法。</p>
-<p>HTTP协议<strong>通过设置回车符、换行符作为HTTP header的边界，通过Content-Length字段作为HTTP body的边界</strong>，这两个方式都是为了解决粘包的问题。</p>
-<p><img src="/images/CS_Basic/ComputerNetwork/24.png" alt="24"></p>
-<p>HTTP长连接的特点是，<strong>只要任意一端没有明确提出要断开连接，则保持TCP连接状态</strong>。HTTP的Keep-Alive就是实现了这个功能，<strong>可以使用同一个TCP连接来发送和接收多个HTTP请求 / 应答，避免了连接建立和释放的开销</strong>。</p>
 
         </div>
     </div>
@@ -775,44 +499,44 @@ $$
 	<br>
 	
 	<div class="share-buttons">
-	    <a  href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fcs_basic%2fcomputernetwork%2f"
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2fcomputernetwork%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Facebook. Opens in a new window.">
 	        <img src=/img/icons/45px/facebook.png>
 	    </a>
 
-	    <a  href="https://twitter.com/intent/tweet?text=%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fcs_basic%2fcomputernetwork%2f"
+	    <a  href="https://twitter.com/intent/tweet?text=%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c%e8%af%be%e7%a8%8b%e7%ac%94%e8%ae%b0&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2fcomputernetwork%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Twitter. Opens in a new window." >
 	        <img src=/img/icons/45px/twitter.png>
 	    </a>
 
-		<a  href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fcs_basic%2fcomputernetwork%2f"
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2fcomputernetwork%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Reddit. Opens in a new window." >
 	        <img src=/img/icons/45px/reddit.png>
 	    </a>
 
-	    <a  href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fcs_basic%2fcomputernetwork%2f"
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2fcomputernetwork%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Pinterest. Opens in a new window." >
 	        <img src=/img/icons/45px/pinterest.png>
 	    </a>
 
-	    <a  href="http://www.tumblr.com/share/link?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fcs_basic%2fcomputernetwork%2f"
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2fcomputernetwork%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Tumblr. Opens in a new window." >
 	        <img src=/img/icons/45px/tumblr.png>
 	    </a>
 
-		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fcs_basic%2fcomputernetwork%2f
-			&title=%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c&summary=1.%20%e7%ac%ac%e4%b8%80%e7%ab%a0%20%e6%a6%82%e8%bf%b0%201.1%20%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c%e4%bd%93%e7%b3%bb%e7%bb%93%e6%9e%84%20%e4%b8%83%e5%b1%82OSI%e6%a8%a1%e5%9e%8b%0a%e5%ba%94%e7%94%a8%e5%b1%82%e3%80%81%e8%a1%a8%e7%a4%ba%e5%b1%82%e3%80%81%e4%bc%9a%e8%af%9d%e5%b1%82%e3%80%81%e4%bc%a0%e8%be%93%e5%b1%82%e3%80%81%e7%bd%91%e7%bb%9c%e5%b1%82%e3%80%81%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e3%80%81%e7%89%a9%e7%90%86%e5%b1%82%0a%e5%ba%94%e7%94%a8%e5%b1%82%ef%bc%9a%e5%90%84%e7%a7%8d%e5%ba%94%e7%94%a8%e8%bd%af%e4%bb%b6%ef%bc%8c%e4%bc%9a%e5%8f%91%e9%80%81%e4%b8%80%e4%b8%aa%e6%8e%a2%e6%b5%8b%e6%95%b0%e6%8d%ae%e5%8c%85%ef%bc%8c%e6%8e%a2%e6%b5%8b%e5%8f%8c%e6%96%b9%e7%bd%91%e7%bb%9c%e6%98%af%e5%90%a6%e8%83%bd%e8%83%a1%e5%90%8c%e3%80%82%0a%e8%a1%a8%e7%a4%ba%e5%b1%82%ef%bc%9a%e7%94%a8%e6%9d%a5%e6%8f%8f%e8%bf%b0%e6%96%87%e4%bb%b6%e7%9a%84%e7%b1%bb%e5%9e%8b%28%e6%af%94%e5%a6%82%e5%8f%91%e9%80%81%e5%9b%be%e7%89%87%ef%bc%8c%e4%bc%9a%e5%9c%a8%e6%95%b4%e4%bd%93%e4%ba%8c%e8%bf%9b%e5%88%b6%e6%95%b0%e6%8d%ae%e5%89%8d%e5%8a%a0%e4%b8%8a%e6%96%87%e4%bb%b6%e7%b1%bb%e5%9e%8b%e6%95%b0%e6%8d%ae%e6%a0%87%e8%ae%b0%29%e3%80%81%e6%95%b0%e6%8d%ae%e5%8a%a0%e5%af%86%e3%80%82%0a%e4%bc%9a%e8%af%9d%e5%b1%82%ef%bc%9a%e5%8f%91%e8%b5%b7%e4%bc%9a%e8%af%9d%2f%e6%8e%a5%e5%8f%97%e4%bc%9a%e8%af%9d%0a%e4%bc%a0%e8%be%93%e5%b1%82%ef%bc%9a%e4%bc%a0%e8%be%93%e6%95%b0%e6%8d%aeTCP%e3%80%81UDP%0a%e7%bd%91%e7%bb%9c%e5%b1%82%ef%bc%9a%e5%ae%9a%e4%b9%89IP%e7%bc%96%e5%9d%80%e3%80%81%e8%b7%af%e7%94%b1%e5%8a%9f%e8%83%bd%ef%bc%8c%e5%a6%82%e6%95%b0%e6%8d%ae%e8%bd%ac%e5%8f%91%0a%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%ef%bc%9a%e5%ae%9a%e4%b9%89%e6%95%b0%e6%8d%ae%e5%9f%ba%e6%9c%ac%e6%a0%bc%e5%bc%8f%ef%bc%8c%e5%a6%82MAC%e5%9c%b0%e5%9d%80%0a%e7%89%a9%e7%90%86%e5%b1%82%ef%bc%9a%e5%ae%9a%e4%b9%89%e7%89%a9%e7%90%86%e8%ae%be%e5%a4%87%e6%a0%87%e5%87%86%ef%bc%8c%e5%a6%82%e7%bd%91%e7%ba%bf%2f%e5%85%89%e7%ba%a4%e7%9a%84%e6%8e%a5%e5%8f%a3%e7%b1%bb%e5%9e%8b%e3%80%81%e4%bc%a0%e8%be%93%e9%80%9f%e7%8e%87%e7%ad%89%0a%e4%ba%94%e5%b1%82%e6%a8%a1%e5%9e%8b%0a%e5%ba%94%e7%94%a8%e5%b1%82%e3%80%81%e4%bc%a0%e8%be%93%e5%b1%82%e3%80%81%e7%bd%91%e7%bb%9c%e5%b1%82%e3%80%81%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e3%80%81%e7%89%a9%e7%90%86%e5%b1%82%0aTCP%2fIP%e5%9b%9b%e5%b1%82%e6%a8%a1%e5%9e%8b%0a%e5%ba%94%e7%94%a8%e5%b1%82%ef%bc%88HTTP%5cSMTP%5cDNS%5cRTP%ef%bc%89%e3%80%81%e8%bf%90%e8%be%93%e5%b1%82%28TCP%5cUDP%29%e3%80%81%e7%bd%91%e7%bb%9c%e5%b1%82%28IP%29%e3%80%81%e7%bd%91%e7%bb%9c%e6%8e%a5%e5%8f%a3%e5%b1%82%0a%e5%8d%8f%e8%ae%ae%e4%b8%89%e8%a6%81%e7%b4%a0%ef%bc%9a%0a%e8%af%ad%e6%b3%95%ef%bc%9a%e5%ae%9a%e4%b9%89%e4%ba%a4%e6%8d%a2%e4%bf%a1%e6%81%af%e7%9a%84%e6%a0%bc%e5%bc%8f%20%e8%af%ad%e4%b9%89%ef%bc%9a%e5%ae%9a%e4%b9%89%e6%94%b6%e5%8f%91%e5%8f%8c%e6%96%b9%e8%a6%81%e5%ae%8c%e6%88%90%e7%9a%84%e6%93%8d%e4%bd%9c%20%e5%90%8c%e6%ad%a5%ef%bc%9a%e5%ae%9a%e4%b9%89%e6%94%b6%e5%8f%91%e5%8f%8c%e6%96%b9%e7%9a%84%e6%97%b6%e5%ba%8f%e5%85%b3%e7%b3%bb%201.2%20%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c%e5%88%86%e7%b1%bb%201.3%20%e4%b8%89%e7%a7%8d%e4%ba%a4%e6%8d%a2%e6%96%b9%e5%bc%8f%20%e7%94%b5%e8%b7%af%e4%ba%a4%e6%8d%a2%20%e2%80%8b%09%e7%94%b5%e8%af%9d%e4%ba%a4%e6%8d%a2%e6%9c%ba%e6%8e%a5%e9%80%9a%e7%94%b5%e8%af%9d%e7%ba%bf%e7%9a%84%e6%96%b9%e5%bc%8f%e7%a7%b0%e4%b8%ba%e7%94%b5%e8%b7%af%e4%ba%a4%e6%8d%a2%ef%bc%8c%e4%bd%bf%e7%94%a8%e7%94%b5%e8%b7%af%e4%ba%a4%e6%8d%a2%e4%bc%a0%e9%80%81%e8%ae%a1%e7%ae%97%e6%9c%ba%e6%95%b0%e6%8d%ae%e6%97%b6%ef%bc%8c%e5%85%b6%e7%ba%bf%e8%b7%af%e7%9a%84%e4%bc%a0%e8%be%93%e6%95%88%e7%8e%87%e5%be%80%e5%be%80%e5%be%88%e4%bd%8e%e3%80%82%0a%e2%80%8b%09%e4%b8%89%e4%b8%aa%e6%ad%a5%e9%aa%a4%ef%bc%9a%0a%e5%bb%ba%e7%ab%8b%e8%bf%9e%e6%8e%a5%20%e9%80%9a%e8%af%9d%20%e9%87%8a%e6%94%be%e8%bf%9e%e6%8e%a5%20%e5%88%86%e7%bb%84%e4%ba%a4%e6%8d%a2%20%e2%80%8b%09%e5%88%86%e7%bb%84%e4%ba%a4%e6%8d%a2%e9%87%87%e7%94%a8%e7%9a%84%e6%98%af%e5%ad%98%e5%82%a8%e8%bd%ac%e5%8f%91%e6%8a%80%e6%9c%af%0a%e2%80%8b%09%e5%9c%a8%e5%8f%91%e9%80%81%e6%8a%a5%e6%96%87%e4%b9%8b%e5%89%8d%ef%bc%8c%e5%85%88%e6%8a%8a%e8%be%83%e9%95%bf%e7%9a%84%e6%8a%a5%e6%96%87%e5%88%92%e5%88%86%e6%88%90%e4%b8%80%e4%b8%aa%e4%b8%aa%e6%9b%b4%e5%b0%8f%e7%9a%84%e7%ad%89%e9%95%bf%e7%9a%84%e6%95%b0%e6%8d%ae%e6%ae%b5%ef%bc%9b%e7%84%b6%e5%90%8e%e5%9c%a8%e6%95%b0%e6%8d%ae%e6%ae%b5%e7%9a%84%e5%89%8d%e9%9d%a2%e5%8a%a0%e4%b8%8a%e4%b8%80%e4%ba%9b%e7%94%b1%e5%bf%85%e8%a6%81%e7%9a%84%e6%8e%a7%e5%88%b6%e4%bf%a1%e6%81%af%e7%bb%84%e6%88%90%e7%9a%84%e9%a6%96%e9%83%a8%09%e5%90%8e%ef%bc%8c%e5%b0%b1%e6%9e%84%e6%88%90%e4%ba%86%e4%b8%80%e4%b8%aa%e5%88%86%e7%bb%84%0a%e2%80%8b%09%e5%8f%91%e9%80%81%e6%96%b9%ef%bc%9a%e6%9e%84%e9%80%a0%e5%88%86%e7%bb%84%e3%80%81%e5%8f%91%e9%80%81%e5%88%86%e7%bb%84%0a%e2%80%8b%09%e8%b7%af%e7%94%b1%e5%99%a8%ef%bc%9a%e7%bc%93%e5%ad%98%e5%88%86%e7%bb%84%e3%80%81%e8%bd%ac%e5%8f%91%e5%88%86%e7%bb%84%0a%e2%80%8b%09%e6%8e%a5%e6%94%b6%e6%96%b9%ef%bc%9a%e6%8e%a5%e5%8f%97%e5%88%86%e7%bb%84%e3%80%81%e8%bf%98%e5%8e%9f%e6%8a%a5%e6%96%87%0a%e2%80%8b%09%e6%8a%a5%e6%96%87%e4%ba%a4%e6%8d%a2%20%e2%80%8b%09%e7%94%a8%e4%ba%8e%e6%97%a9%e6%9c%9f%e7%9a%84%e7%94%b5%e6%8a%a5%e9%80%9a%e4%bf%a1%e7%bd%91%ef%bc%8c%e7%8e%b0%e5%9c%a8%e8%be%83%e5%b0%91%e4%bd%bf%e7%94%a8%ef%bc%8c%e9%80%9a%e5%b8%b8%e8%a2%ab%e5%88%86%e7%bb%84%e4%ba%a4%e6%8d%a2%e6%96%b9%e5%bc%8f%e6%89%80%e5%8f%96%e4%bb%a3%e3%80%82%0a%e5%af%b9%e6%af%94%0a2.%20%e7%ac%ac%e4%ba%8c%e7%ab%a0%20%e7%89%a9%e7%90%86%e5%b1%82%202.1%20%e7%89%a9%e7%90%86%e5%b1%82%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5%20%e8%a7%a3%e5%86%b3%e5%9c%a8%e5%90%84%e7%a7%8d%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%e4%b8%8a%e4%bc%a0%e8%be%93%e6%af%94%e7%89%b90%e5%92%8c1%e7%9a%84%e9%97%ae%e9%a2%98%ef%bc%8c%e7%bb%99%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e6%8f%90%e4%be%9b%e9%80%8f%e6%98%8e%e4%bc%a0%e8%be%93%e6%af%94%e7%89%b9%e6%b5%81%e7%9a%84%e6%9c%8d%e5%8a%a1%ef%bc%8c%e5%a6%82%ef%bc%9a%e5%8f%8c%e7%bb%9e%e7%ba%bf%e3%80%81%e5%90%8c%e8%bd%b4%e7%94%b5%e7%bc%86%e3%80%81%e5%85%89%e7%ba%a4%e7%ad%89%e3%80%82%0a%e7%89%a9%e7%90%86%e5%b1%82%e5%8d%8f%e8%ae%ae%e7%9a%84%e4%b8%bb%e8%a6%81%e4%bb%bb%e5%8a%a1%0a%e6%9c%ba%e6%a2%b0%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e6%8e%a5%e5%8f%a3%e6%89%80%e7%94%a8%e6%8e%a5%e7%ba%bf%e5%99%a8%e7%9a%84%e5%bd%a2%e7%8a%b6%e5%92%8c%e5%b0%ba%e5%af%b8%e3%80%81%e5%bc%95%e8%84%9a%e6%95%b0%e7%9b%ae%e5%92%8c%e6%8e%92%e5%88%97%e3%80%81%e5%9b%ba%e5%ae%9a%e5%92%8c%e9%94%81%e5%ae%9a%e8%a3%85%e7%bd%ae%e3%80%82%20%e7%94%b5%e6%b0%94%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e5%9c%a8%e6%8e%a5%e5%8f%a3%e7%94%b5%e7%bc%86%e7%9a%84%e5%90%84%e6%9d%a1%e7%ba%bf%e4%b8%8a%e5%87%ba%e7%8e%b0%e7%9a%84%e7%94%b5%e5%8e%8b%e7%9a%84%e8%8c%83%e5%9b%b4%e3%80%82%20%e5%8a%9f%e8%83%bd%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e6%9f%90%e6%9d%a1%e7%ba%bf%e4%b8%8a%e5%87%ba%e7%8e%b0%e7%9a%84%e6%9f%90%e4%b8%80%e7%94%b5%e5%b9%b3%e7%9a%84%e7%94%b5%e5%8e%8b%e8%a1%a8%e7%a4%ba%e4%bd%95%e7%a7%8d%e6%84%8f%e4%b9%89%e3%80%82%20%e8%bf%87%e7%a8%8b%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e5%af%b9%e4%ba%8e%e4%b8%8d%e5%90%8c%e5%8a%9f%e8%83%bd%e7%9a%84%e5%90%84%e7%a7%8d%e5%8f%af%e8%83%bd%e4%ba%8b%e4%bb%b6%e7%9a%84%e5%87%ba%e7%8e%b0%e9%a1%ba%e5%ba%8f%e3%80%82%202.2%20%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%e5%92%8c%e4%bc%a0%e8%be%93%e6%96%b9%e5%bc%8f%20%e5%af%bc%e5%bc%95%e5%9e%8b%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%ef%bc%9a%e5%90%8c%e8%bd%b4%e7%94%b5%e7%bc%86%e3%80%81%e5%8f%8c%e7%bb%9e%e7%ba%bf%e3%80%81%e5%85%89%e7%ba%a4%ef%bc%88%e5%a4%9a%e6%a8%a1%e5%85%89%e7%ba%a4%e3%80%81%e5%8d%95%e6%a8%a1%e5%85%89%e7%ba%a4%ef%bc%89%e3%80%81%e7%94%b5%e5%8a%9b%e7%ba%bf%0a%e9%9d%9e%e5%af%bc%e5%bc%95%e6%80%a7%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%ef%bc%9a%e6%97%a0%e7%ba%bf%e7%94%b5%e6%b3%a2%e3%80%81%e5%be%ae%e6%b3%a2%e3%80%81%e7%ba%a2%e5%a4%96%e7%ba%bf%e3%80%81%e5%8f%af%e8%a7%81%e5%85%89%0a%e4%b8%b2%e8%a1%8c%e4%bc%a0%e8%be%93%20%2f%20%e5%b9%b6%e8%a1%8c%e4%bc%a0%e8%be%93%0a%e8%ae%a1%e7%ae%97%e6%9c%ba%e8%bf%9c%e8%b7%9d%e7%a6%bb%e4%bc%a0%e8%be%93%e9%87%87%e7%94%a8%e4%b8%b2%e8%a1%8c%e4%bc%a0%e8%be%93%ef%bc%8c%e8%ae%a1%e7%ae%97%e6%9c%ba%e5%86%85%e9%83%a8%e9%87%87%e7%94%a8%e5%b9%b6%e8%a1%8c%e4%bc%a0%e8%be%93&source=rafed123.github.io"
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2fcomputernetwork%2f
+			&title=%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c%e8%af%be%e7%a8%8b%e7%ac%94%e8%ae%b0&summary=1.%20%e7%ac%ac%e4%b8%80%e7%ab%a0%20%e6%a6%82%e8%bf%b0%201.1%20%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c%e4%bd%93%e7%b3%bb%e7%bb%93%e6%9e%84%20%e4%b8%83%e5%b1%82OSI%e6%a8%a1%e5%9e%8b%0a%e5%ba%94%e7%94%a8%e5%b1%82%e3%80%81%e8%a1%a8%e7%a4%ba%e5%b1%82%e3%80%81%e4%bc%9a%e8%af%9d%e5%b1%82%e3%80%81%e4%bc%a0%e8%be%93%e5%b1%82%e3%80%81%e7%bd%91%e7%bb%9c%e5%b1%82%e3%80%81%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e3%80%81%e7%89%a9%e7%90%86%e5%b1%82%0a%e5%ba%94%e7%94%a8%e5%b1%82%ef%bc%9a%e5%90%84%e7%a7%8d%e5%ba%94%e7%94%a8%e8%bd%af%e4%bb%b6%ef%bc%8c%e4%bc%9a%e5%8f%91%e9%80%81%e4%b8%80%e4%b8%aa%e6%8e%a2%e6%b5%8b%e6%95%b0%e6%8d%ae%e5%8c%85%ef%bc%8c%e6%8e%a2%e6%b5%8b%e5%8f%8c%e6%96%b9%e7%bd%91%e7%bb%9c%e6%98%af%e5%90%a6%e8%83%bd%e8%83%a1%e5%90%8c%e3%80%82%0a%e8%a1%a8%e7%a4%ba%e5%b1%82%ef%bc%9a%e7%94%a8%e6%9d%a5%e6%8f%8f%e8%bf%b0%e6%96%87%e4%bb%b6%e7%9a%84%e7%b1%bb%e5%9e%8b%28%e6%af%94%e5%a6%82%e5%8f%91%e9%80%81%e5%9b%be%e7%89%87%ef%bc%8c%e4%bc%9a%e5%9c%a8%e6%95%b4%e4%bd%93%e4%ba%8c%e8%bf%9b%e5%88%b6%e6%95%b0%e6%8d%ae%e5%89%8d%e5%8a%a0%e4%b8%8a%e6%96%87%e4%bb%b6%e7%b1%bb%e5%9e%8b%e6%95%b0%e6%8d%ae%e6%a0%87%e8%ae%b0%29%e3%80%81%e6%95%b0%e6%8d%ae%e5%8a%a0%e5%af%86%e3%80%82%0a%e4%bc%9a%e8%af%9d%e5%b1%82%ef%bc%9a%e5%8f%91%e8%b5%b7%e4%bc%9a%e8%af%9d%2f%e6%8e%a5%e5%8f%97%e4%bc%9a%e8%af%9d%0a%e4%bc%a0%e8%be%93%e5%b1%82%ef%bc%9a%e4%bc%a0%e8%be%93%e6%95%b0%e6%8d%aeTCP%e3%80%81UDP%0a%e7%bd%91%e7%bb%9c%e5%b1%82%ef%bc%9a%e5%ae%9a%e4%b9%89IP%e7%bc%96%e5%9d%80%e3%80%81%e8%b7%af%e7%94%b1%e5%8a%9f%e8%83%bd%ef%bc%8c%e5%a6%82%e6%95%b0%e6%8d%ae%e8%bd%ac%e5%8f%91%0a%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%ef%bc%9a%e5%ae%9a%e4%b9%89%e6%95%b0%e6%8d%ae%e5%9f%ba%e6%9c%ac%e6%a0%bc%e5%bc%8f%ef%bc%8c%e5%a6%82MAC%e5%9c%b0%e5%9d%80%0a%e7%89%a9%e7%90%86%e5%b1%82%ef%bc%9a%e5%ae%9a%e4%b9%89%e7%89%a9%e7%90%86%e8%ae%be%e5%a4%87%e6%a0%87%e5%87%86%ef%bc%8c%e5%a6%82%e7%bd%91%e7%ba%bf%2f%e5%85%89%e7%ba%a4%e7%9a%84%e6%8e%a5%e5%8f%a3%e7%b1%bb%e5%9e%8b%e3%80%81%e4%bc%a0%e8%be%93%e9%80%9f%e7%8e%87%e7%ad%89%0a%e4%ba%94%e5%b1%82%e6%a8%a1%e5%9e%8b%0a%e5%ba%94%e7%94%a8%e5%b1%82%e3%80%81%e4%bc%a0%e8%be%93%e5%b1%82%e3%80%81%e7%bd%91%e7%bb%9c%e5%b1%82%e3%80%81%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e3%80%81%e7%89%a9%e7%90%86%e5%b1%82%0aTCP%2fIP%e5%9b%9b%e5%b1%82%e6%a8%a1%e5%9e%8b%0a%e5%ba%94%e7%94%a8%e5%b1%82%ef%bc%88HTTP%5cSMTP%5cDNS%5cRTP%ef%bc%89%e3%80%81%e8%bf%90%e8%be%93%e5%b1%82%28TCP%5cUDP%29%e3%80%81%e7%bd%91%e7%bb%9c%e5%b1%82%28IP%29%e3%80%81%e7%bd%91%e7%bb%9c%e6%8e%a5%e5%8f%a3%e5%b1%82%0a%e5%8d%8f%e8%ae%ae%e4%b8%89%e8%a6%81%e7%b4%a0%ef%bc%9a%0a%e8%af%ad%e6%b3%95%ef%bc%9a%e5%ae%9a%e4%b9%89%e4%ba%a4%e6%8d%a2%e4%bf%a1%e6%81%af%e7%9a%84%e6%a0%bc%e5%bc%8f%20%e8%af%ad%e4%b9%89%ef%bc%9a%e5%ae%9a%e4%b9%89%e6%94%b6%e5%8f%91%e5%8f%8c%e6%96%b9%e8%a6%81%e5%ae%8c%e6%88%90%e7%9a%84%e6%93%8d%e4%bd%9c%20%e5%90%8c%e6%ad%a5%ef%bc%9a%e5%ae%9a%e4%b9%89%e6%94%b6%e5%8f%91%e5%8f%8c%e6%96%b9%e7%9a%84%e6%97%b6%e5%ba%8f%e5%85%b3%e7%b3%bb%201.2%20%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c%e5%88%86%e7%b1%bb%201.3%20%e4%b8%89%e7%a7%8d%e4%ba%a4%e6%8d%a2%e6%96%b9%e5%bc%8f%20%e7%94%b5%e8%b7%af%e4%ba%a4%e6%8d%a2%20%e2%80%8b%09%e7%94%b5%e8%af%9d%e4%ba%a4%e6%8d%a2%e6%9c%ba%e6%8e%a5%e9%80%9a%e7%94%b5%e8%af%9d%e7%ba%bf%e7%9a%84%e6%96%b9%e5%bc%8f%e7%a7%b0%e4%b8%ba%e7%94%b5%e8%b7%af%e4%ba%a4%e6%8d%a2%ef%bc%8c%e4%bd%bf%e7%94%a8%e7%94%b5%e8%b7%af%e4%ba%a4%e6%8d%a2%e4%bc%a0%e9%80%81%e8%ae%a1%e7%ae%97%e6%9c%ba%e6%95%b0%e6%8d%ae%e6%97%b6%ef%bc%8c%e5%85%b6%e7%ba%bf%e8%b7%af%e7%9a%84%e4%bc%a0%e8%be%93%e6%95%88%e7%8e%87%e5%be%80%e5%be%80%e5%be%88%e4%bd%8e%e3%80%82%0a%e2%80%8b%09%e4%b8%89%e4%b8%aa%e6%ad%a5%e9%aa%a4%ef%bc%9a%0a%e5%bb%ba%e7%ab%8b%e8%bf%9e%e6%8e%a5%20%e9%80%9a%e8%af%9d%20%e9%87%8a%e6%94%be%e8%bf%9e%e6%8e%a5%20%e5%88%86%e7%bb%84%e4%ba%a4%e6%8d%a2%20%e2%80%8b%09%e5%88%86%e7%bb%84%e4%ba%a4%e6%8d%a2%e9%87%87%e7%94%a8%e7%9a%84%e6%98%af%e5%ad%98%e5%82%a8%e8%bd%ac%e5%8f%91%e6%8a%80%e6%9c%af%0a%e2%80%8b%09%e5%9c%a8%e5%8f%91%e9%80%81%e6%8a%a5%e6%96%87%e4%b9%8b%e5%89%8d%ef%bc%8c%e5%85%88%e6%8a%8a%e8%be%83%e9%95%bf%e7%9a%84%e6%8a%a5%e6%96%87%e5%88%92%e5%88%86%e6%88%90%e4%b8%80%e4%b8%aa%e4%b8%aa%e6%9b%b4%e5%b0%8f%e7%9a%84%e7%ad%89%e9%95%bf%e7%9a%84%e6%95%b0%e6%8d%ae%e6%ae%b5%ef%bc%9b%e7%84%b6%e5%90%8e%e5%9c%a8%e6%95%b0%e6%8d%ae%e6%ae%b5%e7%9a%84%e5%89%8d%e9%9d%a2%e5%8a%a0%e4%b8%8a%e4%b8%80%e4%ba%9b%e7%94%b1%e5%bf%85%e8%a6%81%e7%9a%84%e6%8e%a7%e5%88%b6%e4%bf%a1%e6%81%af%e7%bb%84%e6%88%90%e7%9a%84%e9%a6%96%e9%83%a8%09%e5%90%8e%ef%bc%8c%e5%b0%b1%e6%9e%84%e6%88%90%e4%ba%86%e4%b8%80%e4%b8%aa%e5%88%86%e7%bb%84%0a%e2%80%8b%09%e5%8f%91%e9%80%81%e6%96%b9%ef%bc%9a%e6%9e%84%e9%80%a0%e5%88%86%e7%bb%84%e3%80%81%e5%8f%91%e9%80%81%e5%88%86%e7%bb%84%0a%e2%80%8b%09%e8%b7%af%e7%94%b1%e5%99%a8%ef%bc%9a%e7%bc%93%e5%ad%98%e5%88%86%e7%bb%84%e3%80%81%e8%bd%ac%e5%8f%91%e5%88%86%e7%bb%84%0a%e2%80%8b%09%e6%8e%a5%e6%94%b6%e6%96%b9%ef%bc%9a%e6%8e%a5%e5%8f%97%e5%88%86%e7%bb%84%e3%80%81%e8%bf%98%e5%8e%9f%e6%8a%a5%e6%96%87%0a%e2%80%8b%09%e6%8a%a5%e6%96%87%e4%ba%a4%e6%8d%a2%20%e2%80%8b%09%e7%94%a8%e4%ba%8e%e6%97%a9%e6%9c%9f%e7%9a%84%e7%94%b5%e6%8a%a5%e9%80%9a%e4%bf%a1%e7%bd%91%ef%bc%8c%e7%8e%b0%e5%9c%a8%e8%be%83%e5%b0%91%e4%bd%bf%e7%94%a8%ef%bc%8c%e9%80%9a%e5%b8%b8%e8%a2%ab%e5%88%86%e7%bb%84%e4%ba%a4%e6%8d%a2%e6%96%b9%e5%bc%8f%e6%89%80%e5%8f%96%e4%bb%a3%e3%80%82%0a%e5%af%b9%e6%af%94%0a2.%20%e7%ac%ac%e4%ba%8c%e7%ab%a0%20%e7%89%a9%e7%90%86%e5%b1%82%202.1%20%e7%89%a9%e7%90%86%e5%b1%82%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%a6%82%e5%bf%b5%20%e8%a7%a3%e5%86%b3%e5%9c%a8%e5%90%84%e7%a7%8d%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%e4%b8%8a%e4%bc%a0%e8%be%93%e6%af%94%e7%89%b90%e5%92%8c1%e7%9a%84%e9%97%ae%e9%a2%98%ef%bc%8c%e7%bb%99%e6%95%b0%e6%8d%ae%e9%93%be%e8%b7%af%e5%b1%82%e6%8f%90%e4%be%9b%e9%80%8f%e6%98%8e%e4%bc%a0%e8%be%93%e6%af%94%e7%89%b9%e6%b5%81%e7%9a%84%e6%9c%8d%e5%8a%a1%ef%bc%8c%e5%a6%82%ef%bc%9a%e5%8f%8c%e7%bb%9e%e7%ba%bf%e3%80%81%e5%90%8c%e8%bd%b4%e7%94%b5%e7%bc%86%e3%80%81%e5%85%89%e7%ba%a4%e7%ad%89%e3%80%82%0a%e7%89%a9%e7%90%86%e5%b1%82%e5%8d%8f%e8%ae%ae%e7%9a%84%e4%b8%bb%e8%a6%81%e4%bb%bb%e5%8a%a1%0a%e6%9c%ba%e6%a2%b0%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e6%8e%a5%e5%8f%a3%e6%89%80%e7%94%a8%e6%8e%a5%e7%ba%bf%e5%99%a8%e7%9a%84%e5%bd%a2%e7%8a%b6%e5%92%8c%e5%b0%ba%e5%af%b8%e3%80%81%e5%bc%95%e8%84%9a%e6%95%b0%e7%9b%ae%e5%92%8c%e6%8e%92%e5%88%97%e3%80%81%e5%9b%ba%e5%ae%9a%e5%92%8c%e9%94%81%e5%ae%9a%e8%a3%85%e7%bd%ae%e3%80%82%20%e7%94%b5%e6%b0%94%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e5%9c%a8%e6%8e%a5%e5%8f%a3%e7%94%b5%e7%bc%86%e7%9a%84%e5%90%84%e6%9d%a1%e7%ba%bf%e4%b8%8a%e5%87%ba%e7%8e%b0%e7%9a%84%e7%94%b5%e5%8e%8b%e7%9a%84%e8%8c%83%e5%9b%b4%e3%80%82%20%e5%8a%9f%e8%83%bd%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e6%9f%90%e6%9d%a1%e7%ba%bf%e4%b8%8a%e5%87%ba%e7%8e%b0%e7%9a%84%e6%9f%90%e4%b8%80%e7%94%b5%e5%b9%b3%e7%9a%84%e7%94%b5%e5%8e%8b%e8%a1%a8%e7%a4%ba%e4%bd%95%e7%a7%8d%e6%84%8f%e4%b9%89%e3%80%82%20%e8%bf%87%e7%a8%8b%e7%89%b9%e6%80%a7%ef%bc%9a%e6%8c%87%e6%98%8e%e5%af%b9%e4%ba%8e%e4%b8%8d%e5%90%8c%e5%8a%9f%e8%83%bd%e7%9a%84%e5%90%84%e7%a7%8d%e5%8f%af%e8%83%bd%e4%ba%8b%e4%bb%b6%e7%9a%84%e5%87%ba%e7%8e%b0%e9%a1%ba%e5%ba%8f%e3%80%82%202.2%20%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%e5%92%8c%e4%bc%a0%e8%be%93%e6%96%b9%e5%bc%8f%20%e5%af%bc%e5%bc%95%e5%9e%8b%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%ef%bc%9a%e5%90%8c%e8%bd%b4%e7%94%b5%e7%bc%86%e3%80%81%e5%8f%8c%e7%bb%9e%e7%ba%bf%e3%80%81%e5%85%89%e7%ba%a4%ef%bc%88%e5%a4%9a%e6%a8%a1%e5%85%89%e7%ba%a4%e3%80%81%e5%8d%95%e6%a8%a1%e5%85%89%e7%ba%a4%ef%bc%89%e3%80%81%e7%94%b5%e5%8a%9b%e7%ba%bf%0a%e9%9d%9e%e5%af%bc%e5%bc%95%e6%80%a7%e4%bc%a0%e8%be%93%e5%aa%92%e4%bd%93%ef%bc%9a%e6%97%a0%e7%ba%bf%e7%94%b5%e6%b3%a2%e3%80%81%e5%be%ae%e6%b3%a2%e3%80%81%e7%ba%a2%e5%a4%96%e7%ba%bf%e3%80%81%e5%8f%af%e8%a7%81%e5%85%89%0a%e4%b8%b2%e8%a1%8c%e4%bc%a0%e8%be%93%20%2f%20%e5%b9%b6%e8%a1%8c%e4%bc%a0%e8%be%93%0a%e8%ae%a1%e7%ae%97%e6%9c%ba%e8%bf%9c%e8%b7%9d%e7%a6%bb%e4%bc%a0%e8%be%93%e9%87%87%e7%94%a8%e4%b8%b2%e8%a1%8c%e4%bc%a0%e8%be%93%ef%bc%8c%e8%ae%a1%e7%ae%97%e6%9c%ba%e5%86%85%e9%83%a8%e9%87%87%e7%94%a8%e5%b9%b6%e8%a1%8c%e4%bc%a0%e8%be%93&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>
 	    </a>
 
-	    <a  href="mailto:?subject=%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c&amp;body=Check out this site http%3a%2f%2flocalhost%3a1313%2fposts%2fcs_basic%2fcomputernetwork%2f"
+	    <a  href="mailto:?subject=%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%bd%91%e7%bb%9c%e8%af%be%e7%a8%8b%e7%ac%94%e8%ae%b0&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2fcomputernetwork%2f"
 	        title="Share via Email. Opens in a new window." >
 	        <img src=/img/icons/45px/mail.png>
 	    </a>

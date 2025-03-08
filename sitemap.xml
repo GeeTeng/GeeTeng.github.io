@@ -3,7 +3,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/tags/game/</loc>
+	    <loc>https://geeteng.github.io/tags/game/</loc>
 	    <lastmod>2025-03-05</lastmod>
         
 
@@ -14,7 +14,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/</loc>
+	    <loc>https://geeteng.github.io/</loc>
 	    <lastmod>2025-03-05</lastmod>
         
 
@@ -25,7 +25,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/</loc>
+	    <loc>https://geeteng.github.io/posts/</loc>
 	    <lastmod>2025-03-05</lastmod>
         
 
@@ -36,7 +36,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/tags/</loc>
+	    <loc>https://geeteng.github.io/tags/</loc>
 	    <lastmod>2025-03-05</lastmod>
         
 
@@ -47,7 +47,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/game/pathplaning/</loc>
+	    <loc>https://geeteng.github.io/posts/game/pathplaning/</loc>
 	    <lastmod>2025-03-05</lastmod>
         
 
@@ -58,7 +58,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/tags/c&#43;&#43;/</loc>
+	    <loc>https://geeteng.github.io/tags/c&#43;&#43;/</loc>
 	    <lastmod>2025-03-02</lastmod>
         
 
@@ -69,7 +69,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/c&#43;&#43;/linux/</loc>
+	    <loc>https://geeteng.github.io/posts/c&#43;&#43;/linux/</loc>
 	    <lastmod>2025-03-02</lastmod>
         
 
@@ -80,7 +80,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/tags/cs-basic/</loc>
+	    <loc>https://geeteng.github.io/tags/cs-basic/</loc>
 	    <lastmod>2025-01-13</lastmod>
         
 
@@ -91,7 +91,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/cs_basic/computernetwork/</loc>
+	    <loc>https://geeteng.github.io/posts/cs_basic/network/</loc>
 	    <lastmod>2025-01-13</lastmod>
         
 
@@ -102,7 +102,18 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/cs_basic/os/</loc>
+	    <loc>https://geeteng.github.io/posts/cs_basic/computernetwork/</loc>
+	    <lastmod>2025-01-13</lastmod>
+        
+
+        
+	  </url>
+	  
+  
+      
+      
+	  <url>
+	    <loc>https://geeteng.github.io/posts/cs_basic/os/</loc>
 	    <lastmod>2025-01-10</lastmod>
         
 
@@ -113,7 +124,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/tags/paper/</loc>
+	    <loc>https://geeteng.github.io/tags/paper/</loc>
 	    <lastmod>2025-01-09</lastmod>
         
 
@@ -124,7 +135,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/paper/1stgroupmeeting/</loc>
+	    <loc>https://geeteng.github.io/posts/paper/1stgroupmeeting/</loc>
 	    <lastmod>2025-01-09</lastmod>
         
 
@@ -135,7 +146,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/paper/2stgroupmeeting/</loc>
+	    <loc>https://geeteng.github.io/posts/paper/2stgroupmeeting/</loc>
 	    <lastmod>2025-01-09</lastmod>
         
 
@@ -146,7 +157,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/game/onlinegame/</loc>
+	    <loc>https://geeteng.github.io/posts/game/onlinegame/</loc>
 	    <lastmod>2025-01-08</lastmod>
         
 
@@ -157,7 +168,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/c&#43;&#43;/designpattern/</loc>
+	    <loc>https://geeteng.github.io/posts/c&#43;&#43;/designpattern/</loc>
 	    <lastmod>2025-01-08</lastmod>
         
 
@@ -168,7 +179,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/tags/computer-graphics/</loc>
+	    <loc>https://geeteng.github.io/tags/computer-graphics/</loc>
 	    <lastmod>2025-01-03</lastmod>
         
 
@@ -179,7 +190,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/graphics/5_raytracing/</loc>
+	    <loc>https://geeteng.github.io/posts/graphics/5_raytracing/</loc>
 	    <lastmod>2025-01-03</lastmod>
         
 
@@ -190,7 +201,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/tags/ue5/</loc>
+	    <loc>https://geeteng.github.io/tags/ue5/</loc>
 	    <lastmod>2025-01-03</lastmod>
         
 
@@ -201,7 +212,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/ue/uesourcecode/</loc>
+	    <loc>https://geeteng.github.io/posts/ue/uesourcecode/</loc>
 	    <lastmod>2025-01-03</lastmod>
         
 
@@ -212,7 +223,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/graphics/4_geomery/</loc>
+	    <loc>https://geeteng.github.io/posts/graphics/4_geomery/</loc>
 	    <lastmod>2025-01-02</lastmod>
         
 
@@ -223,7 +234,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/ue/4_animation/</loc>
+	    <loc>https://geeteng.github.io/posts/ue/4_animation/</loc>
 	    <lastmod>2024-12-23</lastmod>
         
 
@@ -234,7 +245,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/game/lut/</loc>
+	    <loc>https://geeteng.github.io/posts/game/lut/</loc>
 	    <lastmod>2024-12-23</lastmod>
         
 
@@ -245,7 +256,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/game/spatialdatastructures/</loc>
+	    <loc>https://geeteng.github.io/posts/game/spatialdatastructures/</loc>
 	    <lastmod>2024-12-17</lastmod>
         
 
@@ -256,7 +267,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/graphics/3_shader/</loc>
+	    <loc>https://geeteng.github.io/posts/graphics/3_shader/</loc>
 	    <lastmod>2024-12-16</lastmod>
         
 
@@ -267,7 +278,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/graphics/tinyrenderer/</loc>
+	    <loc>https://geeteng.github.io/posts/graphics/tinyrenderer/</loc>
 	    <lastmod>2024-12-16</lastmod>
         
 
@@ -278,7 +289,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/game/piccolo/</loc>
+	    <loc>https://geeteng.github.io/posts/game/piccolo/</loc>
 	    <lastmod>2024-12-15</lastmod>
         
 
@@ -289,7 +300,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/ue/3_umg/</loc>
+	    <loc>https://geeteng.github.io/posts/ue/3_umg/</loc>
 	    <lastmod>2024-12-13</lastmod>
         
 
@@ -300,7 +311,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/c&#43;&#43;/c&#43;&#43;learning/</loc>
+	    <loc>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</loc>
 	    <lastmod>2024-12-11</lastmod>
         
 
@@ -311,7 +322,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/graphics/2_rasterize/</loc>
+	    <loc>https://geeteng.github.io/posts/graphics/2_rasterize/</loc>
 	    <lastmod>2024-12-03</lastmod>
         
 
@@ -322,7 +333,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/ue/2_gamemode/</loc>
+	    <loc>https://geeteng.github.io/posts/ue/2_gamemode/</loc>
 	    <lastmod>2024-11-23</lastmod>
         
 
@@ -333,7 +344,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/ue/1_uedownload/</loc>
+	    <loc>https://geeteng.github.io/posts/ue/1_uedownload/</loc>
 	    <lastmod>2024-11-13</lastmod>
         
 
@@ -344,7 +355,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/graphics/1_transform/</loc>
+	    <loc>https://geeteng.github.io/posts/graphics/1_transform/</loc>
 	    <lastmod>2024-11-02</lastmod>
         
 
@@ -355,7 +366,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/about-me/</loc>
+	    <loc>https://geeteng.github.io/about-me/</loc>
 	    <lastmod>2024-11-01</lastmod>
         
 
@@ -366,7 +377,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/about-me/</loc>
+	    <loc>https://geeteng.github.io/about-me/</loc>
 	    <lastmod>2024-11-01</lastmod>
         
 
@@ -377,7 +388,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/graphics/6_-materials/</loc>
+	    <loc>https://geeteng.github.io/posts/graphics/6_-materials/</loc>
 	    <lastmod>0001-01-01</lastmod>
         
 
@@ -388,7 +399,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/ue/5_ai/</loc>
+	    <loc>https://geeteng.github.io/posts/ue/5_ai/</loc>
 	    <lastmod>0001-01-01</lastmod>
         
 
@@ -399,7 +410,7 @@
       
       
 	  <url>
-	    <loc>http://localhost:1313/posts/c&#43;&#43;/algorithm/</loc>
+	    <loc>https://geeteng.github.io/posts/c&#43;&#43;/algorithm/</loc>
 	    <lastmod>0001-01-01</lastmod>
         
 
