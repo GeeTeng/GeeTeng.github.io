@@ -196,6 +196,11 @@ width:1200px;
     color: #3273dc /* 设置加粗文本颜色 */
 }
 
+.blog .blog-text em,
+.blog .blog-text i {
+    color: #c60af5; /* 设置斜体文字颜色 */
+}
+
 
 .blog .blog-text blockquote p {
     margin-bottom: 0px;
@@ -258,12 +263,16 @@ kbd {
 }
 #TableOfContents {
     position: fixed;
-    top: 3.25rem;  /* 固定在页面顶部 */
-    left: 0px;  /* 固定在左侧 */
-    width: 320px;  /* 设置宽度 */
-    height: 100vh;  /* 让目录高度充满屏幕 */
-    overflow-y: auto;  /* 如果内容过长，可以滚动 */
+    top: 3.8rem;
+    left: 10px;
+    width: 320px;
+    height: 100vh;
+    overflow-y: auto;
+    border-right: 2px solid #ccc;  /* 添加右侧边框 */
+    padding-right: 10px;  /* 防止文本贴着边缘 */
+    padding-bottom: 80px
 }
+
 
 
 
@@ -295,8 +304,8 @@ kbd {
 /* 一级目录样式 */
 #TableOfContents li > a {
   display: block;
-  padding: 8px 20px;
-  font-size: 16px;
+  padding: 8px 22px;
+  font-size: 18px;
   color: #333；
   white-space: nowrap; /* 强制不换行 */
   overflow: hidden;
@@ -308,6 +317,7 @@ kbd {
 
 #TableOfContents li > a:hover,
 #TableOfContents li > a:focus {
+	
   color: #007acc;
   background-color: #f1f1f1;
   border-left: 3px solid #007acc;
@@ -332,7 +342,7 @@ kbd {
 
 #TableOfContents li li > a {
   padding: 5px 20px;
-  font-size: 14px;
+  font-size: 16px;
   color: #555;
   white-space: nowrap; /* 强制不换行 */
   overflow: hidden;

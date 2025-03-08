@@ -2,192 +2,192 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Posts on GeeTeng</title>
-    <link>https://geeteng.github.io/posts/</link>
+    <link>http://localhost:1313/posts/</link>
     <description>Recent content in Posts on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 05 Mar 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://geeteng.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/posts/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>路径规划算法</title>
-      <link>https://geeteng.github.io/posts/game/pathplaning/</link>
+      <link>http://localhost:1313/posts/game/pathplaning/</link>
       <pubDate>Wed, 05 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/game/pathplaning/</guid>
+      <guid>http://localhost:1313/posts/game/pathplaning/</guid>
       <description>A*搜索算法 A*算法是启发式搜索方法，但是在游戏开发中，A*算法会受到一些因素的制约：&#xA;计算开销和实时性问题 在图比较大的时候可能非常耗时，尤其是在需要频繁计算路径的实时游戏中。游戏中的路径寻找需要快速响应，尤其是在开放世界或有动态元素的场景中。而且A*算法通常是在静态地图上执行的，但是许多环境玩家、敌人、障碍物会发生改变，每当发生改变的时候都需要重新计算路径，导致性能问题。&#xA;平滑性&#xA;A*算法生成的路径通常是“阶梯状”的，并不自然。可能导致拐角过多，移动不平滑，而如果再去平滑路径，又增加了额外的计算开销。&#xA;把代价分成两部分：&#xA;当前代价：一共走过多少格子 预估代价：从当前位置到终点位置需要走多少格子 可以使用曼哈顿距离或欧拉距离，将两部分代价相加起来。永远走向代价最小的位置。</description>
     </item>
     <item>
       <title>Linux学习</title>
-      <link>https://geeteng.github.io/posts/c&#43;&#43;/linux/</link>
+      <link>http://localhost:1313/posts/c&#43;&#43;/linux/</link>
       <pubDate>Sun, 02 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/c&#43;&#43;/linux/</guid>
+      <guid>http://localhost:1313/posts/c&#43;&#43;/linux/</guid>
       <description>Linux基础操作 静态库 动态库 静态库：程序在编译时会把库文件的二进制编码链接到目标程序中。&#xA;如果多个程序中用到了同一静态库中的函数，就会存在多份拷贝。&#xA;生成静态库&#xA;g++ -c -o libpublic.a public.cpp 编译 demo.cpp 并链接一个名为 public 的库&#xA;g++ -o demo demo.cpp -L/home/test1/codes/tools -lpublic 动态库（共享库）：编译时不会把库文件的二进制代码链接到目标程序中，运行时候才会被载入。&#xA;如果多个进程在用到同一动态库中的函数 / 类，那么在内存中只有一份，避免了空间浪费的问题。&#xA;程序升级比较简单 不需要重新编译 只需要更新动态库。&#xA;如果静态库和动态库同时存在，会优先使用动态库。&#xA;生成动态库&#xA;g++ -gPIC -shared -o libpublic.so public.cpp 编译并链接动态库&#xA;g++ -o demo demo.cpp -L/home/test1/codes/tools -lpublic 发现执行会报错显示找不到这样的文件 原因是需要设置好环境变量&#xA;使用make来生成库，可以避免写呢么多代码。&#xA;# 指定编译的目标文件是 libpublic.a 和 libpublic.so all:libpublic.a \ libpublic.so # 编译 libpublic.a 需要依赖 public.h 和 public.cpp # 如果被依赖文件内容发生了变化，将重新编译 libpublic.a libpublic.a:public.h public.cpp g++ -c -o libpublic.</description>
     </item>
     <item>
       <title>计算机网络</title>
-      <link>https://geeteng.github.io/posts/cs_basic/computernetwork/</link>
+      <link>http://localhost:1313/posts/cs_basic/computernetwork/</link>
       <pubDate>Mon, 13 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/cs_basic/computernetwork/</guid>
+      <guid>http://localhost:1313/posts/cs_basic/computernetwork/</guid>
       <description>1. 第一章 概述 1.1 计算机网络体系结构 七层OSI模型&#xA;应用层、表示层、会话层、传输层、网络层、数据链路层、物理层&#xA;应用层：各种应用软件，会发送一个探测数据包，探测双方网络是否能胡同。&#xA;表示层：用来描述文件的类型(比如发送图片，会在整体二进制数据前加上文件类型数据标记)、数据加密。&#xA;会话层：发起会话/接受会话&#xA;传输层：传输数据TCP、UDP&#xA;网络层：定义IP编址、路由功能，如数据转发&#xA;数据链路层：定义数据基本格式，如MAC地址&#xA;物理层：定义物理设备标准，如网线/光纤的接口类型、传输速率等&#xA;五层模型&#xA;应用层、传输层、网络层、数据链路层、物理层&#xA;TCP/IP四层模型&#xA;应用层（HTTP\SMTP\DNS\RTP）、运输层(TCP\UDP)、网络层(IP)、网络接口层&#xA;协议三要素：&#xA;语法：定义交换信息的格式 语义：定义收发双方要完成的操作 同步：定义收发双方的时序关系 1.2 计算机网络分类 1.3 三种交换方式 电路交换 ​&#x9;电话交换机接通电话线的方式称为电路交换，使用电路交换传送计算机数据时，其线路的传输效率往往很低。&#xA;​&#x9;三个步骤：&#xA;建立连接 通话 释放连接 分组交换 ​&#x9;分组交换采用的是存储转发技术&#xA;​&#x9;在发送报文之前，先把较长的报文划分成一个个更小的等长的数据段；然后在数据段的前面加上一些由必要的控制信息组成的首部&#x9;后，就构成了一个分组&#xA;​&#x9;发送方：构造分组、发送分组&#xA;​&#x9;路由器：缓存分组、转发分组&#xA;​&#x9;接收方：接受分组、还原报文&#xA;​&#x9;报文交换 ​&#x9;用于早期的电报通信网，现在较少使用，通常被分组交换方式所取代。&#xA;对比&#xA;2. 第二章 物理层 2.1 物理层的基本概念 解决在各种传输媒体上传输比特0和1的问题，给数据链路层提供透明传输比特流的服务，如：双绞线、同轴电缆、光纤等。&#xA;物理层协议的主要任务&#xA;机械特性：指明接口所用接线器的形状和尺寸、引脚数目和排列、固定和锁定装置。 电气特性：指明在接口电缆的各条线上出现的电压的范围。 功能特性：指明某条线上出现的某一电平的电压表示何种意义。 过程特性：指明对于不同功能的各种可能事件的出现顺序。 2.2 传输媒体和传输方式 导引型传输媒体：同轴电缆、双绞线、光纤（多模光纤、单模光纤）、电力线&#xA;非导引性传输媒体：无线电波、微波、红外线、可见光&#xA;串行传输 / 并行传输&#xA;计算机远距离传输采用串行传输，计算机内部采用并行传输</description>
     </item>
     <item>
       <title>操作系统</title>
-      <link>https://geeteng.github.io/posts/cs_basic/os/</link>
+      <link>http://localhost:1313/posts/cs_basic/os/</link>
       <pubDate>Fri, 10 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/cs_basic/os/</guid>
+      <guid>http://localhost:1313/posts/cs_basic/os/</guid>
       <description>1. 第一章 操作系统概述 1.1 操作系统概念、特征 操作系统是指控制和管理整个计算机系统的硬件和软件资源，并合理的组织调度计算机的工作和资源的分配，以提供给用户和其他软件方便的接口和环境集合。&#xA;并发 并发是指两个或多个事件在同一时间间隔内发生。操作系统的并发是通过分时得以实现的。操作系统的并发性是指计算机系统中同时存在多个运行着的程序，因此它具有处理和调度多个程序同时执行的能力。&#xA;共享 资源共享就是共享，系统中的资源可供内存中多个并发执行的进程同时使用，可分为以下两种。&#xA;互斥共享方式&#xA;比如打印机，不能同时打印两份内容，不然会造成内容混淆。&#xA;同时访问方式&#xA;交替的对该资源进行访问 “分时共享”。&#xA;虚拟 操作系统中利用了多种虚拟技术，分别用来实现虚拟处理机、虚拟内存和虚拟外部设备。&#xA;在虚拟处理器技术中，让多道程序并发执行来分时使用一台处理器，虽然只有一台处理器，但是能同时为多个用户服务。把一台物理上的CPU虚拟为多态逻辑上的CPU称为虚拟处理器。&#xA;虚拟存储器，从逻辑上来扩充存储器的容量。&#xA;虚拟设备技术，将一台物理IO设备虚拟为多台逻辑上的IO设备，允许多个用户同时访问的共享设备。&#xA;异步 在多道程序环境下，允许多个程序并发执行，但由于资源有限，进程的执行不是一贯到底，而是走走停停，以不可预知的速度向前推进，这就是进程的异步性。&#xA;操作系统的目标和功能 为了给多道程序提供良好的运行环境，操作系统应该具有：处理器管理、存储器管理、文件管理和设备管理，还必须向用户提供接口，同时操作系统可用来扩充机器，以提供更方便的服务、更高的资源利用率。&#xA;处理器管理&#xA;对处理器的管理可归结为对进程的管理，主要功能有：进程控制、进程同步、进程通信、死锁处理、处理器调度等。&#xA;存储器管理&#xA;方便用户使用以及提高内存的利用率，存储器管理应具备：内存分配、地址映射、内存保护、共享和内存扩充等。&#xA;文件管理&#xA;包括文件的存储空间管理、目录管理和文件读写管理、文件保护。&#xA;设备管理&#xA;完成用户的IO请求，主要包括混充管理、设备分配、设备处理和虚拟设备等。&#xA;为了方便用户使用操作系统，操作系统还提供了用户接口，分为以下两类。&#xA;命令接口&#xA;使用命令接口进行作业控制的主要方式有两种：联机命令接口和脱机命令接口。&#xA;程序接口&#xA;程序接口由一组系统调用命令组成，用户可以直接使用命令向系统提出各种请求。&#xA;操作系统的结构 简单结构、模块化结构、分层式结构、微内核结构。&#xA;1.3 操作系统的运行环境 操作系统在具体实现上划分了用户态、核心态。&#xA;操作系统内核包括以下4方面：&#xA;时钟管理&#xA;操作系统需要通过时钟管理，向用户提供标准的系统时间。通过时钟中断的管理，可以实现进程切换。&#xA;中断机制&#xA;引入中断机制是为了提高多道程序运行环境中CPU的利用率。&#xA;原语&#xA;原语处于操作系统最底层，是最接近硬件的部分；具有原子性（一气呵成，不可中断）；运行时间短、调用频繁。&#xA;系统控制的数据结构及处理&#xA;常见的基本操作有以下3种，进程管理、存储器管理、设备管理。&#xA;中断和异常 引入核心态和用户态之后，就需要考虑如何在这两种状态下切换。**中断是让操作系统内核夺回CPU使用权的唯一途径。**内核工作在核心态，应用程序工作在用户态，系统不允许用户使用核心态的功能，但是它们又必须使用。&#xA;中断（外中断）&#xA;中断信号来源于CPU外部，与当前执行的指令无关。比如说时钟中断和I/O中断请求，当输入输出任务完成时，向CPU发送中断信号，或时钟部件每隔50ms发送一个中断信号。&#xA;异常（内中断）&#xA;源于CPU执行指令内部，比如程序的非法操作。&#xA;一些由用户态转为核心态的例子：1）用户程序要求系统服务 2）发生一次中断 3）用户程序产生错误 4）用户程序企图执行特权指令&#xA;2. 第二章 进程管理 2.1 进程与线程 进程控制块（PCB）描述进程的基本情况和运行状态，PCB是进程存在的唯一标志。&#xA;进程由PCB、程序段、数据段组成。&#xA;进程的特征 动态性(最基本的特性)、并发性、独立性、异步性、结构性。</description>
     </item>
     <item>
       <title>论文笔记</title>
-      <link>https://geeteng.github.io/posts/paper/1stgroupmeeting/</link>
+      <link>http://localhost:1313/posts/paper/1stgroupmeeting/</link>
       <pubDate>Thu, 09 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/paper/1stgroupmeeting/</guid>
+      <guid>http://localhost:1313/posts/paper/1stgroupmeeting/</guid>
       <description>一种基于瞬时风险识别的自动驾驶车辆协同进化变道轨迹规划方法 A-co-evolutionary-lane-changing-trajectory-planning-metho_2023_Accident-Anal.pdf&#xA;提出一种CLTP方法（协同变道轨迹规划），使用HighD数据集，采用深度学习神经网络捕捉变道车辆周围车辆移动的轨迹动态。考虑主体车辆与周围车辆的安全交互，基于故障树分析方法建立变道事件时空风险识别的数学模型。以变道风险最小化为目标，基于加速和减速超车规则以及梯形加速法，设计了变道过程中的纵向和横向位移方案。最后使用遗传算法获取纵向和横向位移的运动参数，形成理想的变道轨迹。&#xA;为什么提出CLTP方法？&#xD;现有的关于 LTP 的研究通常假设本车周围的车辆保持恒定速度，并且仅考虑与周围车辆初始状态相对应的一条变道轨迹。然而周围车辆速度是在变化的，所以动态变道轨迹规划（DLTP）解决了这个问题，根据周围车辆的实时数据为每个时间单位设计新的行驶轨迹，但是DLTP的研究很少，且没有考虑系统反应时间并且假设了目标车辆的初始加速度为0，与实际情况不符合。现有的DLTP模型仍然存在局限性，只考虑了PV（前车）和LV（后车）对目标车道的影响，而没有考虑到原来车道的FV（前车）和RV（后车）也会影响，所以提出基于周边车辆未来运动信 息的新型协同进化变道轨迹规划（CLTP）。&#xD;CLTP方法可以做到&#xD;1.探索了周边车辆在近未来的运动状态演变趋势，预测瞬时风险，并设计理想的变道轨迹，以克服静态或在线数据的滞后性。&#xD;2.评估时空风险，设计了考虑变道过程中本车与周边车辆安全交互的虚拟变道轨迹曲线，解决了其他方法中存在的传统风险识别缺陷。&#xD;3.设计了变道的起始和结束点确定模块，为安全变道前纵向位置的动态调整策略提供支持，克服了以往研究中静态 目前流行的LTP方法有：&#xA;几何曲线法：常用的几何曲线包括多项式曲线、圆弧曲线、B 样条曲线、梯形曲线、螺旋曲线等。 图搜索法：A*、dijkstra等。 人工势场法：假设车辆在具有目标点和障碍物的势场中行驶。目标点被视为引力场的中心，吸引主体车辆靠近，而障碍物则被定义为斥力场的中心，以防止车辆碰撞。 方法论：&#xA;本方法更适用于相邻车辆为人工驾驶车辆。可通过基于停车距离指数（SDI）的纵向位置调整策略获取变道的起始和结束点位置。基于梯形加速度（TA）方法和遗传算法（GA）设计变道的横向和纵向轨迹，在给定曲率、速度和瞬时风险的约束下，降低变道方案的整体风险系数。&#xA;使用GRU（基于门控循环单元）来预测周边车辆的轨迹。然后基于GRU提供的周围车辆未来轨迹，使用SDI指数来判断是否在一段时间内可能发生碰撞。&#xA;使用故障树分析方法（FTA）进行风险识别，将瞬时风险系数分为2种情况：&#xA;1.越过车道线之前，收到周围4个车辆的影响，目标车辆前后和原车道前后。&#xA;2.越过车道线之后，仅收到目标车道前后车辆的影响。&#xA;生成轨迹：确定起始点和终点，应在目标车辆的牵扯和候车临界安全间距（SSD）的交集范围内，使用TA进行横向轨迹规划，优化纵向轨迹规划。&#xA;最后使用均方根误差（RMSE）、平均绝对误差（MAE）和平均绝对百分 比误差（MAPE）被选作衡量标准，表明GRU比LSTM、ANN要优。&#xA;总结：将风险评估与深度学习相结合，通过风险评估系数来优化生成轨迹，调整换道路径和时机。&#xA;驾驶员对车辆轨迹预测的影响 Driver-influence-on-vehicle-trajectory-predi_2021_Accident-Analysis&amp;mdash;Preven.pdf&#xA;文章将驾驶员特征（如高风险和低风险分类，采用K均值聚类分析）和驾驶表现（如风险行为和非风险行为）纳入了轨迹预测系统中，使用卷积LSTM进行轨迹预测，使用SHRP2数据集，然后将预测结果与实际的驾驶轨迹进行了对比分析。通过这种对比，研究发现驾驶员的特征对轨迹预测系统的准确性有显著影响：&#xA;低风险（LR）驾驶员在非风险行为（NRB）情境下，轨迹预测误差最低，表明系统在这些情境下的预测更为准确。 高风险（HR）驾驶员在风险行为（RB）情境下，轨迹预测误差最高，显示出驾驶员特征确实对轨迹预测的效果产生了重要影响。 作者在简介中着重介绍了近年来关于驾驶员对轨迹预测有影响的研究论文，皆证实了驾驶员的特征（性格、年龄）对轨迹预测有显著的影响，提出了当今对于这一方面的研究仍十分有限。所以本文假设车辆轨迹预测误差与驾驶员特征和驾驶表现存在关联。&#xA;本研究的重点是研究驾驶员概况、驾驶表现和其他影响因素（如交通密度、次要任务、性别和年龄组）对轨迹预测系统性能的影响。方法评估基于驾驶员概况和驾驶相关因素如何影响轨迹预测系统性能。&#xA;评估方法：&#xA;端到端方法：使用从SHRP2中提取的一组驾驶样本训练预测模型，然后评估系统性能以进行进一步分析。每个驾驶场景的实际值与预测值之间的差异被报告为预测误差。之后，该预测误差用于评估驾驶员概况、驾驶表现以及驾驶员受损、交通密度和次要任务等影响因素对轨迹预测系统准确性的相关性和影响。 通过统计问卷将驾驶员概况分类为低风险和高风险，将驾驶表现分类为风险行为和非风险行为集群，这些信息连同第一步的预测误差进行第三步的分析。 分析预测误差和参数之间的关系。使用随机森林 (RF) 评估其他影响系统性能的因素的影响。将 RF 拟合到数据中，根据因素与回归问题的相关性对其进行排序，以减少高维数据集中的模型输入数量，从而提高计算效率。 对于驾驶员特征（高风险 / 低风险）：&#xA;高风险（HR）驾驶员在道路上与其他车辆保持的车头时距更短，且速度和加速度均高于低风险（LR）驾驶员。与低风险驾驶员相比，高风险驾驶员的横向速度和横向运动中的最大加速度更为显著，这表明高风险驾驶员更倾向于进行变道操作。&#xA;对于驾驶表现（风险行为 / 非风险行为）：&#xA;预测结果表明从事危险行为的驾驶员会增加轨迹预测的误差，驾驶表现与轨迹预测存在关联。&#xA;研究的目的是探索驾驶员概况和驾驶表现对轨迹预测系统性能的影响。调查显示，基于自我报告问卷的驾驶员概况不会影响系统的性能。然而，驾驶表现会影响轨迹预测性能。特别是，在表现出风险较高的概况（即驾驶距离太近或从事危险行为）的驾驶员中，轨迹预测比表现出更安全行为的驾驶员表现出更多的错误。这凸显了一个重要问题。也就是说，轨迹性能预测对于表现出更多危险驾驶倾向的驾驶员来说效果较差，未来的研究还需要考虑在车辆轨迹预测系统中使用驾驶行为。使用具有相同分布的分类数据并分析特定模式将导致设计个性化的轨迹预测系统，从而提高系统性能和道路安全。&#xA;总结：可以使用驾驶员特征进行换道意图识别（个性化行为分析），可以提高换道意图预测的准确性。&#xA;Abstract 10.1016/j.compeleceng.2024.110053&#xA;Group vehicle trajectory prediction model based on multi-graph fusion&#xA;Group vehicle trajectory prediction is crucial for autonomous driving systems to make safe and reliable decisions.</description>
     </item>
     <item>
       <title>论文笔记</title>
-      <link>https://geeteng.github.io/posts/paper/2stgroupmeeting/</link>
+      <link>http://localhost:1313/posts/paper/2stgroupmeeting/</link>
       <pubDate>Thu, 09 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/paper/2stgroupmeeting/</guid>
+      <guid>http://localhost:1313/posts/paper/2stgroupmeeting/</guid>
       <description>1 基于驾驶员行为和交通环境构建的拓扑图的驾驶员变道意图预测人机共驾系统 设计了一种基于动态图卷积网络和语义注意力模块（DGCN-SAM）以及自监督引导学习（SGL-YTG）的DLCI预测模型。具体而言，设计 了一种具有拟人注意力机制的倒置残差模块（IRM-AAM），用于提取拓扑图中的重要特征。采用具有多头自注意力机制的 Transformer 来捕捉驾驶员头部姿态序列的全局依赖关系。开发了 DGCN-SAM 来建模图中不同类别或节点之间的关系。并且提出了 SGL-UTG 以提高泛化性能，并在缺乏足够 DLCI 数据的情况下防止过拟合。&#xA;**实验数据：**实验平台包含了一个配备六自由度（DOF）运动平台的人机交互驾驶模拟器，以及眼动设备。能够模拟真实的交通和车辆运动。选择20名志愿者参加试验，每位平均1.5个小时完成10公里的不同驾驶场景。将数据集表示为拓扑图，根据拓扑图，设计了一种基于动态图卷积网络(DGCN)与语义注意力模块（SAM）以及基于对拓扑图理解的自监督引导学习（SGL-UTG）的DLCL预测模型。&#xA;其中具有拟人注意力机制的倒置残差模块用于解决拓扑图的噪声问题，消除无关特征，提高精度。 多头注意力机制的 Transformer 模型，通过加权驾驶员头部姿态序列中不同元素的重要性来捕捉长期或全局依赖关系 其中动态图卷积网络与语义注意力模块，以拓扑图为输入，该图清晰地描绘了驾驶员行为与驾驶场景关键特征之间的互相作用。DGCN主要解决了如何在拓扑图中有效地、自适应地提取不同特征之间的交互关系。 其中SGL-UTG是因为实验数据获得的少，防止过拟合，提高泛化性能。 2 基于深度Q学习和请求 - 响应机制的变道系统 本研究构建了一个将交通车道离散化为单元格的变道模型，同时考虑了强制变道和自主变道操作，并提出了一种基于带有请求-响应机制的深度Q网络的新方法。所构建的变道系统被划分为孤立组和对称组，然后将独立的 Q 学习和“中央代理”的概念相结合，以简化训练过程。在所提出的方法中，这些组可以分为两类：请求组和响应组。在训练过程中，请求组和响应组分别进行训练。具体而言，请求组仅考虑组内的状态来训练代理，而响应组除了考虑组内的状态外，还评估来自请求组的叠加动作（即请求消息）。执行过程也以与训练过程相同的去中心化方式处理。然后，将基于规则的方法、基于博弈论的分解算法和简单的深度 Q 学习方法等基准方法与所提出的方法进行了比较。（实验输入数据为模拟数据 随机生成）&#xA;为什么提出这个方法？&#xA;交通拥堵问题：随着车辆出行需求的增加，交通拥堵问题日益严重，传统的变道控制方法在拥堵环境中表现不佳，无法有效调节交通流量。 现有方法的局限性： 基于规则的方法：在交通拥堵时效率低下，无法为车辆提供足够的变道空间。 基于博弈论的方法：随着参与者数量的增加，计算复杂度呈指数增长，计算时间过长。 基于深度强化学习的方法：虽然训练完成后执行时间较短，但大多数研究仅考虑单智能体系统，无法应对多车辆同时变道的复杂场景。 解决了什么问题？&#xA;变道效率：在拥堵的交通环境中，优化多车辆的变道操作，提高变道效率。&#xA;计算复杂度：减少变道系统的计算时间，尤其是在交通拥堵的情况下。&#xA;多智能体协作：解决多车辆同时变道时的协作问题，确保车辆能够高效、安全地完成变道操作。&#xA;3* 基于深度强化学习的自主车道变道速度控制对混合车辆组水平的研究 提出一种基于深度强化学习的编导模型，用于训练自动驾驶车辆在与不同人类驾驶行为的交互中完成变道。首先，从自然行驶轨迹中提取周围车辆的轨迹，构建了一个车辆群体级的混合流换道环境。然后，确定状态空间和动作空间，设计奖励函数，综合考虑安全性和效率性，引导自主车辆不发生碰撞，确定加速度和方向角完成换道行为，并在该方法中融入避碰策略，保证纵向运动的安全性。此外，训练后的模型可以学习成功换道的经验，导致在测试中无碰撞的成功率达到90%。最后，从安全性和效率评价指标两个方面对所提方法的行驶性能进行了分析，证明了所提方法能够提高换道过程的效率和安全性。使用highD数据集。&#xA;本研究中的混合流中的自主换道框架由两部分组成：混合流中的换道环境和基于SAC的控制。&#xA;用马尔可夫决策过程（MDP）建模变道问题，定义状态空间、动作空间、状态转移和奖励函数，让问题符合强化学习的框架。&#xA;用深度强化学习（SAC算法）来优化变道策略，让自主车辆在混合车流环境中通过试错学习（trial-and-error learning），不断调整加速度和方向角，以安全高效地完成变道。&#xA;本研究解决了当前变道建模的几个关键问题：&#xA;传统数值模型难以充分描述人类驾驶行为的多样性和复杂性，导致模拟环境中的变道决策适应性较差。 数据驱动方法虽然能模仿人类驾驶行为，但缺乏对优劣驾驶行为的区分能力，无法主动优化决策。 本研究通过引入深度强化学习，使自主车辆能够通过试错学习不断优化变道策略，提高变道的安全性和效率。 4 考虑对向车流的变道意图识别：深度学习进展揭示的新见解 本研究采用基于Transformer的深度学习方法进行变道意图识别。但是其中使用到了Logitech模拟驾驶座舱和Tobii Pro Glasses3眼动追踪设备，采集驾驶员眼动数据、车辆运动数据等信息。这篇论文的主要创新点就在于眼动追踪数据的引入和LIME解释模型的使用。所以和第一篇论文一样有局限性。&#xA;5 本研究提出了一种融合驾驶风格和车辆动力学的变道轨迹预测方法，采用深度学习与概率建模结合的方式来提高预测准确性。（highD数据集，将数据集分为 80%训练集 + 20%测试集）主要方法包括：&#xA;Attention-LSTM 变道行为识别模型 结合注意力机制（Attention Mechanism），提取车辆之间的交互特征，提高变道行为识别的准确性。 该模型能够从历史轨迹中学习驾驶风格，并对变道行为进行分类。 高斯过程运动建模轨迹预测（GPMM-TP） 采用高斯过程（Gaussian Process, GP）对变道轨迹进行建模，引入轨迹不确定性。 通过高斯混合模型（GMM）对不同驾驶风格进行聚类，并使用结构相似性匹配来选择最符合当前车辆行为的轨迹模式。 交互多模型（IMM）算法 结合CTRV（Constant Turn Rate and Velocity）运动模型，基于**扩展卡尔曼滤波（EKF）**进行短期预测（CTEKF-TP）。 通过IMM算法，动态分配GPMM-TP和CTEKF-TP的权重，使得预测方法兼顾短期和长期精度。 方法论的实现：</description>
     </item>
     <item>
       <title>游戏网络基础</title>
-      <link>https://geeteng.github.io/posts/game/onlinegame/</link>
+      <link>http://localhost:1313/posts/game/onlinegame/</link>
       <pubDate>Wed, 08 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/game/onlinegame/</guid>
+      <guid>http://localhost:1313/posts/game/onlinegame/</guid>
       <description>多人网络游戏的挑战： 网络同步 网络延迟、丢包 玩家开挂 不同游戏平台连接 高性能服务器 TCP协议 面向连接的 可靠、有序 流量控制 拥塞控制 TCP重传机制&#xA;正常发包1,2,3,4,5,6,7,8，收包都会带一个ACK序号，收包1,2,3,4,5,6,7,8&#xA;如果5号包丢了的话，那么收到的就是1,2,3,4,4,4,4,4&#xA;Question：什么时候使用TCP / UDP？&#xA;Answer：对于实时性要求不高的游戏会采用TCP协议 - 炉石传说&#xA;需要低延迟的游戏会采用UDP协议 - CSGO&#xA;但是登陆验证、商城等数据会使用TCP协议，因为对数据的可靠性要求高。&#xA;UDP协议 现在很多游戏不会直接使用原生的UDP，因为UDP本身并不可靠、数据的到达顺序也是混乱的，如说喝了一瓶药恢复魔法值再释放一个技能结果变成了释放了技能却没有魔法值之后再喝了药，因此通常会在UDP上进行优化增加类似于TCP的可靠性。&#xA;自动重传请求机制ARQ：是基于ACK的错误控制方法，发送端会等待接收端的ACK，如果确认未到达或收到的是错误反馈，发送端会自动重传未正确到达的数据。&#xA;滑窗协议(sliding window protocol) 滑窗协议是经典的ARQ实现方法&#xA;Stop-and-Wait ARQ&#xA;发送端发送一个数据包，等待接收端的确认（ACK）。如果超时未收到 ACK，重新发送数据包。&#xA;特点：实现简单，但效率低（管道中只能同时传输一个包）。&#xA;Go-Back-N ARQ&#xA;发送端可以连续发送多个数据包，而无需等待每个包的确认。&#xA;如果一个包出错，接收端会丢弃当前包和其后的所有包，发送端需要重发从出错包开始的所有数据包。&#xA;特点：提高了管道利用率，但重传开销大。&#xA;Selective Repeat ARQ&#xA;发送端可以连续发送多个数据包，接收端仅请求重传错误的包。&#xA;特点：管道利用率高，重传开销小，但实现复杂。&#xA;FEC算法（Forward Error Correction） 异或校验位&#xA;Reed-Solomon codes&#xA;NTP时间同步协议（Network Time Protocol） 由于网络通信延迟的存在，客户端向服务器端发送一个包后都需要等待一定的时间才能收到回包，这个间隔的时间称为round-trip time(RTT)。&#xA;NTP：为了尽可能精准地将客户端的时间与时间服务器同步。&#xA;NTP消息中包含4个关键时间戳：&#xA;T1（客户端发送请求的时间）： 客户端向服务器发送请求时的本地时间。 T2（服务器接收请求的时间）： 时间服务器接收到客户端请求时的时间。 T3（服务器发送响应的时间）： 时间服务器准备响应时的时间。 T4（客户端接收响应的时间）： 客户端接收到服务器响应时的本地时间。 偏移量如图所示&#xA;客户端时间正确是17：01：35，客户端接收后增加偏移量。&#xA;尽管利用socket我们可以实现客户端和服务器的通信，但对于网络游戏来说完全基于socket的通信非常复杂。这主要是因为网络游戏中客户端需要向服务器发送大量不同类型的消息，同时客户端也需要解析相应类型的反馈，这就会导致游戏逻辑变得无比复杂。</description>
     </item>
     <item>
       <title>设计模式</title>
-      <link>https://geeteng.github.io/posts/c&#43;&#43;/designpattern/</link>
+      <link>http://localhost:1313/posts/c&#43;&#43;/designpattern/</link>
       <pubDate>Wed, 08 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/c&#43;&#43;/designpattern/</guid>
+      <guid>http://localhost:1313/posts/c&#43;&#43;/designpattern/</guid>
       <description>简单工厂模式 Factory：工厂类是整个模式的关键.包含了必要的逻辑判断,根据外界给定的信息,决定究竟应该创建哪个具体类的对象。&#xA;客户端代码无需关心类的实现细节，如果需要新增运算，只需要新增对应的派生类，并在工厂中添加逻辑。&#xA;class Operation { protected: double numberA; double numberB; public: void setNumberA(double a) { numberA = a; } void setNumberB(double b) { numberB = b; } virtual double GetResult() { double result = 0; return result; } virtual ~Operation() = default; }; class OperationAdd : public Operation { public: double GetResult() override { return numberA + numberB; } }; class OperationSub : public Operation { public: double GetResult() override { return numberA - numberB; } }; class OperationFactory { public: static std::unique_ptr&amp;lt;Operation&amp;gt; createOperation(char op) { switch (op) { case &amp;#39;+&amp;#39;: return std::make_unique&amp;lt;OperationAdd&amp;gt;(); case&amp;#39;-&amp;#39;: return std::make_unique&amp;lt;OperationSub&amp;gt;(); default: throw std::invalid_argument(&amp;#34;Invalid operation type&amp;#34;); break; } } }; int main() { try { char op; std::cin &amp;gt;&amp;gt; op; auto operation = OperationFactory::createOperation(op); double a, b; std::cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b; operation-&amp;gt;setNumberA(a); operation-&amp;gt;setNumberB(b); double result = operation-&amp;gt;GetResult(); std::cout &amp;lt;&amp;lt; result &amp;lt;&amp;lt; std::endl; } catch(const std::exception&amp;amp; ex) { std::cerr &amp;lt;&amp;lt; &amp;#34;Error &amp;#34; &amp;lt;&amp;lt; ex.</description>
     </item>
     <item>
       <title>RayTracing光线追踪</title>
-      <link>https://geeteng.github.io/posts/graphics/5_raytracing/</link>
+      <link>http://localhost:1313/posts/graphics/5_raytracing/</link>
       <pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/5_raytracing/</guid>
+      <guid>http://localhost:1313/posts/graphics/5_raytracing/</guid>
       <description>ShadowMapping（阴影贴图） 从光源视角生成深度图，存储深度值。 主摄像机渲染场景并计算阴影，与存储的深度值进行比较，如果当前点深度大于阴影贴图深度，说明该点被遮挡是阴影点；否则是光照射的点。 缺点：&#xA;生成的是硬阴影（点光源） 效果取决于shadowmap分辨率 浮点精度比较问题 由于点光源有大小，会形成如图所示的（Umbra）本影区域和半影（Penumbra）区域。所以会形成阴影的过渡。&#xA;Question：为什么需要光线追踪？&#xA;Answer：光栅化难以做软阴影、难以表现光线多次弹射、光栅化（实时 游戏 快），光线追踪（离线 动画 慢）&#xA;光栅化：实时渲染，速度快，但是质量低。&#xA;光线追踪：离线渲染，速度慢，但是质量高。&#xA;比如疯狂动物城里的一张画面，每一帧渲染需要 10KCPU 核心小时，相当于如果只有100个CPU核，将会花费100个小时才可以渲染完成。&#xA;Whitted-Style光线追踪 关于光线3个假设：&#xD;1. 假设光线是直线的。&#xD;2. 当光线相交时，不会发生碰撞。&#xD;3. 光线从光源传播到眼睛，路径是可逆的。（互异性Reciprocity）&#xD;其中第3点意味着，当光从光源发出进行弹射后，最终进入眼睛；其实也可以认为是眼睛发射了一束感知光线进行弹射，最终回到光源。 从观察者（相机）出发，射出光线到场景中的物体表面，如果和某个物体相交，说明眼睛能看到这里。再让焦点与光线连接，判断是否有遮挡，如果没有遮挡就形成了一条有效的光路，否则为阴影。&#xA;然后对该点进行局部光照模型计算，得到该像素的颜色。&#xA;假设人眼是一个点，且光线打到物体后会进行完美的反射 / 折射。&#xA;primary ray：人眼到第一个点的光线路径 secondary ray：除了primary ray的其他光线 shadow ray：光线与物体交点到光源的光线 每一个交点的颜色贡献来源于直接光照、反射方向间接光、折射方向间接光。&#xA;求光线与物体的交点 光线的定义如下：&#xA;求光与球的交点，将光线公式代入到球公式中，解t。可以判断和球是否有交点，有几个交点。&#xA;如果是其他隐式几何也是同样联合光线方程。&#xA;真正在图形学中运用的其实是显式曲面，很多个三角形，因此判断的是光线与三角面的交点。与三角面的焦点可以想象成三角形在一个平面上，就变成了光线与平面的交点了。&#xA;光线与平面的交点假设是p‘，那么交点与平面上任何一点p的连线，将会与N（平面的法线）垂直。&#xA;之后再判断交点是否在三角形的内部。&#xA;但是这样一个个计算太麻烦了，于是有了更方便地方法——Möller–Trumbore算法&#xA;Möller–Trumbore 利用向量的外积和重心坐标来计算是否相交，大大的提高了效率。&#xA;在光线追踪中，光线与场景的相交检测是最核心的计算之一。简单的光线相交检测对于每一道光线需要逐一检查是否与每一个物体相交，会遍历每一个三角形进行相交测试，找出离光线最近的交点（最小t值）。但是当场景变得复杂时，三角形数量会变多，使得计算开销增加。&#xA;所以会使用一些加速结构（包围盒树、八叉树等）来减少三角形数量，使得光线与场景的相交测试只需要在较小的区域内执行，而非全部三角形。&#xA;Bounding Volumes包围盒结构 如果一个光线连包围盒都碰不到，也绝对不会碰到包围盒里的物体。&#xA;轴对称包围盒：将长方体用3对不同的平面包围住，任何一对平面都与x轴y轴z轴垂直，所以称为AABB包围盒。&#xA;下图为光线穿过包围盒的3个对面所经历的时间，取这3个时间的交集，就是光线在包围盒里的时间段。&#xA;进入包围盒：进入所有对面 $$&#xD;最晚进入盒子的时间：t_{enter} = max\{t_{min}\}&#xD;$$ 离开包围盒：离开任一对面 $$&#xD;最早离开盒子的时间：t_{exit} = min\{t_{max}\}&#xD;$$ 然而光线并不是直线，光线是一条射线，所以要判断t是否为正数。</description>
     </item>
     <item>
       <title>UE5源码阅读</title>
-      <link>https://geeteng.github.io/posts/ue/uesourcecode/</link>
+      <link>http://localhost:1313/posts/ue/uesourcecode/</link>
       <pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ue/uesourcecode/</guid>
+      <guid>http://localhost:1313/posts/ue/uesourcecode/</guid>
       <description>启动文件 Launch.cpp&#xA;预初始化PreInit，此时会发生：&#xA;对于每个UCLASS类，引擎会创建一个类默认对象（CDO），为实例提供默认值，注册完成后 调用StartupModule进行模块初始化、对应的有ShutdownModule函数（卸载模块清理资源） 主循环中初始化阶段Init&#xA;读取引擎配置文件来确定使用哪个GameEngine类作为核心引擎 创建GEngine实例（全局对象），可以通过它访问渲染、输入、音频等 创建了引擎，它就会被初始化，完成后引擎循环会触发一个全局委托以指示引擎现已初始化。 加载配置为延迟加载的模块/项目 加载地图（加载之前已经有了UGameEngine、GameInstance、GameViewportClient、LocalPlayer） ​&#xA;1.其中在GameEngine.cpp中&#xA;​&#x9;引擎初始化阶段，主要做了些什么？&#xA;​&#x9;1.1 创建GameInstance&#xA;// Create game instance. For GameEngine, this should be the only GameInstance that ever gets created. { FSoftClassPath GameInstanceClassName = GetDefault&amp;lt;UGameMapsSettings&amp;gt;()-&amp;gt;GameInstanceClass; UClass* GameInstanceClass = (GameInstanceClassName.IsValid() ? LoadObject&amp;lt;UClass&amp;gt;(NULL, *GameInstanceClassName.ToString()) : UGameInstance::StaticClass()); GameInstance = NewObject&amp;lt;UGameInstance&amp;gt;(this, GameInstanceClass); GameInstance-&amp;gt;InitializeStandalone(); } ​&#x9;1.2 初始化视口GameViewportClient&#xA;ViewportClient = NewObject&amp;lt;UGameViewportClient&amp;gt;(this, GameViewportClientClass); ViewportClient-&amp;gt;Init(*GameInstance-&amp;gt;GetWorldContext(), GameInstance); GameViewport = ViewportClient; GameInstance-&amp;gt;GetWorldContext()-&amp;gt;GameViewport = ViewportClient; ​&#x9;1.</description>
     </item>
     <item>
       <title>Geometry</title>
-      <link>https://geeteng.github.io/posts/graphics/4_geomery/</link>
+      <link>http://localhost:1313/posts/graphics/4_geomery/</link>
       <pubDate>Thu, 02 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/4_geomery/</guid>
+      <guid>http://localhost:1313/posts/graphics/4_geomery/</guid>
       <description>几何的表示方法可以分为两类：隐式几何（explicit）、显式几何（implicit）。&#xA;隐式几何 缺点：很难通过表达式看出是什么图形，难以描述复杂形状&#xA;优点：容易判断一个点与物体的位置关系（内外上），易于处理拓扑变化、做光线和表面的相交。&#xA;例子：&#xA;代数曲面（Algebraic Surfaces） 只能用代数方程表达一些简单的形状，却无法处理复杂的图形。&#xA;CSG(Constructive Solid Geometry) 布尔运算，采用集合的交并差运算思想。&#xA;距离函数（Distance Functions） 距离函数SDF：Signed Distance Function&#xA;SDF = 0：位于物体表面&#xA;SDF &amp;gt; 0：位于物体外部&#xA;SDF &amp;lt; 0：位于物体内部&#xA;Question：如果将图片A和图片B混合，A中灰色物体占1/3, B中灰色物体占2/3，中间状态是什么样？&#xA;Answer：如果直接线性混合，会出现1/3黑色物体、1/3灰色物体、1/3没有物体，过度会很生硬。&#xA;如果构造SDF，边界(SDF = 0)处于图片中间，可以得到平滑的融合效果。&#xA;使用网格存储距离信息，网格值为0的地方是物体表面，在地理中称作等高线。&#xA;分型 描述具有自相似形的物体，雪花、微生物。&#xA;显式几何 缺点：难以判断某点与物体的位置关系&#xA;例子：&#xA;点云(Point Cloud) 除了原始数据很少被使用，密度低时无法成面&#xA;多边形网格 Wavefront Object File（.obj）格式 描述立方体的一堆点、法线、纹理坐标及他们之间的关系&#xA;贝塞尔曲线 曲线一定要经过起始点p0到终止点p3，且切线为p0p1方向、p2p3方向。&#xA;在b0 b1上找一点t 同理其他两条边，连接后变成3个点，找到b30点和该点切线&#xA;迪卡斯特里奥算法 类似二项式的展开，起点系数为(1 - t)&#xA;但是当n = 10时，会很难通过点去控制每条曲线，所以引出逐段贝塞尔曲线。&#xA;像是Photoshop中的钢笔工具一样，当两个点的距离相等和斜率相同时两条曲线连续。&#xA;性质：&#xA;规定了起点和终点 t = 0一定在起点 t = 1一定在终点&#xA;起点终点的斜率确定&#xA;对贝塞尔曲线的仿射变换可以用在控制点上，对控制点进行仿射变换后，再重新画出贝塞尔曲线就可以了。（仿射变换可以，但是投影不可以）</description>
     </item>
     <item>
       <title>Animation</title>
-      <link>https://geeteng.github.io/posts/ue/4_animation/</link>
+      <link>http://localhost:1313/posts/ue/4_animation/</link>
       <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ue/4_animation/</guid>
+      <guid>http://localhost:1313/posts/ue/4_animation/</guid>
       <description>序列帧动画 无需计算，直接显示图片逻辑简单。缺点：占用空间大，不适合复杂动画。&#xA;模型动画 顶点动画&#xA;直接存储每个顶点的动画信息 。缺点：数据量大，迭代缓慢。&#xA;例子：水流、捏脸Morph Target Animation&#xA;骨骼动画（Skinned Animation） 通过改变骨骼的朝向和位置来生成动画 蒙皮：将mesh顶点附着到骨骼上（不同顶点权重不一样每个顶点可以被多个骨骼控制）&#xA;每个骨骼有一个变换矩阵，最终网格顶点的位置是多个骨骼变换矩阵的加权和。&#xA;蒙皮矩阵的计算（Skinning Matrix）: $$&#xD;M_{skin} =M_{bone}×M_{inverse}&#xD;$$ M_inverse是你绑定矩阵，用于骨骼从骨骼空间转换到模型空间的变换。&#xA;Quaternion NLerp用于物体旋转的平滑过渡。&#xA;NLerp和SLerp（球面线性插值）&#xA;NLerp 比 Slerp 更简单，计算开销较小，因为它只进行线性插值，不涉及球面插值的复杂计算。&#xA;当旋转角度较大时，使用Slerp。&#xA;基于物理的动画（Physics-based Animation）&#xA;布娃娃系统（Ragdoll）&#xA;布料和流体模拟（Cloth and Fluid simulation）&#xA;反向动力学（Inverse Kinematics(IK)）&#xA;（关节）Joint 两个Joint定义一个骨骼&#xA;Root Joint在人的双腿之间&#xA;Pelvis Joint（骨盆关节） 蹲起&#xA;Joint Pose有9个DOF（自由度） 放缩、平移、旋转&#xA;万向节锁（Gimbal Lock） 在三维空间中使用欧拉角表示旋转时，当旋转顺序导致某两个旋转轴对齐时，会丧失一个自由度，导致旋转不再是完全独立的，从而限制了旋转的自由度。这个现象被称为 万向节锁。&#xA;如：大疆无人机、pocket3的镜头防抖动，就是使用陀螺仪和万向节锁来实现的。&#xA;引出四元数解决万向节锁&#xA;骨骼动画资产类型 Skeleton ​&#x9;骨架资源，存储骨骼的层级、动画数据关联。&#xA;​&#x9;多个模型可以共享同一个骨架。&#xA;SkeletalMesh ​&#x9;骨骼网格体，用于渲染。&#xA;​&#x9;包含蒙皮信息，顶点如何受骨骼影响。&#xA;PhysicsAsset ​&#x9;定义骨骼与物理系统的交互。&#xA;​&#x9;用于 ragdoll、碰撞检测等。</description>
     </item>
     <item>
       <title>Piccolo LUT</title>
-      <link>https://geeteng.github.io/posts/game/lut/</link>
+      <link>http://localhost:1313/posts/game/lut/</link>
       <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/game/lut/</guid>
+      <guid>http://localhost:1313/posts/game/lut/</guid>
       <description>LUT（LookUp Table）查找表 LUT是一种常见的优化或效果实现工具，用于通过查表得方式快速映射输入数据到目标结果，避免复杂的实时计算&#xA;颜色分级（Color Grading LUT）：&#xA;用于后期处理阶段，将场景颜色转换为特定的色彩基调。&#xA;参考资料 LUT.html&#xA;void main() { highp ivec2 lut_tex_size = textureSize(color_grading_lut_texture_sampler, 0); // 纹理的高度16 和 纹理的宽度256 highp float _COLORS = float(lut_tex_size.y); highp float xsize = float(lut_tex_size.x); highp vec4 color = subpassLoad(in_color).rgba; // 将颜色分量映射到LUT索引范围[0, 15] highp float blueoffset = (_COLORS - 1.0) * color.b; highp float redoffset = (_COLORS - 1.0) * color.r; highp float greenoffset = (_COLORS - 1.0) * color.g; // 红色和绿色决定小块中的水平垂直位置 蓝色决定哪个小块 highp float u = (redoffset + floor(blueoffset) * _COLORS) / xsize; highp float v = greenoffset / _COLORS; highp vec2 uv = vec2(u, v); highp vec4 color_sampled = texture(color_grading_lut_texture_sampler, uv); out_color = color_sampled; } 由于条纹问题，看到别人说是因为mipmap精度问题，所以</description>
     </item>
     <item>
       <title>空间数据结构</title>
-      <link>https://geeteng.github.io/posts/game/spatialdatastructures/</link>
+      <link>http://localhost:1313/posts/game/spatialdatastructures/</link>
       <pubDate>Tue, 17 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/game/spatialdatastructures/</guid>
+      <guid>http://localhost:1313/posts/game/spatialdatastructures/</guid>
       <description>多人在线游戏中，由于玩家规模十分庞大，如果想通过计算每一个玩家与其他 n - 1 个玩家之间的信息，时间复杂度会达到n^2，性能会变得很低。于是需要正确的处理这些数据，优化性能。&#xA;包围体层次结构 (BVH, Bounding Volume Hierarchy) 层次包围盒树，根节点是一个大的包围盒，往下是其子包围盒。&#xA;AABB（Axis-Aligned Bounding Box） 是一种常用的 包围盒（Bounding Box）类型&#xA;在 2D 空间 中，AABB 可以表示为：&#xA;Min = (x_min, y_min) Max = (x_max, y_max) 在 3D 空间 中，AABB 可以表示为：&#xA;Min = (x_min, y_min, z_min) Max = (x_max, y_max, z_max) 在游戏引擎中，大部分物体都会动态更新，而层次包围盒树 / 层次球包围盒树可以动态更新，从叶节点一级一级的往上更新上面的节点，使包围体包住子节点。&#xA;四叉树（Quadtree) 四叉树基本思想是将 2D 空间递归划分成不同层次的树结构，将已知范围的空间等分成 4 个相等的空间，直到树的层次到达一定深度或满足要求后停止分割。&#xA;八叉树 (Octree) 八叉树与四叉树结构类似，拥有 8 个节点，适用于 3D 空间。应用于：碰撞检车、物体的空间位置等。&#xA;八叉树和四叉树的区别是一个用于二维空间，一个用于三维空间。但是当四维空间&amp;hellip;.更多维度的空间时该怎么办呢？总不能2的n次方去划分，于是引出了KD-Tree，一种跟维度没有关系，可以划分空间。&#xA;k-d 树 k-d 树就是一种特殊形式的BSP树（轴对齐的BSP树），其每个节点都代表一个k维坐标点，树的每层都是对应一个划分维度。&#xA;构建 k-d 树将一组n个点按维度递归地划分成子空间，通常使用中位数分割法，所以构建树时间复杂度为O（n logn），最近邻搜索最优O（log n）</description>
     </item>
     <item>
       <title>Shader</title>
-      <link>https://geeteng.github.io/posts/graphics/3_shader/</link>
+      <link>http://localhost:1313/posts/graphics/3_shader/</link>
       <pubDate>Mon, 16 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/3_shader/</guid>
+      <guid>http://localhost:1313/posts/graphics/3_shader/</guid>
       <description>Z-Buffer(深度缓存） 用来处理可见性问题，即确定每个像素最前层物体。&#xA;Frame Buffer(帧缓冲区：用于存储最终图像数据)、Depth Buffer（深度缓冲区：判断哪些物体在前，哪些物体被遮挡）&#xA;工作原理：近处是更黑的，远处是发白的。&#xA;Z-Buffer处理不了透明物体，透明物体需要特殊处理。&#xA;Z-Buffer Algorithm R代表无穷大，如果有三角形，就覆盖掉这些无穷大的像素&#xA;新的三角形深度是8 肯定要被原本三角形深度5所遮挡 所以就忽略它&#xA;如果新的三角形离的更近 更新这个像素对应的深度值&#xA;Z-Buffer复杂度 - O(n)&#xA;**Question：**为什么排序n个三角形是在线性的时间？&#xA;**Answer：**其实它不是排序，只是在对每个像素一直求最小值。&#xA;Shader 定义：对不同的物体应用不同材质的过程&#xA;物体在经过MVP（模型、视图、投影矩阵变换）、ViewPort之后现在我们会得到一系列旋转的立方体&#xA;需要对他做着色（Shading）&#xA;Blinn-Phong 反射模型 Blinn-Phong 反射模型是计算光照和表面反射的常用模型。它将光照分为三部分：&#xA;漫反射（Diffuse Reflection）：表示光照与物体表面相互作用后，光线在不同方向上散射的现象，通常效果比较均匀，不会有明显的亮点。 镜面反射（Specular Highlights）：表示光线被物体表面镜面反射的部分，产生亮光点，通常依赖于视角与光源方向的关系，产生较强的高光效果。 环境光照（Ambient Lighting）：表示全局环境中的光照，通常是一个常量，作用于整个场景，不依赖于具体的物体或光源。 diffuse reflection 通常假设反射光是一个半球，并计算每个着色点（shading point）接收到的能量。漫反射的强度与光照方向和表面法线之间的夹角有关。&#xA;Lambert‘s cosine law：描述漫反射光照强度与光照方向和法线之间夹角的关系，公式如下： $$&#xD;L_{d}=k_{d}\left(I / r^{2}\right) \max (0, \mathbf{n} \cdot \mathbf{l})&#xD;$$ $$&#xD;L_d:漫反射分量（反射光强度）\qquad k_d:漫反射系数（物体表面材质的属性）\qquad I:光源强度\qquad r:光源到表面点的距离 \qquad n:法线方向 \qquad l:光源方向&#xD;$$ 注意：漫反射不考虑其他物体的影响，只关注当前着色点的表面法线与光照方向的关系。&#xA;Specular Highlights v和R足够接近的时候，会看到高光，其中v是观测方向，R是光线反射方向。&#xA;实际上是n法线方向和h半程向量很接近，利用平行四边形法则，可以求v+l向量，再求单位向量就是半程向量h。&#xA;镜面反射光的公式 $$&#xD;L_{s}=k_{s}\left(I / r^{2}\right) \max (0, \mathbf{n} \cdot \mathbf{h})^p&#xD;$$ 高光非常亮，且集中在一个很小的角度里，所以要有指数，将角度范围缩小，高光就会越来越小。</description>
     </item>
     <item>
       <title>TinyRenderer</title>
-      <link>https://geeteng.github.io/posts/graphics/tinyrenderer/</link>
+      <link>http://localhost:1313/posts/graphics/tinyrenderer/</link>
       <pubDate>Mon, 16 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/tinyrenderer/</guid>
+      <guid>http://localhost:1313/posts/graphics/tinyrenderer/</guid>
       <description>1 画线 mainCRTStartup&#xA;void line(int x0, int y0, int x1, int y1, TGAImage&amp;amp; image, TGAColor color) { for (float t = 0.f; t &amp;lt; 1; t += 0.01) { int x = x0 + (x1 - x0) * t; int y = y0 + (y1 - y0) * t; image.set(x, y, color); } } 描绘了100个点，但是能否用x来遍历，这样可以从13 - 80 只需要描绘67个点&#xA;void line(int x0, int y0, int x1, int y1, TGAImage&amp;amp; image, TGAColor color) { for (int x = x0; x &amp;lt; x1; x++) { float t = (x - x0) / (float)(x1 - x0); int y = y0 * (1 - t) + y1 * t; image.</description>
     </item>
     <item>
       <title>Piccolo引擎编译运行</title>
-      <link>https://geeteng.github.io/posts/game/piccolo/</link>
+      <link>http://localhost:1313/posts/game/piccolo/</link>
       <pubDate>Sun, 15 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/game/piccolo/</guid>
+      <guid>http://localhost:1313/posts/game/piccolo/</guid>
       <description>构建 构建Piccolo的sln文件，运行在Visual Studio2022中&#xA;源码解读 在Runtime文件夹下面有四个子文件夹，核心层、功能层、资源层、平台层，以及engine.cpp和engine.h（整个引擎的入口）。&#xA;打开engine.cpp其中有4个重要的函数，StartEngine、shutdownEngine、run、tickOneFrame。&#xA;StartEngine、shutdownEngine一个注册类型源信息，一个取消注册，相对的函数。&#xA;void PiccoloEngine::run() { std::shared_ptr&amp;lt;WindowSystem&amp;gt; window_system = g_runtime_global_context.m_window_system; ASSERT(window_system); while (!window_system-&amp;gt;shouldClose()) { const float delta_time = calculateDeltaTime(); tickOneFrame(delta_time); } } run中，当窗口没有关闭时，不断执行tickOneFrame。点击g_runtime_global_context进入到global_context文件中。&#xA;发现声明了一个全局变量，并且实例化很多Manager（物理、粒子等）、System（窗口、渲染等）&#xA;RuntimeGlobalContext g_runtime_global_context; void RuntimeGlobalContext::startSystems(const std::string&amp;amp; config_file_path) { m_config_manager = std::make_shared&amp;lt;ConfigManager&amp;gt;(); m_config_manager-&amp;gt;initialize(config_file_path); m_file_system = std::make_shared&amp;lt;FileSystem&amp;gt;(); ... } tickOneFrame中logicalTick(delta_time);逻辑Tick、calculateFPS(delta_time);计算FPS、rendererTick(delta_time);渲染Tick。&#xA;void PiccoloEngine::logicalTick(float delta_time) { // tick world 和 用户输入 g_runtime_global_context.m_world_manager-&amp;gt;tick(delta_time); g_runtime_global_context.m_input_system-&amp;gt;tick(); } void WorldManager::tick(float delta_time) { if (!m_is_world_loaded) { loadWorld(m_current_world_url); } // tick the active level std::shared_ptr&amp;lt;Level&amp;gt; active_level = m_current_active_level.</description>
     </item>
     <item>
       <title>UMG</title>
-      <link>https://geeteng.github.io/posts/ue/3_umg/</link>
+      <link>http://localhost:1313/posts/ue/3_umg/</link>
       <pubDate>Fri, 13 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ue/3_umg/</guid>
+      <guid>http://localhost:1313/posts/ue/3_umg/</guid>
       <description>可直接跳转到文末查看最终效果图&#xA;创建主页面 新建HUD类-MainUIHUD和GameMode-MainMenuGameMode，并新建BP_UIGameMode蓝图类。&#xA;// 将该HUD绑定到该GameMode上 AMainMenuGameMode::AMainMenuGameMode() { HUDClass = AMainUIHUD::StaticClass(); } 在MainUIHUD中加载主界面，新建UserWidget类MainUIHUD和继承其的蓝图（往后每一个界面都是这样的创建方式）&#xA;class UMainUserWidget; protected: UPROPERTY() UMainUserWidget* MainUserWidget; #include &amp;#34;MenuLevel/MainUserWidget.h&amp;#34; void AMainUIHUD::BeginPlay() { Super::BeginPlay(); // 显示UI 加载蓝图类 TSubclassOf&amp;lt;UMainUserWidget&amp;gt; WidgetClass = LoadClass&amp;lt;UMainUserWidget&amp;gt;(nullptr,TEXT(&amp;#34;/Script/UMGEditor.WidgetBlueprint&amp;#39;/Game/FPSGame/UI/UMG/UMG_MainUI.UMG_MainUI_C&amp;#39;&amp;#34;)); if (WidgetClass) { // CreatWidget() MainUserWidget = CreateWidget&amp;lt;UMainUserWidget&amp;gt;(GetOwningPlayerController(), WidgetClass); if (MainUserWidget) { MainUserWidget-&amp;gt;AddToViewport(); } } // 显示鼠标 GetOwningPlayerController()-&amp;gt;bShowMouseCursor = true; } 创建主页面（图片文字为后加上的）&#xA;MainUserWidget&#xA;protected: virtual void NativeOnInitialized() override; virtual void NativeConstruct() override; UPROPERTY(meta=(BindWidgetAnim), Transient) UWidgetAnimation* MenuUIAni; void UMainUserWidget::NativeOnInitialized() { Super::NativeOnInitialized(); } void UMainUserWidget::NativeConstruct() { Super::NativeConstruct(); // 制作了一个简单的动画 - 进入游戏按钮的透明度改变，并且按钮点击有音效 PlayAnimation(MenuUIAni); } 按钮的背景图是自己制作的 - 新建一个Material，提取UV坐标的R，[0, 1] * [1, 0] = &amp;gt; 中间最大值为0.</description>
     </item>
     <item>
       <title>C&#43;&#43;知识回顾</title>
-      <link>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</link>
+      <link>http://localhost:1313/posts/c&#43;&#43;/c&#43;&#43;learning/</link>
       <pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</guid>
+      <guid>http://localhost:1313/posts/c&#43;&#43;/c&#43;&#43;learning/</guid>
       <description>C++ 内存布局 内存区域 存储内容 代码段（.text） 存储程序的可执行代码，包括普通函数和虚函数的实现 数据段（全局静态区）（.data 和 .bss） 存储全局/静态变量（已初始化的放在 .data，未初始化的放在 .bss） 只读数据段（常量区）（.rodata） 存储常量数据（如字符串字面量、const 变量、VTable） 堆区（Heap） 由 new/malloc 动态分配，程序员手动释放 栈区（Stack） 由函数的局部变量、函数调用帧等组成，自动管理 随机存储器RAM（主存）&#xA;与CPU直接交换数据，可读写区域，存放全局（静态）区、堆区、栈区。&#xA;只读存储器ROM&#xA;只能读出 所存数据稳定，断电后数据不会改变。存放代码区和常量区。&#xA;const用法和constexpr const用法：&#xA;修饰变量 变量不能修改 指针常量 （先出现指针 再出现const） 常量指针 （先出现const 再出现指针） 修饰引用 不能通过引用修改值 修饰成员函数 相当于修饰了成员函数隐藏的this指针 顶层const和底层const 顶层const指的是const修饰的变量本身是一个常量，如int* const p，底层const指的是const修饰的变量所指向的对象是一个常量，如const int* p。&#xA;const int * const p3 = p2 // 靠右的const是顶层const，靠左的是底层const constexpr用法：&#xA;当用constexpr声明一个函数/变量时，编译器可以在编译时就计算出它的值，提高程序的运行效率。而且编译器会自动验证变量是否是一个常量表达式。&#xA;constexpr int GetLen(int a, int b) { return a + b; } int main() { // 不加constexpr就无法声明arr 加了之后就会返回常数 int arr[GetLen(1, 2)]; return 0; } 如果constexpr声明中定义了一个指针，限定符constexpr仅对指针有效（只限定p指向的地址不可改变），而与指针所指的对象无关。</description>
     </item>
     <item>
       <title>光栅化Rasterize</title>
-      <link>https://geeteng.github.io/posts/graphics/2_rasterize/</link>
+      <link>http://localhost:1313/posts/graphics/2_rasterize/</link>
       <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/2_rasterize/</guid>
+      <guid>http://localhost:1313/posts/graphics/2_rasterize/</guid>
       <description>屏幕坐标系 屏幕空间 - 在屏幕上建立一个坐标系&#xA;屏幕的左下角是原点（0，0） 向上是Y 向右是x&#xA;视口变换 要做的事：[-1, 1]^3映射到屏幕上&#xA;其中：width 和 height 是屏幕或视口的宽度和高度&#xA;在标准化设备坐标中，3D物体的投影结果被限制在 (−1,−1)到 (1,1) 的范围：&#xA;(−1,−1) 代表左下角 (1,1) 代表右上角 这是一个对称的正方形坐标系，中心点是 (0,0) 我们需要将这个范围映射到屏幕坐标系：&#xA;左下角是 (0,0)，右上角是 (width,height) $$&#xD;M_{viewport} = \begin{pmatrix}&#xD;\frac{width}{2} &amp; 0 &amp; 0 &amp; \frac{width}{2}\\&#xD;0 &amp; \frac{height}{2} &amp; 0 &amp; \frac{height}{2}\\&#xD;0 &amp; 0 &amp; 1 &amp; 0 \\&#xD;0 &amp; 0 &amp; 0 &amp; 1&#xD;\end{pmatrix}&#xD;$$ 光栅显示设备 示波器（曾经做过的物理实验）和早期显示器相同原理 ​&#x9;阴极射线管 电子经过加速穿过显示设备 发生偏转 就可以看到CRT屏幕 （Cathode Ray Tube）</description>
     </item>
     <item>
       <title>GameMode游戏模式</title>
-      <link>https://geeteng.github.io/posts/ue/2_gamemode/</link>
+      <link>http://localhost:1313/posts/ue/2_gamemode/</link>
       <pubDate>Sat, 23 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ue/2_gamemode/</guid>
+      <guid>http://localhost:1313/posts/ue/2_gamemode/</guid>
       <description>平行世界？World UE中有三个世界&#xA;游戏世界 编辑器世界 预览世界 关卡蓝图-定义关卡规则&#xA;UGameInstance 存在于游戏的整个生命周期中 不会随着地图切换 销毁 适合业务全局管理操作，Uengine 管理 GameInstance&#xA;游戏中最重要的实体AActor AActor 标志所有权的Owner指针，标志本地权限的Role枚举，作为网格同步的基础单位，根组件提供世界变化信息&#xA;Actor不只是3D中的表示，一些不可见对象也可以是Actor，如AInfo（派生类Aworldsetting，AGameMode，AgameState&amp;hellip;）&#xA;Actor在UE中就像是世界里的元素&#xA;Component 是 Actor 的组成部分，用于定义 Actor 的特性和行为&#xA;RootComponent是Actor的核心组件，决定了Actor在场景中的位置、旋转和缩放 SceneComponent 是一个基础组件，主要用于定义场景中对象的位置、旋转和缩放。它本身是一个抽象组件，不会直接渲染或显示。 Actor生命周期详解&#xA;生命周期1&#xA;actor分为&#xA;静态的actor - 在关卡编辑器里直接放置的Actor 动态创建的actor（spawnActor） - 通过代码或蓝图在运行时动态生成的 Actor 生命周期2 重要的生命周期函数&#xA;BeginPlay - 在Actor激活时调用 初始化&#xA;Tick - 每帧调用一次 处理逻辑&#xA;EndPlay - 在Actor即将销毁时调用 清理资源&#xA;生命周期3 GC完成收尾 注意有效性的判断&#xA;if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;amp;&amp;amp; !MyActor-&amp;gt;IsPendingKill()) { // Actor 没有被标记为销毁 } isPendingKill是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。</description>
     </item>
     <item>
       <title>UE入门</title>
-      <link>https://geeteng.github.io/posts/ue/1_uedownload/</link>
+      <link>http://localhost:1313/posts/ue/1_uedownload/</link>
       <pubDate>Wed, 13 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ue/1_uedownload/</guid>
+      <guid>http://localhost:1313/posts/ue/1_uedownload/</guid>
       <description>安装UE5.4.4源码 1 在GitHub上下载UE5.4.4源码 在这之前需要关联账号并验证至虚幻引擎&#xA;EpicGames/UnrealEngine at 5.4.4-release&#xA;我直接下载文件压缩包，没有使用git拉取，原因是网络不稳定&#xA;2 生成sln文件 解压文件，并将文件夹改名为UE，以防后续因为文件名太长而出错&#xA;启动Setup.bat文件 注意：网络一定要通畅并且不能自行关闭 安静等待&amp;hellip;&#xA;之后运行GenerateProjectFiles.bat文件 会生成一个UE5.sln文件&#xA;3 配置VS 一定要增加UnrealEngine安装程序 建议VisualStudio2022 17.8版本&#xA;因为之前试过17.12版本发现一些NuGet包无法还原 不知道什么原因&#xA;打开UE5.sln 在右侧会提示安装插件 点击后可以安装额外的插件 配置如下：&#xA;4 生成UE5 将UE5设为启动项 点击生成UE5 不要点生成解决方案&#xA;为了使编译速度快一些 我试过使用Incredibuild 速度是很快 但是会发现有一些文件属于嵌套关系 并行编译时会出错 于是乎换用其他方式&#xA;&amp;ldquo;C:\Users\用户名\AppData\Roaming\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml&amp;quot;修改BuildConfiguration.xml文件&#xA;// 指定构建时可以同时运行8个编译任务 &amp;lt;MaxParallelActions&amp;gt;8&amp;lt;/MaxParallelActions&amp;gt; // 设置最少需要使用 PCH 文件的源文件数量 &amp;lt;MinFilesUsingPrecompiledHeader&amp;gt;6&amp;lt;/MinFilesUsingPrecompiledHeader&amp;gt; 这样就将编译时间从五六个小时 缩短到了一个小时左右&#xA;切记：&#xA;不要参照网上exclude一些VS2013等文件 会导致之后因为奇怪的原因无法运行 白白浪费时间&#xA;成功生成UE5后不要再点任何重新生成解决方案/项目 否则会清理掉几个小时编译的文件&#xA;编译完成后会生成这样的文件结构 exe文件位于\Engine\Binaries\Win64中 双击即可运行&#xA;5 新建C++项目 创建一个第一人称模板项目 选择C++&#xA;点击创建之后会跳出vs界面&#xA;点击执行 会加载出UE5界面 第一次加载时间会很长 之后时间会缩短一些&#xA;将General - SourceCode设置为VisualStudio2022编辑器</description>
     </item>
     <item>
       <title>Model-View-Projection</title>
-      <link>https://geeteng.github.io/posts/graphics/1_transform/</link>
+      <link>http://localhost:1313/posts/graphics/1_transform/</link>
       <pubDate>Sat, 02 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/1_transform/</guid>
+      <guid>http://localhost:1313/posts/graphics/1_transform/</guid>
       <description>2D Transformations Scale $$&#xD;S(s_x, s_y) = \begin{pmatrix}&#xD;s_x &amp; 0 &amp; 0 \\&#xD;0 &amp; s_y &amp; 0 \\&#xD;0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Rotation $$&#xD;R(\alpha) = \begin{pmatrix} \cos \alpha &amp; -\sin \alpha &amp; 0 \\ \sin \alpha &amp; \cos \alpha &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Translation $$&#xD;T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \\ 0 &amp; 1 &amp; t_y \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ 齐次坐标的最后一位为 0 表示方向或无穷远点</description>
     </item>
     <item>
       <title></title>
-      <link>https://geeteng.github.io/posts/graphics/6_-materials/</link>
+      <link>http://localhost:1313/posts/graphics/6_-materials/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/6_-materials/</guid>
+      <guid>http://localhost:1313/posts/graphics/6_-materials/</guid>
       <description>Materials and Appearance </description>
     </item>
     <item>
       <title></title>
-      <link>https://geeteng.github.io/posts/ue/5_ai/</link>
+      <link>http://localhost:1313/posts/ue/5_ai/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ue/5_ai/</guid>
+      <guid>http://localhost:1313/posts/ue/5_ai/</guid>
       <description></description>
     </item>
     <item>
       <title>刷题笔记</title>
-      <link>https://geeteng.github.io/posts/c&#43;&#43;/algorithm/</link>
+      <link>http://localhost:1313/posts/c&#43;&#43;/algorithm/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/c&#43;&#43;/algorithm/</guid>
+      <guid>http://localhost:1313/posts/c&#43;&#43;/algorithm/</guid>
       <description>剑指offer JZ23 链表中环的入口结点 方法一：哈希集合&#xA;环的入口结点就是第一个在哈希集合中已存在的结点。&#xA;ListNode* EntryNodeOfLoop(ListNode* pHead) { unordered_set&amp;lt;ListNode*&amp;gt; st; while(pHead){ if(st.count(pHead)) return pHead; st.insert(pHead); pHead = pHead-&amp;gt;next; } return pHead; } 方法二：快慢指针&#xA;判断是否有环：快指针每次向后移动2位，慢指针每次向后移动1位，如果有环，两个指针必定会相遇； 如果有环，就将快指针从头重新开始，每次移动1位，慢指针也每次移动1位，最终相遇的点就是环的入口结点。 ListNode* EntryNodeOfLoop(ListNode* pHead) { ListNode* fast = pHead, *slow = pHead; while(fast != nullptr){ if(fast-&amp;gt;next == nullptr) return nullptr; fast = fast-&amp;gt;next-&amp;gt;next; slow = slow-&amp;gt;next; if(fast == slow){ fast = pHead; while(fast != slow){ fast = fast-&amp;gt;next; slow = slow-&amp;gt;next; } return fast; } } return nullptr; } JZ24 反转链表 迭代法:</description>
     </item>
   </channel>

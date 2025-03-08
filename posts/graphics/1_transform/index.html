@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en-us">
 
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+
     <title>
     Model-View-Projection | 
     
@@ -13,7 +14,7 @@
     ">
 
 
-<meta property="og:url" content="https://geeteng.github.io/posts/graphics/1_transform/">
+<meta property="og:url" content="http://localhost:1313/posts/graphics/1_transform/">
   <meta property="og:site_name" content="GeeTeng">
   <meta property="og:title" content="Model-View-Projection">
   <meta property="og:description" content="MVP变换及GAMES101作业0和作业1">
@@ -36,9 +37,9 @@
   <meta itemprop="dateModified" content="2024-11-02T00:00:00+00:00">
   <meta itemprop="wordCount" content="855">
   <meta itemprop="keywords" content="Computer-Graphics">
-<link rel="canonical" href="https://geeteng.github.io/posts/graphics/1_transform/" />
+<link rel="canonical" href="http://localhost:1313/posts/graphics/1_transform/" />
 
-<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+<link rel="icon" type="image/png" href="http://localhost:1313/image/favicon.ico">
 
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/bulma.min.css">
@@ -55,33 +56,11 @@
         });"></script>
 
 
-  
-    
-      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
-      <script>
-        var doNotTrack = false;
-        if ( false ) {
-          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
-          var doNotTrack = (dnt == "1" || dnt == "yes");
-        }
-        if (!doNotTrack) {
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'analytics-code');
-        }
-      </script>
-    
-  
 
-
-
+<link rel="stylesheet" href=/css/chordsheet.css>
 
 <script src=/js/ramium.js></script>
 <link rel="stylesheet" href=/css/ramium.css>
-
-
-<link rel="stylesheet" href=/css/chordsheet.css>
 
 
 
@@ -93,6 +72,7 @@
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
     integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
     onload="renderMathInElement(document.body);"></script>
+
 
 
 
@@ -528,44 +508,44 @@ $$
 	<br>
 	
 	<div class="share-buttons">
-	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f1_transform%2f"
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fgraphics%2f1_transform%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Facebook. Opens in a new window.">
 	        <img src=/img/icons/45px/facebook.png>
 	    </a>
 
-	    <a  href="https://twitter.com/intent/tweet?text=Model-View-Projection&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f1_transform%2f"
+	    <a  href="https://twitter.com/intent/tweet?text=Model-View-Projection&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgraphics%2f1_transform%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Twitter. Opens in a new window." >
 	        <img src=/img/icons/45px/twitter.png>
 	    </a>
 
-		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f1_transform%2f"
+		<a  href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgraphics%2f1_transform%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Reddit. Opens in a new window." >
 	        <img src=/img/icons/45px/reddit.png>
 	    </a>
 
-	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f1_transform%2f"
+	    <a  href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgraphics%2f1_transform%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Pinterest. Opens in a new window." >
 	        <img src=/img/icons/45px/pinterest.png>
 	    </a>
 
-	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f1_transform%2f"
+	    <a  href="http://www.tumblr.com/share/link?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgraphics%2f1_transform%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Tumblr. Opens in a new window." >
 	        <img src=/img/icons/45px/tumblr.png>
 	    </a>
 
-		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f1_transform%2f
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgraphics%2f1_transform%2f
 			&title=Model-View-Projection&summary=2D%20Transformations%20Scale%20%24%24%0dS%28s_x%2c%20s_y%29%20%3d%20%5cbegin%7bpmatrix%7d%0ds_x%20%26%200%20%26%200%20%5c%5c%0d0%20%26%20s_y%20%26%200%20%5c%5c%0d0%20%26%200%20%26%201%20%5cend%7bpmatrix%7d%0d%24%24%20Rotation%20%24%24%0dR%28%5calpha%29%20%3d%20%5cbegin%7bpmatrix%7d%20%5ccos%20%5calpha%20%26%20-%5csin%20%5calpha%20%26%200%20%5c%5c%20%5csin%20%5calpha%20%26%20%5ccos%20%5calpha%20%26%200%20%5c%5c%200%20%26%200%20%26%201%20%5cend%7bpmatrix%7d%0d%24%24%20Translation%20%24%24%0dT%28t_x%2c%20t_y%29%20%3d%20%5cbegin%7bpmatrix%7d%201%20%26%200%20%26%20t_x%20%5c%5c%200%20%26%201%20%26%20t_y%20%5c%5c%200%20%26%200%20%26%201%20%5cend%7bpmatrix%7d%0d%24%24%20%e9%bd%90%e6%ac%a1%e5%9d%90%e6%a0%87%e7%9a%84%e6%9c%80%e5%90%8e%e4%b8%80%e4%bd%8d%e4%b8%ba%200%20%e8%a1%a8%e7%a4%ba%e6%96%b9%e5%90%91%e6%88%96%e6%97%a0%e7%a9%b7%e8%bf%9c%e7%82%b9&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>
 	    </a>
 
-	    <a  href="mailto:?subject=Model-View-Projection&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fgraphics%2f1_transform%2f"
+	    <a  href="mailto:?subject=Model-View-Projection&amp;body=Check out this site http%3a%2f%2flocalhost%3a1313%2fposts%2fgraphics%2f1_transform%2f"
 	        title="Share via Email. Opens in a new window." >
 	        <img src=/img/icons/45px/mail.png>
 	    </a>

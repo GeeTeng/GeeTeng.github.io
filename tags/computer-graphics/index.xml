@@ -2,52 +2,52 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Computer-Graphics on GeeTeng</title>
-    <link>https://geeteng.github.io/tags/computer-graphics/</link>
+    <link>http://localhost:1313/tags/computer-graphics/</link>
     <description>Recent content in Computer-Graphics on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Fri, 03 Jan 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://geeteng.github.io/tags/computer-graphics/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/computer-graphics/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>RayTracing光线追踪</title>
-      <link>https://geeteng.github.io/posts/graphics/5_raytracing/</link>
+      <link>http://localhost:1313/posts/graphics/5_raytracing/</link>
       <pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/5_raytracing/</guid>
+      <guid>http://localhost:1313/posts/graphics/5_raytracing/</guid>
       <description>ShadowMapping（阴影贴图） 从光源视角生成深度图，存储深度值。 主摄像机渲染场景并计算阴影，与存储的深度值进行比较，如果当前点深度大于阴影贴图深度，说明该点被遮挡是阴影点；否则是光照射的点。 缺点：&#xA;生成的是硬阴影（点光源） 效果取决于shadowmap分辨率 浮点精度比较问题 由于点光源有大小，会形成如图所示的（Umbra）本影区域和半影（Penumbra）区域。所以会形成阴影的过渡。&#xA;Question：为什么需要光线追踪？&#xA;Answer：光栅化难以做软阴影、难以表现光线多次弹射、光栅化（实时 游戏 快），光线追踪（离线 动画 慢）&#xA;光栅化：实时渲染，速度快，但是质量低。&#xA;光线追踪：离线渲染，速度慢，但是质量高。&#xA;比如疯狂动物城里的一张画面，每一帧渲染需要 10KCPU 核心小时，相当于如果只有100个CPU核，将会花费100个小时才可以渲染完成。&#xA;Whitted-Style光线追踪 关于光线3个假设：&#xD;1. 假设光线是直线的。&#xD;2. 当光线相交时，不会发生碰撞。&#xD;3. 光线从光源传播到眼睛，路径是可逆的。（互异性Reciprocity）&#xD;其中第3点意味着，当光从光源发出进行弹射后，最终进入眼睛；其实也可以认为是眼睛发射了一束感知光线进行弹射，最终回到光源。 从观察者（相机）出发，射出光线到场景中的物体表面，如果和某个物体相交，说明眼睛能看到这里。再让焦点与光线连接，判断是否有遮挡，如果没有遮挡就形成了一条有效的光路，否则为阴影。&#xA;然后对该点进行局部光照模型计算，得到该像素的颜色。&#xA;假设人眼是一个点，且光线打到物体后会进行完美的反射 / 折射。&#xA;primary ray：人眼到第一个点的光线路径 secondary ray：除了primary ray的其他光线 shadow ray：光线与物体交点到光源的光线 每一个交点的颜色贡献来源于直接光照、反射方向间接光、折射方向间接光。&#xA;求光线与物体的交点 光线的定义如下：&#xA;求光与球的交点，将光线公式代入到球公式中，解t。可以判断和球是否有交点，有几个交点。&#xA;如果是其他隐式几何也是同样联合光线方程。&#xA;真正在图形学中运用的其实是显式曲面，很多个三角形，因此判断的是光线与三角面的交点。与三角面的焦点可以想象成三角形在一个平面上，就变成了光线与平面的交点了。&#xA;光线与平面的交点假设是p‘，那么交点与平面上任何一点p的连线，将会与N（平面的法线）垂直。&#xA;之后再判断交点是否在三角形的内部。&#xA;但是这样一个个计算太麻烦了，于是有了更方便地方法——Möller–Trumbore算法&#xA;Möller–Trumbore 利用向量的外积和重心坐标来计算是否相交，大大的提高了效率。&#xA;在光线追踪中，光线与场景的相交检测是最核心的计算之一。简单的光线相交检测对于每一道光线需要逐一检查是否与每一个物体相交，会遍历每一个三角形进行相交测试，找出离光线最近的交点（最小t值）。但是当场景变得复杂时，三角形数量会变多，使得计算开销增加。&#xA;所以会使用一些加速结构（包围盒树、八叉树等）来减少三角形数量，使得光线与场景的相交测试只需要在较小的区域内执行，而非全部三角形。&#xA;Bounding Volumes包围盒结构 如果一个光线连包围盒都碰不到，也绝对不会碰到包围盒里的物体。&#xA;轴对称包围盒：将长方体用3对不同的平面包围住，任何一对平面都与x轴y轴z轴垂直，所以称为AABB包围盒。&#xA;下图为光线穿过包围盒的3个对面所经历的时间，取这3个时间的交集，就是光线在包围盒里的时间段。&#xA;进入包围盒：进入所有对面 $$&#xD;最晚进入盒子的时间：t_{enter} = max\{t_{min}\}&#xD;$$ 离开包围盒：离开任一对面 $$&#xD;最早离开盒子的时间：t_{exit} = min\{t_{max}\}&#xD;$$ 然而光线并不是直线，光线是一条射线，所以要判断t是否为正数。</description>
     </item>
     <item>
       <title>Geometry</title>
-      <link>https://geeteng.github.io/posts/graphics/4_geomery/</link>
+      <link>http://localhost:1313/posts/graphics/4_geomery/</link>
       <pubDate>Thu, 02 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/4_geomery/</guid>
+      <guid>http://localhost:1313/posts/graphics/4_geomery/</guid>
       <description>几何的表示方法可以分为两类：隐式几何（explicit）、显式几何（implicit）。&#xA;隐式几何 缺点：很难通过表达式看出是什么图形，难以描述复杂形状&#xA;优点：容易判断一个点与物体的位置关系（内外上），易于处理拓扑变化、做光线和表面的相交。&#xA;例子：&#xA;代数曲面（Algebraic Surfaces） 只能用代数方程表达一些简单的形状，却无法处理复杂的图形。&#xA;CSG(Constructive Solid Geometry) 布尔运算，采用集合的交并差运算思想。&#xA;距离函数（Distance Functions） 距离函数SDF：Signed Distance Function&#xA;SDF = 0：位于物体表面&#xA;SDF &amp;gt; 0：位于物体外部&#xA;SDF &amp;lt; 0：位于物体内部&#xA;Question：如果将图片A和图片B混合，A中灰色物体占1/3, B中灰色物体占2/3，中间状态是什么样？&#xA;Answer：如果直接线性混合，会出现1/3黑色物体、1/3灰色物体、1/3没有物体，过度会很生硬。&#xA;如果构造SDF，边界(SDF = 0)处于图片中间，可以得到平滑的融合效果。&#xA;使用网格存储距离信息，网格值为0的地方是物体表面，在地理中称作等高线。&#xA;分型 描述具有自相似形的物体，雪花、微生物。&#xA;显式几何 缺点：难以判断某点与物体的位置关系&#xA;例子：&#xA;点云(Point Cloud) 除了原始数据很少被使用，密度低时无法成面&#xA;多边形网格 Wavefront Object File（.obj）格式 描述立方体的一堆点、法线、纹理坐标及他们之间的关系&#xA;贝塞尔曲线 曲线一定要经过起始点p0到终止点p3，且切线为p0p1方向、p2p3方向。&#xA;在b0 b1上找一点t 同理其他两条边，连接后变成3个点，找到b30点和该点切线&#xA;迪卡斯特里奥算法 类似二项式的展开，起点系数为(1 - t)&#xA;但是当n = 10时，会很难通过点去控制每条曲线，所以引出逐段贝塞尔曲线。&#xA;像是Photoshop中的钢笔工具一样，当两个点的距离相等和斜率相同时两条曲线连续。&#xA;性质：&#xA;规定了起点和终点 t = 0一定在起点 t = 1一定在终点&#xA;起点终点的斜率确定&#xA;对贝塞尔曲线的仿射变换可以用在控制点上，对控制点进行仿射变换后，再重新画出贝塞尔曲线就可以了。（仿射变换可以，但是投影不可以）</description>
     </item>
     <item>
       <title>Shader</title>
-      <link>https://geeteng.github.io/posts/graphics/3_shader/</link>
+      <link>http://localhost:1313/posts/graphics/3_shader/</link>
       <pubDate>Mon, 16 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/3_shader/</guid>
+      <guid>http://localhost:1313/posts/graphics/3_shader/</guid>
       <description>Z-Buffer(深度缓存） 用来处理可见性问题，即确定每个像素最前层物体。&#xA;Frame Buffer(帧缓冲区：用于存储最终图像数据)、Depth Buffer（深度缓冲区：判断哪些物体在前，哪些物体被遮挡）&#xA;工作原理：近处是更黑的，远处是发白的。&#xA;Z-Buffer处理不了透明物体，透明物体需要特殊处理。&#xA;Z-Buffer Algorithm R代表无穷大，如果有三角形，就覆盖掉这些无穷大的像素&#xA;新的三角形深度是8 肯定要被原本三角形深度5所遮挡 所以就忽略它&#xA;如果新的三角形离的更近 更新这个像素对应的深度值&#xA;Z-Buffer复杂度 - O(n)&#xA;**Question：**为什么排序n个三角形是在线性的时间？&#xA;**Answer：**其实它不是排序，只是在对每个像素一直求最小值。&#xA;Shader 定义：对不同的物体应用不同材质的过程&#xA;物体在经过MVP（模型、视图、投影矩阵变换）、ViewPort之后现在我们会得到一系列旋转的立方体&#xA;需要对他做着色（Shading）&#xA;Blinn-Phong 反射模型 Blinn-Phong 反射模型是计算光照和表面反射的常用模型。它将光照分为三部分：&#xA;漫反射（Diffuse Reflection）：表示光照与物体表面相互作用后，光线在不同方向上散射的现象，通常效果比较均匀，不会有明显的亮点。 镜面反射（Specular Highlights）：表示光线被物体表面镜面反射的部分，产生亮光点，通常依赖于视角与光源方向的关系，产生较强的高光效果。 环境光照（Ambient Lighting）：表示全局环境中的光照，通常是一个常量，作用于整个场景，不依赖于具体的物体或光源。 diffuse reflection 通常假设反射光是一个半球，并计算每个着色点（shading point）接收到的能量。漫反射的强度与光照方向和表面法线之间的夹角有关。&#xA;Lambert‘s cosine law：描述漫反射光照强度与光照方向和法线之间夹角的关系，公式如下： $$&#xD;L_{d}=k_{d}\left(I / r^{2}\right) \max (0, \mathbf{n} \cdot \mathbf{l})&#xD;$$ $$&#xD;L_d:漫反射分量（反射光强度）\qquad k_d:漫反射系数（物体表面材质的属性）\qquad I:光源强度\qquad r:光源到表面点的距离 \qquad n:法线方向 \qquad l:光源方向&#xD;$$ 注意：漫反射不考虑其他物体的影响，只关注当前着色点的表面法线与光照方向的关系。&#xA;Specular Highlights v和R足够接近的时候，会看到高光，其中v是观测方向，R是光线反射方向。&#xA;实际上是n法线方向和h半程向量很接近，利用平行四边形法则，可以求v+l向量，再求单位向量就是半程向量h。&#xA;镜面反射光的公式 $$&#xD;L_{s}=k_{s}\left(I / r^{2}\right) \max (0, \mathbf{n} \cdot \mathbf{h})^p&#xD;$$ 高光非常亮，且集中在一个很小的角度里，所以要有指数，将角度范围缩小，高光就会越来越小。</description>
     </item>
     <item>
       <title>TinyRenderer</title>
-      <link>https://geeteng.github.io/posts/graphics/tinyrenderer/</link>
+      <link>http://localhost:1313/posts/graphics/tinyrenderer/</link>
       <pubDate>Mon, 16 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/tinyrenderer/</guid>
+      <guid>http://localhost:1313/posts/graphics/tinyrenderer/</guid>
       <description>1 画线 mainCRTStartup&#xA;void line(int x0, int y0, int x1, int y1, TGAImage&amp;amp; image, TGAColor color) { for (float t = 0.f; t &amp;lt; 1; t += 0.01) { int x = x0 + (x1 - x0) * t; int y = y0 + (y1 - y0) * t; image.set(x, y, color); } } 描绘了100个点，但是能否用x来遍历，这样可以从13 - 80 只需要描绘67个点&#xA;void line(int x0, int y0, int x1, int y1, TGAImage&amp;amp; image, TGAColor color) { for (int x = x0; x &amp;lt; x1; x++) { float t = (x - x0) / (float)(x1 - x0); int y = y0 * (1 - t) + y1 * t; image.</description>
     </item>
     <item>
       <title>光栅化Rasterize</title>
-      <link>https://geeteng.github.io/posts/graphics/2_rasterize/</link>
+      <link>http://localhost:1313/posts/graphics/2_rasterize/</link>
       <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/2_rasterize/</guid>
+      <guid>http://localhost:1313/posts/graphics/2_rasterize/</guid>
       <description>屏幕坐标系 屏幕空间 - 在屏幕上建立一个坐标系&#xA;屏幕的左下角是原点（0，0） 向上是Y 向右是x&#xA;视口变换 要做的事：[-1, 1]^3映射到屏幕上&#xA;其中：width 和 height 是屏幕或视口的宽度和高度&#xA;在标准化设备坐标中，3D物体的投影结果被限制在 (−1,−1)到 (1,1) 的范围：&#xA;(−1,−1) 代表左下角 (1,1) 代表右上角 这是一个对称的正方形坐标系，中心点是 (0,0) 我们需要将这个范围映射到屏幕坐标系：&#xA;左下角是 (0,0)，右上角是 (width,height) $$&#xD;M_{viewport} = \begin{pmatrix}&#xD;\frac{width}{2} &amp; 0 &amp; 0 &amp; \frac{width}{2}\\&#xD;0 &amp; \frac{height}{2} &amp; 0 &amp; \frac{height}{2}\\&#xD;0 &amp; 0 &amp; 1 &amp; 0 \\&#xD;0 &amp; 0 &amp; 0 &amp; 1&#xD;\end{pmatrix}&#xD;$$ 光栅显示设备 示波器（曾经做过的物理实验）和早期显示器相同原理 ​&#x9;阴极射线管 电子经过加速穿过显示设备 发生偏转 就可以看到CRT屏幕 （Cathode Ray Tube）</description>
     </item>
     <item>
       <title>Model-View-Projection</title>
-      <link>https://geeteng.github.io/posts/graphics/1_transform/</link>
+      <link>http://localhost:1313/posts/graphics/1_transform/</link>
       <pubDate>Sat, 02 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/1_transform/</guid>
+      <guid>http://localhost:1313/posts/graphics/1_transform/</guid>
       <description>2D Transformations Scale $$&#xD;S(s_x, s_y) = \begin{pmatrix}&#xD;s_x &amp; 0 &amp; 0 \\&#xD;0 &amp; s_y &amp; 0 \\&#xD;0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Rotation $$&#xD;R(\alpha) = \begin{pmatrix} \cos \alpha &amp; -\sin \alpha &amp; 0 \\ \sin \alpha &amp; \cos \alpha &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Translation $$&#xD;T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \\ 0 &amp; 1 &amp; t_y \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ 齐次坐标的最后一位为 0 表示方向或无穷远点</description>
     </item>
   </channel>
