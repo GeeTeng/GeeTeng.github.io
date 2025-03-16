@@ -152,6 +152,14 @@ enum class Color : int {
 };
 ```
 
+## 强制转换
+
+| static_cast          | 主要用于**基本数据类型转换**（如 `float` 转 `int`）或**有继承关系的类之间转换**（如 `Base*` 转 `Derived*`） |
+| -------------------- | ------------------------------------------------------------ |
+| **reinterpret_cast** | **主要用于底层转换**                                         |
+| **const_cast**       | **该运算符用来修改类型的const或volatile属性。**              |
+| **dynamic_cast**     | **用于向下转换，用于多态类型的安全转换，在运行时进行类型检查** |
+
 
 
 ## static
@@ -1008,9 +1016,12 @@ std::cout << f1(1, 2) << std::endl;
 	std::cout << M << std::endl;
 ```
 
----
 
-## 左值与右值
+
+
+## 移动语义
+
+### 值类型
 
  左值可以取地址&，右值通常是一个临时对象，无法取地址。
 
@@ -1036,9 +1047,9 @@ std::string createString() {
 std::string&& rvalueRef = createString(); // 捕获将亡值
 ```
 
----
+### 右值引用
 
-## 右值引用
+能取地址的就是左值，取不了地址就是右值。
 
 ```c++
 void PrintName(const std::string& name) {
@@ -1056,16 +1067,13 @@ PrintName(fullName); // [lvalue] YanChernikov
 PrintName(firstName + lastName); // [rvalue] YanChernikov
 ```
 
-
-
-
-## 移动语义
+### move
 
 **移动语义**：C++11引入了右值引用（`T&&`）和 `std::move`，用于高效地转移临时对象的资源，而不是进行昂贵的深拷贝。**避免复制**。
 
 比如UniquePtr智能指针就实现了移动语义，UniquePtr类中含有**移动构造函数**和**移动赋值运算符**，可以通过**move**来转移所有权给另一个对象。
 
-使用 `std::move` 的对象会进入“将亡”状态。
+**使用 `std::move` 的对象会进入“将亡”状态，用于匹配移动构造或者移动赋值等函数。**
 
 ---
 
