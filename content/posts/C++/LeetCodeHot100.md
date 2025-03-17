@@ -381,3 +381,123 @@ public:
 };
 ```
 
+
+
+## 矩阵
+
+### 73. 矩阵置零
+
+**步骤1：检查首行和首列是否存在 0**
+
+- 遍历第0列，如果有 `0`，则 `colFlag = true`（表示首列需要全部置零）
+- 遍历第0行，如果有 `0`，则 `rowFlag = true`（表示首行需要全部置零）
+
+**步骤2：利用第0行和第0列作为标志位**
+
+- 遍历矩阵的非首行非首列部分
+- 如果 matrix\[i][j] == 0，则设置：
+  - `matrix[i][0] = 0`（标记第 `i` 行需要置零）
+  - `matrix[0][j] = 0`（标记第 `j` 列需要置零）
+
+**步骤3：根据标志位置零**
+
+- 遍历非首行非首列部分：
+  - 如果 `matrix[i][0] == 0`，将该行全部置零
+  - 如果 `matrix[0][j] == 0`，将该列全部置零
+
+**步骤4：根据 `rowFlag` 和 `colFlag` 处理首行和首列**
+
+- 如果 `rowFlag == true`，将首行全部置零
+- 如果 `colFlag == true`，将首列全部置零
+
+```c++
+void setZeroes(vector<vector<int>>& matrix) {
+    int m = matrix.size();
+    int n = matrix[0].size();
+    bool rowflag = false, colflag = false;
+    for(int i = 0; i < m; i ++) {
+        if(matrix[i][0] == 0) colflag = true;
+    }
+    for(int j = 0; j < n; j ++) {
+        if(matrix[0][j] == 0) rowflag = true;
+    }
+    for(int i = 1; i < m; i ++) {
+        for(int j = 1; j < n; j ++) {
+            if(matrix[i][j] == 0) {
+                matrix[i][0] = 0;
+                matrix[0][j] = 0;
+            }
+        }
+    }
+    for(int i = 1; i < m; i ++) {
+        if(matrix[i][0] == 0) {
+            for(int j = 1; j < n; j ++) {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+    for(int j = 1; j < n; j ++) {
+        if(matrix[0][j] == 0) {
+            for(int i = 1; i < m; i ++) {
+                matrix[i][j] = 0;
+            }
+        }
+    }
+    if(rowflag) {
+        for(int j = 0; j < n; j ++) matrix[0][j] = 0;
+    }
+    if(colflag) {
+        for(int i = 0; i < m; i ++) matrix[i][0] = 0;
+    }
+}
+```
+
+
+
+### 48. 旋转图像（矩阵）
+
+*用翻转代替旋转*：
+
+1. 先水平翻转
+
+2. 再主对角线翻转
+
+```c++
+void rotate(vector<vector<int>>& matrix) {
+    int n = matrix.size();
+    for(int i = 0; i < n / 2; i ++) {
+        swap(matrix[i], matrix[n - i - 1]);
+    }
+    for(int i = 0; i < n; i ++) {
+        for(int j = i + 1; j < n; j ++) {
+            swap(matrix[i][j], matrix[j][i]);
+        }
+    }
+}
+```
+
+
+
+### 240. 搜索二维矩阵Ⅱ
+
+Z字形搜索，想象要查找的元素在左下角，如果当前元素比target要大，就向左移动，如果比target小，就向下移动。
+
+```c++
+bool searchMatrix(vector<vector<int>>& matrix, int target) {
+    int m = matrix.size(), n = matrix[0].size();
+    int x = 0, y = n - 1;
+    while (x < m && y >= 0) {
+        if(matrix[x][y] == target) {
+            return true;
+        }
+        if(matrix[x][y] > target) {
+            y --;
+        }
+        else {
+            x ++;
+        }
+    }
+    return false;
+}
+```
+

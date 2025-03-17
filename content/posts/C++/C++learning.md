@@ -12,10 +12,6 @@ math: true
 
 ## 内存布局
 
-
-
----
-
 | **内存区域**                                  | **存储内容**                                                 |
 | --------------------------------------------- | ------------------------------------------------------------ |
 | **代码段（`.text`）**                         | 存储**程序的可执行代码**，包括普通函数和虚函数的实现         |
@@ -152,7 +148,7 @@ enum class Color : int {
 };
 ```
 
-## 强制转换
+## 四种强制转换
 
 | static_cast          | 主要用于**基本数据类型转换**（如 `float` 转 `int`）或**有继承关系的类之间转换**（如 `Base*` 转 `Derived*`） |
 | -------------------- | ------------------------------------------------------------ |
@@ -442,27 +438,60 @@ void Foo<int>::Bar()
 
 ---
 
-## 回调函数
+## 函数指针、回调函数
 
-在函数中把你的回调函数名称转化为地址作为 一个参数，以便于系统调用。
+函数指针可以作为参数传递，常用于回调机制或策略模式。
 
 ```c++
-void myCallbcak(int value)
-{
-	cout << "callback called with value: " << value << endl;
+// 回调函数
+void Add(int a, int b) {
+    cout << "加法结果: " << a + b << endl;
 }
-void process(int x, void(*callback)(int))
-{
-	cout << "Processing Value: " << x << endl;
-	callback(x * 2);
+
+void Multiply(int a, int b) {
+    cout << "乘法结果: " << a * b << endl;
 }
-int main()
-{
-	process(5, myCallbcak);
+
+// 执行回调的函数
+void PerformOperation(int x, int y, void (*operation)(int, int)) {
+    operation(x, y);  // 使用传入的函数指针
+}
+
+int main() {
+    PerformOperation(5, 3, Add);       // 输出：加法结果: 8
+    PerformOperation(5, 3, Multiply);  // 输出：乘法结果: 15
+    return 0;
 }
 ```
 
----
+函数指针作为返回值，根据条件选择调用不同的函数。
+
+```c++
+// 具体操作函数
+int Add(int a, int b) { return a + b; }
+int Subtract(int a, int b) { return a - b; }
+
+// 返回函数指针的函数
+int (*SelectOperation(char op))(int, int) {
+    if (op == '+') return Add;
+    if (op == '-') return Subtract;
+    return nullptr;
+}
+
+int main() {
+    char op;
+    cout << "选择操作 (+ 或 -): ";
+    cin >> op;
+    // 获取并调用选中的函数
+    auto func = SelectOperation(op);
+    if (func) {
+        cout << "结果: " << func(10, 5) << endl;
+    }
+    return 0;
+}
+```
+
+
 
 ## 内联函数
 
@@ -1077,7 +1106,7 @@ PrintName(firstName + lastName); // [rvalue] YanChernikov
 
 ---
 
-## 完美转发
+### 完美转发
 
 完美转发目的是让一个函数能够**将其接收到的参数原封不动地转发给另一个函数**。
 

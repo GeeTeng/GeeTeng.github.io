@@ -182,6 +182,28 @@ vector<int> reOrderArray(vector<int>& array) {
 
 
 
+### JZ22 链表中倒数最后k个节点
+
+*快慢指针*：快指针先找到第k个节点，然后再和慢指针一起遍历直到快指针到结尾。这时慢指针走了n - k步，就是最后k个节点。
+
+```c++
+    ListNode* FindKthToTail(ListNode* pHead, int k) {
+        if(pHead == nullptr) return nullptr;
+        ListNode* fast = pHead, *slow = pHead;
+        while(k --) {
+            if(fast == nullptr) return nullptr;
+            fast = fast->next;
+        }
+        while(fast != nullptr) {
+            slow = slow->next;
+            fast = fast->next;
+        }
+        return slow;
+    }
+```
+
+
+
 ### JZ23 链表中环的入口结点
 
 *方法一：哈希集合*
@@ -237,7 +259,7 @@ ListNode* EntryNodeOfLoop(ListNode* pHead) {
 ListNode* ReverseList(ListNode* head) {
     if(head == nullptr) return nullptr;
     ListNode* cur = head;
-    ListNode* pre = nullptr;
+    ListNode* pre = nullptr; // 或者pre指向head，head->next = nullptr
     while(cur != nullptr){
         ListNode* tmp = cur->next;
         cur->next = pre; // 指向前一个
@@ -247,6 +269,8 @@ ListNode* ReverseList(ListNode* head) {
     return pre;
 }
 ```
+
+二刷错误点：尤其注意原链表的头节点要指向nullptr，不然会形成循环。
 
 
 
