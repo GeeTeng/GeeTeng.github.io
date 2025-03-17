@@ -35,7 +35,7 @@
   <meta itemprop="description" content="LeetCode热题100整理">
   <meta itemprop="datePublished" content="2025-03-12T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-12T00:00:00+00:00">
-  <meta itemprop="wordCount" content="902">
+  <meta itemprop="wordCount" content="1249">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/" />
 
@@ -229,6 +229,13 @@
             <li><a href="#41-缺失的第一个整数">41. 缺失的第一个整数</a></li>
           </ul>
         </li>
+        <li><a href="#矩阵">矩阵</a>
+          <ul>
+            <li><a href="#73-矩阵置零">73. 矩阵置零</a></li>
+            <li><a href="#48-旋转图像矩阵">48. 旋转图像（矩阵）</a></li>
+            <li><a href="#240-搜索二维矩阵">240. 搜索二维矩阵Ⅱ</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -251,7 +258,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        10 mins read
+                        13 mins read
                     </p>
                 </div>
             </div>
@@ -558,6 +565,115 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="矩阵">矩阵</h2>
+<h3 id="73-矩阵置零">73. 矩阵置零</h3>
+<p><strong>步骤1：检查首行和首列是否存在 0</strong></p>
+<ul>
+<li>遍历第0列，如果有 <code>0</code>，则 <code>colFlag = true</code>（表示首列需要全部置零）</li>
+<li>遍历第0行，如果有 <code>0</code>，则 <code>rowFlag = true</code>（表示首行需要全部置零）</li>
+</ul>
+<p><strong>步骤2：利用第0行和第0列作为标志位</strong></p>
+<ul>
+<li>遍历矩阵的非首行非首列部分</li>
+<li>如果 matrix[i][j] == 0，则设置：
+<ul>
+<li><code>matrix[i][0] = 0</code>（标记第 <code>i</code> 行需要置零）</li>
+<li><code>matrix[0][j] = 0</code>（标记第 <code>j</code> 列需要置零）</li>
+</ul>
+</li>
+</ul>
+<p><strong>步骤3：根据标志位置零</strong></p>
+<ul>
+<li>遍历非首行非首列部分：
+<ul>
+<li>如果 <code>matrix[i][0] == 0</code>，将该行全部置零</li>
+<li>如果 <code>matrix[0][j] == 0</code>，将该列全部置零</li>
+</ul>
+</li>
+</ul>
+<p><strong>步骤4：根据 <code>rowFlag</code> 和 <code>colFlag</code> 处理首行和首列</strong></p>
+<ul>
+<li>如果 <code>rowFlag == true</code>，将首行全部置零</li>
+<li>如果 <code>colFlag == true</code>，将首列全部置零</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">setZeroes</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;&amp;</span> matrix) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> matrix.size();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> matrix[<span style="color:#ae81ff">0</span>].size();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> rowflag <span style="color:#f92672">=</span> false, colflag <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> m; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(matrix[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) colflag <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> n; j <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(matrix[<span style="color:#ae81ff">0</span>][j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) rowflag <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> m; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> n; j <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(matrix[i][j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>                matrix[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>                matrix[<span style="color:#ae81ff">0</span>][j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> m; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(matrix[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> n; j <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                matrix[i][j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> n; j <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(matrix[<span style="color:#ae81ff">0</span>][j] <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> m; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                matrix[i][j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(rowflag) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> n; j <span style="color:#f92672">++</span>) matrix[<span style="color:#ae81ff">0</span>][j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(colflag) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> m; i <span style="color:#f92672">++</span>) matrix[i][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="48-旋转图像矩阵">48. 旋转图像（矩阵）</h3>
+<p><em>用翻转代替旋转</em>：</p>
+<ol>
+<li>
+<p>先水平翻转</p>
+</li>
+<li>
+<p>再主对角线翻转</p>
+</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">rotate</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;&amp;</span> matrix) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> matrix.size();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        swap(matrix[i], matrix[n <span style="color:#f92672">-</span> i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> n; j <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            swap(matrix[i][j], matrix[j][i]);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="240-搜索二维矩阵">240. 搜索二维矩阵Ⅱ</h3>
+<p>Z字形搜索，想象要查找的元素在左下角，如果当前元素比target要大，就向左移动，如果比target小，就向下移动。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">searchMatrix</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;&amp;</span> matrix, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> matrix.size(), n <span style="color:#f92672">=</span> matrix[<span style="color:#ae81ff">0</span>].size();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, y <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span> (x <span style="color:#f92672">&lt;</span> m <span style="color:#f92672">&amp;&amp;</span> y <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(matrix[x][y] <span style="color:#f92672">==</span> target) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(matrix[x][y] <span style="color:#f92672">&gt;</span> target) {
+</span></span><span style="display:flex;"><span>            y <span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            x <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
         </div>
     </div>

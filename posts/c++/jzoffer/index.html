@@ -35,7 +35,7 @@
   <meta itemprop="description" content="剑指Offer刷题笔记">
   <meta itemprop="datePublished" content="2025-03-13T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-13T00:00:00+00:00">
-  <meta itemprop="wordCount" content="3807">
+  <meta itemprop="wordCount" content="3861">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/jzoffer/" />
 
@@ -214,6 +214,7 @@
             <li><a href="#jz13-机器人的运动范围">JZ13 机器人的运动范围</a></li>
             <li><a href="#jz15-二进制中1的个数">JZ15 二进制中1的个数</a></li>
             <li><a href="#jz21-调整数组顺序使奇数位于偶数前面">JZ21 调整数组顺序使奇数位于偶数前面</a></li>
+            <li><a href="#jz22-链表中倒数最后k个节点">JZ22 链表中倒数最后k个节点</a></li>
             <li><a href="#jz23-链表中环的入口结点">JZ23 链表中环的入口结点</a></li>
             <li><a href="#jz24-反转链表">JZ24 反转链表</a></li>
             <li><a href="#jz25-合并两个排序的链表">JZ25 合并两个排序的链表</a></li>
@@ -272,7 +273,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        46 mins read
+                        47 mins read
                     </p>
                 </div>
             </div>
@@ -423,6 +424,21 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> array;
 </span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="jz22-链表中倒数最后k个节点">JZ22 链表中倒数最后k个节点</h3>
+<p><em>快慢指针</em>：快指针先找到第k个节点，然后再和慢指针一起遍历直到快指针到结尾。这时慢指针走了n - k步，就是最后k个节点。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>    ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">FindKthToTail</span>(ListNode<span style="color:#f92672">*</span> pHead, <span style="color:#66d9ef">int</span> k) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(pHead <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>        ListNode<span style="color:#f92672">*</span> fast <span style="color:#f92672">=</span> pHead, <span style="color:#f92672">*</span>slow <span style="color:#f92672">=</span> pHead;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(k <span style="color:#f92672">--</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(fast <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>            fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(fast <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>            slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> slow;
+</span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div><h3 id="jz23-链表中环的入口结点">JZ23 链表中环的入口结点</h3>
 <p><em>方法一：哈希集合</em></p>
 <p>环的入口结点就是第一个在哈希集合中已存在的结点。</p>
@@ -463,8 +479,8 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">ReverseList</span>(ListNode<span style="color:#f92672">*</span> head) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(head <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>    ListNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> head;
-</span></span><span style="display:flex;"><span>    ListNode<span style="color:#f92672">*</span> pre <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span>(cur <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>){
+</span></span><span style="display:flex;"><span>    ListNode<span style="color:#f92672">*</span> pre <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>; <span style="color:#75715e">// 或者pre指向head，head-&gt;next = nullptr
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">while</span>(cur <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>){
 </span></span><span style="display:flex;"><span>        ListNode<span style="color:#f92672">*</span> tmp <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
 </span></span><span style="display:flex;"><span>        cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> pre; <span style="color:#75715e">// 指向前一个
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        pre <span style="color:#f92672">=</span> cur;
@@ -472,7 +488,8 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> pre;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="jz25-合并两个排序的链表">JZ25 合并两个排序的链表</h3>
+</span></span></code></pre></div><p>二刷错误点：尤其注意原链表的头节点要指向nullptr，不然会形成循环。</p>
+<h3 id="jz25-合并两个排序的链表">JZ25 合并两个排序的链表</h3>
 <p>新建一个头节点，如果p1值更小，则连p1；如果p2小则连p2，不断更新下一位置。</p>
 <p>如果其中一个遍历完，另外一个链表还有剩余节点，则全部接到res之后。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">Merge</span>(ListNode<span style="color:#f92672">*</span> p1, ListNode<span style="color:#f92672">*</span> p2) {
