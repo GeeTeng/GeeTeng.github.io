@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>计算机图形学 on GeeTeng</title>
+    <link>http://localhost:1313/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/</link>
+    <description>Recent content in 计算机图形学 on GeeTeng</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Sat, 02 Nov 2024 00:00:00 +0000</lastBuildDate>
+    <atom:link href="http://localhost:1313/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9B%BE%E5%BD%A2%E5%AD%A6/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Model-View-Projection</title>
+      <link>http://localhost:1313/posts/graphics/1_transform/</link>
+      <pubDate>Sat, 02 Nov 2024 00:00:00 +0000</pubDate>
+      <guid>http://localhost:1313/posts/graphics/1_transform/</guid>
+      <description>2D Transformations Scale $$&#xD;S(s_x, s_y) = \begin{pmatrix}&#xD;s_x &amp; 0 &amp; 0 \\&#xD;0 &amp; s_y &amp; 0 \\&#xD;0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Rotation $$&#xD;R(\alpha) = \begin{pmatrix} \cos \alpha &amp; -\sin \alpha &amp; 0 \\ \sin \alpha &amp; \cos \alpha &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Translation $$&#xD;T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \\ 0 &amp; 1 &amp; t_y \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ 齐次坐标的最后一位为 0 表示方向或无穷远点</description>
+    </item>
+  </channel>
+</rss>

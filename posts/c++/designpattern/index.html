@@ -35,7 +35,7 @@
   <meta itemprop="description" content="设计模式 更新中">
   <meta itemprop="datePublished" content="2025-01-08T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-01-08T00:00:00+00:00">
-  <meta itemprop="wordCount" content="480">
+  <meta itemprop="wordCount" content="476">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/designpattern/" />
 
@@ -475,65 +475,45 @@
 <p>例子：如围棋游戏，只需要存储两个棋子对象，而不是每盘棋创建几百个棋子对象，比如.Net中的String，相同的字符串只有一个实例。</p>
 <hr>
 <h2 id="单例模式singleton">单例模式（Singleton）</h2>
-<p>保证一个类只能产生一个实例，声明周期为整个程序的声明周期，通过Get访问到任何非静态方法。</p>
-<p>懒汉式：需要时才会创建 线程不安全</p>
-<p>饿汉式：一运行就创建实例，需要时直接调用。</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Singleton</span>
-</span></span><span style="display:flex;"><span>{
+<p>懒汉式：需要时（第一次调用GetInstance时）才会创建 线程不安全（需要加锁）</p>
+<p>适用于可能会用到该实例。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Singleton</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 不允许实例化 调用构造函数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	Singleton(){}
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> Singleton s_Instance;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> Singleton<span style="color:#f92672">*</span> instance;
+</span></span><span style="display:flex;"><span>	Singleton() { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;构造函数</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 删除类的拷贝构造函数 防止对象被复制
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	Singleton(<span style="color:#66d9ef">const</span> Singleton<span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 删除赋值运算符
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    Singleton<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> Singleton<span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 返回单例实例
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">static</span> Singleton<span style="color:#f92672">&amp;</span> Get()
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> s_Instance;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Func</span>() {};
-</span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>Singleton Singleton<span style="color:#f92672">::</span>s_Instance;
+</span></span><span style="display:flex;"><span>	Singleton(<span style="color:#66d9ef">const</span> Singleton<span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
+</span></span><span style="display:flex;"><span>	Singleton<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> Singleton<span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 不可以去掉引用 否则会拷贝 所以需要增加一个删除函数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	Singleton<span style="color:#f92672">&amp;</span> instance <span style="color:#f92672">=</span> Singleton<span style="color:#f92672">::</span>Get();
-</span></span><span style="display:flex;"><span>	instance.Func();
-</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cin.get();
-</span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><p>具体例子</p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Random</span>
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	Random(){}
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> Random s_Instance;
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> m_RandomGenerator <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.5f</span>;
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> <span style="color:#a6e22e">IFloat</span>() { <span style="color:#66d9ef">return</span> m_RandomGenerator; }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>	Random(<span style="color:#66d9ef">const</span> Random<span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> Random<span style="color:#f92672">&amp;</span> Get()
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">static</span> Random instance;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> Singleton<span style="color:#f92672">*</span> <span style="color:#a6e22e">GetInstance</span>() {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (instance <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>			instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Singleton();
+</span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> instance;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">float</span> <span style="color:#a6e22e">Float</span>() { <span style="color:#66d9ef">return</span> Get().IFloat(); }
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Show</span>() { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Singleton实例方法</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
 </span></span><span style="display:flex;"><span>};
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>Singleton<span style="color:#f92672">*</span> Singleton<span style="color:#f92672">::</span>instance <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span></code></pre></div><p>*饿汉式：*一定会用到该实例，程序在启动时就会创建实例。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Singleton</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	Singleton() { cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;构造函数</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>; }
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	Singleton(<span style="color:#66d9ef">const</span> Singleton<span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
+</span></span><span style="display:flex;"><span>	Singleton<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> Singleton<span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> Singleton<span style="color:#f92672">&amp;</span> GetInstance() {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">static</span> Singleton instance; <span style="color:#75715e">// 程序启动时就会创建实例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">return</span> instance;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> number <span style="color:#f92672">=</span> Random<span style="color:#f92672">::</span>Float();
-</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> number <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cin.get();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	Singleton<span style="color:#f92672">&amp;</span> s1 <span style="color:#f92672">=</span> Singleton<span style="color:#f92672">::</span>GetInstance();
+</span></span><span style="display:flex;"><span>	Singleton<span style="color:#f92672">&amp;</span> s2 <span style="color:#f92672">=</span> Singleton<span style="color:#f92672">::</span>GetInstance();
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">&amp;</span>s1 <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#39; &#39;</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">&amp;</span>s2;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
         </div>

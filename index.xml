@@ -6,8 +6,22 @@
     <description>Recent content on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 13 Mar 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 19 Mar 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>内存管理</title>
+      <link>https://geeteng.github.io/posts/cs_basic/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</link>
+      <pubDate>Wed, 19 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/cs_basic/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</guid>
+      <description>malloc分配的是虚拟内存，而非物理内存。当这块虚拟内存被读写了的时候，CPU会访问这块虚拟内存，然后发现该虚拟内存没有被映射到物理内存，CPU就会产生缺页中断，进程从用户态 一&amp;gt; 内核态。&#xA;缺页中断处理函数（Page Fault Handler）会判断是否有空闲的物理内存，如果有，就直接分配物理内存，否则回收内存。&#xA;有两种回收内存的方式：后台内存回收（异步）、直接内存回收（如果后台回收跟不上进程内存申请的速度就会开始直接回收，这个过程是同步的，会阻塞进程执行）。&#xA;如果直接内存回收，仍旧不满足申请的内存大小，那么就会触发OOM（Out Of Memory）机制。&#xA;OOM机制会根据算法杀死一个占用物理内存最高的进程，如果还是无法满足，继续杀死进程，直到释放足够多的内存。&#xA;如何保护一个进程不被OOM杀掉呢？&#xA;Linux中通过oom_badness()对每个进程打分，得分最高的进程会被杀掉。得分机制：&#xA;进程所占用物理内存页面数量 每个进程的OOM校准值oom_score_adj [-1000, 1000] 我们可以通过调整校准值来防止进程被OOM杀掉。比如说设置成-1000，无论如何都不会被杀掉。但是不建议将业务程序这样设置，因为如果某个业务程序发生内存泄漏，而又无法被杀掉，那么OOM会把其他进程都杀掉了。&#xA;哪些内存会被回收？&#xA;文件页：内核缓存的文件数据（Cache）和内核缓存的磁盘数据（Buffer）都属于文件页。如果被应用程序修改过并且还没写入磁盘的数据叫做脏页。回收干净页的方式是直接释放内存，回收脏页的方式是先写回磁盘后再释放内存。&#xA;匿名页：没有磁盘这样的实际载体，比如栈和堆。这些内存不能直接释放，因为很可能会再次被访问，通过linux的Swap机制，将不常访问的写入到磁盘中再释放内存，如果需要访问，就从磁盘中读入内存。&#xA;文件页和匿名页的回收都基于LRU算法。&#xA;回收内存除了回收干净页，都会发生磁盘 I/O的，这会影响系统性能。&#xA;可以申请虚拟内存超过物理内存吗？&#xA;在32位操作系统，进程最大只能申请3GB的虚拟内存。&#xA;在64位操作系统，进程最大可以申请128TB的虚拟内存。&#xA;所以如果想在4GB的物理内存空间上直接申请8GB的虚拟内存，在32位操作系统上会申请失败，而在64位会成功。&#xA;如果有Swap分区，即使物理内存只有4GB，进程也可以正常使用8GB的内存。&#xA;LRU预读失效怎么办？&#xA;如果应用程序想读取 0 - 3KB 范围内的数据，由于磁盘基本读写单位为 block（4KB），于是操作系统至少会读 0 - 4KB 的内容，但是由于空间局部性原理（靠近当前被访问数据的数据，在未来很大概率会被访问到），所以会把[4, 8]，[8, 12]以及[12, 16]都加载到内存。&#xA;预读机制带来的好处是减少磁盘 I/O 次数，提高系统磁盘 I/O 吞吐量。&#xA;预读失效：就是这些被提前加载进来的页面没有被访问，相当于预读白做了。不会被访问的预读页却占用了 LRU 链表前排的位置，而末尾淘汰的页，可能是热点数据，这样就大大降低了缓存命中率。&#xA;想要避免预读失效，就要尽可能地保证预读的数据停留内存的时间要短，真正的热点数据尽可能久的留在内存。Linux操作系统就实现了两个LRU链表：活跃LRU链表(active_list)和非活跃LRU链表(inactive_list)。&#xA;预读页就只需要加入到 inactive list 区域的头部，当页被真正访问的时候，才将页插入 active list 的头部。&#xA;缓存污染怎么办？&#xA;虽然两个LRU链表可以解决预读失效的问题，但是还会存在缓存污染的问题。当批量读取数据时，如果数据被访问了一次就加入到LRU中，那么活跃链表中会一下子淘汰了很多热点数据，而那些被新加入的数据很长一段时间不会被访问，导致了整个LRU活跃链表被污染。等到下一次读到那些热点数据的时候，一下子发生了很多次磁盘I/O，性能急剧下降。&#xA;所以要想避免缓存污染，需要提高数据加入到活跃链表的门槛，保证在活跃链表中的数据不会被轻易替换掉。Linux操作系统中，当内存页被访问第二次才会将页从非活跃链表加入到活跃链表。</description>
+    </item>
+    <item>
+      <title>图形学基础题汇总</title>
+      <link>https://geeteng.github.io/posts/graphics/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%9F%BA%E7%A1%80%E9%A2%98/</link>
+      <pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/graphics/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%9F%BA%E7%A1%80%E9%A2%98/</guid>
+      <description>判断线段是否和矩形相交 #include&amp;lt;iostream&amp;gt; struct Point { double x, y; }; // 是否在矩形内部 bool insideRectangle(Point p, Point rectMin, Point rectMax) { return p.x &amp;lt;= rectMax.x &amp;amp;&amp;amp; p.x &amp;gt;= rectMin.x &amp;amp;&amp;amp; p.y &amp;lt;= rectMax.y &amp;amp;&amp;amp; p.y &amp;gt;= rectMin.y; } // 叉乘公式 double crossProduct(Point a, Point b, Point c) { return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x); } // 线段是否相交 bool isIntersecting(Point p1, Point p2, Point q1, Point q2) { double d1 = crossProduct(p1, p2, q1); double d2 = crossProduct(p1, p2, q2); double d3 = crossProduct(q1, q2, p1); double d4 = crossProduct(q1, q2, p2); return (d1 * d2 &amp;lt;= 0) &amp;amp;&amp;amp; (d3 * d4 &amp;lt;= 0); } bool LineIntersectingRectangle(Point p1, Point p2, Point rectMin, Point rectMax) { if (insideRectangle(p1, rectMin, rectMax) || insideRectangle(p2, rectMin, rectMax)) return true; Point topLeft = { rectMin.</description>
+    </item>
     <item>
       <title>剑指Offer</title>
       <link>https://geeteng.github.io/posts/c&#43;&#43;/jzoffer/</link>
@@ -37,24 +51,24 @@
       <description>Linux基础操作 静态库 动态库 静态库：程序在编译时会把库文件的二进制编码链接到目标程序中。&#xA;如果多个程序中用到了同一静态库中的函数，就会存在多份拷贝。&#xA;生成静态库&#xA;g++ -c -o libpublic.a public.cpp 编译 demo.cpp 并链接一个名为 public 的库&#xA;g++ -o demo demo.cpp -L/home/test1/codes/tools -lpublic 动态库（共享库）：编译时不会把库文件的二进制代码链接到目标程序中，运行时候才会被载入。&#xA;如果多个进程在用到同一动态库中的函数 / 类，那么在内存中只有一份，避免了空间浪费的问题。&#xA;程序升级比较简单 不需要重新编译 只需要更新动态库。&#xA;如果静态库和动态库同时存在，会优先使用动态库。&#xA;生成动态库&#xA;g++ -gPIC -shared -o libpublic.so public.cpp 编译并链接动态库&#xA;g++ -o demo demo.cpp -L/home/test1/codes/tools -lpublic 发现执行会报错显示找不到这样的文件 原因是需要设置好环境变量&#xA;使用make来生成库，可以避免写呢么多代码。&#xA;# 指定编译的目标文件是 libpublic.a 和 libpublic.so all:libpublic.a \ libpublic.so # 编译 libpublic.a 需要依赖 public.h 和 public.cpp # 如果被依赖文件内容发生了变化，将重新编译 libpublic.a libpublic.a:public.h public.cpp g++ -c -o libpublic.</description>
     </item>
     <item>
-      <title>计算机网络知识点</title>
-      <link>https://geeteng.github.io/posts/cs_basic/network/</link>
+      <title>应用层传输层网络层</title>
+      <link>https://geeteng.github.io/posts/cs_basic/ip%E5%B1%82/</link>
       <pubDate>Mon, 13 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/cs_basic/network/</guid>
+      <guid>https://geeteng.github.io/posts/cs_basic/ip%E5%B1%82/</guid>
       <description>网络通信协议(互联网协议) - cls超 - 博客园&#xA;1. IP篇 ip地址划分 A类：1.0.0.1 ~ 126.255.255.254（0 - 127）&#xA;B类：128.0.0.1 ~ 191.255.255.254（128 - 192）&#xA;C类：192.0.0.1 ~ 223.255.255.254 （192 - 224）&#xA;D类 组播 VRRP协议（224 - 239）&#xA;E类 科研（240 - 255）&#xA;其中127地址可用作本地软件环回测试，进程之间通信。127.0.0.1（本机地址） 是一个不可路由的私有 IP 地址。&#xA;通过判断第1位地址为0还是1、第2位地址为0还是1..来判断是哪类地址。&#xA;私有ip地址范围：&#xA;A类 10.0.0.0 ~ 10.255.255.255&#xA;B类 172.16.0.0 ~ 172.31.255.255&#xA;C类 192.168.0.0 ~ 192.168.255.255&#xA;默认网关 = 路由器地址公网ip（自己电脑看是内网ip）&#xA;主机号全为0表示某个网络，主机号全为1表示某个网络下的所有主机，用于广播。&#xA;广播地址用于在同一个链路中互相连接的主机之间发送数据包。&#xA;子网掩码 子网掩码表示子网络特征的一个参数，它的网络部分全部为1，主机部分全部为0，比如255.255.255.128。&#xA;知道子网掩码就可以判断两个IP地址是否处于同一网段，将两个IP地址分别进行AND运算，比较结果是否相同，如果是的话就表明在同一网络中。&#xA;假设有一个IP地址172.16.10.1的子网掩码是255.255.255.0（对应二进制有24个1），所以可以写为172.16.10.1/24。&#xA;IP协议的作用主要有两个，一个是为每一台计算机分配IP地址（DHCP动态分配），另一个是确定哪些地址在同一个子网络。&#xA;DNS解析 DNS（Domain Name System）：域名系统，将域名解析成ip地址。&#xA;计算机和计算机直接通信是通过ip:端口来实现的。&#xA;DNS由来： 比如说你想访问百度，但是没办法记住它的ip地址，因为就算记住了百度，还有其他很多别的网站。于是计算机帮我们将ip地址保留在系统里，C:\windows\system32\drivers\etc\hosts文件&#xA;后来有网站专门提供最新的host，但是不断更新很麻烦，所以出现了DNS服务器。&#xA;比如阿里云的：235.5.5.5，谷歌 8.</description>
     </item>
     <item>
       <title>计算机网络课程笔记</title>
-      <link>https://geeteng.github.io/posts/cs_basic/computernetwork/</link>
+      <link>https://geeteng.github.io/posts/cs_basic/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
       <pubDate>Mon, 13 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/cs_basic/computernetwork/</guid>
+      <guid>https://geeteng.github.io/posts/cs_basic/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
       <description>1. 第一章 概述 1.1 计算机网络体系结构 七层OSI模型&#xA;应用层、表示层、会话层、传输层、网络层、数据链路层、物理层&#xA;应用层：各种应用软件，会发送一个探测数据包，探测双方网络是否能胡同。&#xA;表示层：用来描述文件的类型(比如发送图片，会在整体二进制数据前加上文件类型数据标记)、数据加密。&#xA;会话层：发起会话/接受会话&#xA;传输层：传输数据TCP、UDP&#xA;网络层：定义IP编址、路由功能，如数据转发&#xA;数据链路层：定义数据基本格式，如MAC地址&#xA;物理层：定义物理设备标准，如网线/光纤的接口类型、传输速率等&#xA;五层模型&#xA;应用层、传输层、网络层、数据链路层、物理层&#xA;TCP/IP四层模型&#xA;应用层（HTTP\SMTP\DNS\RTP）、运输层(TCP\UDP)、网络层(IP)、网络接口层&#xA;协议三要素：&#xA;语法：定义交换信息的格式 语义：定义收发双方要完成的操作 同步：定义收发双方的时序关系 1.2 计算机网络分类 1.3 三种交换方式 电路交换 ​&#x9;电话交换机接通电话线的方式称为电路交换，使用电路交换传送计算机数据时，其线路的传输效率往往很低。&#xA;​&#x9;三个步骤：&#xA;建立连接 通话 释放连接 分组交换 ​&#x9;分组交换采用的是存储转发技术&#xA;​&#x9;在发送报文之前，先把较长的报文划分成一个个更小的等长的数据段；然后在数据段的前面加上一些由必要的控制信息组成的首部&#x9;后，就构成了一个分组&#xA;​&#x9;发送方：构造分组、发送分组&#xA;​&#x9;路由器：缓存分组、转发分组&#xA;​&#x9;接收方：接受分组、还原报文&#xA;​&#x9;报文交换 ​&#x9;用于早期的电报通信网，现在较少使用，通常被分组交换方式所取代。&#xA;对比&#xA;2. 第二章 物理层 2.1 物理层的基本概念 解决在各种传输媒体上传输比特0和1的问题，给数据链路层提供透明传输比特流的服务，如：双绞线、同轴电缆、光纤等。&#xA;物理层协议的主要任务&#xA;机械特性：指明接口所用接线器的形状和尺寸、引脚数目和排列、固定和锁定装置。 电气特性：指明在接口电缆的各条线上出现的电压的范围。 功能特性：指明某条线上出现的某一电平的电压表示何种意义。 过程特性：指明对于不同功能的各种可能事件的出现顺序。 2.2 传输媒体和传输方式 导引型传输媒体：同轴电缆、双绞线、光纤（多模光纤、单模光纤）、电力线&#xA;非导引性传输媒体：无线电波、微波、红外线、可见光&#xA;串行传输 / 并行传输&#xA;计算机远距离传输采用串行传输，计算机内部采用并行传输</description>
     </item>
     <item>
       <title>操作系统</title>
-      <link>https://geeteng.github.io/posts/cs_basic/os/</link>
+      <link>https://geeteng.github.io/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
       <pubDate>Fri, 10 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/cs_basic/os/</guid>
+      <guid>https://geeteng.github.io/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
       <description>1. 第一章 操作系统概述 1.1 操作系统概念、特征 操作系统是指控制和管理整个计算机系统的硬件和软件资源，并合理的组织调度计算机的工作和资源的分配，以提供给用户和其他软件方便的接口和环境集合。&#xA;并发 并发是指两个或多个事件在同一时间间隔内发生。操作系统的并发是通过分时得以实现的。操作系统的并发性是指计算机系统中同时存在多个运行着的程序，因此它具有处理和调度多个程序同时执行的能力。&#xA;共享 资源共享就是共享，系统中的资源可供内存中多个并发执行的进程同时使用，可分为以下两种。&#xA;互斥共享方式&#xA;比如打印机，不能同时打印两份内容，不然会造成内容混淆。&#xA;同时访问方式&#xA;交替的对该资源进行访问 “分时共享”。&#xA;虚拟 操作系统中利用了多种虚拟技术，分别用来实现虚拟处理机、虚拟内存和虚拟外部设备。&#xA;在虚拟处理器技术中，让多道程序并发执行来分时使用一台处理器，虽然只有一台处理器，但是能同时为多个用户服务。把一台物理上的CPU虚拟为多态逻辑上的CPU称为虚拟处理器。&#xA;虚拟存储器，从逻辑上来扩充存储器的容量。&#xA;虚拟设备技术，将一台物理IO设备虚拟为多台逻辑上的IO设备，允许多个用户同时访问的共享设备。&#xA;异步 在多道程序环境下，允许多个程序并发执行，但由于资源有限，进程的执行不是一贯到底，而是走走停停，以不可预知的速度向前推进，这就是进程的异步性。&#xA;操作系统的目标和功能 为了给多道程序提供良好的运行环境，操作系统应该具有：处理器管理、存储器管理、文件管理和设备管理，还必须向用户提供接口，同时操作系统可用来扩充机器，以提供更方便的服务、更高的资源利用率。&#xA;处理器管理&#xA;对处理器的管理可归结为对进程的管理，主要功能有：进程控制、进程同步、进程通信、死锁处理、处理器调度等。&#xA;存储器管理&#xA;方便用户使用以及提高内存的利用率，存储器管理应具备：内存分配、地址映射、内存保护、共享和内存扩充等。&#xA;文件管理&#xA;包括文件的存储空间管理、目录管理和文件读写管理、文件保护。&#xA;设备管理&#xA;完成用户的IO请求，主要包括混充管理、设备分配、设备处理和虚拟设备等。&#xA;为了方便用户使用操作系统，操作系统还提供了用户接口，分为以下两类。&#xA;命令接口&#xA;使用命令接口进行作业控制的主要方式有两种：联机命令接口和脱机命令接口。&#xA;程序接口&#xA;程序接口由一组系统调用命令组成，用户可以直接使用命令向系统提出各种请求。&#xA;操作系统的结构 简单结构、模块化结构、分层式结构、微内核结构。&#xA;1.3 操作系统的运行环境 操作系统在具体实现上划分了用户态、核心态。&#xA;操作系统内核包括以下4方面：&#xA;时钟管理&#xA;操作系统需要通过时钟管理，向用户提供标准的系统时间。通过时钟中断的管理，可以实现进程切换。&#xA;中断机制&#xA;引入中断机制是为了提高多道程序运行环境中CPU的利用率。&#xA;原语&#xA;原语处于操作系统最底层，是最接近硬件的部分；具有原子性（一气呵成，不可中断）；运行时间短、调用频繁。&#xA;系统控制的数据结构及处理&#xA;常见的基本操作有以下3种，进程管理、存储器管理、设备管理。&#xA;中断和异常 引入核心态和用户态之后，就需要考虑如何在这两种状态下切换。**中断是让操作系统内核夺回CPU使用权的唯一途径。**内核工作在核心态，应用程序工作在用户态，系统不允许用户使用核心态的功能，但是它们又必须使用。&#xA;中断（外中断）&#xA;中断信号来源于CPU外部，与当前执行的指令无关。比如说时钟中断和I/O中断请求，当输入输出任务完成时，向CPU发送中断信号，或时钟部件每隔50ms发送一个中断信号。&#xA;异常（内中断）&#xA;源于CPU执行指令内部，比如程序的非法操作。&#xA;一些由用户态转为核心态的例子：1）用户程序要求系统服务 2）发生一次中断 3）用户程序产生错误 4）用户程序企图执行特权指令&#xA;2. 第二章 进程管理 2.1 进程与线程 进程控制块（PCB）描述进程的基本情况和运行状态，PCB是进程存在的唯一标志。&#xA;进程由PCB、程序段、数据段组成。&#xA;进程的特征 动态性(最基本的特性)、并发性、独立性、异步性、结构性。</description>
     </item>
     <item>
@@ -146,7 +160,7 @@
       <link>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</link>
       <pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</guid>
-      <description>C++ 内存布局 内存区域 存储内容 代码段（.text） 存储程序的可执行代码，包括普通函数和虚函数的实现 数据段（全局静态区）（.data 和 .bss） 存储全局/静态变量（已初始化的放在 .data，未初始化的放在 .bss） 只读数据段（常量区）（.rodata） 存储常量数据（如字符串字面量、const 变量、VTable） 堆区（Heap） 由 new/malloc 动态分配，程序员手动释放 栈区（Stack） 由函数的局部变量、函数调用帧等组成，自动管理 随机存储器RAM（主存）&#xA;与CPU直接交换数据，可读写区域，存放全局（静态）区、堆区、栈区。&#xA;只读存储器ROM&#xA;只能读出 所存数据稳定，断电后数据不会改变。存放代码区和常量区。&#xA;const用法和constexpr const用法：&#xA;修饰变量 变量不能修改 指针常量 （先出现指针 再出现const） 常量指针 （先出现const 再出现指针） 修饰引用 不能通过引用修改值 修饰成员函数 相当于修饰了成员函数隐藏的this指针 顶层const和底层const 顶层const指的是const修饰的变量本身是一个常量，如int* const p，底层const指的是const修饰的变量所指向的对象是一个常量，如const int* p。&#xA;const int * const p3 = p2 // 靠右的const是顶层const，靠左的是底层const constexpr用法：&#xA;当用constexpr声明一个函数/变量时，编译器可以在编译时就计算出它的值，提高程序的运行效率。而且编译器会自动验证变量是否是一个常量表达式。&#xA;constexpr int GetLen(int a, int b) { return a + b; } int main() { // 不加constexpr就无法声明arr 加了之后就会返回常数 int arr[GetLen(1, 2)]; return 0; } 如果constexpr声明中定义了一个指针，限定符constexpr仅对指针有效（只限定p指向的地址不可改变），而与指针所指的对象无关。</description>
+      <description>C++ 内存布局 内存区域 存储内容 代码段（.text） 存储程序的可执行代码，包括普通函数和虚函数的实现 数据段（全局静态区）（.data 和 .bss） 存储全局/静态变量（已初始化的放在 .data，未初始化的放在 .bss） 只读数据段（常量区）（.rodata） 存储常量数据（如字符串字面量、const 变量、VTable） 堆区（Heap） 由 new、malloc 动态分配，程序员手动释放。从低地址向上增长。 文件映射段 包括动态库、共享内存等 栈区（Stack） 由函数的局部变量、函数调用帧等组成，自动管理。一般是8MB，向低地址增长。 随机存储器RAM（主存）&#xA;与CPU直接交换数据，可读写区域，存放全局（静态）区、堆区、栈区。&#xA;只读存储器ROM&#xA;只能读出 所存数据稳定，断电后数据不会改变。存放代码区和常量区。&#xA;const用法和constexpr const用法：&#xA;修饰变量 变量不能修改 指针常量 （先出现指针 再出现const） 常量指针 （先出现const 再出现指针） 修饰引用 不能通过引用修改值 修饰成员函数 相当于修饰了成员函数隐藏的this指针 顶层const和底层const 顶层const指的是const修饰的变量本身是一个常量，如int* const p，底层const指的是const修饰的变量所指向的对象是一个常量，如const int* p。&#xA;const int * const p3 = p2 // 靠右的const是顶层const，靠左的是底层const 常量指针const int* p1中，const修饰的是*p1，所以修改不了指针指向的值，也就是修改不了*p1;但是p1和指向对象的值是可以改变的，只是不能改变指针指向的值。&#xA;int main() { int a = 3, b = 4; const int* p1 = &amp;amp;a; // 指向 const int 的指针（数据不可改，但指针可改） // *p1 = 5; // ❌ 错误：不能修改 p1 指向的值 p1 = &amp;amp;b; // ✅ 可以修改 p1 的指向 a = 10; // ✅ 直接修改 a 是允许的 } 指针常量int* const p2中，const修饰的是p2，所以修改不了指针本身的值，也就是修改不了p2。比如p2 = &amp;amp;a就不可以。</description>
     </item>
     <item>
       <title>光栅化Rasterize</title>
@@ -182,13 +196,6 @@
       <pubDate>Fri, 01 Nov 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/about-me/</guid>
       <description></description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://geeteng.github.io/posts/graphics/6_-materials/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/graphics/6_-materials/</guid>
-      <description>Materials and Appearance </description>
     </item>
     <item>
       <title></title>

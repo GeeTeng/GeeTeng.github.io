@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+
+    <title>
+    图形学基础题汇总 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="判断线段是否和矩形相交、两个三角形是否相交...
+    ">
+
+
+<meta property="og:url" content="http://localhost:1313/posts/graphics/%E5%9F%BA%E7%A1%80%E9%A2%98/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="图形学基础题汇总">
+  <meta property="og:description" content="判断线段是否和矩形相交、两个三角形是否相交...">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-18T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-03-18T00:00:00+00:00">
+    <meta property="article:tag" content="Computer-Graphics">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="图形学基础题汇总">
+  <meta name="twitter:description" content="判断线段是否和矩形相交、两个三角形是否相交...">
+
+
+  <meta itemprop="name" content="图形学基础题汇总">
+  <meta itemprop="description" content="判断线段是否和矩形相交、两个三角形是否相交...">
+  <meta itemprop="datePublished" content="2025-03-18T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-03-18T00:00:00+00:00">
+  <meta itemprop="wordCount" content="476">
+  <meta itemprop="keywords" content="Computer-Graphics">
+<link rel="canonical" href="http://localhost:1313/posts/graphics/%E5%9F%BA%E7%A1%80%E9%A2%98/" />
+
+<link rel="icon" type="image/png" href="http://localhost:1313/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        <div id="page-body" class="column is-7">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#判断线段是否和矩形相交">判断线段是否和矩形相交</a></li>
+        <li><a href="#判断两个三角形是否相交">判断两个三角形是否相交</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>图形学基础题汇总</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Mar 18, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        3 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer-Graphics</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/computer-graphics">Computer graphics</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h2 id="判断线段是否和矩形相交">判断线段是否和矩形相交</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">double</span> x, y;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 是否在矩形内部
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">insideRectangle</span>(Point p, Point rectMin, Point rectMax) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> p.x <span style="color:#f92672">&lt;=</span> rectMax.x <span style="color:#f92672">&amp;&amp;</span> p.x <span style="color:#f92672">&gt;=</span> rectMin.x <span style="color:#f92672">&amp;&amp;</span> p.y <span style="color:#f92672">&lt;=</span> rectMax.y <span style="color:#f92672">&amp;&amp;</span> p.y <span style="color:#f92672">&gt;=</span> rectMin.y;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 叉乘公式
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">double</span> <span style="color:#a6e22e">crossProduct</span>(Point a, Point b, Point c) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> (b.x <span style="color:#f92672">-</span> a.x) <span style="color:#f92672">*</span> (c.y <span style="color:#f92672">-</span> a.y) <span style="color:#f92672">-</span> (b.y <span style="color:#f92672">-</span> a.y) <span style="color:#f92672">*</span> (c.x <span style="color:#f92672">-</span> a.x);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 线段是否相交
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isIntersecting</span>(Point p1, Point p2, Point q1, Point q2) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">double</span> d1 <span style="color:#f92672">=</span> crossProduct(p1, p2, q1);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">double</span> d2 <span style="color:#f92672">=</span> crossProduct(p1, p2, q2);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">double</span> d3 <span style="color:#f92672">=</span> crossProduct(q1, q2, p1);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">double</span> d4 <span style="color:#f92672">=</span> crossProduct(q1, q2, p2);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> (d1 <span style="color:#f92672">*</span> d2 <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">&amp;&amp;</span> (d3 <span style="color:#f92672">*</span> d4 <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">LineIntersectingRectangle</span>(Point p1, Point p2, Point rectMin, Point rectMax) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (insideRectangle(p1, rectMin, rectMax) <span style="color:#f92672">||</span> insideRectangle(p2, rectMin, rectMax)) <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>	Point topLeft <span style="color:#f92672">=</span> { rectMin.x, rectMax.y };
+</span></span><span style="display:flex;"><span>	Point topRight <span style="color:#f92672">=</span> { rectMax.x, rectMax.y };
+</span></span><span style="display:flex;"><span>	Point bottomLeft <span style="color:#f92672">=</span> { rectMin.x, rectMin.y };
+</span></span><span style="display:flex;"><span>	Point bottomRight <span style="color:#f92672">=</span> { rectMax.x,rectMin.y };
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> isIntersecting(p1, p2, topLeft, topRight) <span style="color:#f92672">||</span>
+</span></span><span style="display:flex;"><span>		isIntersecting(p1, p2, topLeft, bottomLeft) <span style="color:#f92672">||</span>
+</span></span><span style="display:flex;"><span>		isIntersecting(p1, p2, bottomLeft, bottomRight) <span style="color:#f92672">||</span>
+</span></span><span style="display:flex;"><span>		isIntersecting(p1, p2, bottomRight, topRight);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	Point p1 <span style="color:#f92672">=</span> { <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span> };
+</span></span><span style="display:flex;"><span>	Point p2 <span style="color:#f92672">=</span> { <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">2</span> };
+</span></span><span style="display:flex;"><span>	Point rectMin <span style="color:#f92672">=</span> { <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span> };
+</span></span><span style="display:flex;"><span>	Point rectMax <span style="color:#f92672">=</span> { <span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">4</span> };
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (LineIntersectingRectangle(p1, p2, rectMin, rectMax)) std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;线段穿过矩形</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span> std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;线段没有穿过矩形</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="判断两个三角形是否相交">判断两个三角形是否相交</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">/*
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	判断两个三角形是否相交
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	1. 点在三角形内
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">	2. 两条边相交
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">*/</span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Point</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">double</span> x, y;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">double</span> <span style="color:#a6e22e">crossProduct</span>(Point a, Point b, Point c) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> (c.x <span style="color:#f92672">-</span> a.x) <span style="color:#f92672">*</span> (b.y <span style="color:#f92672">-</span> a.y) <span style="color:#f92672">-</span> (c.y <span style="color:#f92672">-</span> a.y) <span style="color:#f92672">*</span> (b.x <span style="color:#f92672">-</span> a.x);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 点是否在三角形内部
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">PointInTriangle</span>(Point p, Point a, Point b, Point c) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">double</span> d1 <span style="color:#f92672">=</span> crossProduct(p, a, b);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">double</span> d2 <span style="color:#f92672">=</span> crossProduct(p, b, c);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">double</span> d3 <span style="color:#f92672">=</span> crossProduct(p, c, a);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> (d1 <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> d2 <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> d3 <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">||</span> (d1 <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> d2 <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> d3 <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 两条线段是否相交
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">segmentIntersect</span>(Point p1, Point p2, Point q1, Point q2) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">double</span> d1 <span style="color:#f92672">=</span> crossProduct(p1, p2, q1);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">double</span> d2 <span style="color:#f92672">=</span> crossProduct(p1, p2, q2);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">double</span> d3 <span style="color:#f92672">=</span> crossProduct(q1, q2, p1);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">double</span> d4 <span style="color:#f92672">=</span> crossProduct(q1, q2, p2);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> (d1 <span style="color:#f92672">*</span> d2 <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>) <span style="color:#f92672">&amp;&amp;</span> (d3 <span style="color:#f92672">*</span> d4 <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">TriangleIntersect</span>(Point a1, Point b1, Point c1, Point a2, Point b2, Point c2) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (PointInTriangle(a1, a2, b2, c2) <span style="color:#f92672">||</span> PointInTriangle(b1, a2, b2, c2) <span style="color:#f92672">||</span> PointInTriangle(c1, a2, b2, c2))
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (PointInTriangle(a2, a1, b1, c1) <span style="color:#f92672">||</span> PointInTriangle(b2, a1, b1, c1) <span style="color:#f92672">||</span> PointInTriangle(c2, a1, b1, c1))
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>	Point tr1[] <span style="color:#f92672">=</span> { a1, b1, c1 };
+</span></span><span style="display:flex;"><span>	Point tr2[] <span style="color:#f92672">=</span> { a2, b2, c2 };
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (segmentIntersect(tr1[i], tr1[(i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> <span style="color:#ae81ff">3</span>], tr2[j], tr2[(j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> <span style="color:#ae81ff">3</span>])) {
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fgraphics%2f%25E5%259F%25BA%25E7%25A1%2580%25E9%25A2%2598%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=%e5%9b%be%e5%bd%a2%e5%ad%a6%e5%9f%ba%e7%a1%80%e9%a2%98%e6%b1%87%e6%80%bb&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgraphics%2f%25E5%259F%25BA%25E7%25A1%2580%25E9%25A2%2598%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgraphics%2f%25E5%259F%25BA%25E7%25A1%2580%25E9%25A2%2598%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgraphics%2f%25E5%259F%25BA%25E7%25A1%2580%25E9%25A2%2598%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgraphics%2f%25E5%259F%25BA%25E7%25A1%2580%25E9%25A2%2598%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgraphics%2f%25E5%259F%25BA%25E7%25A1%2580%25E9%25A2%2598%2f
+			&title=%e5%9b%be%e5%bd%a2%e5%ad%a6%e5%9f%ba%e7%a1%80%e9%a2%98%e6%b1%87%e6%80%bb&summary=%e5%88%a4%e6%96%ad%e7%ba%bf%e6%ae%b5%e6%98%af%e5%90%a6%e5%92%8c%e7%9f%a9%e5%bd%a2%e7%9b%b8%e4%ba%a4%20%23include%26lt%3biostream%26gt%3b%20struct%20Point%20%7b%20double%20x%2c%20y%3b%20%7d%3b%20%2f%2f%20%e6%98%af%e5%90%a6%e5%9c%a8%e7%9f%a9%e5%bd%a2%e5%86%85%e9%83%a8%20bool%20insideRectangle%28Point%20p%2c%20Point%20rectMin%2c%20Point%20rectMax%29%20%7b%20return%20p.x%20%26lt%3b%3d%20rectMax.x%20%26amp%3b%26amp%3b%20p.x%20%26gt%3b%3d%20rectMin.x%20%26amp%3b%26amp%3b%20p.y%20%26lt%3b%3d%20rectMax.y%20%26amp%3b%26amp%3b%20p.y%20%26gt%3b%3d%20rectMin.y%3b%20%7d%20%2f%2f%20%e5%8f%89%e4%b9%98%e5%85%ac%e5%bc%8f%20double%20crossProduct%28Point%20a%2c%20Point%20b%2c%20Point%20c%29%20%7b%20return%20%28b.x%20-%20a.x%29%20%2a%20%28c.y%20-%20a.y%29%20-%20%28b.y%20-%20a.y%29%20%2a%20%28c.x%20-%20a.x%29%3b%20%7d%20%2f%2f%20%e7%ba%bf%e6%ae%b5%e6%98%af%e5%90%a6%e7%9b%b8%e4%ba%a4%20bool%20isIntersecting%28Point%20p1%2c%20Point%20p2%2c%20Point%20q1%2c%20Point%20q2%29%20%7b%20double%20d1%20%3d%20crossProduct%28p1%2c%20p2%2c%20q1%29%3b%20double%20d2%20%3d%20crossProduct%28p1%2c%20p2%2c%20q2%29%3b%20double%20d3%20%3d%20crossProduct%28q1%2c%20q2%2c%20p1%29%3b%20double%20d4%20%3d%20crossProduct%28q1%2c%20q2%2c%20p2%29%3b%20return%20%28d1%20%2a%20d2%20%26lt%3b%3d%200%29%20%26amp%3b%26amp%3b%20%28d3%20%2a%20d4%20%26lt%3b%3d%200%29%3b%20%7d%20bool%20LineIntersectingRectangle%28Point%20p1%2c%20Point%20p2%2c%20Point%20rectMin%2c%20Point%20rectMax%29%20%7b%20if%20%28insideRectangle%28p1%2c%20rectMin%2c%20rectMax%29%20%7c%7c%20insideRectangle%28p2%2c%20rectMin%2c%20rectMax%29%29%20return%20true%3b%20Point%20topLeft%20%3d%20%7b%20rectMin.&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=%e5%9b%be%e5%bd%a2%e5%ad%a6%e5%9f%ba%e7%a1%80%e9%a2%98%e6%b1%87%e6%80%bb&amp;body=Check out this site http%3a%2f%2flocalhost%3a1313%2fposts%2fgraphics%2f%25E5%259F%25BA%25E7%25A1%2580%25E9%25A2%2598%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

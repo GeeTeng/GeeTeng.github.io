@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    操作系统 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="操作系统知识笔记
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="操作系统">
+  <meta property="og:description" content="操作系统知识笔记">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-01-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-01-10T00:00:00+00:00">
+    <meta property="article:tag" content="操作系统">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="操作系统">
+  <meta name="twitter:description" content="操作系统知识笔记">
+
+
+  <meta itemprop="name" content="操作系统">
+  <meta itemprop="description" content="操作系统知识笔记">
+  <meta itemprop="datePublished" content="2025-01-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-01-10T00:00:00+00:00">
+  <meta itemprop="wordCount" content="615">
+  <meta itemprop="keywords" content="操作系统">
+<link rel="canonical" href="https://geeteng.github.io/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        <div id="page-body" class="column is-7">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#1-第一章-操作系统概述">1. 第一章 操作系统概述</a>
+      <ul>
+        <li><a href="#11-操作系统概念特征">1.1 操作系统概念、特征</a>
+          <ul>
+            <li><a href="#操作系统的目标和功能">操作系统的目标和功能</a></li>
+            <li><a href="#操作系统的结构">操作系统的结构</a></li>
+          </ul>
+        </li>
+        <li><a href="#13-操作系统的运行环境">1.3 操作系统的运行环境</a>
+          <ul>
+            <li><a href="#中断和异常">中断和异常</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#2-第二章-进程管理">2. 第二章 进程管理</a>
+      <ul>
+        <li><a href="#21-进程与线程">2.1 进程与线程</a>
+          <ul>
+            <li><a href="#进程的特征">进程的特征</a></li>
+            <li><a href="#进程的组织">进程的组织</a></li>
+            <li><a href="#进程控制">进程控制</a></li>
+            <li><a href="#进程的状态与转换">进程的状态与转换</a></li>
+            <li><a href="#进程的通信">进程的通信</a></li>
+            <li><a href="#线程概念和多线程模型">线程概念和多线程模型</a></li>
+          </ul>
+        </li>
+        <li><a href="#22-调度">2.2 调度</a>
+          <ul>
+            <li><a href="#进程调度的方式">进程调度的方式</a></li>
+            <li><a href="#调度算法评价指标">调度算法评价指标</a></li>
+            <li><a href="#先来先服务fcfsfirst-come-first-served">先来先服务FCFS（first-come first-served）</a></li>
+            <li><a href="#短作业优先sjfshortest-job-first">短作业优先SJF（shortest job first）</a></li>
+            <li><a href="#最短剩余时间优先srtnshortest-remaining-time-next">最短剩余时间优先SRTN（shortest remaining time next）</a></li>
+            <li><a href="#高响应比优先hrrn">高响应比优先HRRN</a></li>
+            <li><a href="#时间片轮转调度算法rr">时间片轮转调度算法（RR）</a></li>
+            <li><a href="#优先级调度算法">优先级调度算法</a></li>
+            <li><a href="#多级反馈队列调度算法">多级反馈队列调度算法</a></li>
+            <li><a href="#多级队列调度算法">多级队列调度算法</a></li>
+          </ul>
+        </li>
+        <li><a href="#23-进程同步与互斥">2.3 进程同步与互斥</a>
+          <ul>
+            <li><a href="#进程同步与互斥概念">进程同步与互斥概念</a></li>
+            <li><a href="#单标志法">单标志法</a></li>
+            <li><a href="#双标志先检查">双标志先检查</a></li>
+            <li><a href="#双标志后检查">双标志后检查</a></li>
+            <li><a href="#peterson算法">Peterson算法</a></li>
+            <li><a href="#中断屏蔽方法">中断屏蔽方法</a></li>
+            <li><a href="#ts指令">TS指令</a></li>
+            <li><a href="#swap指令">Swap指令</a></li>
+            <li><a href="#互斥锁和自旋锁">互斥锁和自旋锁</a></li>
+            <li><a href="#信号量机制">信号量机制</a></li>
+            <li><a href="#生产者消费者问题">生产者消费者问题</a></li>
+            <li><a href="#多生产者-多消费者问题">多生产者-多消费者问题</a></li>
+            <li><a href="#吸烟者问题">吸烟者问题</a></li>
+            <li><a href="#读者-写者问题">读者-写者问题</a></li>
+            <li><a href="#哲学家进餐问题">哲学家进餐问题</a></li>
+            <li><a href="#管程">管程</a></li>
+          </ul>
+        </li>
+        <li><a href="#24-死锁">2.4 死锁</a>
+          <ul>
+            <li><a href="#死锁发生的4个必要条件">死锁发生的4个必要条件：</a></li>
+            <li><a href="#怎么避免死锁">怎么避免死锁？</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+    <li><a href="#3-第三章-内存管理">3. 第三章 内存管理</a>
+      <ul>
+        <li><a href="#31-内存管理基础">3.1 内存管理基础</a>
+          <ul>
+            <li><a href="#内存管理的概念">内存管理的概念</a></li>
+            <li><a href="#覆盖与交换">覆盖与交换</a></li>
+            <li><a href="#连续分配管理方式">连续分配管理方式</a></li>
+            <li><a href="#动态分区分配算法">动态分区分配算法</a></li>
+            <li><a href="#基本分页存储管理">基本分页存储管理</a></li>
+            <li><a href="#快表">快表</a></li>
+            <li><a href="#基本分段存储管理">基本分段存储管理</a></li>
+            <li><a href="#段页式管理">段页式管理</a></li>
+          </ul>
+        </li>
+        <li><a href="#32-虚拟内存">3.2 虚拟内存</a>
+          <ul>
+            <li><a href="#虚拟内存的定义">虚拟内存的定义</a></li>
+            <li><a href="#请求分页管理方式">请求分页管理方式</a></li>
+            <li><a href="#页面置换算法">页面置换算法</a></li>
+            <li><a href="#页面分配策略">页面分配策略</a></li>
+            <li><a href="#内存映射文件">内存映射文件</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>操作系统</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Jan 10, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        82 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F">操作系统</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h1 id="1-第一章-操作系统概述">1. 第一章 操作系统概述</h1>
+<h2 id="11-操作系统概念特征">1.1 操作系统概念、特征</h2>
+<p>操作系统是指<strong>控制和管理整个计算机系统的硬件和软件资源</strong>，并<strong>合理的组织调度计算机的工作和资源的分配</strong>，以提供给用户和其他软件方便的接口和环境集合。</p>
+<ul>
+<li><strong>并发</strong></li>
+</ul>
+<p>并发是指<strong>两个或多个事件在同一时间间隔内发生</strong>。操作系统的并发是通过分时得以实现的。操作系统的并发性是指计算机系统中同时存在多个运行着的程序，因此它具有处理和调度多个程序同时执行的能力。</p>
+<ul>
+<li><strong>共享</strong></li>
+</ul>
+<p>资源共享就是共享，系统中的资源<strong>可供内存中多个并发执行的进程同时使用</strong>，可分为以下两种。</p>
+<ol>
+<li>
+<p><strong>互斥共享方式</strong></p>
+<p>比如打印机，不能同时打印两份内容，不然会造成内容混淆。</p>
+</li>
+<li>
+<p><strong>同时访问方式</strong></p>
+<p>交替的对该资源进行访问 “分时共享”。</p>
+</li>
+</ol>
+<ul>
+<li><strong>虚拟</strong></li>
+</ul>
+<p>操作系统中利用了多种虚拟技术，分别用来实现<strong>虚拟处理机</strong>、<strong>虚拟内存</strong>和<strong>虚拟外部设备</strong>。</p>
+<p>在虚拟处理器技术中，<strong>让多道程序并发执行来分时使用一台处理器</strong>，虽然只有一台处理器，但是能同时为多个用户服务。把一台物理上的CPU虚拟为多态逻辑上的CPU称为虚拟处理器。</p>
+<p>虚拟存储器，从逻辑上来扩充存储器的容量。</p>
+<p>虚拟设备技术，将一台物理IO设备虚拟为多台逻辑上的IO设备，允许多个用户同时访问的共享设备。</p>
+<ul>
+<li><strong>异步</strong></li>
+</ul>
+<p>在多道程序环境下，允许多个程序并发执行，但由于资源有限，进程的执行不是一贯到底，而是走走停停，以不可预知的速度向前推进，这就是进程的异步性。</p>
+<h3 id="操作系统的目标和功能">操作系统的目标和功能</h3>
+<p>为了给多道程序提供良好的运行环境，操作系统应该具有：<strong>处理器管理</strong>、<strong>存储器管理</strong>、<strong>文件管理</strong>和<strong>设备管理</strong>，还必须向用户提供接口，同时操作系统可用来扩充机器，以提供更方便的服务、更高的资源利用率。</p>
+<ol>
+<li>
+<p><strong>处理器管理</strong></p>
+<p>对处理器的管理可归结为对进程的管理，主要功能有：进程控制、进程同步、进程通信、死锁处理、处理器调度等。</p>
+</li>
+<li>
+<p><strong>存储器管理</strong></p>
+<p>方便用户使用以及提高内存的利用率，存储器管理应具备：内存分配、地址映射、内存保护、共享和内存扩充等。</p>
+</li>
+<li>
+<p><strong>文件管理</strong></p>
+<p>包括文件的存储空间管理、目录管理和文件读写管理、文件保护。</p>
+</li>
+<li>
+<p><strong>设备管理</strong></p>
+<p>完成用户的IO请求，主要包括混充管理、设备分配、设备处理和虚拟设备等。</p>
+</li>
+</ol>
+<p>为了方便用户使用操作系统，操作系统还提供了<strong>用户接口</strong>，分为以下两类。</p>
+<ol>
+<li>
+<p><strong>命令接口</strong></p>
+<p>使用命令接口进行作业控制的主要方式有两种：<strong>联机命令接口</strong>和<strong>脱机命令接口</strong>。</p>
+</li>
+<li>
+<p><strong>程序接口</strong></p>
+<p>程序接口由一组<strong>系统调用命令</strong>组成，用户可以直接使用命令向系统提出各种请求。</p>
+</li>
+</ol>
+<h3 id="操作系统的结构">操作系统的结构</h3>
+<p>简单结构、模块化结构、分层式结构、微内核结构。</p>
+<hr>
+<h2 id="13-操作系统的运行环境">1.3 操作系统的运行环境</h2>
+<p>操作系统在具体实现上划分了<strong>用户态</strong>、<strong>核心态</strong>。</p>
+<p>操作系统内核包括以下4方面：</p>
+<ol>
+<li>
+<p><strong>时钟管理</strong></p>
+<p>操作系统需要通过时钟管理，向用户提供标准的系统时间。通过时钟中断的管理，可以实现进程切换。</p>
+</li>
+<li>
+<p><strong>中断机制</strong></p>
+<p>引入中断机制是为了提高多道程序运行环境中CPU的利用率。</p>
+</li>
+<li>
+<p><strong>原语</strong></p>
+<p>原语处于操作系统最底层，是最接近硬件的部分；具有原子性（一气呵成，不可中断）；运行时间短、调用频繁。</p>
+</li>
+<li>
+<p><strong>系统控制的数据结构及处理</strong></p>
+<p>常见的基本操作有以下3种，进程管理、存储器管理、设备管理。</p>
+</li>
+</ol>
+<h3 id="中断和异常">中断和异常</h3>
+<p>引入核心态和用户态之后，就需要考虑如何在这两种状态下切换。**中断是让操作系统内核夺回CPU使用权的唯一途径。**内核工作在核心态，应用程序工作在用户态，系统不允许用户使用核心态的功能，但是它们又必须使用。</p>
+<ul>
+<li>
+<p><strong>中断（外中断）</strong></p>
+<p>中断信号来源于CPU外部，与当前执行的指令无关。比如说时钟中断和I/O中断请求，当输入输出任务完成时，向CPU发送中断信号，或时钟部件每隔50ms发送一个中断信号。</p>
+</li>
+<li>
+<p><strong>异常（内中断）</strong></p>
+<p>源于CPU执行指令内部，比如程序的非法操作。</p>
+</li>
+</ul>
+<p>一些由用户态转为核心态的例子：1）用户程序要求系统服务 2）发生一次中断 3）用户程序产生错误 4）用户程序企图执行特权指令</p>
+<hr>
+<h1 id="2-第二章-进程管理">2. 第二章 进程管理</h1>
+<h2 id="21-进程与线程">2.1 进程与线程</h2>
+<p>进程控制块（PCB）描述进程的基本情况和运行状态，<strong>PCB是进程存在的唯一标志</strong>。</p>
+<p>进程由<strong>PCB</strong>、<strong>程序段</strong>、<strong>数据段</strong>组成。</p>
+<h3 id="进程的特征">进程的特征</h3>
+<p><strong>动态性</strong>(最基本的特性)、<strong>并发性</strong>、<strong>独立性</strong>、<strong>异步性</strong>、结构性。</p>
+<p>独立性：能够独立运行、独立获得资源、独立接受调度的基本单位。</p>
+<p>异步性：各进程按各自独立的、不可预知的速度向前推进，操作系统要提供<strong>进程同步机制</strong>来解决异步问题。</p>
+<h3 id="进程的组织">进程的组织</h3>
+<p>进程的组织方式分为<strong>链接方式</strong>、<strong>索引方式</strong>。</p>
+<p><img src="/images/CS_Basic/OS/04.png" alt="04"></p>
+<p><img src="/images/CS_Basic/OS/05.png" alt="04"></p>
+<h3 id="进程控制">进程控制</h3>
+<p>进程控制相关原语：创建、终止、阻塞、唤醒、切换，用<strong>原语实现进程控制</strong>（一气呵成）。</p>
+<p><strong>创建进程的过程</strong>如下：</p>
+<ol>
+<li>申请一个空白的PCB</li>
+<li>分配资源和必要的空间</li>
+<li>初始化PCB</li>
+<li>将PCB插入就绪队列，等待被调度运行</li>
+</ol>
+<p><strong>终止进程的过程</strong>如下：</p>
+<ol>
+<li>从PCB集合中找到终止进程的PCB</li>
+<li>如果进程正在运行，剥夺CPU，将CPU分配给其他进程</li>
+<li>终止其所有子进程</li>
+<li>将该进程拥有的所有资源归还给父进程 / 操作系统</li>
+<li>删除PCB</li>
+</ol>
+<p><strong>阻塞和唤醒进程的过程</strong>如下：</p>
+<p><img src="/images/CS_Basic/OS/06.png" alt="06"></p>
+<p><strong>切换进程的过程</strong>如下：</p>
+<ol>
+<li>将运行环境信息存入PCB</li>
+<li>将PCB移入相应队列</li>
+<li>选择另一个进程执行，并更新其PCB</li>
+<li>根据PCB恢复新进程所需的运行环境</li>
+</ol>
+<p><strong>无论哪个进程控制原语，要做的无非3件事情</strong>：</p>
+<ol>
+<li>更新PCB中信息</li>
+<li>将PCB插入合适的队列</li>
+<li>分配/回收资源</li>
+</ol>
+<h3 id="进程的状态与转换">进程的状态与转换</h3>
+<p><img src="/images/CS_Basic/OS/03.png" alt="03"></p>
+<p>注意区别就绪状态和等待状态：就绪状态是指进程仅缺少处理器，只要活得处理器资源就立即执行；而等待状态是指进程需要其他资源或等待某一事件，即使处理器空闲也不能运行。</p>
+<p>如果有大量处于阻塞状态的进程，进程会占用物理内存空间，但是物理内存空间是有限的，所以要解决这样的问题引入了虚拟内存管理。</p>
+<p>在虚拟内存管理中，通常会把阻塞状态的进程换出到硬盘，等到再次运行时再换入物理内存。</p>
+<p>挂起状态还可以分为：</p>
+<p>阻塞挂起状态：进程再外存，并等待着某个事件的出现。</p>
+<p>就绪挂起状态：进程在外存（硬盘），但只要进入内存，即刻立刻运行。</p>
+<h3 id="进程的通信">进程的通信</h3>
+<p>通信方法分为<strong>共享存储</strong>、<strong>消息传递</strong>、<strong>管道通信</strong>。</p>
+<ol>
+<li>
+<p><strong>共享存储</strong></p>
+<p><img src="/images/CS_Basic/OS/07.png" alt="07"></p>
+</li>
+<li>
+<p><strong>消息传递</strong></p>
+<p>分为<strong>直接通信</strong>（直接告诉操作系统进程B的地址，让其发送）和<strong>间接通信</strong>（发送到信箱中，等待进程B接受）方式。</p>
+</li>
+<li>
+<p><strong>管道通信</strong></p>
+<p>像是循环队列一样，先进先出。</p>
+<p><img src="/images/CS_Basic/OS/08.png" alt="08"></p>
+</li>
+</ol>
+<h3 id="线程概念和多线程模型">线程概念和多线程模型</h3>
+<p>引入线程是为了减小程序在并发执行时所付出的时空开销，比如：QQ应用程序打视频的同时要打字、传文件。</p>
+<p><strong>线程不拥有系统资源，同一进程的各线程间共享进程的资源，进程内的线程对其他进程不可见。</strong></p>
+<p><strong>线程是独立调度的基本单位，进程是资源拥有的基本单位。</strong></p>
+<p><img src="/images/CS_Basic/OS/13.png" alt="13"></p>
+<ul>
+<li>
+<p><strong>一对一模型</strong></p>
+<p>一个用户级线程映射到一个内核级线程，一个进程占用多个内核级线程。</p>
+<p><img src="/images/CS_Basic/OS/10.png" alt="10"></p>
+</li>
+<li>
+<p><strong>多对一模型</strong></p>
+<p>多个用户级线程映射到一个内核级线程</p>
+<p><img src="/images/CS_Basic/OS/11.png" alt="11"></p>
+</li>
+<li>
+<p><strong>多对多模型</strong></p>
+<p>n个用户级线程映射到m个内核级线程（n &gt;= m）</p>
+<p><img src="/images/CS_Basic/OS/12.png" alt="12"></p>
+<hr>
+</li>
+</ul>
+<h2 id="22-调度">2.2 调度</h2>
+<p>一个作业从开始到完成，需要经历三级调度：<strong>作业调度（高级调度）</strong>、<strong>内存调度（中级调度）</strong>、<strong>进程调度（低级调度）</strong></p>
+<p><img src="/images/CS_Basic/OS/09.png" alt="09"></p>
+<p>什么时候会调度？</p>
+<ol>
+<li>当前运行进程<strong>主动放弃</strong>处理机（进程完成/发生异常。主动请求阻塞）</li>
+<li>当前运行进程<strong>被动放弃</strong>处理机（时间片用完/处理更紧急的事/更高优先级）</li>
+</ol>
+<p>什么时候不能进行进程调度/切换？</p>
+<ol>
+<li>在处理中断的过程中</li>
+<li>进程在操作系统<strong>内核程序临界区</strong>中</li>
+<li>在原子操作过程中</li>
+</ol>
+<h3 id="进程调度的方式">进程调度的方式</h3>
+<ol>
+<li>
+<p>非剥夺调度方式（只允许进程主动放弃处理机）</p>
+<p>只有运行进程阻塞或退出才触发调度程序工作。</p>
+</li>
+<li>
+<p>剥夺调度方式（可以抢占处理机）</p>
+<p>每个时钟中断或k个时钟中断会触发调度程序工作。</p>
+</li>
+</ol>
+<h3 id="调度算法评价指标">调度算法评价指标</h3>
+<p><strong>CPU利用率</strong> = 忙碌的时间 / 总时间</p>
+<p><strong>系统吞吐量</strong> = 总共完成多少道作业 / 总共花了多少时间</p>
+<p><strong>周转时间</strong> = 作业完成时间 - 作业提交时间 | 平均周转时间 = 各作业周转时间之和 / 作业数</p>
+<p>带权周转时间 = 作业周转时间 / 作业实际运行时间 （ &gt;= 1）平均带权周转时间 = 各作业带权周转时间 / 作业数</p>
+<p><strong>等待时间</strong> = 进程建立后等待被服务的时间之和</p>
+<p><strong>响应时间</strong> = 提交请求到首次响应所用的时间</p>
+<h3 id="先来先服务fcfsfirst-come-first-served">先来先服务FCFS（first-come first-served）</h3>
+<p>类似排队，按照先后顺序进行服务。<strong>不会导致饥饿</strong>。<strong>非抢占式</strong>。</p>
+<p>优点：公平</p>
+<p><strong>缺点</strong>：<strong>对短作业不利</strong></p>
+<h3 id="短作业优先sjfshortest-job-first">短作业优先SJF（shortest job first）</h3>
+<p><strong>非抢占式</strong>，运行时间越短的越先被服务。</p>
+<p>下图，p1先到达，其他作业还没有到达，所以先执行p1。7s执行结束后所有作业都已经到达，选择运行时间最短的执行。</p>
+<p><img src="/images/CS_Basic/OS/14.png" alt="14"></p>
+<h3 id="最短剩余时间优先srtnshortest-remaining-time-next">最短剩余时间优先SRTN（shortest remaining time next）</h3>
+<p><strong>抢占式的短作业优先算法SRTN</strong></p>
+<p>下图，p1先到达先执行，在2s之后p2到达，而p2运行时间比p1短，所以抢占处理机运行p2。运行了2s之后p3到达，p3的运行时间小于p2，所以运行p3。1s之后p3完成，p4刚好到达，此时p2运行时间最短，依次处理。</p>
+<p><img src="/images/CS_Basic/OS/15.png" alt="15"></p>
+<p>优点：最短平均等待时间（作业到达时间差不多的时候）</p>
+<p><strong>缺点</strong>：长作业不利，可能会导致饥饿（如果一直有短作业到来）</p>
+<h3 id="高响应比优先hrrn">高响应比优先HRRN</h3>
+<p>在每次调度时计算各个作业的响应比，<strong>选择响应比最高的作业</strong>为其服务。<strong>非抢占式</strong>，不会导致饥饿。</p>
+<p>p1进程先到达，运行p1直到完成。在7s时，p2到达时间2s已经等待了5s，p3等待3s，p4等待2s。响应比是（等待时间 + 运行时间）/ 运行时间。p3响应比最高，先运行p3，以此类推。</p>
+<p><img src="/images/CS_Basic/OS/16.png" alt="16"></p>
+<p>优点：综合了FCFS和SJF的优点。</p>
+<p>等待时间相同时，要求服务时间短的优先（SJF 的优点）
+要求服务时间相同时，等待时间长的优先（FCFS 的优点）</p>
+<blockquote>
+<p>以上3种调度算法适合于早期的批处理系统，对于用户来说无法区分任务的紧急程度。所以引出交互式系统调度算法。</p>
+</blockquote>
+<h3 id="时间片轮转调度算法rr">时间片轮转调度算法（RR）</h3>
+<p>伴随着分时操作系统出现，按照各进程到达就绪队列的顺序，轮流让各进程执行一个<strong>时间片</strong>（如100ms），若进程没有在一个时间片内执行完，就会被剥夺处理机，将进程重新放到就绪队列的队尾重新排队。<strong>抢占式算法，由时钟装置发出时钟中断来通知CPU时间片已到</strong>。</p>
+<blockquote>
+<p>如果时间片太大，使得每个进程都可以在一个时间片就能完成，就会退化成FCFS调度算法。</p>
+<p>如果时间片太小，进程切换过于频繁，系统会花费大量时间切换进程，而实际执行的时间减少。</p>
+</blockquote>
+<p>优点：公平、响应快</p>
+<p><strong>缺点</strong>：不区分紧急程度、切换进程会有开销</p>
+<h3 id="优先级调度算法">优先级调度算法</h3>
+<p>每个作业都有各自的优先级，调度时选择优先级最高的作业执行。<strong>会发生饥饿</strong>（不断有优先级更高的作业）。</p>
+<p>下图是<strong>非抢占式的优先级调度算法</strong>，优先级相同时选择先到达的执行。</p>
+<p><img src="/images/CS_Basic/OS/17.png" alt="17"></p>
+<p>也有<strong>抢占式的优先级调度算法</strong>，当新作业到达时，如果优先级高于当前进程，则可以抢占处理机。</p>
+<p>就绪队列未必只有一个，也有<strong>静态优先级</strong>和<strong>动态优先级</strong>（优先级可在过程中变化）。</p>
+<h3 id="多级反馈队列调度算法">多级反馈队列调度算法</h3>
+<p>其他算法的折中权衡，<strong>抢占式算法</strong>，会导致饥饿。</p>
+<p>1.设置多级就绪队列，各级队列优先级从高到低，时间片从小到大。</p>
+<p>2.新进程到达时先进入第一级队列，按照FCFS原则等待被分配时间片。<strong>如果时间片用完，则进入下一级队列队尾</strong>。如果此时已经再最下级的队列，则重新放回该队列队尾。</p>
+<p>3.只有第k级队列为空时，才会为k+1级队头的进程分配时间片。</p>
+<p>下图中，p1先到达进入第1级队列中先执行，第1级队列时间片为1，之后p1时间片结束进入到第2级队列中，同时p2到达，运行p2后同样放入到第2级队列p1后面（队尾），执行时间片2s后p1还没执行完则放入第3级队列中，再执行第2级队列中的p2。在执行1s之后p3到达了，这个时候p3进入到第1级队列中，抢占了处理机。运行完p3后再运行，p2继续运行2个单位的时间片，最后执行p1。</p>
+<p><img src="/images/CS_Basic/OS/18.png" alt="18"></p>
+<p>优点：公平、新到达的进程很快得到响应（RR），短进程较少时间可以完成（SPF），避免用户作假（缩短进程时间）、可灵活调整各类进程的偏好程度（CPU密集型进程、I/O密集型进程）</p>
+<h3 id="多级队列调度算法">多级队列调度算法</h3>
+<p><img src="/images/CS_Basic/OS/19.png" alt="19"></p>
+<hr>
+<h2 id="23-进程同步与互斥">2.3 进程同步与互斥</h2>
+<h3 id="进程同步与互斥概念">进程同步与互斥概念</h3>
+<p>并发性带来了异步的问题，所以需要进程同步来解决。</p>
+<p>进程互斥分为4个部分：<strong>进入区</strong>、<strong>临界区</strong>、<strong>退出区</strong>、<strong>剩余区</strong>。</p>
+<p><img src="/images/CS_Basic/OS/20.png" alt="20"></p>
+<ol>
+<li>
+<p>空闲让进</p>
+<p>临界区空闲时，可以允许一个进程进入临界区。</p>
+</li>
+<li>
+<p>忙则等待</p>
+<p>当进入临界区时，其他试图进临界区的进程必须等待。</p>
+</li>
+<li>
+<p>有限等待</p>
+<p>应该保证在有限时间内进入临界区，防止饥饿。</p>
+</li>
+<li>
+<p>让权等待</p>
+<p>当进程不能进入临界区时，应当立即释放处理机，避免进程忙等待。</p>
+</li>
+</ol>
+<blockquote>
+<p>进程互斥软件实现方法有单标志法、双标志先检查、双标志后检查、Peterson算法。</p>
+</blockquote>
+<h3 id="单标志法">单标志法</h3>
+<p>两个进程在访问完临界区后会把使用临界区的权限转交给另一个进程，<strong>每个进程进入临界区的权限只能被另一个进程赋予</strong>。</p>
+<p>缺点：<strong>违背了空闲让进原则</strong></p>
+<h3 id="双标志先检查">双标志先检查</h3>
+<p>设置布尔型数组flag[]，比如flag[0] = true代表0号进程想进入临界区。<strong>每个进程在进入临界区之前检查有没有别的进程想进入临界区</strong>，如果没有就将自己设置为true之后访问临界区。</p>
+<p>缺点**：违反了忙则等待原则**（并发运行时，两个进程可能会同时进入临界区，因为检查和上锁的动作不是一气呵成，可能会发生进程调度）</p>
+<h3 id="双标志后检查">双标志后检查</h3>
+<p>防止双标志先检查的缺点，所以<strong>先上锁，后检查</strong>。</p>
+<p>缺点：<strong>违背了空闲让进和有限等待原则</strong>（当两个进程都想进入临界区，检查后都进不了临界区，会产生饥饿现象）</p>
+<h3 id="peterson算法">Peterson算法</h3>
+<p><strong>如果双方都想进入临界区，那么就谦让</strong>。结合了双标志法和单标志法的思想。如果对方也谦让，判断是谁最后谦让。如果是最后谦让的进程，那么等待，优先权交给其他进程。</p>
+<p>缺点：<strong>没有遵循让权等待原则（如果进不了临界区，也依然占用CPU资源）</strong></p>
+<blockquote>
+<p>进程互斥的硬件实现方法有中断屏蔽方法、TestAndSet（TS指令 / TSL指令）、Swap指令（XCHG指令）</p>
+</blockquote>
+<h3 id="中断屏蔽方法">中断屏蔽方法</h3>
+<p>和原语相似，<strong>利用开中断 / 关中断指令</strong>使得某个进程在访问临界区时，不允许发生进程切换，也就不可能发生两个同时访问临界区的情况。</p>
+<p>缺点：<strong>只适合单处理机和操作系统内核进程</strong></p>
+<h3 id="ts指令">TS指令</h3>
+<p>用硬件实现，不允许被中断，只能一气呵成。</p>
+<ol>
+<li>TS指令读取一个内存位置（通常是一个锁变量）的值，并将其设置为一个新的值（通常是true，表示锁已被占用）。</li>
+<li>如果读取到的值是false（表示没有被上锁），则TS指令返回false，并将锁变量设置为true，表示当前进程或线程成功获得了锁。</li>
+<li>如果读取到的值是true（表示锁已被占用），则TS指令返回true，表示当前进程或线程未能获得锁。</li>
+</ol>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">TestAndSet</span>(<span style="color:#66d9ef">bool</span> <span style="color:#f92672">*</span>lock) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> oldValue <span style="color:#f92672">=</span> <span style="color:#f92672">*</span>lock;
+</span></span><span style="display:flex;"><span>    <span style="color:#f92672">*</span>lock <span style="color:#f92672">=</span> true; <span style="color:#75715e">// 占用锁
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> oldValue;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="swap指令">Swap指令</h3>
+<p>和TS一样用硬件实现，不允许被中断。</p>
+<p>使用swap函数交换锁变量和临时变量，逻辑<strong>同TS指令一样</strong>。</p>
+<p>缺点：<strong>不满足让权等待原则</strong>，暂时无法进入临界区的进程会占用CPU并循环执行TS指令，从而导致忙等。</p>
+<p><strong>TS指令和Swap指令区别</strong>：</p>
+<ul>
+<li>操作对象不同：TS指令操作一个内存位置（锁变量），而Swap指令操作两个内存位置（锁变量和临时变量）。</li>
+<li>实现机制不同：TS指令通过读取并设置锁变量的值来实现互斥，而Swap指令通过交换锁变量和临时变量的值来实现互斥。</li>
+</ul>
+<h3 id="互斥锁和自旋锁">互斥锁和自旋锁</h3>
+<p><strong>互斥锁</strong>：<strong>一次只能一个线程拥有互斥锁，其他线程只有等待。<strong>互斥锁是在</strong>抢锁失败的情况下主动放弃CPU进入睡眠状态直到锁的状态改变时再唤醒</strong>。</p>
+<p>实际上互斥锁的一种可能的实现是先自旋一段时间，当自旋的时间超过阀值之后再将线 程投入睡眠中，因此在并发运算中使用互斥锁（每次占用锁的时间很短）的效果可能不亚于使用自旋锁</p>
+<p><strong>自旋锁</strong>：如果进线程无法取得锁，进线程不会立刻放弃CPU时间片，而是<strong>一直循环尝试获取锁，直到获取为止</strong>。 如果别的线程长时期占有锁，那么自旋就是在浪费CPU做无用功，但是自旋锁<strong>一般应用于加锁时间很短的场景</strong>，这个时候效率比较高。</p>
+<p>优点：等待并不是一直占用处理机，等时间片用完也会下处理机。如果上锁时间短，<strong>等待代价低</strong>，不用切换进程上下文，其他核会正常工作。</p>
+<h3 id="信号量机制">信号量机制</h3>
+<p>dijsktra提出，信号量就是一个变量，可以用一个信号量来表示系统中某种资源的数量，比如系统中只有一台打印机，就可以设置一个初值为1的信号量。</p>
+<p>一对原语：wait(S)和signal(S)，简称为P、V操作。</p>
+<p><strong>P操作（wait）</strong>：对信号量减1，Svalue &ndash;。如果信号量值小于0，则进程阻塞。</p>
+<p><strong>V操作（signal）</strong>：对信号量加1，Svalue ++。如果有阻塞的进程，则唤醒一个。</p>
+<ul>
+<li><strong>整型信号量</strong></li>
+</ul>
+<p>缺点：忙等，不满足让权等待原则。</p>
+<p><img src="/images/CS_Basic/OS/21.png" alt="21"></p>
+<ul>
+<li><strong>记录型信号量</strong></li>
+</ul>
+<p>为了改进整型信号量的忙等缺点，引入记录型信号量。要<strong>能够自己判断什么条件下需要执行block / wakeup</strong>。</p>
+<p>Eg：有两台打印机，初始时S.value = 2，有p1,p2,p3,p4进程，S.value = 0时资源恰好分配完，当S.value = -2时表示有2个进程正在等待。如果S.value在++之后仍然&lt;0说明有进程还在等待资源，于是在signal中唤醒处于等待队列的队头进程。</p>
+<p><img src="/images/CS_Basic/OS/22.png" alt="22"></p>
+<p><strong>信号量机制实现进程互斥</strong></p>
+<ol>
+<li>规划临界区</li>
+<li>设置互斥信号量mutex，初值为1</li>
+<li>临界区之前对信号量执行P操作</li>
+<li>临界区之后对信号量执行V操作</li>
+</ol>
+<p><strong>信号量机制实现进程同步</strong></p>
+<ol>
+<li>设置同步信号量S，初始为0</li>
+<li>在“前操作”之后执行V(S)</li>
+<li>在“后操作”之前执行P(S)</li>
+</ol>
+<p><strong>用信号量实现前驱关系</strong></p>
+<p><img src="/images/CS_Basic/OS/23.png" alt="23"></p>
+<h3 id="生产者消费者问题">生产者消费者问题</h3>
+<p>缓冲区没满 → 生产者生产</p>
+<p>缓冲区没空 → 消费者消费</p>
+<p><strong>full表示产品数量</strong></p>
+<p><strong>empty表示空闲缓冲区数量</strong></p>
+<p>每生产一个产品后empty &ndash;，full ++；每消耗一个产品后full &ndash;，empty ++；</p>
+<p><img src="/images/CS_Basic/OS/24.png" alt="24"></p>
+<p>QA：能否改变相邻P、V操作的顺序？</p>
+<p>不能，因为假如生产者执行p(mutex)变为0，再执行p(empty)，由于已经没有空闲缓冲区，所以阻塞，因此切换回消费者进程，执行p(mutex)，由于mutex = 0，所以消费者也被阻塞，出现死锁状态。</p>
+<p>所以<strong>实现互斥的P操作一定要在实现同步的P操作之后</strong>。V操作不会导致阻塞，所以V操作顺序可以互换。</p>
+<h3 id="多生产者-多消费者问题">多生产者-多消费者问题</h3>
+<p>设想一家四口，父亲和母亲分别向盘子里放苹果和橘子，而女儿和儿子分别会吃苹果和橘子，一个盘子只能放一个水果，只有盘子中有水果时才可以拿来吃。</p>
+<p>父母放水果的时候，盘子资源减少，水果资源增加。儿女吃水果的时候，盘子资源增加，水果资源减少。</p>
+<p><img src="/images/CS_Basic/OS/25.png" alt="25"></p>
+<h3 id="吸烟者问题">吸烟者问题</h3>
+<p>假设有3个抽烟者和1个供应者，每个抽烟者都需要3种材料：烟草、纸和胶水。第一个抽烟者拥有烟草、第二个拥有纸、第三个拥有胶水。供应者无限地提供这三种材料，每次将其中2种材料放到桌子上提供给缺少这两种材料的抽烟者，这样的过程一直重复。</p>
+<p>设置一个整型变量i实现轮流让吸烟者吸烟。</p>
+<p><img src="/images/CS_Basic/OS/26.png" alt="26"></p>
+<h3 id="读者-写者问题">读者-写者问题</h3>
+<p>有读者和写者两组并发进程，当两个以上的读进程同时访问共享数据时不会产生副作用。但是当写进程和其他进程同时访问共享数据时，会发生数据不一致的错误。因此要求如下：</p>
+<ol>
+<li>允许多个读者同时读</li>
+<li>只允许1个写者往里写</li>
+<li>在写者写的时候不允许其他读者 / 写者工作</li>
+<li>写者写之前，应该让已有的读者 / 写者全部退出</li>
+</ol>
+<h3 id="哲学家进餐问题">哲学家进餐问题</h3>
+<p>与之前问题的区别是每个哲学家需要有2个临界资源才可以开始吃饭，而且容易发生死锁。</p>
+<p><img src="/images/CS_Basic/OS/27.png" alt="27"></p>
+<p>下图中，当0号哲学家拿了两双筷子后吃饭，1号哲学家由于mutex已经被0号释放，所以继续执行下面代码，但是在P(chopsstick[i])他想拿起左筷子的时候阻塞。从而2号哲学家因为mutex=0而也被阻塞。</p>
+<p><img src="/images/CS_Basic/OS/28.png" alt="28"></p>
+<p>如果想避免哲学家进餐的死锁问题有如下方案：</p>
+<ol>
+<li>进行限制，如：最多允许4个哲学家同时进餐，这样可以保证至少有一个可以拿到2双筷子。</li>
+<li>奇数号哲学家拿左边筷子，偶数号拿起右边筷子，这样可以保证相邻两个哲学家如果其中一个拿起筷子，另一个会被阻塞。</li>
+</ol>
+<h3 id="管程">管程</h3>
+<p>信号量机制存在的问题：编写程序困难、易出错。所以引入管程。目的：更方便地实现进程互斥和同步。</p>
+<p>编译器负责实现各进程互斥地进入管程中的过程。</p>
+<p><strong>管程实际上是定义的一种数据结构和控制进程的一些操作的集合</strong>。</p>
+<p><img src="/images/CS_Basic/OS/29.png" alt="29"></p>
+<hr>
+<h2 id="24-死锁">2.4 死锁</h2>
+<p><strong>定义</strong>：在并发环境下，各进程因竟争自由而造成的一种互相等待对方手里的资源，导致各进程都阻塞，无法向前推进的现象。</p>
+<h3 id="死锁发生的4个必要条件">死锁发生的4个必要条件：</h3>
+<ul>
+<li><strong>互斥</strong>条件：必须互斥使用的资源的争抢才会导致死锁。</li>
+<li><strong>不剥夺</strong>条件：进程所获得资源在使用完之前，<em>不能由其他进程强行夺走</em>，只能主动释放。</li>
+<li><strong>请求和保持</strong>条件：已经保持了至少一个资源，但又提出了新的资源请求，而该资源被其他进程占有，请求进程被阻塞，但又对自己已有的资源保持不放。</li>
+<li><strong>循环等待</strong>条件：存在一种进程资源的<em>循环等待链</em>，链中的每一个进程已获得的资源同时被下一个进程所请求。</li>
+</ul>
+<h3 id="怎么避免死锁">怎么避免死锁？</h3>
+<ol>
+<li>
+<p><strong>破坏死锁产生的4个必要条件。</strong></p>
+<p>破坏互斥条件：把互斥使用的资源改造为允许共享使用，采用<strong>SPOOLing</strong>技术。</p>
+<p>破坏不剥夺条件：1. 当请求的新资源得不到满足时，必须立即释放保持的所有资源，以后需要再重新申请。</p>
+<p>​			       2. 将想要的资源强行剥夺，一般需要剥夺给优先级更高的进程使用。</p>
+<p>破坏请求和保持条件：采用<strong>静态分配方法</strong>，即在进程运行前一次性申请完它所需要的全部资源。</p>
+<p>破坏循环等待条件：采用<strong>顺序资源分配法</strong>，给系统中资源编号，规定每个进程必须按编号递增的顺序请求资源，小编号等待大编号。</p>
+</li>
+<li>
+<p><strong>防止系统进入不安全状态（如：银行家算法）。</strong></p>
+<p>银行家算法（Dijkstra）<strong>核心思想</strong>：在资源分配之前预先判断这次分配是否会导致系统进入不安全状态（可能会发生死锁），以此来决定是否答应新资源的分配请求。</p>
+<ol>
+<li>检查此次申请是否超过了之前声明的最大需求数</li>
+<li>检查此时系统剩余的可用资源是否还能满足这次请求</li>
+<li>试探着分配 更改各数据结构</li>
+<li>用安全性算法检查此次分配是否会导致系统进入不安全状态</li>
+</ol>
+<p><img src="/images/CS_Basic/OS/01.png" alt="01"></p>
+</li>
+<li>
+<p><strong>允许死锁的发生，但操作系统需要负责检测死锁的发生，然后解除死锁。</strong></p>
+<p>两种节点：<strong>进程结点</strong>、<strong>资源结点</strong></p>
+<p>两条边：进程结点一&gt;资源结点、资源结点一&gt;进程结点</p>
+<p>图中p1进程可以像R2拿走一个空闲资源，并完成该进程后归还R1的资源，使P2能够成功申请，于是所有边会消去，则称该图<strong>可完全简化</strong>。而不可完全简化的，会发生死锁。</p>
+<p><img src="/images/CS_Basic/OS/02.png" alt="02"></p>
+<p>解除死锁的方法：</p>
+<ul>
+<li><strong>资源剥夺法</strong>：挂起（暂时放在外存上）某些死锁进程，并抢占它的资源。但应该防止挂起进程饥饿。</li>
+<li><strong>撤销进程法</strong>：强制撤销死锁进程，剥夺这些进程的资源。缺点：代价大，功亏一篑。</li>
+<li><strong>进程回退法</strong>：设置还原点，让死锁进程回退。</li>
+</ul>
+</li>
+</ol>
+<h1 id="3-第三章-内存管理">3. 第三章 内存管理</h1>
+<h2 id="31-内存管理基础">3.1 内存管理基础</h2>
+<h3 id="内存管理的概念">内存管理的概念</h3>
+<p>内存管理的功能有：内存空间的分配与回收、地址转换（逻辑地址→物理地址）、内存空间的扩充、存储保护。</p>
+<p>如何将指令中的逻辑地址转化为物理地址？</p>
+<p><strong>三种装入方式</strong></p>
+<ol>
+<li>
+<p><strong>绝对装入</strong></p>
+<p>知道装入模块从内存的什么时候开始装，适用于单道程序环境。<strong>编译时确定物理地址</strong>，装入时已经将地址转成物理地址。</p>
+</li>
+<li>
+<p><strong>可重定位装入（静态重定位）</strong></p>
+<p>装入时加上起始物理地址。必须分配其要求的全部内存空间，如果没有足够内存就不能装入作业，运行期间不用再移动，也不能再申请内存空间。</p>
+</li>
+<li>
+<p><strong>动态运行时装入（动态重定位）</strong></p>
+<p>动态运行时装入，编译链接后的装入模块都是从0开始，装入内存后并<strong>不会立即把逻辑地址转换成物理地址，而是把地址转换推迟到程序真正要执行时才进行</strong>。因此<strong>装入内存后所有的地址依然是逻辑地址</strong>。需要重定位寄存器。</p>
+<p>特点：可以将程序分配到不连续的存储区，运行时动态申请内存。</p>
+</li>
+</ol>
+<p><strong>三种链接方式</strong></p>
+<p><img src="/images/CS_Basic/OS/30.png" alt="30"></p>
+<blockquote>
+<p>操作系统在对内存进行管理时都管理些什么？</p>
+<p>1.内存空间分配与回收 2.对内存空间进行扩充 3.地址转换 4.内存保护（上下限寄存器 / 重定位寄存器、界地址寄存器）</p>
+</blockquote>
+<h3 id="覆盖与交换">覆盖与交换</h3>
+<p><strong>覆盖技术</strong></p>
+<p>用来解决程序大小超过物理内存总和的问题，将程序分为多个段，<strong>常用的段放在固定区，不常用的段放在覆盖区</strong>里，需要时再调用。</p>
+<p><img src="/images/CS_Basic/OS/31.png" alt="31"></p>
+<p><strong>交换技术</strong></p>
+<p>PCB会常驻内存，不会被换出外存。</p>
+<p>内存空间紧张时，系统将内存中某些进程暂时换出外存，把外存中已具备运行条件的进程换入内存。</p>
+<blockquote>
+<p>什么时候会内存交换？</p>
+<p>比如在发现进程运行时经常发生缺页，说明内存紧张，可以换出一些进程，如果缺页率下降，就可以暂停换出。</p>
+</blockquote>
+<p><img src="/images/CS_Basic/OS/32.png" alt="32"></p>
+<p><strong>交换技术主要是在不同进程之间进行，而覆盖则用于同一个程序中</strong>。由于覆盖技术要求给程序段之间的覆盖结构，使得其对用户和程序员不透明，所以对于主存无法存放用户程序的矛盾，现在操作系统是通过虚拟内存技术来解决的，覆盖技术则已成为历史；而交换技术在现代操作系统中仍具有较强的生命力。</p>
+<h3 id="连续分配管理方式">连续分配管理方式</h3>
+<p>内部碎片：分配给某进程的内存区域中，如果有些部分没有用上。</p>
+<p>外部碎片：内存中的某些空闲分区由于太小而难以利用。</p>
+<ul>
+<li><strong>单一连续分配</strong></li>
+</ul>
+<p>​	内存分为系统区和用户区，<strong>有内部碎片没有外部碎片</strong>。</p>
+<ul>
+<li>
+<p><strong>固定分区分配</strong></p>
+<p><strong>分区大小相等</strong> / <strong>分区大小不等</strong></p>
+<p>建立分区说明表，每个表项包括对应分区的大小、起始地址、状态。<strong>无外部碎片，会产生内部碎片</strong>，如果程序太大所有分区都无法满足需求，不得不使用覆盖技术，所以会降低性能。</p>
+</li>
+<li>
+<p><strong>动态分区分配</strong></p>
+<ul>
+<li>空闲分区表</li>
+<li>空闲分区链</li>
+</ul>
+<p><strong>没有内部碎片但是有外部碎片</strong>，可通过<strong>紧凑技术</strong>来解决外部碎片，就是操作系统不时地对进程进行移动和整理，像是windows系统中地磁盘整理程序。</p>
+<p><img src="/images/CS_Basic/OS/33.png" alt="33"></p>
+</li>
+</ul>
+<h3 id="动态分区分配算法">动态分区分配算法</h3>
+<p><strong>首次适应算法</strong></p>
+<p>空闲分区<strong>以地址递增的次序链接</strong>。分配内存时顺序查找，找到大小能满足要求的第一个空闲分区。综合看<strong>性能最好</strong>。</p>
+<p>缺点：每次查找要经过小的空闲分区，增大了查找的开销。</p>
+<p><strong>最佳适应算法</strong></p>
+<p>空闲分区<strong>按容量递增次序链接</strong>（尽可能多地留下大空间，优先使用小空间），每次分配内存时顺序查找到第一个大小满足要求的空闲分区。</p>
+<p>缺点：每次选择最小分区进行分配，会留下越来越多小的、难以利用的内存块，因此会产生很多外部碎片。</p>
+<p><strong>最坏适应算法</strong></p>
+<p>为了解决最佳适应算法的问题&ndash;留下太多小外部碎片，<strong>按容量递减次序链接</strong>。</p>
+<p>缺点：大分区被迅速用完导致大进程到达无处安放。</p>
+<p><strong>邻近适应算法</strong></p>
+<p>解决了首次适应算法的缺陷（查找开销大），每次查找从上次查找结束的位置开始检索。</p>
+<p>缺点：如果低地址有更小的分区可以被满足，就可以保留高地址的大分区。而邻近适应算法会同样概率地使用到高地址大分区，导致大进程无处安放，实际上比首次适应算法还要差。</p>
+<h3 id="基本分页存储管理">基本分页存储管理</h3>
+<p>非连续分配方式允许一个程序分散的装入不相邻的内存分区中，根据分区的大小是否固定分为<strong>分页存储管理方式</strong>和<strong>分段存储管理方式</strong>。</p>
+<p>分页存储管理方式中，又根据运行作业时是否要把作业所有页面都装入内存中才能运行分为<strong>基本分页存储管理</strong>和<strong>请求分页存储管理</strong></p>
+<p>由于固定分区会产生内部碎片，动态分区会产生外部碎片，两种技术对内存的利用率都低。我们希望尽量避免碎片地产生所以引出分页思想。</p>
+<blockquote>
+<p>什么是分页存储？</p>
+<p>将内存空间分为一个个大小相等的分区，每个分区就是一个页框（页帧、内存卡、物理块、物理页面），每个页框有编号（页框号），从0开始。</p>
+<p>将进程的逻辑地址空间也分成跟页框大小相等的多个部分，每个部分称为一个页 / 页面。每个页面也有编号（页号）。</p>
+<p>为了知道进程里的每个页面在内存中的位置，操作系统要给每个进程建立一张页表，通常存储在PCB中<img src="/images/CS_Basic/OS/34.png" alt="34"></p>
+</blockquote>
+<p><strong>虽然进程的各个页面是离散存放的，但是页面内部是连续存放的</strong>。</p>
+<p>逻辑地址A对应的物理地址 = P号页面在内存中的起始地址+页内偏移量W</p>
+<p><img src="/images/CS_Basic/OS/35.png" alt="35"></p>
+<p>页表寄存器（PTR），存放页表在内存中的起始地址F和页表长度M。进程未执行时，页表的起始地址和页表长度放在PCB中，当进程被调度时，操作系统内核会把它们放到页表寄存器中。</p>
+<h3 id="快表">快表</h3>
+<p>快表（联想寄存器）TLB，是一种访问速度比内存块很多的高速缓存，用来存放最近访问的页表项的副本。与此对应，内存中的页表常称为慢表。</p>
+<p>首先会进行越界异常的判断，发现没有越界，然后进入到快表查询，由于第一次上处理器，所以快表中没有信息，所以去慢表中查找，将最近使用过的页表项复制一份到快表中。下次查找时可以加快地址变换，直接从中取出该页对应的内存块号，再将内存块号与页内偏移量拼接形成物理地址，最后访问该物理地址对应的内存单元。（一次访存）。<strong>如果快表没有命中，则访问某个逻辑地址需要两次访存</strong>（1查页表2查内存单元）。如果快表已满，则需要按照算法对旧的页表项进行替换。</p>
+<p>一般快表的命中率可以达到90%，这样，分页带来的速度损失就降到10%。快表的有效性是基于著名的<strong>局部性原理</strong>。</p>
+<p>局部性原理：</p>
+<ul>
+<li>
+<p>时间局部性</p>
+<p>如果执行了某条指令，不久后这条指令很可能会再次执行。（循环）</p>
+</li>
+<li>
+<p>空间局部性</p>
+<p>一旦程序访问了某个存储单元，不久之后，附近的存储单元也很有可能被访问。（很多数据在内存中连续存放）</p>
+</li>
+</ul>
+<p><img src="/images/CS_Basic/OS/36.png" alt="36"></p>
+<p>TLB和普通Cache区别——TLB只有页表项的副本，普通Cache中可能有其他各种数据的副本。</p>
+<blockquote>
+<p>单级页表存在两个问题</p>
+<ol>
+<li>必须连续存放，当页表很大时需要占用很多个连续的页框。</li>
+<li>没必要让整个页表常驻内存，因为进程一段时间内可能只需要访问某几个特定页面。</li>
+</ol>
+</blockquote>
+<p><strong>为了解决第一个问题所以引出两级页表</strong></p>
+<p><img src="/images/CS_Basic/OS/37.png" alt="37"></p>
+<p>第二个问题，如果想访问的页面不在内存中，则会产生缺页中断（内中断），然后将目标页面从外存调入内存。</p>
+<p><strong>两级页表的访存次数为3次</strong></p>
+<p>第一次：访问内存中的页目录表</p>
+<p>第二次：访问内存中的二级页表</p>
+<p>第三次：访问目标内存单元</p>
+<h3 id="基本分段存储管理">基本分段存储管理</h3>
+<p>按照程序自身的逻辑关系划分为若干个段，每个段都有段名在内存中占据连续空间。</p>
+<p><strong>段号的位数决定了每个进程最多可以分为几个段</strong>，段内地址位数决定每个段的最大长度是多少。</p>
+<p><img src="/images/CS_Basic/OS/38.png" alt="38"></p>
+<p>假如有逻辑地址A为（2，1024），首先判断段号是否越界，然后查询对应的段表项，<strong>检查段内地址是否超过段长</strong>（分页存储不会判断页内偏移量是否越界），如果超过则产生越界中断，否则继续执行</p>
+<p><img src="/images/CS_Basic/OS/39.png" alt="39"></p>
+<blockquote>
+<p>分页和分段的区别</p>
+</blockquote>
+<p>页是信息的物理单位，分页的主要目的是为了实现离散分配，提高内存率，是系统行为对用户不可见。</p>
+<p>段是信息的逻辑单位，分段对用户是可见的，用户编程时需要显式地给出段名。</p>
+<p>分段比分页更容易实现信息的共享和保护，因为页面不是按照逻辑模块划分的。</p>
+<p>分页的用户进程地址空间是一维的，分段的用户进程地址空间是二维的，程序员在标识一个地址时，既要给出段名也要给出段内地址。</p>
+<p><strong>不能被修改的代码称为纯代码或可重入代码（不属于临界资源）才可以被共享</strong>。</p>
+<h3 id="段页式管理">段页式管理</h3>
+<p>由于分段会产生外部碎片，而分页可能有少量内部碎片并且不利于共享，结合了两者的优点，分段+分页=段页式管理。</p>
+<p>一个进程在分段后，每一段分页。每个段对应一个段表项，由<strong>段号</strong>、<strong>页表长度</strong>、<strong>页表存放块号</strong>（页表起始地址）组成，段页式管理的地址结构是二维的。</p>
+<p><img src="/images/CS_Basic/OS/40.png" alt="40"></p>
+<p>需要3次访存，第一次访问段表，第二次访问页表，第三次访问目标内存单元。</p>
+<h2 id="32-虚拟内存">3.2 虚拟内存</h2>
+<p>传统存储管理分为连续分配（单一连续分配、固定分区分配、动态分区分配）和非连续分配（基本分页存储、基本分段存储、基本段页式存储），它们的缺点是：</p>
+<p><strong>一次性</strong>：作业必须一次性全部装入内存后才可以允许。当一个游戏上百个G，就无法运行了。或者无法运行大量作业，导致多道程序并发度下降。</p>
+<p><strong>驻留性</strong>：一旦作业被装入内存中，就会一直驻留在内存中直到作业结束，浪费了宝贵的内存资源。</p>
+<h3 id="虚拟内存的定义">虚拟内存的定义</h3>
+<p><strong>基于局部性原理</strong>，将程序中很快会用到的部分装入内存，暂时用不到的部分留在外存。</p>
+<p>当访问的信息不在内存时，由操作系统负责将所需信息从外存调入内存。</p>
+<p>如果内存空间不够，由操作系统负责将内存中暂时用不到的信息换出外存。</p>
+<p>特征</p>
+<p><strong>多次性</strong>：无需把作业一次性全部装入内存中，允许被分成多次调入内存。</p>
+<p><strong>对换性</strong>：在作业运行时无需一直常驻内存，允许换入、换出。</p>
+<p><strong>虚拟性</strong>：逻辑上扩充内存的容量，使用户看到的内存容量远大于实际容量。</p>
+<p>虚拟内存的实现需要建立在<strong>离散分配</strong>的内存管理方式基础上，操作系统要提供<strong>请求调页功能</strong>和<strong>页面置换功能</strong>。</p>
+<h3 id="请求分页管理方式">请求分页管理方式</h3>
+<p>页表机制不同于基本分页系统，请求分页系统在一作业运行之前不要求全部一次性调入内存，因此在作业的运行过程中，必然会出现要访问的页不在内存的情况，如何发现和处理这种情况是请求分页系统必须解决的两个基本问题。为此，在请求页表项中增加了四个字段：状态位P、访问字段A、修改位M、外存地址。</p>
+<p>增加的四个字段说明如下：</p>
+<p><strong>状态位P</strong>：是否已调入内存。</p>
+<p><strong>访问字段A</strong>：用于记录本页在一段时间内被访问的次数，或记录本页最近已有多长时间未被访问，供置换算法换出页面时参考。</p>
+<p><strong>修改位M</strong>：表示该页在调入内存后是否被修改过。</p>
+<p><strong>外存地址</strong>：用于指出该也在外存上的地址，通常是物理块号，供调入该页时参考。</p>
+<p><img src="/images/CS_Basic/OS/41.png" alt="41"></p>
+<p><strong>缺页中断机构</strong></p>
+<p>当访问的页面不在内存时，就产生一个<strong>缺页中断（内中断）</strong>，然后由操作系统的缺页中断处理程序处理中断。</p>
+<p>缺页的进程阻塞，放入阻塞队列，调页完成后再将其唤醒，放回就绪队列。</p>
+<p>如果内存中有空闲块，则为进程分配一个空闲块；如果没有，则由页面置换算法选择一个页面淘汰，若该页面在内存期间被修改过，则要将其写回外存。</p>
+<p><strong>地址变换过程</strong></p>
+<p>CPU检索快表，</p>
+<ul>
+<li>
+<p>如果在快表中则修改访问位和修改位，形成物理地址。</p>
+</li>
+<li>
+<p>如果不在快表中</p>
+<ul>
+<li>页在内存中，则访问页表，修改快表、修改访问位和修改位，形成物理地址。</li>
+<li>页不在内存中，则产生缺页中断请求调页，保留CPU现场，从外存中找到缺页
+<ul>
+<li>如果内存没有满，则换入内存修改页表</li>
+<li>如果内存满了，则选择一页换出，如果换出<strong>该页被修改过则将该页写回外存</strong>，换入内存修改页表。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="页面置换算法">页面置换算法</h3>
+<p>由于页面的换入换出需要磁盘I/O，会有较大的开销，所以<strong>好的页面置换算法应该追求更少的缺页率</strong>。</p>
+<p><strong>最佳置换算法（OPT）</strong></p>
+<p>每次选择淘汰的页面将是以后永不使用 / 在最长时间内不再被访问的页面。</p>
+<p>比如下图中访问4号页面时，由于访问4号之后会访问2，3，0。0号页面是最后一次访问，所以要替换0变为4。</p>
+<p>缺点：操作系统无法提前预判页面访问序列，所以理想的最佳置换算法是无法实现的。</p>
+<p><img src="/images/CS_Basic/OS/42.png" alt="42"></p>
+<p><strong>先进先出置换算法（FIFO）</strong></p>
+<p>每次选择淘汰的页面是最早进入内存的页面。</p>
+<p>为进程分配的物理块增大时，缺页次数不减反增。——<strong>Belady异常</strong>（只有FIFO会产生Belady异常）</p>
+<p>缺点：算法性能差，因为先进入的页面可能最常被访问。</p>
+<p><img src="/images/CS_Basic/OS/43.png" alt="43"></p>
+<p><strong>最近最久未使用置换算法（LRU）</strong></p>
+<p>least recently used，每次淘汰的是最近最久未使用的页面，页表项中记录该页面自上次被访问以来所经历的时间t。</p>
+<p>比如图中当访问3号页面时，内存块满了，于是往前查找最近最久未使用的页面：8，1，2，7，则是7被替换掉。</p>
+<p>缺点：需要专门的硬件支持，算法开销大。</p>
+<p><img src="/images/CS_Basic/OS/44.png" alt="44"></p>
+<p><strong>时钟置换算法（CLOCK）</strong></p>
+<p>CLOCK算法是一种性能和开销都均衡的算法。为每个页面设置一个访问位，如果是1则表示最近访问过，如果是0则表示最近没访问过。将内存中的页面都通过链接指针链接成一个循环队列，被扫描过的页面从1变0，如果扫到0则该页换出，<strong>最多经过两轮扫描</strong>。</p>
+<p><img src="/images/CS_Basic/OS/45.png" alt="45"></p>
+<p><strong>改进型的时钟置换算法</strong></p>
+<p>由于简单的时钟置换算法只考虑到一个页面有没有最近被访问过。<strong>优先替换未被修改过的页面主要是为了减少I / O操作，提高效率</strong>，如果一个页面被修改，在替换前必须先写回磁盘，以保证数据不会丢失。</p>
+<p>修改位为0的时候表示没有被修改过，修改位为1的时候表示被修改过。比如（1，1）表示最近被访问过且被修改过。<strong>最多进行4次扫描</strong>。</p>
+<p>第一轮扫描（最近没访问且没修改）：不修改任何标志位，如果找到（0，0）则替换</p>
+<p>第二轮扫描（最近没访问但修改过）：扫描过的访问位设置为0，如果找到（0，1）则替换</p>
+<p>第三轮扫描（最近访问过但没修改过）：不修改任何标志位，如果找到（0，0）则替换</p>
+<p>第四轮扫描（最近访问过并且修改过）：如果找到（0，1）则替换</p>
+<h3 id="页面分配策略">页面分配策略</h3>
+<p>驻留集：请求分页存储管理中给进程分配的物理块的集合。</p>
+<p>固定分配：为每个进程分配一组固定数目的物理块，在运行期间不再改变，即<strong>驻留集大小不变</strong>。</p>
+<p>可变分配：先为每个进程分配一定数目的物理块，在运行期间适当调整，即<strong>驻留集大小可变</strong>。</p>
+<p>局部置换：发生缺页时只能选进程自己的物理块进行置换。</p>
+<p>全局置换：可以将操作系统保留的空闲物理块分配给缺页进程，也可以将别的进程持有的物理块置换到外存，再分配给缺页进程。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"></th>
+<th>局部置换</th>
+<th>全局置换</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">固定分配</td>
+<td>√</td>
+<td>×</td>
+</tr>
+<tr>
+<td style="text-align:left">可变分配</td>
+<td>√</td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<p>可变分配全局置换：只要缺页就分配新物理块</p>
+<p>可变分配局部置换：要根据发生缺页的频率来动态地增加 / 减少进程的物理块</p>
+<p><img src="/images/CS_Basic/OS/46.png" alt="46"></p>
+<blockquote>
+<p>何时调入页面？</p>
+</blockquote>
+<p>1）预调页策略。<strong>运行前</strong> 根据局部性原理，一次调入若干个相邻的页可能比一次调入一页更高效。但如果调入的一批页面中大厦多数都未被访问，则又是低效的。所以就需要采用以预测为基础的预调页策略，将预计在不久之后便会被访问的页面预先调入内存。但目前预调页的成功率仅约50%。这种策略主要用于进程的首次调入时，程序员指出应该先调入哪些页。</p>
+<p>2）请求调页策略。<strong>运行时</strong> 进程在运行中需要访问的页面不在内存而提出的请求，由系统将所需页面调入内存。这种策略调入的页一定会被访问，且这种策略比较易于实现，故在目前的虚拟存储器中大多采用此策略。它的缺点在于每次调入一页，会花费过多的IO开销。</p>
+<blockquote>
+<p>何处调入页面？</p>
+</blockquote>
+<p>外存（磁盘）分为对换区（连续分配，读写速度快）和文件区（离散分配，读写速度慢）</p>
+<p>如果对换区空间足够，就都放在对换区；如果系统缺少足够的对换区，<strong>凡是不会被修改的数据都直接从文件区调入，修改过的数据从对换区换入换出</strong>。</p>
+<p><strong>UNIX方式</strong>：与进程有关的文件都存放在文件区，故<strong>未运行过的页面都应从文件区调入</strong>。<strong>曾经运行过的但有被换出的页面，由于是被放在对换区</strong>，因此下次调入时应从对换区调入。</p>
+<p><strong>抖动（颠簸）现象</strong></p>
+<p>刚换出的页面马上又换入内存，刚换入的页面又马上换出外存。产生原因是：<strong>进程频繁访问的页面数目高于可用的物理块数</strong>。（分配给进程的物理块不够）</p>
+<p>如何判断要分配多少物理块？</p>
+<p><strong>工作集</strong>：在某段时间间隔里，进程实际访问页面的集合。</p>
+<p><strong>驻留集大小不能小于工作集大小</strong>，否则会频繁缺页。</p>
+<h3 id="内存映射文件">内存映射文件</h3>
+<p>传统文件I/O需要<code>read()</code>/<code>write()</code>系统调用，会涉及用户态到内核态的切换，开销大。</p>
+<p>操作系统将磁盘文件的某个部分映射到进程的虚拟地址空间<code>mmap()</code>，进程可以像访问内存一样读写数据。</p>
+<p>多个进程可以映射同一文件，方便共享。</p>
+<p><img src="/images/CS_Basic/OS/47.png" alt="47"></p>
+
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f
+			&title=%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f&summary=1.%20%e7%ac%ac%e4%b8%80%e7%ab%a0%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e6%a6%82%e8%bf%b0%201.1%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e6%a6%82%e5%bf%b5%e3%80%81%e7%89%b9%e5%be%81%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e6%98%af%e6%8c%87%e6%8e%a7%e5%88%b6%e5%92%8c%e7%ae%a1%e7%90%86%e6%95%b4%e4%b8%aa%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%b3%bb%e7%bb%9f%e7%9a%84%e7%a1%ac%e4%bb%b6%e5%92%8c%e8%bd%af%e4%bb%b6%e8%b5%84%e6%ba%90%ef%bc%8c%e5%b9%b6%e5%90%88%e7%90%86%e7%9a%84%e7%bb%84%e7%bb%87%e8%b0%83%e5%ba%a6%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%9a%84%e5%b7%a5%e4%bd%9c%e5%92%8c%e8%b5%84%e6%ba%90%e7%9a%84%e5%88%86%e9%85%8d%ef%bc%8c%e4%bb%a5%e6%8f%90%e4%be%9b%e7%bb%99%e7%94%a8%e6%88%b7%e5%92%8c%e5%85%b6%e4%bb%96%e8%bd%af%e4%bb%b6%e6%96%b9%e4%be%bf%e7%9a%84%e6%8e%a5%e5%8f%a3%e5%92%8c%e7%8e%af%e5%a2%83%e9%9b%86%e5%90%88%e3%80%82%0a%e5%b9%b6%e5%8f%91%20%e5%b9%b6%e5%8f%91%e6%98%af%e6%8c%87%e4%b8%a4%e4%b8%aa%e6%88%96%e5%a4%9a%e4%b8%aa%e4%ba%8b%e4%bb%b6%e5%9c%a8%e5%90%8c%e4%b8%80%e6%97%b6%e9%97%b4%e9%97%b4%e9%9a%94%e5%86%85%e5%8f%91%e7%94%9f%e3%80%82%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e5%b9%b6%e5%8f%91%e6%98%af%e9%80%9a%e8%bf%87%e5%88%86%e6%97%b6%e5%be%97%e4%bb%a5%e5%ae%9e%e7%8e%b0%e7%9a%84%e3%80%82%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e5%b9%b6%e5%8f%91%e6%80%a7%e6%98%af%e6%8c%87%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%b3%bb%e7%bb%9f%e4%b8%ad%e5%90%8c%e6%97%b6%e5%ad%98%e5%9c%a8%e5%a4%9a%e4%b8%aa%e8%bf%90%e8%a1%8c%e7%9d%80%e7%9a%84%e7%a8%8b%e5%ba%8f%ef%bc%8c%e5%9b%a0%e6%ad%a4%e5%ae%83%e5%85%b7%e6%9c%89%e5%a4%84%e7%90%86%e5%92%8c%e8%b0%83%e5%ba%a6%e5%a4%9a%e4%b8%aa%e7%a8%8b%e5%ba%8f%e5%90%8c%e6%97%b6%e6%89%a7%e8%a1%8c%e7%9a%84%e8%83%bd%e5%8a%9b%e3%80%82%0a%e5%85%b1%e4%ba%ab%20%e8%b5%84%e6%ba%90%e5%85%b1%e4%ba%ab%e5%b0%b1%e6%98%af%e5%85%b1%e4%ba%ab%ef%bc%8c%e7%b3%bb%e7%bb%9f%e4%b8%ad%e7%9a%84%e8%b5%84%e6%ba%90%e5%8f%af%e4%be%9b%e5%86%85%e5%ad%98%e4%b8%ad%e5%a4%9a%e4%b8%aa%e5%b9%b6%e5%8f%91%e6%89%a7%e8%a1%8c%e7%9a%84%e8%bf%9b%e7%a8%8b%e5%90%8c%e6%97%b6%e4%bd%bf%e7%94%a8%ef%bc%8c%e5%8f%af%e5%88%86%e4%b8%ba%e4%bb%a5%e4%b8%8b%e4%b8%a4%e7%a7%8d%e3%80%82%0a%e4%ba%92%e6%96%a5%e5%85%b1%e4%ba%ab%e6%96%b9%e5%bc%8f%0a%e6%af%94%e5%a6%82%e6%89%93%e5%8d%b0%e6%9c%ba%ef%bc%8c%e4%b8%8d%e8%83%bd%e5%90%8c%e6%97%b6%e6%89%93%e5%8d%b0%e4%b8%a4%e4%bb%bd%e5%86%85%e5%ae%b9%ef%bc%8c%e4%b8%8d%e7%84%b6%e4%bc%9a%e9%80%a0%e6%88%90%e5%86%85%e5%ae%b9%e6%b7%b7%e6%b7%86%e3%80%82%0a%e5%90%8c%e6%97%b6%e8%ae%bf%e9%97%ae%e6%96%b9%e5%bc%8f%0a%e4%ba%a4%e6%9b%bf%e7%9a%84%e5%af%b9%e8%af%a5%e8%b5%84%e6%ba%90%e8%bf%9b%e8%a1%8c%e8%ae%bf%e9%97%ae%20%e2%80%9c%e5%88%86%e6%97%b6%e5%85%b1%e4%ba%ab%e2%80%9d%e3%80%82%0a%e8%99%9a%e6%8b%9f%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e4%b8%ad%e5%88%a9%e7%94%a8%e4%ba%86%e5%a4%9a%e7%a7%8d%e8%99%9a%e6%8b%9f%e6%8a%80%e6%9c%af%ef%bc%8c%e5%88%86%e5%88%ab%e7%94%a8%e6%9d%a5%e5%ae%9e%e7%8e%b0%e8%99%9a%e6%8b%9f%e5%a4%84%e7%90%86%e6%9c%ba%e3%80%81%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e5%92%8c%e8%99%9a%e6%8b%9f%e5%a4%96%e9%83%a8%e8%ae%be%e5%a4%87%e3%80%82%0a%e5%9c%a8%e8%99%9a%e6%8b%9f%e5%a4%84%e7%90%86%e5%99%a8%e6%8a%80%e6%9c%af%e4%b8%ad%ef%bc%8c%e8%ae%a9%e5%a4%9a%e9%81%93%e7%a8%8b%e5%ba%8f%e5%b9%b6%e5%8f%91%e6%89%a7%e8%a1%8c%e6%9d%a5%e5%88%86%e6%97%b6%e4%bd%bf%e7%94%a8%e4%b8%80%e5%8f%b0%e5%a4%84%e7%90%86%e5%99%a8%ef%bc%8c%e8%99%bd%e7%84%b6%e5%8f%aa%e6%9c%89%e4%b8%80%e5%8f%b0%e5%a4%84%e7%90%86%e5%99%a8%ef%bc%8c%e4%bd%86%e6%98%af%e8%83%bd%e5%90%8c%e6%97%b6%e4%b8%ba%e5%a4%9a%e4%b8%aa%e7%94%a8%e6%88%b7%e6%9c%8d%e5%8a%a1%e3%80%82%e6%8a%8a%e4%b8%80%e5%8f%b0%e7%89%a9%e7%90%86%e4%b8%8a%e7%9a%84CPU%e8%99%9a%e6%8b%9f%e4%b8%ba%e5%a4%9a%e6%80%81%e9%80%bb%e8%be%91%e4%b8%8a%e7%9a%84CPU%e7%a7%b0%e4%b8%ba%e8%99%9a%e6%8b%9f%e5%a4%84%e7%90%86%e5%99%a8%e3%80%82%0a%e8%99%9a%e6%8b%9f%e5%ad%98%e5%82%a8%e5%99%a8%ef%bc%8c%e4%bb%8e%e9%80%bb%e8%be%91%e4%b8%8a%e6%9d%a5%e6%89%a9%e5%85%85%e5%ad%98%e5%82%a8%e5%99%a8%e7%9a%84%e5%ae%b9%e9%87%8f%e3%80%82%0a%e8%99%9a%e6%8b%9f%e8%ae%be%e5%a4%87%e6%8a%80%e6%9c%af%ef%bc%8c%e5%b0%86%e4%b8%80%e5%8f%b0%e7%89%a9%e7%90%86IO%e8%ae%be%e5%a4%87%e8%99%9a%e6%8b%9f%e4%b8%ba%e5%a4%9a%e5%8f%b0%e9%80%bb%e8%be%91%e4%b8%8a%e7%9a%84IO%e8%ae%be%e5%a4%87%ef%bc%8c%e5%85%81%e8%ae%b8%e5%a4%9a%e4%b8%aa%e7%94%a8%e6%88%b7%e5%90%8c%e6%97%b6%e8%ae%bf%e9%97%ae%e7%9a%84%e5%85%b1%e4%ba%ab%e8%ae%be%e5%a4%87%e3%80%82%0a%e5%bc%82%e6%ad%a5%20%e5%9c%a8%e5%a4%9a%e9%81%93%e7%a8%8b%e5%ba%8f%e7%8e%af%e5%a2%83%e4%b8%8b%ef%bc%8c%e5%85%81%e8%ae%b8%e5%a4%9a%e4%b8%aa%e7%a8%8b%e5%ba%8f%e5%b9%b6%e5%8f%91%e6%89%a7%e8%a1%8c%ef%bc%8c%e4%bd%86%e7%94%b1%e4%ba%8e%e8%b5%84%e6%ba%90%e6%9c%89%e9%99%90%ef%bc%8c%e8%bf%9b%e7%a8%8b%e7%9a%84%e6%89%a7%e8%a1%8c%e4%b8%8d%e6%98%af%e4%b8%80%e8%b4%af%e5%88%b0%e5%ba%95%ef%bc%8c%e8%80%8c%e6%98%af%e8%b5%b0%e8%b5%b0%e5%81%9c%e5%81%9c%ef%bc%8c%e4%bb%a5%e4%b8%8d%e5%8f%af%e9%a2%84%e7%9f%a5%e7%9a%84%e9%80%9f%e5%ba%a6%e5%90%91%e5%89%8d%e6%8e%a8%e8%bf%9b%ef%bc%8c%e8%bf%99%e5%b0%b1%e6%98%af%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%bc%82%e6%ad%a5%e6%80%a7%e3%80%82%0a%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e7%9b%ae%e6%a0%87%e5%92%8c%e5%8a%9f%e8%83%bd%20%e4%b8%ba%e4%ba%86%e7%bb%99%e5%a4%9a%e9%81%93%e7%a8%8b%e5%ba%8f%e6%8f%90%e4%be%9b%e8%89%af%e5%a5%bd%e7%9a%84%e8%bf%90%e8%a1%8c%e7%8e%af%e5%a2%83%ef%bc%8c%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%ba%94%e8%af%a5%e5%85%b7%e6%9c%89%ef%bc%9a%e5%a4%84%e7%90%86%e5%99%a8%e7%ae%a1%e7%90%86%e3%80%81%e5%ad%98%e5%82%a8%e5%99%a8%e7%ae%a1%e7%90%86%e3%80%81%e6%96%87%e4%bb%b6%e7%ae%a1%e7%90%86%e5%92%8c%e8%ae%be%e5%a4%87%e7%ae%a1%e7%90%86%ef%bc%8c%e8%bf%98%e5%bf%85%e9%a1%bb%e5%90%91%e7%94%a8%e6%88%b7%e6%8f%90%e4%be%9b%e6%8e%a5%e5%8f%a3%ef%bc%8c%e5%90%8c%e6%97%b6%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%8f%af%e7%94%a8%e6%9d%a5%e6%89%a9%e5%85%85%e6%9c%ba%e5%99%a8%ef%bc%8c%e4%bb%a5%e6%8f%90%e4%be%9b%e6%9b%b4%e6%96%b9%e4%be%bf%e7%9a%84%e6%9c%8d%e5%8a%a1%e3%80%81%e6%9b%b4%e9%ab%98%e7%9a%84%e8%b5%84%e6%ba%90%e5%88%a9%e7%94%a8%e7%8e%87%e3%80%82%0a%e5%a4%84%e7%90%86%e5%99%a8%e7%ae%a1%e7%90%86%0a%e5%af%b9%e5%a4%84%e7%90%86%e5%99%a8%e7%9a%84%e7%ae%a1%e7%90%86%e5%8f%af%e5%bd%92%e7%bb%93%e4%b8%ba%e5%af%b9%e8%bf%9b%e7%a8%8b%e7%9a%84%e7%ae%a1%e7%90%86%ef%bc%8c%e4%b8%bb%e8%a6%81%e5%8a%9f%e8%83%bd%e6%9c%89%ef%bc%9a%e8%bf%9b%e7%a8%8b%e6%8e%a7%e5%88%b6%e3%80%81%e8%bf%9b%e7%a8%8b%e5%90%8c%e6%ad%a5%e3%80%81%e8%bf%9b%e7%a8%8b%e9%80%9a%e4%bf%a1%e3%80%81%e6%ad%bb%e9%94%81%e5%a4%84%e7%90%86%e3%80%81%e5%a4%84%e7%90%86%e5%99%a8%e8%b0%83%e5%ba%a6%e7%ad%89%e3%80%82%0a%e5%ad%98%e5%82%a8%e5%99%a8%e7%ae%a1%e7%90%86%0a%e6%96%b9%e4%be%bf%e7%94%a8%e6%88%b7%e4%bd%bf%e7%94%a8%e4%bb%a5%e5%8f%8a%e6%8f%90%e9%ab%98%e5%86%85%e5%ad%98%e7%9a%84%e5%88%a9%e7%94%a8%e7%8e%87%ef%bc%8c%e5%ad%98%e5%82%a8%e5%99%a8%e7%ae%a1%e7%90%86%e5%ba%94%e5%85%b7%e5%a4%87%ef%bc%9a%e5%86%85%e5%ad%98%e5%88%86%e9%85%8d%e3%80%81%e5%9c%b0%e5%9d%80%e6%98%a0%e5%b0%84%e3%80%81%e5%86%85%e5%ad%98%e4%bf%9d%e6%8a%a4%e3%80%81%e5%85%b1%e4%ba%ab%e5%92%8c%e5%86%85%e5%ad%98%e6%89%a9%e5%85%85%e7%ad%89%e3%80%82%0a%e6%96%87%e4%bb%b6%e7%ae%a1%e7%90%86%0a%e5%8c%85%e6%8b%ac%e6%96%87%e4%bb%b6%e7%9a%84%e5%ad%98%e5%82%a8%e7%a9%ba%e9%97%b4%e7%ae%a1%e7%90%86%e3%80%81%e7%9b%ae%e5%bd%95%e7%ae%a1%e7%90%86%e5%92%8c%e6%96%87%e4%bb%b6%e8%af%bb%e5%86%99%e7%ae%a1%e7%90%86%e3%80%81%e6%96%87%e4%bb%b6%e4%bf%9d%e6%8a%a4%e3%80%82%0a%e8%ae%be%e5%a4%87%e7%ae%a1%e7%90%86%0a%e5%ae%8c%e6%88%90%e7%94%a8%e6%88%b7%e7%9a%84IO%e8%af%b7%e6%b1%82%ef%bc%8c%e4%b8%bb%e8%a6%81%e5%8c%85%e6%8b%ac%e6%b7%b7%e5%85%85%e7%ae%a1%e7%90%86%e3%80%81%e8%ae%be%e5%a4%87%e5%88%86%e9%85%8d%e3%80%81%e8%ae%be%e5%a4%87%e5%a4%84%e7%90%86%e5%92%8c%e8%99%9a%e6%8b%9f%e8%ae%be%e5%a4%87%e7%ad%89%e3%80%82%0a%e4%b8%ba%e4%ba%86%e6%96%b9%e4%be%bf%e7%94%a8%e6%88%b7%e4%bd%bf%e7%94%a8%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%ef%bc%8c%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e8%bf%98%e6%8f%90%e4%be%9b%e4%ba%86%e7%94%a8%e6%88%b7%e6%8e%a5%e5%8f%a3%ef%bc%8c%e5%88%86%e4%b8%ba%e4%bb%a5%e4%b8%8b%e4%b8%a4%e7%b1%bb%e3%80%82%0a%e5%91%bd%e4%bb%a4%e6%8e%a5%e5%8f%a3%0a%e4%bd%bf%e7%94%a8%e5%91%bd%e4%bb%a4%e6%8e%a5%e5%8f%a3%e8%bf%9b%e8%a1%8c%e4%bd%9c%e4%b8%9a%e6%8e%a7%e5%88%b6%e7%9a%84%e4%b8%bb%e8%a6%81%e6%96%b9%e5%bc%8f%e6%9c%89%e4%b8%a4%e7%a7%8d%ef%bc%9a%e8%81%94%e6%9c%ba%e5%91%bd%e4%bb%a4%e6%8e%a5%e5%8f%a3%e5%92%8c%e8%84%b1%e6%9c%ba%e5%91%bd%e4%bb%a4%e6%8e%a5%e5%8f%a3%e3%80%82%0a%e7%a8%8b%e5%ba%8f%e6%8e%a5%e5%8f%a3%0a%e7%a8%8b%e5%ba%8f%e6%8e%a5%e5%8f%a3%e7%94%b1%e4%b8%80%e7%bb%84%e7%b3%bb%e7%bb%9f%e8%b0%83%e7%94%a8%e5%91%bd%e4%bb%a4%e7%bb%84%e6%88%90%ef%bc%8c%e7%94%a8%e6%88%b7%e5%8f%af%e4%bb%a5%e7%9b%b4%e6%8e%a5%e4%bd%bf%e7%94%a8%e5%91%bd%e4%bb%a4%e5%90%91%e7%b3%bb%e7%bb%9f%e6%8f%90%e5%87%ba%e5%90%84%e7%a7%8d%e8%af%b7%e6%b1%82%e3%80%82%0a%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e7%bb%93%e6%9e%84%20%e7%ae%80%e5%8d%95%e7%bb%93%e6%9e%84%e3%80%81%e6%a8%a1%e5%9d%97%e5%8c%96%e7%bb%93%e6%9e%84%e3%80%81%e5%88%86%e5%b1%82%e5%bc%8f%e7%bb%93%e6%9e%84%e3%80%81%e5%be%ae%e5%86%85%e6%a0%b8%e7%bb%93%e6%9e%84%e3%80%82%0a1.3%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e7%9a%84%e8%bf%90%e8%a1%8c%e7%8e%af%e5%a2%83%20%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%9c%a8%e5%85%b7%e4%bd%93%e5%ae%9e%e7%8e%b0%e4%b8%8a%e5%88%92%e5%88%86%e4%ba%86%e7%94%a8%e6%88%b7%e6%80%81%e3%80%81%e6%a0%b8%e5%bf%83%e6%80%81%e3%80%82%0a%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%86%85%e6%a0%b8%e5%8c%85%e6%8b%ac%e4%bb%a5%e4%b8%8b4%e6%96%b9%e9%9d%a2%ef%bc%9a%0a%e6%97%b6%e9%92%9f%e7%ae%a1%e7%90%86%0a%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e9%9c%80%e8%a6%81%e9%80%9a%e8%bf%87%e6%97%b6%e9%92%9f%e7%ae%a1%e7%90%86%ef%bc%8c%e5%90%91%e7%94%a8%e6%88%b7%e6%8f%90%e4%be%9b%e6%a0%87%e5%87%86%e7%9a%84%e7%b3%bb%e7%bb%9f%e6%97%b6%e9%97%b4%e3%80%82%e9%80%9a%e8%bf%87%e6%97%b6%e9%92%9f%e4%b8%ad%e6%96%ad%e7%9a%84%e7%ae%a1%e7%90%86%ef%bc%8c%e5%8f%af%e4%bb%a5%e5%ae%9e%e7%8e%b0%e8%bf%9b%e7%a8%8b%e5%88%87%e6%8d%a2%e3%80%82%0a%e4%b8%ad%e6%96%ad%e6%9c%ba%e5%88%b6%0a%e5%bc%95%e5%85%a5%e4%b8%ad%e6%96%ad%e6%9c%ba%e5%88%b6%e6%98%af%e4%b8%ba%e4%ba%86%e6%8f%90%e9%ab%98%e5%a4%9a%e9%81%93%e7%a8%8b%e5%ba%8f%e8%bf%90%e8%a1%8c%e7%8e%af%e5%a2%83%e4%b8%adCPU%e7%9a%84%e5%88%a9%e7%94%a8%e7%8e%87%e3%80%82%0a%e5%8e%9f%e8%af%ad%0a%e5%8e%9f%e8%af%ad%e5%a4%84%e4%ba%8e%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e6%9c%80%e5%ba%95%e5%b1%82%ef%bc%8c%e6%98%af%e6%9c%80%e6%8e%a5%e8%bf%91%e7%a1%ac%e4%bb%b6%e7%9a%84%e9%83%a8%e5%88%86%ef%bc%9b%e5%85%b7%e6%9c%89%e5%8e%9f%e5%ad%90%e6%80%a7%ef%bc%88%e4%b8%80%e6%b0%94%e5%91%b5%e6%88%90%ef%bc%8c%e4%b8%8d%e5%8f%af%e4%b8%ad%e6%96%ad%ef%bc%89%ef%bc%9b%e8%bf%90%e8%a1%8c%e6%97%b6%e9%97%b4%e7%9f%ad%e3%80%81%e8%b0%83%e7%94%a8%e9%a2%91%e7%b9%81%e3%80%82%0a%e7%b3%bb%e7%bb%9f%e6%8e%a7%e5%88%b6%e7%9a%84%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e5%8f%8a%e5%a4%84%e7%90%86%0a%e5%b8%b8%e8%a7%81%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%93%8d%e4%bd%9c%e6%9c%89%e4%bb%a5%e4%b8%8b3%e7%a7%8d%ef%bc%8c%e8%bf%9b%e7%a8%8b%e7%ae%a1%e7%90%86%e3%80%81%e5%ad%98%e5%82%a8%e5%99%a8%e7%ae%a1%e7%90%86%e3%80%81%e8%ae%be%e5%a4%87%e7%ae%a1%e7%90%86%e3%80%82%0a%e4%b8%ad%e6%96%ad%e5%92%8c%e5%bc%82%e5%b8%b8%20%e5%bc%95%e5%85%a5%e6%a0%b8%e5%bf%83%e6%80%81%e5%92%8c%e7%94%a8%e6%88%b7%e6%80%81%e4%b9%8b%e5%90%8e%ef%bc%8c%e5%b0%b1%e9%9c%80%e8%a6%81%e8%80%83%e8%99%91%e5%a6%82%e4%bd%95%e5%9c%a8%e8%bf%99%e4%b8%a4%e7%a7%8d%e7%8a%b6%e6%80%81%e4%b8%8b%e5%88%87%e6%8d%a2%e3%80%82%2a%2a%e4%b8%ad%e6%96%ad%e6%98%af%e8%ae%a9%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%86%85%e6%a0%b8%e5%a4%ba%e5%9b%9eCPU%e4%bd%bf%e7%94%a8%e6%9d%83%e7%9a%84%e5%94%af%e4%b8%80%e9%80%94%e5%be%84%e3%80%82%2a%2a%e5%86%85%e6%a0%b8%e5%b7%a5%e4%bd%9c%e5%9c%a8%e6%a0%b8%e5%bf%83%e6%80%81%ef%bc%8c%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e5%b7%a5%e4%bd%9c%e5%9c%a8%e7%94%a8%e6%88%b7%e6%80%81%ef%bc%8c%e7%b3%bb%e7%bb%9f%e4%b8%8d%e5%85%81%e8%ae%b8%e7%94%a8%e6%88%b7%e4%bd%bf%e7%94%a8%e6%a0%b8%e5%bf%83%e6%80%81%e7%9a%84%e5%8a%9f%e8%83%bd%ef%bc%8c%e4%bd%86%e6%98%af%e5%ae%83%e4%bb%ac%e5%8f%88%e5%bf%85%e9%a1%bb%e4%bd%bf%e7%94%a8%e3%80%82%0a%e4%b8%ad%e6%96%ad%ef%bc%88%e5%a4%96%e4%b8%ad%e6%96%ad%ef%bc%89%0a%e4%b8%ad%e6%96%ad%e4%bf%a1%e5%8f%b7%e6%9d%a5%e6%ba%90%e4%ba%8eCPU%e5%a4%96%e9%83%a8%ef%bc%8c%e4%b8%8e%e5%bd%93%e5%89%8d%e6%89%a7%e8%a1%8c%e7%9a%84%e6%8c%87%e4%bb%a4%e6%97%a0%e5%85%b3%e3%80%82%e6%af%94%e5%a6%82%e8%af%b4%e6%97%b6%e9%92%9f%e4%b8%ad%e6%96%ad%e5%92%8cI%2fO%e4%b8%ad%e6%96%ad%e8%af%b7%e6%b1%82%ef%bc%8c%e5%bd%93%e8%be%93%e5%85%a5%e8%be%93%e5%87%ba%e4%bb%bb%e5%8a%a1%e5%ae%8c%e6%88%90%e6%97%b6%ef%bc%8c%e5%90%91CPU%e5%8f%91%e9%80%81%e4%b8%ad%e6%96%ad%e4%bf%a1%e5%8f%b7%ef%bc%8c%e6%88%96%e6%97%b6%e9%92%9f%e9%83%a8%e4%bb%b6%e6%af%8f%e9%9a%9450ms%e5%8f%91%e9%80%81%e4%b8%80%e4%b8%aa%e4%b8%ad%e6%96%ad%e4%bf%a1%e5%8f%b7%e3%80%82%0a%e5%bc%82%e5%b8%b8%ef%bc%88%e5%86%85%e4%b8%ad%e6%96%ad%ef%bc%89%0a%e6%ba%90%e4%ba%8eCPU%e6%89%a7%e8%a1%8c%e6%8c%87%e4%bb%a4%e5%86%85%e9%83%a8%ef%bc%8c%e6%af%94%e5%a6%82%e7%a8%8b%e5%ba%8f%e7%9a%84%e9%9d%9e%e6%b3%95%e6%93%8d%e4%bd%9c%e3%80%82%0a%e4%b8%80%e4%ba%9b%e7%94%b1%e7%94%a8%e6%88%b7%e6%80%81%e8%bd%ac%e4%b8%ba%e6%a0%b8%e5%bf%83%e6%80%81%e7%9a%84%e4%be%8b%e5%ad%90%ef%bc%9a1%ef%bc%89%e7%94%a8%e6%88%b7%e7%a8%8b%e5%ba%8f%e8%a6%81%e6%b1%82%e7%b3%bb%e7%bb%9f%e6%9c%8d%e5%8a%a1%202%ef%bc%89%e5%8f%91%e7%94%9f%e4%b8%80%e6%ac%a1%e4%b8%ad%e6%96%ad%203%ef%bc%89%e7%94%a8%e6%88%b7%e7%a8%8b%e5%ba%8f%e4%ba%a7%e7%94%9f%e9%94%99%e8%af%af%204%ef%bc%89%e7%94%a8%e6%88%b7%e7%a8%8b%e5%ba%8f%e4%bc%81%e5%9b%be%e6%89%a7%e8%a1%8c%e7%89%b9%e6%9d%83%e6%8c%87%e4%bb%a4%0a2.%20%e7%ac%ac%e4%ba%8c%e7%ab%a0%20%e8%bf%9b%e7%a8%8b%e7%ae%a1%e7%90%86%202.1%20%e8%bf%9b%e7%a8%8b%e4%b8%8e%e7%ba%bf%e7%a8%8b%20%e8%bf%9b%e7%a8%8b%e6%8e%a7%e5%88%b6%e5%9d%97%ef%bc%88PCB%ef%bc%89%e6%8f%8f%e8%bf%b0%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%9f%ba%e6%9c%ac%e6%83%85%e5%86%b5%e5%92%8c%e8%bf%90%e8%a1%8c%e7%8a%b6%e6%80%81%ef%bc%8cPCB%e6%98%af%e8%bf%9b%e7%a8%8b%e5%ad%98%e5%9c%a8%e7%9a%84%e5%94%af%e4%b8%80%e6%a0%87%e5%bf%97%e3%80%82%0a%e8%bf%9b%e7%a8%8b%e7%94%b1PCB%e3%80%81%e7%a8%8b%e5%ba%8f%e6%ae%b5%e3%80%81%e6%95%b0%e6%8d%ae%e6%ae%b5%e7%bb%84%e6%88%90%e3%80%82%0a%e8%bf%9b%e7%a8%8b%e7%9a%84%e7%89%b9%e5%be%81%20%e5%8a%a8%e6%80%81%e6%80%a7%28%e6%9c%80%e5%9f%ba%e6%9c%ac%e7%9a%84%e7%89%b9%e6%80%a7%29%e3%80%81%e5%b9%b6%e5%8f%91%e6%80%a7%e3%80%81%e7%8b%ac%e7%ab%8b%e6%80%a7%e3%80%81%e5%bc%82%e6%ad%a5%e6%80%a7%e3%80%81%e7%bb%93%e6%9e%84%e6%80%a7%e3%80%82&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

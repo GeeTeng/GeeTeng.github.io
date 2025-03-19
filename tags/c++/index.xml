@@ -6,22 +6,8 @@
     <description>Recent content in C&#43;&#43; on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 13 Mar 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 02 Mar 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/tags/c++/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>剑指Offer</title>
-      <link>https://geeteng.github.io/posts/c&#43;&#43;/jzoffer/</link>
-      <pubDate>Thu, 13 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/c&#43;&#43;/jzoffer/</guid>
-      <description>剑指offer JZ8 二叉树的下一个节点 先找到传入节点所在树的根节点，然后用一个数组存储好中序遍历的节点。就可以顺序查找到下一个节点了。&#xA;vector&amp;lt;TreeLinkNode*&amp;gt; node; TreeLinkNode* GetNext(TreeLinkNode* pNode) { if(pNode == nullptr) return nullptr; TreeLinkNode* root = pNode; while(root-&amp;gt;next) { root = root-&amp;gt;next; } inOrder(root); for(int i = 0; i &amp;lt; node.size(); i ++) { if(node[i] == pNode) return node[i + 1]; } return nullptr; } void inOrder(TreeLinkNode* pNode) { if(pNode == nullptr) return; inOrder(pNode-&amp;gt;left); node.push_back(pNode); inOrder(pNode-&amp;gt;right); } JZ11 旋转数组的最小数字 旋转数组左边数组大于右边数组，所以如果中间元素大于右边元素的话，最小值在右边。如果中间元素小于右边，那么最小值在左边。如果中间元素等于右边元素，则无法判断，一个个移动。&#xA;int minNumberInRotateArray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int l = 0, r = nums.</description>
-    </item>
-    <item>
-      <title>LeetCode热题100</title>
-      <link>https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/</link>
-      <pubDate>Wed, 12 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/</guid>
-      <description>LeetCodeHot100 42. 接雨水 方法一：&#xA;前后缀分解&#xA;计算前缀最大值数组、后缀最大值数组。再遍历一遍，取该处的前缀最大值和后缀最大值的最小值，再减去该处高度，就是接到的容量。&#xA;int trap(vector&amp;lt;int&amp;gt;&amp;amp; height) { int n = height.size(); vector&amp;lt;int&amp;gt; pre(n), back(n); int maxh = 0; for(int i = 0; i &amp;lt; n; i ++) { maxh = max(maxh, height[i]); pre[i] = maxh; } maxh = 0; for(int i = n - 1; i &amp;gt;= 0; i --) { maxh = max(maxh, height[i]); back[i] = maxh; } int res = 0; for(int i = 0; i &amp;lt; n; i ++) { res += min(pre[i], back[i]) - height[i]; } return res; } 方法二：</description>
-    </item>
     <item>
       <title>Linux学习</title>
       <link>https://geeteng.github.io/posts/c&#43;&#43;/linux/</link>
@@ -41,7 +27,7 @@
       <link>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</link>
       <pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</guid>
-      <description>C++ 内存布局 内存区域 存储内容 代码段（.text） 存储程序的可执行代码，包括普通函数和虚函数的实现 数据段（全局静态区）（.data 和 .bss） 存储全局/静态变量（已初始化的放在 .data，未初始化的放在 .bss） 只读数据段（常量区）（.rodata） 存储常量数据（如字符串字面量、const 变量、VTable） 堆区（Heap） 由 new/malloc 动态分配，程序员手动释放 栈区（Stack） 由函数的局部变量、函数调用帧等组成，自动管理 随机存储器RAM（主存）&#xA;与CPU直接交换数据，可读写区域，存放全局（静态）区、堆区、栈区。&#xA;只读存储器ROM&#xA;只能读出 所存数据稳定，断电后数据不会改变。存放代码区和常量区。&#xA;const用法和constexpr const用法：&#xA;修饰变量 变量不能修改 指针常量 （先出现指针 再出现const） 常量指针 （先出现const 再出现指针） 修饰引用 不能通过引用修改值 修饰成员函数 相当于修饰了成员函数隐藏的this指针 顶层const和底层const 顶层const指的是const修饰的变量本身是一个常量，如int* const p，底层const指的是const修饰的变量所指向的对象是一个常量，如const int* p。&#xA;const int * const p3 = p2 // 靠右的const是顶层const，靠左的是底层const constexpr用法：&#xA;当用constexpr声明一个函数/变量时，编译器可以在编译时就计算出它的值，提高程序的运行效率。而且编译器会自动验证变量是否是一个常量表达式。&#xA;constexpr int GetLen(int a, int b) { return a + b; } int main() { // 不加constexpr就无法声明arr 加了之后就会返回常数 int arr[GetLen(1, 2)]; return 0; } 如果constexpr声明中定义了一个指针，限定符constexpr仅对指针有效（只限定p指向的地址不可改变），而与指针所指的对象无关。</description>
+      <description>C++ 内存布局 内存区域 存储内容 代码段（.text） 存储程序的可执行代码，包括普通函数和虚函数的实现 数据段（全局静态区）（.data 和 .bss） 存储全局/静态变量（已初始化的放在 .data，未初始化的放在 .bss） 只读数据段（常量区）（.rodata） 存储常量数据（如字符串字面量、const 变量、VTable） 堆区（Heap） 由 new、malloc 动态分配，程序员手动释放。从低地址向上增长。 文件映射段 包括动态库、共享内存等 栈区（Stack） 由函数的局部变量、函数调用帧等组成，自动管理。一般是8MB，向低地址增长。 随机存储器RAM（主存）&#xA;与CPU直接交换数据，可读写区域，存放全局（静态）区、堆区、栈区。&#xA;只读存储器ROM&#xA;只能读出 所存数据稳定，断电后数据不会改变。存放代码区和常量区。&#xA;const用法和constexpr const用法：&#xA;修饰变量 变量不能修改 指针常量 （先出现指针 再出现const） 常量指针 （先出现const 再出现指针） 修饰引用 不能通过引用修改值 修饰成员函数 相当于修饰了成员函数隐藏的this指针 顶层const和底层const 顶层const指的是const修饰的变量本身是一个常量，如int* const p，底层const指的是const修饰的变量所指向的对象是一个常量，如const int* p。&#xA;const int * const p3 = p2 // 靠右的const是顶层const，靠左的是底层const 常量指针const int* p1中，const修饰的是*p1，所以修改不了指针指向的值，也就是修改不了*p1;但是p1和指向对象的值是可以改变的，只是不能改变指针指向的值。&#xA;int main() { int a = 3, b = 4; const int* p1 = &amp;amp;a; // 指向 const int 的指针（数据不可改，但指针可改） // *p1 = 5; // ❌ 错误：不能修改 p1 指向的值 p1 = &amp;amp;b; // ✅ 可以修改 p1 的指向 a = 10; // ✅ 直接修改 a 是允许的 } 指针常量int* const p2中，const修饰的是p2，所以修改不了指针本身的值，也就是修改不了p2。比如p2 = &amp;amp;a就不可以。</description>
     </item>
   </channel>
 </rss>
