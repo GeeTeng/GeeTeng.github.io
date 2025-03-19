@@ -1,7 +1,7 @@
 ---
 title: "Geometry"
 date: 2025-01-02
-tags: [Computer-Graphics]
+tags: [Graphics]
 description: "Games101Geometry"
 showDate: true
 math: true

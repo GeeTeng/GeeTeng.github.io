@@ -1,7 +1,7 @@
 ---
 title: "光栅化Rasterize"
 date: 2024-12-03
-tags: [Computer-Graphics]
+tags: [Graphics]
 description: "视口变换 光栅化方法 走样 反走样 以及作业"
 showDate: true
 math: true

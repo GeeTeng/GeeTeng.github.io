@@ -265,74 +265,52 @@ int main()
 
 ## 单例模式（Singleton）
 
-保证一个类只能产生一个实例，声明周期为整个程序的声明周期，通过Get访问到任何非静态方法。
+懒汉式：需要时（第一次调用GetInstance时）才会创建 线程不安全（需要加锁）
 
-懒汉式：需要时才会创建 线程不安全
-
-饿汉式：一运行就创建实例，需要时直接调用。
+适用于可能会用到该实例。
 
 ```c++
-class Singleton
-{
+class Singleton {
 private:
-	// 不允许实例化 调用构造函数
-	Singleton(){}
-	static Singleton s_Instance;
+	static Singleton* instance;
+	Singleton() { cout << "构造函数\n"; }
 
 public:
-    // 删除类的拷贝构造函数 防止对象被复制
 	Singleton(const Singleton&) = delete;
-    // 删除赋值运算符
-    Singleton& operator=(const Singleton&) = delete;
-	// 返回单例实例
-	static Singleton& Get()
-	{
-		return s_Instance;
-	}
-	void Func() {};
-};
-Singleton Singleton::s_Instance;
+	Singleton& operator=(const Singleton&) = delete;
 
-
-int main()
-{
-	// 不可以去掉引用 否则会拷贝 所以需要增加一个删除函数
-	Singleton& instance = Singleton::Get();
-	instance.Func();
-	std::cin.get();
-}
-
-```
-
-具体例子
-
-```c++
-class Random
-{
-private:
-
-	Random(){}
-	static Random s_Instance;
-	float m_RandomGenerator = 0.5f;
-	float IFloat() { return m_RandomGenerator; }
-
-public:
-	Random(const Random&) = delete;
-
-	static Random& Get()
-	{
-		static Random instance;
+	static Singleton* GetInstance() {
+		if (instance == nullptr) {
+			instance = new Singleton();
+		}
 		return instance;
 	}
-	static float Float() { return Get().IFloat(); }
+	void Show() { cout << "Singleton实例方法\n"; }
 };
 
+Singleton* Singleton::instance = nullptr;
+```
 
-int main()
-{
-	float number = Random::Float();
-	std::cout << number << std::endl;
-	std::cin.get();
+*饿汉式：*一定会用到该实例，程序在启动时就会创建实例。
+
+```c++
+class Singleton {
+private:
+	Singleton() { cout << "构造函数\n"; }
+public:
+	Singleton(const Singleton&) = delete;
+	Singleton& operator=(const Singleton&) = delete;
+	static Singleton& GetInstance() {
+		static Singleton instance; // 程序启动时就会创建实例
+		return instance;
+	}
+};
+
+int main() {
+	Singleton& s1 = Singleton::GetInstance();
+	Singleton& s2 = Singleton::GetInstance();
+	cout << &s1 << ' ' << &s2;
+	return 0;
 }
 ```
 

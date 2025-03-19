@@ -1,7 +1,7 @@
 ---
 title: "RayTracing光线追踪"
 date: 2025-01-03
-tags: [Computer-Graphics]
+tags: [Graphics]
 description: "光线追踪 更新中"
 showDate: true
 math: true

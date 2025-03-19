@@ -1,7 +1,7 @@
 ---
 title: "Shader"
 date: 2024-12-16
-tags: [Computer-Graphics]
+tags: [Graphics]
 description: "GAMES101shader"
 showDate: true
 math: true

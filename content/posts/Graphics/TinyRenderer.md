@@ -1,7 +1,7 @@
 ---
 title: "TinyRenderer"
 date: 2024-12-16
-tags: [Computer-Graphics]
+tags: [Graphics]
 description: "TinyRenderer项目 更新中"
 showDate: true
 math: true

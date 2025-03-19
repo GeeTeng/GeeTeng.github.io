@@ -17,8 +17,9 @@ math: true
 | **代码段（`.text`）**                         | 存储**程序的可执行代码**，包括普通函数和虚函数的实现         |
 | **数据段（全局静态区）（`.data` 和 `.bss`）** | 存储**全局/静态变量**（已初始化的放在 `.data`，未初始化的放在 `.bss`） |
 | **只读数据段（常量区）（`.rodata`）**         | 存储**常量数据**（如字符串字面量、`const` 变量、VTable）     |
-| **堆区（Heap）**                              | 由 `new/malloc` 动态分配，程序员手动释放                     |
-| **栈区（Stack）**                             | 由函数的局部变量、函数调用帧等组成，自动管理                 |
+| **堆区（Heap）**                              | 由 `new、malloc` 动态分配，程序员手动释放。从低地址向上增长。 |
+| **文件映射段**                                | 包括**动态库**、共享内存等                                   |
+| **栈区（Stack）**                             | 由函数的局部变量、函数调用帧等组成，自动管理。一般是8MB，向低地址增长。 |
 
 ![01](/images/C++/C++basic/01.png)
 
@@ -51,6 +52,21 @@ const用法：
 ```c++
 const int * const p3 = p2 // 靠右的const是顶层const，靠左的是底层const
 ```
+
+常量指针`const int* p1`中，const修饰的是\*p1，所以修改不了指针指向的值，也就是修改不了\*p1;但是p1和指向对象的值是可以改变的，只是不能改变指针指向的值。
+
+```c++
+int main() {
+    int a = 3, b = 4;
+    const int* p1 = &a;  // 指向 const int 的指针（数据不可改，但指针可改）
+    
+    // *p1 = 5;  // ❌ 错误：不能修改 p1 指向的值
+    p1 = &b;     // ✅ 可以修改 p1 的指向
+    a = 10;      // ✅ 直接修改 a 是允许的
+}
+```
+
+指针常量`int* const p2`中，const修饰的是p2，所以修改不了指针本身的值，也就是修改不了p2。比如p2 = &a就不可以。
 
 constexpr用法：
 
@@ -150,9 +166,9 @@ enum class Color : int {
 
 ## 四种强制转换
 
-| static_cast          | 主要用于**基本数据类型转换**（如 `float` 转 `int`）或**有继承关系的类之间转换**（如 `Base*` 转 `Derived*`） |
+| static_cast          | 主要用于**基本数据类型转换**（如 `float` 转 `int`）或**有继承关系的类之间向上转换** |
 | -------------------- | ------------------------------------------------------------ |
-| **reinterpret_cast** | **主要用于底层转换**                                         |
+| **reinterpret_cast** | **主要用于底层转换** **指针引用转换成整型变量**              |
 | **const_cast**       | **该运算符用来修改类型的const或volatile属性。**              |
 | **dynamic_cast**     | **用于向下转换，用于多态类型的安全转换，在运行时进行类型检查** |
 
@@ -326,6 +342,94 @@ int main()
 `friend void GoodGuy::visit();`
 
 ---
+
+## 运算符重载
+
+### 内存池实现
+
+**new和delete重载最主要的是用于内存池**。
+
+如下代码实现了：
+
+1. 在Person类中创建了`char* pool`指针指向内存池起始地址；
+2. `initpool`函数是为了创建内存池，大小为18，结构体的大小是8，pool[0]和pool[9]存储的是标志位，当标志位为0时代表这一块内存没有对象，为1代表这一块内存满了。
+3. `freepoo`l函数为了销毁内存池，free掉pool指针。
+4. 重载`new`和`delete`：要考虑2种情况，第一种是内存池生成的对象，第二种是系统生成的对象。通过判断ptr == pool + 1判断是否对象是从内存池中创建的，如果是就释放内存池，如果不是就直接free，无需管标志位。
+
+*注意：*内存池指针必须要static，原因是当重载new、delete运算符时，不允许访问非静态成员。因为new在发生构造之前，delete在发生析构之后，他俩发生的时候，对象要么还没被创建、要么已经被销毁。他俩不知道对象成员在哪。但是静态成员是属于类本身的，而不是依附于对象的，所以`operator new`和 `operator delete`可以操作静态成员。
+
+```c++
+#include<iostream>
+using namespace std;
+
+class Person {
+public:
+	int number;
+	int height;
+	static char* pool; // 内存池的起始地址
+
+	Person(int number, int height) :number(number), height(height) { cout << "调用构造函数\n"; }
+	~Person() { cout << "调用析构函数\n"; }
+
+	static bool initpool() {
+		pool = (char*)malloc(18);
+		if (pool == 0) return false;
+		memset(pool, 0, 18);
+		cout << "内存池起始地址是：" << (void*)pool << endl;
+		return true;
+	}
+	static void freepool() {
+		if (pool == 0) return;
+		free(pool);
+		cout << "内存池已释放\n";
+	}
+	void* operator new(size_t size) {
+		if (pool[0] == 0) { // 判断第一块是否空闲
+			cout << "分配了第一块内存" << (void*)(pool + 1) << endl;
+			pool[0] = 1;
+			return pool + 1;
+		}
+		if (pool[9] == 0) {
+			cout << "分配了第二块内存" << (void*)(pool + 9) << endl;
+			pool[9] = 1;
+			return pool + 9;
+		}
+		void* ptr = malloc(size);
+		cout << "申请到的内存地址是" << ptr << endl;
+		return ptr;
+	}
+
+	void operator delete(void* ptr) {
+		if (ptr == 0) return;
+		if (ptr == pool + 1) {
+			cout << "释放了第一块内存" << endl;
+			pool[0] = 0;
+			return; // 立即返回
+		}
+		if (ptr == pool + 9) {
+			cout << "释放了第二块内存" << endl;
+			pool[9] = 0;
+			return;
+		}
+		free(ptr); // 释放那些不是在内存池中 系统创建的对象
+	}
+};
+
+char* Person::pool = 0; // 初始化静态成员变量 内存池指针
+
+int main() {
+	if (Person::initpool() == false) {
+		cout << "初始化内存池失败\n";
+		return -1;
+	}
+	Person* p2 = new Person(3, 8);
+	cout << "p2地址为：" << (void*)p2 << "编号" << p2->number << "身高" << p2->height << endl;
+	delete p2;
+	Person::freepool();
+}
+```
+
+
 
 ## 模板函数
 

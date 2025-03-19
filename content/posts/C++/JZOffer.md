@@ -1,18 +1,18 @@
 ---
 title: "剑指Offer"
 date: 2025-03-13
-tags: [C++]
+tags: [算法]
 description: "剑指Offer刷题笔记"
 showDate: true
 math: true
 chordsheet: true
 ---
 
-## 剑指offer
+# 剑指offer
 
 
 
-### JZ8 二叉树的下一个节点
+## JZ8 二叉树的下一个节点
 
 先找到传入节点所在树的根节点，然后用一个数组存储好中序遍历的节点。就可以顺序查找到下一个节点了。
 
@@ -40,7 +40,7 @@ void inOrder(TreeLinkNode* pNode) {
 
 
 
-### JZ11 旋转数组的最小数字
+## JZ11 旋转数组的最小数字
 
 旋转数组左边数组大于右边数组，所以如果中间元素大于右边元素的话，最小值在右边。如果中间元素小于右边，那么最小值在左边。如果中间元素等于右边元素，则无法判断，一个个移动。
 
@@ -59,7 +59,7 @@ int minNumberInRotateArray(vector<int>& nums) {
 
  
 
-### JZ12 矩阵中的路径
+## JZ12 矩阵中的路径
 
 *dfs*：在hasPath中先寻找起始点，然后在起始点调用dfs函数，dfs中如果index == word的长度 - 1则说明找到了。
 
@@ -96,7 +96,7 @@ bool dfs(vector<vector<char>>& matrix, string word, int index, int i, int j)
 
 
 
-### JZ13 机器人的运动范围
+## JZ13 机器人的运动范围
 
 ```c++
 #include <vector>
@@ -139,7 +139,7 @@ public:
 
 
 
-### JZ15 二进制中1的个数
+## JZ15 二进制中1的个数
 
 n & -n 可以快速提取最右侧的 1
 
@@ -157,7 +157,7 @@ int NumberOf1(int n) {
 
 
 
-### JZ21 调整数组顺序使奇数位于偶数前面
+## JZ21 调整数组顺序使奇数位于偶数前面
 
 设置一个i变量 = 0，用作存放奇数，每有一个奇数增加，就i++。
 
@@ -182,7 +182,7 @@ vector<int> reOrderArray(vector<int>& array) {
 
 
 
-### JZ22 链表中倒数最后k个节点
+## JZ22 链表中倒数最后k个节点
 
 *快慢指针*：快指针先找到第k个节点，然后再和慢指针一起遍历直到快指针到结尾。这时慢指针走了n - k步，就是最后k个节点。
 
@@ -204,7 +204,7 @@ vector<int> reOrderArray(vector<int>& array) {
 
 
 
-### JZ23 链表中环的入口结点
+## JZ23 链表中环的入口结点
 
 *方法一：哈希集合*
 
@@ -249,7 +249,7 @@ ListNode* EntryNodeOfLoop(ListNode* pHead) {
 
 
 
-### JZ24 反转链表
+## JZ24 反转链表
 
 *迭代法:*
 
@@ -274,7 +274,7 @@ ListNode* ReverseList(ListNode* head) {
 
 
 
-### JZ25 合并两个排序的链表
+## JZ25 合并两个排序的链表
 
 新建一个头节点，如果p1值更小，则连p1；如果p2小则连p2，不断更新下一位置。
 
@@ -305,7 +305,7 @@ ListNode* Merge(ListNode* p1, ListNode* p2) {
 
 
 
-### JZ26 树的子结构
+## JZ26 树的子结构
 
 首先要判断pRoot1和pRoot2树是否为空，如果为空则返回false。在它俩都不为空的前提条件下去判断pRoot2是否为pRoot1的子树，首先去找pRoot1是否某个节点和pRoot2相等，如果存在的的话，就调用recursion函数，递归遍历判断是否完全匹配。
 
@@ -341,7 +341,7 @@ public:
 
 
 
-### JZ33 二叉搜索树的后序遍历序列
+## JZ33 二叉搜索树的后序遍历序列
 
 写一个判断check函数，用来递归判断子树是否符合后序遍历序列，传递sequence的左右位置。
 
@@ -373,7 +373,7 @@ public:
 
 
 
-### JZ35 复杂链表的复制
+## JZ35 复杂链表的复制
 
 将原链表的结点对应的拷贝结点连在其后，链表从A - B - C变成A - A' - B - B' - C - C'。
 
@@ -412,7 +412,7 @@ public:
 
 
 
-### JZ36 二叉搜索树与双向链表
+## JZ36 二叉搜索树与双向链表
 
 举例子将二叉搜索树 1 - 2 - 3 变成双向链表，实际上是二叉树的中序遍历。
 
@@ -447,7 +447,7 @@ public:
 
 
 
-### JZ38 字符串的排列
+## JZ38 字符串的排列
 
 dfs 回溯方法，在原字符串的基础上交换，然后再交换回来。
 
@@ -477,7 +477,7 @@ dfs 回溯方法，在原字符串的基础上交换，然后再交换回来。
 
 
 
-### JZ39 数组中出现次数超过一半的数字
+## JZ39 数组中出现次数超过一半的数字
 
 *摩尔投票法步骤*
 
@@ -510,7 +510,7 @@ dfs 回溯方法，在原字符串的基础上交换，然后再交换回来。
 
 
 
-### JZ41 数据流中的中位数
+## JZ41 数据流中的中位数
 
 *堆排序（双堆法）*
 
@@ -545,7 +545,7 @@ public:
 
 
 
-### JZ43 整数中1出现的次数
+## JZ43 整数中1出现的次数
 
 *1.如何获取每一位数字的 左边数字 和 右边数字？*
 
@@ -604,7 +604,7 @@ int NumberOf1Between1AndN_Solution(int n) {
 
 
 
-### JZ44 数字序列中某一位的数字
+## JZ44 数字序列中某一位的数字
 
 *位数减法*：
 
@@ -639,7 +639,7 @@ int findNthDigit(int n) {
 
 
 
-### JZ45 把数组排成最小的数
+## JZ45 把数组排成最小的数
 
  *重载比较排序*
 
@@ -665,7 +665,7 @@ string PrintMinNumber(vector<int>& numbers) {
 
 
 
-### JZ46 把数字翻译成字符串
+## JZ46 把数字翻译成字符串
 
 *动态规划*
 
@@ -708,7 +708,7 @@ int solve(string nums) {
 
 
 
-### JZ48 最长不含重复字符的字符串
+## JZ48 最长不含重复字符的字符串
 
 *哈希 双指针*：滑动窗口思想。
 
@@ -734,7 +734,7 @@ int lengthOfLongestSubstring(string s) {
 
 
 
-### JZ49 丑数
+## JZ49 丑数
 
 把只包含质因子2、3和5的数称作丑数，有了定义我们就可以知道，**丑数的形式就是2^x 3^y 5^z**。
 
@@ -786,7 +786,7 @@ int GetUglyNumber_Solution(int index) {
 
 
 
-### JZ51 数组中的逆序对
+## JZ51 数组中的逆序对
 
 *通过归并排序统计逆序对的方法*：
 
@@ -829,7 +829,7 @@ int InversePairs(vector<int>& nums) {
 
 
 
-### JZ52 两个链表的第一个公共结点
+## JZ52 两个链表的第一个公共结点
 
 两个指针p1，p2分别在两条链表上同时走，如果它们到达尾部则指向另一条链表继续走，当双指针相遇时则是它们第一个公共节点。如果没有公共结点也会同时走到nullptr。
 
@@ -846,7 +846,7 @@ ListNode* FindFirstCommonNode( ListNode* pHead1, ListNode* pHead2) {
 
 
 
-### JZ54 二叉搜索树的第k个结点
+## JZ54 二叉搜索树的第k个结点
 
 中序排列，不断k --，k=0时返回。
 
@@ -899,7 +899,7 @@ int main() {
 
 
 
-### JZ56 数组中只出现一次的两个数字
+## JZ56 数组中只出现一次的两个数字
 
 异或运算，两个数一样异或结果为0，不一样则为1。
 
@@ -944,7 +944,7 @@ int main() {
 
 
 
-### JZ61 扑克牌顺子
+## JZ61 扑克牌顺子
 
 先排序从大到小，然后计算有多少个0可以转换。
 
@@ -967,7 +967,7 @@ bool IsContinuous(vector<int>& numbers) {
 
 
 
-### JZ62 孩子们的游戏（圆圈中最后剩下的数）
+## JZ62 孩子们的游戏（圆圈中最后剩下的数）
 
 *递归*
 
@@ -986,7 +986,7 @@ int LastRemaining_Solution(int n, int m) {
 
 
 
-### JZ65 不用加减乘除做加法
+## JZ65 不用加减乘除做加法
 
 *位运算非递归*
 
@@ -1008,7 +1008,7 @@ int Add(int num1, int num2) {
 
 
 
-### JZ66 构建乘积数组
+## JZ66 构建乘积数组
 
 B[i]该位置 = B左边 * B右边，右边需要从右向左累乘，左边需要从左向右累乘。
 
@@ -1031,7 +1031,7 @@ vector<int> multiply(vector<int>& A) {
 
 
 
-### JZ68 二叉搜索树的最近公共祖先
+## JZ68 二叉搜索树的最近公共祖先
 
 ```c++
 int lowestCommonAncestor(TreeNode* root, int p, int q) {
@@ -1047,7 +1047,7 @@ int lowestCommonAncestor(TreeNode* root, int p, int q) {
 
 
 
-### JZ86 在二叉树中找到两个节点的最近公共祖先
+## JZ86 在二叉树中找到两个节点的最近公共祖先
 
 和68题的区别在于一个是二叉搜索树，一个是二叉树。
 
@@ -1066,7 +1066,7 @@ int lowestCommonAncestor(TreeNode* root, int o1, int o2) {
 
 
 
-### JZ69 跳台阶
+## JZ69 跳台阶
 
 *方法一：递归 和斐波那契数列一样做法*
 
@@ -1127,7 +1127,7 @@ f(n - 1) = f(n - 2) + ... + f(0)
 
 
 
-### JZ74 和为S的连续正数序列
+## JZ74 和为S的连续正数序列
 
 *滑动窗口*
 
@@ -1154,7 +1154,7 @@ vector<vector<int> > FindContinuousSequence(int sum) {
 
 
 
-### JZ75 删除链表中的重复节点
+## JZ75 删除链表中的重复节点
 
 由于是排序链表，所以用哈希表存储，但值＞1时，cur后续结点肯定是重复的。
 
@@ -1220,7 +1220,7 @@ int main() {
 
 
 
-### JZ78 把二叉树打印成多行
+## JZ78 把二叉树打印成多行
 
 队列 广度优先搜索
 
@@ -1252,7 +1252,7 @@ vector<vector<int> > Print(TreeNode* pRoot) {
 
 
 
-### JZ79 判断是不是平衡二叉树
+## JZ79 判断是不是平衡二叉树
 
 *方法一*：**自顶向下**，时间复杂度O(n^2)
 
@@ -1288,7 +1288,7 @@ bool IsBalanced_Solution(TreeNode* pRoot) {
 
 
 
-### JZ14 JZ83 剪绳子(进阶版)
+## JZ14 JZ83 剪绳子(进阶版)
 
 *普通版*：
 
@@ -1353,7 +1353,7 @@ long long cutRope(long long number) {
 
 
 
-### JZ84 二叉树中和为某一值的路径
+## JZ84 二叉树中和为某一值的路径
 
 **递归**：以每个节点为根 调用dfs查询。dfs每层都将sum更新为减去当前节点的值，直到sum == 当前节点值时，代表找到一条路径。
 
@@ -1379,7 +1379,7 @@ int FindPath(TreeNode* root, int sum) {
 
 
 
-### JZ85 连续子数组的最大和
+## JZ85 连续子数组的最大和
 
 *动态规划*求连续子数组的最大和，用*左右指针*来记录最大和的下标位置。
 

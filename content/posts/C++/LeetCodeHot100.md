@@ -1,7 +1,7 @@
 ---
 title: "LeetCode热题100"
 date: 2025-03-12
-tags: [C++]
+tags: [算法]
 description: "LeetCode热题100整理"
 showDate: true
 math: true
@@ -499,5 +499,172 @@ bool searchMatrix(vector<vector<int>>& matrix, int target) {
     }
     return false;
 }
+```
+
+
+
+## 链表
+
+### 2. 两数相加
+
+初始化一个新的头节点res，用carry记录进位，在下次遍历中增加到sum中，不断地new一个新节点连接到res上。
+
+```c++
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    ListNode* res = new ListNode(0);
+    ListNode* cur = res;
+    int carry = 0;
+    while(l1 || l2 || carry) {
+        int sum = carry;
+        if(l1) {
+            sum += l1->val;
+            l1 = l1->next;
+        }
+        if(l2) {
+            sum += l2->val;
+            l2 = l2->next;
+        }
+        carry = sum / 10;
+        cur->next = new ListNode(sum % 10);
+        cur = cur->next;
+    }
+    return res->next;
+}
+```
+
+
+
+### 19. 删除链表的倒数第N个结点
+
+和倒数第k个元素的链表那道题很像，这道题只需找到第k个元素的前一个就好。
+
+当p1多走一步时，p2就会指向第N个节点的前一个结点。
+
+```c++
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+    ListNode* res = new ListNode(0);
+    res->next = head;
+    ListNode* p1 = res, *p2 = res;
+    while(n -- >= 0) {
+        if(p1) p1 = p1->next;
+    }
+    while(p1) {
+        p1 = p1->next;
+        p2 = p2->next;
+    }
+    if(p2->next) {
+        p2->next = p2->next->next;
+    }
+    return res->next;
+}
+```
+
+
+
+### 24. 两两交换链表中的节点
+
+*迭代法*：设置一个虚拟头节点，tmp从头节点开始，node1是tmp的下一个节点，node2是node1的下一个节点。
+
+```c++
+ListNode* swapPairs(ListNode* head) {
+    ListNode* res = new ListNode(0);
+    res->next = head;
+    ListNode* tmp = res;
+    while(tmp->next != nullptr && tmp->next->next != nullptr) {
+        ListNode* node1 = tmp->next, *node2 = tmp->next->next;
+        tmp->next = node2;
+        node1->next = node2->next;
+        node2->next = node1;
+        tmp = node1;
+    }
+    return res->next;
+}
+```
+
+
+
+### 25. K个一组反转链表
+
+
+
+```c++
+ListNode* reverseKGroup(ListNode* head, int k) {
+    if(!head || k <= 1) return head;
+    ListNode* tmp = head;
+    int len = 0;
+    while(tmp) {
+        tmp = tmp->next;
+        len ++;
+    }
+    ListNode* res = new ListNode(0);
+    res->next = head;
+    ListNode* pre = res;
+    ListNode* cur, *next;
+
+    while(len >= k) {
+        cur = pre->next;
+        next = cur->next;
+        for(int i = 1; i < k; i ++) {
+            cur->next = next->next;
+            next->next = pre->next;
+            pre->next = next;
+            next = cur->next;
+        }
+        pre = cur;
+        len -= k;
+    }
+    return res->next;
+}
+```
+
+
+
+### 23. 合并K个升序链表
+
+*归并排序*：和排序链表一样的道理，只不过K个需要两两合并，**分治法**。
+
+举例子：
+
+```
+lists[0] = merge(lists[0], lists[3])
+lists[1] = merge(lists[1], lists[4])
+```
+
+**`lists[2]` 没有被合并！**
+
+```c++
+class Solution {
+public:
+    ListNode* merge(ListNode* l1, ListNode* l2) {
+        ListNode* res = new ListNode(0);
+        ListNode* cur = res;
+        while(l1 && l2) {
+            if(l1->val < l2->val) {
+                cur->next = l1;
+                l1 = l1->next;
+            } else {
+                cur->next = l2;
+                l2 = l2->next;
+            }
+            cur = cur->next;
+        }
+        if(l1) cur->next = l1;
+        if(l2) cur->next = l2;
+        return res->next;
+    }
+    ListNode* mergeKLists(vector<ListNode*>& lists) {
+        if(lists.empty()) return nullptr;
+        int n = lists.size();
+        while(n > 1) {
+            int newSize = (n + 1) / 2; // 奇数情况比如5个数 实际上是3组
+            for(int i = 0; i < n / 2; i ++) {
+                lists[i] = merge(lists[i], lists[i + (n + 1) / 2]); // 看上面
+            }
+            n = newSize;
+        }
+        return lists[0];
+
+    }
+};
 ```
 

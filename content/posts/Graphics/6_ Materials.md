@@ -1,4 +1,0 @@
-
-
-# Materials and Appearance
-

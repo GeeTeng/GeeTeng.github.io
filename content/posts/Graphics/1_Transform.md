@@ -1,7 +1,7 @@
 ---
 title: "Model-View-Projection"
 date: 2024-11-02
-tags: [Computer-Graphics]
+tags: [Graphics]
 description: "MVP变换及GAMES101作业0和作业1"
 showDate: true
 math: true

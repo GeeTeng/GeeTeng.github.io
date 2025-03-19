@@ -1,8 +1,8 @@
 ---
-title: "计算机网络知识点"
+title: "应用层传输层网络层"
 date: 2025-01-13
-tags: [CS Basic]
-description: "计算机网络知识点"
+tags: [计算机网络]
+description: "IP篇、TCP UDP篇、HTTP篇"
 showDate: true
 math: true
 chordsheet: true
