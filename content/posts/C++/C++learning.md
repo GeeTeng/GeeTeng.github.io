@@ -31,7 +31,11 @@ math: true
 
 只能读出 所存数据稳定，断电后数据不会改变。存放**代码区**和**常量区**。
 
+> 堆和栈的空间大小
 
+**栈大小在linux默认8MB**，也可手动增大（但不是无限增大，否则碰到mmap区），通常大小是固定的。但是**堆大小可动态增长**。
+
+每个进程都有自己的虚拟内存空间，在虚拟内存空间中有内核空间和用户空间。32位的linux中内核空间占1GB，用户空间占3GB；而64位的linux用户空间可能有128TB。其中用户空间从上到下有栈、文件映射区、堆、全局静态区（.data,.bss）、代码区。所以32位linux中堆的申请大小不会超过3GB，但是64位linux通过swap技术可以扩展高达上百GB的空间。
 
 ## const用法和constexpr
 
@@ -195,6 +199,8 @@ enum class Color : int {
    static成员函数不能被virtual修饰，因为static成员不属于任何对象和实例，加上virtual没有任何意义；
    
    静态成员函数没有this指针，虚函数的实现是为每个对象分配一个vptr指针，而vptr是通过this指针调用的，所以不能为virtual。
+   
+   
 
 ---
 
@@ -595,6 +601,16 @@ int main() {
 }
 ```
 
+> 为什么 std::function 比虚函数更好？
+
+- 不需要继承，比 `virtual` 方式更轻量！
+- 可以动态替换绑定的回调（虚函数要改类结构，太麻烦）。
+- 可以绑定 Lambda、普通函数，灵活性更高
+
+> 什么时候用虚函数会更好
+
+如果一个类有多个虚方法，或者未来可能会扩展多个接口，用 `std::function` 反而不方便，因为 `std::function` 只能存 **一个** 回调，而虚函数可以有 **多个方法**。
+
 
 
 ## 内联函数
@@ -938,12 +954,22 @@ int main()
 
 弱引用，用来解决shared_ptr相互引用导致的死锁问题，类似一个观察者，不增加引用计数。
 
-例子：当两个对象（例如父节点和子节点）通过 `std::shared_ptr` 相互持有对方时，会导致 **循环引用**。
+例子树形结构：当两个对象（例如父节点和子节点）通过 `std::shared_ptr` 相互持有对方时，会导致 **循环引用**。
 
-- 父节点持有对子节点的 `shared_ptr`。
-- 子节点持有对父节点的 `shared_ptr`。
+```c++
+struct Node {
+    std::shared_ptr<Node> child; // 父节点持有对子节点的 `shared_ptr`。
+    std::shared_ptr<Node> parent; // 子节点持有对父节点的 `shared_ptr`。
+};
+```
+
+或者**在游戏开发中玩家持有武器，武器也持有玩家的指针**。
 
 由于 `shared_ptr` 通过引用计数来管理资源，这样的循环关系会导致引用计数永远不为 0，因为每个对象的引用计数都会被对方的 `shared_ptr` 所增加。这样，即使这两个对象都超出了作用域，它们的引用计数仍然没有减少到零，因此资源无法被释放，最终导致**内存泄漏**。
+
+*解决方法：*将其中一个shared_ptr改成weak_ptr。
+
+`weak_ptr.lock()`**尝试将 weak_ptr转换为 shared_ptr，前提是资源仍然存在**。
 
 ```c++
 #include <iostream>
@@ -980,146 +1006,122 @@ int main() {
 
 ---
 
-## 手写实现智能指针
+### 手写实现智能指针
 
-### UniquePtr
+*UniquePtr*
 
 ```c++
-#include<iostream>
-
-template<typename T>
 class UniquePtr
 {
+private:
+	T* ptr;
 public:
-	explicit UniquePtr(T* p = nullptr) :ptr(p) {}
-	// 禁止拷贝构造
+	explicit UniquePtr(T* p) :ptr(p) {}
+    // 删除拷贝构造函数
 	UniquePtr(const UniquePtr&) = delete;
-	// 禁止拷贝赋值
+    // 删除赋值运算符
 	UniquePtr& operator=(const UniquePtr&) = delete;
-	// 移动构造函数 在构造一个新对象时被调用
-	UniquePtr(UniquePtr&& other) noexcept : ptr(other.ptr)
-	{
+    // 移动构造函数
+	UniquePtr(UniquePtr&& other)noexcept :ptr(other.ptr){
 		other.ptr = nullptr;
 	}
-	//移动赋值运算符 在已经存在的对象上进行资源转移时被调用
-	UniquePtr& operator=(UniquePtr&& other)noexcept
-	{
-		if (this != &other)
-		{
+    // 移动赋值运算符
+	UniquePtr& operator=(UniquePtr&& other) noexcept {
+		if (this != &other) {
 			delete ptr;
 			ptr = other.ptr;
 			other.ptr = nullptr;
 		}
 		return *this;
 	}
-	// 重载 * 和 -> 运算符 让智能指针表现得像一个原始指针一样
-	T& operator*() const
-	{
-		return *ptr;
-	}
-
-	T* operator->() const
-	{
+	T* operator->()const {
 		return ptr;
 	}
-	// 释放控制权
-	T* release()
-	{
-		T* temp = ptr;
+	T& operator*()const {
+		return *ptr;
+	}
+	// 释放资源 绑定新资源 默认是nullptr
+	void reset(T* p = nullptr) {
+		if (ptr != p) {
+			delete ptr;
+			ptr = p;
+		}
+	}
+	// 放弃所有权 ptr指向nullptr
+	T* release() {
+		T* tmp = ptr;
 		ptr = nullptr;
-		return temp;
+		return tmp;
 	}
-	// 重置指针
-	void reset(T* p = nullptr)
-	{
-		delete ptr;
-		ptr = p; // // 指向新资源，或nullptr
+	T* get() const{
+		if(ptr) return ptr;
 	}
-
-	~UniquePtr()
-	{
-		delete ptr;
-	}
-
-private:
-	T* ptr;
+	~UniquePtr() { delete ptr; }
 };
 ```
 
-### SharedPtr
+*SharedPtr*
 
 ```c++
-#include<iostream>
-
 template<typename T>
-class SharedPtr
-{
+
+class SharedPtr {
 private:
 	T* ptr;
-	// size_t是专门用于表示内存大小的类型 语义清晰 平台兼容性（大小自动调整）
-	size_t* refCount;
-
+	int* ref_count;
 public:
-	explicit SharedPtr(T* p = nullptr) : ptr(p), refCount(new size_t(1)) { }
-
-	SharedPtr(const SharedPtr& other) : ptr(other.ptr), refCount(other.refCount)
-	{
-		++(*refCount); // 增加引用计数
+	explicit SharedPtr(T* p = nullptr) :ptr(p), ref_count(new int(p ? 1 : 0)) { }
+	// 拷贝构造函数
+	SharedPtr(const SharedPtr& other) noexcept : ptr(other.ptr), ref_count(other.ref_count) {
+		if (ptr) (*ref_count)++;
 	}
-
-	SharedPtr& operator=(const SharedPtr& other)
-	{
-		if (this != &other)
-		{
+	// 移动构造函数
+	SharedPtr(SharedPtr&& other) noexcept :ptr(other.ptr), ref_count(other.ref_count) {
+		other.ptr = nullptr;
+		other.ref_count = nullptr;
+	}
+	// 拷贝赋值
+	SharedPtr& operator=(const SharedPtr& other) noexcept {
+		if (this != &other) {
 			release();
 			ptr = other.ptr;
-			refCount = other.refCount;
-			++(*refCount);
+			ref_count = other.ref_count;
+			if (ptr) (*ref_count)++;
 		}
 		return *this;
 	}
-
-	T& operator*() const
-	{
-		return *ptr;
+    // 移动赋值
+	SharedPtr& operator=(SharedPtr&& other) noexcept {
+		if (this != &other) {
+			release();
+			ptr = other.ptr; ref_count = other.ref_count;
+			other.ptr = nullptr;
+			other.ref_count = nullptr;
+		}
+		return *this;
 	}
-	T* operator->() const
-	{
-		return ptr;
+	int use_count() const {
+		return ptr ? *ref_count : 0;
 	}
-	size_t use_count() const
-	{
-		return *refCount;
-	}
-	~SharedPtr()
-	{
+	~SharedPtr() {
 		release();
 	}
+	T* operator->()const {
+		return ptr;
+	}
+	T& operator*()const {
+		return *ptr;
+	}
 private:
-	void release()
-	{
-		if (--(*refCount) == 0)
-		{
+	void release() {
+		if (ref_count && --(*ref_count) == 0) {
 			delete ptr;
-			delete refCount;
+			delete ref_count;
 		}
+		ptr = nullptr;
+		ref_count = nullptr;
 	}
 };
-
-int main()
-{
-	SharedPtr<int> sptr1(new int(20));
-	std::cout << "sptr1 use_count: " << sptr1.use_count() << std::endl;
-
-	{
-		SharedPtr<int> sptr2 = sptr1;
-		std::cout << "sptr1 use_count: " << sptr1.use_count() << std::endl;
-		std::cout << "sptr2 use_count: " << sptr2.use_count() << std::endl;
-	}
-
-	std::cout << "sp1 use_count after sptr2 destroyed: " << sptr1.use_count() << std::endl;
-	return 0;
-}
 ```
 
 ---

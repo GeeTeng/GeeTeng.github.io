@@ -12,6 +12,8 @@ chordsheet: true
 
 # LeetCodeHot100
 
+## 双指针
+
 ### 42. 接雨水
 
 *方法一*：
@@ -76,6 +78,8 @@ int trap(vector<int>& height) {
 
 
 
+## 滑动窗口
+
 ### 438. 找到字符串中所有字母异位词
 
 **滑动窗口**
@@ -104,6 +108,8 @@ vector<int> findAnagrams(string s, string p) {
 ```
 
 
+
+## 子串
 
 ### 560. 和为k的子数组
 
@@ -171,60 +177,6 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
 
 
 
-### LRU缓存
-
-**双向链表和哈希表**
-
-双向链表存储的是{key, value}，哈希表存储的是双向链表的迭代器。
-
-```c++
-#include<iostream>
-#include<list>
-#include<unordered_map>
-using namespace std;
-
-class LRUCache {
-private:
-	int capacity;
-	list<pair<int, int>> cache;
-	unordered_map<int, list<pair<int, int>>::iterator> hashTable;
-
-public:
-	LRUCache(int cap) : capacity(cap) { }
-	int get(int key) {
-		if (hashTable.find(key) == hashTable.end()) return -1;
-		cache.splice(cache.begin(), cache, hashTable[key]); // 移动到头部
-		return hashTable[key]->second;
-	}
-
-	void put(int key, int value) {
-		if (hashTable.find(key) != hashTable.end()) {
-			hashTable[key]->second = value;
-			cache.splice(cache.begin(), cache, hashTable[key]); //如果在缓存中，则移动到头部
-		}
-		else { // 如果不在缓存中
-			if (cache.size() >= capacity) { // 并且容量满了
-				auto last = cache.back();
-				hashTable.erase(last.first); // 从哈希表中删除
-				cache.pop_back(); // 把最不常用的队尾的pop
-			}
-			cache.push_front({ key, value });
-			hashTable[key] = cache.begin();
-		}
-	}
-};
-
-int main() {
-	LRUCache lru(2);
-	lru.put(1, 10);
-	lru.put(2, 20);
-	cout << lru.get(1) << endl;
-	lru.put(3, 30);
-	cout << lru.get(2) << endl;
-	return 0;
-}
-```
-
 ### 76. 最小覆盖字串
 
 ```c++
@@ -260,71 +212,6 @@ public:
             }
         }
         return minLen == INT_MAX ? "" : s.substr(start, minLen);
-    }
-};
-```
-
-
-
-## 二叉树
-
-### 101. 对称二叉树
-
-*递归*：将root的左右子树传递给check函数。check函数递归左右子树的左右子树。
-
-```c++
-class Solution {
-public:
-    bool check(TreeNode* p, TreeNode* q) {
-        if(!p && !q) return true;
-        if(!p || !q) return false;
-        return p->val == q->val && check(p->left, q->right) && check(p->right, q->left); 
-    }
-    bool isSymmetric(TreeNode* root) {
-        return check(root->left, root->right);
-    }
-};
-```
-
-### 543. 二叉树的直径
-
-找左子树中最大的深度和右子树中最大的深度，加在一起 -1就是最长的路径。
-
-```c++
-class Solution {
-public:
-    int ans = 0;
-    int depth(TreeNode* root) {
-        if(root == nullptr) return 0;
-        int left = depth(root->left);
-        int right = depth(root->right);
-        ans = max(left + right + 1, ans);
-        return max(left, right) + 1;
-    }
-    int diameterOfBinaryTree(TreeNode* root) {
-        depth(root);
-        return ans - 1;
-    }
-};
-```
-
-### 108. 将有序数组转换为二叉搜索树
-
-*二分法*
-
-```c++
-class Solution {
-public:
-    TreeNode* helper(vector<int>& nums, int left, int right) {
-        if(left > right) return nullptr;
-        int mid = left + right >> 1;
-        TreeNode* root = new TreeNode(nums[mid]);
-        root->left = helper(nums, left, mid - 1);
-        root->right = helper(nums, mid + 1, right);
-        return root;
-    }
-    TreeNode* sortedArrayToBST(vector<int>& nums) {
-        return helper(nums, 0, nums.size() - 1);
     }
 };
 ```
@@ -666,5 +553,570 @@ public:
 
     }
 };
+```
+
+
+
+## 二叉树
+
+### 101. 对称二叉树
+
+*递归*：将root的左右子树传递给check函数。check函数递归左右子树的左右子树。
+
+```c++
+class Solution {
+public:
+    bool check(TreeNode* p, TreeNode* q) {
+        if(!p && !q) return true;
+        if(!p || !q) return false;
+        return p->val == q->val && check(p->left, q->right) && check(p->right, q->left); 
+    }
+    bool isSymmetric(TreeNode* root) {
+        return check(root->left, root->right);
+    }
+};
+```
+
+
+
+### 543. 二叉树的直径
+
+找左子树中最大的深度和右子树中最大的深度，加在一起 -1就是最长的路径。
+
+```c++
+class Solution {
+public:
+    int ans = 0;
+    int depth(TreeNode* root) {
+        if(root == nullptr) return 0;
+        int left = depth(root->left);
+        int right = depth(root->right);
+        ans = max(left + right + 1, ans);
+        return max(left, right) + 1;
+    }
+    int diameterOfBinaryTree(TreeNode* root) {
+        depth(root);
+        return ans - 1;
+    }
+};
+```
+
+
+
+### 108. 将有序数组转换为二叉搜索树
+
+*二分法*
+
+```c++
+class Solution {
+public:
+    TreeNode* helper(vector<int>& nums, int left, int right) {
+        if(left > right) return nullptr;
+        int mid = left + right >> 1;
+        TreeNode* root = new TreeNode(nums[mid]);
+        root->left = helper(nums, left, mid - 1);
+        root->right = helper(nums, mid + 1, right);
+        return root;
+    }
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        return helper(nums, 0, nums.size() - 1);
+    }
+};
+```
+
+
+
+### 102. 二叉树的层序遍历
+
+层序遍历用队列
+
+```c++
+vector<vector<int>> levelOrder(TreeNode* root) {
+    vector<vector<int>> res;
+    if (root == nullptr)
+        return res;
+    queue<TreeNode*> q;
+    q.push(root);
+    while (!q.empty()) {
+        int size = q.size();
+        vector<int> level;
+        for (int i = 0; i < size; i++) {
+            TreeNode* tmp = q.front();
+            q.pop();
+            level.push_back(tmp->val);
+            if (tmp->left)
+                q.push(tmp->left);
+            if (tmp->right)
+                q.push(tmp->right);
+        }
+        res.push_back(level);
+    }
+    return res;
+}
+```
+
+
+
+### 98. 验证二叉搜索树
+
+*递归*： 对于一个二叉搜索树，左边结点一定在 [-∞， 根节点的值]这个区间，而右边结点一定在 [根结点的值，正无穷]这个区间内。
+
+所以只要判断每个节点是否在它应该在的区间内，并不断更新区间，就可以判断它是否是一颗二叉搜索树。
+
+```c++
+class Solution {
+public:
+    bool helper(TreeNode* root, long long lower, long long upper) {
+        if(!root) return true;
+        if(root->val <= lower || root->val >= upper) return false;
+        return helper(root->left, lower, root->val) && helper(root->right, root->val, upper);
+    }
+    bool isValidBST(TreeNode* root) {
+        return helper(root, LONG_MIN, LONG_MAX);
+    }
+};
+```
+
+
+
+### 230. 二叉搜索树中第k小的元素
+
+*中序遍历*：一路遍历root结点的左节点，存入栈中，栈顶元素就是最小元素。跳出循环之后，k --，寻找第k小的元素。如果k == 0跳出循环返回值，如果还没找到第k个结点，呢就继续下一次循环增加根节点的右节点进到栈。
+
+```c++
+int kthSmallest(TreeNode* root, int k) {
+    stack<TreeNode*> st;
+    while(root != nullptr || st.size() > 0) {
+        while(root != nullptr) {
+            st.push(root);
+            root = root->left;
+        }
+        root = st.top();
+        st.pop();
+        -- k;
+        if(k == 0) break;
+        root = root->right;
+    }
+    return root->val;
+}
+```
+
+
+
+### 199. 二叉树的右视图
+
+先递归右子树，再递归左子树，当某个深度首次到达时，对应的节点就在右视图中。
+
+```c++
+vector<int> rightSideView(TreeNode* root) {
+    vector<int> res;
+    dfs(root, 0, res);
+    return res;
+}
+void dfs(TreeNode* root, int depth, vector<int>& res) {
+    if(root == nullptr) return;
+    if(depth == res.size()) {
+        res.push_back(root->val);
+    }
+    dfs(root->right, depth + 1, res);
+    dfs(root->left, depth + 1, res);
+}
+```
+
+
+
+### 114. 二叉树展开为链表
+
+*先序遍历*：先把先序遍历的结点存入到vector中，然后将vector中的树节点左指针指向nullptr，右指针指向后一个元素。
+
+最后一个n - 1元素左右指针都指向nullptr。
+
+```c++
+void flatten(TreeNode* root) {
+    if(root == nullptr) return;
+    vector<TreeNode*> res;
+    preOrder(root, res);
+    int n = res.size();
+    for(int i = 0; i < n - 1; ++ i) {
+        res[i]->left = nullptr;
+        res[i]->right = res[i + 1];
+    }
+    res[n - 1]->left = res[n - 1]-> right = nullptr;
+}
+void preOrder(TreeNode* root, vector<TreeNode*>& res) {
+    if(root == nullptr) return;
+    res.push_back(root);
+    preOrder(root->left, res);
+    preOrder(root->right, res);
+}
+```
+
+
+
+### 236. 二叉树的最近公共祖先LCA
+
+*递归：*非二叉搜索树，递归左子树找 p 或 q ，如果左右子树都非空，代表root为最近公共祖先，如果其中一个没有找到p或q，代表 p 和 q 在root的同一侧，则返回非空的left或right。
+
+```c++
+TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
+    if(root == nullptr || root == p || root == q) return root;
+    TreeNode* left = lowestCommonAncestor(root->left, p, q);
+    TreeNode* right = lowestCommonAncestor(root->right, p, q);
+    if(left && right) return root;
+    return left ? left : right;
+}
+```
+
+
+
+### 124. 二叉树中的最大路径和
+
+*递归*：计算从当前 `root` 出发的**最大贡献值**（即从 `root` 到某个叶子节点的最大路径和）
+
+在递归过程中计算最大路径和 `maxSum`。
+
+`maxGain(root)` 递归返回的是**从当前 `root` 开始的最大贡献值**，而**不是**路径和！
+
+```c++
+int maxSum = INT_MIN;
+int maxGain(TreeNode* root) {
+    if(root == nullptr) return 0;
+    int leftGain = max(maxGain(root->left), 0);
+    int rightGain = max(maxGain(root->right), 0);
+    int pathPrice = leftGain + rightGain + root->val; // 用于记录最大路径和maxSum
+    maxSum = max(pathPrice, maxSum); 
+    return max(leftGain,rightGain) + root->val; // 用于递归的返回值 返回单条路径right或者left
+}
+int maxPathSum(TreeNode* root) {
+    maxGain(root);
+    return maxSum;
+}
+```
+
+
+
+### 146. LRU缓存
+
+**双向链表和哈希表**
+
+双向链表存储的是{key, value}，哈希表存储的是双向链表的迭代器。
+
+```c++
+#include<iostream>
+#include<list>
+#include<unordered_map>
+using namespace std;
+
+class LRUCache {
+private:
+	int capacity;
+	list<pair<int, int>> cache;
+	unordered_map<int, list<pair<int, int>>::iterator> hashTable;
+
+public:
+	LRUCache(int cap) : capacity(cap) { }
+	int get(int key) {
+		if (hashTable.find(key) == hashTable.end()) return -1;
+		cache.splice(cache.begin(), cache, hashTable[key]); // 移动到头部
+		return hashTable[key]->second;
+	}
+
+	void put(int key, int value) {
+		if (hashTable.find(key) != hashTable.end()) {
+			hashTable[key]->second = value;
+			cache.splice(cache.begin(), cache, hashTable[key]); //如果在缓存中，则移动到头部
+		}
+		else { // 如果不在缓存中
+			if (cache.size() >= capacity) { // 并且容量满了
+				auto last = cache.back();
+				hashTable.erase(last.first); // 从哈希表中删除
+				cache.pop_back(); // 把最不常用的队尾的pop
+			}
+			cache.push_front({ key, value });
+			hashTable[key] = cache.begin();
+		}
+	}
+};
+
+int main() {
+	LRUCache lru(2);
+	lru.put(1, 10);
+	lru.put(2, 20);
+	cout << lru.get(1) << endl;
+	lru.put(3, 30);
+	cout << lru.get(2) << endl;
+	return 0;
+}
+```
+
+### 
+
+## 图论
+
+### 200. 岛屿数量
+
+*dfs*
+
+```c++
+#include<iostream>
+#include<vector>
+using namespace std;
+
+const int dx[4] = { 0, 1, 0, -1 };
+const int dy[4] = { 1, 0, -1, 0 };
+
+void dfs(vector<vector<char>>& grid, int x, int y, int m, int n) {
+	if (x < 0 || x >= m || y < 0 || y >= n || grid[x][y] == '0') return;
+	grid[x][y] = '0';
+	for (int i = 0; i < 4; i++) {
+		dfs(grid, x + dx[i], y + dy[i], m, n);
+	}
+}
+
+int numIslands(vector<vector<char>>& grid) {
+	int m = grid.size(), n = grid[0].size();
+	int count = 0;
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			if (grid[i][j] == '1') {
+				count++;
+				dfs(grid, i, j, m, n);
+			}
+		}
+	}
+	return count;
+}
+int main() {
+	int m, n;
+	cin >> m >> n;
+	vector<vector<char>> grid(m, vector<char>(n));
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			cin >> grid[i][j];
+		}
+	}
+	cout << numIslands(grid) << endl;
+	return 0;
+}
+```
+
+
+
+### 994. 腐烂的橘子
+
+*bfs*：因为需要一圈一圈的扩散，所以用bfs，而且最主要的原因是，需要计算每次扩散的时间。dfs没办法做到这一点。
+
+```c++
+#include<iostream>
+#include<queue>
+using namespace std;
+
+const int dx[4] = { 0, 0, 1, -1 };
+const int dy[4] = { 1, -1, 0, 0 };
+
+int orangeRotting(vector<vector<int>>& grid) {
+	int time = 0, freshOrange = 0;
+	queue<pair<int, int>> q;
+	int m = grid.size(), n = grid[0].size();
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			if (grid[i][j] == 1) freshOrange++;
+			else if (grid[i][j] == 2) q.push({ i, j });
+		}
+	}
+	while (!q.empty() && freshOrange) {
+		int size = q.size();
+		for (int i = 0; i < size; i++) {
+			pair<int, int> front = q.front();
+			int x = front.first, y = front.second;
+			q.pop();
+			for (int d = 0; d < 4; d++) {
+				int nx = x + dx[d], ny = y + dy[d];
+				if (nx >= 0 && nx < m && ny >= 0 && ny < n && grid[nx][ny] == 1) {
+					grid[nx][ny] = 2;
+					q.push({ nx, ny });
+					freshOrange--;
+				}
+			}
+		}
+		time++;
+	}
+	return freshOrange ? -1 : time;
+}
+
+int main() {
+	int m, n;
+	cin >> m >> n;
+	vector<vector<int>> grid(m, vector<int>(n));
+	for (int i = 0; i < m; i++) {
+		for (int j = 0; j < n; j++) {
+			cin >> grid[i][j];
+		}
+	}
+	cout << orangeRotting(grid) << endl;
+	return 0;
+}
+```
+
+
+
+### 207. 课程表
+
+拓扑排序*bfs：*构建邻接表
+
+`vector<int> inDegree(numCourses, 0);  // 记录每门课的前置课数量（入度）`
+`vector<vector<int>> graph(numCourses); // 邻接表，graph[i] 存放课程 i 的后续课程`
+
+入度为0的入队，取出队列的课程，可以立即学习。
+
+遍历该课程的后继课程，将其入度-1，如果入度变为0则入队。
+
+判断是否能学完 numCourses门课（无环）。
+
+邻接表`graph`的结构
+
+> 0: [1, 2]  // 课程 0 是 1 和 2 的前置课程
+> 1: [3]     // 课程 1 是 3 的前置课程
+> 2: [3]     // 课程 2 是 3 的前置课程
+> 3: []      // 课程 3 没有后续课程
+
+```c++
+#include<iostream>
+#include<vector>
+#include<queue>
+using namespace std;
+
+bool canFinish(int numCourses, vector<vector<int>> prerequisites) {
+	vector<int> inDegree(numCourses, 0);
+	vector<vector<int>> graph(numCourses);
+	for (auto p : prerequisites) {
+		int next = p[0], pre = p[1];
+		graph[pre].push_back(next);
+		inDegree[next]++;
+	}
+	queue<int> q;
+	for (int i = 0; i < numCourses; i ++) {
+		if (inDegree[i] == 0) q.push(i);
+	}
+	int count = 0;
+	while (!q.empty()) {
+		auto front = q.front();
+		q.pop();
+		count++;
+		for (int next : graph[front]) {
+			inDegree[next]--;
+			if (inDegree[next] == 0) q.push(next);
+		}
+	}
+	return numCourses == count ? true : false;
+}
+
+int main() {
+	int numCourse = 4;
+	vector<vector<int>> prerequisites = { {1, 0}, {2, 0}, {3, 1}, {3, 2} };
+	cout << (canFinish(numCourse, prerequisites) ? "true" : "false") << endl;
+	return 0;
+}
+```
+
+
+
+### 208. 实现Trie（前缀树）
+
+`children`指针数组记录英文字母，`isEnd`用来标记是否字符串的结尾。
+
+- 插入字符串
+
+  - 如果子节点存在，则移动到子节点处理下一个字符。
+  - 如果子节点不存在，则创建一个新的子节点，然后处理下一个字符。
+
+- 查找字符串
+
+  不断搜索下一个字符是否在字典树中，遍历完后返回`isEnd`，只有到达单词结尾，才是完整单词。
+
+- 查找前缀
+
+  同上，但不用判断isEnd。
+
+```c++
+#include<iostream>
+#include<vector>
+using namespace std;
+
+class Trie {
+private:
+	struct TrieNode
+	{
+		TrieNode* children[26] = { nullptr };
+		bool isEnd = false; // 记录是否为单词结尾
+	};
+	TrieNode* root;
+
+public:
+	Trie() {
+		root = new TrieNode();
+	}
+	~Trie() { deleteTrie(root); }
+	void insert(string word) {
+		TrieNode* node = root;
+		for (char ch : word) {
+			int index = ch - 'a';
+			if (!node->children[index]) {
+				node->children[index] = new TrieNode();
+			}
+			node = node->children[index];
+		}
+		node->isEnd = true;
+	}
+	bool search(string word) {
+		TrieNode* node = root;
+		for (char ch : word) {
+			int index = ch - 'a';
+			if (!node->children[index]) return false;
+			node = node->children[index];
+		}
+		return node->isEnd;
+	}
+	bool startsWith(string prefix) {
+		TrieNode* node = root;
+		for (char ch : prefix) {
+			int index = ch - 'a';
+			if (!node->children[index]) return false;
+			node = node->children[index];
+		}
+		return true;
+	}
+private:
+    // 递归删除掉trie树所有节点
+	void deleteTrie(TrieNode* node) {
+		if (!node) return;
+		for (int i = 0; i < 26; i++) {
+			if (node->children[i]) {
+				deleteTrie(node->children[i]);
+			}
+		}
+		delete node;
+	}
+};
+
+int main() {
+	Trie trie;
+	int n;
+	cin >> n;
+	while (n--) {
+		string op, word;
+		cin >> op >> word;
+		if (op == "insert") {
+			trie.insert(word);
+		}
+		else if (op == "search") {
+			cout << (trie.search(word) ? "true" : "false") << endl;
+		}
+		else {
+			cout << (trie.startsWith(word) ? "true" : "false") << endl;
+		}
+	}
+	return 0;
+}
 ```
 

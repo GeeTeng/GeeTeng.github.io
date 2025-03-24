@@ -778,3 +778,47 @@ int main()
 }
 ```
 
+
+
+## 网络编程
+
+### socket函数详解
+
+`int socket(int domain, int type, int protocol);`
+
+成功返回一个有效的socket，失败返回-1，errno被设置。
+
+单个进程中创建的socket数量与受系统参数open files的限制。（ulimit -a ）一般是1024。
+
+
+
+*domain协议家族*
+
+`PF_INET`      IPv4互联网协议族。
+
+`PF_INET6`     IPv6互联网协议族。
+
+
+
+*type数据传输的类型*
+
+`SOCK_STREAM`    面向连接的socket：1）数据不会丢失；2）数据的顺序不会错乱；3）双向通道。
+
+`SOCK_DGRAM`    无连接的socket：1）数据可能会丢失；2）数据的顺序可能会错乱；3）传输的效率更高。
+
+
+
+*protocol最终使用的协议*
+
+在IPv4网络协议家族中，数据传输方式为`SOCK_STREAM`的协议只有`IPPROTO_TCP`，数据传输方式为`SOCK_DGRAM`的协议只有`IPPROTO_UDP`。
+
+```c++
+socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);  // 创建tcp的sock
+socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);  // 创建udp的sock
+```
+
+
+
+### 主机字节序与网络字节序
+
+为了解决不同字节序的计算机之间传输数据的问题，约定采用网络字节序（大端序）。

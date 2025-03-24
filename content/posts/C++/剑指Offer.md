@@ -341,6 +341,30 @@ public:
 
 
 
+## JZ31 栈的压入、弹出序列
+
+*辅助栈*
+
+```c++
+bool IsPopOrder(vector<int>& pushV, vector<int>& popV) {
+    int n = pushV.size();
+    stack<int> s;
+    int j = 0;
+    for(int i = 0; i < n; i ++) {
+        // s是空的时候一定要入栈 或者 s栈顶元素和弹出序列当前元素不一样时要入栈 以上两种入栈情况都要基于j < n 
+        while(j < n && (s.empty() || s.top() != popV[i])) {
+            s.push(pushV[j]);
+            j ++;
+        }
+        if(s.top() == popV[i]) s.pop(); // 如果匹配到了一个 就弹出
+        else return false; // 否则j > n情况 遍历完了都没有能匹配上的
+    }
+    return true;
+}
+```
+
+
+
 ## JZ33 二叉搜索树的后序遍历序列
 
 写一个判断check函数，用来递归判断子树是否符合后序遍历序列，传递sequence的左右位置。
@@ -452,27 +476,27 @@ public:
 dfs 回溯方法，在原字符串的基础上交换，然后再交换回来。
 
 ```c++
-    void dfs(string &s, int index, vector<string> &res) {
-        if(index == s.size() - 1) {
-            res.push_back(s);
-            return;
-        }
-        unordered_set<char> vis;
-        for(int i = index; i < s.size(); i ++) {
-            if(!vis.count(s[i])){
-                vis.insert(s[i]);
-                swap(s[i], s[index]);
-                dfs(s, index + 1, res);
-                swap(s[i], s[index]);
-            }
+void dfs(string &s, int index, vector<string> &res) {
+    if(index == s.size() - 1) {
+        res.push_back(s);
+        return;
+    }
+    unordered_set<char> vis;
+    for(int i = index; i < s.size(); i ++) {
+        if(!vis.count(s[i])){
+            vis.insert(s[i]);
+            swap(s[i], s[index]);
+            dfs(s, index + 1, res);
+            swap(s[i], s[index]);
         }
     }
+}
 
-    vector<string> Permutation(string str) {
-        vector<string> res;
-        dfs(str, 0, res);
-        return res;
-    }
+vector<string> Permutation(string str) {
+    vector<string> res;
+    dfs(str, 0, res);
+    return res;
+}
 ```
 
 
@@ -510,6 +534,37 @@ dfs 回溯方法，在原字符串的基础上交换，然后再交换回来。
 
 
 
+## JZ40 最小的k个数
+
+*堆*：维护一个容量为k的最大堆，当遍历到比堆顶更小的元素，就弹出堆顶元素，将该元素加入堆中。
+
+```c++
+vector<int> GetLeastNumbers_Solution(vector<int>& input, int k) {
+    vector<int> res;
+    if(k == 0 || k > input.size()) return res;
+    priority_queue<int> pq;
+    for (int i : input) {
+        if (pq.size() < k) {
+            pq.push(i);
+        }
+        else {
+            if(pq.top() > i) {
+                pq.pop();
+                pq.push(i);
+            }
+        }
+    }
+
+    while (!pq.empty()) {
+        res.push_back(pq.top());
+        pq.pop();
+    }
+    return res;
+}
+```
+
+
+
 ## JZ41 数据流中的中位数
 
 *堆排序（双堆法）*
@@ -539,7 +594,7 @@ public:
     double GetMedian() { 
         // 奇数个
         if(min.size() > max.size()) return double(min.top());
-        else return double (min.top() + max.top()) / 2;
+        else return double (min.top() + max.top()) / 2.0;
     }
 ```
 

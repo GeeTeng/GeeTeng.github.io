@@ -269,6 +269,10 @@ int main()
 
 适用于可能会用到该实例。
 
+> 怎么保证单例？
+
+**让构造函数 `private`**，并提供 **静态方法 `GetInstance()`** 来获取唯一实例。
+
 ```c++
 class Singleton {
 private:
@@ -291,7 +295,30 @@ public:
 Singleton* Singleton::instance = nullptr;
 ```
 
-*饿汉式：*一定会用到该实例，程序在启动时就会创建实例。
+懒汉式线程安全加锁版：
+
+```c++
+class Singleton {
+private:
+	static Singleton* instance;
+	static mutex mtx;
+	Singleton() { cout << "构造函数\n"; }
+public:
+	Singleton(const Singleton&) = delete;
+	Singleton& operator=(const Singleton&) = delete;
+	static Singleton* GetInstance() {
+		lock_guard<mutex> lock(mtx);
+		if (instance == nullptr) {
+			instance = new Singleton();
+		}
+		return instance;
+	}
+};
+Singleton* Singleton::instance = nullptr;
+mutex Singleton::mtx;
+```
+
+懒汉式线程安全局部静态变量版：
 
 ```c++
 class Singleton {
@@ -300,17 +327,46 @@ private:
 public:
 	Singleton(const Singleton&) = delete;
 	Singleton& operator=(const Singleton&) = delete;
-	static Singleton& GetInstance() {
-		static Singleton instance; // 程序启动时就会创建实例
+	static Singleton* GetInstance() {
+		// 对象会自动初始化 但是指针不会自动初始化 所以要初始化对象 返回对象的地址
+		static Singleton instance;
+		return &instance;
+	}
+};
+
+void ThreadFunc(int id) {
+	cout << "id = " << id << ",Singleton = " << Singleton::GetInstance() << endl;
+}
+
+int main() {
+	thread t1(ThreadFunc, 1);
+	thread t2(ThreadFunc, 2);
+	t1.join();
+	t2.join();
+	return 0;
+}
+```
+
+
+
+*饿汉式：*一定会用到该实例，程序在启动时就会创建实例。
+
+```c++
+#include<iostream>
+using namespace std;
+
+class Singleton {
+private:
+	static Singleton* instance;
+	Singleton() { cout << "构造函数\n"; }
+public:
+	Singleton(const Singleton&) = delete;
+	Singleton& operator=(const Singleton&) = delete;
+	static Singleton* GetInstance() {
 		return instance;
 	}
 };
 
-int main() {
-	Singleton& s1 = Singleton::GetInstance();
-	Singleton& s2 = Singleton::GetInstance();
-	cout << &s1 << ' ' << &s2;
-	return 0;
-}
+Singleton* Singleton::instance = new Singleton;
 ```
 
