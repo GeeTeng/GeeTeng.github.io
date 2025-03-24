@@ -35,7 +35,7 @@
   <meta itemprop="description" content="linux基础操作、进程控制、网络编程等">
   <meta itemprop="datePublished" content="2025-03-02T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-02T00:00:00+00:00">
-  <meta itemprop="wordCount" content="1350">
+  <meta itemprop="wordCount" content="1388">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/linux/" />
 
@@ -227,6 +227,12 @@
             <li><a href="#循环队列">循环队列</a></li>
           </ul>
         </li>
+        <li><a href="#网络编程">网络编程</a>
+          <ul>
+            <li><a href="#socket函数详解">socket函数详解</a></li>
+            <li><a href="#主机字节序与网络字节序">主机字节序与网络字节序</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -249,7 +255,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        34 mins read
+                        36 mins read
                     </p>
                 </div>
             </div>
@@ -970,7 +976,24 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>  shmdt(QQ);  <span style="color:#75715e">// 把共享内存从当前进程中分离。
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
-</span></span></code></pre></div>
+</span></span></code></pre></div><h2 id="网络编程">网络编程</h2>
+<h3 id="socket函数详解">socket函数详解</h3>
+<p><code>int socket(int domain, int type, int protocol);</code></p>
+<p>成功返回一个有效的socket，失败返回-1，errno被设置。</p>
+<p>单个进程中创建的socket数量与受系统参数open files的限制。（ulimit -a ）一般是1024。</p>
+<p><em>domain协议家族</em></p>
+<p><code>PF_INET</code>      IPv4互联网协议族。</p>
+<p><code>PF_INET6</code>     IPv6互联网协议族。</p>
+<p><em>type数据传输的类型</em></p>
+<p><code>SOCK_STREAM</code>    面向连接的socket：1）数据不会丢失；2）数据的顺序不会错乱；3）双向通道。</p>
+<p><code>SOCK_DGRAM</code>    无连接的socket：1）数据可能会丢失；2）数据的顺序可能会错乱；3）传输的效率更高。</p>
+<p><em>protocol最终使用的协议</em></p>
+<p>在IPv4网络协议家族中，数据传输方式为<code>SOCK_STREAM</code>的协议只有<code>IPPROTO_TCP</code>，数据传输方式为<code>SOCK_DGRAM</code>的协议只有<code>IPPROTO_UDP</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);  <span style="color:#75715e">// 创建tcp的sock
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);  <span style="color:#75715e">// 创建udp的sock
+</span></span></span></code></pre></div><h3 id="主机字节序与网络字节序">主机字节序与网络字节序</h3>
+<p>为了解决不同字节序的计算机之间传输数据的问题，约定采用网络字节序（大端序）。</p>
+
         </div>
     </div>
 </div><div id="social-media-share" class="has-text-centered">

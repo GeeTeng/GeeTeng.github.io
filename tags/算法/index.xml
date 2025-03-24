@@ -10,9 +10,9 @@
     <atom:link href="https://geeteng.github.io/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>剑指Offer</title>
-      <link>https://geeteng.github.io/posts/c&#43;&#43;/jzoffer/</link>
+      <link>https://geeteng.github.io/posts/c&#43;&#43;/%E5%89%91%E6%8C%87offer/</link>
       <pubDate>Thu, 13 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/c&#43;&#43;/jzoffer/</guid>
+      <guid>https://geeteng.github.io/posts/c&#43;&#43;/%E5%89%91%E6%8C%87offer/</guid>
       <description>剑指offer JZ8 二叉树的下一个节点 先找到传入节点所在树的根节点，然后用一个数组存储好中序遍历的节点。就可以顺序查找到下一个节点了。&#xA;vector&amp;lt;TreeLinkNode*&amp;gt; node; TreeLinkNode* GetNext(TreeLinkNode* pNode) { if(pNode == nullptr) return nullptr; TreeLinkNode* root = pNode; while(root-&amp;gt;next) { root = root-&amp;gt;next; } inOrder(root); for(int i = 0; i &amp;lt; node.size(); i ++) { if(node[i] == pNode) return node[i + 1]; } return nullptr; } void inOrder(TreeLinkNode* pNode) { if(pNode == nullptr) return; inOrder(pNode-&amp;gt;left); node.push_back(pNode); inOrder(pNode-&amp;gt;right); } JZ11 旋转数组的最小数字 旋转数组左边数组大于右边数组，所以如果中间元素大于右边元素的话，最小值在右边。如果中间元素小于右边，那么最小值在左边。如果中间元素等于右边元素，则无法判断，一个个移动。&#xA;int minNumberInRotateArray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int l = 0, r = nums.</description>
     </item>
     <item>
@@ -20,7 +20,7 @@
       <link>https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/</link>
       <pubDate>Wed, 12 Mar 2025 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/</guid>
-      <description>LeetCodeHot100 42. 接雨水 方法一：&#xA;前后缀分解&#xA;计算前缀最大值数组、后缀最大值数组。再遍历一遍，取该处的前缀最大值和后缀最大值的最小值，再减去该处高度，就是接到的容量。&#xA;int trap(vector&amp;lt;int&amp;gt;&amp;amp; height) { int n = height.size(); vector&amp;lt;int&amp;gt; pre(n), back(n); int maxh = 0; for(int i = 0; i &amp;lt; n; i ++) { maxh = max(maxh, height[i]); pre[i] = maxh; } maxh = 0; for(int i = n - 1; i &amp;gt;= 0; i --) { maxh = max(maxh, height[i]); back[i] = maxh; } int res = 0; for(int i = 0; i &amp;lt; n; i ++) { res += min(pre[i], back[i]) - height[i]; } return res; } 方法二：</description>
+      <description>LeetCodeHot100 双指针 42. 接雨水 方法一：&#xA;前后缀分解&#xA;计算前缀最大值数组、后缀最大值数组。再遍历一遍，取该处的前缀最大值和后缀最大值的最小值，再减去该处高度，就是接到的容量。&#xA;int trap(vector&amp;lt;int&amp;gt;&amp;amp; height) { int n = height.size(); vector&amp;lt;int&amp;gt; pre(n), back(n); int maxh = 0; for(int i = 0; i &amp;lt; n; i ++) { maxh = max(maxh, height[i]); pre[i] = maxh; } maxh = 0; for(int i = n - 1; i &amp;gt;= 0; i --) { maxh = max(maxh, height[i]); back[i] = maxh; } int res = 0; for(int i = 0; i &amp;lt; n; i ++) { res += min(pre[i], back[i]) - height[i]; } return res; } 方法二：</description>
     </item>
   </channel>
 </rss>

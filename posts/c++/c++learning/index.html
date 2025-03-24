@@ -35,7 +35,7 @@
   <meta itemprop="description" content="更新中">
   <meta itemprop="datePublished" content="2024-12-11T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-12-11T00:00:00+00:00">
-  <meta itemprop="wordCount" content="3103">
+  <meta itemprop="wordCount" content="3141">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/" />
 
@@ -255,12 +255,7 @@
             <li><a href="#shared_ptr">shared_ptr</a></li>
             <li><a href="#unique_ptr">unique_ptr</a></li>
             <li><a href="#weak_ptr">weak_ptr</a></li>
-          </ul>
-        </li>
-        <li><a href="#手写实现智能指针">手写实现智能指针</a>
-          <ul>
-            <li><a href="#uniqueptr">UniquePtr</a></li>
-            <li><a href="#sharedptr">SharedPtr</a></li>
+            <li><a href="#手写实现智能指针">手写实现智能指针</a></li>
           </ul>
         </li>
         <li><a href="#lambda函数--匿名函数--闭包">Lambda函数 / 匿名函数 / 闭包</a>
@@ -310,7 +305,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        71 mins read
+                        74 mins read
                     </p>
                 </div>
             </div>
@@ -373,6 +368,11 @@
 <p>与CPU直接交换数据，可读写区域，存放<strong>全局（静态）区</strong>、<strong>堆区</strong>、<strong>栈区</strong>。</p>
 <p>只读存储器ROM</p>
 <p>只能读出 所存数据稳定，断电后数据不会改变。存放<strong>代码区</strong>和<strong>常量区</strong>。</p>
+<blockquote>
+<p>堆和栈的空间大小</p>
+</blockquote>
+<p><strong>栈大小在linux默认8MB</strong>，也可手动增大（但不是无限增大，否则碰到mmap区），通常大小是固定的。但是<strong>堆大小可动态增长</strong>。</p>
+<p>每个进程都有自己的虚拟内存空间，在虚拟内存空间中有内核空间和用户空间。32位的linux中内核空间占1GB，用户空间占3GB；而64位的linux用户空间可能有128TB。其中用户空间从上到下有栈、文件映射区、堆、全局静态区（.data,.bss）、代码区。所以32位linux中堆的申请大小不会超过3GB，但是64位linux通过swap技术可以扩展高达上百GB的空间。</p>
 <h2 id="const用法和constexpr">const用法和constexpr</h2>
 <p>const用法：</p>
 <ol>
@@ -823,7 +823,19 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h2 id="内联函数">内联函数</h2>
+</span></span></code></pre></div><blockquote>
+<p>为什么 std::function 比虚函数更好？</p>
+</blockquote>
+<ul>
+<li>不需要继承，比 <code>virtual</code> 方式更轻量！</li>
+<li>可以动态替换绑定的回调（虚函数要改类结构，太麻烦）。</li>
+<li>可以绑定 Lambda、普通函数，灵活性更高</li>
+</ul>
+<blockquote>
+<p>什么时候用虚函数会更好</p>
+</blockquote>
+<p>如果一个类有多个虚方法，或者未来可能会扩展多个接口，用 <code>std::function</code> 反而不方便，因为 <code>std::function</code> 只能存 <strong>一个</strong> 回调，而虚函数可以有 <strong>多个方法</strong>。</p>
+<h2 id="内联函数">内联函数</h2>
 <p>内联函数是通过 <code>inline</code> 关键字声明的函数，目的是告诉编译器尝试将函数调用的代码插入到调用点，而不是进行常规的函数调用（即跳转到函数实现的过程）。这种方法通常能<strong>减少函数调用的开销</strong>，尤其是对于短小的函数。</p>
 <p>然而，内联并不是绝对的，<strong>编译器有时会根据函数的复杂度或其他因素决定是否内联展开</strong>。编译器会根据启用内联的提示做优化，但<strong>并不会强制内联</strong>。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Base</span>
@@ -1063,12 +1075,15 @@
 </span></span></span></code></pre></div><p>当你通过 <code>std::move</code> 将所有权从 <code>unique</code> 转移到 <code>unique2</code> 时，<code>unique</code> 不再持有该对象，也就是说它的内部指针变成了空指针（<code>nullptr</code>）。此时，<strong>资源并没有被销毁，而是由新的 <code>unique_ptr</code>（即 <code>unique2</code>）接管管理权</strong>。</p>
 <h3 id="weak_ptr">weak_ptr</h3>
 <p>弱引用，用来解决shared_ptr相互引用导致的死锁问题，类似一个观察者，不增加引用计数。</p>
-<p>例子：当两个对象（例如父节点和子节点）通过 <code>std::shared_ptr</code> 相互持有对方时，会导致 <strong>循环引用</strong>。</p>
-<ul>
-<li>父节点持有对子节点的 <code>shared_ptr</code>。</li>
-<li>子节点持有对父节点的 <code>shared_ptr</code>。</li>
-</ul>
+<p>例子树形结构：当两个对象（例如父节点和子节点）通过 <code>std::shared_ptr</code> 相互持有对方时，会导致 <strong>循环引用</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Node</span> {
+</span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>shared_ptr<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">&gt;</span> child; <span style="color:#75715e">// 父节点持有对子节点的 `shared_ptr`。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    std<span style="color:#f92672">::</span>shared_ptr<span style="color:#f92672">&lt;</span>Node<span style="color:#f92672">&gt;</span> parent; <span style="color:#75715e">// 子节点持有对父节点的 `shared_ptr`。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><p>或者<strong>在游戏开发中玩家持有武器，武器也持有玩家的指针</strong>。</p>
 <p>由于 <code>shared_ptr</code> 通过引用计数来管理资源，这样的循环关系会导致引用计数永远不为 0，因为每个对象的引用计数都会被对方的 <code>shared_ptr</code> 所增加。这样，即使这两个对象都超出了作用域，它们的引用计数仍然没有减少到零，因此资源无法被释放，最终导致<strong>内存泄漏</strong>。</p>
+<p>*解决方法：*将其中一个shared_ptr改成weak_ptr。</p>
+<p><code>weak_ptr.lock()</code><strong>尝试将 weak_ptr转换为 shared_ptr，前提是资源仍然存在</strong>。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;memory&gt;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
@@ -1099,139 +1114,115 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><hr>
-<h2 id="手写实现智能指针">手写实现智能指针</h2>
-<h3 id="uniqueptr">UniquePtr</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UniquePtr</span>
+<h3 id="手写实现智能指针">手写实现智能指针</h3>
+<p><em>UniquePtr</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UniquePtr</span>
 </span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> ptr;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">explicit</span> UniquePtr(T<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#f92672">:</span>ptr(p) {}
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 禁止拷贝构造
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">explicit</span> UniquePtr(T<span style="color:#f92672">*</span> p) <span style="color:#f92672">:</span>ptr(p) {}
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 删除拷贝构造函数
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UniquePtr(<span style="color:#66d9ef">const</span> UniquePtr<span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 禁止拷贝赋值
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 删除赋值运算符
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UniquePtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> UniquePtr<span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 移动构造函数 在构造一个新对象时被调用
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UniquePtr(UniquePtr<span style="color:#f92672">&amp;&amp;</span> other) <span style="color:#66d9ef">noexcept</span> <span style="color:#f92672">:</span> ptr(other.ptr)
-</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 移动构造函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UniquePtr(UniquePtr<span style="color:#f92672">&amp;&amp;</span> other)<span style="color:#66d9ef">noexcept</span> <span style="color:#f92672">:</span>ptr(other.ptr){
 </span></span><span style="display:flex;"><span>		other.ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">//移动赋值运算符 在已经存在的对象上进行资源转移时被调用
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UniquePtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(UniquePtr<span style="color:#f92672">&amp;&amp;</span> other)<span style="color:#66d9ef">noexcept</span>
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>other)
-</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 移动赋值运算符
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UniquePtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(UniquePtr<span style="color:#f92672">&amp;&amp;</span> other) <span style="color:#66d9ef">noexcept</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>other) {
 </span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">delete</span> ptr;
 </span></span><span style="display:flex;"><span>			ptr <span style="color:#f92672">=</span> other.ptr;
 </span></span><span style="display:flex;"><span>			other.ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 重载 * 和 -&gt; 运算符 让智能指针表现得像一个原始指针一样
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	T<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>() <span style="color:#66d9ef">const</span>
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>ptr;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">-&gt;</span>() <span style="color:#66d9ef">const</span>
-</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">-&gt;</span>()<span style="color:#66d9ef">const</span> {
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> ptr;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 释放控制权
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	T<span style="color:#f92672">*</span> <span style="color:#a6e22e">release</span>()
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		T<span style="color:#f92672">*</span> temp <span style="color:#f92672">=</span> ptr;
+</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>()<span style="color:#66d9ef">const</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>ptr;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 释放资源 绑定新资源 默认是nullptr
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">reset</span>(T<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (ptr <span style="color:#f92672">!=</span> p) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">delete</span> ptr;
+</span></span><span style="display:flex;"><span>			ptr <span style="color:#f92672">=</span> p;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 放弃所有权 ptr指向nullptr
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	T<span style="color:#f92672">*</span> <span style="color:#a6e22e">release</span>() {
+</span></span><span style="display:flex;"><span>		T<span style="color:#f92672">*</span> tmp <span style="color:#f92672">=</span> ptr;
 </span></span><span style="display:flex;"><span>		ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> temp;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> tmp;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 重置指针
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">reset</span>(T<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">delete</span> ptr;
-</span></span><span style="display:flex;"><span>		ptr <span style="color:#f92672">=</span> p; <span style="color:#75715e">// // 指向新资源，或nullptr
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">~</span>UniquePtr()
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">delete</span> ptr;
+</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> <span style="color:#a6e22e">get</span>() <span style="color:#66d9ef">const</span>{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(ptr) <span style="color:#66d9ef">return</span> ptr;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> ptr;
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">~</span>UniquePtr() { <span style="color:#66d9ef">delete</span> ptr; }
 </span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><h3 id="sharedptr">SharedPtr</h3>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SharedPtr</span>
-</span></span><span style="display:flex;"><span>{
+</span></span></code></pre></div><p><em>SharedPtr</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SharedPtr</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> ptr;
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// size_t是专门用于表示内存大小的类型 语义清晰 平台兼容性（大小自动调整）
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	size_t<span style="color:#f92672">*</span> refCount;
-</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> ref_count;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">explicit</span> SharedPtr(T<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#f92672">:</span> ptr(p), refCount(<span style="color:#66d9ef">new</span> size_t(<span style="color:#ae81ff">1</span>)) { }
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	SharedPtr(<span style="color:#66d9ef">const</span> SharedPtr<span style="color:#f92672">&amp;</span> other) <span style="color:#f92672">:</span> ptr(other.ptr), refCount(other.refCount)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#f92672">++</span>(<span style="color:#f92672">*</span>refCount); <span style="color:#75715e">// 增加引用计数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	SharedPtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> SharedPtr<span style="color:#f92672">&amp;</span> other)
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>other)
-</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">explicit</span> SharedPtr(T<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#f92672">:</span>ptr(p), ref_count(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>(p <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>)) { }
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 拷贝构造函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	SharedPtr(<span style="color:#66d9ef">const</span> SharedPtr<span style="color:#f92672">&amp;</span> other) <span style="color:#66d9ef">noexcept</span> <span style="color:#f92672">:</span> ptr(other.ptr), ref_count(other.ref_count) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (ptr) (<span style="color:#f92672">*</span>ref_count)<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 移动构造函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	SharedPtr(SharedPtr<span style="color:#f92672">&amp;&amp;</span> other) <span style="color:#66d9ef">noexcept</span> <span style="color:#f92672">:</span>ptr(other.ptr), ref_count(other.ref_count) {
+</span></span><span style="display:flex;"><span>		other.ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>		other.ref_count <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 拷贝赋值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	SharedPtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> SharedPtr<span style="color:#f92672">&amp;</span> other) <span style="color:#66d9ef">noexcept</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>other) {
 </span></span><span style="display:flex;"><span>			release();
 </span></span><span style="display:flex;"><span>			ptr <span style="color:#f92672">=</span> other.ptr;
-</span></span><span style="display:flex;"><span>			refCount <span style="color:#f92672">=</span> other.refCount;
-</span></span><span style="display:flex;"><span>			<span style="color:#f92672">++</span>(<span style="color:#f92672">*</span>refCount);
+</span></span><span style="display:flex;"><span>			ref_count <span style="color:#f92672">=</span> other.ref_count;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (ptr) (<span style="color:#f92672">*</span>ref_count)<span style="color:#f92672">++</span>;
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>() <span style="color:#66d9ef">const</span>
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>ptr;
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 移动赋值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	SharedPtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(SharedPtr<span style="color:#f92672">&amp;&amp;</span> other) <span style="color:#66d9ef">noexcept</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>other) {
+</span></span><span style="display:flex;"><span>			release();
+</span></span><span style="display:flex;"><span>			ptr <span style="color:#f92672">=</span> other.ptr; ref_count <span style="color:#f92672">=</span> other.ref_count;
+</span></span><span style="display:flex;"><span>			other.ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>			other.ref_count <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">-&gt;</span>() <span style="color:#66d9ef">const</span>
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> ptr;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">use_count</span>() <span style="color:#66d9ef">const</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> ptr <span style="color:#f92672">?</span> <span style="color:#f92672">*</span>ref_count : <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	size_t <span style="color:#a6e22e">use_count</span>() <span style="color:#66d9ef">const</span>
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>refCount;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">~</span>SharedPtr()
-</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">~</span>SharedPtr() {
 </span></span><span style="display:flex;"><span>		release();
 </span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">-&gt;</span>()<span style="color:#66d9ef">const</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> ptr;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>()<span style="color:#66d9ef">const</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>ptr;
+</span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> release()
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#f92672">--</span>(<span style="color:#f92672">*</span>refCount) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
-</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> release() {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (ref_count <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">--</span>(<span style="color:#f92672">*</span>ref_count) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
 </span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">delete</span> ptr;
-</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">delete</span> refCount;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">delete</span> ref_count;
 </span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>		ref_count <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>};
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>()
-</span></span><span style="display:flex;"><span>{
-</span></span><span style="display:flex;"><span>	SharedPtr<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> sptr1(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>(<span style="color:#ae81ff">20</span>));
-</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;sptr1 use_count: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> sptr1.use_count() <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	{
-</span></span><span style="display:flex;"><span>		SharedPtr<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> sptr2 <span style="color:#f92672">=</span> sptr1;
-</span></span><span style="display:flex;"><span>		std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;sptr1 use_count: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> sptr1.use_count() <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</span></span><span style="display:flex;"><span>		std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;sptr2 use_count: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> sptr2.use_count() <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>	std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;sp1 use_count after sptr2 destroyed: &#34;</span> <span style="color:#f92672">&lt;&lt;</span> sptr1.use_count() <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><hr>
 <h2 id="lambda函数--匿名函数--闭包">Lambda函数 / 匿名函数 / 闭包</h2>
 <p>用法：参数列表两个int，返回int。</p>
@@ -1715,7 +1706,7 @@
 	    </a>
 
 		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2fc%2b%2blearning%2f
-			&title=C%2b%2b%e7%9f%a5%e8%af%86%e5%9b%9e%e9%a1%be&summary=C%2b%2b%20%e5%86%85%e5%ad%98%e5%b8%83%e5%b1%80%20%e5%86%85%e5%ad%98%e5%8c%ba%e5%9f%9f%20%e5%ad%98%e5%82%a8%e5%86%85%e5%ae%b9%20%e4%bb%a3%e7%a0%81%e6%ae%b5%ef%bc%88.text%ef%bc%89%20%e5%ad%98%e5%82%a8%e7%a8%8b%e5%ba%8f%e7%9a%84%e5%8f%af%e6%89%a7%e8%a1%8c%e4%bb%a3%e7%a0%81%ef%bc%8c%e5%8c%85%e6%8b%ac%e6%99%ae%e9%80%9a%e5%87%bd%e6%95%b0%e5%92%8c%e8%99%9a%e5%87%bd%e6%95%b0%e7%9a%84%e5%ae%9e%e7%8e%b0%20%e6%95%b0%e6%8d%ae%e6%ae%b5%ef%bc%88%e5%85%a8%e5%b1%80%e9%9d%99%e6%80%81%e5%8c%ba%ef%bc%89%ef%bc%88.data%20%e5%92%8c%20.bss%ef%bc%89%20%e5%ad%98%e5%82%a8%e5%85%a8%e5%b1%80%2f%e9%9d%99%e6%80%81%e5%8f%98%e9%87%8f%ef%bc%88%e5%b7%b2%e5%88%9d%e5%a7%8b%e5%8c%96%e7%9a%84%e6%94%be%e5%9c%a8%20.data%ef%bc%8c%e6%9c%aa%e5%88%9d%e5%a7%8b%e5%8c%96%e7%9a%84%e6%94%be%e5%9c%a8%20.bss%ef%bc%89%20%e5%8f%aa%e8%af%bb%e6%95%b0%e6%8d%ae%e6%ae%b5%ef%bc%88%e5%b8%b8%e9%87%8f%e5%8c%ba%ef%bc%89%ef%bc%88.rodata%ef%bc%89%20%e5%ad%98%e5%82%a8%e5%b8%b8%e9%87%8f%e6%95%b0%e6%8d%ae%ef%bc%88%e5%a6%82%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%ad%97%e9%9d%a2%e9%87%8f%e3%80%81const%20%e5%8f%98%e9%87%8f%e3%80%81VTable%ef%bc%89%20%e5%a0%86%e5%8c%ba%ef%bc%88Heap%ef%bc%89%20%e7%94%b1%20new%e3%80%81malloc%20%e5%8a%a8%e6%80%81%e5%88%86%e9%85%8d%ef%bc%8c%e7%a8%8b%e5%ba%8f%e5%91%98%e6%89%8b%e5%8a%a8%e9%87%8a%e6%94%be%e3%80%82%e4%bb%8e%e4%bd%8e%e5%9c%b0%e5%9d%80%e5%90%91%e4%b8%8a%e5%a2%9e%e9%95%bf%e3%80%82%20%e6%96%87%e4%bb%b6%e6%98%a0%e5%b0%84%e6%ae%b5%20%e5%8c%85%e6%8b%ac%e5%8a%a8%e6%80%81%e5%ba%93%e3%80%81%e5%85%b1%e4%ba%ab%e5%86%85%e5%ad%98%e7%ad%89%20%e6%a0%88%e5%8c%ba%ef%bc%88Stack%ef%bc%89%20%e7%94%b1%e5%87%bd%e6%95%b0%e7%9a%84%e5%b1%80%e9%83%a8%e5%8f%98%e9%87%8f%e3%80%81%e5%87%bd%e6%95%b0%e8%b0%83%e7%94%a8%e5%b8%a7%e7%ad%89%e7%bb%84%e6%88%90%ef%bc%8c%e8%87%aa%e5%8a%a8%e7%ae%a1%e7%90%86%e3%80%82%e4%b8%80%e8%88%ac%e6%98%af8MB%ef%bc%8c%e5%90%91%e4%bd%8e%e5%9c%b0%e5%9d%80%e5%a2%9e%e9%95%bf%e3%80%82%20%e9%9a%8f%e6%9c%ba%e5%ad%98%e5%82%a8%e5%99%a8RAM%ef%bc%88%e4%b8%bb%e5%ad%98%ef%bc%89%0a%e4%b8%8eCPU%e7%9b%b4%e6%8e%a5%e4%ba%a4%e6%8d%a2%e6%95%b0%e6%8d%ae%ef%bc%8c%e5%8f%af%e8%af%bb%e5%86%99%e5%8c%ba%e5%9f%9f%ef%bc%8c%e5%ad%98%e6%94%be%e5%85%a8%e5%b1%80%ef%bc%88%e9%9d%99%e6%80%81%ef%bc%89%e5%8c%ba%e3%80%81%e5%a0%86%e5%8c%ba%e3%80%81%e6%a0%88%e5%8c%ba%e3%80%82%0a%e5%8f%aa%e8%af%bb%e5%ad%98%e5%82%a8%e5%99%a8ROM%0a%e5%8f%aa%e8%83%bd%e8%af%bb%e5%87%ba%20%e6%89%80%e5%ad%98%e6%95%b0%e6%8d%ae%e7%a8%b3%e5%ae%9a%ef%bc%8c%e6%96%ad%e7%94%b5%e5%90%8e%e6%95%b0%e6%8d%ae%e4%b8%8d%e4%bc%9a%e6%94%b9%e5%8f%98%e3%80%82%e5%ad%98%e6%94%be%e4%bb%a3%e7%a0%81%e5%8c%ba%e5%92%8c%e5%b8%b8%e9%87%8f%e5%8c%ba%e3%80%82%0aconst%e7%94%a8%e6%b3%95%e5%92%8cconstexpr%20const%e7%94%a8%e6%b3%95%ef%bc%9a%0a%e4%bf%ae%e9%a5%b0%e5%8f%98%e9%87%8f%20%e5%8f%98%e9%87%8f%e4%b8%8d%e8%83%bd%e4%bf%ae%e6%94%b9%20%e6%8c%87%e9%92%88%e5%b8%b8%e9%87%8f%20%ef%bc%88%e5%85%88%e5%87%ba%e7%8e%b0%e6%8c%87%e9%92%88%20%e5%86%8d%e5%87%ba%e7%8e%b0const%ef%bc%89%20%e5%b8%b8%e9%87%8f%e6%8c%87%e9%92%88%20%ef%bc%88%e5%85%88%e5%87%ba%e7%8e%b0const%20%e5%86%8d%e5%87%ba%e7%8e%b0%e6%8c%87%e9%92%88%ef%bc%89%20%e4%bf%ae%e9%a5%b0%e5%bc%95%e7%94%a8%20%e4%b8%8d%e8%83%bd%e9%80%9a%e8%bf%87%e5%bc%95%e7%94%a8%e4%bf%ae%e6%94%b9%e5%80%bc%20%e4%bf%ae%e9%a5%b0%e6%88%90%e5%91%98%e5%87%bd%e6%95%b0%20%e7%9b%b8%e5%bd%93%e4%ba%8e%e4%bf%ae%e9%a5%b0%e4%ba%86%e6%88%90%e5%91%98%e5%87%bd%e6%95%b0%e9%9a%90%e8%97%8f%e7%9a%84this%e6%8c%87%e9%92%88%20%e9%a1%b6%e5%b1%82const%e5%92%8c%e5%ba%95%e5%b1%82const%20%e9%a1%b6%e5%b1%82const%e6%8c%87%e7%9a%84%e6%98%afconst%e4%bf%ae%e9%a5%b0%e7%9a%84%e5%8f%98%e9%87%8f%e6%9c%ac%e8%ba%ab%e6%98%af%e4%b8%80%e4%b8%aa%e5%b8%b8%e9%87%8f%ef%bc%8c%e5%a6%82int%2a%20const%20p%ef%bc%8c%e5%ba%95%e5%b1%82const%e6%8c%87%e7%9a%84%e6%98%afconst%e4%bf%ae%e9%a5%b0%e7%9a%84%e5%8f%98%e9%87%8f%e6%89%80%e6%8c%87%e5%90%91%e7%9a%84%e5%af%b9%e8%b1%a1%e6%98%af%e4%b8%80%e4%b8%aa%e5%b8%b8%e9%87%8f%ef%bc%8c%e5%a6%82const%20int%2a%20p%e3%80%82%0aconst%20int%20%2a%20const%20p3%20%3d%20p2%20%2f%2f%20%e9%9d%a0%e5%8f%b3%e7%9a%84const%e6%98%af%e9%a1%b6%e5%b1%82const%ef%bc%8c%e9%9d%a0%e5%b7%a6%e7%9a%84%e6%98%af%e5%ba%95%e5%b1%82const%20%e5%b8%b8%e9%87%8f%e6%8c%87%e9%92%88const%20int%2a%20p1%e4%b8%ad%ef%bc%8cconst%e4%bf%ae%e9%a5%b0%e7%9a%84%e6%98%af%2ap1%ef%bc%8c%e6%89%80%e4%bb%a5%e4%bf%ae%e6%94%b9%e4%b8%8d%e4%ba%86%e6%8c%87%e9%92%88%e6%8c%87%e5%90%91%e7%9a%84%e5%80%bc%ef%bc%8c%e4%b9%9f%e5%b0%b1%e6%98%af%e4%bf%ae%e6%94%b9%e4%b8%8d%e4%ba%86%2ap1%3b%e4%bd%86%e6%98%afp1%e5%92%8c%e6%8c%87%e5%90%91%e5%af%b9%e8%b1%a1%e7%9a%84%e5%80%bc%e6%98%af%e5%8f%af%e4%bb%a5%e6%94%b9%e5%8f%98%e7%9a%84%ef%bc%8c%e5%8f%aa%e6%98%af%e4%b8%8d%e8%83%bd%e6%94%b9%e5%8f%98%e6%8c%87%e9%92%88%e6%8c%87%e5%90%91%e7%9a%84%e5%80%bc%e3%80%82%0aint%20main%28%29%20%7b%20int%20a%20%3d%203%2c%20b%20%3d%204%3b%20const%20int%2a%20p1%20%3d%20%26amp%3ba%3b%20%2f%2f%20%e6%8c%87%e5%90%91%20const%20int%20%e7%9a%84%e6%8c%87%e9%92%88%ef%bc%88%e6%95%b0%e6%8d%ae%e4%b8%8d%e5%8f%af%e6%94%b9%ef%bc%8c%e4%bd%86%e6%8c%87%e9%92%88%e5%8f%af%e6%94%b9%ef%bc%89%20%2f%2f%20%2ap1%20%3d%205%3b%20%2f%2f%20%e2%9d%8c%20%e9%94%99%e8%af%af%ef%bc%9a%e4%b8%8d%e8%83%bd%e4%bf%ae%e6%94%b9%20p1%20%e6%8c%87%e5%90%91%e7%9a%84%e5%80%bc%20p1%20%3d%20%26amp%3bb%3b%20%2f%2f%20%e2%9c%85%20%e5%8f%af%e4%bb%a5%e4%bf%ae%e6%94%b9%20p1%20%e7%9a%84%e6%8c%87%e5%90%91%20a%20%3d%2010%3b%20%2f%2f%20%e2%9c%85%20%e7%9b%b4%e6%8e%a5%e4%bf%ae%e6%94%b9%20a%20%e6%98%af%e5%85%81%e8%ae%b8%e7%9a%84%20%7d%20%e6%8c%87%e9%92%88%e5%b8%b8%e9%87%8fint%2a%20const%20p2%e4%b8%ad%ef%bc%8cconst%e4%bf%ae%e9%a5%b0%e7%9a%84%e6%98%afp2%ef%bc%8c%e6%89%80%e4%bb%a5%e4%bf%ae%e6%94%b9%e4%b8%8d%e4%ba%86%e6%8c%87%e9%92%88%e6%9c%ac%e8%ba%ab%e7%9a%84%e5%80%bc%ef%bc%8c%e4%b9%9f%e5%b0%b1%e6%98%af%e4%bf%ae%e6%94%b9%e4%b8%8d%e4%ba%86p2%e3%80%82%e6%af%94%e5%a6%82p2%20%3d%20%26amp%3ba%e5%b0%b1%e4%b8%8d%e5%8f%af%e4%bb%a5%e3%80%82&source=rafed123.github.io"
+			&title=C%2b%2b%e7%9f%a5%e8%af%86%e5%9b%9e%e9%a1%be&summary=C%2b%2b%20%e5%86%85%e5%ad%98%e5%b8%83%e5%b1%80%20%e5%86%85%e5%ad%98%e5%8c%ba%e5%9f%9f%20%e5%ad%98%e5%82%a8%e5%86%85%e5%ae%b9%20%e4%bb%a3%e7%a0%81%e6%ae%b5%ef%bc%88.text%ef%bc%89%20%e5%ad%98%e5%82%a8%e7%a8%8b%e5%ba%8f%e7%9a%84%e5%8f%af%e6%89%a7%e8%a1%8c%e4%bb%a3%e7%a0%81%ef%bc%8c%e5%8c%85%e6%8b%ac%e6%99%ae%e9%80%9a%e5%87%bd%e6%95%b0%e5%92%8c%e8%99%9a%e5%87%bd%e6%95%b0%e7%9a%84%e5%ae%9e%e7%8e%b0%20%e6%95%b0%e6%8d%ae%e6%ae%b5%ef%bc%88%e5%85%a8%e5%b1%80%e9%9d%99%e6%80%81%e5%8c%ba%ef%bc%89%ef%bc%88.data%20%e5%92%8c%20.bss%ef%bc%89%20%e5%ad%98%e5%82%a8%e5%85%a8%e5%b1%80%2f%e9%9d%99%e6%80%81%e5%8f%98%e9%87%8f%ef%bc%88%e5%b7%b2%e5%88%9d%e5%a7%8b%e5%8c%96%e7%9a%84%e6%94%be%e5%9c%a8%20.data%ef%bc%8c%e6%9c%aa%e5%88%9d%e5%a7%8b%e5%8c%96%e7%9a%84%e6%94%be%e5%9c%a8%20.bss%ef%bc%89%20%e5%8f%aa%e8%af%bb%e6%95%b0%e6%8d%ae%e6%ae%b5%ef%bc%88%e5%b8%b8%e9%87%8f%e5%8c%ba%ef%bc%89%ef%bc%88.rodata%ef%bc%89%20%e5%ad%98%e5%82%a8%e5%b8%b8%e9%87%8f%e6%95%b0%e6%8d%ae%ef%bc%88%e5%a6%82%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%ad%97%e9%9d%a2%e9%87%8f%e3%80%81const%20%e5%8f%98%e9%87%8f%e3%80%81VTable%ef%bc%89%20%e5%a0%86%e5%8c%ba%ef%bc%88Heap%ef%bc%89%20%e7%94%b1%20new%e3%80%81malloc%20%e5%8a%a8%e6%80%81%e5%88%86%e9%85%8d%ef%bc%8c%e7%a8%8b%e5%ba%8f%e5%91%98%e6%89%8b%e5%8a%a8%e9%87%8a%e6%94%be%e3%80%82%e4%bb%8e%e4%bd%8e%e5%9c%b0%e5%9d%80%e5%90%91%e4%b8%8a%e5%a2%9e%e9%95%bf%e3%80%82%20%e6%96%87%e4%bb%b6%e6%98%a0%e5%b0%84%e6%ae%b5%20%e5%8c%85%e6%8b%ac%e5%8a%a8%e6%80%81%e5%ba%93%e3%80%81%e5%85%b1%e4%ba%ab%e5%86%85%e5%ad%98%e7%ad%89%20%e6%a0%88%e5%8c%ba%ef%bc%88Stack%ef%bc%89%20%e7%94%b1%e5%87%bd%e6%95%b0%e7%9a%84%e5%b1%80%e9%83%a8%e5%8f%98%e9%87%8f%e3%80%81%e5%87%bd%e6%95%b0%e8%b0%83%e7%94%a8%e5%b8%a7%e7%ad%89%e7%bb%84%e6%88%90%ef%bc%8c%e8%87%aa%e5%8a%a8%e7%ae%a1%e7%90%86%e3%80%82%e4%b8%80%e8%88%ac%e6%98%af8MB%ef%bc%8c%e5%90%91%e4%bd%8e%e5%9c%b0%e5%9d%80%e5%a2%9e%e9%95%bf%e3%80%82%20%e9%9a%8f%e6%9c%ba%e5%ad%98%e5%82%a8%e5%99%a8RAM%ef%bc%88%e4%b8%bb%e5%ad%98%ef%bc%89%0a%e4%b8%8eCPU%e7%9b%b4%e6%8e%a5%e4%ba%a4%e6%8d%a2%e6%95%b0%e6%8d%ae%ef%bc%8c%e5%8f%af%e8%af%bb%e5%86%99%e5%8c%ba%e5%9f%9f%ef%bc%8c%e5%ad%98%e6%94%be%e5%85%a8%e5%b1%80%ef%bc%88%e9%9d%99%e6%80%81%ef%bc%89%e5%8c%ba%e3%80%81%e5%a0%86%e5%8c%ba%e3%80%81%e6%a0%88%e5%8c%ba%e3%80%82%0a%e5%8f%aa%e8%af%bb%e5%ad%98%e5%82%a8%e5%99%a8ROM%0a%e5%8f%aa%e8%83%bd%e8%af%bb%e5%87%ba%20%e6%89%80%e5%ad%98%e6%95%b0%e6%8d%ae%e7%a8%b3%e5%ae%9a%ef%bc%8c%e6%96%ad%e7%94%b5%e5%90%8e%e6%95%b0%e6%8d%ae%e4%b8%8d%e4%bc%9a%e6%94%b9%e5%8f%98%e3%80%82%e5%ad%98%e6%94%be%e4%bb%a3%e7%a0%81%e5%8c%ba%e5%92%8c%e5%b8%b8%e9%87%8f%e5%8c%ba%e3%80%82%0a%e5%a0%86%e5%92%8c%e6%a0%88%e7%9a%84%e7%a9%ba%e9%97%b4%e5%a4%a7%e5%b0%8f%0a%e6%a0%88%e5%a4%a7%e5%b0%8f%e5%9c%a8linux%e9%bb%98%e8%ae%a48MB%ef%bc%8c%e4%b9%9f%e5%8f%af%e6%89%8b%e5%8a%a8%e5%a2%9e%e5%a4%a7%ef%bc%88%e4%bd%86%e4%b8%8d%e6%98%af%e6%97%a0%e9%99%90%e5%a2%9e%e5%a4%a7%ef%bc%8c%e5%90%a6%e5%88%99%e7%a2%b0%e5%88%b0mmap%e5%8c%ba%ef%bc%89%ef%bc%8c%e9%80%9a%e5%b8%b8%e5%a4%a7%e5%b0%8f%e6%98%af%e5%9b%ba%e5%ae%9a%e7%9a%84%e3%80%82%e4%bd%86%e6%98%af%e5%a0%86%e5%a4%a7%e5%b0%8f%e5%8f%af%e5%8a%a8%e6%80%81%e5%a2%9e%e9%95%bf%e3%80%82%0a%e6%af%8f%e4%b8%aa%e8%bf%9b%e7%a8%8b%e9%83%bd%e6%9c%89%e8%87%aa%e5%b7%b1%e7%9a%84%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e7%a9%ba%e9%97%b4%ef%bc%8c%e5%9c%a8%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e7%a9%ba%e9%97%b4%e4%b8%ad%e6%9c%89%e5%86%85%e6%a0%b8%e7%a9%ba%e9%97%b4%e5%92%8c%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e3%80%8232%e4%bd%8d%e7%9a%84linux%e4%b8%ad%e5%86%85%e6%a0%b8%e7%a9%ba%e9%97%b4%e5%8d%a01GB%ef%bc%8c%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e5%8d%a03GB%ef%bc%9b%e8%80%8c64%e4%bd%8d%e7%9a%84linux%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e5%8f%af%e8%83%bd%e6%9c%89128TB%e3%80%82%e5%85%b6%e4%b8%ad%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e4%bb%8e%e4%b8%8a%e5%88%b0%e4%b8%8b%e6%9c%89%e6%a0%88%e3%80%81%e6%96%87%e4%bb%b6%e6%98%a0%e5%b0%84%e5%8c%ba%e3%80%81%e5%a0%86%e3%80%81%e5%85%a8%e5%b1%80%e9%9d%99%e6%80%81%e5%8c%ba%ef%bc%88.data%2c.bss%ef%bc%89%e3%80%81%e4%bb%a3%e7%a0%81%e5%8c%ba%e3%80%82%e6%89%80%e4%bb%a532%e4%bd%8dlinux%e4%b8%ad%e5%a0%86%e7%9a%84%e7%94%b3%e8%af%b7%e5%a4%a7%e5%b0%8f%e4%b8%8d%e4%bc%9a%e8%b6%85%e8%bf%873GB%ef%bc%8c%e4%bd%86%e6%98%af64%e4%bd%8dlinux%e9%80%9a%e8%bf%87swap%e6%8a%80%e6%9c%af%e5%8f%af%e4%bb%a5%e6%89%a9%e5%b1%95%e9%ab%98%e8%be%be%e4%b8%8a%e7%99%beGB%e7%9a%84%e7%a9%ba%e9%97%b4%e3%80%82%0aconst%e7%94%a8%e6%b3%95%e5%92%8cconstexpr%20const%e7%94%a8%e6%b3%95%ef%bc%9a%0a%e4%bf%ae%e9%a5%b0%e5%8f%98%e9%87%8f%20%e5%8f%98%e9%87%8f%e4%b8%8d%e8%83%bd%e4%bf%ae%e6%94%b9%20%e6%8c%87%e9%92%88%e5%b8%b8%e9%87%8f%20%ef%bc%88%e5%85%88%e5%87%ba%e7%8e%b0%e6%8c%87%e9%92%88%20%e5%86%8d%e5%87%ba%e7%8e%b0const%ef%bc%89%20%e5%b8%b8%e9%87%8f%e6%8c%87%e9%92%88%20%ef%bc%88%e5%85%88%e5%87%ba%e7%8e%b0const%20%e5%86%8d%e5%87%ba%e7%8e%b0%e6%8c%87%e9%92%88%ef%bc%89%20%e4%bf%ae%e9%a5%b0%e5%bc%95%e7%94%a8%20%e4%b8%8d%e8%83%bd%e9%80%9a%e8%bf%87%e5%bc%95%e7%94%a8%e4%bf%ae%e6%94%b9%e5%80%bc%20%e4%bf%ae%e9%a5%b0%e6%88%90%e5%91%98%e5%87%bd%e6%95%b0%20%e7%9b%b8%e5%bd%93%e4%ba%8e%e4%bf%ae%e9%a5%b0%e4%ba%86%e6%88%90%e5%91%98%e5%87%bd%e6%95%b0%e9%9a%90%e8%97%8f%e7%9a%84this%e6%8c%87%e9%92%88%20%e9%a1%b6%e5%b1%82const%e5%92%8c%e5%ba%95%e5%b1%82const%20%e9%a1%b6%e5%b1%82const%e6%8c%87%e7%9a%84%e6%98%afconst%e4%bf%ae%e9%a5%b0%e7%9a%84%e5%8f%98%e9%87%8f%e6%9c%ac%e8%ba%ab%e6%98%af%e4%b8%80%e4%b8%aa%e5%b8%b8%e9%87%8f%ef%bc%8c%e5%a6%82int%2a%20const%20p%ef%bc%8c%e5%ba%95%e5%b1%82const%e6%8c%87%e7%9a%84%e6%98%afconst%e4%bf%ae%e9%a5%b0%e7%9a%84%e5%8f%98%e9%87%8f%e6%89%80%e6%8c%87%e5%90%91%e7%9a%84%e5%af%b9%e8%b1%a1%e6%98%af%e4%b8%80%e4%b8%aa%e5%b8%b8%e9%87%8f%ef%bc%8c%e5%a6%82const%20int%2a%20p%e3%80%82%0aconst%20int%20%2a%20const%20p3%20%3d%20p2%20%2f%2f%20%e9%9d%a0%e5%8f%b3%e7%9a%84const%e6%98%af%e9%a1%b6%e5%b1%82const%ef%bc%8c%e9%9d%a0%e5%b7%a6%e7%9a%84%e6%98%af%e5%ba%95%e5%b1%82const%20%e5%b8%b8%e9%87%8f%e6%8c%87%e9%92%88const%20int%2a%20p1%e4%b8%ad%ef%bc%8cconst%e4%bf%ae%e9%a5%b0%e7%9a%84%e6%98%af%2ap1%ef%bc%8c%e6%89%80%e4%bb%a5%e4%bf%ae%e6%94%b9%e4%b8%8d%e4%ba%86%e6%8c%87%e9%92%88%e6%8c%87%e5%90%91%e7%9a%84%e5%80%bc%ef%bc%8c%e4%b9%9f%e5%b0%b1%e6%98%af%e4%bf%ae%e6%94%b9%e4%b8%8d%e4%ba%86%2ap1%3b%e4%bd%86%e6%98%afp1%e5%92%8c%e6%8c%87%e5%90%91%e5%af%b9%e8%b1%a1%e7%9a%84%e5%80%bc%e6%98%af%e5%8f%af%e4%bb%a5%e6%94%b9%e5%8f%98%e7%9a%84%ef%bc%8c%e5%8f%aa%e6%98%af%e4%b8%8d%e8%83%bd%e6%94%b9%e5%8f%98%e6%8c%87%e9%92%88%e6%8c%87%e5%90%91%e7%9a%84%e5%80%bc%e3%80%82%0aint%20main%28%29%20%7b%20int%20a%20%3d%203%2c%20b%20%3d%204%3b%20const%20int%2a%20p1%20%3d%20%26amp%3ba%3b%20%2f%2f%20%e6%8c%87%e5%90%91%20const%20int%20%e7%9a%84%e6%8c%87%e9%92%88%ef%bc%88%e6%95%b0%e6%8d%ae%e4%b8%8d%e5%8f%af%e6%94%b9%ef%bc%8c%e4%bd%86%e6%8c%87%e9%92%88%e5%8f%af%e6%94%b9%ef%bc%89%20%2f%2f%20%2ap1%20%3d%205%3b%20%2f%2f%20%e2%9d%8c%20%e9%94%99%e8%af%af%ef%bc%9a%e4%b8%8d%e8%83%bd%e4%bf%ae%e6%94%b9%20p1%20%e6%8c%87%e5%90%91%e7%9a%84%e5%80%bc%20p1%20%3d%20%26amp%3bb%3b%20%2f%2f%20%e2%9c%85%20%e5%8f%af%e4%bb%a5%e4%bf%ae%e6%94%b9%20p1%20%e7%9a%84%e6%8c%87%e5%90%91%20a%20%3d%2010%3b%20%2f%2f%20%e2%9c%85%20%e7%9b%b4%e6%8e%a5%e4%bf%ae%e6%94%b9%20a%20%e6%98%af%e5%85%81%e8%ae%b8%e7%9a%84%20%7d%20%e6%8c%87%e9%92%88%e5%b8%b8%e9%87%8fint%2a%20const%20p2%e4%b8%ad%ef%bc%8cconst%e4%bf%ae%e9%a5%b0%e7%9a%84%e6%98%afp2%ef%bc%8c%e6%89%80%e4%bb%a5%e4%bf%ae%e6%94%b9%e4%b8%8d%e4%ba%86%e6%8c%87%e9%92%88%e6%9c%ac%e8%ba%ab%e7%9a%84%e5%80%bc%ef%bc%8c%e4%b9%9f%e5%b0%b1%e6%98%af%e4%bf%ae%e6%94%b9%e4%b8%8d%e4%ba%86p2%e3%80%82%e6%af%94%e5%a6%82p2%20%3d%20%26amp%3ba%e5%b0%b1%e4%b8%8d%e5%8f%af%e4%bb%a5%e3%80%82&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>
