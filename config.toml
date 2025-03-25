@@ -21,7 +21,7 @@ enableemoji = false
     sectionsInHome = 5  # set zero to not show in home page
     paginatePostsPerPage = 5
     paginateTagsPerPage = 6
-    TocOpen = true
+
 
   customCSS = ["css/custom.css"]
 

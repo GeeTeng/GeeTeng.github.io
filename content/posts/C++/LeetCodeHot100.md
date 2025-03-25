@@ -117,6 +117,9 @@ vector<int> findAnagrams(string s, string p) {
 
 记录在哈希表中记录前缀和，每次查找sum - k存不存在，如果存在则说明有这样一组连续的数和为k。
 
+1️⃣ **先检查 `sum-k`** 是否存在，统计结果
+2️⃣ **再更新 `mp[sum]`**，防止影响后续计算
+
 ```c++
 int subarraySum(vector<int>& nums, int k) {
     unordered_map<int, int> prefixCount;
@@ -179,6 +182,20 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
 
 ### 76. 最小覆盖字串
 
+> 给你一个字符串 `s` 、一个字符串 `t` 。返回 `s` 中涵盖 `t` 所有字符的最小子串。如果 `s` 中不存在涵盖 `t` 所有字符的子串，则返回空字符串 `""` 。
+
+*滑动窗口双指针*：
+
+`need` 记录 `t` 中字符的 **需求数量**。`window` 记录窗口内各字符的 **当前数量**。
+
+`left, right` 维护滑动窗口的左右边界。`start, minLen` 用于存储 **最小窗口的起始位置** 和 **最小长度**。
+
+`valid` 记录窗口中满足 `t` 需求的字符数（当 `valid == need.size()` 时，说明窗口已经包含了 `t` 中所有字符）。
+
+
+
+右指针遍历s字符
+
 ```c++
 class Solution {
 public:
@@ -196,11 +213,14 @@ public:
                 window[c] ++;
                 if(window[c] == need[c]) valid ++;
             }
+            // 如果找到了包含t串的子串 则尝试收缩
             while(valid == need.size()) {
+                // 更新最小覆盖子串的位置和长度
                 if(right - left < minLen) {
                     start = left;
                     minLen = right - left;
                 }
+                // 缩小窗口
                 char d = s[left];
                 left ++;
                 if(need.count(d)) {
@@ -1117,6 +1137,188 @@ int main() {
 		}
 	}
 	return 0;
+}
+```
+
+
+
+## 回溯
+
+### 46. 全排列
+
+遍历u到n数字，交换u和i的位置，再复位。
+
+```c++
+#include<iostream>
+#include<vector>
+using namespace std;
+
+void dfs(vector<vector<int>>& res, vector<int>& output, int u, int n) {
+	if (u == n) {
+		res.push_back(output);
+		return;
+	}
+	for (int i = u; i < n; i++) {
+		swap(output[i], output[u]);
+		dfs(res, output, u + 1, n);
+		swap(output[i], output[u]);
+	}
+}
+
+vector<vector<int>> permute(vector<int>& nums) {
+	int n = nums.size();
+	vector<vector<int>> res;
+	dfs(res, nums, 0, n);
+	return res;
+}
+
+
+int main() {
+	int n;
+	cin >> n;
+	vector<int> nums(n);
+	for (int i = 0; i < n; i++) {
+		int x;
+		cin >> nums[i];
+	}
+	vector<vector<int>> res = permute(nums);
+	for (auto r : res) {
+		for (auto i : r) {
+			cout << i << ' ';
+		}
+		cout << endl;
+	}
+	return 0;
+}
+```
+
+
+
+### 78. 子集
+
+*dfs：*
+
+加入这个数字的情况
+
+弹出这个数字的情况
+
+```c++
+#include<iostream>
+#include<vector>
+using namespace std;
+
+vector<int> output;
+vector<vector<int>> res;
+
+void dfs(vector<int> nums, int cur) {
+	if (nums.size() == cur) {
+		res.push_back(output);
+		return;
+	}
+	output.push_back(nums[cur]);
+	dfs(nums, cur + 1);
+	output.pop_back();
+	dfs(nums, cur + 1);
+}
+vector<vector<int>> subsets(vector<int> nums) {
+	dfs(nums, 0);
+	return res;
+}
+
+int main() {
+	int n;
+	cin >> n;
+	vector<int> input(n);
+	for (int i = 0; i < n; i++) {
+		cin >> input[i];
+	}
+	subsets(input);
+	for (auto& r : res) {
+		for (auto i : r) {
+			cout << i << ' ';
+		}
+		cout << endl;
+	}
+	return 0;
+}
+```
+
+
+
+### 17. 电话号码的字母组合
+
+*dfs回溯：*`vector<string> phone` 用来存放电话号码对应的字母，比如说2对应的是abc，那么phone[2] = "abc"。
+
+遍历phone[2]对应的这个字符串，依次加入a、b、c的情况去递归，再回溯。
+
+```c++
+#include<iostream>
+#include<vector>
+using namespace std;
+
+vector<string> phone = { "",    "",    "abc",  "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
+vector<string> res;
+
+void dfs(const string digit, int index, string& path, vector<string>& res, const vector<string>& phone) {
+	if (index == digit.size()) {
+		res.push_back(path);
+		return;
+	}
+	int num = digit[index] - '0';
+	for (auto c : phone[num]) {
+		path.push_back(c);
+		dfs(digit, index + 1, path, res, phone);
+		path.pop_back();
+	}
+}
+
+vector<string> letterCombinations(string digits) {
+	string path;
+	dfs(digits, 0, path, res, phone);
+	return res;
+}
+
+int main() {
+	string digits;
+	cin >> digits;
+	letterCombinations(digits);
+	for (auto s : res) {
+		cout << s << ' ';
+	}
+	return 0;
+}
+```
+
+
+
+### 39. 组合总和
+
+```c++
+// candidates候选数字数组 target目标值 res存放所有满足条件 combine正在尝试的组合 index当前搜索的candidates索引
+void dfs(vector<int>& candidates, int target, vector<vector<int>>& res, vector<int>& combine, int index) {
+    if(index == candidates.size()) {
+        return;
+    }
+    if(target == 0) {
+        res.push_back(combine);
+        return;
+    }
+    // 不选当前数字 尝试后面元素
+    dfs(candidates, target, res, combine, index + 1);
+    // 只有当 target - candidates[index] >= 0，才考虑选 candidates[index] 不然就是负数了
+    if(target - candidates[index] >= 0) {
+        combine.push_back(candidates[index]);
+        // 允许重复选择 所以下一层依旧是index
+        dfs(candidates, target - candidates[index], res, combine, index);
+        combine.pop_back();
+    }
+}
+
+vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+    vector<vector<int>> res;
+    vector<int> combine;
+    dfs(candidates, target, res, combine, 0);
+    return res;
 }
 ```
 
