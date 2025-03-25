@@ -35,7 +35,7 @@
   <meta itemprop="description" content="LeetCode热题100整理">
   <meta itemprop="datePublished" content="2025-03-12T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-12T00:00:00+00:00">
-  <meta itemprop="wordCount" content="2859">
+  <meta itemprop="wordCount" content="3340">
   <meta itemprop="keywords" content="算法">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/" />
 
@@ -269,6 +269,14 @@
             <li><a href="#208-实现trie前缀树">208. 实现Trie（前缀树）</a></li>
           </ul>
         </li>
+        <li><a href="#回溯">回溯</a>
+          <ul>
+            <li><a href="#46-全排列">46. 全排列</a></li>
+            <li><a href="#78-子集">78. 子集</a></li>
+            <li><a href="#17-电话号码的字母组合">17. 电话号码的字母组合</a></li>
+            <li><a href="#39-组合总和">39. 组合总和</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -291,7 +299,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        29 mins read
+                        34 mins read
                     </p>
                 </div>
             </div>
@@ -389,6 +397,8 @@
 <h3 id="560-和为k的子数组">560. 和为k的子数组</h3>
 <p><strong>前缀和、哈希表</strong></p>
 <p>记录在哈希表中记录前缀和，每次查找sum - k存不存在，如果存在则说明有这样一组连续的数和为k。</p>
+<p>1️⃣ <strong>先检查 <code>sum-k</code></strong> 是否存在，统计结果
+2️⃣ <strong>再更新 <code>mp[sum]</code></strong>，防止影响后续计算</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">subarraySum</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> k) {
 </span></span><span style="display:flex;"><span>    unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> prefixCount;
 </span></span><span style="display:flex;"><span>    prefixCount[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
@@ -434,6 +444,14 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="76-最小覆盖字串">76. 最小覆盖字串</h3>
+<blockquote>
+<p>给你一个字符串 <code>s</code> 、一个字符串 <code>t</code> 。返回 <code>s</code> 中涵盖 <code>t</code> 所有字符的最小子串。如果 <code>s</code> 中不存在涵盖 <code>t</code> 所有字符的子串，则返回空字符串 <code>&quot;&quot;</code> 。</p>
+</blockquote>
+<p><em>滑动窗口双指针</em>：</p>
+<p><code>need</code> 记录 <code>t</code> 中字符的 <strong>需求数量</strong>。<code>window</code> 记录窗口内各字符的 <strong>当前数量</strong>。</p>
+<p><code>left, right</code> 维护滑动窗口的左右边界。<code>start, minLen</code> 用于存储 <strong>最小窗口的起始位置</strong> 和 <strong>最小长度</strong>。</p>
+<p><code>valid</code> 记录窗口中满足 <code>t</code> 需求的字符数（当 <code>valid == need.size()</code> 时，说明窗口已经包含了 <code>t</code> 中所有字符）。</p>
+<p>右指针遍历s字符</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    string minWindow(string s, string t) {
@@ -450,12 +468,15 @@
 </span></span><span style="display:flex;"><span>                window[c] <span style="color:#f92672">++</span>;
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(window[c] <span style="color:#f92672">==</span> need[c]) valid <span style="color:#f92672">++</span>;
 </span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span>(valid <span style="color:#f92672">==</span> need.size()) {
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(right <span style="color:#f92672">-</span> left <span style="color:#f92672">&lt;</span> minLen) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 如果找到了包含t串的子串 则尝试收缩
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">while</span>(valid <span style="color:#f92672">==</span> need.size()) {
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 更新最小覆盖子串的位置和长度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">if</span>(right <span style="color:#f92672">-</span> left <span style="color:#f92672">&lt;</span> minLen) {
 </span></span><span style="display:flex;"><span>                    start <span style="color:#f92672">=</span> left;
 </span></span><span style="display:flex;"><span>                    minLen <span style="color:#f92672">=</span> right <span style="color:#f92672">-</span> left;
 </span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">char</span> d <span style="color:#f92672">=</span> s[left];
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 缩小窗口
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">char</span> d <span style="color:#f92672">=</span> s[left];
 </span></span><span style="display:flex;"><span>                left <span style="color:#f92672">++</span>;
 </span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(need.count(d)) {
 </span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span>(window[d] <span style="color:#f92672">==</span> need[d]) {
@@ -1192,6 +1213,157 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="回溯">回溯</h2>
+<h3 id="46-全排列">46. 全排列</h3>
+<p>遍历u到n数字，交换u和i的位置，再复位。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include&lt;vector&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;&amp;</span> res, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> output, <span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> n) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> n) {
+</span></span><span style="display:flex;"><span>		res.push_back(output);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> u; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>		swap(output[i], output[u]);
+</span></span><span style="display:flex;"><span>		dfs(res, output, u <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, n);
+</span></span><span style="display:flex;"><span>		swap(output[i], output[u]);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> permute(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> nums.size();
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>	dfs(res, nums, <span style="color:#ae81ff">0</span>, n);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>	cin <span style="color:#f92672">&gt;&gt;</span> n;
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> nums(n);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> x;
+</span></span><span style="display:flex;"><span>		cin <span style="color:#f92672">&gt;&gt;</span> nums[i];
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res <span style="color:#f92672">=</span> permute(nums);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> r : res) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> i : r) {
+</span></span><span style="display:flex;"><span>			cout <span style="color:#f92672">&lt;&lt;</span> i <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#39; &#39;</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="78-子集">78. 子集</h3>
+<p><em>dfs：</em></p>
+<p>加入这个数字的情况</p>
+<p>弹出这个数字的情况</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include&lt;vector&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> output;
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> nums, <span style="color:#66d9ef">int</span> cur) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (nums.size() <span style="color:#f92672">==</span> cur) {
+</span></span><span style="display:flex;"><span>		res.push_back(output);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	output.push_back(nums[cur]);
+</span></span><span style="display:flex;"><span>	dfs(nums, cur <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>	output.pop_back();
+</span></span><span style="display:flex;"><span>	dfs(nums, cur <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> subsets(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> nums) {
+</span></span><span style="display:flex;"><span>	dfs(nums, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>	cin <span style="color:#f92672">&gt;&gt;</span> n;
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> input(n);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>		cin <span style="color:#f92672">&gt;&gt;</span> input[i];
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	subsets(input);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span><span style="color:#f92672">&amp;</span> r : res) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> i : r) {
+</span></span><span style="display:flex;"><span>			cout <span style="color:#f92672">&lt;&lt;</span> i <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#39; &#39;</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="17-电话号码的字母组合">17. 电话号码的字母组合</h3>
+<p><em>dfs回溯：</em><code>vector&lt;string&gt; phone</code> 用来存放电话号码对应的字母，比如说2对应的是abc，那么phone[2] = &ldquo;abc&rdquo;。</p>
+<p>遍历phone[2]对应的这个字符串，依次加入a、b、c的情况去递归，再回溯。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include&lt;vector&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> phone <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;&#34;</span>,    <span style="color:#e6db74">&#34;&#34;</span>,    <span style="color:#e6db74">&#34;abc&#34;</span>,  <span style="color:#e6db74">&#34;def&#34;</span>, <span style="color:#e6db74">&#34;ghi&#34;</span>, <span style="color:#e6db74">&#34;jkl&#34;</span>, <span style="color:#e6db74">&#34;mno&#34;</span>, <span style="color:#e6db74">&#34;pqrs&#34;</span>, <span style="color:#e6db74">&#34;tuv&#34;</span>, <span style="color:#e6db74">&#34;wxyz&#34;</span> };
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> res;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">const</span> string digit, <span style="color:#66d9ef">int</span> index, string<span style="color:#f92672">&amp;</span> path, vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&amp;</span> res, <span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&amp;</span> phone) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (index <span style="color:#f92672">==</span> digit.size()) {
+</span></span><span style="display:flex;"><span>		res.push_back(path);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> num <span style="color:#f92672">=</span> digit[index] <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;0&#39;</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> c : phone[num]) {
+</span></span><span style="display:flex;"><span>		path.push_back(c);
+</span></span><span style="display:flex;"><span>		dfs(digit, index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, path, res, phone);
+</span></span><span style="display:flex;"><span>		path.pop_back();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> letterCombinations(string digits) {
+</span></span><span style="display:flex;"><span>	string path;
+</span></span><span style="display:flex;"><span>	dfs(digits, <span style="color:#ae81ff">0</span>, path, res, phone);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	string digits;
+</span></span><span style="display:flex;"><span>	cin <span style="color:#f92672">&gt;&gt;</span> digits;
+</span></span><span style="display:flex;"><span>	letterCombinations(digits);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">auto</span> s : res) {
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> s <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#39; &#39;</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="39-组合总和">39. 组合总和</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// candidates候选数字数组 target目标值 res存放所有满足条件 combine正在尝试的组合 index当前搜索的candidates索引
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> candidates, <span style="color:#66d9ef">int</span> target, vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;&amp;</span> res, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> combine, <span style="color:#66d9ef">int</span> index) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(index <span style="color:#f92672">==</span> candidates.size()) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(target <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        res.push_back(combine);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 不选当前数字 尝试后面元素
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    dfs(candidates, target, res, combine, index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 只有当 target - candidates[index] &gt;= 0，才考虑选 candidates[index] 不然就是负数了
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(target <span style="color:#f92672">-</span> candidates[index] <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>        combine.push_back(candidates[index]);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 允许重复选择 所以下一层依旧是index
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        dfs(candidates, target <span style="color:#f92672">-</span> candidates[index], res, combine, index);
+</span></span><span style="display:flex;"><span>        combine.pop_back();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> combinationSum(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> candidates, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> combine;
+</span></span><span style="display:flex;"><span>    dfs(candidates, target, res, combine, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div>
         </div>
