@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    LeetCode日常刷题整理 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="LeetCode日常刷题整理笔记
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/c&#43;&#43;/leetcode%E6%97%A5%E5%B8%B8%E5%88%B7%E9%A2%98%E6%95%B4%E7%90%86/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="LeetCode日常刷题整理">
+  <meta property="og:description" content="LeetCode日常刷题整理笔记">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-03-27T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-03-27T00:00:00+00:00">
+    <meta property="article:tag" content="算法">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="LeetCode日常刷题整理">
+  <meta name="twitter:description" content="LeetCode日常刷题整理笔记">
+
+
+  <meta itemprop="name" content="LeetCode日常刷题整理">
+  <meta itemprop="description" content="LeetCode日常刷题整理笔记">
+  <meta itemprop="datePublished" content="2025-03-27T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-03-27T00:00:00+00:00">
+  <meta itemprop="wordCount" content="87">
+  <meta itemprop="keywords" content="算法">
+<link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/leetcode%E6%97%A5%E5%B8%B8%E5%88%B7%E9%A2%98%E6%95%B4%E7%90%86/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        <div id="page-body" class="column is-7">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#841-钥匙和房间">841. 钥匙和房间</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>LeetCode日常刷题整理</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Mar 27, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        1 min read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/%E7%AE%97%E6%B3%95">算法</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/%E7%AE%97%E6%B3%95">算法</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h3 id="841-钥匙和房间">841. 钥匙和房间</h3>
+<p>我用的<em>bfs</em>方法，用一个indexused数组来标记是否该房间被访问过，将访问过的房间的钥匙不断加入到<strong>队列</strong>中。</p>
+<p>最后遍历indexused数组，看是否所有房间都被访问过。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> canVisitAllRooms(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;&amp;</span> rooms) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> rooms.size();
+</span></span><span style="display:flex;"><span>        queue<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> q;
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> indexused(n, false);
+</span></span><span style="display:flex;"><span>        q.push(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        indexused[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(<span style="color:#f92672">!</span>q.empty()){
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">auto</span> index <span style="color:#f92672">=</span> q.front();
+</span></span><span style="display:flex;"><span>            q.pop();
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> rooms[index].size(); i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> next <span style="color:#f92672">=</span> rooms[index][i];
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>indexused[next]) {
+</span></span><span style="display:flex;"><span>                    indexused[next] <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>                    q.push(next);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">bool</span> visited : indexused) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>visited) <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>注意点：</p>
+<p>不能在房间号出队时标记为true，而是应该在房间号push之前，因为有可能会发生：</p>
+<p>处理 0，访问 1和 2，<code>q = [1, 2]</code></p>
+<p>处理 1，发现 2 还没有被 indexused 标记，所以又把 <code>2</code> 重复入队，<code>q = [2, 2]</code></p>
+
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2fleetcode%25E6%2597%25A5%25E5%25B8%25B8%25E5%2588%25B7%25E9%25A2%2598%25E6%2595%25B4%25E7%2590%2586%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=LeetCode%e6%97%a5%e5%b8%b8%e5%88%b7%e9%a2%98%e6%95%b4%e7%90%86&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2fleetcode%25E6%2597%25A5%25E5%25B8%25B8%25E5%2588%25B7%25E9%25A2%2598%25E6%2595%25B4%25E7%2590%2586%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2fleetcode%25E6%2597%25A5%25E5%25B8%25B8%25E5%2588%25B7%25E9%25A2%2598%25E6%2595%25B4%25E7%2590%2586%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2fleetcode%25E6%2597%25A5%25E5%25B8%25B8%25E5%2588%25B7%25E9%25A2%2598%25E6%2595%25B4%25E7%2590%2586%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2fleetcode%25E6%2597%25A5%25E5%25B8%25B8%25E5%2588%25B7%25E9%25A2%2598%25E6%2595%25B4%25E7%2590%2586%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2fleetcode%25E6%2597%25A5%25E5%25B8%25B8%25E5%2588%25B7%25E9%25A2%2598%25E6%2595%25B4%25E7%2590%2586%2f
+			&title=LeetCode%e6%97%a5%e5%b8%b8%e5%88%b7%e9%a2%98%e6%95%b4%e7%90%86&summary=841.%20%e9%92%a5%e5%8c%99%e5%92%8c%e6%88%bf%e9%97%b4%20%e6%88%91%e7%94%a8%e7%9a%84bfs%e6%96%b9%e6%b3%95%ef%bc%8c%e7%94%a8%e4%b8%80%e4%b8%aaindexused%e6%95%b0%e7%bb%84%e6%9d%a5%e6%a0%87%e8%ae%b0%e6%98%af%e5%90%a6%e8%af%a5%e6%88%bf%e9%97%b4%e8%a2%ab%e8%ae%bf%e9%97%ae%e8%bf%87%ef%bc%8c%e5%b0%86%e8%ae%bf%e9%97%ae%e8%bf%87%e7%9a%84%e6%88%bf%e9%97%b4%e7%9a%84%e9%92%a5%e5%8c%99%e4%b8%8d%e6%96%ad%e5%8a%a0%e5%85%a5%e5%88%b0%e9%98%9f%e5%88%97%e4%b8%ad%e3%80%82%0a%e6%9c%80%e5%90%8e%e9%81%8d%e5%8e%86indexused%e6%95%b0%e7%bb%84%ef%bc%8c%e7%9c%8b%e6%98%af%e5%90%a6%e6%89%80%e6%9c%89%e6%88%bf%e9%97%b4%e9%83%bd%e8%a2%ab%e8%ae%bf%e9%97%ae%e8%bf%87%e3%80%82%0aclass%20Solution%20%7b%20public%3a%20bool%20canVisitAllRooms%28vector%26lt%3bvector%26lt%3bint%26gt%3b%26gt%3b%26amp%3b%20rooms%29%20%7b%20int%20n%20%3d%20rooms.size%28%29%3b%20queue%26lt%3bint%26gt%3b%20q%3b%20vector%26lt%3bbool%26gt%3b%20indexused%28n%2c%20false%29%3b%20q.push%280%29%3b%20indexused%5b0%5d%20%3d%20true%3b%20while%28%21q.empty%28%29%29%7b%20auto%20index%20%3d%20q.front%28%29%3b%20q.pop%28%29%3b%20for%28int%20i%20%3d%200%3b%20i%20%26lt%3b%20rooms%5bindex%5d.size%28%29%3b%20i%20%2b%2b%29%20%7b%20int%20next%20%3d%20rooms%5bindex%5d%5bi%5d%3b%20if%28%21indexused%5bnext%5d%29%20%7b%20indexused%5bnext%5d%20%3d%20true%3b%20q.push%28next%29%3b%20%7d%20%7d%20%7d%20for%28bool%20visited%20%3a%20indexused%29%20%7b%20if%28%21visited%29%20return%20false%3b%20%7d%20return%20true%3b%20%7d%20%7d%3b%20%e6%b3%a8%e6%84%8f%e7%82%b9%ef%bc%9a%0a%e4%b8%8d%e8%83%bd%e5%9c%a8%e6%88%bf%e9%97%b4%e5%8f%b7%e5%87%ba%e9%98%9f%e6%97%b6%e6%a0%87%e8%ae%b0%e4%b8%batrue%ef%bc%8c%e8%80%8c%e6%98%af%e5%ba%94%e8%af%a5%e5%9c%a8%e6%88%bf%e9%97%b4%e5%8f%b7push%e4%b9%8b%e5%89%8d%ef%bc%8c%e5%9b%a0%e4%b8%ba%e6%9c%89%e5%8f%af%e8%83%bd%e4%bc%9a%e5%8f%91%e7%94%9f%ef%bc%9a%0a%e5%a4%84%e7%90%86%200%ef%bc%8c%e8%ae%bf%e9%97%ae%201%e5%92%8c%202%ef%bc%8cq%20%3d%20%5b1%2c%202%5d&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=LeetCode%e6%97%a5%e5%b8%b8%e5%88%b7%e9%a2%98%e6%95%b4%e7%90%86&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2fleetcode%25E6%2597%25A5%25E5%25B8%25B8%25E5%2588%25B7%25E9%25A2%2598%25E6%2595%25B4%25E7%2590%2586%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

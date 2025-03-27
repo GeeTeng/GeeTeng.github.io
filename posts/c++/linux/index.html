@@ -35,7 +35,7 @@
   <meta itemprop="description" content="linux基础操作、进程控制、网络编程等">
   <meta itemprop="datePublished" content="2025-03-02T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-02T00:00:00+00:00">
-  <meta itemprop="wordCount" content="1388">
+  <meta itemprop="wordCount" content="1808">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/linux/" />
 
@@ -231,6 +231,8 @@
           <ul>
             <li><a href="#socket函数详解">socket函数详解</a></li>
             <li><a href="#主机字节序与网络字节序">主机字节序与网络字节序</a></li>
+            <li><a href="#网络字节序">网络字节序</a></li>
+            <li><a href="#第一个网络通信程序">第一个网络通信程序</a></li>
           </ul>
         </li>
       </ul>
@@ -255,7 +257,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        36 mins read
+                        44 mins read
                     </p>
                 </div>
             </div>
@@ -991,9 +993,194 @@
 <p>在IPv4网络协议家族中，数据传输方式为<code>SOCK_STREAM</code>的协议只有<code>IPPROTO_TCP</code>，数据传输方式为<code>SOCK_DGRAM</code>的协议只有<code>IPPROTO_UDP</code>。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);  <span style="color:#75715e">// 创建tcp的sock
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);  <span style="color:#75715e">// 创建udp的sock
-</span></span></span></code></pre></div><h3 id="主机字节序与网络字节序">主机字节序与网络字节序</h3>
+</span></span></span></code></pre></div><blockquote>
+<p>AF_INET和PF_INET区别</p>
+</blockquote>
+<ul>
+<li><code>AF_INET</code>（Address Family）定义 <strong>地址类型</strong>。</li>
+<li><code>PF_INET</code>（Protocol Family）定义 <strong>协议族</strong>。</li>
+<li>在大多数实现中，<code>AF_INET</code> 和 <code>PF_INET</code> 的值相同，可以互换使用，但建议遵循规范：
+<ul>
+<li>创建套接字时用 <code>PF_INET</code>（如 <code>socket(PF_INET, SOCK_STREAM, 0)</code>）。</li>
+<li>设置地址时用 <code>AF_INET</code>（如 <code>struct sockaddr_in</code> 的 <code>sin_family</code>）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="主机字节序与网络字节序">主机字节序与网络字节序</h3>
 <p>为了解决不同字节序的计算机之间传输数据的问题，约定采用网络字节序（大端序）。</p>
-
+<h3 id="网络字节序">网络字节序</h3>
+<p>为了解决不同字节序的计算机之间传输数据的问题，约定采用网络字节序（大端序）。</p>
+<p>C语言提供了四个库函数，用于在主机字节序和网络字节序之间转换：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c" data-lang="c"><span style="display:flex;"><span><span style="color:#66d9ef">uint16_t</span> <span style="color:#a6e22e">htons</span>(<span style="color:#66d9ef">uint16_t</span> hostshort);  <span style="color:#75715e">// uint16_t 2字节的整数 unsigned short
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">htonl</span>(<span style="color:#66d9ef">uint32_t</span> hostlong);  <span style="color:#75715e">// uint32_t 4字节的整数 unsigned int
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">uint16_t</span> <span style="color:#a6e22e">ntohs</span>(<span style="color:#66d9ef">uint16_t</span> netshort);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">uint32_t</span> <span style="color:#a6e22e">ntohl</span>(<span style="color:#66d9ef">uint32_t</span> netlong);
+</span></span></code></pre></div><p>h  host（主机）；</p>
+<p>to 转换；</p>
+<p>n  network（网络）；</p>
+<p>s  short（2字节，16位的整数）；</p>
+<p>l   long（4字节，32位的整数）；</p>
+<h3 id="第一个网络通信程序">第一个网络通信程序</h3>
+<p><em>客户端：</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstdio&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstring&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstdlib&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;netdb.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/types.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/socket.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;arpa/inet.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc,<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[])
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (argc<span style="color:#f92672">!=</span><span style="color:#ae81ff">3</span>)
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Using:./demo1 服务端的IP 服务端的端口</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Example:./demo1 192.168.101.139 5005</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#34;</span>; 
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 第1步：创建客户端的socket。  
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">int</span> sockfd <span style="color:#f92672">=</span> socket(AF_INET,SOCK_STREAM,<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (sockfd<span style="color:#f92672">==-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    perror(<span style="color:#e6db74">&#34;socket&#34;</span>); <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 第2步：向服务器发起连接请求。 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">hostent</span><span style="color:#f92672">*</span> h;    <span style="color:#75715e">// 用于存放服务端IP的结构体。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> ( (h <span style="color:#f92672">=</span> gethostbyname(argv[<span style="color:#ae81ff">1</span>])) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> )  <span style="color:#75715e">// 把字符串格式的IP转换成结构体。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  { 
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;gethostbyname failed.</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl; close(sockfd); <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr_in</span> servaddr;              <span style="color:#75715e">// 用于存放服务端IP和端口的结构体。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  memset(<span style="color:#f92672">&amp;</span>servaddr,<span style="color:#ae81ff">0</span>,<span style="color:#66d9ef">sizeof</span>(servaddr));
+</span></span><span style="display:flex;"><span>  servaddr.sin_family <span style="color:#f92672">=</span> AF_INET;
+</span></span><span style="display:flex;"><span>  memcpy(<span style="color:#f92672">&amp;</span>servaddr.sin_addr,h<span style="color:#f92672">-&gt;</span>h_addr,h<span style="color:#f92672">-&gt;</span>h_length); <span style="color:#75715e">// 指定服务端的IP地址。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  servaddr.sin_port <span style="color:#f92672">=</span> htons(atoi(argv[<span style="color:#ae81ff">2</span>]));         <span style="color:#75715e">// 指定服务端的通信端口。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (connect(sockfd,(<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr</span> <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>servaddr,<span style="color:#66d9ef">sizeof</span>(servaddr))<span style="color:#f92672">!=</span><span style="color:#ae81ff">0</span>)  <span style="color:#75715e">// 向服务端发起连接清求。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  { 
+</span></span><span style="display:flex;"><span>    perror(<span style="color:#e6db74">&#34;connect&#34;</span>); close(sockfd); <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; 
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 第3步：与服务端通讯，客户发送一个请求报文后等待服务端的回复，收到回复后，再发下一个请求报文。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">char</span> buffer[<span style="color:#ae81ff">1024</span>];
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> ii<span style="color:#f92672">=</span><span style="color:#ae81ff">0</span>;ii<span style="color:#f92672">&lt;</span><span style="color:#ae81ff">3</span>;ii<span style="color:#f92672">++</span>)  <span style="color:#75715e">// 循环3次，将与服务端进行三次通讯。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> iret;
+</span></span><span style="display:flex;"><span>    memset(buffer,<span style="color:#ae81ff">0</span>,<span style="color:#66d9ef">sizeof</span>(buffer));
+</span></span><span style="display:flex;"><span>    sprintf(buffer,<span style="color:#e6db74">&#34;num = &#34;</span>,ii<span style="color:#f92672">+</span><span style="color:#ae81ff">1</span>);  <span style="color:#75715e">// 生成请求报文内容。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 向服务端发送请求报文。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> ( (iret<span style="color:#f92672">=</span>send(sockfd,buffer,strlen(buffer),<span style="color:#ae81ff">0</span>))<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    { 
+</span></span><span style="display:flex;"><span>      perror(<span style="color:#e6db74">&#34;send&#34;</span>); <span style="color:#66d9ef">break</span>; 
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;发送：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> buffer <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    memset(buffer,<span style="color:#ae81ff">0</span>,<span style="color:#66d9ef">sizeof</span>(buffer));
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 接收服务端的回应报文，如果服务端没有发送回应报文，recv()函数将阻塞等待。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> ( (iret<span style="color:#f92672">=</span>recv(sockfd,buffer,<span style="color:#66d9ef">sizeof</span>(buffer),<span style="color:#ae81ff">0</span>))<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;iret=&#34;</span> <span style="color:#f92672">&lt;&lt;</span> iret <span style="color:#f92672">&lt;&lt;</span> endl; <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;接收：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> buffer <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    sleep(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 第4步：关闭socket，释放资源。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  close(sockfd);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><em>服务端：</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;iostream&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstdio&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstring&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;cstdlib&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;unistd.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;netdb.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/types.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;sys/socket.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&lt;arpa/inet.h&gt;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(<span style="color:#66d9ef">int</span> argc,<span style="color:#66d9ef">char</span> <span style="color:#f92672">*</span>argv[])
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (argc<span style="color:#f92672">!=</span><span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Using:./demo2 通讯端口</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">Example:./demo2 5005</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#34;</span>;   <span style="color:#75715e">// 端口大于1024，不与其它的重复。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;注意：运行服务端程序的Linux系统的防火墙必须要开通5005端口。</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;      如果是云服务器，还要开通云平台的访问策略。</span><span style="color:#ae81ff">\n\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 第1步：创建服务端的socket。 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">int</span> listenfd <span style="color:#f92672">=</span> socket(AF_INET,SOCK_STREAM,<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (listenfd<span style="color:#f92672">==-</span><span style="color:#ae81ff">1</span>) 
+</span></span><span style="display:flex;"><span>  { 
+</span></span><span style="display:flex;"><span>    perror(<span style="color:#e6db74">&#34;socket&#34;</span>); <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; 
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>  
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 第2步：把服务端用于通信的IP和端口绑定到socket上。 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr_in</span> servaddr;          <span style="color:#75715e">// 用于存放服务端IP和端口的数据结构。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  memset(<span style="color:#f92672">&amp;</span>servaddr,<span style="color:#ae81ff">0</span>,<span style="color:#66d9ef">sizeof</span>(servaddr));
+</span></span><span style="display:flex;"><span>  servaddr.sin_family <span style="color:#f92672">=</span> AF_INET;        <span style="color:#75715e">// 指定协议。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  servaddr.sin_addr.s_addr <span style="color:#f92672">=</span> htonl(INADDR_ANY); <span style="color:#75715e">// 服务端任意网卡的IP都可以用于通讯。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  servaddr.sin_port <span style="color:#f92672">=</span> htons(atoi(argv[<span style="color:#ae81ff">1</span>]));     <span style="color:#75715e">// 指定通信端口，普通用户只能用1024以上的端口。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#75715e">// 绑定服务端的IP和端口。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (bind(listenfd,(<span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">sockaddr</span> <span style="color:#f92672">*</span>)<span style="color:#f92672">&amp;</span>servaddr,<span style="color:#66d9ef">sizeof</span>(servaddr)) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> )
+</span></span><span style="display:flex;"><span>  { 
+</span></span><span style="display:flex;"><span>    perror(<span style="color:#e6db74">&#34;bind&#34;</span>); close(listenfd); <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; 
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 第3步：把socket设置为可连接（监听）的状态。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">if</span> (listen(listenfd,<span style="color:#ae81ff">5</span>) <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> ) 
+</span></span><span style="display:flex;"><span>  { 
+</span></span><span style="display:flex;"><span>    perror(<span style="color:#e6db74">&#34;listen&#34;</span>); close(listenfd); <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; 
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 第4步：受理客户端的连接请求，如果没有客户端连上来，accept()函数将阻塞等待。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">int</span> clientfd<span style="color:#f92672">=</span>accept(listenfd,<span style="color:#ae81ff">0</span>,<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">if</span> (clientfd<span style="color:#f92672">==-</span><span style="color:#ae81ff">1</span>)
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    perror(<span style="color:#e6db74">&#34;accept&#34;</span>); close(listenfd); <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; 
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>  cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;客户端已连接。</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 第5步：与客户端通信，接收客户端发过来的报文后，回复ok。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  <span style="color:#66d9ef">char</span> buffer[<span style="color:#ae81ff">1024</span>];
+</span></span><span style="display:flex;"><span>  <span style="color:#66d9ef">while</span> (true)
+</span></span><span style="display:flex;"><span>  {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> iret;
+</span></span><span style="display:flex;"><span>    memset(buffer,<span style="color:#ae81ff">0</span>,<span style="color:#66d9ef">sizeof</span>(buffer));
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 接收客户端的请求报文，如果客户端没有发送请求报文，recv()函数将阻塞等待。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 如果客户端已断开连接，recv()函数将返回0。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> ( (iret<span style="color:#f92672">=</span>recv(clientfd,buffer,<span style="color:#66d9ef">sizeof</span>(buffer),<span style="color:#ae81ff">0</span>))<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">0</span>) 
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;iret=&#34;</span> <span style="color:#f92672">&lt;&lt;</span> iret <span style="color:#f92672">&lt;&lt;</span> endl;  <span style="color:#66d9ef">break</span>;   
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;接收：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> buffer <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>    strcpy(buffer,<span style="color:#e6db74">&#34;ok&#34;</span>);  <span style="color:#75715e">// 生成回应报文内容。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 向客户端发送回应报文。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> ( (iret<span style="color:#f92672">=</span>send(clientfd,buffer,strlen(buffer),<span style="color:#ae81ff">0</span>))<span style="color:#f92672">&lt;=</span><span style="color:#ae81ff">0</span>) 
+</span></span><span style="display:flex;"><span>    { 
+</span></span><span style="display:flex;"><span>      perror(<span style="color:#e6db74">&#34;send&#34;</span>); <span style="color:#66d9ef">break</span>; 
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;发送：&#34;</span> <span style="color:#f92672">&lt;&lt;</span> buffer <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>  }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>  <span style="color:#75715e">// 第6步：关闭socket，释放资源。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  close(listenfd);   <span style="color:#75715e">// 关闭服务端用于监听的socket。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>  close(clientfd);   <span style="color:#75715e">// 关闭客户端连上来的socket。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div>
         </div>
     </div>
 </div><div id="social-media-share" class="has-text-centered">

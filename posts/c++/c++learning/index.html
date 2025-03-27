@@ -35,7 +35,7 @@
   <meta itemprop="description" content="更新中">
   <meta itemprop="datePublished" content="2024-12-11T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-12-11T00:00:00+00:00">
-  <meta itemprop="wordCount" content="3141">
+  <meta itemprop="wordCount" content="3203">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/" />
 
@@ -1116,73 +1116,88 @@
 </span></span></code></pre></div><hr>
 <h3 id="手写实现智能指针">手写实现智能指针</h3>
 <p><em>UniquePtr</em></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UniquePtr</span>
-</span></span><span style="display:flex;"><span>{
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UniquePtr</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> ptr;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">explicit</span> UniquePtr(T<span style="color:#f92672">*</span> p) <span style="color:#f92672">:</span>ptr(p) {}
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 删除拷贝构造函数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UniquePtr(<span style="color:#66d9ef">const</span> UniquePtr<span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 删除赋值运算符
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UniquePtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> UniquePtr<span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 移动构造函数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UniquePtr(UniquePtr<span style="color:#f92672">&amp;&amp;</span> other)<span style="color:#66d9ef">noexcept</span> <span style="color:#f92672">:</span>ptr(other.ptr){
+</span></span><span style="display:flex;"><span>	UniquePtr(<span style="color:#66d9ef">const</span> UniquePtr<span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
+</span></span><span style="display:flex;"><span>	UniquePtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> UniquePtr<span style="color:#f92672">&amp;</span>) <span style="color:#f92672">=</span> <span style="color:#66d9ef">delete</span>;
+</span></span><span style="display:flex;"><span>	UniquePtr(UniquePtr<span style="color:#f92672">&amp;&amp;</span> other)<span style="color:#66d9ef">noexcept</span> <span style="color:#f92672">:</span>ptr(other.ptr) {
 </span></span><span style="display:flex;"><span>		other.ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 移动赋值运算符
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UniquePtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(UniquePtr<span style="color:#f92672">&amp;&amp;</span> other) <span style="color:#66d9ef">noexcept</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>other) {
+</span></span><span style="display:flex;"><span>	UniquePtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(UniquePtr<span style="color:#f92672">&amp;&amp;</span> other)<span style="color:#66d9ef">noexcept</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> other) {
 </span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">delete</span> ptr;
 </span></span><span style="display:flex;"><span>			ptr <span style="color:#f92672">=</span> other.ptr;
 </span></span><span style="display:flex;"><span>			other.ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">-&gt;</span>()<span style="color:#66d9ef">const</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> ptr;
-</span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>	T<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">*</span>()<span style="color:#66d9ef">const</span> {
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>ptr;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 释放资源 绑定新资源 默认是nullptr
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">reset</span>(T<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>) {
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (ptr <span style="color:#f92672">!=</span> p) {
-</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">delete</span> ptr;
-</span></span><span style="display:flex;"><span>			ptr <span style="color:#f92672">=</span> p;
-</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">-&gt;</span>()<span style="color:#66d9ef">const</span> {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> ptr;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 放弃所有权 ptr指向nullptr
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	T<span style="color:#f92672">*</span> <span style="color:#a6e22e">release</span>() {
+</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> <span style="color:#a6e22e">release</span>() {
 </span></span><span style="display:flex;"><span>		T<span style="color:#f92672">*</span> tmp <span style="color:#f92672">=</span> ptr;
 </span></span><span style="display:flex;"><span>		ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> tmp;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> <span style="color:#a6e22e">get</span>() <span style="color:#66d9ef">const</span>{
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(ptr) <span style="color:#66d9ef">return</span> ptr;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">reset</span>(T<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">delete</span> ptr;
+</span></span><span style="display:flex;"><span>		ptr <span style="color:#f92672">=</span> p;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#f92672">~</span>UniquePtr() { <span style="color:#66d9ef">delete</span> ptr; }
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">~</span>UniquePtr() {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">delete</span> ptr;
+</span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><p><em>SharedPtr</em></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyClass</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> show() {
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;调用MyClass类的show函数&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	MyClass() {
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;构造函数&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">~</span>MyClass() {
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;析构函数&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	UniquePtr<span style="color:#f92672">&lt;</span>MyClass<span style="color:#f92672">&gt;</span> ptr1(<span style="color:#66d9ef">new</span> MyClass());
+</span></span><span style="display:flex;"><span>	UniquePtr<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> ptr2(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>(<span style="color:#ae81ff">2</span>));
+</span></span><span style="display:flex;"><span>	ptr1<span style="color:#f92672">-&gt;</span>show();
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> ptr2.release() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><em>SharedPtr</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">typename</span> T<span style="color:#f92672">&gt;</span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">SharedPtr</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> ptr;
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> ref_count;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">explicit</span> SharedPtr(T<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#f92672">:</span>ptr(p), ref_count(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>(p <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>)) { }
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 拷贝构造函数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	SharedPtr(<span style="color:#66d9ef">const</span> SharedPtr<span style="color:#f92672">&amp;</span> other) <span style="color:#66d9ef">noexcept</span> <span style="color:#f92672">:</span> ptr(other.ptr), ref_count(other.ref_count) {
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (ptr) (<span style="color:#f92672">*</span>ref_count)<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">explicit</span> SharedPtr(T<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#f92672">:</span>ptr(p), ref_count(<span style="color:#66d9ef">new</span> <span style="color:#66d9ef">int</span>(p <span style="color:#f92672">?</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> <span style="color:#ae81ff">0</span>)){}
+</span></span><span style="display:flex;"><span>	SharedPtr(<span style="color:#66d9ef">const</span> SharedPtr<span style="color:#f92672">&amp;</span> other) <span style="color:#66d9ef">noexcept</span> <span style="color:#f92672">:</span> ptr(other.ptr), ref_count(other.ref_count) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (ptr) (<span style="color:#f92672">*</span>ref_count)<span style="color:#f92672">++</span>;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 移动构造函数
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	SharedPtr(SharedPtr<span style="color:#f92672">&amp;&amp;</span> other) <span style="color:#66d9ef">noexcept</span> <span style="color:#f92672">:</span>ptr(other.ptr), ref_count(other.ref_count) {
+</span></span><span style="display:flex;"><span>	SharedPtr(SharedPtr<span style="color:#f92672">&amp;&amp;</span> other)<span style="color:#66d9ef">noexcept</span> <span style="color:#f92672">:</span>ptr(other.ptr), ref_count(other.ref_count) {
 </span></span><span style="display:flex;"><span>		other.ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>		other.ref_count <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 拷贝赋值
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	SharedPtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> SharedPtr<span style="color:#f92672">&amp;</span> other) <span style="color:#66d9ef">noexcept</span> {
+</span></span><span style="display:flex;"><span>	SharedPtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(<span style="color:#66d9ef">const</span> SharedPtr<span style="color:#f92672">&amp;</span> other)<span style="color:#66d9ef">noexcept</span> {
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>other) {
 </span></span><span style="display:flex;"><span>			release();
 </span></span><span style="display:flex;"><span>			ptr <span style="color:#f92672">=</span> other.ptr;
@@ -1191,11 +1206,11 @@
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span><span style="color:#66d9ef">this</span>;
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 移动赋值
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	SharedPtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(SharedPtr<span style="color:#f92672">&amp;&amp;</span> other) <span style="color:#66d9ef">noexcept</span> {
+</span></span><span style="display:flex;"><span>	SharedPtr<span style="color:#f92672">&amp;</span> <span style="color:#66d9ef">operator</span><span style="color:#f92672">=</span>(SharedPtr<span style="color:#f92672">&amp;&amp;</span> other)<span style="color:#66d9ef">noexcept</span> {
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span> <span style="color:#f92672">!=</span> <span style="color:#f92672">&amp;</span>other) {
 </span></span><span style="display:flex;"><span>			release();
-</span></span><span style="display:flex;"><span>			ptr <span style="color:#f92672">=</span> other.ptr; ref_count <span style="color:#f92672">=</span> other.ref_count;
+</span></span><span style="display:flex;"><span>			ptr <span style="color:#f92672">=</span> other.ptr;
+</span></span><span style="display:flex;"><span>			ref_count <span style="color:#f92672">=</span> other.ref_count;
 </span></span><span style="display:flex;"><span>			other.ptr <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>			other.ref_count <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>		}
@@ -1223,6 +1238,28 @@
 </span></span><span style="display:flex;"><span>		ref_count <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">MyClass</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	MyClass() {
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;构造函数</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">~</span>MyClass() {
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;析构函数</span><span style="color:#ae81ff">\n</span><span style="color:#e6db74">&#34;</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">show</span>() {
+</span></span><span style="display:flex;"><span>		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;调用MyClass中的show方法&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>	SharedPtr<span style="color:#f92672">&lt;</span>MyClass<span style="color:#f92672">&gt;</span> ptr1(<span style="color:#66d9ef">new</span> MyClass());
+</span></span><span style="display:flex;"><span>	SharedPtr<span style="color:#f92672">&lt;</span>MyClass<span style="color:#f92672">&gt;</span> ptr2 <span style="color:#f92672">=</span> ptr1;
+</span></span><span style="display:flex;"><span>	ptr2<span style="color:#f92672">-&gt;</span>show();
+</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> ptr2.use_count() <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><hr>
 <h2 id="lambda函数--匿名函数--闭包">Lambda函数 / 匿名函数 / 闭包</h2>
 <p>用法：参数列表两个int，返回int。</p>

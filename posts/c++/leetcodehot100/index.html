@@ -35,7 +35,7 @@
   <meta itemprop="description" content="LeetCode热题100整理">
   <meta itemprop="datePublished" content="2025-03-12T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-12T00:00:00+00:00">
-  <meta itemprop="wordCount" content="3340">
+  <meta itemprop="wordCount" content="4525">
   <meta itemprop="keywords" content="算法">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/" />
 
@@ -275,6 +275,19 @@
             <li><a href="#78-子集">78. 子集</a></li>
             <li><a href="#17-电话号码的字母组合">17. 电话号码的字母组合</a></li>
             <li><a href="#39-组合总和">39. 组合总和</a></li>
+            <li><a href="#22-括号生成">22. 括号生成</a></li>
+            <li><a href="#79-单词搜索">79. 单词搜索</a></li>
+            <li><a href="#131-分割回文串">131. 分割回文串</a></li>
+            <li><a href="#51-n皇后">51. N皇后</a></li>
+          </ul>
+        </li>
+        <li><a href="#二分查找">二分查找</a>
+          <ul>
+            <li><a href="#74-搜索二维矩阵">74. 搜索二维矩阵</a></li>
+            <li><a href="#34-在排序数组中查找元素的第一个和最后一个位置">34. 在排序数组中查找元素的第一个和最后一个位置</a></li>
+            <li><a href="#33-搜索旋转数组">33. 搜索旋转数组</a></li>
+            <li><a href="#153-寻找旋转排序数组中的最小值">153. 寻找旋转排序数组中的最小值</a></li>
+            <li><a href="#4-寻找两个正序数组的中位数">4. 寻找两个正序数组的中位数</a></li>
           </ul>
         </li>
       </ul>
@@ -299,7 +312,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        34 mins read
+                        48 mins read
                     </p>
                 </div>
             </div>
@@ -1216,19 +1229,20 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="回溯">回溯</h2>
 <h3 id="46-全排列">46. 全排列</h3>
+<p><em>回溯法</em></p>
 <p>遍历u到n数字，交换u和i的位置，再复位。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include&lt;vector&gt;
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;&amp;</span> res, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> output, <span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> n) {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtrack</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;&amp;</span> res, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> output, <span style="color:#66d9ef">int</span> u, <span style="color:#66d9ef">int</span> n) {
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (u <span style="color:#f92672">==</span> n) {
 </span></span><span style="display:flex;"><span>		res.push_back(output);
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> u; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
 </span></span><span style="display:flex;"><span>		swap(output[i], output[u]);
-</span></span><span style="display:flex;"><span>		dfs(res, output, u <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, n);
+</span></span><span style="display:flex;"><span>		backtrack(res, output, u <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, n);
 </span></span><span style="display:flex;"><span>		swap(output[i], output[u]);
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>}
@@ -1236,7 +1250,7 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> permute(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> nums.size();
 </span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
-</span></span><span style="display:flex;"><span>	dfs(res, nums, <span style="color:#ae81ff">0</span>, n);
+</span></span><span style="display:flex;"><span>	backtrack(res, nums, <span style="color:#ae81ff">0</span>, n);
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> res;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
@@ -1259,7 +1273,7 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="78-子集">78. 子集</h3>
-<p><em>dfs：</em></p>
+<p><em>回溯法</em></p>
 <p>加入这个数字的情况</p>
 <p>弹出这个数字的情况</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
@@ -1269,18 +1283,18 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> output;
 </span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> nums, <span style="color:#66d9ef">int</span> cur) {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtrack</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> nums, <span style="color:#66d9ef">int</span> cur) {
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (nums.size() <span style="color:#f92672">==</span> cur) {
 </span></span><span style="display:flex;"><span>		res.push_back(output);
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>	output.push_back(nums[cur]);
-</span></span><span style="display:flex;"><span>	dfs(nums, cur <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>	backtrack(nums, cur <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
 </span></span><span style="display:flex;"><span>	output.pop_back();
-</span></span><span style="display:flex;"><span>	dfs(nums, cur <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>	backtrack(nums, cur <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> subsets(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> nums) {
-</span></span><span style="display:flex;"><span>	dfs(nums, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>	backtrack(nums, <span style="color:#ae81ff">0</span>);
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> res;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
@@ -1301,7 +1315,8 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="17-电话号码的字母组合">17. 电话号码的字母组合</h3>
-<p><em>dfs回溯：</em><code>vector&lt;string&gt; phone</code> 用来存放电话号码对应的字母，比如说2对应的是abc，那么phone[2] = &ldquo;abc&rdquo;。</p>
+<p><em>回溯法</em></p>
+<p><code>vector&lt;string&gt; phone</code> 用来存放电话号码对应的字母，比如说2对应的是abc，那么phone[2] = &ldquo;abc&rdquo;。</p>
 <p>遍历phone[2]对应的这个字符串，依次加入a、b、c的情况去递归，再回溯。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include&lt;vector&gt;
@@ -1310,7 +1325,7 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> phone <span style="color:#f92672">=</span> { <span style="color:#e6db74">&#34;&#34;</span>,    <span style="color:#e6db74">&#34;&#34;</span>,    <span style="color:#e6db74">&#34;abc&#34;</span>,  <span style="color:#e6db74">&#34;def&#34;</span>, <span style="color:#e6db74">&#34;ghi&#34;</span>, <span style="color:#e6db74">&#34;jkl&#34;</span>, <span style="color:#e6db74">&#34;mno&#34;</span>, <span style="color:#e6db74">&#34;pqrs&#34;</span>, <span style="color:#e6db74">&#34;tuv&#34;</span>, <span style="color:#e6db74">&#34;wxyz&#34;</span> };
 </span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> res;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">const</span> string digit, <span style="color:#66d9ef">int</span> index, string<span style="color:#f92672">&amp;</span> path, vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&amp;</span> res, <span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&amp;</span> phone) {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtrack</span>(<span style="color:#66d9ef">const</span> string digit, <span style="color:#66d9ef">int</span> index, string<span style="color:#f92672">&amp;</span> path, vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&amp;</span> res, <span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&amp;</span> phone) {
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (index <span style="color:#f92672">==</span> digit.size()) {
 </span></span><span style="display:flex;"><span>		res.push_back(path);
 </span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
@@ -1325,7 +1340,7 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> letterCombinations(string digits) {
 </span></span><span style="display:flex;"><span>	string path;
-</span></span><span style="display:flex;"><span>	dfs(digits, <span style="color:#ae81ff">0</span>, path, res, phone);
+</span></span><span style="display:flex;"><span>	backtrack(digits, <span style="color:#ae81ff">0</span>, path, res, phone);
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> res;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
@@ -1339,8 +1354,14 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="39-组合总和">39. 组合总和</h3>
+<p><em>回溯法</em></p>
+<p><code>index</code>记录的是<code>candidates</code>中第几位数字，<code>combine</code>记录当前正在尝试的组合。如果<code>target = 0</code>就可以存入res了。</p>
+<ul>
+<li>当不选择该数字的时候，index 要 + 1。</li>
+<li>当选择该数字时，前提条件是选择了之后target是否 &gt;0，否则选择没意义。选择该数字的时候index不变，因为可以重复选择。</li>
+</ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// candidates候选数字数组 target目标值 res存放所有满足条件 combine正在尝试的组合 index当前搜索的candidates索引
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> candidates, <span style="color:#66d9ef">int</span> target, vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;&amp;</span> res, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> combine, <span style="color:#66d9ef">int</span> index) {
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtrack</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> candidates, <span style="color:#66d9ef">int</span> target, vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;&amp;</span> res, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> combine, <span style="color:#66d9ef">int</span> index) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(index <span style="color:#f92672">==</span> candidates.size()) {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
 </span></span><span style="display:flex;"><span>    }
@@ -1349,12 +1370,12 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 不选当前数字 尝试后面元素
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    dfs(candidates, target, res, combine, index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    backtrack(candidates, target, res, combine, index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 只有当 target - candidates[index] &gt;= 0，才考虑选 candidates[index] 不然就是负数了
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span>(target <span style="color:#f92672">-</span> candidates[index] <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>) {
 </span></span><span style="display:flex;"><span>        combine.push_back(candidates[index]);
 </span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 允许重复选择 所以下一层依旧是index
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        dfs(candidates, target <span style="color:#f92672">-</span> candidates[index], res, combine, index);
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        backtrack(candidates, target <span style="color:#f92672">-</span> candidates[index], res, combine, index);
 </span></span><span style="display:flex;"><span>        combine.pop_back();
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>}
@@ -1362,9 +1383,316 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> combinationSum(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> candidates, <span style="color:#66d9ef">int</span> target) {
 </span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
 </span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> combine;
-</span></span><span style="display:flex;"><span>    dfs(candidates, target, res, combine, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>    backtrack(candidates, target, res, combine, <span style="color:#ae81ff">0</span>);
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
 </span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="22-括号生成">22. 括号生成</h3>
+<p><em>回溯法</em></p>
+<p><strong>终止条件</strong>：当left和right都等于n时，这个时候所有括号都用完了。</p>
+<p><strong>加入左括号的条件</strong>：当left &lt; n时，还有剩余左括号</p>
+<p><strong>加入右括号的条件</strong>：当right &lt; left时，代表还有多余右括号可以匹配。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> backtrack(<span style="color:#66d9ef">int</span> n, vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&amp;</span> res, string<span style="color:#f92672">&amp;</span> current, <span style="color:#66d9ef">int</span> left, <span style="color:#66d9ef">int</span> right) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (left <span style="color:#f92672">==</span> n <span style="color:#f92672">&amp;&amp;</span> right <span style="color:#f92672">==</span> n) {
+</span></span><span style="display:flex;"><span>            res.push_back(current);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (left <span style="color:#f92672">&lt;</span> n) {
+</span></span><span style="display:flex;"><span>            current.push_back(<span style="color:#e6db74">&#39;(&#39;</span>);
+</span></span><span style="display:flex;"><span>            backtrack(n, res, current, left <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, right);
+</span></span><span style="display:flex;"><span>            current.pop_back();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (right <span style="color:#f92672">&lt;</span> left) {
+</span></span><span style="display:flex;"><span>            current.push_back(<span style="color:#e6db74">&#39;)&#39;</span>);
+</span></span><span style="display:flex;"><span>            backtrack(n, res, current, left, right <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>            current.pop_back();
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> generateParenthesis(<span style="color:#66d9ef">int</span> n) {
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> res;
+</span></span><span style="display:flex;"><span>        string current;
+</span></span><span style="display:flex;"><span>        backtrack(n, res, current, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="79-单词搜索">79. 单词搜索</h3>
+<p><em>回溯法</em></p>
+<p>像是图论问题，如果超出边界或者该字符不等于<code>word[k]</code>则返回false，遍历四个方向后再将该点的字符改回原值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> dx[<span style="color:#ae81ff">4</span>] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> dy[<span style="color:#ae81ff">4</span>] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">backtrack</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string<span style="color:#f92672">&amp;</span> word, <span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> j, <span style="color:#66d9ef">int</span> k) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(k <span style="color:#f92672">==</span> word.size()) <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> i <span style="color:#f92672">&gt;=</span> board.size() <span style="color:#f92672">||</span> j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> j <span style="color:#f92672">&gt;=</span> board[<span style="color:#ae81ff">0</span>].size() <span style="color:#f92672">||</span> word[k] <span style="color:#f92672">!=</span> board[i][j]) <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> tmp <span style="color:#f92672">=</span> board[i][j];
+</span></span><span style="display:flex;"><span>        board[i][j] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; d <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>; d <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> dx[d], y <span style="color:#f92672">=</span> j <span style="color:#f92672">+</span> dy[d];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(backtrack(board, word, x, y, k <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)) <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        board[i][j] <span style="color:#f92672">=</span> tmp;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>         
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">exist</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> board.size(), m <span style="color:#f92672">=</span> board[<span style="color:#ae81ff">0</span>].size();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> m; j <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(backtrack(board, word, i, j, <span style="color:#ae81ff">0</span>)) <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="131-分割回文串">131. 分割回文串</h3>
+<p><em>回溯法 + 动态规划</em></p>
+<p>动态规划：先预处理<code>isPalindrome</code>数组，用 <code>dp[i][j]</code> 表示 <code>s[i:j]</code> 是否为回文。如果<code>s[i] == s[j]</code>则长度为1和2的字符串一定是回文，如果长度超过2，则回文判断方法为<code>dp[i][j] = dp[i+1][j-1])</code>。</p>
+<p>回溯搜索：维护一个 <code>path</code> 记录当前切分方案，遍历 <code>s[i:j]</code>，如果是回文，则递归搜索 <code>s[j+1:]</code>。当 <code>start == s.size()</code> 时，说明找到了一组有效方案。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> path;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;&gt;</span> isPalindrome;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtrack</span>(string<span style="color:#f92672">&amp;</span> s, <span style="color:#66d9ef">int</span> start) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(start <span style="color:#f92672">==</span> s.size()) {
+</span></span><span style="display:flex;"><span>            res.push_back(path);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> end <span style="color:#f92672">=</span> start;  end <span style="color:#f92672">&lt;</span> s.size(); end <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(isPalindrome[start][end]) {
+</span></span><span style="display:flex;"><span>                path.push_back(s.substr(start, end <span style="color:#f92672">-</span> start <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>));
+</span></span><span style="display:flex;"><span>                backtrack(s, end <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>                path.pop_back();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;</span> partition(string s) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> s.size();
+</span></span><span style="display:flex;"><span>        isPalindrome.assign(n, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span>(n, false));
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; len <span style="color:#f92672">&lt;=</span> n; len <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">+</span> len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(s[i] <span style="color:#f92672">==</span> s[j]) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span>(len <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> len <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) isPalindrome[i][j] <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">else</span> isPalindrome[i][j] <span style="color:#f92672">=</span> isPalindrome[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        backtrack(s, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="51-n皇后">51. N皇后</h3>
+<p><em>回溯法</em></p>
+<p>主对角线和副对角线的公式是<code>y = x + b</code>和<code>y = -x + b</code>，截距相同时两个元素在同一对角线上，所以<code>b = x + y</code>和<code>b = y - x</code>。</p>
+<p><code>row</code> 实际上是 <code>u</code>（当前遍历到的行），<code>col</code> 是 <code>i</code>（当前尝试放置皇后的列）。所以<code>dg[u + i]</code>代表主对角线，<code>udg[n - u + i]</code>代表副对角线。为什么有一个n，是因为防止<code>-u+i&lt;0</code>（由于 <code>(row - col)</code> 可能为负数，为了不出现负索引，我们 <strong>加上 <code>n</code> 作为偏移量</strong>）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> path;
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> col, dg, udg;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">dfs</span>(<span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> u) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(u <span style="color:#f92672">==</span> n) {
+</span></span><span style="display:flex;"><span>            res.push_back(path);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>col[i] <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>dg[u <span style="color:#f92672">+</span> i] <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>udg[n <span style="color:#f92672">-</span> u <span style="color:#f92672">+</span> i]) {
+</span></span><span style="display:flex;"><span>                path[u][i] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Q&#39;</span>;
+</span></span><span style="display:flex;"><span>                col[i] <span style="color:#f92672">=</span> dg[u <span style="color:#f92672">+</span> i] <span style="color:#f92672">=</span> udg[n <span style="color:#f92672">-</span> u <span style="color:#f92672">+</span> i] <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>                dfs(n, u <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>                col[i] <span style="color:#f92672">=</span> dg[u <span style="color:#f92672">+</span> i] <span style="color:#f92672">=</span> udg[n <span style="color:#f92672">-</span> u <span style="color:#f92672">+</span> i] <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>                path[u][i] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;.&#39;</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;</span> solveNQueens(<span style="color:#66d9ef">int</span> n) {
+</span></span><span style="display:flex;"><span>        res.clear();
+</span></span><span style="display:flex;"><span>        path.assign(n, string(n, <span style="color:#e6db74">&#39;.&#39;</span>));
+</span></span><span style="display:flex;"><span>        col.assign(n, false);
+</span></span><span style="display:flex;"><span>        dg.assign(<span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> n, false);
+</span></span><span style="display:flex;"><span>        udg.assign(<span style="color:#ae81ff">2</span><span style="color:#f92672">*</span>n, false);
+</span></span><span style="display:flex;"><span>        dfs(n, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="二分查找">二分查找</h2>
+<p><em>二分查找分为两种情况</em>：</p>
+<p><strong>精确查找</strong>和<strong>查找边界</strong>，如果是精确查找的话<code>while(i &lt;= j)</code>，如果是查找边界那么循环是<code>while(i &lt; j)</code>。</p>
+<p>精确查找的循环停止条件是空区间<code>i &gt; j</code>，而查找边界的循环停止条件是 <code>i == j</code>。</p>
+<table>
+<thead>
+<tr>
+<th>问题类型</th>
+<th>i更新</th>
+<th>j更新</th>
+<th>mid计算方式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>精确查找</td>
+<td>i = mid + 1</td>
+<td>j = mid - 1</td>
+<td>mid = (i + j) / 2</td>
+</tr>
+<tr>
+<td>找边界（左边界）</td>
+<td>i + mid + 1</td>
+<td>j = mid</td>
+<td>mid = (i + j) / 2</td>
+</tr>
+<tr>
+<td>找边界（右边界）</td>
+<td>i = mid</td>
+<td>j = mid - 1</td>
+<td>mid = (i + j + 1) / 2</td>
+</tr>
+</tbody>
+</table>
+<p>总结规律就是：找边界问题，找哪个边界就哪个多移动；查找单个元素就两边都移动。并且移动的那方一定是<code>&lt;</code>或<code>&gt;</code>target而非<code>&lt;=</code>或<code>&gt;=</code>。</p>
+<h3 id="74-搜索二维矩阵">74. 搜索二维矩阵</h3>
+<p>使用index来记录target可能在的行。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> searchMatrix(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;&amp;</span> matrix, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> matrix.size(), m <span style="color:#f92672">=</span> matrix[<span style="color:#ae81ff">0</span>].size();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, j <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> index <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(i <span style="color:#f92672">&lt;=</span> j) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> j <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(matrix[mid][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">&gt;</span> target) j <span style="color:#f92672">=</span> mid <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                i <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>                index <span style="color:#f92672">=</span> mid;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, j <span style="color:#f92672">=</span> m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(i <span style="color:#f92672">&lt;=</span> j) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> j <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(matrix[index][mid] <span style="color:#f92672">==</span> target) <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(matrix[index][mid] <span style="color:#f92672">&gt;</span> target) j <span style="color:#f92672">=</span> mid <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> i <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="34-在排序数组中查找元素的第一个和最后一个位置">34. 在排序数组中查找元素的第一个和最后一个位置</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> searchRange(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> nums.size();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> {<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>};
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, j <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(i <span style="color:#f92672">&lt;</span> j) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (i <span style="color:#f92672">+</span> j) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(nums[mid] <span style="color:#f92672">&lt;</span> target) i <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> j <span style="color:#f92672">=</span> mid;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(nums[i] <span style="color:#f92672">!=</span> target) <span style="color:#66d9ef">return</span>{<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>};
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> left <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>        j <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(i <span style="color:#f92672">&lt;</span> j) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (i <span style="color:#f92672">+</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(nums[mid] <span style="color:#f92672">&gt;</span> target) j <span style="color:#f92672">=</span> mid <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> i <span style="color:#f92672">=</span> mid;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> {left, j};
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="33-搜索旋转数组">33. 搜索旋转数组</h3>
+<p>直接二分查找即可，二分查找后分为两个区域，<code>[l, mid]</code>和<code>(mid,r]</code>，判断哪一区域是有序的。</p>
+<p>举例左半部分有序：</p>
+<ul>
+<li>如果taget在这个区间内（即target &gt;= nums[l] &amp;&amp; target &lt; nums[mid]），则正常二分查找j = mid - 1;</li>
+<li>如果target不在该区间内，则就在另外呢个无序区间内，l = mid + 1；</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> search(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> target) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> nums.size();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, j <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(i <span style="color:#f92672">&lt;=</span> j) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (i <span style="color:#f92672">+</span> j) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(target <span style="color:#f92672">==</span> nums[mid]) <span style="color:#66d9ef">return</span> mid;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(nums[i] <span style="color:#f92672">&lt;=</span> nums[mid]) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(nums[i] <span style="color:#f92672">&lt;=</span> target <span style="color:#f92672">&amp;&amp;</span> nums[mid] <span style="color:#f92672">&gt;</span> target) j <span style="color:#f92672">=</span> mid <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span> i <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(nums[mid] <span style="color:#f92672">&lt;</span> target <span style="color:#f92672">&amp;&amp;</span> nums[j] <span style="color:#f92672">&gt;=</span> target) i <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span> j <span style="color:#f92672">=</span> mid <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="153-寻找旋转排序数组中的最小值">153. 寻找旋转排序数组中的最小值</h3>
+<p>如果<code>nums[mid] &gt; nums[r]</code>，意味着<code>mid</code>位置绝不可能是最小值，且右侧数据整体小于左侧数据，最小值一定在右侧，所以<code>l = mid + 1</code>。</p>
+<p>否则，就是nums[mid] &lt;= nums[r]，这意味着右侧数据是有序的，最小值不可能在右侧区间内部（因为递增），但有可能是<code>mid</code>也有可能是左侧数据，所以r = mid。</p>
+<blockquote>
+<p>不是说精确查找是<code>while(l &lt;= r)</code>吗，为什么该题找最小值也是精确查找但是<code>while(l &lt; r)</code>？</p>
+</blockquote>
+<p>因为精确查找固定值的时候，有可能值不存在，所以要遍历到区间为空为止。但是最小值一定会存在，所以遍历到只剩下一个元素就可以得到了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> findMin(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> nums.size();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> l <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, r <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(l <span style="color:#f92672">&lt;</span> r) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> (l <span style="color:#f92672">+</span> r) <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(nums[mid] <span style="color:#f92672">&gt;</span> nums[r]) l <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                r <span style="color:#f92672">=</span> mid;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> nums[l];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="4-寻找两个正序数组的中位数">4. 寻找两个正序数组的中位数</h3>
+<p>将寻找中位数问题转换成寻找第k小的数，因为要求时间复杂度，所以没办法把数组真的合并。</p>
+<p>index用来记录当前索引，k用来找中位数的位置（不断减少，直到1的时候返回）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> getKthElement(<span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums1, <span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums2, <span style="color:#66d9ef">int</span> k) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> m <span style="color:#f92672">=</span> nums1.size();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> nums2.size();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> index1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, index2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(true) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(index1 <span style="color:#f92672">==</span> m) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> nums2[index2 <span style="color:#f92672">+</span> k <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(index2 <span style="color:#f92672">==</span> n) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> nums1[index1 <span style="color:#f92672">+</span> k <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(k <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">min</span>(nums1[index1], nums2[index2]);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> newIndex1 <span style="color:#f92672">=</span> min(index1 <span style="color:#f92672">+</span> k <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> newIndex2 <span style="color:#f92672">=</span> min(index2 <span style="color:#f92672">+</span> k <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> pivot1 <span style="color:#f92672">=</span> nums1[newIndex1];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> pivot2 <span style="color:#f92672">=</span> nums2[newIndex2];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(pivot1 <span style="color:#f92672">&lt;=</span> pivot2) {
+</span></span><span style="display:flex;"><span>                k <span style="color:#f92672">-=</span> newIndex1 <span style="color:#f92672">-</span> index1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>                index1 <span style="color:#f92672">=</span> newIndex1 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                k <span style="color:#f92672">-=</span> newIndex2 <span style="color:#f92672">-</span> index2 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>                index2 <span style="color:#f92672">=</span> newIndex2 <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">double</span> <span style="color:#a6e22e">findMedianSortedArrays</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums1, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums2) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> totalLength <span style="color:#f92672">=</span> nums1.size() <span style="color:#f92672">+</span> nums2.size();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(totalLength <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> getKthElement(nums1, nums2, (totalLength <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> (getKthElement(nums1, nums2, totalLength <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span> getKthElement(nums1, nums2, (totalLength <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2.0</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div>
         </div>
     </div>
