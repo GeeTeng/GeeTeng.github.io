@@ -1146,6 +1146,8 @@ int main() {
 
 ### 46. 全排列
 
+*回溯法*
+
 遍历u到n数字，交换u和i的位置，再复位。
 
 ```c++
@@ -1153,14 +1155,14 @@ int main() {
 #include<vector>
 using namespace std;
 
-void dfs(vector<vector<int>>& res, vector<int>& output, int u, int n) {
+void backtrack(vector<vector<int>>& res, vector<int>& output, int u, int n) {
 	if (u == n) {
 		res.push_back(output);
 		return;
 	}
 	for (int i = u; i < n; i++) {
 		swap(output[i], output[u]);
-		dfs(res, output, u + 1, n);
+		backtrack(res, output, u + 1, n);
 		swap(output[i], output[u]);
 	}
 }
@@ -1168,7 +1170,7 @@ void dfs(vector<vector<int>>& res, vector<int>& output, int u, int n) {
 vector<vector<int>> permute(vector<int>& nums) {
 	int n = nums.size();
 	vector<vector<int>> res;
-	dfs(res, nums, 0, n);
+	backtrack(res, nums, 0, n);
 	return res;
 }
 
@@ -1196,7 +1198,7 @@ int main() {
 
 ### 78. 子集
 
-*dfs：*
+*回溯法*
 
 加入这个数字的情况
 
@@ -1210,18 +1212,18 @@ using namespace std;
 vector<int> output;
 vector<vector<int>> res;
 
-void dfs(vector<int> nums, int cur) {
+void backtrack(vector<int> nums, int cur) {
 	if (nums.size() == cur) {
 		res.push_back(output);
 		return;
 	}
 	output.push_back(nums[cur]);
-	dfs(nums, cur + 1);
+	backtrack(nums, cur + 1);
 	output.pop_back();
-	dfs(nums, cur + 1);
+	backtrack(nums, cur + 1);
 }
 vector<vector<int>> subsets(vector<int> nums) {
-	dfs(nums, 0);
+	backtrack(nums, 0);
 	return res;
 }
 
@@ -1247,7 +1249,9 @@ int main() {
 
 ### 17. 电话号码的字母组合
 
-*dfs回溯：*`vector<string> phone` 用来存放电话号码对应的字母，比如说2对应的是abc，那么phone[2] = "abc"。
+*回溯法*
+
+`vector<string> phone` 用来存放电话号码对应的字母，比如说2对应的是abc，那么phone[2] = "abc"。
 
 遍历phone[2]对应的这个字符串，依次加入a、b、c的情况去递归，再回溯。
 
@@ -1259,7 +1263,7 @@ using namespace std;
 vector<string> phone = { "",    "",    "abc",  "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz" };
 vector<string> res;
 
-void dfs(const string digit, int index, string& path, vector<string>& res, const vector<string>& phone) {
+void backtrack(const string digit, int index, string& path, vector<string>& res, const vector<string>& phone) {
 	if (index == digit.size()) {
 		res.push_back(path);
 		return;
@@ -1274,7 +1278,7 @@ void dfs(const string digit, int index, string& path, vector<string>& res, const
 
 vector<string> letterCombinations(string digits) {
 	string path;
-	dfs(digits, 0, path, res, phone);
+	backtrack(digits, 0, path, res, phone);
 	return res;
 }
 
@@ -1293,9 +1297,16 @@ int main() {
 
 ### 39. 组合总和
 
+*回溯法*
+
+`index`记录的是`candidates`中第几位数字，`combine`记录当前正在尝试的组合。如果`target = 0`就可以存入res了。
+
+- 当不选择该数字的时候，index 要 + 1。
+- 当选择该数字时，前提条件是选择了之后target是否 >0，否则选择没意义。选择该数字的时候index不变，因为可以重复选择。
+
 ```c++
 // candidates候选数字数组 target目标值 res存放所有满足条件 combine正在尝试的组合 index当前搜索的candidates索引
-void dfs(vector<int>& candidates, int target, vector<vector<int>>& res, vector<int>& combine, int index) {
+void backtrack(vector<int>& candidates, int target, vector<vector<int>>& res, vector<int>& combine, int index) {
     if(index == candidates.size()) {
         return;
     }
@@ -1304,12 +1315,12 @@ void dfs(vector<int>& candidates, int target, vector<vector<int>>& res, vector<i
         return;
     }
     // 不选当前数字 尝试后面元素
-    dfs(candidates, target, res, combine, index + 1);
+    backtrack(candidates, target, res, combine, index + 1);
     // 只有当 target - candidates[index] >= 0，才考虑选 candidates[index] 不然就是负数了
     if(target - candidates[index] >= 0) {
         combine.push_back(candidates[index]);
         // 允许重复选择 所以下一层依旧是index
-        dfs(candidates, target - candidates[index], res, combine, index);
+        backtrack(candidates, target - candidates[index], res, combine, index);
         combine.pop_back();
     }
 }
@@ -1317,8 +1328,368 @@ void dfs(vector<int>& candidates, int target, vector<vector<int>>& res, vector<i
 vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
     vector<vector<int>> res;
     vector<int> combine;
-    dfs(candidates, target, res, combine, 0);
+    backtrack(candidates, target, res, combine, 0);
     return res;
 }
+```
+
+
+
+### 22. 括号生成
+
+*回溯法*
+
+**终止条件**：当left和right都等于n时，这个时候所有括号都用完了。
+
+**加入左括号的条件**：当left < n时，还有剩余左括号
+
+**加入右括号的条件**：当right < left时，代表还有多余右括号可以匹配。 
+
+```c++
+class Solution {
+public:
+    void backtrack(int n, vector<string>& res, string& current, int left, int right) {
+        if (left == n && right == n) {
+            res.push_back(current);
+            return;
+        }
+        if (left < n) {
+            current.push_back('(');
+            backtrack(n, res, current, left + 1, right);
+            current.pop_back();
+        }
+        if (right < left) {
+            current.push_back(')');
+            backtrack(n, res, current, left, right + 1);
+            current.pop_back();
+        }
+    }
+    vector<string> generateParenthesis(int n) {
+        vector<string> res;
+        string current;
+        backtrack(n, res, current, 0, 0);
+        return res;
+    }
+};
+```
+
+
+
+### 79. 单词搜索
+
+*回溯法*
+
+像是图论问题，如果超出边界或者该字符不等于`word[k]`则返回false，遍历四个方向后再将该点的字符改回原值。
+
+```c++
+class Solution {
+public:
+    int dx[4] = {1, -1, 0, 0};
+    int dy[4] = {0, 0, 1, -1};
+    bool backtrack(vector<vector<char>>& board, string& word, int i, int j, int k) {
+        if(k == word.size()) return true;
+        if(i < 0 || i >= board.size() || j < 0 || j >= board[0].size() || word[k] != board[i][j]) return false;
+        char tmp = board[i][j];
+        board[i][j] = '#';
+        for(int d = 0; d < 4; d ++) {
+            int x = i + dx[d], y = j + dy[d];
+            if(backtrack(board, word, x, y, k + 1)) return true;
+        }
+        board[i][j] = tmp;
+        return false;
+         
+    }
+    bool exist(vector<vector<char>>& board, string word) {
+        int n = board.size(), m = board[0].size();
+        for(int i = 0; i < n; i ++) {
+            for(int j = 0; j < m; j ++) {
+                if(backtrack(board, word, i, j, 0)) return true;
+            }
+        }
+        return false;
+    }
+};
+```
+
+
+
+### 131. 分割回文串
+
+*回溯法 + 动态规划*
+
+动态规划：先预处理`isPalindrome`数组，用 `dp[i][j]` 表示 `s[i:j]` 是否为回文。如果`s[i] == s[j]`则长度为1和2的字符串一定是回文，如果长度超过2，则回文判断方法为`dp[i][j] = dp[i+1][j-1])`。
+
+回溯搜索：维护一个 `path` 记录当前切分方案，遍历 `s[i:j]`，如果是回文，则递归搜索 `s[j+1:]`。当 `start == s.size()` 时，说明找到了一组有效方案。
+
+```c++
+class Solution {
+public:
+    vector<vector<string>> res;
+    vector<string> path;
+    vector<vector<bool>> isPalindrome;
+    void backtrack(string& s, int start) {
+        if(start == s.size()) {
+            res.push_back(path);
+            return;
+        }
+        for(int end = start;  end < s.size(); end ++) {
+            if(isPalindrome[start][end]) {
+                path.push_back(s.substr(start, end - start + 1));
+                backtrack(s, end + 1);
+                path.pop_back();
+            }
+        }
+    }
+    vector<vector<string>> partition(string s) {
+        int n = s.size();
+        isPalindrome.assign(n, vector<bool>(n, false));
+        for(int len = 1; len <= n; len ++) {
+            for(int i = 0; i + len - 1 < n; i ++) {
+                int j = i + len - 1;
+                if(s[i] == s[j]) {
+                    if(len == 1 || len == 2) isPalindrome[i][j] = true;
+                    else isPalindrome[i][j] = isPalindrome[i + 1][j - 1];
+                }
+            }
+        }
+        backtrack(s, 0);
+        return res;
+    }
+};
+```
+
+
+
+### 51. N皇后
+
+*回溯法*
+
+主对角线和副对角线的公式是`y = x + b`和`y = -x + b`，截距相同时两个元素在同一对角线上，所以`b = x + y`和`b = y - x`。
+
+`row` 实际上是 `u`（当前遍历到的行），`col` 是 `i`（当前尝试放置皇后的列）。所以`dg[u + i]`代表主对角线，`udg[n - u + i]`代表副对角线。为什么有一个n，是因为防止`-u+i<0`（由于 `(row - col)` 可能为负数，为了不出现负索引，我们 **加上 `n` 作为偏移量**）。
+
+```c++
+class Solution {
+public:
+    vector<vector<string>> res;
+    vector<string> path;
+    vector<bool> col, dg, udg;
+    void dfs(int n, int u) {
+        if(u == n) {
+            res.push_back(path);
+            return;
+        }
+        for(int i = 0; i < n; i ++) {
+            if(!col[i] && !dg[u + i] && !udg[n - u + i]) {
+                path[u][i] = 'Q';
+                col[i] = dg[u + i] = udg[n - u + i] = true;
+                dfs(n, u + 1);
+                col[i] = dg[u + i] = udg[n - u + i] = false;
+                path[u][i] = '.';
+            }
+        }
+    }
+    vector<vector<string>> solveNQueens(int n) {
+        res.clear();
+        path.assign(n, string(n, '.'));
+        col.assign(n, false);
+        dg.assign(2 * n, false);
+        udg.assign(2*n, false);
+        dfs(n, 0);
+        return res;
+    }
+};
+```
+
+
+
+## 二分查找
+
+*二分查找分为两种情况*：
+
+**精确查找**和**查找边界**，如果是精确查找的话`while(i <= j)`，如果是查找边界那么循环是`while(i < j)`。
+
+精确查找的循环停止条件是空区间`i > j`，而查找边界的循环停止条件是 `i == j`。
+
+| 问题类型         | i更新       | j更新       | mid计算方式           |
+| ---------------- | ----------- | ----------- | --------------------- |
+| 精确查找         | i = mid + 1 | j = mid - 1 | mid = (i + j) / 2     |
+| 找边界（左边界） | i + mid + 1 | j = mid     | mid = (i + j) / 2     |
+| 找边界（右边界） | i = mid     | j = mid - 1 | mid = (i + j + 1) / 2 |
+
+总结规律就是：找边界问题，找哪个边界就哪个多移动；查找单个元素就两边都移动。并且移动的那方一定是`<`或`>`target而非`<=`或`>=`。
+
+### 74. 搜索二维矩阵
+
+使用index来记录target可能在的行。
+
+```c++
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int n = matrix.size(), m = matrix[0].size();
+        int i = 0, j = n - 1;
+        int index = 0;
+        while(i <= j) {
+            int mid = i + j >> 1;
+            if(matrix[mid][0] > target) j = mid - 1;
+            else {
+                i = mid + 1;
+                index = mid;
+            }
+        }
+        i = 0, j = m - 1;
+        while(i <= j) {
+            int mid = i + j >> 1;
+            if(matrix[index][mid] == target) return true;
+            else if(matrix[index][mid] > target) j = mid - 1;
+            else i = mid + 1;
+        }
+        return false;
+    }
+};
+```
+
+
+
+### 34. 在排序数组中查找元素的第一个和最后一个位置
+
+```c++
+class Solution {
+public:
+    vector<int> searchRange(vector<int>& nums, int target) {
+        int n = nums.size();
+        if(n == 0) return {-1, -1};
+        int i = 0, j = n - 1;
+        while(i < j) {
+            int mid = (i + j) >> 1;
+            if(nums[mid] < target) i = mid + 1;
+            else j = mid;
+        }
+        if(nums[i] != target) return{-1, -1};
+        int left = i;
+        j = n - 1;
+        while(i < j) {
+            int mid = (i + j + 1) >> 1;
+            if(nums[mid] > target) j = mid - 1;
+            else i = mid;
+        }
+        return {left, j};
+    }
+};
+```
+
+
+
+### 33. 搜索旋转数组
+
+直接二分查找即可，二分查找后分为两个区域，`[l, mid]`和`(mid,r]`，判断哪一区域是有序的。
+
+举例左半部分有序：
+
+- 如果taget在这个区间内（即target >= nums[l] && target < nums[mid]），则正常二分查找j = mid - 1;
+- 如果target不在该区间内，则就在另外呢个无序区间内，l = mid + 1；
+
+```c++
+class Solution {
+public:
+    int search(vector<int>& nums, int target) {
+        int n = nums.size();
+        int i = 0, j = n - 1;
+        while(i <= j) {
+            int mid = (i + j) >> 1;
+            if(target == nums[mid]) return mid;
+            if(nums[i] <= nums[mid]) {
+                if(nums[i] <= target && nums[mid] > target) j = mid - 1;
+                else i = mid + 1;
+            }
+            else {
+                if(nums[mid] < target && nums[j] >= target) i = mid + 1;
+                else j = mid - 1;
+            }
+        }
+        return -1;
+    }
+};
+```
+
+
+
+### 153. 寻找旋转排序数组中的最小值
+
+如果`nums[mid] > nums[r]`，意味着`mid`位置绝不可能是最小值，且右侧数据整体小于左侧数据，最小值一定在右侧，所以`l = mid + 1`。
+
+否则，就是nums[mid] <= nums[r]，这意味着右侧数据是有序的，最小值不可能在右侧区间内部（因为递增），但有可能是`mid`也有可能是左侧数据，所以r = mid。
+
+> 不是说精确查找是`while(l <= r)`吗，为什么该题找最小值也是精确查找但是`while(l < r)`？
+
+因为精确查找固定值的时候，有可能值不存在，所以要遍历到区间为空为止。但是最小值一定会存在，所以遍历到只剩下一个元素就可以得到了。
+
+```c++
+class Solution {
+public:
+    int findMin(vector<int>& nums) {
+        int n = nums.size();
+        int l = 0, r = n - 1;
+        while(l < r) {
+            int mid = (l + r) >> 1;
+            if(nums[mid] > nums[r]) l = mid + 1;
+            else {
+                r = mid;
+            }
+        }
+        return nums[l];
+    }
+};
+```
+
+
+
+### 4. 寻找两个正序数组的中位数
+
+将寻找中位数问题转换成寻找第k小的数，因为要求时间复杂度，所以没办法把数组真的合并。
+
+index用来记录当前索引，k用来找中位数的位置（不断减少，直到1的时候返回）。
+
+```c++
+class Solution {
+public:
+    int getKthElement(const vector<int>& nums1, const vector<int>& nums2, int k) {
+        int m = nums1.size();
+        int n = nums2.size();
+        int index1 = 0, index2 = 0;
+        while(true) {
+            if(index1 == m) {
+                return nums2[index2 + k - 1];
+            }
+            if(index2 == n) {
+                return nums1[index1 + k - 1];
+            }
+            if(k == 1) {
+                return min(nums1[index1], nums2[index2]);
+            }
+            int newIndex1 = min(index1 + k / 2 - 1, m - 1);
+            int newIndex2 = min(index2 + k / 2 - 1, n - 1);
+            int pivot1 = nums1[newIndex1];
+            int pivot2 = nums2[newIndex2];
+            if(pivot1 <= pivot2) {
+                k -= newIndex1 - index1 + 1;
+                index1 = newIndex1 + 1;
+            } else {
+                k -= newIndex2 - index2 + 1;
+                index2 = newIndex2 + 1;
+            }
+        }
+    }
+
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        int totalLength = nums1.size() + nums2.size();
+        if(totalLength % 2 == 1) {
+            return getKthElement(nums1, nums2, (totalLength + 1) / 2);
+        } else {
+            return (getKthElement(nums1, nums2, totalLength / 2) + getKthElement(nums1, nums2, (totalLength / 2) + 1)) / 2.0;
+        }
+    }
+};
 ```
 

@@ -790,23 +790,17 @@ int main()
 
 单个进程中创建的socket数量与受系统参数open files的限制。（ulimit -a ）一般是1024。
 
-
-
 *domain协议家族*
 
 `PF_INET`      IPv4互联网协议族。
 
 `PF_INET6`     IPv6互联网协议族。
 
-
-
 *type数据传输的类型*
 
 `SOCK_STREAM`    面向连接的socket：1）数据不会丢失；2）数据的顺序不会错乱；3）双向通道。
 
 `SOCK_DGRAM`    无连接的socket：1）数据可能会丢失；2）数据的顺序可能会错乱；3）传输的效率更高。
-
-
 
 *protocol最终使用的协议*
 
@@ -817,8 +811,209 @@ socket(PF_INET, SOCK_STREAM, IPPROTO_TCP);  // 创建tcp的sock
 socket(PF_INET, SOCK_DGRAM, IPPROTO_UDP);  // 创建udp的sock
 ```
 
+> AF_INET和PF_INET区别
+>
 
+- `AF_INET`（Address Family）定义 **地址类型**。
+- `PF_INET`（Protocol Family）定义 **协议族**。
+- 在大多数实现中，`AF_INET` 和 `PF_INET` 的值相同，可以互换使用，但建议遵循规范：
+  - 创建套接字时用 `PF_INET`（如 `socket(PF_INET, SOCK_STREAM, 0)`）。
+  - 设置地址时用 `AF_INET`（如 `struct sockaddr_in` 的 `sin_family`）。
 
 ### 主机字节序与网络字节序
 
 为了解决不同字节序的计算机之间传输数据的问题，约定采用网络字节序（大端序）。
+
+### 网络字节序
+
+为了解决不同字节序的计算机之间传输数据的问题，约定采用网络字节序（大端序）。
+
+C语言提供了四个库函数，用于在主机字节序和网络字节序之间转换：
+
+```c
+uint16_t htons(uint16_t hostshort);  // uint16_t 2字节的整数 unsigned short
+
+uint32_t htonl(uint32_t hostlong);  // uint32_t 4字节的整数 unsigned int
+
+uint16_t ntohs(uint16_t netshort);
+
+uint32_t ntohl(uint32_t netlong);
+```
+
+h  host（主机）；
+
+to 转换；
+
+n  network（网络）；
+
+s  short（2字节，16位的整数）；
+
+l   long（4字节，32位的整数）；
+
+### 第一个网络通信程序
+
+*客户端：*
+
+```c++
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <unistd.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+using namespace std;
+ 
+int main(int argc,char *argv[])
+{
+  if (argc!=3)
+  {
+    cout << "Using:./demo1 服务端的IP 服务端的端口\nExample:./demo1 192.168.101.139 5005\n\n"; 
+    return -1;
+  }
+
+  // 第1步：创建客户端的socket。  
+  int sockfd = socket(AF_INET,SOCK_STREAM,0);
+  if (sockfd==-1)
+  {
+    perror("socket"); return -1;
+  }
+ 
+  // 第2步：向服务器发起连接请求。 
+  struct hostent* h;    // 用于存放服务端IP的结构体。
+  if ( (h = gethostbyname(argv[1])) == 0 )  // 把字符串格式的IP转换成结构体。
+  { 
+    cout << "gethostbyname failed.\n" << endl; close(sockfd); return -1;
+  }
+  
+  struct sockaddr_in servaddr;              // 用于存放服务端IP和端口的结构体。
+  memset(&servaddr,0,sizeof(servaddr));
+  servaddr.sin_family = AF_INET;
+  memcpy(&servaddr.sin_addr,h->h_addr,h->h_length); // 指定服务端的IP地址。
+  servaddr.sin_port = htons(atoi(argv[2]));         // 指定服务端的通信端口。
+  
+  if (connect(sockfd,(struct sockaddr *)&servaddr,sizeof(servaddr))!=0)  // 向服务端发起连接清求。
+  { 
+    perror("connect"); close(sockfd); return -1; 
+  }
+  
+  // 第3步：与服务端通讯，客户发送一个请求报文后等待服务端的回复，收到回复后，再发下一个请求报文。
+  char buffer[1024];
+  for (int ii=0;ii<3;ii++)  // 循环3次，将与服务端进行三次通讯。
+  {
+    int iret;
+    memset(buffer,0,sizeof(buffer));
+    sprintf(buffer,"num = ",ii+1);  // 生成请求报文内容。
+    // 向服务端发送请求报文。
+    if ( (iret=send(sockfd,buffer,strlen(buffer),0))<=0)
+    { 
+      perror("send"); break; 
+    }
+    cout << "发送：" << buffer << endl;
+
+    memset(buffer,0,sizeof(buffer));
+    // 接收服务端的回应报文，如果服务端没有发送回应报文，recv()函数将阻塞等待。
+    if ( (iret=recv(sockfd,buffer,sizeof(buffer),0))<=0)
+    {
+       cout << "iret=" << iret << endl; break;
+    }
+    cout << "接收：" << buffer << endl;
+
+    sleep(1);
+  }
+ 
+  // 第4步：关闭socket，释放资源。
+  close(sockfd);
+}
+```
+
+*服务端：*
+
+```c++
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cstdlib>
+#include <unistd.h>
+#include <netdb.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
+using namespace std;
+ 
+int main(int argc,char *argv[])
+{
+  if (argc!=2)
+  {
+    cout << "Using:./demo2 通讯端口\nExample:./demo2 5005\n\n";   // 端口大于1024，不与其它的重复。
+    cout << "注意：运行服务端程序的Linux系统的防火墙必须要开通5005端口。\n";
+    cout << "      如果是云服务器，还要开通云平台的访问策略。\n\n";
+    return -1;
+  }
+
+  // 第1步：创建服务端的socket。 
+  int listenfd = socket(AF_INET,SOCK_STREAM,0);
+  if (listenfd==-1) 
+  { 
+    perror("socket"); return -1; 
+  }
+  
+  // 第2步：把服务端用于通信的IP和端口绑定到socket上。 
+  struct sockaddr_in servaddr;          // 用于存放服务端IP和端口的数据结构。
+  memset(&servaddr,0,sizeof(servaddr));
+  servaddr.sin_family = AF_INET;        // 指定协议。
+  servaddr.sin_addr.s_addr = htonl(INADDR_ANY); // 服务端任意网卡的IP都可以用于通讯。
+  servaddr.sin_port = htons(atoi(argv[1]));     // 指定通信端口，普通用户只能用1024以上的端口。
+  // 绑定服务端的IP和端口。
+  if (bind(listenfd,(struct sockaddr *)&servaddr,sizeof(servaddr)) != 0 )
+  { 
+    perror("bind"); close(listenfd); return -1; 
+  }
+ 
+  // 第3步：把socket设置为可连接（监听）的状态。
+  if (listen(listenfd,5) != 0 ) 
+  { 
+    perror("listen"); close(listenfd); return -1; 
+  }
+ 
+  // 第4步：受理客户端的连接请求，如果没有客户端连上来，accept()函数将阻塞等待。
+  int clientfd=accept(listenfd,0,0);
+  if (clientfd==-1)
+  {
+    perror("accept"); close(listenfd); return -1; 
+  }
+
+  cout << "客户端已连接。\n";
+ 
+  // 第5步：与客户端通信，接收客户端发过来的报文后，回复ok。
+  char buffer[1024];
+  while (true)
+  {
+    int iret;
+    memset(buffer,0,sizeof(buffer));
+    // 接收客户端的请求报文，如果客户端没有发送请求报文，recv()函数将阻塞等待。
+    // 如果客户端已断开连接，recv()函数将返回0。
+    if ( (iret=recv(clientfd,buffer,sizeof(buffer),0))<=0) 
+    {
+       cout << "iret=" << iret << endl;  break;   
+    }
+    cout << "接收：" << buffer << endl;
+ 
+    strcpy(buffer,"ok");  // 生成回应报文内容。
+    // 向客户端发送回应报文。
+    if ( (iret=send(clientfd,buffer,strlen(buffer),0))<=0) 
+    { 
+      perror("send"); break; 
+    }
+    cout << "发送：" << buffer << endl;
+  }
+ 
+  // 第6步：关闭socket，释放资源。
+  close(listenfd);   // 关闭服务端用于监听的socket。
+  close(clientfd);   // 关闭客户端连上来的socket。
+}
+
+```
+

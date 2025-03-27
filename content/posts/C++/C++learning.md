@@ -1011,77 +1011,92 @@ int main() {
 *UniquePtr*
 
 ```c++
-class UniquePtr
-{
+#include<iostream>
+using namespace std;
+
+template<typename T>
+class UniquePtr {
 private:
 	T* ptr;
 public:
 	explicit UniquePtr(T* p) :ptr(p) {}
-    // 删除拷贝构造函数
 	UniquePtr(const UniquePtr&) = delete;
-    // 删除赋值运算符
 	UniquePtr& operator=(const UniquePtr&) = delete;
-    // 移动构造函数
-	UniquePtr(UniquePtr&& other)noexcept :ptr(other.ptr){
+	UniquePtr(UniquePtr&& other)noexcept :ptr(other.ptr) {
 		other.ptr = nullptr;
 	}
-    // 移动赋值运算符
-	UniquePtr& operator=(UniquePtr&& other) noexcept {
-		if (this != &other) {
+	UniquePtr& operator=(UniquePtr&& other)noexcept {
+		if (this != other) {
 			delete ptr;
 			ptr = other.ptr;
 			other.ptr = nullptr;
 		}
 		return *this;
 	}
-	T* operator->()const {
-		return ptr;
-	}
 	T& operator*()const {
 		return *ptr;
 	}
-	// 释放资源 绑定新资源 默认是nullptr
-	void reset(T* p = nullptr) {
-		if (ptr != p) {
-			delete ptr;
-			ptr = p;
-		}
+	T* operator->()const {
+		return ptr;
 	}
-	// 放弃所有权 ptr指向nullptr
 	T* release() {
 		T* tmp = ptr;
 		ptr = nullptr;
 		return tmp;
 	}
-	T* get() const{
-		if(ptr) return ptr;
+	void reset(T* p = nullptr) {
+		delete ptr;
+		ptr = p;
 	}
-	~UniquePtr() { delete ptr; }
+	~UniquePtr() {
+		delete ptr;
+	}
 };
+
+class MyClass
+{
+public:
+	void show() {
+		cout << "调用MyClass类的show函数" << endl;
+	}
+	MyClass() {
+		cout << "构造函数" << endl;
+	}
+	~MyClass() {
+		cout << "析构函数" << endl;
+	}
+};
+
+int main() {
+	UniquePtr<MyClass> ptr1(new MyClass());
+	UniquePtr<int> ptr2(new int(2));
+	ptr1->show();
+	cout << ptr2.release() << endl;
+	return 0;
+}
 ```
 
 *SharedPtr*
 
 ```c++
-template<typename T>
+#include<iostream>
+using namespace std;
 
+template<typename T>
 class SharedPtr {
 private:
 	T* ptr;
 	int* ref_count;
 public:
-	explicit SharedPtr(T* p = nullptr) :ptr(p), ref_count(new int(p ? 1 : 0)) { }
-	// 拷贝构造函数
+	explicit SharedPtr(T* p = nullptr) :ptr(p), ref_count(new int(p ? 1 : 0)){}
 	SharedPtr(const SharedPtr& other) noexcept : ptr(other.ptr), ref_count(other.ref_count) {
-		if (ptr) (*ref_count)++;
+	if (ptr) (*ref_count)++;
 	}
-	// 移动构造函数
-	SharedPtr(SharedPtr&& other) noexcept :ptr(other.ptr), ref_count(other.ref_count) {
+	SharedPtr(SharedPtr&& other)noexcept :ptr(other.ptr), ref_count(other.ref_count) {
 		other.ptr = nullptr;
 		other.ref_count = nullptr;
 	}
-	// 拷贝赋值
-	SharedPtr& operator=(const SharedPtr& other) noexcept {
+	SharedPtr& operator=(const SharedPtr& other)noexcept {
 		if (this != &other) {
 			release();
 			ptr = other.ptr;
@@ -1090,11 +1105,11 @@ public:
 		}
 		return *this;
 	}
-    // 移动赋值
-	SharedPtr& operator=(SharedPtr&& other) noexcept {
+	SharedPtr& operator=(SharedPtr&& other)noexcept {
 		if (this != &other) {
 			release();
-			ptr = other.ptr; ref_count = other.ref_count;
+			ptr = other.ptr;
+			ref_count = other.ref_count;
 			other.ptr = nullptr;
 			other.ref_count = nullptr;
 		}
@@ -1122,6 +1137,28 @@ private:
 		ref_count = nullptr;
 	}
 };
+
+class MyClass
+{
+public:
+	MyClass() {
+		cout << "构造函数\n";
+	}
+	~MyClass() {
+		cout << "析构函数\n";
+	}
+	void show() {
+		cout << "调用MyClass中的show方法" << endl;
+	}
+};
+
+int main() {
+	SharedPtr<MyClass> ptr1(new MyClass());
+	SharedPtr<MyClass> ptr2 = ptr1;
+	ptr2->show();
+	cout << ptr2.use_count() << endl;
+	return 0;
+}
 ```
 
 ---
