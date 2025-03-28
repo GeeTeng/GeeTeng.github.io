@@ -240,6 +240,27 @@ public:
 
 ## 普通数组
 
+### 53. 最大子数组和
+
+```c++
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n);
+        int res = nums[0];
+        dp[0] = nums[0];
+        for(int i = 1; i < n; i ++) {
+            dp[i] = max(dp[i - 1] + nums[i], nums[i]);
+            res = max(res, dp[i]);
+        }
+        return res;
+    }
+};
+```
+
+
+
 ### 56. 合并区间
 
 ```c++
@@ -258,6 +279,36 @@ public:
             else {
                 res.push_back(intervals[i]);
             }
+        }
+        return res;
+    }
+};
+```
+
+
+
+### 238. 除自身以外数组的乘积
+
+```c++
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> front(n), back(n);
+        vector<int> res(n);
+        int mul = 1;
+        for(int i = 0; i < n; i ++) {
+            front[i] = mul;
+            mul *= nums[i];
+        }
+        mul = 1;
+        for(int i = n - 1; i >= 0; i --) {
+            back[i] = mul;
+            mul *= nums[i];
+        }
+        
+        for(int i = 0; i < n; i ++) {
+            res[i] = front[i] * back[i];
         }
         return res;
     }
@@ -1689,6 +1740,152 @@ public:
         } else {
             return (getKthElement(nums1, nums2, totalLength / 2) + getKthElement(nums1, nums2, (totalLength / 2) + 1)) / 2.0;
         }
+    }
+};
+```
+
+
+
+## 栈
+
+### 20. 有效的括号
+
+栈用来存储左括号，如果遇到右括号那么就弹出左括号匹配是否相等。
+
+```c++
+class Solution {
+public:
+    bool isValid(string s) {
+        int n = s.length();
+        if(n % 2 == 1) {
+            return false;
+        }
+        unordered_map<char, char> pairs = {
+            {']', '['},
+            {')', '('},
+            {'}', '{'}
+        };
+        stack<char> stk;
+        for(char ch : s) {
+            // 如果是右括号则取出左括号弹出
+            if(pairs.count(ch)) {
+                if(stk.empty() || stk.top() != pairs[ch]) {
+                    return false;
+                }
+                stk.pop();
+            } // 如果是左括号 就入栈
+            else {
+                stk.push(ch);
+            }
+        }
+        return stk.empty();
+    }
+};
+```
+
+
+
+### 394. 字符串解码
+
+两个栈分别存放数字和字符串
+
+当遇到数字时，可能是多位数字，所以`num = num * 10 + (ch - '0');` 
+
+当遇到`[`时，要将栈中放入currentStr和num，并且置空这两个变量。
+
+当遇到`]`时，取出两个栈顶的数字和字符串，然后去重复字符串。
+
+当遇到字符时，就直接加入到currentStr中。
+
+```c++
+class Solution {
+public:
+    string decodeString(string s) {
+        stack<int> countStack;
+        stack<string> strStack;
+        string currentStr;
+        int num = 0;
+        for(char ch : s) {
+            if(isdigit(ch)) {
+                num = num * 10 + (ch - '0');
+            }
+            else if(ch == '[') {
+                countStack.push(num);
+                strStack.push(currentStr);
+                num = 0;
+                currentStr = "";
+            }
+            else if(ch == ']') {
+                int repeat = countStack.top();
+                countStack.pop();
+                string prevStr = strStack.top();
+                strStack.pop();
+                string temp;
+                for(int i = 0; i < repeat; i ++) {
+                    temp += currentStr;
+                }
+                currentStr = prevStr + temp; 
+            }
+            else {
+                currentStr += ch;
+            }
+        }
+        return currentStr;
+    }
+};
+```
+
+
+
+### 739. 每日温度
+
+单调栈，当遇到比栈顶温度大的天数，就得出了最近温度升高的那天，也就是`i - stk.top()`，并弹出栈顶元素。
+
+```c++
+class Solution {
+public:
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        int n = temperatures.size();
+        vector<int> res(n, 0);
+        stack<int> stk;
+        for(int i = 0; i < n; i ++) {
+            while (!stk.empty() && temperatures[stk.top()] < temperatures[i]) {
+                int preDay = stk.top();
+                res[preDay] = i - preDay;
+                stk.pop();
+            }
+            stk.push(i);
+        }
+        return res;
+    }
+};
+```
+
+
+
+### 84.柱状图中最大的矩形
+
+单调栈递增，在heights数组末尾追加0，为了停止循环确保所有柱子都被弹出。
+
+右边界为i，左边界为l。宽度`width = i - l - 1`;
+
+```c++
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights) {
+        stack<int> st;
+        int ans = 0;
+        heights.push_back(0);
+        for(int i = 0; i < heights.size(); i ++) {
+            while(!st.empty() && heights[st.top()] >= heights[i]) {
+                int tmp = st.top();
+                st.pop();
+                int l = st.empty() ? -1 : st.top();
+                ans = max(ans, (i - l - 1) * heights[tmp]);
+            }
+            st.push(i);
+        }
+        return ans;
     }
 };
 ```
