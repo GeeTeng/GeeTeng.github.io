@@ -35,7 +35,7 @@
   <meta itemprop="description" content="LeetCode热题100整理">
   <meta itemprop="datePublished" content="2025-03-12T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-12T00:00:00+00:00">
-  <meta itemprop="wordCount" content="4525">
+  <meta itemprop="wordCount" content="4966">
   <meta itemprop="keywords" content="算法">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/" />
 
@@ -225,7 +225,9 @@
         </li>
         <li><a href="#普通数组">普通数组</a>
           <ul>
+            <li><a href="#53-最大子数组和">53. 最大子数组和</a></li>
             <li><a href="#56-合并区间">56. 合并区间</a></li>
+            <li><a href="#238-除自身以外数组的乘积">238. 除自身以外数组的乘积</a></li>
             <li><a href="#41-缺失的第一个整数">41. 缺失的第一个整数</a></li>
           </ul>
         </li>
@@ -290,6 +292,14 @@
             <li><a href="#4-寻找两个正序数组的中位数">4. 寻找两个正序数组的中位数</a></li>
           </ul>
         </li>
+        <li><a href="#栈">栈</a>
+          <ul>
+            <li><a href="#20-有效的括号">20. 有效的括号</a></li>
+            <li><a href="#394-字符串解码">394. 字符串解码</a></li>
+            <li><a href="#739-每日温度">739. 每日温度</a></li>
+            <li><a href="#84柱状图中最大的矩形">84.柱状图中最大的矩形</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
   </ul>
@@ -312,7 +322,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        48 mins read
+                        52 mins read
                     </p>
                 </div>
             </div>
@@ -503,7 +513,22 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h2 id="普通数组">普通数组</h2>
-<h3 id="56-合并区间">56. 合并区间</h3>
+<h3 id="53-最大子数组和">53. 最大子数组和</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> maxSubArray(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> nums.size();
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> dp(n);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> nums[<span style="color:#ae81ff">0</span>];
+</span></span><span style="display:flex;"><span>        dp[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> nums[<span style="color:#ae81ff">0</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            dp[i] <span style="color:#f92672">=</span> max(dp[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> nums[i], nums[i]);
+</span></span><span style="display:flex;"><span>            res <span style="color:#f92672">=</span> max(res, dp[i]);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="56-合并区间">56. 合并区间</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> merge(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;&amp;</span> intervals) {
@@ -519,6 +544,30 @@
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> {
 </span></span><span style="display:flex;"><span>                res.push_back(intervals[i]);
 </span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="238-除自身以外数组的乘积">238. 除自身以外数组的乘积</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> productExceptSelf(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> nums.size();
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> front(n), back(n);
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res(n);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> mul <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            front[i] <span style="color:#f92672">=</span> mul;
+</span></span><span style="display:flex;"><span>            mul <span style="color:#f92672">*=</span> nums[i];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        mul <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">--</span>) {
+</span></span><span style="display:flex;"><span>            back[i] <span style="color:#f92672">=</span> mul;
+</span></span><span style="display:flex;"><span>            mul <span style="color:#f92672">*=</span> nums[i];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            res[i] <span style="color:#f92672">=</span> front[i] <span style="color:#f92672">*</span> back[i];
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
 </span></span><span style="display:flex;"><span>    }
@@ -1691,6 +1740,118 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> (getKthElement(nums1, nums2, totalLength <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span> getKthElement(nums1, nums2, (totalLength <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>) <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2.0</span>;
 </span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="栈">栈</h2>
+<h3 id="20-有效的括号">20. 有效的括号</h3>
+<p>栈用来存储左括号，如果遇到右括号那么就弹出左括号匹配是否相等。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> isValid(string s) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> s.length();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(n <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span>, <span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> pairs <span style="color:#f92672">=</span> {
+</span></span><span style="display:flex;"><span>            {<span style="color:#e6db74">&#39;]&#39;</span>, <span style="color:#e6db74">&#39;[&#39;</span>},
+</span></span><span style="display:flex;"><span>            {<span style="color:#e6db74">&#39;)&#39;</span>, <span style="color:#e6db74">&#39;(&#39;</span>},
+</span></span><span style="display:flex;"><span>            {<span style="color:#e6db74">&#39;}&#39;</span>, <span style="color:#e6db74">&#39;{&#39;</span>}
+</span></span><span style="display:flex;"><span>        };
+</span></span><span style="display:flex;"><span>        stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;</span> stk;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">char</span> ch : s) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 如果是右括号则取出左括号弹出
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">if</span>(pairs.count(ch)) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(stk.empty() <span style="color:#f92672">||</span> stk.top() <span style="color:#f92672">!=</span> pairs[ch]) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                stk.pop();
+</span></span><span style="display:flex;"><span>            } <span style="color:#75715e">// 如果是左括号 就入栈
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                stk.push(ch);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> stk.empty();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="394-字符串解码">394. 字符串解码</h3>
+<p>两个栈分别存放数字和字符串</p>
+<p>当遇到数字时，可能是多位数字，所以<code>num = num * 10 + (ch - '0');</code></p>
+<p>当遇到<code>[</code>时，要将栈中放入currentStr和num，并且置空这两个变量。</p>
+<p>当遇到<code>]</code>时，取出两个栈顶的数字和字符串，然后去重复字符串。</p>
+<p>当遇到字符时，就直接加入到currentStr中。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    string decodeString(string s) {
+</span></span><span style="display:flex;"><span>        stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> countStack;
+</span></span><span style="display:flex;"><span>        stack<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> strStack;
+</span></span><span style="display:flex;"><span>        string currentStr;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> num <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">char</span> ch : s) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(isdigit(ch)) {
+</span></span><span style="display:flex;"><span>                num <span style="color:#f92672">=</span> num <span style="color:#f92672">*</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">+</span> (ch <span style="color:#f92672">-</span> <span style="color:#e6db74">&#39;0&#39;</span>);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(ch <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;[&#39;</span>) {
+</span></span><span style="display:flex;"><span>                countStack.push(num);
+</span></span><span style="display:flex;"><span>                strStack.push(currentStr);
+</span></span><span style="display:flex;"><span>                num <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>                currentStr <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;&#34;</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(ch <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;]&#39;</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> repeat <span style="color:#f92672">=</span> countStack.top();
+</span></span><span style="display:flex;"><span>                countStack.pop();
+</span></span><span style="display:flex;"><span>                string prevStr <span style="color:#f92672">=</span> strStack.top();
+</span></span><span style="display:flex;"><span>                strStack.pop();
+</span></span><span style="display:flex;"><span>                string temp;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> repeat; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                    temp <span style="color:#f92672">+=</span> currentStr;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                currentStr <span style="color:#f92672">=</span> prevStr <span style="color:#f92672">+</span> temp; 
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                currentStr <span style="color:#f92672">+=</span> ch;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> currentStr;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="739-每日温度">739. 每日温度</h3>
+<p>单调栈，当遇到比栈顶温度大的天数，就得出了最近温度升高的那天，也就是<code>i - stk.top()</code>，并弹出栈顶元素。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> dailyTemperatures(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> temperatures) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> temperatures.size();
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res(n, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> stk;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span> (<span style="color:#f92672">!</span>stk.empty() <span style="color:#f92672">&amp;&amp;</span> temperatures[stk.top()] <span style="color:#f92672">&lt;</span> temperatures[i]) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> preDay <span style="color:#f92672">=</span> stk.top();
+</span></span><span style="display:flex;"><span>                res[preDay] <span style="color:#f92672">=</span> i <span style="color:#f92672">-</span> preDay;
+</span></span><span style="display:flex;"><span>                stk.pop();
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            stk.push(i);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="84柱状图中最大的矩形">84.柱状图中最大的矩形</h3>
+<p>单调栈递增，在heights数组末尾追加0，为了停止循环确保所有柱子都被弹出。</p>
+<p>右边界为i，左边界为l。宽度<code>width = i - l - 1</code>;</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> largestRectangleArea(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> heights) {
+</span></span><span style="display:flex;"><span>        stack<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> st;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        heights.push_back(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> heights.size(); i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span>(<span style="color:#f92672">!</span>st.empty() <span style="color:#f92672">&amp;&amp;</span> heights[st.top()] <span style="color:#f92672">&gt;=</span> heights[i]) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> st.top();
+</span></span><span style="display:flex;"><span>                st.pop();
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> l <span style="color:#f92672">=</span> st.empty() <span style="color:#f92672">?</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> st.top();
+</span></span><span style="display:flex;"><span>                ans <span style="color:#f92672">=</span> max(ans, (i <span style="color:#f92672">-</span> l <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> heights[tmp]);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            st.push(i);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ans;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div>
