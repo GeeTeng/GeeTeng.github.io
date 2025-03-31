@@ -14,6 +14,39 @@ chordsheet: true
 
 ## 双指针
 
+### 15. 三数之和
+
+将找三个数转换成找两个数的问题，`target = -k`，将数组排序，每个不重复的数字都会成为target。
+
+i要从大于k的地方开始寻找，j从数组结尾开始寻找。遇到相同数字时，要跳过，这些是为了防止找到重复的元素。
+
+```
+vector<vector<int>> threeSum(vector<int>& nums) {
+	sort(nums.begin(), nums.end());
+	vector<vector<int>> res;
+	for (int k = 0; k < nums.size(); k++) {
+		if (nums[k] > 0) break;
+		if (k > 0 && nums[k] == nums[k - 1]) continue;
+		int target = -nums[k];
+		int i = k + 1, j = nums.size() - 1;
+		while (i < j) {
+			if (nums[j] + nums[i] > target) j--;
+			else if (nums[j] + nums[i] < target) i++;
+			else {
+				res.push_back({ nums[i], nums[j], nums[k] });
+				while (i < j && nums[i] == nums[i + 1]) i++;
+				while (i < j && nums[j] == nums[j - 1]) j--;
+				i++;
+				j--;
+			}
+		}
+	}
+	return res;
+}
+```
+
+
+
 ### 42. 接雨水
 
 *方法一*：
