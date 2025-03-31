@@ -27,7 +27,7 @@
       <link>https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/</link>
       <pubDate>Wed, 12 Mar 2025 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/</guid>
-      <description>LeetCodeHot100 双指针 42. 接雨水 方法一：&#xA;前后缀分解&#xA;计算前缀最大值数组、后缀最大值数组。再遍历一遍，取该处的前缀最大值和后缀最大值的最小值，再减去该处高度，就是接到的容量。&#xA;int trap(vector&amp;lt;int&amp;gt;&amp;amp; height) { int n = height.size(); vector&amp;lt;int&amp;gt; pre(n), back(n); int maxh = 0; for(int i = 0; i &amp;lt; n; i ++) { maxh = max(maxh, height[i]); pre[i] = maxh; } maxh = 0; for(int i = n - 1; i &amp;gt;= 0; i --) { maxh = max(maxh, height[i]); back[i] = maxh; } int res = 0; for(int i = 0; i &amp;lt; n; i ++) { res += min(pre[i], back[i]) - height[i]; } return res; } 方法二：</description>
+      <description>LeetCodeHot100 双指针 15. 三数之和 将找三个数转换成找两个数的问题，target = -k，将数组排序，每个不重复的数字都会成为target。&#xA;i要从大于k的地方开始寻找，j从数组结尾开始寻找。遇到相同数字时，要跳过，这些是为了防止找到重复的元素。&#xA;vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; threeSum(vector&amp;lt;int&amp;gt;&amp;amp; nums) {&#xD;sort(nums.begin(), nums.end());&#xD;vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt; res;&#xD;for (int k = 0; k &amp;lt; nums.size(); k++) {&#xD;if (nums[k] &amp;gt; 0) break;&#xD;if (k &amp;gt; 0 &amp;amp;&amp;amp; nums[k] == nums[k - 1]) continue;&#xD;int target = -nums[k];&#xD;int i = k + 1, j = nums.size() - 1;&#xD;while (i &amp;lt; j) {&#xD;if (nums[j] + nums[i] &amp;gt; target) j--;&#xD;else if (nums[j] + nums[i] &amp;lt; target) i++;&#xD;else {&#xD;res.</description>
     </item>
   </channel>
 </rss>

@@ -53,14 +53,11 @@ input:focus::placeholder {
 /**** BLOG MAIN ********/
 
 #page-body {
-    margin-top: 3.5em;
-    margin-left: 10em;
-    min-height: 75vh;
-    position: relative;
-
-width:1200px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 3.5rem auto 0;
+    padding: 0 1rem;
 }
-
 .info {
     font-size: 0.9em;
 }
@@ -255,32 +252,58 @@ kbd {
 }
 
 .content-wrapper {
-    display: flex;
-    gap: 20px;
-    width: 100%; /* 保证容器占满整个屏幕宽度 */
-    box-sizing: border-box; /* 包括边距和内填充 */
-    overflow: hidden; /* 防止溢出 */
-}
-#TableOfContents {
-    position: fixed;
-    top: 3.8rem;
-    left: 10px;
-    width: 320px;
-    height: 100vh;
-    overflow-y: auto;
-    border-right: 2px solid #ccc;  /* 添加右侧边框 */
-    padding-right: 10px;  /* 防止文本贴着边缘 */
-    padding-bottom: 80px
+    display: block;
 }
 
+@media (min-width: 1024px) {
+    .content-wrapper {
+        display: flex;
+        gap: 2rem;
+        align-items: flex-start;
+    }
+    
+    .content.blog {
+        margin-left: 340px; /* TOC宽度 + 间距 */
+        margin-top: 0;
+    }
+}
+/* 目录样式 */
+#TableOfContents {
+    position: static;
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+
+    margin-bottom: 2rem;
+    background: #f9f9f9;
+    border-radius: 4px;
+}
+
+@media (min-width: 1024px) {
+    #TableOfContents {
+        position: fixed;
+        top: 3.8rem;
+        left: 10px;
+        height: calc(100vh - 3.8rem);
+        border-right: 2px solid #ccc;
+        padding-bottom: 80px;
+        background: transparent;
+    }
+}
 
 
 
 .content.blog {
-    flex: 1; /* 让内容区域自动扩展 */
-    box-sizing: border-box; /* 包括边距和内填充 */
-    overflow: hidden; /* 防止溢出 */
-    margin-top: 3.25rem; /* 根据导航栏的高度调整这里的值，确保内容区域在导航栏下面 */
+    flex: 1;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+@media (min-width: 1024px) {
+    .content.blog {
+        margin-left: 200px;
+        margin-top: 0;
+    }
 }
 
 /* 确保文章图片不会超出内容区域 */
@@ -355,4 +378,31 @@ kbd {
   color: #007acc;
   background-color: #f9f9f9;
   border-left: 3px solid #007acc;
+}
+
+/* 添加移动端TOC折叠功能 */
+.toc-mobile-toggle {
+    display: block;
+    padding: 0.5rem;
+    background: #f5f5f5;
+    text-align: center;
+    cursor: pointer;
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 1024px) {
+    .toc-mobile-toggle {
+        display: none;
+    }
+}
+
+/* 初始状态移动端TOC隐藏 */
+@media (max-width: 1023px) {
+    #TableOfContents {
+        display: none;
+    }
+    
+    #TableOfContents.active {
+        display: block;
+    }
 }

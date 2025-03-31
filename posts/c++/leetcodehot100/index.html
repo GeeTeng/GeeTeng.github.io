@@ -35,7 +35,7 @@
   <meta itemprop="description" content="LeetCode热题100整理">
   <meta itemprop="datePublished" content="2025-03-12T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-12T00:00:00+00:00">
-  <meta itemprop="wordCount" content="4966">
+  <meta itemprop="wordCount" content="5078">
   <meta itemprop="keywords" content="算法">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/" />
 
@@ -196,7 +196,8 @@
     </div>
   </div>
 </nav><div class="columns is-centered">
-        <div id="page-body" class="column is-7">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
 
 <div class="content-wrapper">
     
@@ -208,6 +209,7 @@
       <ul>
         <li><a href="#双指针">双指针</a>
           <ul>
+            <li><a href="#15-三数之和">15. 三数之和</a></li>
             <li><a href="#42-接雨水">42. 接雨水</a></li>
           </ul>
         </li>
@@ -322,7 +324,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        52 mins read
+                        53 mins read
                     </p>
                 </div>
             </div>
@@ -346,7 +348,32 @@
 
             <h1 id="leetcodehot100">LeetCodeHot100</h1>
 <h2 id="双指针">双指针</h2>
-<h3 id="42-接雨水">42. 接雨水</h3>
+<h3 id="15-三数之和">15. 三数之和</h3>
+<p>将找三个数转换成找两个数的问题，<code>target = -k</code>，将数组排序，每个不重复的数字都会成为target。</p>
+<p>i要从大于k的地方开始寻找，j从数组结尾开始寻找。遇到相同数字时，要跳过，这些是为了防止找到重复的元素。</p>
+<pre tabindex="0"><code>vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) {
+	sort(nums.begin(), nums.end());
+	vector&lt;vector&lt;int&gt;&gt; res;
+	for (int k = 0; k &lt; nums.size(); k++) {
+		if (nums[k] &gt; 0) break;
+		if (k &gt; 0 &amp;&amp; nums[k] == nums[k - 1]) continue;
+		int target = -nums[k];
+		int i = k + 1, j = nums.size() - 1;
+		while (i &lt; j) {
+			if (nums[j] + nums[i] &gt; target) j--;
+			else if (nums[j] + nums[i] &lt; target) i++;
+			else {
+				res.push_back({ nums[i], nums[j], nums[k] });
+				while (i &lt; j &amp;&amp; nums[i] == nums[i + 1]) i++;
+				while (i &lt; j &amp;&amp; nums[j] == nums[j - 1]) j--;
+				i++;
+				j--;
+			}
+		}
+	}
+	return res;
+}
+</code></pre><h3 id="42-接雨水">42. 接雨水</h3>
 <p><em>方法一</em>：</p>
 <p><strong>前后缀分解</strong></p>
 <p>计算前缀最大值数组、后缀最大值数组。再遍历一遍，取该处的前缀最大值和后缀最大值的最小值，再减去该处高度，就是接到的容量。</p>
@@ -1893,7 +1920,7 @@ lists[1] = merge(lists[1], lists[4])
 	    </a>
 
 		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2fleetcodehot100%2f
-			&title=LeetCode%e7%83%ad%e9%a2%98100&summary=LeetCodeHot100%20%e5%8f%8c%e6%8c%87%e9%92%88%2042.%20%e6%8e%a5%e9%9b%a8%e6%b0%b4%20%e6%96%b9%e6%b3%95%e4%b8%80%ef%bc%9a%0a%e5%89%8d%e5%90%8e%e7%bc%80%e5%88%86%e8%a7%a3%0a%e8%ae%a1%e7%ae%97%e5%89%8d%e7%bc%80%e6%9c%80%e5%a4%a7%e5%80%bc%e6%95%b0%e7%bb%84%e3%80%81%e5%90%8e%e7%bc%80%e6%9c%80%e5%a4%a7%e5%80%bc%e6%95%b0%e7%bb%84%e3%80%82%e5%86%8d%e9%81%8d%e5%8e%86%e4%b8%80%e9%81%8d%ef%bc%8c%e5%8f%96%e8%af%a5%e5%a4%84%e7%9a%84%e5%89%8d%e7%bc%80%e6%9c%80%e5%a4%a7%e5%80%bc%e5%92%8c%e5%90%8e%e7%bc%80%e6%9c%80%e5%a4%a7%e5%80%bc%e7%9a%84%e6%9c%80%e5%b0%8f%e5%80%bc%ef%bc%8c%e5%86%8d%e5%87%8f%e5%8e%bb%e8%af%a5%e5%a4%84%e9%ab%98%e5%ba%a6%ef%bc%8c%e5%b0%b1%e6%98%af%e6%8e%a5%e5%88%b0%e7%9a%84%e5%ae%b9%e9%87%8f%e3%80%82%0aint%20trap%28vector%26lt%3bint%26gt%3b%26amp%3b%20height%29%20%7b%20int%20n%20%3d%20height.size%28%29%3b%20vector%26lt%3bint%26gt%3b%20pre%28n%29%2c%20back%28n%29%3b%20int%20maxh%20%3d%200%3b%20for%28int%20i%20%3d%200%3b%20i%20%26lt%3b%20n%3b%20i%20%2b%2b%29%20%7b%20maxh%20%3d%20max%28maxh%2c%20height%5bi%5d%29%3b%20pre%5bi%5d%20%3d%20maxh%3b%20%7d%20maxh%20%3d%200%3b%20for%28int%20i%20%3d%20n%20-%201%3b%20i%20%26gt%3b%3d%200%3b%20i%20--%29%20%7b%20maxh%20%3d%20max%28maxh%2c%20height%5bi%5d%29%3b%20back%5bi%5d%20%3d%20maxh%3b%20%7d%20int%20res%20%3d%200%3b%20for%28int%20i%20%3d%200%3b%20i%20%26lt%3b%20n%3b%20i%20%2b%2b%29%20%7b%20res%20%2b%3d%20min%28pre%5bi%5d%2c%20back%5bi%5d%29%20-%20height%5bi%5d%3b%20%7d%20return%20res%3b%20%7d%20%e6%96%b9%e6%b3%95%e4%ba%8c%ef%bc%9a&source=rafed123.github.io"
+			&title=LeetCode%e7%83%ad%e9%a2%98100&summary=LeetCodeHot100%20%e5%8f%8c%e6%8c%87%e9%92%88%2015.%20%e4%b8%89%e6%95%b0%e4%b9%8b%e5%92%8c%20%e5%b0%86%e6%89%be%e4%b8%89%e4%b8%aa%e6%95%b0%e8%bd%ac%e6%8d%a2%e6%88%90%e6%89%be%e4%b8%a4%e4%b8%aa%e6%95%b0%e7%9a%84%e9%97%ae%e9%a2%98%ef%bc%8ctarget%20%3d%20-k%ef%bc%8c%e5%b0%86%e6%95%b0%e7%bb%84%e6%8e%92%e5%ba%8f%ef%bc%8c%e6%af%8f%e4%b8%aa%e4%b8%8d%e9%87%8d%e5%a4%8d%e7%9a%84%e6%95%b0%e5%ad%97%e9%83%bd%e4%bc%9a%e6%88%90%e4%b8%batarget%e3%80%82%0ai%e8%a6%81%e4%bb%8e%e5%a4%a7%e4%ba%8ek%e7%9a%84%e5%9c%b0%e6%96%b9%e5%bc%80%e5%a7%8b%e5%af%bb%e6%89%be%ef%bc%8cj%e4%bb%8e%e6%95%b0%e7%bb%84%e7%bb%93%e5%b0%be%e5%bc%80%e5%a7%8b%e5%af%bb%e6%89%be%e3%80%82%e9%81%87%e5%88%b0%e7%9b%b8%e5%90%8c%e6%95%b0%e5%ad%97%e6%97%b6%ef%bc%8c%e8%a6%81%e8%b7%b3%e8%bf%87%ef%bc%8c%e8%bf%99%e4%ba%9b%e6%98%af%e4%b8%ba%e4%ba%86%e9%98%b2%e6%ad%a2%e6%89%be%e5%88%b0%e9%87%8d%e5%a4%8d%e7%9a%84%e5%85%83%e7%b4%a0%e3%80%82%0avector%26lt%3bvector%26lt%3bint%26gt%3b%26gt%3b%20threeSum%28vector%26lt%3bint%26gt%3b%26amp%3b%20nums%29%20%7b%0dsort%28nums.begin%28%29%2c%20nums.end%28%29%29%3b%0dvector%26lt%3bvector%26lt%3bint%26gt%3b%26gt%3b%20res%3b%0dfor%20%28int%20k%20%3d%200%3b%20k%20%26lt%3b%20nums.size%28%29%3b%20k%2b%2b%29%20%7b%0dif%20%28nums%5bk%5d%20%26gt%3b%200%29%20break%3b%0dif%20%28k%20%26gt%3b%200%20%26amp%3b%26amp%3b%20nums%5bk%5d%20%3d%3d%20nums%5bk%20-%201%5d%29%20continue%3b%0dint%20target%20%3d%20-nums%5bk%5d%3b%0dint%20i%20%3d%20k%20%2b%201%2c%20j%20%3d%20nums.size%28%29%20-%201%3b%0dwhile%20%28i%20%26lt%3b%20j%29%20%7b%0dif%20%28nums%5bj%5d%20%2b%20nums%5bi%5d%20%26gt%3b%20target%29%20j--%3b%0delse%20if%20%28nums%5bj%5d%20%2b%20nums%5bi%5d%20%26lt%3b%20target%29%20i%2b%2b%3b%0delse%20%7b%0dres.&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>
