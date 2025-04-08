@@ -283,6 +283,7 @@ kbd {
     #TableOfContents {
         position: fixed;
         top: 3.8rem;
+	overflow-y: auto;
         left: 10px;
         height: calc(100vh - 3.8rem);
         border-right: 2px solid #ccc;
@@ -301,8 +302,8 @@ kbd {
 
 @media (min-width: 1024px) {
     .content.blog {
-        margin-left: 200px;
-        margin-top: 0;
+        margin-left: 150px;
+        margin-top: 10px;
     }
 }
 

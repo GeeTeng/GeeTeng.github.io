@@ -35,7 +35,7 @@
   <meta itemprop="description" content="更新中">
   <meta itemprop="datePublished" content="2024-12-11T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-12-11T00:00:00+00:00">
-  <meta itemprop="wordCount" content="3310">
+  <meta itemprop="wordCount" content="3312">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/" />
 
@@ -214,7 +214,7 @@
           </ul>
         </li>
         <li><a href="#decltype和auto">decltype和auto</a></li>
-        <li><a href="#enum-class">enum class</a></li>
+        <li><a href="#enum-class-和-enum">enum class 和 enum</a></li>
         <li><a href="#四种强制转换">四种强制转换</a></li>
         <li><a href="#static">static</a></li>
         <li><a href="#this指针">this指针</a>
@@ -434,10 +434,10 @@
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span><span style="color:#f92672">*</span> f <span style="color:#f92672">=</span> <span style="color:#f92672">&amp;</span>e;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">decltype</span>(<span style="color:#66d9ef">auto</span>) j <span style="color:#f92672">=</span> f; <span style="color:#75715e">// decltype(auto) 会保留引用类型，但 auto 会丢弃引用类型。
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#66d9ef">typeid</span>(j).name() <span style="color:#f92672">&lt;&lt;</span> endl;
-</span></span></code></pre></div><h2 id="enum-class">enum class</h2>
+</span></span></code></pre></div><h2 id="enum-class-和-enum">enum class 和 enum</h2>
 <p>C++11引入了<strong>限定作用域的枚举类型</strong>。enum class可以重复定义枚举成员，但是得在有效作用域里访问。</p>
 <p><img src="/images/C++/C++basic/02.png" alt="02"></p>
-<p>enum class类型安全，不允许隐式转换。比如：<code>int j = peppers::red; //错误 不能隐式类型转换</code>，必须显示转换。</p>
+<p>enum class类型安全，<strong>不允许隐式转换</strong>。比如：<code>int j = peppers::red; //错误 不能隐式类型转换</code>，必须显式转换。</p>
 <p>对于限定作用域的enum来说，可以不指定其成员的大小，这个值被隐式地定义成int。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Color</span> {
 </span></span><span style="display:flex;"><span>    Red,
