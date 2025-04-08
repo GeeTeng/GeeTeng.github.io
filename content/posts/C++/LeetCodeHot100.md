@@ -275,6 +275,10 @@ public:
 
 ### 53. 最大子数组和
 
+*动态规划：*
+
+res和dp的初始化要是nums[0]，目的是防止数组只有负数。  
+
 ```c++
 class Solution {
 public:
@@ -528,6 +532,8 @@ ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
 ### 19. 删除链表的倒数第N个结点
 
 和倒数第k个元素的链表那道题很像，这道题只需找到第k个元素的前一个就好。
+
+但是要注意当只有一个元素的时候是无法找到p2，即第N个结点的前一个结点，所以要加一个头结点0。
 
 当p1多走一步时，p2就会指向第N个节点的前一个结点。
 
@@ -1919,6 +1925,731 @@ public:
             st.push(i);
         }
         return ans;
+    }
+};
+```
+
+
+
+## 堆
+
+小根堆 根节点是左右两边最小值
+一维数组可以存堆 左孩子2x 右孩子2x+1
+
+| 插入一个数         | heap[++size] = x; up(size);                      |
+| ------------------ | ------------------------------------------------ |
+| 求集合当中的最小值 | heap[1];                                         |
+| 删除最小值         | heap[1] = heap[size]; size --; down(1);          |
+| 删除任意一个元素   | heap[k] = heap[size]; size --; down(k); / up(k); |
+| 修改任意一个元素   | heap[k] = x; down(k); / up(k);                   |
+
+```c++
+const int N = 100010;
+int h[N], n, m, siz;
+void down(int u) {
+	int t = u;
+	if (u * 2 < siz && h[u * 2] < h[t]) t = u * 2;
+	if (u * 2 + 1 < siz && h[u * 2 + 1] < h[t]) t = u * 2 + 1;
+	if (u != t) {
+		swap(h[u], h[t]);
+		down(t);
+	}
+}
+void up(int u) {
+	while (u / 2 && h[u / 2] > h[u]) {
+		swap(h[u / 2], h[u]);
+		u /= 2;
+	}
+}
+```
+
+
+
+### 347. 数组中第k个最大元素
+
+```c++
+class Solution {
+public:
+    int siz, h[100010]; 
+    void down(int u) {
+        int t = u;
+        if(u * 2 <= siz && h[u * 2] > h[t]) t = u * 2;
+        if(u * 2 + 1 <= siz && h[u * 2 + 1] > h[t]) t = u * 2 + 1;
+        if(t != u) {
+            swap(h[u], h[t]);
+            down(t);
+        }
+    }
+    int findKthLargest(vector<int>& nums, int k) {
+        siz = nums.size();
+        for(int i = 0; i < siz; i ++) {
+            h[i + 1] = nums[i];
+        }
+        for(int i = siz / 2; i; i --) {
+            down(i);
+        }
+        while(-- k) {
+            cout << h[1];
+            h[1] = h[siz];
+            siz --;
+            down(1);
+            
+        }
+        return h[1];
+    }
+};
+```
+
+
+
+### 347. 前k个高频元素
+
+```c++
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        unordered_map<int, int> mp;
+        priority_queue<pair<int, int>> pq;
+        vector<int> res;
+        for(int num: nums) {
+            mp[num] ++;
+        }
+        for(auto it = mp.begin(); it != mp.end(); it ++) {
+            pq.push(pair<int, int>(it->second, it->first));
+        }
+        while(k --) {
+            res.push_back(pq.top().second);
+            pq.pop();
+        }
+        return res;
+    }
+};
+```
+
+
+
+### 295. 数据流的中位数
+
+```c++
+class MedianFinder {
+public:
+    // 默认是大根堆 min是大根堆（存储较小元素） max是小根堆（存储较大元素）
+    priority_queue<int> min;
+    priority_queue<int, vector<int>, greater<int>> max;
+    MedianFinder() {}    
+    void addNum(int num) {
+        min.push(num);
+        max.push(min.top());
+        min.pop();
+        if(max.size() > min.size()) {
+            min.push(max.top());
+            max.pop();
+        }
+    }
+    double findMedian() {
+        if(max.size() < min.size()) return min.top();
+        return (min.top() + max.top()) / 2.0;
+    }
+};
+```
+
+
+
+## 贪心
+
+### 121. 买卖股票的最佳时期
+
+在最低点买入，然后在接下来的最高点抛出。
+
+```c++
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        int profit = 0, minVal = prices[0];
+        for(int i = 0; i < prices.size(); i ++){
+            if(minVal > prices[i]) minVal = prices[i];
+            else if(profit < prices[i] - minVal) profit = prices[i] - minVal;
+        }
+        return profit;
+    }
+};
+```
+
+
+
+### 55. 跳跃游戏
+
+```c++
+class Solution {
+public:
+    bool canJump(vector<int>& nums) {
+        int n = nums.size();
+        int rightmax = 0;
+        for(int i = 0; i < n; i ++) {
+            // 检查当前位置i是否可以被到达
+            if(rightmax >= i) {
+                rightmax = max(rightmax, i + nums[i]);
+                if(rightmax >= n - 1) return true;
+            }
+        }
+        return false;
+    }
+};
+```
+
+
+
+### 45. 跳跃游戏Ⅱ
+
+```c++
+class Solution {
+public:
+    int jump(vector<int>& nums) {
+        int n = nums.size(), end = 0, maxpos = 0, cnt = 0;
+        for(int i = 0; i < n - 1; i ++)
+        {
+            if(maxpos >= i)
+            {
+                maxpos = max(maxpos, nums[i] + i);
+                if(i == end)
+                { // 到达边界 增加跳跃次数并且再次更新边界
+                    cnt ++;
+                    end = maxpos;
+                }
+            }
+        }
+        return cnt;
+    }
+};
+```
+
+
+
+### 763. 划分字母区间
+
+记录每个字母最后一次出现的下标，当遍历到end的时候就划分出一个字符串。
+
+```c++
+class Solution {
+public:
+    vector<int> partitionLabels(string s) {
+        int last[26];
+        int length = s.size();
+        for(int i = 0; i < length; i ++) {
+            last[s[i] - 'a'] = i;
+        }
+        vector<int> partition;
+        int start = 0, end = 0;
+        for(int i = 0; i < length; i ++) {
+            end = max(last[s[i] - 'a'], end);
+            if(i == end) {
+                partition.push_back(end - start + 1);
+                start = end + 1;
+            }
+        }
+        return partition;
+    }
+};
+```
+
+
+
+## 动态规划
+
+### 118. 杨辉三角
+
+`ret[i].resize(i + 1);`将每行的大小设为1 2 3 4 5...
+
+初始化`ret[i][0] = ret[i][i] = 1;`三角形的两个边为1。
+
+```c++
+vector<vector<int>> generate(int numRows) {
+    vector<vector<int>> ret(numRows);
+    for(int i = 0; i < numRows; i ++) {
+        ret[i].resize(i + 1);
+        ret[i][0] = ret[i][i] = 1;
+        for(int j = 1; j < i; j ++) {
+            ret[i][j] = ret[i - 1][j] + ret[i - 1][j - 1];
+        }
+    }
+    return ret;
+}
+```
+
+
+
+### 198. 打家劫舍
+
+`dp[1] = max(nums[0], nums[1]);`为什么要取max，是因为在只有两个房屋的时候，不能偷相邻的两个，所以只能偷价值最大的屋子。
+
+```c++
+class Solution {
+public:
+    int rob(vector<int>& nums) {
+        int n = nums.size();
+        if(n == 0) return 0;
+        if(n == 1) return nums[0];
+        vector<int> dp(n);
+        dp[0] = nums[0], dp[1] = max(nums[0], nums[1]);
+        for(int i = 2; i < n; i ++) {
+            dp[i] = max(dp[i - 2] + nums[i], dp[i - 1]);
+        }
+        return dp[n - 1];
+    }
+};
+```
+
+
+
+### 279. 完全平方数
+
+```c++
+class Solution {
+public:
+    int numSquares(int n) {
+        vector<int> f(n + 1);
+        for(int i = 1; i <= n; i ++) {
+            int minn = INT_MAX;
+            for(int j = 1; j * j <= i; j ++) {
+                minn = min(minn, f[i - j * j]);
+            }
+            f[i] = minn + 1;
+        }
+        return f[n];
+    }
+};
+```
+
+
+
+### 322. 零钱兑换
+
+```c++
+class Solution {
+public:
+    int coinChange(vector<int>& coins, int amount) {
+        int n = coins.size();
+        vector<int> dp(amount + 1, amount + 1);
+        dp[0] = 0;
+        for(int i = 1; i <= amount; i ++) {
+            for(int j = 0; j < n; j ++) {
+                if(coins[j] <= i) {
+                    dp[i] = min(dp[i], dp[i - coins[j]] + 1);
+                }
+            }
+        }
+        return dp[amount] > amount ? -1 : dp[amount];
+    }
+};
+```
+
+
+
+### 139. 单词划分
+
+定义 `dp[i]` 表示 `s[0...i-1]` 是否可以被拆分。
+
+初始状态：`dp[0] = true`（空串可以被拆分）
+
+如果 `s[0...j-1]` 可以拆分，并且 `s[j...i-1]` 是字典里的单词，那我们就可以说 `s[0...i-1]` 也能拆分出来。
+
+```c++
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string> wordSet(wordDict.begin(), wordDict.end());
+        int n = s.size();
+        vector<bool> dp(n + 1, false);
+        dp[0] = true;
+        for(int i = 1; i <= n; i ++) {
+            for(int j = 0; j < i; j ++) {
+                // 如果 s[0...j-1] 可以拆分，并且 s[j...i-1] 是字典里的单词，那我们就可以说 s[0...i-1] 也能拆分出来。
+                if(dp[j] && wordSet.count(s.substr(j, i - j))) {
+                    dp[i] = true;
+                    break;
+                }
+            }
+        }
+        return dp[n];
+    }
+};
+```
+
+
+
+### 300. 最长递增子序列
+
+每次遍历i的时候，站在i位置，判断i之前的元素是否都小于i，哪些可以接在i前面。
+
+```c++
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> dp(n, 1);
+        dp[0] = 1;
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < i; j++) {
+                if (nums[j] < nums[i]) {
+                    dp[i] = max(dp[i], dp[j] + 1);
+                }
+            }
+        }
+        return *max_element(dp.begin(), dp.end());
+    }
+};
+```
+
+
+
+### 152. 乘积最大子数组
+
+因为有负数的存在，所以要维护两个数组，分别记录最小的值和最大的值。
+
+而且需要res来记录当中的最大值，因为包含结尾数字的不一定是最大值，可能是中间的连续数字。
+
+```c++
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+        int n = nums.size();
+        vector<int> mindp(n), maxdp(n);
+        mindp[0] = maxdp[0] = nums[0];
+        int result = nums[0];
+        for(int i = 1; i < n; i ++){
+            mindp[i] = min({nums[i], mindp[i - 1] * nums[i], maxdp[i - 1] * nums[i]});
+            maxdp[i] = max({nums[i], maxdp[i - 1] * nums[i], mindp[i - 1] * nums[i]});
+            result = max(maxdp[i], result);
+        }
+        return result;
+    }
+};
+```
+
+
+
+### 416. 分割等和子集
+
+我们选择的元素是否等于整个数组和的一半？
+
+初始化一个布尔数组，长度为target + 1，表示和在0 - target之间的可能。
+
+初始化dp[0] = true, 倒着从target开始循环。
+
+```c++
+class Solution {
+public:
+    bool canPartition(vector<int>& nums) {
+        int sum = 0;
+        int n = nums.size();
+        for(int i = 0; i < n; i ++) sum += nums[i];
+        if(sum % 2 != 0) return false;
+        int target = sum / 2;
+        vector<bool> dp(target + 1, false);
+        dp[0] = true;
+        for(int i = 0; i < n; i ++) {
+            for(int j = target; j >= nums[i]; j --) {
+                dp[j] = dp[j] || dp[j - nums[i]];
+            }
+        }
+        return dp[target];
+    }
+};
+```
+
+
+
+### 32. 最长有效括号
+
+*栈*：
+
+对于遇到的每个 ‘(’ ，我们将它的下标放入栈中
+对于遇到的每个 ‘)’ ，我们先弹出栈顶元素表示匹配了当前右括号：
+如果栈为空，说明当前的右括号为没有被匹配的右括号，我们将其下标放入栈中来更新我们之前提到的「最后一个没有被匹配的右括号的下标」
+如果栈不为空，当前右括号的下标减去栈顶元素即为「以该右括号为结尾的最长有效括号的长度」
+
+```
+class Solution {
+public:
+    int longestValidParentheses(string s) {
+        int maxans = 0, n = s.length();
+        stack<int> stk;
+        stk.push(-1);
+        for(int i = 0; i < n; i ++) {
+            if(s[i] == '(') {
+                stk.push(i);
+            }
+            else {
+                stk.pop();
+                if(stk.empty()) {
+                    stk.push(i);
+                }
+                else {
+                    maxans = max(maxans, i - stk.top());
+                }
+            }
+        }
+        return maxans;
+    }
+};
+```
+
+
+
+## 多维动态规划
+
+### 62. 不同路径
+
+```c++
+int uniquePaths(int m, int n) {
+    int dp[m][n];
+    dp[0][0] = 1;
+    for (int i = 0; i < m; i++) {
+        dp[i][0] = 1;
+    }
+    for (int i = 0; i < n; i++) {
+        dp[0][i] = 1;
+    }
+    for (int i = 1; i < m; i++) {
+        for(int j = 1; j < n; j ++) {
+            dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+        }
+    }
+    return dp[m - 1][n - 1];
+}
+```
+
+
+
+### 64. 最小路径和
+
+和62不同路径这道题很像。不同的是需要初始化dp的第一行和第一列的累加和。
+
+```c++
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int m = grid.size(), n = grid[0].size();
+        int dp[m][n];
+        dp[0][0] = grid[0][0];
+        for(int i = 1; i < m; i ++) dp[i][0] = grid[i][0] + dp[i - 1][0];
+        for(int i = 1; i < n; i ++) dp[0][i] = grid[0][i] + dp[0][i - 1];
+        for(int i = 1; i < m; i ++) {
+            for(int j = 1; j < n; j ++) {
+                dp[i][j] = min(dp[i - 1][j] + grid[i][j], dp[i][j - 1] + grid[i][j]);
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
+};
+```
+
+
+
+### 5. 最长回文子串
+
+如果长度小于2，即只有一个字符则直接返回字符串。
+
+初始化dp布尔数组，单个字符为true。
+
+双重循环，第一层循环遍历长度，范围是[2, n]；第二层循环遍历起始位置，范围是[0, n - len]
+
+```c++
+const int N = 1010;
+bool dp[N][N];
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        int n = s.length();
+        if(n < 2) return s;
+        int maxlen = 1, start = 0;
+        for(int i = 0; i < n; i ++) dp[i][i] = true;
+        for(int len = 2; len <= n; len ++) {
+            for(int i = 0; i <= n - len; i ++) {
+                int j = i + len - 1;
+                if(s[i] == s[j]) {
+                    if(len == 2) dp[i][j] = true;
+                    else dp[i][j] = dp[i + 1][j - 1];
+                }
+                else {
+                    dp[i][j] = false;
+                }
+                if(dp[i][j] && len > maxlen) {
+                    maxlen = len;
+                    start = i;
+                }
+            }
+        }
+        return s.substr(start, maxlen);
+    }
+};
+```
+
+
+
+### 1143. 最长公共子序列
+
+如果两个字符相等，则长度 +1
+
+如果当前字符不相等 要么丢掉text1当前字符 要么丢掉text2字符 看哪个长度更大。
+
+```c++
+const int N = 1010;
+int dp[N][N];
+class Solution {
+public:
+    int longestCommonSubsequence(string text1, string text2) {
+        int n = text1.length(), m = text2.length();
+        for(int i = 1; i <= n; i ++) {
+            for(int j = 1; j <= m; j ++) {
+                if(text1[i - 1] == text2[j - 1]) dp[i][j] = dp[i - 1][j - 1] + 1;
+                else dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+        return dp[n][m];
+    }
+};
+```
+
+
+
+### 72. 编辑距离
+
+**三种操作都是对word1操作**：插入字符、删除字符、替换字符。
+
+**dp\[i][j] 表示将 word1 的前 i 个字符转换成 word2 的前 j 个字符的最小编辑距离。**
+
+初始化dp数组，编辑距离`dp[i][0] = i; dp[0][j] = j;`
+
+- 如果两个字符相等
+
+  `dp[i][j] = dp[i - 1][j - 1]    // 无需操作`
+
+- 如果两个字符不相等
+
+  - 插入word2的一个字符
+
+    `dp[i][j - 1] + 1`
+
+  - 删除word1的一个字符
+
+    `dp[i - 1][j] + 1`
+
+  - 替换
+
+    `dp[i - 1][j - 1] + 1`
+
+```c++
+const int N = 510;
+int dp[N][N];
+class Solution {
+public:
+    int minDistance(string word1, string word2) {
+        int n = word1.size(), m = word2.size();
+        for(int i = 0; i <= n; i ++) dp[i][0] = i;
+        for(int j = 0; j <= m; j ++) dp[0][j] = j;
+        for(int i = 1; i <= n; i ++) {
+            for(int j = 1; j <= m; j ++) {
+                if(word1[i - 1] == word2[j - 1]) dp[i][j] = dp[i - 1][j - 1];
+                else
+                    dp[i][j] = min({dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + 1});
+            }
+        }
+        return dp[n][m];
+    }
+};
+```
+
+
+
+## 技巧
+
+### 颜色分类（荷兰国旗）
+
+*双指针 + 一趟扫描*
+
+遍历数组，直到 `i > p2`：
+
+- 如果 `nums[i] == 0`：与 `nums[p0]` 交换，然后 `p0++`, `i++`
+- 如果 `nums[i] == 2`：与 `nums[p2]` 交换，然后 `p2--`（但 **i 不动**，因为换过来的元素还没处理）
+- 如果 `nums[i] == 1`：直接 `i++`
+
+```c++
+class Solution {
+public:
+    void sortColors(vector<int>& nums) {
+        int n = nums.size();
+        int p0 = 0, p2 = n - 1;
+        for(int i = 0; i <= p2; i ++) {
+            while (nums[i] == 2 && i <= p2) {
+                swap(nums[i], nums[p2]);
+                p2 --;
+            }
+            if(nums[i] == 0) {
+                swap(nums[i], nums[p0]);
+                p0 ++;
+            }
+        }
+    }
+};
+```
+
+
+
+### 31. 下一个排列
+
+举例子：158476531
+
+先从后往前寻找第一个非降序的数字，找到了4。
+
+然后再从后往前寻找第一个大于4的数字，找到了5。
+
+然后交换他俩的位置，变成158576431。
+
+最后再翻转5之后的数字，变成了1585134675。
+
+```c++
+class Solution {
+public:
+    void nextPermutation(vector<int>& nums) {
+        int n = nums.size();
+        int i = n - 2;
+        while(i >= 0 && nums[i] >= nums[i + 1]) i --;
+        if(i >= 0) {
+            int j = n - 1;
+            while(j >= 0 && nums[j] <= nums[i]) j --;
+            swap(nums[i], nums[j]);
+        }
+        reverse(nums.begin() + i + 1, nums.end());
+    }
+};
+```
+
+
+
+### 287. 寻找重复数
+
+与寻找环形链表入口结点相似，区别在于快慢指针的下一步是寻找下标为nums[i]的值。
+
+`slow = nums[slow];`
+
+`fast = nums[nums[fast]];`
+
+```c++
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        int slow = 0, fast = 0;
+        do {
+            slow = nums[slow];
+            fast = nums[nums[fast]];
+        } while(fast != slow);
+        fast = 0;
+        while(slow != fast) {
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        return slow;
     }
 };
 ```

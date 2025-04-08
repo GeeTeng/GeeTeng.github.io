@@ -145,13 +145,13 @@ cout << typeid(j).name() << endl;
 
 
 
-## enum class
+## enum class 和 enum
 
 C++11引入了**限定作用域的枚举类型**。enum class可以重复定义枚举成员，但是得在有效作用域里访问。
 
 ![02](/images/C++/C++basic/02.png)
 
-enum class类型安全，不允许隐式转换。比如：`int j = peppers::red; //错误 不能隐式类型转换`，必须显示转换。
+enum class类型安全，**不允许隐式转换**。比如：`int j = peppers::red; //错误 不能隐式类型转换`，必须显式转换。
 
 对于限定作用域的enum来说，可以不指定其成员的大小，这个值被隐式地定义成int。
 
