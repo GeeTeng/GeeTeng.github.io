@@ -35,7 +35,7 @@
   <meta itemprop="description" content="更新中">
   <meta itemprop="datePublished" content="2024-12-11T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-12-11T00:00:00+00:00">
-  <meta itemprop="wordCount" content="3312">
+  <meta itemprop="wordCount" content="3389">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/" />
 
@@ -237,6 +237,7 @@
             <li><a href="#类模板特例化">类模板特例化</a></li>
           </ul>
         </li>
+        <li><a href="#函数调用">函数调用</a></li>
         <li><a href="#函数指针回调函数">函数指针、回调函数</a></li>
         <li><a href="#内联函数">内联函数</a></li>
         <li><a href="#一致性哈希">一致性哈希</a></li>
@@ -302,7 +303,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        76 mins read
+                        78 mins read
                     </p>
                 </div>
             </div>
@@ -775,8 +776,31 @@
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;Bar的int类型特例化&#34;</span> <span style="color:#f92672">&lt;&lt;</span> endl;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><hr>
-<h2 id="函数指针回调函数">函数指针、回调函数</h2>
+</span></span></code></pre></div><h2 id="函数调用">函数调用</h2>
+<p><strong>栈帧</strong>是函数调用时在栈上分配的空间，用来保存：1.参数 2.返回地址 3.局部变量 4.前一个栈帧指针（ebp / rbp：32位/54位<strong>寄存器</strong>，用来指示<strong>栈帧的基地址</strong>）</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">add</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> c <span style="color:#f92672">=</span> a <span style="color:#f92672">+</span> b;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> c;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> add(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><em>函数调用过程：</em></p>
+<ol>
+<li>参数1，2会放入寄存器</li>
+<li>压入返回地址</li>
+<li>保存调用者的rbp</li>
+<li>分配局部变量空间</li>
+</ol>
+<pre tabindex="0"><code>↑ 高地址
+---------------------
+| 参数2 (b)         |
+| 参数1 (a)         |
+| 返回地址          | ← call 指令压入 返回地址 = 调用函数之后，下一条要执行的指令地址。
+| 上一个 rbp        | ← rbp 是调用者函数的基址指针值。进入函数时 push rbp  
+| 局部变量 c        | ← rsp - offset 
+↓ 低地址
+</code></pre><h2 id="函数指针回调函数">函数指针、回调函数</h2>
 <p>函数指针可以作为参数传递，常用于回调机制或策略模式。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// 回调函数
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">Add</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b) {
@@ -901,6 +925,10 @@
 <p>在多态会使用到虚函数，<strong>通过基类访问派生类定义的函数</strong>。</p>
 <p>它的特点是<strong>动态联编</strong>（函数的调用不是在编译时刻被确定的，而是在运行时刻被确定的）。</p>
 <p><strong>虚函数只能借助指针 / 引用达到多态的效果</strong></p>
+<blockquote>
+<p>什么时候不会生成虚函数表？</p>
+</blockquote>
+<p>如果一个类包含虚函数，但该类并未被用于多态（例如没有通过基类指针或引用调用虚函数），编译器可能会优化掉虚函数表。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-C++" data-lang="C++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">A</span>
 </span></span><span style="display:flex;"><span>{
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
@@ -935,7 +963,7 @@
 <p><strong>虚析构函数的作用</strong>：当声明析构函数为虚函数时，执行 <code>delete a;</code> 会采用动态联编，<strong>首先调用派生类的析构函数，然后再调用基类的析构函数</strong>。</p>
 <p>如果没有声明基类的析构函数为虚函数，则在执行 <code>delete a;</code> 时，只会调用基类 <code>A</code> 的析构函数，而不会调用派生类 <code>B</code> 的析构函数。这<strong>会导致派生类 <code>B</code> 的资源未被正确释放，从而可能引发内存泄漏</strong>。</p>
 <p><em>虚函数表</em></p>
-<p>虚函数通过一张虚函数表来实现的，虚表（vtable）是一个<strong>指针数组</strong>，每个元素对应一个虚函数的函数指针，在代码编译阶段构造出来的虚表。</p>
+<p>虚函数表在编译期就生成了。虚函数通过一张虚函数表来实现的，虚表（vtable）是一个<strong>指针数组</strong>，每个元素对应一个虚函数的函数指针，在代码编译阶段构造出来的虚表。</p>
 <p>每个对象都拥有一个虚表指针（vptr），基类和派生类对象的<code>vptr</code>指向各自的虚函数表。当你通过基类指针或引用调用虚函数时，程序会通过该对象的vptr找到虚函数表，从虚函数表中获取函数地址，最后调用对应的虚函数。</p>
 <p>C++中<strong>虚函数表位于只读数据段（.rodata）</strong>，也就是C++内存模型中的常量区；而<strong>虚函数则位于代码段 （.text）</strong>，也就是C++内存模型中的代码区。</p>
 <p><img src="/images/C++/C++basic/vfptr.png" alt="vfptr"></p>

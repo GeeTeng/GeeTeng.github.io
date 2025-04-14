@@ -35,7 +35,7 @@
   <meta itemprop="description" content="LeetCode热题100整理">
   <meta itemprop="datePublished" content="2025-03-12T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-12T00:00:00+00:00">
-  <meta itemprop="wordCount" content="7065">
+  <meta itemprop="wordCount" content="7670">
   <meta itemprop="keywords" content="算法">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/" />
 
@@ -207,8 +207,15 @@
   <ul>
     <li><a href="#leetcodehot100">LeetCodeHot100</a>
       <ul>
+        <li><a href="#哈希">哈希</a>
+          <ul>
+            <li><a href="#49-字母异位词分组">49. 字母异位词分组</a></li>
+            <li><a href="#128-最长连续序列">128. 最长连续序列</a></li>
+          </ul>
+        </li>
         <li><a href="#双指针">双指针</a>
           <ul>
+            <li><a href="#283-移动零">283. 移动零</a></li>
             <li><a href="#15-三数之和">15. 三数之和</a></li>
             <li><a href="#42-接雨水">42. 接雨水</a></li>
           </ul>
@@ -222,7 +229,7 @@
           <ul>
             <li><a href="#560-和为k的子数组">560. 和为k的子数组</a></li>
             <li><a href="#239-滑动窗口最大值">239. 滑动窗口最大值</a></li>
-            <li><a href="#76-最小覆盖字串">76. 最小覆盖字串</a></li>
+            <li><a href="#76-最小覆盖字串">*76. 最小覆盖字串</a></li>
           </ul>
         </li>
         <li><a href="#普通数组">普通数组</a>
@@ -242,21 +249,24 @@
         </li>
         <li><a href="#链表">链表</a>
           <ul>
+            <li><a href="#234-回文链表">234. 回文链表</a></li>
             <li><a href="#2-两数相加">2. 两数相加</a></li>
             <li><a href="#19-删除链表的倒数第n个结点">19. 删除链表的倒数第N个结点</a></li>
             <li><a href="#24-两两交换链表中的节点">24. 两两交换链表中的节点</a></li>
-            <li><a href="#25-k个一组反转链表">25. K个一组反转链表</a></li>
-            <li><a href="#23-合并k个升序链表">23. 合并K个升序链表</a></li>
+            <li><a href="#25-k个一组反转链表">*25. K个一组反转链表</a></li>
+            <li><a href="#138-随机链表的复制">*138. 随机链表的复制</a></li>
+            <li><a href="#148-排序链表">*148. 排序链表</a></li>
+            <li><a href="#23-合并k个升序链表">*23. 合并K个升序链表</a></li>
           </ul>
         </li>
         <li><a href="#二叉树">二叉树</a>
           <ul>
             <li><a href="#101-对称二叉树">101. 对称二叉树</a></li>
             <li><a href="#543-二叉树的直径">543. 二叉树的直径</a></li>
-            <li><a href="#108-将有序数组转换为二叉搜索树">108. 将有序数组转换为二叉搜索树</a></li>
             <li><a href="#102-二叉树的层序遍历">102. 二叉树的层序遍历</a></li>
+            <li><a href="#108-将有序数组转换为二叉搜索树">108. 将有序数组转换为二叉搜索树</a></li>
             <li><a href="#98-验证二叉搜索树">98. 验证二叉搜索树</a></li>
-            <li><a href="#230-二叉搜索树中第k小的元素">230. 二叉搜索树中第k小的元素</a></li>
+            <li><a href="#230-二叉搜索树中第k小的元素">*230. 二叉搜索树中第k小的元素</a></li>
             <li><a href="#199-二叉树的右视图">199. 二叉树的右视图</a></li>
             <li><a href="#114-二叉树展开为链表">114. 二叉树展开为链表</a></li>
             <li><a href="#236-二叉树的最近公共祖先lca">236. 二叉树的最近公共祖先LCA</a></li>
@@ -268,7 +278,7 @@
         <li><a href="#图论">图论</a>
           <ul>
             <li><a href="#200-岛屿数量">200. 岛屿数量</a></li>
-            <li><a href="#994-腐烂的橘子">994. 腐烂的橘子</a></li>
+            <li><a href="#994-腐烂的橘子">*994. 腐烂的橘子</a></li>
             <li><a href="#207-课程表">207. 课程表</a></li>
             <li><a href="#208-实现trie前缀树">208. 实现Trie（前缀树）</a></li>
           </ul>
@@ -368,7 +378,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        72 mins read
+                        80 mins read
                     </p>
                 </div>
             </div>
@@ -391,33 +401,99 @@
             
 
             <h1 id="leetcodehot100">LeetCodeHot100</h1>
-<h2 id="双指针">双指针</h2>
-<h3 id="15-三数之和">15. 三数之和</h3>
+<h2 id="哈希">哈希</h2>
+<h3 id="49-字母异位词分组">49. 字母异位词分组</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;</span> groupAnagrams(vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&amp;</span> strs) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> strs.size();
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>        unordered_map<span style="color:#f92672">&lt;</span>string, vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;</span> mp;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            string tmp <span style="color:#f92672">=</span> strs[i];
+</span></span><span style="display:flex;"><span>            sort(tmp.begin(), tmp.end());
+</span></span><span style="display:flex;"><span>            mp[tmp].emplace_back(strs[i]);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">auto</span> it <span style="color:#f92672">=</span> mp.begin(); it <span style="color:#f92672">!=</span> mp.end(); it <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            res.push_back(it<span style="color:#f92672">-&gt;</span>second);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="128-最长连续序列">128. 最长连续序列</h3>
+<p>如果num - 1是不存在的，则开始往后查找num + 1，每次更新num为num + 1，继续找num + 1，直到找不到位置，去更新maxlen。</p>
+<p>注意：要遍历unordered_set，而不是原数组，否则会TLE。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> longestConsecutive(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>        unordered_set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> mp(nums.begin(), nums.end());
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> maxlen <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, curlen <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, curnum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> num : mp) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (mp.find(num <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">==</span> mp.end()) {
+</span></span><span style="display:flex;"><span>                curlen <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, curnum <span style="color:#f92672">=</span> num;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">while</span> (mp.find(curnum <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">!=</span> mp.end()) {
+</span></span><span style="display:flex;"><span>                    curlen <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>                    curnum <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                maxlen <span style="color:#f92672">=</span> max(maxlen, curlen);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> maxlen;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="双指针">双指针</h2>
+<h3 id="283-移动零">283. 移动零</h3>
+<p>为了保证数字的顺序，所以要交换的条件是当r不等于0的时候去交换。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> moveZeroes(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> l <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, r <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> nums.size();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span> (r <span style="color:#f92672">&lt;</span> n) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (nums[r]) {
+</span></span><span style="display:flex;"><span>                swap(nums[l], nums[r]);
+</span></span><span style="display:flex;"><span>                l<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            r<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="15-三数之和">15. 三数之和</h3>
 <p>将找三个数转换成找两个数的问题，<code>target = -k</code>，将数组排序，每个不重复的数字都会成为target。</p>
 <p>i要从大于k的地方开始寻找，j从数组结尾开始寻找。遇到相同数字时，要跳过，这些是为了防止找到重复的元素。</p>
-<pre tabindex="0"><code>vector&lt;vector&lt;int&gt;&gt; threeSum(vector&lt;int&gt;&amp; nums) {
-	sort(nums.begin(), nums.end());
-	vector&lt;vector&lt;int&gt;&gt; res;
-	for (int k = 0; k &lt; nums.size(); k++) {
-		if (nums[k] &gt; 0) break;
-		if (k &gt; 0 &amp;&amp; nums[k] == nums[k - 1]) continue;
-		int target = -nums[k];
-		int i = k + 1, j = nums.size() - 1;
-		while (i &lt; j) {
-			if (nums[j] + nums[i] &gt; target) j--;
-			else if (nums[j] + nums[i] &lt; target) i++;
-			else {
-				res.push_back({ nums[i], nums[j], nums[k] });
-				while (i &lt; j &amp;&amp; nums[i] == nums[i + 1]) i++;
-				while (i &lt; j &amp;&amp; nums[j] == nums[j - 1]) j--;
-				i++;
-				j--;
-			}
-		}
-	}
-	return res;
-}
-</code></pre><h3 id="42-接雨水">42. 接雨水</h3>
+<p>如果nums[k]大于0的时候，target就是负数，而大于k的数字都是正数，所以不可能会出现答案，于是跳过。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (nums[k] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">break</span>;
+</span></span></code></pre></div><p>跳过重复的解</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (k <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> nums[k] <span style="color:#f92672">==</span> nums[k <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) <span style="color:#66d9ef">continue</span>;
+</span></span></code></pre></div><p>为了跳过重复的答案，比如{-1， -1， 2}，{-1， -1， 2}</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;</span> j <span style="color:#f92672">&amp;&amp;</span> nums[i] <span style="color:#f92672">==</span> nums[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]) i<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;</span> j <span style="color:#f92672">&amp;&amp;</span> nums[j] <span style="color:#f92672">==</span> nums[j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) j<span style="color:#f92672">--</span>;
+</span></span></code></pre></div><p><code>nums[k]</code> 是<strong>跳过相同起点的三元组</strong>；</p>
+<p><code>nums[i]</code> 和 <code>nums[j]</code> 是<strong>跳过双指针阶段的重复解</strong>；</p>
+<p>这两个步骤缺一不可，否则<strong>同样的三元组会被加入多次</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> threeSum(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>	sort(nums.begin(), nums.end());
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; k <span style="color:#f92672">&lt;</span> nums.size(); k<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (nums[k] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (k <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> nums[k] <span style="color:#f92672">==</span> nums[k <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> target <span style="color:#f92672">=</span> <span style="color:#f92672">-</span>nums[k];
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> k <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, j <span style="color:#f92672">=</span> nums.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;</span> j) {
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (nums[j] <span style="color:#f92672">+</span> nums[i] <span style="color:#f92672">&gt;</span> target) j<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (nums[j] <span style="color:#f92672">+</span> nums[i] <span style="color:#f92672">&lt;</span> target) i<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>				res.push_back({ nums[i], nums[j], nums[k] });
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;</span> j <span style="color:#f92672">&amp;&amp;</span> nums[i] <span style="color:#f92672">==</span> nums[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]) i<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">while</span> (i <span style="color:#f92672">&lt;</span> j <span style="color:#f92672">&amp;&amp;</span> nums[j] <span style="color:#f92672">==</span> nums[j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]) j<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>				i<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>				j<span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="42-接雨水">42. 接雨水</h3>
 <p><em>方法一</em>：</p>
 <p><strong>前后缀分解</strong></p>
 <p>计算前缀最大值数组、后缀最大值数组。再遍历一遍，取该处的前缀最大值和后缀最大值的最小值，再减去该处高度，就是接到的容量。</p>
@@ -493,6 +569,7 @@
 <p>记录在哈希表中记录前缀和，每次查找sum - k存不存在，如果存在则说明有这样一组连续的数和为k。</p>
 <p>1️⃣ <strong>先检查 <code>sum-k</code></strong> 是否存在，统计结果
 2️⃣ <strong>再更新 <code>mp[sum]</code></strong>，防止影响后续计算</p>
+<p>注意：一定要初始化总和0为1，并且res累加的是哈希表中的值而不是res ++，因为同一前缀和可能有多个连续数组组成。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">subarraySum</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> k) {
 </span></span><span style="display:flex;"><span>    unordered_map<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span>, <span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> prefixCount;
 </span></span><span style="display:flex;"><span>    prefixCount[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
@@ -537,7 +614,7 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="76-最小覆盖字串">76. 最小覆盖字串</h3>
+</span></span></code></pre></div><h3 id="76-最小覆盖字串">*76. 最小覆盖字串</h3>
 <blockquote>
 <p>给你一个字符串 <code>s</code> 、一个字符串 <code>t</code> 。返回 <code>s</code> 中涵盖 <code>t</code> 所有字符的最小子串。如果 <code>s</code> 中不存在涵盖 <code>t</code> 所有字符的子串，则返回空字符串 <code>&quot;&quot;</code> 。</p>
 </blockquote>
@@ -545,7 +622,7 @@
 <p><code>need</code> 记录 <code>t</code> 中字符的 <strong>需求数量</strong>。<code>window</code> 记录窗口内各字符的 <strong>当前数量</strong>。</p>
 <p><code>left, right</code> 维护滑动窗口的左右边界。<code>start, minLen</code> 用于存储 <strong>最小窗口的起始位置</strong> 和 <strong>最小长度</strong>。</p>
 <p><code>valid</code> 记录窗口中满足 <code>t</code> 需求的字符数（当 <code>valid == need.size()</code> 时，说明窗口已经包含了 <code>t</code> 中所有字符）。</p>
-<p>右指针遍历s字符</p>
+<p>注意：尽管移动r和移动l的两部分代码很相似，但是区别在于增加字符的时候，要先增加再判断，而减少字符的时候，要先判断再减少。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    string minWindow(string s, string t) {
@@ -772,7 +849,37 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> false;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="链表">链表</h2>
-<h3 id="2-两数相加">2. 两数相加</h3>
+<h3 id="234-回文链表">234. 回文链表</h3>
+<p>可以存到vector中用双指针比较，但是缺点是需要花费空间。</p>
+<p>所以使用快慢指针寻找回文的中点，代码中<code>l1</code>就是回文右半部分开始的地方。</p>
+<p>将右半部分反转，形成两个链表，分别是<code>head为头结点的left</code>和<code>prev为头结点的right</code>，之后再去比较值是否相等</p>
+<p>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> isPalindrome(ListNode<span style="color:#f92672">*</span> head) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(head <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">||</span> head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>        ListNode<span style="color:#f92672">*</span> l1 <span style="color:#f92672">=</span> head, <span style="color:#f92672">*</span>l2 <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(l2 <span style="color:#f92672">&amp;&amp;</span> l2<span style="color:#f92672">-&gt;</span>next) {
+</span></span><span style="display:flex;"><span>            l1 <span style="color:#f92672">=</span> l1<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            l2 <span style="color:#f92672">=</span> l2<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        ListNode<span style="color:#f92672">*</span> prev <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(l1) {
+</span></span><span style="display:flex;"><span>            ListNode<span style="color:#f92672">*</span> tmp <span style="color:#f92672">=</span> l1<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            l1<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> prev;
+</span></span><span style="display:flex;"><span>            prev <span style="color:#f92672">=</span> l1;
+</span></span><span style="display:flex;"><span>            l1 <span style="color:#f92672">=</span> tmp;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        ListNode<span style="color:#f92672">*</span> left <span style="color:#f92672">=</span> head, <span style="color:#f92672">*</span>right <span style="color:#f92672">=</span> prev;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(right) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(right<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">!=</span> left<span style="color:#f92672">-&gt;</span>val) <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>            left <span style="color:#f92672">=</span> left<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            right <span style="color:#f92672">=</span> right<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="2-两数相加">2. 两数相加</h3>
 <p>初始化一个新的头节点res，用carry记录进位，在下次遍历中增加到sum中，不断地new一个新节点连接到res上。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">addTwoNumbers</span>(ListNode<span style="color:#f92672">*</span> l1, ListNode<span style="color:#f92672">*</span> l2) {
 </span></span><span style="display:flex;"><span>    ListNode<span style="color:#f92672">*</span> res <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode(<span style="color:#ae81ff">0</span>);
@@ -829,7 +936,8 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res<span style="color:#f92672">-&gt;</span>next;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="25-k个一组反转链表">25. K个一组反转链表</h3>
+</span></span></code></pre></div><h3 id="25-k个一组反转链表">*25. K个一组反转链表</h3>
+<p>增加一个头结点，pre指向头结点，cur为head，还有一个next指针永远指向cur-&gt;next。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">reverseKGroup</span>(ListNode<span style="color:#f92672">*</span> head, <span style="color:#66d9ef">int</span> k) {
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>head <span style="color:#f92672">||</span> k <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> head;
 </span></span><span style="display:flex;"><span>    ListNode<span style="color:#f92672">*</span> tmp <span style="color:#f92672">=</span> head;
@@ -857,12 +965,81 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res<span style="color:#f92672">-&gt;</span>next;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="23-合并k个升序链表">23. 合并K个升序链表</h3>
+</span></span></code></pre></div><h3 id="138-随机链表的复制">*138. 随机链表的复制</h3>
+<p>将原链表的结点对应的拷贝结点连在其后，链表从A - B - C变成A - A&rsquo; - B - B&rsquo; - C - C&rsquo;。</p>
+<p>然后再去连接random指针；</p>
+<p>最后将原链表和复制的链表拆分，各自指向各自的下一节点。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    Node<span style="color:#f92672">*</span> copyRandomList(Node<span style="color:#f92672">*</span> head) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(head <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>        Node<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(cur) {
+</span></span><span style="display:flex;"><span>            Node<span style="color:#f92672">*</span> tmp <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Node(cur<span style="color:#f92672">-&gt;</span>val);
+</span></span><span style="display:flex;"><span>            tmp<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> tmp;
+</span></span><span style="display:flex;"><span>            cur <span style="color:#f92672">=</span> tmp<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        Node<span style="color:#f92672">*</span> old <span style="color:#f92672">=</span> head, <span style="color:#f92672">*</span>clone <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next, <span style="color:#f92672">*</span>res <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(old) {
+</span></span><span style="display:flex;"><span>            clone<span style="color:#f92672">-&gt;</span>random <span style="color:#f92672">=</span> old<span style="color:#f92672">-&gt;</span>random <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">?</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">:</span> old<span style="color:#f92672">-&gt;</span>random<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(old<span style="color:#f92672">-&gt;</span>next) old <span style="color:#f92672">=</span> old<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(clone<span style="color:#f92672">-&gt;</span>next) clone <span style="color:#f92672">=</span> clone<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        old <span style="color:#f92672">=</span> head, clone <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(old) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(old<span style="color:#f92672">-&gt;</span>next) old<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> old<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(clone<span style="color:#f92672">-&gt;</span>next) clone<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> clone<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            old <span style="color:#f92672">=</span> old<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            clone <span style="color:#f92672">=</span> clone<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="148-排序链表">*148. 排序链表</h3>
+<p><em>归并排序</em></p>
+<p>由于merge只能合并两个有序的数列，所以要<code>ListNode* left = sortList(head), *right = sortList(slow);</code>递归的将链表不断分割。</p>
+<p>要找到中间节点吗，使用快慢指针。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    ListNode<span style="color:#f92672">*</span> merge(ListNode<span style="color:#f92672">*</span> l1, ListNode<span style="color:#f92672">*</span> l2) {
+</span></span><span style="display:flex;"><span>        ListNode<span style="color:#f92672">*</span> res <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode(<span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>        ListNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> res;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(l1 <span style="color:#f92672">&amp;&amp;</span> l2) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(l1<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&lt;</span> l2<span style="color:#f92672">-&gt;</span>val) {
+</span></span><span style="display:flex;"><span>                cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> l1;
+</span></span><span style="display:flex;"><span>                l1 <span style="color:#f92672">=</span> l1<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> l2;
+</span></span><span style="display:flex;"><span>                l2 <span style="color:#f92672">=</span> l2<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(l1) cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> l1;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(l2) cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> l2;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">sortList</span>(ListNode<span style="color:#f92672">*</span> head) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(head <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">||</span> head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> head; 
+</span></span><span style="display:flex;"><span>        ListNode<span style="color:#f92672">*</span> slow <span style="color:#f92672">=</span> head, <span style="color:#f92672">*</span>fast <span style="color:#f92672">=</span> head, <span style="color:#f92672">*</span>prev <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(fast <span style="color:#f92672">&amp;&amp;</span> fast<span style="color:#f92672">-&gt;</span>next) {
+</span></span><span style="display:flex;"><span>            fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>            prev <span style="color:#f92672">=</span> slow;
+</span></span><span style="display:flex;"><span>            slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        prev<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>        ListNode<span style="color:#f92672">*</span> left <span style="color:#f92672">=</span> sortList(head), <span style="color:#f92672">*</span>right <span style="color:#f92672">=</span> sortList(slow);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> merge(left,  right);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="23-合并k个升序链表">*23. 合并K个升序链表</h3>
 <p><em>归并排序</em>：和排序链表一样的道理，只不过K个需要两两合并，<strong>分治法</strong>。</p>
-<p>举例子：</p>
-<pre tabindex="0"><code>lists[0] = merge(lists[0], lists[3])
-lists[1] = merge(lists[1], lists[4])
-</code></pre><p><strong><code>lists[2]</code> 没有被合并！</strong></p>
+<p>使用 <code>i += 2</code> 遍历，每次处理两个链表。</p>
+<ul>
+<li>如果 <code>i + 1 &lt; n</code>，合并 <code>lists[i]</code> 和 <code>lists[i + 1]</code>。</li>
+<li>如果 <code>i + 1 &gt;= n</code>（即奇数情况），直接保留 <code>lists[i]</code>。</li>
+</ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    ListNode<span style="color:#f92672">*</span> merge(ListNode<span style="color:#f92672">*</span> l1, ListNode<span style="color:#f92672">*</span> l2) {
@@ -886,14 +1063,16 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(lists.empty()) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> lists.size();
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(n <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span>) {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> newSize <span style="color:#f92672">=</span> (n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>; <span style="color:#75715e">// 奇数情况比如5个数 实际上是3组
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>                lists[i] <span style="color:#f92672">=</span> merge(lists[i], lists[i <span style="color:#f92672">+</span> (n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>]); <span style="color:#75715e">// 看上面
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            }
-</span></span><span style="display:flex;"><span>            n <span style="color:#f92672">=</span> newSize;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> newsize <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> n) {
+</span></span><span style="display:flex;"><span>                    lists[newsize <span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> merge(lists[i], lists[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]); 
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">else</span> lists[newsize <span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> lists[i];
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            n <span style="color:#f92672">=</span> newsize;
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> lists[<span style="color:#ae81ff">0</span>];
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h2 id="二叉树">二叉树</h2>
@@ -912,6 +1091,7 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h3 id="543-二叉树的直径">543. 二叉树的直径</h3>
 <p>找左子树中最大的深度和右子树中最大的深度，加在一起 -1就是最长的路径。</p>
+<p>注意：最长路径并不代表一定经过根节点，</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> ans <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
@@ -925,22 +1105,6 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> <span style="color:#a6e22e">diameterOfBinaryTree</span>(TreeNode<span style="color:#f92672">*</span> root) {
 </span></span><span style="display:flex;"><span>        depth(root);
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ans <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><h3 id="108-将有序数组转换为二叉搜索树">108. 将有序数组转换为二叉搜索树</h3>
-<p><em>二分法</em></p>
-<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>    TreeNode<span style="color:#f92672">*</span> helper(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> left, <span style="color:#66d9ef">int</span> right) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(left <span style="color:#f92672">&gt;</span> right) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> left <span style="color:#f92672">+</span> right <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
-</span></span><span style="display:flex;"><span>        TreeNode<span style="color:#f92672">*</span> root <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TreeNode(nums[mid]);
-</span></span><span style="display:flex;"><span>        root<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> helper(nums, left, mid <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
-</span></span><span style="display:flex;"><span>        root<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> helper(nums, mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, right);
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> root;
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    TreeNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">sortedArrayToBST</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> helper(nums, <span style="color:#ae81ff">0</span>, nums.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h3 id="102-二叉树的层序遍历">102. 二叉树的层序遍历</h3>
@@ -967,6 +1131,22 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> res;
 </span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="108-将有序数组转换为二叉搜索树">108. 将有序数组转换为二叉搜索树</h3>
+<p><em>二分法</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    TreeNode<span style="color:#f92672">*</span> helper(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums, <span style="color:#66d9ef">int</span> left, <span style="color:#66d9ef">int</span> right) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(left <span style="color:#f92672">&gt;</span> right) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> left <span style="color:#f92672">+</span> right <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        TreeNode<span style="color:#f92672">*</span> root <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TreeNode(nums[mid]);
+</span></span><span style="display:flex;"><span>        root<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> helper(nums, left, mid <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        root<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> helper(nums, mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, right);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> root;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    TreeNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">sortedArrayToBST</span>(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> helper(nums, <span style="color:#ae81ff">0</span>, nums.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h3 id="98-验证二叉搜索树">98. 验证二叉搜索树</h3>
 <p><em>递归</em>： 对于一个二叉搜索树，左边结点一定在 [-∞， 根节点的值]这个区间，而右边结点一定在 [根结点的值，正无穷]这个区间内。</p>
 <p>所以只要判断每个节点是否在它应该在的区间内，并不断更新区间，就可以判断它是否是一颗二叉搜索树。</p>
@@ -981,7 +1161,7 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> helper(root, LONG_MIN, LONG_MAX);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><h3 id="230-二叉搜索树中第k小的元素">230. 二叉搜索树中第k小的元素</h3>
+</span></span></code></pre></div><h3 id="230-二叉搜索树中第k小的元素">*230. 二叉搜索树中第k小的元素</h3>
 <p><em>中序遍历</em>：一路遍历root结点的左节点，存入栈中，栈顶元素就是最小元素。跳出循环之后，k &ndash;，寻找第k小的元素。如果k == 0跳出循环返回值，如果还没找到第k个结点，呢就继续下一次循环增加根节点的右节点进到栈。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">kthSmallest</span>(TreeNode<span style="color:#f92672">*</span> root, <span style="color:#66d9ef">int</span> k) {
 </span></span><span style="display:flex;"><span>    stack<span style="color:#f92672">&lt;</span>TreeNode<span style="color:#f92672">*&gt;</span> st;
@@ -1033,6 +1213,26 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>    preOrder(root<span style="color:#f92672">-&gt;</span>left, res);
 </span></span><span style="display:flex;"><span>    preOrder(root<span style="color:#f92672">-&gt;</span>right, res);
 </span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><em>原地展开：</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">flatten</span>(TreeNode<span style="color:#f92672">*</span> root) {
+</span></span><span style="display:flex;"><span>        TreeNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> root;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(cur <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(cur<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">auto</span> next <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>left;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">auto</span> predecessor <span style="color:#f92672">=</span> next;
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 找next的最右边结点，也就是cur的右结点的上一个结点。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                <span style="color:#66d9ef">while</span>(predecessor<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>) {
+</span></span><span style="display:flex;"><span>                    predecessor <span style="color:#f92672">=</span> predecessor<span style="color:#f92672">-&gt;</span>right;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 连接cur右节点和next的最右结点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                predecessor<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>right;
+</span></span><span style="display:flex;"><span>                <span style="color:#75715e">// 把cur左指针（指向next）置空 为了右指针指向next
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>                cur<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>                cur<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> next;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>right;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
 </span></span></code></pre></div><h3 id="236-二叉树的最近公共祖先lca">236. 二叉树的最近公共祖先LCA</h3>
 <p>*递归：*非二叉搜索树，递归左子树找 p 或 q ，如果左右子树都非空，代表root为最近公共祖先，如果其中一个没有找到p或q，代表 p 和 q 在root的同一侧，则返回非空的left或right。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>TreeNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">lowestCommonAncestor</span>(TreeNode<span style="color:#f92672">*</span> root, TreeNode<span style="color:#f92672">*</span> p, TreeNode<span style="color:#f92672">*</span> q) {
@@ -1151,7 +1351,7 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> numIslands(grid) <span style="color:#f92672">&lt;&lt;</span> endl;
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="994-腐烂的橘子">994. 腐烂的橘子</h3>
+</span></span></code></pre></div><h3 id="994-腐烂的橘子">*994. 腐烂的橘子</h3>
 <p><em>bfs</em>：因为需要一圈一圈的扩散，所以用bfs，而且最主要的原因是，需要计算每次扩散的时间。dfs没办法做到这一点。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include&lt;queue&gt;
@@ -1203,7 +1403,7 @@ lists[1] = merge(lists[1], lists[4])
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="207-课程表">207. 课程表</h3>
-<p>拓扑排序*bfs：*构建邻接表</p>
+<p><em>拓扑排序bfs</em>：构建邻接表</p>
 <p><code>vector&lt;int&gt; inDegree(numCourses, 0);  // 记录每门课的前置课数量（入度）</code>
 <code>vector&lt;vector&lt;int&gt;&gt; graph(numCourses); // 邻接表，graph[i] 存放课程 i 的后续课程</code></p>
 <p>入度为0的入队，取出队列的课程，可以立即学习。</p>
@@ -2527,7 +2727,7 @@ public:
 	    </a>
 
 		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2fleetcodehot100%2f
-			&title=LeetCode%e7%83%ad%e9%a2%98100&summary=LeetCodeHot100%20%e5%8f%8c%e6%8c%87%e9%92%88%2015.%20%e4%b8%89%e6%95%b0%e4%b9%8b%e5%92%8c%20%e5%b0%86%e6%89%be%e4%b8%89%e4%b8%aa%e6%95%b0%e8%bd%ac%e6%8d%a2%e6%88%90%e6%89%be%e4%b8%a4%e4%b8%aa%e6%95%b0%e7%9a%84%e9%97%ae%e9%a2%98%ef%bc%8ctarget%20%3d%20-k%ef%bc%8c%e5%b0%86%e6%95%b0%e7%bb%84%e6%8e%92%e5%ba%8f%ef%bc%8c%e6%af%8f%e4%b8%aa%e4%b8%8d%e9%87%8d%e5%a4%8d%e7%9a%84%e6%95%b0%e5%ad%97%e9%83%bd%e4%bc%9a%e6%88%90%e4%b8%batarget%e3%80%82%0ai%e8%a6%81%e4%bb%8e%e5%a4%a7%e4%ba%8ek%e7%9a%84%e5%9c%b0%e6%96%b9%e5%bc%80%e5%a7%8b%e5%af%bb%e6%89%be%ef%bc%8cj%e4%bb%8e%e6%95%b0%e7%bb%84%e7%bb%93%e5%b0%be%e5%bc%80%e5%a7%8b%e5%af%bb%e6%89%be%e3%80%82%e9%81%87%e5%88%b0%e7%9b%b8%e5%90%8c%e6%95%b0%e5%ad%97%e6%97%b6%ef%bc%8c%e8%a6%81%e8%b7%b3%e8%bf%87%ef%bc%8c%e8%bf%99%e4%ba%9b%e6%98%af%e4%b8%ba%e4%ba%86%e9%98%b2%e6%ad%a2%e6%89%be%e5%88%b0%e9%87%8d%e5%a4%8d%e7%9a%84%e5%85%83%e7%b4%a0%e3%80%82%0avector%26lt%3bvector%26lt%3bint%26gt%3b%26gt%3b%20threeSum%28vector%26lt%3bint%26gt%3b%26amp%3b%20nums%29%20%7b%0dsort%28nums.begin%28%29%2c%20nums.end%28%29%29%3b%0dvector%26lt%3bvector%26lt%3bint%26gt%3b%26gt%3b%20res%3b%0dfor%20%28int%20k%20%3d%200%3b%20k%20%26lt%3b%20nums.size%28%29%3b%20k%2b%2b%29%20%7b%0dif%20%28nums%5bk%5d%20%26gt%3b%200%29%20break%3b%0dif%20%28k%20%26gt%3b%200%20%26amp%3b%26amp%3b%20nums%5bk%5d%20%3d%3d%20nums%5bk%20-%201%5d%29%20continue%3b%0dint%20target%20%3d%20-nums%5bk%5d%3b%0dint%20i%20%3d%20k%20%2b%201%2c%20j%20%3d%20nums.size%28%29%20-%201%3b%0dwhile%20%28i%20%26lt%3b%20j%29%20%7b%0dif%20%28nums%5bj%5d%20%2b%20nums%5bi%5d%20%26gt%3b%20target%29%20j--%3b%0delse%20if%20%28nums%5bj%5d%20%2b%20nums%5bi%5d%20%26lt%3b%20target%29%20i%2b%2b%3b%0delse%20%7b%0dres.&source=rafed123.github.io"
+			&title=LeetCode%e7%83%ad%e9%a2%98100&summary=LeetCodeHot100%20%e5%93%88%e5%b8%8c%2049.%20%e5%ad%97%e6%af%8d%e5%bc%82%e4%bd%8d%e8%af%8d%e5%88%86%e7%bb%84%20class%20Solution%20%7b%20public%3a%20vector%26lt%3bvector%26lt%3bstring%26gt%3b%26gt%3b%20groupAnagrams%28vector%26lt%3bstring%26gt%3b%26amp%3b%20strs%29%20%7b%20int%20n%20%3d%20strs.size%28%29%3b%20vector%26lt%3bvector%26lt%3bstring%26gt%3b%26gt%3b%20res%3b%20unordered_map%26lt%3bstring%2c%20vector%26lt%3bstring%26gt%3b%26gt%3b%20mp%3b%20for%28int%20i%20%3d%200%3b%20i%20%26lt%3b%20n%3b%20i%20%2b%2b%29%20%7b%20string%20tmp%20%3d%20strs%5bi%5d%3b%20sort%28tmp.begin%28%29%2c%20tmp.end%28%29%29%3b%20mp%5btmp%5d.emplace_back%28strs%5bi%5d%29%3b%20%7d%20for%28auto%20it%20%3d%20mp.begin%28%29%3b%20it%20%21%3d%20mp.end%28%29%3b%20it%20%2b%2b%29%20%7b%20res.push_back%28it-%26gt%3bsecond%29%3b%20%7d%20return%20res%3b%20%7d%20%7d%3b%20128.%20%e6%9c%80%e9%95%bf%e8%bf%9e%e7%bb%ad%e5%ba%8f%e5%88%97%20%e5%a6%82%e6%9e%9cnum%20-%201%e6%98%af%e4%b8%8d%e5%ad%98%e5%9c%a8%e7%9a%84%ef%bc%8c%e5%88%99%e5%bc%80%e5%a7%8b%e5%be%80%e5%90%8e%e6%9f%a5%e6%89%benum%20%2b%201%ef%bc%8c%e6%af%8f%e6%ac%a1%e6%9b%b4%e6%96%b0num%e4%b8%banum%20%2b%201%ef%bc%8c%e7%bb%a7%e7%bb%ad%e6%89%benum%20%2b%201%ef%bc%8c%e7%9b%b4%e5%88%b0%e6%89%be%e4%b8%8d%e5%88%b0%e4%bd%8d%e7%bd%ae%ef%bc%8c%e5%8e%bb%e6%9b%b4%e6%96%b0maxlen%e3%80%82%0a%e6%b3%a8%e6%84%8f%ef%bc%9a%e8%a6%81%e9%81%8d%e5%8e%86unordered_set%ef%bc%8c%e8%80%8c%e4%b8%8d%e6%98%af%e5%8e%9f%e6%95%b0%e7%bb%84%ef%bc%8c%e5%90%a6%e5%88%99%e4%bc%9aTLE%e3%80%82%0aclass%20Solution%20%7b%20public%3a%20int%20longestConsecutive%28vector%26lt%3bint%26gt%3b%26amp%3b%20nums%29%20%7b%20unordered_set%26lt%3bint%26gt%3b%20mp%28nums.&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>
