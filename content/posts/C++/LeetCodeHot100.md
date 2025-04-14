@@ -12,7 +12,85 @@ chordsheet: true
 
 # LeetCodeHot100
 
+## 哈希
+
+### 49. 字母异位词分组
+
+```c++
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        int n = strs.size();
+        vector<vector<string>> res;
+        unordered_map<string, vector<string>> mp;
+        for(int i = 0; i < n; i ++) {
+            string tmp = strs[i];
+            sort(tmp.begin(), tmp.end());
+            mp[tmp].emplace_back(strs[i]);
+        }
+        for(auto it = mp.begin(); it != mp.end(); it ++) {
+            res.push_back(it->second);
+        }
+        return res;
+    }
+};
+```
+
+
+
+### 128. 最长连续序列
+
+如果num - 1是不存在的，则开始往后查找num + 1，每次更新num为num + 1，继续找num + 1，直到找不到位置，去更新maxlen。
+
+注意：要遍历unordered_set，而不是原数组，否则会TLE。
+
+```c++
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_set<int> mp(nums.begin(), nums.end());
+        int maxlen = 0, curlen = 0, curnum = 0;
+        for (int num : mp) {
+            if (mp.find(num - 1) == mp.end()) {
+                curlen = 1, curnum = num;
+                while (mp.find(curnum + 1) != mp.end()) {
+                    curlen ++;
+                    curnum ++;
+                }
+                maxlen = max(maxlen, curlen);
+            }
+        }
+        return maxlen;
+    }
+};
+```
+
+
+
 ## 双指针
+
+### 283. 移动零
+
+为了保证数字的顺序，所以要交换的条件是当r不等于0的时候去交换。
+
+```c++
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        int l = 0, r = 0;
+        int n = nums.size();
+        while (r < n) {
+            if (nums[r]) {
+                swap(nums[l], nums[r]);
+                l++;
+            }
+            r++;
+        }
+    }
+};
+```
+
+
 
 ### 15. 三数之和
 
@@ -20,7 +98,32 @@ chordsheet: true
 
 i要从大于k的地方开始寻找，j从数组结尾开始寻找。遇到相同数字时，要跳过，这些是为了防止找到重复的元素。
 
+如果nums[k]大于0的时候，target就是负数，而大于k的数字都是正数，所以不可能会出现答案，于是跳过。
+
+```c++
+if (nums[k] > 0) break;
 ```
+
+跳过重复的解
+
+```c++
+if (k > 0 && nums[k] == nums[k - 1]) continue;
+```
+
+为了跳过重复的答案，比如{-1， -1， 2}，{-1， -1， 2}
+
+```c++
+while (i < j && nums[i] == nums[i + 1]) i++;
+while (i < j && nums[j] == nums[j - 1]) j--;
+```
+
+`nums[k]` 是**跳过相同起点的三元组**；
+
+`nums[i]` 和 `nums[j]` 是**跳过双指针阶段的重复解**；
+
+这两个步骤缺一不可，否则**同样的三元组会被加入多次**。
+
+```c++
 vector<vector<int>> threeSum(vector<int>& nums) {
 	sort(nums.begin(), nums.end());
 	vector<vector<int>> res;
@@ -153,6 +256,8 @@ vector<int> findAnagrams(string s, string p) {
 1️⃣ **先检查 `sum-k`** 是否存在，统计结果
 2️⃣ **再更新 `mp[sum]`**，防止影响后续计算
 
+注意：一定要初始化总和0为1，并且res累加的是哈希表中的值而不是res ++，因为同一前缀和可能有多个连续数组组成。
+
 ```c++
 int subarraySum(vector<int>& nums, int k) {
     unordered_map<int, int> prefixCount;
@@ -213,7 +318,7 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
 
 
 
-### 76. 最小覆盖字串
+### *76. 最小覆盖字串
 
 > 给你一个字符串 `s` 、一个字符串 `t` 。返回 `s` 中涵盖 `t` 所有字符的最小子串。如果 `s` 中不存在涵盖 `t` 所有字符的子串，则返回空字符串 `""` 。
 
@@ -225,9 +330,7 @@ vector<int> maxSlidingWindow(vector<int>& nums, int k) {
 
 `valid` 记录窗口中满足 `t` 需求的字符数（当 `valid == need.size()` 时，说明窗口已经包含了 `t` 中所有字符）。
 
-
-
-右指针遍历s字符
+注意：尽管移动r和移动l的两部分代码很相似，但是区别在于增加字符的时候，要先增加再判断，而减少字符的时候，要先判断再减少。
 
 ```c++
 class Solution {
@@ -500,6 +603,46 @@ bool searchMatrix(vector<vector<int>>& matrix, int target) {
 
 ## 链表
 
+### 234. 回文链表
+
+可以存到vector中用双指针比较，但是缺点是需要花费空间。
+
+所以使用快慢指针寻找回文的中点，代码中`l1`就是回文右半部分开始的地方。
+
+将右半部分反转，形成两个链表，分别是`head为头结点的left`和`prev为头结点的right`，之后再去比较值是否相等
+
+。
+
+```c++
+class Solution {
+public:
+    bool isPalindrome(ListNode* head) {
+        if(head == nullptr || head->next == nullptr) return true;
+        ListNode* l1 = head, *l2 = head;
+        while(l2 && l2->next) {
+            l1 = l1->next;
+            l2 = l2->next->next;
+        }
+        ListNode* prev = nullptr;
+        while(l1) {
+            ListNode* tmp = l1->next;
+            l1->next = prev;
+            prev = l1;
+            l1 = tmp;
+        }
+        ListNode* left = head, *right = prev;
+        while(right) {
+            if(right->val != left->val) return false;
+            left = left->next;
+            right = right->next;
+        }
+        return true;
+    }
+};
+```
+
+
+
 ### 2. 两数相加
 
 初始化一个新的头节点res，用carry记录进位，在下次遍历中增加到sum中，不断地new一个新节点连接到res上。
@@ -580,9 +723,9 @@ ListNode* swapPairs(ListNode* head) {
 
 
 
-### 25. K个一组反转链表
+### *25. K个一组反转链表
 
-
+增加一个头结点，pre指向头结点，cur为head，还有一个next指针永远指向cur->next。
 
 ```c++
 ListNode* reverseKGroup(ListNode* head, int k) {
@@ -616,18 +759,100 @@ ListNode* reverseKGroup(ListNode* head, int k) {
 
 
 
-### 23. 合并K个升序链表
+### *138. 随机链表的复制
+
+将原链表的结点对应的拷贝结点连在其后，链表从A - B - C变成A - A' - B - B' - C - C'。
+
+然后再去连接random指针；
+
+最后将原链表和复制的链表拆分，各自指向各自的下一节点。
+
+```c++
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if(head == nullptr) return nullptr;
+        Node* cur = head;
+        while(cur) {
+            Node* tmp = new Node(cur->val);
+            tmp->next = cur->next;
+            cur->next = tmp;
+            cur = tmp->next;
+        }
+        Node* old = head, *clone = head->next, *res = head->next;
+        while(old) {
+            clone->random = old->random == nullptr ? nullptr : old->random->next;
+            if(old->next) old = old->next->next;
+            if(clone->next) clone = clone->next->next;
+        }
+        old = head, clone = head->next;
+        while(old) {
+            if(old->next) old->next = old->next->next;
+            if(clone->next) clone->next = clone->next->next;
+            old = old->next;
+            clone = clone->next;
+        }
+        return res;
+    }
+};
+```
+
+
+
+### *148. 排序链表
+
+*归并排序*
+
+由于merge只能合并两个有序的数列，所以要`ListNode* left = sortList(head), *right = sortList(slow);`递归的将链表不断分割。
+
+要找到中间节点吗，使用快慢指针。
+
+```c++
+class Solution {
+public:
+    ListNode* merge(ListNode* l1, ListNode* l2) {
+        ListNode* res = new ListNode(0);
+        ListNode* cur = res;
+        while(l1 && l2) {
+            if(l1->val < l2->val) {
+                cur->next = l1;
+                l1 = l1->next;
+            } else {
+                cur->next = l2;
+                l2 = l2->next;
+            }
+            cur = cur->next;
+        }
+        if(l1) cur->next = l1;
+        if(l2) cur->next = l2;
+        return res->next;
+    }
+
+    ListNode* sortList(ListNode* head) {
+        if(head == nullptr || head->next == nullptr) return head; 
+        ListNode* slow = head, *fast = head, *prev = nullptr;
+        while(fast && fast->next) {
+            fast = fast->next->next;
+            prev = slow;
+            slow = slow->next;
+        }
+        prev->next = nullptr;
+        ListNode* left = sortList(head), *right = sortList(slow);
+        return merge(left,  right);
+    }
+};
+```
+
+
+
+### *23. 合并K个升序链表
 
 *归并排序*：和排序链表一样的道理，只不过K个需要两两合并，**分治法**。
 
-举例子：
+使用 `i += 2` 遍历，每次处理两个链表。
 
-```
-lists[0] = merge(lists[0], lists[3])
-lists[1] = merge(lists[1], lists[4])
-```
-
-**`lists[2]` 没有被合并！**
+- 如果 `i + 1 < n`，合并 `lists[i]` 和 `lists[i + 1]`。
+- 如果 `i + 1 >= n`（即奇数情况），直接保留 `lists[i]`。
 
 ```c++
 class Solution {
@@ -653,14 +878,16 @@ public:
         if(lists.empty()) return nullptr;
         int n = lists.size();
         while(n > 1) {
-            int newSize = (n + 1) / 2; // 奇数情况比如5个数 实际上是3组
-            for(int i = 0; i < n / 2; i ++) {
-                lists[i] = merge(lists[i], lists[i + (n + 1) / 2]); // 看上面
+            int newsize = 0;
+            for(int i = 0; i < n; i += 2) {
+                if(i + 1 < n) {
+                    lists[newsize ++] = merge(lists[i], lists[i + 1]); 
+                }
+                else lists[newsize ++] = lists[i];
             }
-            n = newSize;
+            n = newsize;
         }
         return lists[0];
-
     }
 };
 ```
@@ -693,6 +920,8 @@ public:
 
 找左子树中最大的深度和右子树中最大的深度，加在一起 -1就是最长的路径。
 
+注意：最长路径并不代表一定经过根节点，
+
 ```c++
 class Solution {
 public:
@@ -707,29 +936,6 @@ public:
     int diameterOfBinaryTree(TreeNode* root) {
         depth(root);
         return ans - 1;
-    }
-};
-```
-
-
-
-### 108. 将有序数组转换为二叉搜索树
-
-*二分法*
-
-```c++
-class Solution {
-public:
-    TreeNode* helper(vector<int>& nums, int left, int right) {
-        if(left > right) return nullptr;
-        int mid = left + right >> 1;
-        TreeNode* root = new TreeNode(nums[mid]);
-        root->left = helper(nums, left, mid - 1);
-        root->right = helper(nums, mid + 1, right);
-        return root;
-    }
-    TreeNode* sortedArrayToBST(vector<int>& nums) {
-        return helper(nums, 0, nums.size() - 1);
     }
 };
 ```
@@ -767,6 +973,29 @@ vector<vector<int>> levelOrder(TreeNode* root) {
 
 
 
+### 108. 将有序数组转换为二叉搜索树
+
+*二分法*
+
+```c++
+class Solution {
+public:
+    TreeNode* helper(vector<int>& nums, int left, int right) {
+        if(left > right) return nullptr;
+        int mid = left + right >> 1;
+        TreeNode* root = new TreeNode(nums[mid]);
+        root->left = helper(nums, left, mid - 1);
+        root->right = helper(nums, mid + 1, right);
+        return root;
+    }
+    TreeNode* sortedArrayToBST(vector<int>& nums) {
+        return helper(nums, 0, nums.size() - 1);
+    }
+};
+```
+
+
+
 ### 98. 验证二叉搜索树
 
 *递归*： 对于一个二叉搜索树，左边结点一定在 [-∞， 根节点的值]这个区间，而右边结点一定在 [根结点的值，正无穷]这个区间内。
@@ -789,7 +1018,7 @@ public:
 
 
 
-### 230. 二叉搜索树中第k小的元素
+### *230. 二叉搜索树中第k小的元素
 
 *中序遍历*：一路遍历root结点的左节点，存入栈中，栈顶元素就是最小元素。跳出循环之后，k --，寻找第k小的元素。如果k == 0跳出循环返回值，如果还没找到第k个结点，呢就继续下一次循环增加根节点的右节点进到栈。
 
@@ -859,6 +1088,30 @@ void preOrder(TreeNode* root, vector<TreeNode*>& res) {
     preOrder(root->left, res);
     preOrder(root->right, res);
 }
+```
+
+*原地展开：*
+
+```c++
+    void flatten(TreeNode* root) {
+        TreeNode* cur = root;
+        while(cur != nullptr) {
+            if(cur->left != nullptr) {
+                auto next = cur->left;
+                auto predecessor = next;
+                // 找next的最右边结点，也就是cur的右结点的上一个结点。
+                while(predecessor->right != nullptr) {
+                    predecessor = predecessor->right;
+                }
+                // 连接cur右节点和next的最右结点
+                predecessor->right = cur->right;
+                // 把cur左指针（指向next）置空 为了右指针指向next
+                cur->left = nullptr;
+                cur->right = next;
+            }
+            cur = cur->right;
+        }
+    }
 ```
 
 
@@ -1012,7 +1265,7 @@ int main() {
 
 
 
-### 994. 腐烂的橘子
+### *994. 腐烂的橘子
 
 *bfs*：因为需要一圈一圈的扩散，所以用bfs，而且最主要的原因是，需要计算每次扩散的时间。dfs没办法做到这一点。
 
@@ -1072,7 +1325,7 @@ int main() {
 
 ### 207. 课程表
 
-拓扑排序*bfs：*构建邻接表
+*拓扑排序bfs*：构建邻接表
 
 `vector<int> inDegree(numCourses, 0);  // 记录每门课的前置课数量（入度）`
 `vector<vector<int>> graph(numCourses); // 邻接表，graph[i] 存放课程 i 的后续课程`
