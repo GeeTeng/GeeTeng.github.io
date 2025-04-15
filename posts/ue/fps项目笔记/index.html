@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    FPS游戏项目制作笔记 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="记录游戏中的核心代码和解决过的问题
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/ue/fps%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="FPS游戏项目制作笔记">
+  <meta property="og:description" content="记录游戏中的核心代码和解决过的问题">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-04-15T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-04-15T00:00:00+00:00">
+    <meta property="article:tag" content="UE">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="FPS游戏项目制作笔记">
+  <meta name="twitter:description" content="记录游戏中的核心代码和解决过的问题">
+
+
+  <meta itemprop="name" content="FPS游戏项目制作笔记">
+  <meta itemprop="description" content="记录游戏中的核心代码和解决过的问题">
+  <meta itemprop="datePublished" content="2025-04-15T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-04-15T00:00:00+00:00">
+  <meta itemprop="wordCount" content="312">
+  <meta itemprop="keywords" content="UE">
+<link rel="canonical" href="https://geeteng.github.io/posts/ue/fps%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#枪械后坐力">枪械后坐力</a></li>
+        <li><a href="#排行榜">排行榜</a>
+          <ul>
+            <li><a href="#排行榜更新">排行榜更新</a></li>
+            <li><a href="#排行榜显示">排行榜显示</a></li>
+          </ul>
+        </li>
+        <li><a href="#解决问题">解决问题</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>FPS游戏项目制作笔记</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Apr 15, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        5 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/ue">UE</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/ue">Ue</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <hr>
+<h2 id="枪械后坐力">枪械后坐力</h2>
+<p>考虑到不同枪有不同后坐力，所以在ShooterGun.h中创建了结构体用来存储枪械的后坐力。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>USTRUCT(BlueprintType)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FRecoilConfig</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	GENERATED_BODY()
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Recoil&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> VerticalBase <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">0.1f</span>; <span style="color:#75715e">// 基础垂直后坐力
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Recoil&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> VerticalRandomRange <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.02f</span>; <span style="color:#75715e">// 垂直随机扰动范围
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Recoil&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> HorizontalRandomRange <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.05f</span>; <span style="color:#75715e">// 水平随机扰动范围
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>};
+</span></span></code></pre></div><p>在该函数中改变控制器的Pitch和Yaw偏移量</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AShooterGun<span style="color:#f92672">::</span>MakeRecoilCPP()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	AShooterCharacter<span style="color:#f92672">*</span> Character <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>AShooterCharacter<span style="color:#f92672">&gt;</span>(UGameplayStatics<span style="color:#f92672">::</span>GetPlayerCharacter(<span style="color:#66d9ef">this</span>, <span style="color:#ae81ff">0</span>));
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (Character)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 根据不同枪设置不同后坐力
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">float</span> FinalPitch <span style="color:#f92672">=</span> RecoilConfig.VerticalBase <span style="color:#f92672">+</span> FMath<span style="color:#f92672">::</span>FRandRange(<span style="color:#f92672">-</span>RecoilConfig.VerticalRandomRange, RecoilConfig.VerticalRandomRange);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">float</span> FinalYaw <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>FRandRange(<span style="color:#f92672">-</span>RecoilConfig.HorizontalRandomRange, RecoilConfig.HorizontalRandomRange);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		Character<span style="color:#f92672">-&gt;</span>AddControllerPitchInput(FinalPitch);
+</span></span><span style="display:flex;"><span>		Character<span style="color:#f92672">-&gt;</span>AddControllerYawInput(FinalYaw);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>添加镜头抖动</p>
+<p><img src="/images/UE/FPS/01.png" alt="01"></p>
+<h2 id="排行榜">排行榜</h2>
+<h3 id="排行榜更新">排行榜更新</h3>
+<p>之前写的排行榜顺序查找插入位置，所以优化了一下，利用二分查找法，将时间复杂度从 <em>O(N)</em> 降到 <em>O(logN)</em>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AShooterGameMode<span style="color:#f92672">::</span>UpdateRankingCPP()
+</span></span><span style="display:flex;"><span>{ 
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 本地排行榜更新函数，排行榜最多保留前10名玩家分数。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// 排行榜是按分数降序排列的，使用了 Algo::LowerBound 来进行二分查找插入位置，从而将查找复杂度优化到 O(log n)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">const</span> int32 MaxRankingCount <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RankingScoresCPP.Num() <span style="color:#f92672">&gt;=</span> MaxRankingCount <span style="color:#f92672">&amp;&amp;</span> ScoreCPP <span style="color:#f92672">&lt;=</span> RankingScoresCPP.Last())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		RankingCPP <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>; <span style="color:#75715e">// 未上榜
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// lambda表达式自定义排序比较
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	int32 RankingIndex <span style="color:#f92672">=</span> Algo<span style="color:#f92672">::</span>LowerBound(RankingScoresCPP, ScoreCPP, [](<span style="color:#66d9ef">float</span> A, <span style="color:#66d9ef">float</span> B) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> A <span style="color:#f92672">&gt;</span> B;
+</span></span><span style="display:flex;"><span>		});
+</span></span><span style="display:flex;"><span>	RankingCPP <span style="color:#f92672">=</span> RankingIndex <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>	RankingScoresCPP.Insert(ScoreCPP, RankingIndex);
+</span></span><span style="display:flex;"><span>	RankingTimesCPP.Insert(EndTimeCPP.ToString(), RankingIndex);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (RankingScoresCPP.Num() <span style="color:#f92672">&gt;</span> MaxRankingCount) 
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		RankingScoresCPP.RemoveAt(MaxRankingCount);
+</span></span><span style="display:flex;"><span>		RankingTimesCPP.RemoveAt(MaxRankingCount);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="排行榜显示">排行榜显示</h3>
+<p>UI生命周期函数 <code>NativeConstruct()</code>和<code>NativeDestruct()</code></p>
+<p>其中NativeConstruct()这个函数会在 <strong>UI Widget 被完全创建并初始化后</strong> 被调用，可以安全地访问和初始化控件、绑定事件等。这个函数通常用于在 UI 加载完成后，做一些数据绑定和界面更新。。</p>
+<p>而NativeDestruct()当 <code>UUserWidget</code> 被销毁时，<code>NativeDestruct()</code> 会被调用</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//  NativeConstruct() 是确保控件树已经被创建并且初始化完的地方
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 如果你在 BeginPlay() 或者其他时机进行初始化，可能 UI 还没有完全加载好
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> UShooterResultWidget<span style="color:#f92672">::</span>NativeConstruct()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>NativeConstruct();
+</span></span><span style="display:flex;"><span>	InitRankingCPP();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UShooterResultWidget<span style="color:#f92672">::</span>InitRankingCPP()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 在游戏模式中创建函数返回排名 分数 时间
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	AShooterGameMode<span style="color:#f92672">*</span> GameMode <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>AShooterGameMode<span style="color:#f92672">&gt;</span>(UGameplayStatics<span style="color:#f92672">::</span>GetGameMode(<span style="color:#66d9ef">this</span>));
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (GameMode)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 获取排名 分数 时间
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		int32 Ranking <span style="color:#f92672">=</span> GameMode<span style="color:#f92672">-&gt;</span>GetRankingCPP();
+</span></span><span style="display:flex;"><span>		TArray<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;</span> Scores <span style="color:#f92672">=</span> GameMode<span style="color:#f92672">-&gt;</span>GetRankingScoresCPP();
+</span></span><span style="display:flex;"><span>		TArray<span style="color:#f92672">&lt;</span>FString<span style="color:#f92672">&gt;</span> Times <span style="color:#f92672">=</span> GameMode<span style="color:#f92672">-&gt;</span>GetRankingTimesCPP();
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 设置TextRanking为指定字符串
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		FString Text <span style="color:#f92672">=</span> TEXT(<span style="color:#e6db74">&#34;Your ranking = #&#34;</span>) <span style="color:#f92672">+</span> FString<span style="color:#f92672">::</span>FromInt(Ranking);
+</span></span><span style="display:flex;"><span>		TextRanking<span style="color:#f92672">-&gt;</span>SetText(FText<span style="color:#f92672">::</span>FromString(Text));
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 遍历每个玩家显示排行榜数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span> (int32 Index <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; Index <span style="color:#f92672">&lt;</span> Scores.Num(); <span style="color:#f92672">++</span>Index)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 创建排名 分数 时间控件 用 WidgetTree 来动态构建 UI 元素
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			int32 Row <span style="color:#f92672">=</span> Index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 用 WidgetTree 在运行时动态创建一个 UTextBlock 控件
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			UTextBlock<span style="color:#f92672">*</span> Rank <span style="color:#f92672">=</span> WidgetTree<span style="color:#f92672">-&gt;</span>ConstructWidget<span style="color:#f92672">&lt;</span>UTextBlock<span style="color:#f92672">&gt;</span>(UTextBlock<span style="color:#f92672">::</span>StaticClass());
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (Rank)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				Rank<span style="color:#f92672">-&gt;</span>SetText(FText<span style="color:#f92672">::</span>AsNumber(Row));
+</span></span><span style="display:flex;"><span>				UGridSlot<span style="color:#f92672">*</span> ChildSlot <span style="color:#f92672">=</span> RankingTable<span style="color:#f92672">-&gt;</span>AddChildToGrid(Rank, Row, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>				ChildSlot<span style="color:#f92672">-&gt;</span>SetNudge(FVector2D(<span style="color:#ae81ff">0.0</span>, <span style="color:#ae81ff">20.0</span> <span style="color:#f92672">*</span> Row));
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			UTextBlock<span style="color:#f92672">*</span> Score <span style="color:#f92672">=</span> WidgetTree<span style="color:#f92672">-&gt;</span>ConstructWidget<span style="color:#f92672">&lt;</span>UTextBlock<span style="color:#f92672">&gt;</span>(UTextBlock<span style="color:#f92672">::</span>StaticClass());
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (Score)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				Score<span style="color:#f92672">-&gt;</span>SetText(FText<span style="color:#f92672">::</span>AsNumber(Scores[Index]));
+</span></span><span style="display:flex;"><span>				UGridSlot<span style="color:#f92672">*</span> ChildSlot <span style="color:#f92672">=</span> RankingTable<span style="color:#f92672">-&gt;</span>AddChildToGrid(Score, Row, <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>				ChildSlot<span style="color:#f92672">-&gt;</span>SetNudge(FVector2D(<span style="color:#ae81ff">350.0</span>, <span style="color:#ae81ff">20.0</span> <span style="color:#f92672">*</span> Row));
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			UTextBlock<span style="color:#f92672">*</span> Time <span style="color:#f92672">=</span> WidgetTree<span style="color:#f92672">-&gt;</span>ConstructWidget<span style="color:#f92672">&lt;</span>UTextBlock<span style="color:#f92672">&gt;</span>(UTextBlock<span style="color:#f92672">::</span>StaticClass());
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (Time)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				Time<span style="color:#f92672">-&gt;</span>SetText(FText<span style="color:#f92672">::</span>FromString(Times[Index]));
+</span></span><span style="display:flex;"><span>				UGridSlot<span style="color:#f92672">*</span> ChildSlot <span style="color:#f92672">=</span> RankingTable<span style="color:#f92672">-&gt;</span>AddChildToGrid(Time, Row, <span style="color:#ae81ff">2</span>);
+</span></span><span style="display:flex;"><span>				ChildSlot<span style="color:#f92672">-&gt;</span>SetNudge(FVector2D(<span style="color:#ae81ff">700.0</span>, <span style="color:#ae81ff">20.0</span> <span style="color:#f92672">*</span> Row));
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span></code></pre></div><h2 id="解决问题">解决问题</h2>
+<p>在制作PSBullet子弹时，cpp中声明静态网格体发现Details面板是空白的。</p>
+<p>一开始以为是代码错误之类的问题，结果是UE的一个Bug。</p>
+<p>解决方法是：将父类更改为Actor然后重新更换父类，发现Details面板恢复了。</p>
+
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=FPS%e6%b8%b8%e6%88%8f%e9%a1%b9%e7%9b%ae%e5%88%b6%e4%bd%9c%e7%ac%94%e8%ae%b0&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f
+			&title=FPS%e6%b8%b8%e6%88%8f%e9%a1%b9%e7%9b%ae%e5%88%b6%e4%bd%9c%e7%ac%94%e8%ae%b0&summary=%e6%9e%aa%e6%a2%b0%e5%90%8e%e5%9d%90%e5%8a%9b%20%e8%80%83%e8%99%91%e5%88%b0%e4%b8%8d%e5%90%8c%e6%9e%aa%e6%9c%89%e4%b8%8d%e5%90%8c%e5%90%8e%e5%9d%90%e5%8a%9b%ef%bc%8c%e6%89%80%e4%bb%a5%e5%9c%a8ShooterGun.h%e4%b8%ad%e5%88%9b%e5%bb%ba%e4%ba%86%e7%bb%93%e6%9e%84%e4%bd%93%e7%94%a8%e6%9d%a5%e5%ad%98%e5%82%a8%e6%9e%aa%e6%a2%b0%e7%9a%84%e5%90%8e%e5%9d%90%e5%8a%9b%e3%80%82%0aUSTRUCT%28BlueprintType%29%20struct%20FRecoilConfig%20%7b%20GENERATED_BODY%28%29%20UPROPERTY%28EditDefaultsOnly%2c%20BlueprintReadWrite%2c%20Category%20%3d%20%26%2334%3bRecoil%26%2334%3b%29%20float%20VerticalBase%20%3d%20-0.1f%3b%20%2f%2f%20%e5%9f%ba%e7%a1%80%e5%9e%82%e7%9b%b4%e5%90%8e%e5%9d%90%e5%8a%9b%20UPROPERTY%28EditDefaultsOnly%2c%20BlueprintReadWrite%2c%20Category%20%3d%20%26%2334%3bRecoil%26%2334%3b%29%20float%20VerticalRandomRange%20%3d%200.02f%3b%20%2f%2f%20%e5%9e%82%e7%9b%b4%e9%9a%8f%e6%9c%ba%e6%89%b0%e5%8a%a8%e8%8c%83%e5%9b%b4%20UPROPERTY%28EditDefaultsOnly%2c%20BlueprintReadWrite%2c%20Category%20%3d%20%26%2334%3bRecoil%26%2334%3b%29%20float%20HorizontalRandomRange%20%3d%200.05f%3b%20%2f%2f%20%e6%b0%b4%e5%b9%b3%e9%9a%8f%e6%9c%ba%e6%89%b0%e5%8a%a8%e8%8c%83%e5%9b%b4%20%7d%3b%20%e5%9c%a8%e8%af%a5%e5%87%bd%e6%95%b0%e4%b8%ad%e6%94%b9%e5%8f%98%e6%8e%a7%e5%88%b6%e5%99%a8%e7%9a%84Pitch%e5%92%8cYaw%e5%81%8f%e7%a7%bb%e9%87%8f%0avoid%20AShooterGun%3a%3aMakeRecoilCPP%28%29%20%7b%20AShooterCharacter%2a%20Character%20%3d%20Cast%26lt%3bAShooterCharacter%26gt%3b%28UGameplayStatics%3a%3aGetPlayerCharacter%28this%2c%200%29%29%3b%20if%20%28Character%29%20%7b%20%2f%2f%20%e6%a0%b9%e6%8d%ae%e4%b8%8d%e5%90%8c%e6%9e%aa%e8%ae%be%e7%bd%ae%e4%b8%8d%e5%90%8c%e5%90%8e%e5%9d%90%e5%8a%9b%20float%20FinalPitch%20%3d%20RecoilConfig.VerticalBase%20%2b%20FMath%3a%3aFRandRange%28-RecoilConfig.VerticalRandomRange%2c%20RecoilConfig.VerticalRandomRange%29%3b%20float%20FinalYaw%20%3d%20FMath%3a%3aFRandRange%28-RecoilConfig.HorizontalRandomRange%2c%20RecoilConfig.HorizontalRandomRange%29%3b%20Character-%26gt%3bAddControllerPitchInput%28FinalPitch%29%3b%20Character-%26gt%3bAddControllerYawInput%28FinalYaw%29%3b%20%7d%20%7d%20%e6%b7%bb%e5%8a%a0%e9%95%9c%e5%a4%b4%e6%8a%96%e5%8a%a8&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=FPS%e6%b8%b8%e6%88%8f%e9%a1%b9%e7%9b%ae%e5%88%b6%e4%bd%9c%e7%ac%94%e8%ae%b0&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

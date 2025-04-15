@@ -35,7 +35,7 @@
   <meta itemprop="description" content="LeetCode热题100整理">
   <meta itemprop="datePublished" content="2025-03-12T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-12T00:00:00+00:00">
-  <meta itemprop="wordCount" content="7670">
+  <meta itemprop="wordCount" content="7775">
   <meta itemprop="keywords" content="算法">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/" />
 
@@ -333,8 +333,8 @@
             <li><a href="#198-打家劫舍">198. 打家劫舍</a></li>
             <li><a href="#279-完全平方数">279. 完全平方数</a></li>
             <li><a href="#322-零钱兑换">322. 零钱兑换</a></li>
-            <li><a href="#139-单词划分">139. 单词划分</a></li>
-            <li><a href="#300-最长递增子序列">300. 最长递增子序列</a></li>
+            <li><a href="#139-单词划分">*139. 单词划分</a></li>
+            <li><a href="#300-最长递增子序列lis">300. 最长递增子序列LIS</a></li>
             <li><a href="#152-乘积最大子数组">152. 乘积最大子数组</a></li>
             <li><a href="#416-分割等和子集">416. 分割等和子集</a></li>
             <li><a href="#32-最长有效括号">32. 最长有效括号</a></li>
@@ -378,7 +378,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        80 mins read
+                        84 mins read
                     </p>
                 </div>
             </div>
@@ -2335,6 +2335,8 @@
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="198-打家劫舍">198. 打家劫舍</h3>
 <p><code>dp[1] = max(nums[0], nums[1]);</code>为什么要取max，是因为在只有两个房屋的时候，不能偷相邻的两个，所以只能偷价值最大的屋子。</p>
+<p>无非是偷第1家，第3家，第5家还是2，4，6。</p>
+<p>对应的状态转移方程就是dp[i - 1] 和 dp[i - 2] + nums[i]取谁价值大。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> rob(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
@@ -2350,21 +2352,27 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h3 id="279-完全平方数">279. 完全平方数</h3>
+<p><code>f[i - j * j] + 1</code></p>
+<ul>
+<li><code>f[i - j * j]</code> 表示组成 <code>i - j * j</code> 所需的最少平方数。</li>
+<li><code>+ 1</code> 是因为我们使用了 <code>j * j</code> 这个平方数。</li>
+</ul>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> numSquares(<span style="color:#66d9ef">int</span> n) {
-</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> f(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 初始设为一个n + 1不可能的大值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> f(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        f[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> minn <span style="color:#f92672">=</span> INT_MAX;
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">*</span> j <span style="color:#f92672">&lt;=</span> i; j <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>                minn <span style="color:#f92672">=</span> min(minn, f[i <span style="color:#f92672">-</span> j <span style="color:#f92672">*</span> j]);
+</span></span><span style="display:flex;"><span>                f[i] <span style="color:#f92672">=</span> min(f[i], f[i <span style="color:#f92672">-</span> j <span style="color:#f92672">*</span> j] <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
 </span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>            f[i] <span style="color:#f92672">=</span> minn <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
 </span></span><span style="display:flex;"><span>        }
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> f[n];
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h3 id="322-零钱兑换">322. 零钱兑换</h3>
+<p>和上一道题完全平方数是一个思想。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> coinChange(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> coins, <span style="color:#66d9ef">int</span> amount) {
@@ -2381,10 +2389,13 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> dp[amount] <span style="color:#f92672">&gt;</span> amount <span style="color:#f92672">?</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span> <span style="color:#f92672">:</span> dp[amount];
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><h3 id="139-单词划分">139. 单词划分</h3>
-<p>定义 <code>dp[i]</code> 表示 <code>s[0...i-1]</code> 是否可以被拆分。</p>
+</span></span></code></pre></div><h3 id="139-单词划分">*139. 单词划分</h3>
+<p><code>dp[i]</code> 表示字符串 <code>s</code> 的前 <code>i</code> 个字符（即 <code>s[0..i-1]</code>）是否可以被拆分成字典中的单词</p>
 <p>初始状态：<code>dp[0] = true</code>（空串可以被拆分）</p>
-<p>如果 <code>s[0...j-1]</code> 可以拆分，并且 <code>s[j...i-1]</code> 是字典里的单词，那我们就可以说 <code>s[0...i-1]</code> 也能拆分出来。</p>
+<p>内层循环遍历 <code>0</code> 到 <code>i-1</code>，检查所有可能的拆分点 <code>j</code>。</p>
+<p>举例子s = &ldquo;leetcode&rdquo;, wordDict = [&ldquo;leet&rdquo;, &ldquo;code&rdquo;]</p>
+<p>当j = 0时，i = 4时，dp[j] = true &amp;&amp; wordset中存在切割字符串“leet”，所以dp[4] = true；</p>
+<p>等到j = 4，i = 8时dp[j] = true &amp;&amp; wordset中存在切割字符串“code”，所以dp[8] = true;</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> wordBreak(string s, vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&amp;</span> wordDict) {
@@ -2404,8 +2415,10 @@
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> dp[n];
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><h3 id="300-最长递增子序列">300. 最长递增子序列</h3>
+</span></span></code></pre></div><h3 id="300-最长递增子序列lis">300. 最长递增子序列LIS</h3>
+<p>初始化dp(n, 1) 因为每个数字长度都是1。</p>
 <p>每次遍历i的时候，站在i位置，判断i之前的元素是否都小于i，哪些可以接在i前面。</p>
+<p>最后要取最大的dp</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> lengthOfLIS(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
@@ -2528,9 +2541,12 @@ public:
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h3 id="5-最长回文子串">5. 最长回文子串</h3>
-<p>如果长度小于2，即只有一个字符则直接返回字符串。</p>
-<p>初始化dp布尔数组，单个字符为true。</p>
-<p>双重循环，第一层循环遍历长度，范围是[2, n]；第二层循环遍历起始位置，范围是[0, n - len]</p>
+<p>初始化dp布尔数组，<code>dp[i][i] = true</code>，表示单个字符是回文。</p>
+<p>双重循环，第一层循环遍历长度len，范围是[2, n]；第二层循环遍历起始位置i，范围是[0, n - len]</p>
+<p>临时变量j为当前长度len的子串末尾，类似双指针。</p>
+<p>分为情况讨论，当s[i] == s[j]时，如果len == 2则直接为true，如果大于2，则双指针移动，<code>dp[i][j] = dp[i + 1][j - 1]</code>；</p>
+<p>如果s[i] != s[j]，则直接为false；</p>
+<p>更新并记录下最大长度maxlen。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1010</span>;
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> dp[N][N];
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
@@ -2560,6 +2576,7 @@ public:
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h3 id="1143-最长公共子序列">1143. 最长公共子序列</h3>
+<p><code>dp[i][j]</code>表示text1的前i个字符和text2的前j个字符的最长公共子序列长度。</p>
 <p>如果两个字符相等，则长度 +1</p>
 <p>如果当前字符不相等 要么丢掉text1当前字符 要么丢掉text2字符 看哪个长度更大。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1010</span>;
@@ -2578,6 +2595,7 @@ public:
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h3 id="72-编辑距离">72. 编辑距离</h3>
+<p>这道题和上一道题最长公共子序列是类似的，都是遍历两个字符串，并且判断两个字符串的i - 1和j - 1位置是否相等。</p>
 <p><strong>三种操作都是对word1操作</strong>：插入字符、删除字符、替换字符。</p>
 <p><strong>dp[i][j] 表示将 word1 的前 i 个字符转换成 word2 的前 j 个字符的最小编辑距离。</strong></p>
 <p>初始化dp数组，编辑距离<code>dp[i][0] = i; dp[0][j] = j;</code></p>
@@ -2653,7 +2671,9 @@ public:
 <p>先从后往前寻找第一个非降序的数字，找到了4。</p>
 <p>然后再从后往前寻找第一个大于4的数字，找到了5。</p>
 <p>然后交换他俩的位置，变成158576431。</p>
-<p>最后再翻转5之后的数字，变成了1585134675。</p>
+<p>最后再翻转5之后的数字（nums.begin() + i + 1），变成了158513467。</p>
+<p>注意：要做边界检查，i&ndash;之后要判断是否i &gt;= 0 因为有可能是1234这样的序列。</p>
+<p>那为什么不用对j检查，因为当你从后往前找第一个非降序的数字也就是nums[i]，就意味着i的后方一定有数字是大于nums[i]的，不然也不会破坏降序这个规则。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> nextPermutation(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
