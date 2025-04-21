@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    UE网络 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="网络模式 NM_Standalone模式：服务器在本地计算机运行，不接受来自远程计算机的客户端，适合单人游戏或者本地多人游戏。没有服务器和客户端的区别，逻辑都在本地执行。
+NM_DedicatedServer模式（专用服务器）：专属服务器没有本地玩家，用于托管在受信任服务器上的多人游戏，比如在线射击游戏。服务器不会有本地玩家ULocalPlayer、APlayerController等一些客户端专有的类，也会抛弃掉客户端独有的逻辑，为了减少性能开销。总而言之，就是服务器只处理多人游戏逻辑和同步，不参与游戏，节省资源。
+NM_ListenServer模式（监听服务器）：本机又是服务器又是客户端，主客户端拥有全部服务器权限，其他客户端可以连接这个Listen Server。举例子：星露谷物语、Minecraft这种游戏的联机模式。
+NM_Client模式（纯客户端）：非服务器模式，本地计算机是专属或监听服务器的客户端，不会允许服务器端逻辑。
+Playable Has Authority Clients Can Join NM_Standalone ✅ ✅ ❌ NM_DedicatedServer ✅ ✅ ✅ NM_ListenServer ❌ ✅ ✅ NM_Client ✅ ❌ ❌ 局域网联机（LAN） HostLANGame函数代表本机加载这个路径的地图，然后作为监听服务器等待其他玩家加入。
+JoinLANGame函数代表客户端连接到这个ip地址的服务器中作为客户端加入。
+void AMultiplayerGameGameMode::HostLANGame() { // ?listen代表游戏作为监听服务器（Listen Server） 这个游戏实例既是服务器又是客户端 GetWorld()-&gt;ServerTravel(&#34;/Game/ThirdPerson/Maps/ThirdPersonMap?listen&#34;); } void AMultiplayerGameGameMode::JoinLANGame() { APlayerController *PC = GetGameInstance()-&gt;GetFirstLocalPlayerController(); if (PC) { PC-&gt;ClientTravel(&#34;192.168.31.130&#34;, TRAVEL_Absolute); } } 在蓝图中调用该函数，然后将项目打包后运行在另一个局域网电脑中，就可以实现局域网联机了。
+Actor复制（Replication）机制 创建和销毁：服务器创建的Actor，客户端也能看到，并且销毁时同步消除。这一部分UE已经帮我们实现了，不需要我们做什么。
+移动复制：同步Actor的位置、旋转、速度等移动信息，保持物理表现一致。只需要在蓝图上勾选Replication中的选项。
+变量复制：同步服务器上的变量（比如血量、分数、状态）到客户端。
+RPCs远程函数调用：1. Server（客户端向服务器请求，比如攻击） 2. Client（服务器通知客户端，比如受伤） 3. Multicast（广播，比如爆炸）
+网络角色（Network Role） AActor::GetLocalRole函数用来返回角色控制权限，返回值有：
+ROLE_None：无效，不参与网络同步。 ROLE_SimulatedProxy：模拟代理，只做视觉表现不控制逻辑，比如客户端上看到的其他玩家。 ROLE_AutonomousProxy：自主代理，拥有本地控制权，比如客户端自己的Pawn。 ROLE_Authority：拥有最高控制权，服务器对所有的Actor来说都是Authority。 通过HasAuthority()来测试是否当前运行的是客户端或者服务端。
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/ue/network/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="UE网络">
+  <meta property="og:description" content="网络模式 NM_Standalone模式：服务器在本地计算机运行，不接受来自远程计算机的客户端，适合单人游戏或者本地多人游戏。没有服务器和客户端的区别，逻辑都在本地执行。
+NM_DedicatedServer模式（专用服务器）：专属服务器没有本地玩家，用于托管在受信任服务器上的多人游戏，比如在线射击游戏。服务器不会有本地玩家ULocalPlayer、APlayerController等一些客户端专有的类，也会抛弃掉客户端独有的逻辑，为了减少性能开销。总而言之，就是服务器只处理多人游戏逻辑和同步，不参与游戏，节省资源。
+NM_ListenServer模式（监听服务器）：本机又是服务器又是客户端，主客户端拥有全部服务器权限，其他客户端可以连接这个Listen Server。举例子：星露谷物语、Minecraft这种游戏的联机模式。
+NM_Client模式（纯客户端）：非服务器模式，本地计算机是专属或监听服务器的客户端，不会允许服务器端逻辑。
+Playable Has Authority Clients Can Join NM_Standalone ✅ ✅ ❌ NM_DedicatedServer ✅ ✅ ✅ NM_ListenServer ❌ ✅ ✅ NM_Client ✅ ❌ ❌ 局域网联机（LAN） HostLANGame函数代表本机加载这个路径的地图，然后作为监听服务器等待其他玩家加入。
+JoinLANGame函数代表客户端连接到这个ip地址的服务器中作为客户端加入。
+void AMultiplayerGameGameMode::HostLANGame() { // ?listen代表游戏作为监听服务器（Listen Server） 这个游戏实例既是服务器又是客户端 GetWorld()-&gt;ServerTravel(&#34;/Game/ThirdPerson/Maps/ThirdPersonMap?listen&#34;); } void AMultiplayerGameGameMode::JoinLANGame() { APlayerController *PC = GetGameInstance()-&gt;GetFirstLocalPlayerController(); if (PC) { PC-&gt;ClientTravel(&#34;192.168.31.130&#34;, TRAVEL_Absolute); } } 在蓝图中调用该函数，然后将项目打包后运行在另一个局域网电脑中，就可以实现局域网联机了。
+Actor复制（Replication）机制 创建和销毁：服务器创建的Actor，客户端也能看到，并且销毁时同步消除。这一部分UE已经帮我们实现了，不需要我们做什么。
+移动复制：同步Actor的位置、旋转、速度等移动信息，保持物理表现一致。只需要在蓝图上勾选Replication中的选项。
+变量复制：同步服务器上的变量（比如血量、分数、状态）到客户端。
+RPCs远程函数调用：1. Server（客户端向服务器请求，比如攻击） 2. Client（服务器通知客户端，比如受伤） 3. Multicast（广播，比如爆炸）
+网络角色（Network Role） AActor::GetLocalRole函数用来返回角色控制权限，返回值有：
+ROLE_None：无效，不参与网络同步。 ROLE_SimulatedProxy：模拟代理，只做视觉表现不控制逻辑，比如客户端上看到的其他玩家。 ROLE_AutonomousProxy：自主代理，拥有本地控制权，比如客户端自己的Pawn。 ROLE_Authority：拥有最高控制权，服务器对所有的Actor来说都是Authority。 通过HasAuthority()来测试是否当前运行的是客户端或者服务端。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2024-12-23T00:00:00+00:00">
+    <meta property="article:modified_time" content="2024-12-23T00:00:00+00:00">
+    <meta property="article:tag" content="UE5">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="UE网络">
+  <meta name="twitter:description" content="网络模式 NM_Standalone模式：服务器在本地计算机运行，不接受来自远程计算机的客户端，适合单人游戏或者本地多人游戏。没有服务器和客户端的区别，逻辑都在本地执行。
+NM_DedicatedServer模式（专用服务器）：专属服务器没有本地玩家，用于托管在受信任服务器上的多人游戏，比如在线射击游戏。服务器不会有本地玩家ULocalPlayer、APlayerController等一些客户端专有的类，也会抛弃掉客户端独有的逻辑，为了减少性能开销。总而言之，就是服务器只处理多人游戏逻辑和同步，不参与游戏，节省资源。
+NM_ListenServer模式（监听服务器）：本机又是服务器又是客户端，主客户端拥有全部服务器权限，其他客户端可以连接这个Listen Server。举例子：星露谷物语、Minecraft这种游戏的联机模式。
+NM_Client模式（纯客户端）：非服务器模式，本地计算机是专属或监听服务器的客户端，不会允许服务器端逻辑。
+Playable Has Authority Clients Can Join NM_Standalone ✅ ✅ ❌ NM_DedicatedServer ✅ ✅ ✅ NM_ListenServer ❌ ✅ ✅ NM_Client ✅ ❌ ❌ 局域网联机（LAN） HostLANGame函数代表本机加载这个路径的地图，然后作为监听服务器等待其他玩家加入。
+JoinLANGame函数代表客户端连接到这个ip地址的服务器中作为客户端加入。
+void AMultiplayerGameGameMode::HostLANGame() { // ?listen代表游戏作为监听服务器（Listen Server） 这个游戏实例既是服务器又是客户端 GetWorld()-&gt;ServerTravel(&#34;/Game/ThirdPerson/Maps/ThirdPersonMap?listen&#34;); } void AMultiplayerGameGameMode::JoinLANGame() { APlayerController *PC = GetGameInstance()-&gt;GetFirstLocalPlayerController(); if (PC) { PC-&gt;ClientTravel(&#34;192.168.31.130&#34;, TRAVEL_Absolute); } } 在蓝图中调用该函数，然后将项目打包后运行在另一个局域网电脑中，就可以实现局域网联机了。
+Actor复制（Replication）机制 创建和销毁：服务器创建的Actor，客户端也能看到，并且销毁时同步消除。这一部分UE已经帮我们实现了，不需要我们做什么。
+移动复制：同步Actor的位置、旋转、速度等移动信息，保持物理表现一致。只需要在蓝图上勾选Replication中的选项。
+变量复制：同步服务器上的变量（比如血量、分数、状态）到客户端。
+RPCs远程函数调用：1. Server（客户端向服务器请求，比如攻击） 2. Client（服务器通知客户端，比如受伤） 3. Multicast（广播，比如爆炸）
+网络角色（Network Role） AActor::GetLocalRole函数用来返回角色控制权限，返回值有：
+ROLE_None：无效，不参与网络同步。 ROLE_SimulatedProxy：模拟代理，只做视觉表现不控制逻辑，比如客户端上看到的其他玩家。 ROLE_AutonomousProxy：自主代理，拥有本地控制权，比如客户端自己的Pawn。 ROLE_Authority：拥有最高控制权，服务器对所有的Actor来说都是Authority。 通过HasAuthority()来测试是否当前运行的是客户端或者服务端。">
+
+
+  <meta itemprop="name" content="UE网络">
+  <meta itemprop="description" content="网络模式 NM_Standalone模式：服务器在本地计算机运行，不接受来自远程计算机的客户端，适合单人游戏或者本地多人游戏。没有服务器和客户端的区别，逻辑都在本地执行。
+NM_DedicatedServer模式（专用服务器）：专属服务器没有本地玩家，用于托管在受信任服务器上的多人游戏，比如在线射击游戏。服务器不会有本地玩家ULocalPlayer、APlayerController等一些客户端专有的类，也会抛弃掉客户端独有的逻辑，为了减少性能开销。总而言之，就是服务器只处理多人游戏逻辑和同步，不参与游戏，节省资源。
+NM_ListenServer模式（监听服务器）：本机又是服务器又是客户端，主客户端拥有全部服务器权限，其他客户端可以连接这个Listen Server。举例子：星露谷物语、Minecraft这种游戏的联机模式。
+NM_Client模式（纯客户端）：非服务器模式，本地计算机是专属或监听服务器的客户端，不会允许服务器端逻辑。
+Playable Has Authority Clients Can Join NM_Standalone ✅ ✅ ❌ NM_DedicatedServer ✅ ✅ ✅ NM_ListenServer ❌ ✅ ✅ NM_Client ✅ ❌ ❌ 局域网联机（LAN） HostLANGame函数代表本机加载这个路径的地图，然后作为监听服务器等待其他玩家加入。
+JoinLANGame函数代表客户端连接到这个ip地址的服务器中作为客户端加入。
+void AMultiplayerGameGameMode::HostLANGame() { // ?listen代表游戏作为监听服务器（Listen Server） 这个游戏实例既是服务器又是客户端 GetWorld()-&gt;ServerTravel(&#34;/Game/ThirdPerson/Maps/ThirdPersonMap?listen&#34;); } void AMultiplayerGameGameMode::JoinLANGame() { APlayerController *PC = GetGameInstance()-&gt;GetFirstLocalPlayerController(); if (PC) { PC-&gt;ClientTravel(&#34;192.168.31.130&#34;, TRAVEL_Absolute); } } 在蓝图中调用该函数，然后将项目打包后运行在另一个局域网电脑中，就可以实现局域网联机了。
+Actor复制（Replication）机制 创建和销毁：服务器创建的Actor，客户端也能看到，并且销毁时同步消除。这一部分UE已经帮我们实现了，不需要我们做什么。
+移动复制：同步Actor的位置、旋转、速度等移动信息，保持物理表现一致。只需要在蓝图上勾选Replication中的选项。
+变量复制：同步服务器上的变量（比如血量、分数、状态）到客户端。
+RPCs远程函数调用：1. Server（客户端向服务器请求，比如攻击） 2. Client（服务器通知客户端，比如受伤） 3. Multicast（广播，比如爆炸）
+网络角色（Network Role） AActor::GetLocalRole函数用来返回角色控制权限，返回值有：
+ROLE_None：无效，不参与网络同步。 ROLE_SimulatedProxy：模拟代理，只做视觉表现不控制逻辑，比如客户端上看到的其他玩家。 ROLE_AutonomousProxy：自主代理，拥有本地控制权，比如客户端自己的Pawn。 ROLE_Authority：拥有最高控制权，服务器对所有的Actor来说都是Authority。 通过HasAuthority()来测试是否当前运行的是客户端或者服务端。">
+  <meta itemprop="datePublished" content="2024-12-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2024-12-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="496">
+  <meta itemprop="keywords" content="UE5">
+<link rel="canonical" href="https://geeteng.github.io/posts/ue/network/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#网络模式">网络模式</a></li>
+        <li><a href="#局域网联机lan">局域网联机（LAN）</a></li>
+        <li><a href="#actor复制replication机制">Actor复制（Replication）机制</a></li>
+        <li><a href="#网络角色network-role">网络角色（Network Role）</a></li>
+        <li><a href="#变量同步">变量同步</a></li>
+        <li><a href="#repnodifiesreplicated-using-机制">RepNodifies（Replicated Using 机制）</a></li>
+        <li><a href="#server-rpcs">Server RPCs</a>
+          <ul>
+            <li><a href="#rpc_implementation服务器逻辑">RPC_Implementation(服务器逻辑)</a></li>
+            <li><a href="#rpc_validation验证数据">RPC_Validation（验证数据）</a></li>
+            <li><a href="#rpcmulticast多播">RPCMulticast(多播)</a></li>
+          </ul>
+        </li>
+        <li><a href="#ownership所有权">Ownership（所有权）</a></li>
+        <li><a href="#clientrpcs">ClientRPCs</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>UE网络</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Dec 23, 2024
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        17 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/ue5">UE5</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/ue5">Ue5</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h2 id="网络模式">网络模式</h2>
+<p><em>NM_Standalone</em>模式：服务器在本地计算机运行，不接受来自远程计算机的客户端，适合单人游戏或者本地多人游戏。没有服务器和客户端的区别，逻辑都在本地执行。</p>
+<p><em>NM_DedicatedServer</em>模式（专用服务器）：专属服务器没有本地玩家，用于托管在受信任服务器上的多人游戏，比如在线射击游戏。服务器不会有本地玩家ULocalPlayer、APlayerController等一些客户端专有的类，也会抛弃掉客户端独有的逻辑，为了减少性能开销。总而言之，就是服务器只处理多人游戏逻辑和同步，不参与游戏，节省资源。</p>
+<p><em>NM_ListenServer</em>模式（监听服务器）：本机又是服务器又是客户端，主客户端拥有全部服务器权限，其他客户端可以连接这个Listen Server。举例子：星露谷物语、Minecraft这种游戏的联机模式。</p>
+<p><em>NM_Client</em>模式（纯客户端）：非服务器模式，本地计算机是专属或监听服务器的客户端，不会允许服务器端逻辑。</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Playable</th>
+<th>Has Authority</th>
+<th>Clients Can Join</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NM_Standalone</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+<tr>
+<td>NM_DedicatedServer</td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>NM_ListenServer</td>
+<td>❌</td>
+<td>✅</td>
+<td>✅</td>
+</tr>
+<tr>
+<td>NM_Client</td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+</tr>
+</tbody>
+</table>
+<h2 id="局域网联机lan">局域网联机（LAN）</h2>
+<p>HostLANGame函数代表本机加载这个路径的地图，然后作为监听服务器等待其他玩家加入。</p>
+<p>JoinLANGame函数代表客户端连接到这个ip地址的服务器中作为客户端加入。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMultiplayerGameGameMode<span style="color:#f92672">::</span>HostLANGame()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ?listen代表游戏作为监听服务器（Listen Server） 这个游戏实例既是服务器又是客户端
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	GetWorld()<span style="color:#f92672">-&gt;</span>ServerTravel(<span style="color:#e6db74">&#34;/Game/ThirdPerson/Maps/ThirdPersonMap?listen&#34;</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMultiplayerGameGameMode<span style="color:#f92672">::</span>JoinLANGame()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	APlayerController <span style="color:#f92672">*</span>PC <span style="color:#f92672">=</span> GetGameInstance()<span style="color:#f92672">-&gt;</span>GetFirstLocalPlayerController();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (PC)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		PC<span style="color:#f92672">-&gt;</span>ClientTravel(<span style="color:#e6db74">&#34;192.168.31.130&#34;</span>, TRAVEL_Absolute);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在蓝图中调用该函数，然后将项目打包后运行在另一个局域网电脑中，就可以实现局域网联机了。</p>
+<h2 id="actor复制replication机制">Actor复制（Replication）机制</h2>
+<p><em>创建和销毁</em>：服务器创建的Actor，客户端也能看到，并且销毁时同步消除。这一部分UE已经帮我们实现了，不需要我们做什么。</p>
+<p><em>移动复制</em>：同步Actor的位置、旋转、速度等移动信息，保持物理表现一致。只需要在蓝图上勾选Replication中的选项。</p>
+<p><em>变量复制</em>：同步服务器上的变量（比如血量、分数、状态）到客户端。</p>
+<p>RPCs远程函数调用：1. Server（客户端向服务器请求，比如攻击） 2. Client（服务器通知客户端，比如受伤） 3. Multicast（广播，比如爆炸）</p>
+<h2 id="网络角色network-role">网络角色（Network Role）</h2>
+<p><code>AActor::GetLocalRole</code>函数用来返回角色控制权限，返回值有：</p>
+<ul>
+<li><code>ROLE_None</code>：无效，不参与网络同步。</li>
+<li><code>ROLE_SimulatedProxy</code>：模拟代理，只做视觉表现不控制逻辑，比如客户端上看到的其他玩家。</li>
+<li><code>ROLE_AutonomousProxy</code>：自主代理，拥有本地控制权，比如客户端自己的Pawn。</li>
+<li><code>ROLE_Authority</code>：拥有最高控制权，服务器对所有的Actor来说都是Authority。</li>
+</ul>
+<p>通过<code>HasAuthority()</code>来测试是否当前运行的是客户端或者服务端。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMyBox<span style="color:#f92672">::</span>Tick(<span style="color:#66d9ef">float</span> DeltaTime)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>Tick(DeltaTime);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (HasAuthority()) <span style="color:#75715e">// 相当于HasAuthority() == ROLE_Authority
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	{
+</span></span><span style="display:flex;"><span>		GEngine<span style="color:#f92672">-&gt;</span>AddOnScreenDebugMessage(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">10.0f</span>, FColor<span style="color:#f92672">::</span>Red, TEXT(<span style="color:#e6db74">&#34;Server&#34;</span>));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		GEngine<span style="color:#f92672">-&gt;</span>AddOnScreenDebugMessage(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">10.0f</span>, FColor<span style="color:#f92672">::</span>Green, TEXT(<span style="color:#e6db74">&#34;Client&#34;</span>));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="变量同步">变量同步</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UPROPERTY(Replicated, BlueprintReadWrite)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> ReplicatedVar;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 是UE中用来指定哪些变量要进行网络同步的函数，从AActor类继承来的。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">GetLifetimeReplicatedProps</span>(TArray<span style="color:#f92672">&lt;</span>FLifetimeProperty<span style="color:#f92672">&gt;&amp;</span> OutLifetimeProps) <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">override</span>;
+</span></span></code></pre></div><p><code>DOREPLIFETIME</code>用于登记需要同步的变量</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMyBox<span style="color:#f92672">::</span>GetLifetimeReplicatedProps(TArray<span style="color:#f92672">&lt;</span>FLifetimeProperty<span style="color:#f92672">&gt;&amp;</span> OutLifetimeProps) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>GetLifetimeReplicatedProps(OutLifetimeProps);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 宏函数 用来把变量注册为需要网络同步
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    DOREPLIFETIME(AMyBox, ReplicatedVar);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="repnodifiesreplicated-using-机制">RepNodifies（Replicated Using 机制）</h2>
+<p>当一个 <code>UPROPERTY</code> 变量被网络复制（Replicated）并且加了 <code>ReplicatedUsing = OnRep_XXX</code>，那么 <strong>当它的值在客户端因为复制而发生变化时</strong>，Unreal 就会自动调用你指定的 <code>OnRep_XXX</code> 函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UPROPERTY(ReplicatedUsing <span style="color:#f92672">=</span> OnRep_ReplicatedVar, BlueprintReadWrite)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> ReplicatedVar;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UFUNCTION(BlueprintCallable)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> OnRep_ReplicatedVar();
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMyBox<span style="color:#f92672">::</span>BeginPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>BeginPlay();
+</span></span><span style="display:flex;"><span>	SetReplicates(true);
+</span></span><span style="display:flex;"><span>	SetReplicateMovement(true);
+</span></span><span style="display:flex;"><span>	ReplicatedVar <span style="color:#f92672">=</span> <span style="color:#ae81ff">100.0f</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (HasAuthority())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 如果是服务器 两秒自动调用DecreseReplicatedVar这个函数（只执行一次）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().SetTimer(TestTimer, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>AMyBox<span style="color:#f92672">::</span>DecreseReplicatedVar, <span style="color:#ae81ff">2.0f</span>, false);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMyBox<span style="color:#f92672">::</span>OnRep_ReplicatedVar()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (HasAuthority())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		FVector NewLocation <span style="color:#f92672">=</span> GetActorLocation() <span style="color:#f92672">+</span> FVector(<span style="color:#ae81ff">0.0f</span>, <span style="color:#ae81ff">200.0f</span>, <span style="color:#ae81ff">0.0f</span>);
+</span></span><span style="display:flex;"><span>		SetActorLocation(NewLocation, false, <span style="color:#66d9ef">nullptr</span>, ETeleportType<span style="color:#f92672">::</span>TeleportPhysics);
+</span></span><span style="display:flex;"><span>		GEngine<span style="color:#f92672">-&gt;</span>AddOnScreenDebugMessage(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">15.0f</span>, FColor<span style="color:#f92672">::</span>Green, TEXT(<span style="color:#e6db74">&#34;Server:: OnReplicatedVar&#34;</span>));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		GEngine<span style="color:#f92672">-&gt;</span>AddOnScreenDebugMessage(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">15.0f</span>, FColor<span style="color:#f92672">::</span>Blue, FString<span style="color:#f92672">::</span>Printf(TEXT(<span style="color:#e6db74">&#34;Client %d: OnReplicatedVar&#34;</span>),GPlayInEditorID));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMyBox<span style="color:#f92672">::</span>DecreseReplicatedVar()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (HasAuthority())
+</span></span><span style="display:flex;"><span>	{	<span style="color:#75715e">// 每次被调用值都-1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		ReplicatedVar <span style="color:#f92672">-=</span> <span style="color:#ae81ff">1.0f</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 手动调用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		OnRep_ReplicatedVar();
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 如果值大于1，则每两秒继续调用自己（调用自己，自己继续调用自己 实现循环）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (ReplicatedVar <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1.0f</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().SetTimer(TestTimer, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>AMyBox<span style="color:#f92672">::</span>DecreseReplicatedVar, <span style="color:#ae81ff">2.0f</span>, false);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="server-rpcs">Server RPCs</h2>
+<p>由于客户端不能随便影响服务器，所以客户端只能请求服务器做某事（用Server RPC），客户端不能直接控制服务器的逻辑和变量，而RPC是一种<strong>受控通信机制</strong>。</p>
+<p><strong>RPC可靠性</strong>——不要过度的使用可靠RPC。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// 可靠RPC
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>UFUNCTION(NetMulticast, Reliable)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> MulticastRPCFunction(<span style="color:#66d9ef">float</span> Arg);
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 用于非关键任务 比如移动 因为每帧都在传输 可以有一些丢失
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>UFUNCTION(Server, Unreliable)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ServerRPCFunction(<span style="color:#66d9ef">float</span> Arg);
+</span></span></code></pre></div><p><em>使用方法</em>：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UFUNCTION(Server, Reliable, BlueprintCallable)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ServerRPCFunction();
+</span></span></code></pre></div><h3 id="rpc_implementation服务器逻辑">RPC_Implementation(服务器逻辑)</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMultiplayerGameCharacter<span style="color:#f92672">::</span>ServerRPCFunction_Implementation()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (HasAuthority())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		GEngine<span style="color:#f92672">-&gt;</span>AddOnScreenDebugMessage(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">15.0f</span>, FColor<span style="color:#f92672">::</span>Green, TEXT(<span style="color:#e6db74">&#34;Server: ServerRPCFunction_Implementation&#34;</span>));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><code>ServerRPCFunction</code>是客户端调用的函数接口</p>
+<p><code>ServerRPCFunction_Implementation()</code> 是 <strong>服务端真正执行的函数内容</strong>。</p>
+<ul>
+<li>服务端接收到请求后，才会执行这个函数体</li>
+<li>所以逻辑写在 <code>_Implementation()</code> 中，只有服务端会运行它</li>
+</ul>
+<p>使用RPC请求生成球的例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UPROPERTY(EditAnywhere)
+</span></span><span style="display:flex;"><span>UStaticMesh<span style="color:#f92672">*</span> SphereMesh;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMultiplayerGameCharacter<span style="color:#f92672">::</span>ServerRPCFunction_Implementation()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (HasAuthority())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>SphereMesh)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 生成一个静态网格体StaticMeshActor
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		AStaticMeshActor <span style="color:#f92672">*</span>StaticMeshActor <span style="color:#f92672">=</span> GetWorld()<span style="color:#f92672">-&gt;</span>SpawnActor<span style="color:#f92672">&lt;</span>AStaticMeshActor<span style="color:#f92672">&gt;</span>(AStaticMeshActor<span style="color:#f92672">::</span>StaticClass());
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (StaticMeshActor)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 设置StaticMeshActor可复制 可移动
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			StaticMeshActor<span style="color:#f92672">-&gt;</span>SetReplicates(true);
+</span></span><span style="display:flex;"><span>			StaticMeshActor<span style="color:#f92672">-&gt;</span>SetReplicateMovement(true);
+</span></span><span style="display:flex;"><span>			StaticMeshActor<span style="color:#f92672">-&gt;</span>SetMobility(EComponentMobility<span style="color:#f92672">::</span>Movable);
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 设置生成位置是玩家朝向前
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			FVector SpawnLocation <span style="color:#f92672">=</span> GetActorLocation() <span style="color:#f92672">+</span> GetActorRotation().Vector() <span style="color:#f92672">*</span> <span style="color:#ae81ff">100.f</span> <span style="color:#f92672">+</span> GetActorUpVector() <span style="color:#f92672">*</span> <span style="color:#ae81ff">50.0f</span>;
+</span></span><span style="display:flex;"><span>			StaticMeshActor<span style="color:#f92672">-&gt;</span>SetActorLocation(SpawnLocation);
+</span></span><span style="display:flex;"><span>			UStaticMeshComponent <span style="color:#f92672">*</span>StaticMeshComponent <span style="color:#f92672">=</span> StaticMeshActor<span style="color:#f92672">-&gt;</span>GetStaticMeshComponent();
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (StaticMeshComponent)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				StaticMeshComponent<span style="color:#f92672">-&gt;</span>SetIsReplicated(true);
+</span></span><span style="display:flex;"><span>				StaticMeshComponent<span style="color:#f92672">-&gt;</span>SetSimulatePhysics(true);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span> (SphereMesh)
+</span></span><span style="display:flex;"><span>				{
+</span></span><span style="display:flex;"><span>					StaticMeshComponent<span style="color:#f92672">-&gt;</span>SetStaticMesh(SphereMesh);
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在蓝图中客户端可以调用ServerRPCFunction来让服务器执行它的逻辑。</p>
+<h3 id="rpc_validation验证数据">RPC_Validation（验证数据）</h3>
+<p>当你定义了一个<code>ServerRPCFunction</code>的函数时，UE会自动为你生成两个对应的函数定义，分别是<code>ServerRPCFunction_Implementation</code>，这是你真正<strong>在服务器上执行逻辑</strong> 和<code>ServerRPCFunctionArgs_Validate</code>，这是一个可选的函数，用来在客户端调用服务器 RPC 时，进行<strong>参数验证</strong>。只有当返回 <code>true</code> 时，才会继续执行 <code>_Implementation</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>	UFUNCTION(Server, Reliable,WithValidation, BlueprintCallable)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> ServerRPCFunctionArgs(<span style="color:#66d9ef">int</span> Args);
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMultiplayerGameCharacter<span style="color:#f92672">::</span>ServerRPCFunctionArgs_Implementation(<span style="color:#66d9ef">int</span> Args)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (HasAuthority())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		GEngine<span style="color:#f92672">-&gt;</span>AddOnScreenDebugMessage(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">15.0f</span>, FColor<span style="color:#f92672">::</span>Green, FString<span style="color:#f92672">::</span>Printf(TEXT(<span style="color:#e6db74">&#34;Args: %d&#34;</span>), Args));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 如果返回true才会执行服务端的逻辑，返回false就直接退回游戏了
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> AMultiplayerGameCharacter<span style="color:#f92672">::</span>ServerRPCFunctionArgs_Validate(<span style="color:#66d9ef">int</span> Args)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (Args <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> Args <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">100</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="rpcmulticast多播">RPCMulticast(多播)</h3>
+<p>服务端客户端都会执行这个逻辑</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UFUNCTION(NetMulticast, Reliable)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> MulticastRPCExplode();
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMyBox<span style="color:#f92672">::</span>BeginPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>BeginPlay();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (HasAuthority())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().SetTimer(TestTimer, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>AMyBox<span style="color:#f92672">::</span>MulticastRPCExplode, <span style="color:#ae81ff">2.0f</span>, false);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AMyBox<span style="color:#f92672">::</span>MulticastRPCExplode_Implementation()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (HasAuthority())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		GEngine<span style="color:#f92672">-&gt;</span>AddOnScreenDebugMessage(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3.0f</span>, FColor<span style="color:#f92672">::</span>Green, TEXT(<span style="color:#e6db74">&#34;Server: MulticastRPCExplode_Implementation&#34;</span>));
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 多播RPC只应该从服务器调用 然后将在所有客户端和服务器上执行
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().SetTimer(TestTimer, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>AMyBox<span style="color:#f92672">::</span>MulticastRPCExplode, <span style="color:#ae81ff">2.0f</span>, false);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		GEngine<span style="color:#f92672">-&gt;</span>AddOnScreenDebugMessage(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">3.0f</span>, FColor<span style="color:#f92672">::</span>Red, TEXT(<span style="color:#e6db74">&#34;Client: MulticastRPCExplode_Implementation&#34;</span>));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>使用多播生成爆炸效果例子：</p>
+<p>在多播RPC中插入如下</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// 如果不是专用服务器的话就生成粒子特效 因为专用服务器不需要图形化
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>IsRunningDedicatedServer())
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 创建粒子特效 没有旋转 自动释放
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    UGameplayStatics<span style="color:#f92672">::</span>SpawnEmitterAtLocation(GetWorld(), ExplosionEffect, GetActorLocation(), FRotator<span style="color:#f92672">::</span>ZeroRotator, true, EPSCPoolMethod<span style="color:#f92672">::</span>AutoRelease);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="ownership所有权">Ownership（所有权）</h2>
+<p>在多人游戏中，每个客户端只能操纵自己的Actor，不能操控别人的Actor，因此UE使用Ownership来判断这个客户端<strong>是否被允许</strong>向服务器请求改变这个Actor的状态。</p>
+<p>Client Connection &ndash;&gt; APlayerController &ndash;&gt; APawn &ndash;&gt; AItem</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>FActorSpawnParameters SpawnParameters;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 将当前对象（this）设为将要生成的 Actor 的 Owner（所有者）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>SpawnParameters.Owner <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>;
+</span></span></code></pre></div><p><img src="/images/UE/Network/01.png" alt="01"></p>
+<h2 id="clientrpcs">ClientRPCs</h2>
+<p>如果玩家在游戏中受伤，玩家客户端会显示红屏效果，但是不希望其他玩家去看到这个红屏效果。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UFUNCTION(Client, Reliable, BlueprintCallable)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ClientRPCFunction();
+</span></span></code></pre></div><p>他只能在所在的客户端上调用，其他客户端无法看到。</p>
+<p>总结：</p>
+<p><strong>尽可能少的使用RPC，用RepNodifies来代替</strong>，因为RPC可能会在网络上产生大量额外的流量，尤其是多播RPC。</p>
+<p><strong>如果使用RPC，尽可能不可靠</strong>。因为如果每一帧的tick或者玩家疯狂的发送rpc，会迅速导致网络队列溢出。</p>
+<p>避免调用没有意义的RPC，比如从客户端调用客户端RPC，或者在服务器调用一个客户端RPC，但是Actor没有在客户端或者是在服务器上的。或者在客户端调用多播RPC和在服务器调用服务器RPC，都是无用的。</p>
+<p>只需要使用服务器RPC来使服务器和客户端通信。</p>
+<p>比如说发射子弹这个事情所有人都要看到就是多播，受伤就是服务器发给客户端告诉你受伤了，攻击别人就是客户端请求服务器如果合法就执行伤害生成子弹。</p>
+
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fnetwork%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=UE%e7%bd%91%e7%bb%9c&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fnetwork%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fnetwork%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fnetwork%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fnetwork%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fnetwork%2f
+			&title=UE%e7%bd%91%e7%bb%9c&summary=%e7%bd%91%e7%bb%9c%e6%a8%a1%e5%bc%8f%20NM_Standalone%e6%a8%a1%e5%bc%8f%ef%bc%9a%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%9c%a8%e6%9c%ac%e5%9c%b0%e8%ae%a1%e7%ae%97%e6%9c%ba%e8%bf%90%e8%a1%8c%ef%bc%8c%e4%b8%8d%e6%8e%a5%e5%8f%97%e6%9d%a5%e8%87%aa%e8%bf%9c%e7%a8%8b%e8%ae%a1%e7%ae%97%e6%9c%ba%e7%9a%84%e5%ae%a2%e6%88%b7%e7%ab%af%ef%bc%8c%e9%80%82%e5%90%88%e5%8d%95%e4%ba%ba%e6%b8%b8%e6%88%8f%e6%88%96%e8%80%85%e6%9c%ac%e5%9c%b0%e5%a4%9a%e4%ba%ba%e6%b8%b8%e6%88%8f%e3%80%82%e6%b2%a1%e6%9c%89%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%92%8c%e5%ae%a2%e6%88%b7%e7%ab%af%e7%9a%84%e5%8c%ba%e5%88%ab%ef%bc%8c%e9%80%bb%e8%be%91%e9%83%bd%e5%9c%a8%e6%9c%ac%e5%9c%b0%e6%89%a7%e8%a1%8c%e3%80%82%0aNM_DedicatedServer%e6%a8%a1%e5%bc%8f%ef%bc%88%e4%b8%93%e7%94%a8%e6%9c%8d%e5%8a%a1%e5%99%a8%ef%bc%89%ef%bc%9a%e4%b8%93%e5%b1%9e%e6%9c%8d%e5%8a%a1%e5%99%a8%e6%b2%a1%e6%9c%89%e6%9c%ac%e5%9c%b0%e7%8e%a9%e5%ae%b6%ef%bc%8c%e7%94%a8%e4%ba%8e%e6%89%98%e7%ae%a1%e5%9c%a8%e5%8f%97%e4%bf%a1%e4%bb%bb%e6%9c%8d%e5%8a%a1%e5%99%a8%e4%b8%8a%e7%9a%84%e5%a4%9a%e4%ba%ba%e6%b8%b8%e6%88%8f%ef%bc%8c%e6%af%94%e5%a6%82%e5%9c%a8%e7%ba%bf%e5%b0%84%e5%87%bb%e6%b8%b8%e6%88%8f%e3%80%82%e6%9c%8d%e5%8a%a1%e5%99%a8%e4%b8%8d%e4%bc%9a%e6%9c%89%e6%9c%ac%e5%9c%b0%e7%8e%a9%e5%ae%b6ULocalPlayer%e3%80%81APlayerController%e7%ad%89%e4%b8%80%e4%ba%9b%e5%ae%a2%e6%88%b7%e7%ab%af%e4%b8%93%e6%9c%89%e7%9a%84%e7%b1%bb%ef%bc%8c%e4%b9%9f%e4%bc%9a%e6%8a%9b%e5%bc%83%e6%8e%89%e5%ae%a2%e6%88%b7%e7%ab%af%e7%8b%ac%e6%9c%89%e7%9a%84%e9%80%bb%e8%be%91%ef%bc%8c%e4%b8%ba%e4%ba%86%e5%87%8f%e5%b0%91%e6%80%a7%e8%83%bd%e5%bc%80%e9%94%80%e3%80%82%e6%80%bb%e8%80%8c%e8%a8%80%e4%b9%8b%ef%bc%8c%e5%b0%b1%e6%98%af%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%8f%aa%e5%a4%84%e7%90%86%e5%a4%9a%e4%ba%ba%e6%b8%b8%e6%88%8f%e9%80%bb%e8%be%91%e5%92%8c%e5%90%8c%e6%ad%a5%ef%bc%8c%e4%b8%8d%e5%8f%82%e4%b8%8e%e6%b8%b8%e6%88%8f%ef%bc%8c%e8%8a%82%e7%9c%81%e8%b5%84%e6%ba%90%e3%80%82%0aNM_ListenServer%e6%a8%a1%e5%bc%8f%ef%bc%88%e7%9b%91%e5%90%ac%e6%9c%8d%e5%8a%a1%e5%99%a8%ef%bc%89%ef%bc%9a%e6%9c%ac%e6%9c%ba%e5%8f%88%e6%98%af%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%8f%88%e6%98%af%e5%ae%a2%e6%88%b7%e7%ab%af%ef%bc%8c%e4%b8%bb%e5%ae%a2%e6%88%b7%e7%ab%af%e6%8b%a5%e6%9c%89%e5%85%a8%e9%83%a8%e6%9c%8d%e5%8a%a1%e5%99%a8%e6%9d%83%e9%99%90%ef%bc%8c%e5%85%b6%e4%bb%96%e5%ae%a2%e6%88%b7%e7%ab%af%e5%8f%af%e4%bb%a5%e8%bf%9e%e6%8e%a5%e8%bf%99%e4%b8%aaListen%20Server%e3%80%82%e4%b8%be%e4%be%8b%e5%ad%90%ef%bc%9a%e6%98%9f%e9%9c%b2%e8%b0%b7%e7%89%a9%e8%af%ad%e3%80%81Minecraft%e8%bf%99%e7%a7%8d%e6%b8%b8%e6%88%8f%e7%9a%84%e8%81%94%e6%9c%ba%e6%a8%a1%e5%bc%8f%e3%80%82%0aNM_Client%e6%a8%a1%e5%bc%8f%ef%bc%88%e7%ba%af%e5%ae%a2%e6%88%b7%e7%ab%af%ef%bc%89%ef%bc%9a%e9%9d%9e%e6%9c%8d%e5%8a%a1%e5%99%a8%e6%a8%a1%e5%bc%8f%ef%bc%8c%e6%9c%ac%e5%9c%b0%e8%ae%a1%e7%ae%97%e6%9c%ba%e6%98%af%e4%b8%93%e5%b1%9e%e6%88%96%e7%9b%91%e5%90%ac%e6%9c%8d%e5%8a%a1%e5%99%a8%e7%9a%84%e5%ae%a2%e6%88%b7%e7%ab%af%ef%bc%8c%e4%b8%8d%e4%bc%9a%e5%85%81%e8%ae%b8%e6%9c%8d%e5%8a%a1%e5%99%a8%e7%ab%af%e9%80%bb%e8%be%91%e3%80%82%0aPlayable%20Has%20Authority%20Clients%20Can%20Join%20NM_Standalone%20%e2%9c%85%20%e2%9c%85%20%e2%9d%8c%20NM_DedicatedServer%20%e2%9c%85%20%e2%9c%85%20%e2%9c%85%20NM_ListenServer%20%e2%9d%8c%20%e2%9c%85%20%e2%9c%85%20NM_Client%20%e2%9c%85%20%e2%9d%8c%20%e2%9d%8c%20%e5%b1%80%e5%9f%9f%e7%bd%91%e8%81%94%e6%9c%ba%ef%bc%88LAN%ef%bc%89%20HostLANGame%e5%87%bd%e6%95%b0%e4%bb%a3%e8%a1%a8%e6%9c%ac%e6%9c%ba%e5%8a%a0%e8%bd%bd%e8%bf%99%e4%b8%aa%e8%b7%af%e5%be%84%e7%9a%84%e5%9c%b0%e5%9b%be%ef%bc%8c%e7%84%b6%e5%90%8e%e4%bd%9c%e4%b8%ba%e7%9b%91%e5%90%ac%e6%9c%8d%e5%8a%a1%e5%99%a8%e7%ad%89%e5%be%85%e5%85%b6%e4%bb%96%e7%8e%a9%e5%ae%b6%e5%8a%a0%e5%85%a5%e3%80%82%0aJoinLANGame%e5%87%bd%e6%95%b0%e4%bb%a3%e8%a1%a8%e5%ae%a2%e6%88%b7%e7%ab%af%e8%bf%9e%e6%8e%a5%e5%88%b0%e8%bf%99%e4%b8%aaip%e5%9c%b0%e5%9d%80%e7%9a%84%e6%9c%8d%e5%8a%a1%e5%99%a8%e4%b8%ad%e4%bd%9c%e4%b8%ba%e5%ae%a2%e6%88%b7%e7%ab%af%e5%8a%a0%e5%85%a5%e3%80%82%0avoid%20AMultiplayerGameGameMode%3a%3aHostLANGame%28%29%20%7b%20%2f%2f%20%3flisten%e4%bb%a3%e8%a1%a8%e6%b8%b8%e6%88%8f%e4%bd%9c%e4%b8%ba%e7%9b%91%e5%90%ac%e6%9c%8d%e5%8a%a1%e5%99%a8%ef%bc%88Listen%20Server%ef%bc%89%20%e8%bf%99%e4%b8%aa%e6%b8%b8%e6%88%8f%e5%ae%9e%e4%be%8b%e6%97%a2%e6%98%af%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%8f%88%e6%98%af%e5%ae%a2%e6%88%b7%e7%ab%af%20GetWorld%28%29-%26gt%3bServerTravel%28%26%2334%3b%2fGame%2fThirdPerson%2fMaps%2fThirdPersonMap%3flisten%26%2334%3b%29%3b%20%7d%20void%20AMultiplayerGameGameMode%3a%3aJoinLANGame%28%29%20%7b%20APlayerController%20%2aPC%20%3d%20GetGameInstance%28%29-%26gt%3bGetFirstLocalPlayerController%28%29%3b%20if%20%28PC%29%20%7b%20PC-%26gt%3bClientTravel%28%26%2334%3b192.168.31.130%26%2334%3b%2c%20TRAVEL_Absolute%29%3b%20%7d%20%7d%20%e5%9c%a8%e8%93%9d%e5%9b%be%e4%b8%ad%e8%b0%83%e7%94%a8%e8%af%a5%e5%87%bd%e6%95%b0%ef%bc%8c%e7%84%b6%e5%90%8e%e5%b0%86%e9%a1%b9%e7%9b%ae%e6%89%93%e5%8c%85%e5%90%8e%e8%bf%90%e8%a1%8c%e5%9c%a8%e5%8f%a6%e4%b8%80%e4%b8%aa%e5%b1%80%e5%9f%9f%e7%bd%91%e7%94%b5%e8%84%91%e4%b8%ad%ef%bc%8c%e5%b0%b1%e5%8f%af%e4%bb%a5%e5%ae%9e%e7%8e%b0%e5%b1%80%e5%9f%9f%e7%bd%91%e8%81%94%e6%9c%ba%e4%ba%86%e3%80%82%0aActor%e5%a4%8d%e5%88%b6%ef%bc%88Replication%ef%bc%89%e6%9c%ba%e5%88%b6%20%e5%88%9b%e5%bb%ba%e5%92%8c%e9%94%80%e6%af%81%ef%bc%9a%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%88%9b%e5%bb%ba%e7%9a%84Actor%ef%bc%8c%e5%ae%a2%e6%88%b7%e7%ab%af%e4%b9%9f%e8%83%bd%e7%9c%8b%e5%88%b0%ef%bc%8c%e5%b9%b6%e4%b8%94%e9%94%80%e6%af%81%e6%97%b6%e5%90%8c%e6%ad%a5%e6%b6%88%e9%99%a4%e3%80%82%e8%bf%99%e4%b8%80%e9%83%a8%e5%88%86UE%e5%b7%b2%e7%bb%8f%e5%b8%ae%e6%88%91%e4%bb%ac%e5%ae%9e%e7%8e%b0%e4%ba%86%ef%bc%8c%e4%b8%8d%e9%9c%80%e8%a6%81%e6%88%91%e4%bb%ac%e5%81%9a%e4%bb%80%e4%b9%88%e3%80%82%0a%e7%a7%bb%e5%8a%a8%e5%a4%8d%e5%88%b6%ef%bc%9a%e5%90%8c%e6%ad%a5Actor%e7%9a%84%e4%bd%8d%e7%bd%ae%e3%80%81%e6%97%8b%e8%bd%ac%e3%80%81%e9%80%9f%e5%ba%a6%e7%ad%89%e7%a7%bb%e5%8a%a8%e4%bf%a1%e6%81%af%ef%bc%8c%e4%bf%9d%e6%8c%81%e7%89%a9%e7%90%86%e8%a1%a8%e7%8e%b0%e4%b8%80%e8%87%b4%e3%80%82%e5%8f%aa%e9%9c%80%e8%a6%81%e5%9c%a8%e8%93%9d%e5%9b%be%e4%b8%8a%e5%8b%be%e9%80%89Replication%e4%b8%ad%e7%9a%84%e9%80%89%e9%a1%b9%e3%80%82%0a%e5%8f%98%e9%87%8f%e5%a4%8d%e5%88%b6%ef%bc%9a%e5%90%8c%e6%ad%a5%e6%9c%8d%e5%8a%a1%e5%99%a8%e4%b8%8a%e7%9a%84%e5%8f%98%e9%87%8f%ef%bc%88%e6%af%94%e5%a6%82%e8%a1%80%e9%87%8f%e3%80%81%e5%88%86%e6%95%b0%e3%80%81%e7%8a%b6%e6%80%81%ef%bc%89%e5%88%b0%e5%ae%a2%e6%88%b7%e7%ab%af%e3%80%82%0aRPCs%e8%bf%9c%e7%a8%8b%e5%87%bd%e6%95%b0%e8%b0%83%e7%94%a8%ef%bc%9a1.%20Server%ef%bc%88%e5%ae%a2%e6%88%b7%e7%ab%af%e5%90%91%e6%9c%8d%e5%8a%a1%e5%99%a8%e8%af%b7%e6%b1%82%ef%bc%8c%e6%af%94%e5%a6%82%e6%94%bb%e5%87%bb%ef%bc%89%202.%20Client%ef%bc%88%e6%9c%8d%e5%8a%a1%e5%99%a8%e9%80%9a%e7%9f%a5%e5%ae%a2%e6%88%b7%e7%ab%af%ef%bc%8c%e6%af%94%e5%a6%82%e5%8f%97%e4%bc%a4%ef%bc%89%203.%20Multicast%ef%bc%88%e5%b9%bf%e6%92%ad%ef%bc%8c%e6%af%94%e5%a6%82%e7%88%86%e7%82%b8%ef%bc%89%0a%e7%bd%91%e7%bb%9c%e8%a7%92%e8%89%b2%ef%bc%88Network%20Role%ef%bc%89%20AActor%3a%3aGetLocalRole%e5%87%bd%e6%95%b0%e7%94%a8%e6%9d%a5%e8%bf%94%e5%9b%9e%e8%a7%92%e8%89%b2%e6%8e%a7%e5%88%b6%e6%9d%83%e9%99%90%ef%bc%8c%e8%bf%94%e5%9b%9e%e5%80%bc%e6%9c%89%ef%bc%9a%0aROLE_None%ef%bc%9a%e6%97%a0%e6%95%88%ef%bc%8c%e4%b8%8d%e5%8f%82%e4%b8%8e%e7%bd%91%e7%bb%9c%e5%90%8c%e6%ad%a5%e3%80%82%20ROLE_SimulatedProxy%ef%bc%9a%e6%a8%a1%e6%8b%9f%e4%bb%a3%e7%90%86%ef%bc%8c%e5%8f%aa%e5%81%9a%e8%a7%86%e8%a7%89%e8%a1%a8%e7%8e%b0%e4%b8%8d%e6%8e%a7%e5%88%b6%e9%80%bb%e8%be%91%ef%bc%8c%e6%af%94%e5%a6%82%e5%ae%a2%e6%88%b7%e7%ab%af%e4%b8%8a%e7%9c%8b%e5%88%b0%e7%9a%84%e5%85%b6%e4%bb%96%e7%8e%a9%e5%ae%b6%e3%80%82%20ROLE_AutonomousProxy%ef%bc%9a%e8%87%aa%e4%b8%bb%e4%bb%a3%e7%90%86%ef%bc%8c%e6%8b%a5%e6%9c%89%e6%9c%ac%e5%9c%b0%e6%8e%a7%e5%88%b6%e6%9d%83%ef%bc%8c%e6%af%94%e5%a6%82%e5%ae%a2%e6%88%b7%e7%ab%af%e8%87%aa%e5%b7%b1%e7%9a%84Pawn%e3%80%82%20ROLE_Authority%ef%bc%9a%e6%8b%a5%e6%9c%89%e6%9c%80%e9%ab%98%e6%8e%a7%e5%88%b6%e6%9d%83%ef%bc%8c%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%af%b9%e6%89%80%e6%9c%89%e7%9a%84Actor%e6%9d%a5%e8%af%b4%e9%83%bd%e6%98%afAuthority%e3%80%82%20%e9%80%9a%e8%bf%87HasAuthority%28%29%e6%9d%a5%e6%b5%8b%e8%af%95%e6%98%af%e5%90%a6%e5%bd%93%e5%89%8d%e8%bf%90%e8%a1%8c%e7%9a%84%e6%98%af%e5%ae%a2%e6%88%b7%e7%ab%af%e6%88%96%e8%80%85%e6%9c%8d%e5%8a%a1%e7%ab%af%e3%80%82&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=UE%e7%bd%91%e7%bb%9c&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fnetwork%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

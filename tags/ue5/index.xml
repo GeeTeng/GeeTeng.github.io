@@ -6,8 +6,15 @@
     <description>Recent content in UE5 on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Fri, 03 Jan 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 15 Apr 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/tags/ue5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>FPS游戏项目制作笔记</title>
+      <link>https://geeteng.github.io/posts/ue/fps%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/</link>
+      <pubDate>Tue, 15 Apr 2025 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/ue/fps%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/</guid>
+      <description>枪械后坐力 考虑到不同枪有不同后坐力，所以在ShooterGun.h中创建了结构体用来存储枪械的后坐力。&#xA;USTRUCT(BlueprintType) struct FRecoilConfig { GENERATED_BODY() UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = &amp;#34;Recoil&amp;#34;) float VerticalBase = -0.1f; // 基础垂直后坐力 UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = &amp;#34;Recoil&amp;#34;) float VerticalRandomRange = 0.02f; // 垂直随机扰动范围 UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = &amp;#34;Recoil&amp;#34;) float HorizontalRandomRange = 0.05f; // 水平随机扰动范围 }; 在该函数中改变控制器的Pitch和Yaw偏移量&#xA;void AShooterGun::MakeRecoilCPP() { AShooterCharacter* Character = Cast&amp;lt;AShooterCharacter&amp;gt;(UGameplayStatics::GetPlayerCharacter(this, 0)); if (Character) { // 根据不同枪设置不同后坐力 float FinalPitch = RecoilConfig.VerticalBase + FMath::FRandRange(-RecoilConfig.VerticalRandomRange, RecoilConfig.VerticalRandomRange); float FinalYaw = FMath::FRandRange(-RecoilConfig.HorizontalRandomRange, RecoilConfig.HorizontalRandomRange); Character-&amp;gt;AddControllerPitchInput(FinalPitch); Character-&amp;gt;AddControllerYawInput(FinalYaw); } } 添加镜头抖动</description>
+    </item>
     <item>
       <title>UE5源码阅读</title>
       <link>https://geeteng.github.io/posts/ue/uesourcecode/</link>
@@ -21,6 +28,13 @@
       <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/ue/4_animation/</guid>
       <description>序列帧动画 无需计算，直接显示图片逻辑简单。缺点：占用空间大，不适合复杂动画。&#xA;模型动画 顶点动画&#xA;直接存储每个顶点的动画信息 。缺点：数据量大，迭代缓慢。&#xA;例子：水流、捏脸Morph Target Animation&#xA;骨骼动画（Skinned Animation） 通过改变骨骼的朝向和位置来生成动画 蒙皮：将mesh顶点附着到骨骼上（不同顶点权重不一样每个顶点可以被多个骨骼控制）&#xA;每个骨骼有一个变换矩阵，最终网格顶点的位置是多个骨骼变换矩阵的加权和。&#xA;蒙皮矩阵的计算（Skinning Matrix）: $$&#xD;M_{skin} =M_{bone}×M_{inverse}&#xD;$$ M_inverse是你绑定矩阵，用于骨骼从骨骼空间转换到模型空间的变换。&#xA;Quaternion NLerp用于物体旋转的平滑过渡。&#xA;NLerp和SLerp（球面线性插值）&#xA;NLerp 比 Slerp 更简单，计算开销较小，因为它只进行线性插值，不涉及球面插值的复杂计算。&#xA;当旋转角度较大时，使用Slerp。&#xA;基于物理的动画（Physics-based Animation）&#xA;布娃娃系统（Ragdoll）&#xA;布料和流体模拟（Cloth and Fluid simulation）&#xA;反向动力学（Inverse Kinematics(IK)）&#xA;（关节）Joint 两个Joint定义一个骨骼&#xA;Root Joint在人的双腿之间&#xA;Pelvis Joint（骨盆关节） 蹲起&#xA;Joint Pose有9个DOF（自由度） 放缩、平移、旋转&#xA;万向节锁（Gimbal Lock） 在三维空间中使用欧拉角表示旋转时，当旋转顺序导致某两个旋转轴对齐时，会丧失一个自由度，导致旋转不再是完全独立的，从而限制了旋转的自由度。这个现象被称为 万向节锁。&#xA;如：大疆无人机、pocket3的镜头防抖动，就是使用陀螺仪和万向节锁来实现的。&#xA;引出四元数解决万向节锁&#xA;骨骼动画资产类型 Skeleton ​&#x9;骨架资源，存储骨骼的层级、动画数据关联。&#xA;​&#x9;多个模型可以共享同一个骨架。&#xA;SkeletalMesh ​&#x9;骨骼网格体，用于渲染。&#xA;​&#x9;包含蒙皮信息，顶点如何受骨骼影响。&#xA;PhysicsAsset ​&#x9;定义骨骼与物理系统的交互。&#xA;​&#x9;用于 ragdoll、碰撞检测等。</description>
+    </item>
+    <item>
+      <title>UE网络</title>
+      <link>https://geeteng.github.io/posts/ue/network/</link>
+      <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/ue/network/</guid>
+      <description>网络模式 NM_Standalone模式：服务器在本地计算机运行，不接受来自远程计算机的客户端，适合单人游戏或者本地多人游戏。没有服务器和客户端的区别，逻辑都在本地执行。&#xA;NM_DedicatedServer模式（专用服务器）：专属服务器没有本地玩家，用于托管在受信任服务器上的多人游戏，比如在线射击游戏。服务器不会有本地玩家ULocalPlayer、APlayerController等一些客户端专有的类，也会抛弃掉客户端独有的逻辑，为了减少性能开销。总而言之，就是服务器只处理多人游戏逻辑和同步，不参与游戏，节省资源。&#xA;NM_ListenServer模式（监听服务器）：本机又是服务器又是客户端，主客户端拥有全部服务器权限，其他客户端可以连接这个Listen Server。举例子：星露谷物语、Minecraft这种游戏的联机模式。&#xA;NM_Client模式（纯客户端）：非服务器模式，本地计算机是专属或监听服务器的客户端，不会允许服务器端逻辑。&#xA;Playable Has Authority Clients Can Join NM_Standalone ✅ ✅ ❌ NM_DedicatedServer ✅ ✅ ✅ NM_ListenServer ❌ ✅ ✅ NM_Client ✅ ❌ ❌ 局域网联机（LAN） HostLANGame函数代表本机加载这个路径的地图，然后作为监听服务器等待其他玩家加入。&#xA;JoinLANGame函数代表客户端连接到这个ip地址的服务器中作为客户端加入。&#xA;void AMultiplayerGameGameMode::HostLANGame() { // ?listen代表游戏作为监听服务器（Listen Server） 这个游戏实例既是服务器又是客户端 GetWorld()-&amp;gt;ServerTravel(&amp;#34;/Game/ThirdPerson/Maps/ThirdPersonMap?listen&amp;#34;); } void AMultiplayerGameGameMode::JoinLANGame() { APlayerController *PC = GetGameInstance()-&amp;gt;GetFirstLocalPlayerController(); if (PC) { PC-&amp;gt;ClientTravel(&amp;#34;192.168.31.130&amp;#34;, TRAVEL_Absolute); } } 在蓝图中调用该函数，然后将项目打包后运行在另一个局域网电脑中，就可以实现局域网联机了。&#xA;Actor复制（Replication）机制 创建和销毁：服务器创建的Actor，客户端也能看到，并且销毁时同步消除。这一部分UE已经帮我们实现了，不需要我们做什么。&#xA;移动复制：同步Actor的位置、旋转、速度等移动信息，保持物理表现一致。只需要在蓝图上勾选Replication中的选项。&#xA;变量复制：同步服务器上的变量（比如血量、分数、状态）到客户端。&#xA;RPCs远程函数调用：1. Server（客户端向服务器请求，比如攻击） 2. Client（服务器通知客户端，比如受伤） 3. Multicast（广播，比如爆炸）&#xA;网络角色（Network Role） AActor::GetLocalRole函数用来返回角色控制权限，返回值有：&#xA;ROLE_None：无效，不参与网络同步。 ROLE_SimulatedProxy：模拟代理，只做视觉表现不控制逻辑，比如客户端上看到的其他玩家。 ROLE_AutonomousProxy：自主代理，拥有本地控制权，比如客户端自己的Pawn。 ROLE_Authority：拥有最高控制权，服务器对所有的Actor来说都是Authority。 通过HasAuthority()来测试是否当前运行的是客户端或者服务端。</description>
     </item>
     <item>
       <title>UMG</title>
