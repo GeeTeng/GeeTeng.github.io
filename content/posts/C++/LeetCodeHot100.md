@@ -1388,6 +1388,12 @@ int main() {
 
 `children`指针数组记录英文字母，`isEnd`用来标记是否字符串的结尾。
 
+Trie树是由一个个TrieNode构成，每个TrieNode结点都包含着26个子节点指针，可以说当存入一个apple字符串，实际上是存储了5 * 26 * 8（指针大小）的大小。
+
+构造函数用于创建root根节点TrieNode，析构函数用于删除以root为根结点的所有TrieNode结点。
+
+另外3个功能函数：
+
 - 插入字符串
 
   - 如果子节点存在，则移动到子节点处理下一个字符。
@@ -1410,6 +1416,7 @@ class Trie {
 private:
 	struct TrieNode
 	{
+		// 每个节点有26个子节点指针（对应26个小写字母）
 		TrieNode* children[26] = { nullptr };
 		bool isEnd = false; // 记录是否为单词结尾
 	};
@@ -1417,6 +1424,7 @@ private:
 
 public:
 	Trie() {
+        // 注意要用类的root成员初始化
 		root = new TrieNode();
 	}
 	~Trie() { deleteTrie(root); }
@@ -1450,7 +1458,6 @@ public:
 		return true;
 	}
 private:
-    // 递归删除掉trie树所有节点
 	void deleteTrie(TrieNode* node) {
 		if (!node) return;
 		for (int i = 0; i < 26; i++) {
@@ -1861,6 +1868,29 @@ public:
 | 找边界（右边界） | i = mid     | j = mid - 1 | mid = (i + j + 1) / 2 |
 
 总结规律就是：找边界问题，找哪个边界就哪个多移动；查找单个元素就两边都移动。并且移动的那方一定是`<`或`>`target而非`<=`或`>=`。
+
+
+
+### 35. 搜索插入位置
+
+```c++
+int searchInsert(vector<int>& nums, int target) {
+    int n = nums.size();
+    int l = 0, r = n - 1;
+    int mid = (l + r) / 2;
+    while(l <= r) {
+        int mid = (l + r) / 2;
+        if(nums[mid] < target) l = mid + 1;
+        else if(nums[mid] > target) r = mid - 1;
+        else return mid;
+    }
+    return l;
+}
+```
+
+
+
+
 
 ### 74. 搜索二维矩阵
 

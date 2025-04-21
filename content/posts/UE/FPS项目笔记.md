@@ -1,7 +1,7 @@
 ---
 title: "FPS游戏项目制作笔记"
 date: 2025-04-15
-tags: [UE]
+tags: [UE5]
 description: "记录游戏中的核心代码和解决过的问题"
 showDate: true
 math: true
