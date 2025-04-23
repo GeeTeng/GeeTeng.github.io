@@ -35,7 +35,7 @@
   <meta itemprop="description" content="记录游戏中的核心代码和解决过的问题">
   <meta itemprop="datePublished" content="2025-04-15T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-04-15T00:00:00+00:00">
-  <meta itemprop="wordCount" content="312">
+  <meta itemprop="wordCount" content="543">
   <meta itemprop="keywords" content="UE5">
 <link rel="canonical" href="https://geeteng.github.io/posts/ue/fps%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" />
 
@@ -205,13 +205,17 @@
   <ul>
     <li>
       <ul>
-        <li><a href="#枪械后坐力">枪械后坐力</a></li>
+        <li><a href="#枪械">枪械</a></li>
         <li><a href="#排行榜">排行榜</a>
           <ul>
             <li><a href="#排行榜更新">排行榜更新</a></li>
             <li><a href="#排行榜显示">排行榜显示</a></li>
           </ul>
         </li>
+        <li><a href="#gamemode">GameMode</a></li>
+        <li><a href="#游戏结束的多播委托">游戏结束的多播委托</a></li>
+        <li><a href="#playercharacter">PlayerCharacter</a></li>
+        <li><a href="#角色动画">角色动画</a></li>
         <li><a href="#解决问题">解决问题</a></li>
       </ul>
     </li>
@@ -235,7 +239,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        5 mins read
+                        14 mins read
                     </p>
                 </div>
             </div>
@@ -258,7 +262,7 @@
             
 
             <hr>
-<h2 id="枪械后坐力">枪械后坐力</h2>
+<h2 id="枪械">枪械</h2>
 <p>考虑到不同枪有不同后坐力，所以在ShooterGun.h中创建了结构体用来存储枪械的后坐力。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>USTRUCT(BlueprintType)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FRecoilConfig</span>
@@ -291,7 +295,27 @@
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>添加镜头抖动</p>
 <p><img src="/images/UE/FPS/01.png" alt="01"></p>
-<h2 id="排行榜">排行榜</h2>
+<p>换弹必须要在子弹小于最大容量并且不在开火时换弹。</p>
+<p>并且在换弹夹时，改变弹夹的可见性。</p>
+<p>开火时，如果子弹剩余&lt;= 0则不能发射子弹，会出现空枪开火的声音。开火会在枪口前方生成子弹，<code>FireHitscan</code>的<code>LineTraceSingleByChannel</code>用来检测是否hit到物体了。枪口和射击点会生成开火的粒子特效。</p>
+<p>当按下射击键时，立刻调用<code>Fire</code>方法发射第一发子弹，然后调用<code>RegisterNextFireCPP()</code>，设置一个定时器使每隔一段时间就调用<code>Fire</code>方法，当玩家松开射击键时，<code>FireReleaseCPP()</code> 方法将 <code>IsFirePressedCPP</code> 设置为 <code>false</code>，并停止定时器，终止连发。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// 注册下一次开火的定时器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> AShooterGun<span style="color:#f92672">::</span>RegisterNextFireCPP(<span style="color:#66d9ef">float</span> Duration)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	TimerFireCPP <span style="color:#f92672">=</span> UKismetSystemLibrary<span style="color:#f92672">::</span>K2_SetTimer(<span style="color:#66d9ef">this</span>, TEXT(<span style="color:#e6db74">&#34;Fire&#34;</span>), Duration, false);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 清除 RegisterNextFireCPP 中注册的定时器 防止继续自动射击
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> AShooterGun<span style="color:#f92672">::</span>FireReleaseCPP()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	IsFirePressedCPP <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>	GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().ClearTimer(TimerFireCPP);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 判断是否在射击
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> AShooterGun<span style="color:#f92672">::</span>IsFiringCPP()<span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> IsFirePressedCPP <span style="color:#f92672">&amp;&amp;</span> GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().IsTimerActive(TimerFireCPP);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="排行榜">排行榜</h2>
 <h3 id="排行榜更新">排行榜更新</h3>
 <p>之前写的排行榜顺序查找插入位置，所以优化了一下，利用二分查找法，将时间复杂度从 <em>O(N)</em> 降到 <em>O(logN)</em>。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AShooterGameMode<span style="color:#f92672">::</span>UpdateRankingCPP()
@@ -371,7 +395,108 @@
 </span></span><span style="display:flex;"><span>			}
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>	}
-</span></span></code></pre></div><h2 id="解决问题">解决问题</h2>
+</span></span></code></pre></div><h2 id="gamemode">GameMode</h2>
+<p>定义游戏玩法，逃脱时间 = endtime - starttime，得分将逃脱时间 - 120s，如果＞0则调用<code>AddScore</code>，然后调用<code>UpdateRankingCPP</code>、<code>SaveRanking</code>和<code>CallOnEndGameCPP</code>。</p>
+<p>其中<code>SaveRanking</code>是创建了SaveGame存储得分和逃脱时间的数组，<code>SaveGameToSlot</code>将数据保存到磁盘中。等加载排行榜的时候再<code>Load Game from Slot</code>。</p>
+<h2 id="游戏结束的多播委托">游戏结束的多播委托</h2>
+<p>在GmeMode中定义一个多播委托</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// 声明动态多播委托的宏 委托类型名称 拥有该委托的类 委托变量名
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>DECLARE_DYNAMIC_MULTICAST_SPARSE_DELEGATE(FShooterGameModeOnEndGame, AShooterGameMode, OnEndGameCPP);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(BlueprintAssignable, BlueprintCallable)
+</span></span><span style="display:flex;"><span>	FShooterGameModeOnEndGame OnEndGameCPP;
+</span></span></code></pre></div><p>在PlayerController中定义OnEndGameCPP函数用于显示排行榜（ResultWidget），在BeginPlay中绑定委托。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AShooterPlayerController<span style="color:#f92672">::</span>BeginPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>BeginPlay();
+</span></span><span style="display:flex;"><span>	AShooterGameMode<span style="color:#f92672">*</span> GameMode <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>AShooterGameMode<span style="color:#f92672">&gt;</span>(UGameplayStatics<span style="color:#f92672">::</span>GetGameMode(<span style="color:#66d9ef">this</span>));
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (GameMode)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 使用了 动态多播委托（Dynamic Multicast Delegate） 来调用 OnEndGameCPP
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		GameMode<span style="color:#f92672">-&gt;</span>OnEndGameCPP.AddUniqueDynamic(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>AShooterPlayerController<span style="color:#f92672">::</span>OnEndGameCPP);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>当游戏结束后，GameMode会通过广播委托来通知所有绑定了该委托的函数，一旦广播OnEndGameCPP就会被调用。</p>
+<h2 id="playercharacter">PlayerCharacter</h2>
+<p>角色状态 —— 静止、瞄准、装弹、换枪、跑步</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UENUM(BlueprintType)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">StateOfCharacterCPP</span> <span style="color:#f92672">:</span> uint8 {
+</span></span><span style="display:flex;"><span>	Idle,
+</span></span><span style="display:flex;"><span>	Aiming,
+</span></span><span style="display:flex;"><span>	Reloading,
+</span></span><span style="display:flex;"><span>	Swapping,
+</span></span><span style="display:flex;"><span>	Running,
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p><em>角色跑步状态</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">float</span> AShooterCharacter<span style="color:#f92672">::</span>GetSpeedCPP() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">GetVelocity</span>().Length();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> AShooterCharacter<span style="color:#f92672">::</span>CanRunCPP() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> (MoveForwardValueCPP <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.0</span> <span style="color:#f92672">&amp;&amp;</span> IsRunPressedCPP);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AShooterCharacter<span style="color:#f92672">::</span>OnTriggerRun(<span style="color:#66d9ef">const</span> FInputActionValue<span style="color:#f92672">&amp;</span> Value)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	IsRunPressedCPP <span style="color:#f92672">=</span> Value.Get<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AShooterCharacter<span style="color:#f92672">::</span>TickRunCPP()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (CanRunCPP())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">switch</span> (StateCPP)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">case</span> StateOfCharacterCPP<span style="color:#f92672">::</span>Idle:
+</span></span><span style="display:flex;"><span>			StateCPP <span style="color:#f92672">=</span> StateOfCharacterCPP<span style="color:#f92672">::</span>Running;
+</span></span><span style="display:flex;"><span>			GetCharacterMovement()<span style="color:#f92672">-&gt;</span>MaxWalkSpeed <span style="color:#f92672">*=</span> <span style="color:#ae81ff">2.0f</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span> 
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">switch</span> (StateCPP)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">case</span> StateOfCharacterCPP<span style="color:#f92672">::</span>Running:
+</span></span><span style="display:flex;"><span>			StateCPP <span style="color:#f92672">=</span> StateOfCharacterCPP<span style="color:#f92672">::</span>Idle;
+</span></span><span style="display:flex;"><span>			GetCharacterMovement()<span style="color:#f92672">-&gt;</span>MaxWalkSpeed <span style="color:#f92672">*=</span> <span style="color:#ae81ff">0.5f</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><em>步伐声音播放</em></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AShooterCharacter<span style="color:#f92672">::</span>OnFootstepLeftCPP()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (GetSpeedCPP() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		UGameplayStatics<span style="color:#f92672">::</span>PlaySoundAtLocation(<span style="color:#66d9ef">this</span>, FootstepLeftSoundCPP, LowerBodyCPP<span style="color:#f92672">-&gt;</span>GetSocketLocation(<span style="color:#e6db74">&#34;foot_l&#34;</span>));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AShooterCharacter<span style="color:#f92672">::</span>OnFootstepRightCPP()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (GetSpeedCPP() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		UGameplayStatics<span style="color:#f92672">::</span>PlaySoundAtLocation(<span style="color:#66d9ef">this</span>, FootstepRightSoundCPP, LowerBodyCPP<span style="color:#f92672">-&gt;</span>GetSocketLocation(<span style="color:#e6db74">&#34;foot_r&#34;</span>));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>瞄准：角色如果在开火和不支持瞄准的枪，是无法瞄准的。</p>
+<h2 id="角色动画">角色动画</h2>
+<p>在构造函数中初始化角色组件<code>ShadowBodyCPP</code>（角色的影子）、<code>LowerBodyCPP</code>（角色下半身）、<code>FirstPersonCPP</code>（角色）、<code>WeaponInHandCPP</code>（手部武器）、<code>WeaponInBackCPP</code>（背部武器）和 <code>CameraCPP</code>（相机组件）</p>
+<p>在BeginPlay中通过隐藏角色的头部FirstPersonCPP和角色的上半身LowerBodyCPP来实现来防止角色的腿部随着视角而抬起，并且关闭他俩的阴影，只会出现武器的阴影。ShadowBody开启Hidden in Game选项，使游戏时不出现阴影体的骨骼和开启HiddenShadow。</p>
+<p>然后制作瞄准偏移动画，避免阴影手和枪不是跟随摆动。</p>
+<p>使用Limb_IK让手绑定武器添加两个 IK目标，IKRig 绑定左右手位置，IKAlpha 输入权重值。</p>
+<p>每一把枪械的动画状态机有3个状态，瞄准、开火、跑姿势。</p>
+<p>使用<code>Layered Blend Per Bone</code>来播放上半身的开火 / 瞄准和下半身的奔跑动 / 走路画</p>
+<p>在PlayerCharacter的BeginPlay绑定动画通知：</p>
+<ul>
+<li>通知装弹动画完成</li>
+<li>通知弹夹分离或装载动作完成</li>
+<li>处理武器的拿取与放回</li>
+<li>走路时的左右脚触发声音</li>
+</ul>
+<p>动画通知是UE用于在动画播放过程中触发自定义事件的机制，在动画序列中添加动画通知，AddNotify。</p>
+<p>然后在角色动画蓝图中需要捕捉通知。使用事件分发器把动画蓝图里收到的通知转发给角色蓝图。在角色蓝图中绑定动画通知事件。然后播放蒙太奇动画。</p>
+<h2 id="解决问题">解决问题</h2>
 <p>在制作PSBullet子弹时，cpp中声明静态网格体发现Details面板是空白的。</p>
 <p>一开始以为是代码错误之类的问题，结果是UE的一个Bug。</p>
 <p>解决方法是：将父类更改为Actor然后重新更换父类，发现Details面板恢复了。</p>
@@ -414,7 +539,7 @@
 	    </a>
 
 		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f
-			&title=FPS%e6%b8%b8%e6%88%8f%e9%a1%b9%e7%9b%ae%e5%88%b6%e4%bd%9c%e7%ac%94%e8%ae%b0&summary=%e6%9e%aa%e6%a2%b0%e5%90%8e%e5%9d%90%e5%8a%9b%20%e8%80%83%e8%99%91%e5%88%b0%e4%b8%8d%e5%90%8c%e6%9e%aa%e6%9c%89%e4%b8%8d%e5%90%8c%e5%90%8e%e5%9d%90%e5%8a%9b%ef%bc%8c%e6%89%80%e4%bb%a5%e5%9c%a8ShooterGun.h%e4%b8%ad%e5%88%9b%e5%bb%ba%e4%ba%86%e7%bb%93%e6%9e%84%e4%bd%93%e7%94%a8%e6%9d%a5%e5%ad%98%e5%82%a8%e6%9e%aa%e6%a2%b0%e7%9a%84%e5%90%8e%e5%9d%90%e5%8a%9b%e3%80%82%0aUSTRUCT%28BlueprintType%29%20struct%20FRecoilConfig%20%7b%20GENERATED_BODY%28%29%20UPROPERTY%28EditDefaultsOnly%2c%20BlueprintReadWrite%2c%20Category%20%3d%20%26%2334%3bRecoil%26%2334%3b%29%20float%20VerticalBase%20%3d%20-0.1f%3b%20%2f%2f%20%e5%9f%ba%e7%a1%80%e5%9e%82%e7%9b%b4%e5%90%8e%e5%9d%90%e5%8a%9b%20UPROPERTY%28EditDefaultsOnly%2c%20BlueprintReadWrite%2c%20Category%20%3d%20%26%2334%3bRecoil%26%2334%3b%29%20float%20VerticalRandomRange%20%3d%200.02f%3b%20%2f%2f%20%e5%9e%82%e7%9b%b4%e9%9a%8f%e6%9c%ba%e6%89%b0%e5%8a%a8%e8%8c%83%e5%9b%b4%20UPROPERTY%28EditDefaultsOnly%2c%20BlueprintReadWrite%2c%20Category%20%3d%20%26%2334%3bRecoil%26%2334%3b%29%20float%20HorizontalRandomRange%20%3d%200.05f%3b%20%2f%2f%20%e6%b0%b4%e5%b9%b3%e9%9a%8f%e6%9c%ba%e6%89%b0%e5%8a%a8%e8%8c%83%e5%9b%b4%20%7d%3b%20%e5%9c%a8%e8%af%a5%e5%87%bd%e6%95%b0%e4%b8%ad%e6%94%b9%e5%8f%98%e6%8e%a7%e5%88%b6%e5%99%a8%e7%9a%84Pitch%e5%92%8cYaw%e5%81%8f%e7%a7%bb%e9%87%8f%0avoid%20AShooterGun%3a%3aMakeRecoilCPP%28%29%20%7b%20AShooterCharacter%2a%20Character%20%3d%20Cast%26lt%3bAShooterCharacter%26gt%3b%28UGameplayStatics%3a%3aGetPlayerCharacter%28this%2c%200%29%29%3b%20if%20%28Character%29%20%7b%20%2f%2f%20%e6%a0%b9%e6%8d%ae%e4%b8%8d%e5%90%8c%e6%9e%aa%e8%ae%be%e7%bd%ae%e4%b8%8d%e5%90%8c%e5%90%8e%e5%9d%90%e5%8a%9b%20float%20FinalPitch%20%3d%20RecoilConfig.VerticalBase%20%2b%20FMath%3a%3aFRandRange%28-RecoilConfig.VerticalRandomRange%2c%20RecoilConfig.VerticalRandomRange%29%3b%20float%20FinalYaw%20%3d%20FMath%3a%3aFRandRange%28-RecoilConfig.HorizontalRandomRange%2c%20RecoilConfig.HorizontalRandomRange%29%3b%20Character-%26gt%3bAddControllerPitchInput%28FinalPitch%29%3b%20Character-%26gt%3bAddControllerYawInput%28FinalYaw%29%3b%20%7d%20%7d%20%e6%b7%bb%e5%8a%a0%e9%95%9c%e5%a4%b4%e6%8a%96%e5%8a%a8&source=rafed123.github.io"
+			&title=FPS%e6%b8%b8%e6%88%8f%e9%a1%b9%e7%9b%ae%e5%88%b6%e4%bd%9c%e7%ac%94%e8%ae%b0&summary=%e6%9e%aa%e6%a2%b0%20%e8%80%83%e8%99%91%e5%88%b0%e4%b8%8d%e5%90%8c%e6%9e%aa%e6%9c%89%e4%b8%8d%e5%90%8c%e5%90%8e%e5%9d%90%e5%8a%9b%ef%bc%8c%e6%89%80%e4%bb%a5%e5%9c%a8ShooterGun.h%e4%b8%ad%e5%88%9b%e5%bb%ba%e4%ba%86%e7%bb%93%e6%9e%84%e4%bd%93%e7%94%a8%e6%9d%a5%e5%ad%98%e5%82%a8%e6%9e%aa%e6%a2%b0%e7%9a%84%e5%90%8e%e5%9d%90%e5%8a%9b%e3%80%82%0aUSTRUCT%28BlueprintType%29%20struct%20FRecoilConfig%20%7b%20GENERATED_BODY%28%29%20UPROPERTY%28EditDefaultsOnly%2c%20BlueprintReadWrite%2c%20Category%20%3d%20%26%2334%3bRecoil%26%2334%3b%29%20float%20VerticalBase%20%3d%20-0.1f%3b%20%2f%2f%20%e5%9f%ba%e7%a1%80%e5%9e%82%e7%9b%b4%e5%90%8e%e5%9d%90%e5%8a%9b%20UPROPERTY%28EditDefaultsOnly%2c%20BlueprintReadWrite%2c%20Category%20%3d%20%26%2334%3bRecoil%26%2334%3b%29%20float%20VerticalRandomRange%20%3d%200.02f%3b%20%2f%2f%20%e5%9e%82%e7%9b%b4%e9%9a%8f%e6%9c%ba%e6%89%b0%e5%8a%a8%e8%8c%83%e5%9b%b4%20UPROPERTY%28EditDefaultsOnly%2c%20BlueprintReadWrite%2c%20Category%20%3d%20%26%2334%3bRecoil%26%2334%3b%29%20float%20HorizontalRandomRange%20%3d%200.05f%3b%20%2f%2f%20%e6%b0%b4%e5%b9%b3%e9%9a%8f%e6%9c%ba%e6%89%b0%e5%8a%a8%e8%8c%83%e5%9b%b4%20%7d%3b%20%e5%9c%a8%e8%af%a5%e5%87%bd%e6%95%b0%e4%b8%ad%e6%94%b9%e5%8f%98%e6%8e%a7%e5%88%b6%e5%99%a8%e7%9a%84Pitch%e5%92%8cYaw%e5%81%8f%e7%a7%bb%e9%87%8f%0avoid%20AShooterGun%3a%3aMakeRecoilCPP%28%29%20%7b%20AShooterCharacter%2a%20Character%20%3d%20Cast%26lt%3bAShooterCharacter%26gt%3b%28UGameplayStatics%3a%3aGetPlayerCharacter%28this%2c%200%29%29%3b%20if%20%28Character%29%20%7b%20%2f%2f%20%e6%a0%b9%e6%8d%ae%e4%b8%8d%e5%90%8c%e6%9e%aa%e8%ae%be%e7%bd%ae%e4%b8%8d%e5%90%8c%e5%90%8e%e5%9d%90%e5%8a%9b%20float%20FinalPitch%20%3d%20RecoilConfig.VerticalBase%20%2b%20FMath%3a%3aFRandRange%28-RecoilConfig.VerticalRandomRange%2c%20RecoilConfig.VerticalRandomRange%29%3b%20float%20FinalYaw%20%3d%20FMath%3a%3aFRandRange%28-RecoilConfig.HorizontalRandomRange%2c%20RecoilConfig.HorizontalRandomRange%29%3b%20Character-%26gt%3bAddControllerPitchInput%28FinalPitch%29%3b%20Character-%26gt%3bAddControllerYawInput%28FinalYaw%29%3b%20%7d%20%7d%20%e6%b7%bb%e5%8a%a0%e9%95%9c%e5%a4%b4%e6%8a%96%e5%8a%a8&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>
