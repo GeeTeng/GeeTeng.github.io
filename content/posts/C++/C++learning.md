@@ -35,7 +35,19 @@ math: true
 
 **栈大小在linux默认8MB**，也可手动增大（但不是无限增大，否则碰到mmap区），通常大小是固定的。但是**堆大小可动态增长**。
 
-每个进程都有自己的虚拟内存空间，在虚拟内存空间中有内核空间和用户空间。32位的linux中内核空间占1GB，用户空间占3GB；而64位的linux用户空间可能有128TB。其中用户空间从上到下有栈、文件映射区、堆、全局静态区（.data,.bss）、代码区。所以32位linux中堆的申请大小不会超过3GB，但是64位linux通过swap技术可以扩展高达上百GB的空间。
+每个进程都有自己的虚拟内存空间，在虚拟内存空间中有内核空间和用户空间。32位的linux中内核空间占1GB，用户空间占3GB；而64位的linux用户空间可能有128TB。
+
+其中用户空间从上到下有栈、文件映射区、**堆**、全局静态区（.data,.bss）、代码区。所以32位linux中堆的申请大小不会超过3GB，但是64位linux通过swap技术可以扩展高达上百GB的空间。
+
+> 为什么栈小堆大？
+
+1. 因为栈是为了局部变量和函数调用设计的，这个用途决定了它只需要一点就够了。
+2. 每个线程都有一个独立的栈，如果开了1000个线程就是8GB。所以为了避免爆内存也要限制栈的大小。
+3. 栈是连续的，不像堆一样分块管理，如果太大会出现碎片。
+
+线程的“运行开销”确实体现在它的栈上，但线程能不能申请堆空间、用不用堆，跟它有没有栈，是两回事。**线程的栈大小**是线程运行时用来存储局部变量、函数调用帧的空间，一般是固定的（比如 8MB）。**线程 new/malloc 出来的 8GB 空间**是从进程的堆里来的，是虚拟内存空间的一部分，并不是从它那 8MB 栈里“挤出来”的。
+
+
 
 ## const用法和constexpr
 
@@ -51,7 +63,7 @@ const用法：
 
 ### 顶层const和底层const
 
-顶层const指的是**const修饰的变量本身是一个常量**，如`int* const p`，底层const指的是**const修饰的变量所指向的对象是一个常量**，如`const int* p`。
+顶层const指的是**const修饰的变量本身是一个常量**（指针本身），如`int* const p`，底层const指的是**const修饰的变量所指向的对象是一个常量**（指针指向的内容），如`const int* p`。
 
 ```c++
 const int * const p3 = p2 // 靠右的const是顶层const，靠左的是底层const
@@ -96,7 +108,7 @@ int main()
 
 ### 函数内的const
 
-const修饰成员函数
+*const修饰成员函数*
 
 在成员函数的声明后加上 `const`，表示该函数承诺**不会修改类的成员变量**，也不会调用其他修改成员变量的非 `const` 成员函数。
 
@@ -108,14 +120,16 @@ private:
     }
 ```
 
-const修饰函数形参
+*const修饰函数形参*
 
-传递对象时会优化，**避免不必要的复制和避免创建临时对象**；如果不加`const`，会调用拷贝构造和析构，在对象较大的时候会影响性能。
+主要作用是**避免不必要的复制和避免创建临时对象**并且不允许函数内部修改参数。如果不加`const`，会调用拷贝构造和析构，在对象较大的时候会影响性能。
 
 ```c++
 void func1(std::vector<int> vec);  // 按值传递，会进行复制
 void func2(const std::vector<int>& vec);  // 按引用传递，不会复制
 ```
+
+
 
 
 
@@ -274,35 +288,7 @@ int main()
 
 在析构函数中调用时，delete this会去调用本对象的析构函数，而析构函数中又调用delete this，形成无限递归，造成**堆栈溢出**，系统崩溃。
 
----
 
-## 右值引用、移动语义
-
-
-
-```c++
-void func(int& a)
-{
-	cout << "调用左值引用" << a << endl;
-}
-
-void func(int&& a)
-{
-	cout << "调用右值引用" << a << endl;
-}
-
-int main()
-{
-	int a = 10;
-	func(20); // 输出：调用右值引用20
-	func(a); // 输出：调用左值引用10
-	return 0;
-}
-```
-
-
-
----
 
 ## 友元函数
 
@@ -446,6 +432,9 @@ int main() {
 - 类模板可以设置默认类型
 
   `template<class NameType, class AgeType = int>`
+
+类模板：**定义结构，不能自动推导，能偏特化**
+ 函数模板：**定义算法，能自动推导，不能偏特化**
 
 
 
@@ -925,7 +914,13 @@ public:
 
 
 
----
+## RAII（资源获取即初始化）
+
+核心思想：资源的申请和释放绑定在对象的生命周期内。
+
+比如说互斥锁中`lock_guard`不需要手动调用unlock，RAII就会在出作用域后自动解锁。
+
+
 
 ## 智能指针
 
@@ -1086,7 +1081,7 @@ public:
 		other.ptr = nullptr;
 	}
 	UniquePtr& operator=(UniquePtr&& other)noexcept {
-		if (this != other) {
+		if (this != &other) {
 			delete ptr;
 			ptr = other.ptr;
 			other.ptr = nullptr;
@@ -1227,6 +1222,8 @@ int main() {
 
 用法：参数列表两个int，返回int。
 
+**携带上下文变量的临时函数对象**”就是：Lambda 会把你函数定义时周围的变量（上下文）保存下来
+
 ```c++
 auto f1 = [](int a, int b)->int {return a + b; };
 std::cout << f1(1, 2) << std::endl;
@@ -1237,15 +1234,15 @@ std::cout << f1(1, 2) << std::endl;
 按引用捕获、按值捕获
 
 ```c++
-	int N = 100, M = 10;
-	auto g = [N, &M, k = 5](int i)
-	{
-		M = 20; // &M：按引用捕获，Lambda 表达式对 M 的修改会直接反映到外部变量 M 上。
-		std::cout << k << std::endl; // 5
-		return N * i;
-	};
-	std::cout << g(10) << std::endl;
-	std::cout << M << std::endl;
+int N = 100, M = 10;
+auto g = [N, &M, k = 5](int i)
+{
+    M = 20; // &M：按引用捕获，Lambda 表达式对 M 的修改会直接反映到外部变量 M 上。
+    std::cout << k << std::endl; // 5
+    return N * i;
+};
+std::cout << g(10) << std::endl;
+std::cout << M << std::endl;
 ```
 
 
@@ -1341,7 +1338,7 @@ int main()
 }
 ```
 
-在完美转发中专门有forward做类型转换，防止编译器自动类型转换 `f(std::forward<const string&&>(s));`
+**在完美转发中专门有forward做类型转换，防止编译器自动类型转换** `f(std::forward<const string&&>(s));`
 
 当有多个函数参数时，我们不可能写很多句类型转换的代码对参数一个个强制转换，所以要结合函数模板使用。
 
@@ -1392,10 +1389,10 @@ int main()
 传递成员函数指针
 
 ```c++
-	MyClass obj;
-	// 传递成员函数指针和成员函数对象
-	thread t(&MyClass::memberFunctionTask, &obj);
-	t.join();
+MyClass obj;
+// 传递成员函数指针和成员函数对象
+thread t(&MyClass::memberFunctionTask, &obj);
+t.join();
 ```
 
 传递lambda表达式
@@ -1682,7 +1679,7 @@ unique_lock的三个参数：
 
 ### 条件变量
 
-等待和通知机制：等待某个条件的改变，而不需要一直占用CPU资源
+等待和通知机制：`等待某个条件的改变，而不需要一直占用CPU资源`
 
 与互斥锁配合使用
 
