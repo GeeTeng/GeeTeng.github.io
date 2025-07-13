@@ -48,19 +48,19 @@ public:
 class Solution {
 public:
     int longestConsecutive(vector<int>& nums) {
-        unordered_set<int> mp(nums.begin(), nums.end());
-        int maxlen = 0, curlen = 0, curnum = 0;
-        for (int num : mp) {
-            if (mp.find(num - 1) == mp.end()) {
-                curlen = 1, curnum = num;
-                while (mp.find(curnum + 1) != mp.end()) {
-                    curlen ++;
-                    curnum ++;
+        unordered_set<int> map(nums.begin(), nums.end());
+        int res = 0, cnt = 1;
+        for (int num : map) {
+            cnt = 1;
+            if (map.find(num - 1) == map.end()) {
+                while (map.find(num + 1) != map.end()) {
+                    cnt++;
+                    num++;
                 }
-                maxlen = max(maxlen, curlen);
+                res = max(res, cnt);
             }
         }
-        return maxlen;
+        return res;
     }
 };
 ```
@@ -70,6 +70,8 @@ public:
 ## 双指针
 
 ### 283. 移动零
+
+l和r都从0开始遍历，r不断地++遍历整个数组，只有当r所指数字不为0时，l才会移动。
 
 为了保证数字的顺序，所以要交换的条件是当r不等于0的时候去交换。
 
@@ -1729,33 +1731,35 @@ public:
 
 *回溯法*
 
+重点：将字符改变成‘#’，递归，再改回来回溯。不需要记录选择了什么字符，只需要记录x y和index。
+
 像是图论问题，如果超出边界或者该字符不等于`word[k]`则返回false，遍历四个方向后再将该点的字符改回原值。
 
 ```c++
 class Solution {
 public:
-    int dx[4] = {1, -1, 0, 0};
-    int dy[4] = {0, 0, 1, -1};
-    bool backtrack(vector<vector<char>>& board, string& word, int i, int j, int k) {
-        if(k == word.size()) return true;
-        if(i < 0 || i >= board.size() || j < 0 || j >= board[0].size() || word[k] != board[i][j]) return false;
-        char tmp = board[i][j];
-        board[i][j] = '#';
-        for(int d = 0; d < 4; d ++) {
-            int x = i + dx[d], y = j + dy[d];
-            if(backtrack(board, word, x, y, k + 1)) return true;
-        }
-        board[i][j] = tmp;
-        return false;
-         
-    }
+    int dx[4] = {0, 1, 0, -1};
+    int dy[4] = {1, 0, -1, 0};
     bool exist(vector<vector<char>>& board, string word) {
-        int n = board.size(), m = board[0].size();
-        for(int i = 0; i < n; i ++) {
-            for(int j = 0; j < m; j ++) {
-                if(backtrack(board, word, i, j, 0)) return true;
+        for(int i = 0; i < board.size(); i ++) {
+            for(int j = 0; j < board[0].size(); j ++) {
+                if(board[i][j] == word[0]) if(dfs(board, word, 0, i, j)) return true;
             }
         }
+        return false;
+    }
+    bool dfs(vector<vector<char>>& board, string word, int index, int x, int y) {
+        if(index == word.size() - 1) return true;
+        char tmp = board[x][y];
+        board[x][y] = '#';
+        for(int i = 0; i < 4; i ++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            if(nx < board.size() && nx >= 0 && ny < board[0].size() && ny >= 0 && board[nx][ny] == word[index + 1]) {
+                if(dfs(board, word, index + 1, nx, ny)) return true;
+            }
+        }
+        board[x][y] = tmp;
         return false;
     }
 };
@@ -1765,45 +1769,39 @@ public:
 
 ### 131. 分割回文串
 
-*回溯法 + 动态规划*
-
-动态规划：先预处理`isPalindrome`数组，用 `dp[i][j]` 表示 `s[i:j]` 是否为回文。如果`s[i] == s[j]`则长度为1和2的字符串一定是回文，如果长度超过2，则回文判断方法为`dp[i][j] = dp[i+1][j-1])`。
-
 回溯搜索：维护一个 `path` 记录当前切分方案，遍历 `s[i:j]`，如果是回文，则递归搜索 `s[j+1:]`。当 `start == s.size()` 时，说明找到了一组有效方案。
 
 ```c++
 class Solution {
 public:
-    vector<vector<string>> res;
-    vector<string> path;
-    vector<vector<bool>> isPalindrome;
-    void backtrack(string& s, int start) {
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>> res;
+        vector<string> cur;
+        backtrack(s, 0, cur, res);
+        return res;
+    } // 不断地切分字符串 比如aab，start = 0，a是回文则继续递归start = 1，看之后的字符。
+    void backtrack(string s, int start, vector<string>& cur, vector<vector<string>>& res) {
         if(start == s.size()) {
-            res.push_back(path);
+            res.push_back(cur);
             return;
         }
-        for(int end = start;  end < s.size(); end ++) {
-            if(isPalindrome[start][end]) {
-                path.push_back(s.substr(start, end - start + 1));
-                backtrack(s, end + 1);
-                path.pop_back();
+        for(int i = start; i < s.size(); i ++) {
+            string tmp = s.substr(start, i - start + 1);
+            if(isHuiWen(tmp)) {
+                cur.push_back(tmp);
+                backtrack(s, i + 1, cur, res);
+                cur.pop_back();
             }
         }
-    }
-    vector<vector<string>> partition(string s) {
-        int n = s.size();
-        isPalindrome.assign(n, vector<bool>(n, false));
-        for(int len = 1; len <= n; len ++) {
-            for(int i = 0; i + len - 1 < n; i ++) {
-                int j = i + len - 1;
-                if(s[i] == s[j]) {
-                    if(len == 1 || len == 2) isPalindrome[i][j] = true;
-                    else isPalindrome[i][j] = isPalindrome[i + 1][j - 1];
-                }
-            }
+
+    } // 判断是否回文串
+    bool isHuiWen(string tmp) {
+        int i = 0, j = tmp.size() - 1;
+        while(i < j) {
+            if(tmp[i] != tmp[j]) return false;
+            i ++, j --;
         }
-        backtrack(s, 0);
-        return res;
+        return true;
     }
 };
 ```
@@ -2099,7 +2097,7 @@ public:
             else {
                 stk.push(ch);
             }
-        }
+        } // 判断是否还有多余字符 有的话则无效
         return stk.empty();
     }
 };
@@ -2117,7 +2115,7 @@ public:
 
 当遇到`]`时，取出两个栈顶的数字和字符串，然后去重复字符串。
 
-当遇到字符时，就直接加入到currentStr中。
+当遇到字符时，就直接加入到currentStr中，currentStr中是累计的长字符，当遇到[时候要清空。
 
 ```c++
 class Solution {
@@ -2162,6 +2160,8 @@ public:
 ### 739. 每日温度
 
 单调栈，当遇到比栈顶温度大的天数，就得出了最近温度升高的那天，也就是`i - stk.top()`，并弹出栈顶元素。
+
+注意是while循环，而不是if，因为如果只处理了一个栈顶元素，如果当前温度比多个栈顶元素都大，就会漏处理。
 
 ```c++
 class Solution {
