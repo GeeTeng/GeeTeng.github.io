@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    实习周报6.6 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="武器组件化、玩家复活
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E4%B9%A0%E5%91%A8%E6%8A%A56.6/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="实习周报6.6">
+  <meta property="og:description" content="武器组件化、玩家复活">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-06-06T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-06-06T00:00:00+00:00">
+    <meta property="article:tag" content="实习笔记">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="实习周报6.6">
+  <meta name="twitter:description" content="武器组件化、玩家复活">
+
+
+  <meta itemprop="name" content="实习周报6.6">
+  <meta itemprop="description" content="武器组件化、玩家复活">
+  <meta itemprop="datePublished" content="2025-06-06T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-06-06T00:00:00+00:00">
+  <meta itemprop="wordCount" content="531">
+  <meta itemprop="keywords" content="实习笔记">
+<link rel="canonical" href="https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E4%B9%A0%E5%91%A8%E6%8A%A56.6/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#实习周报66">实习周报6.6</a>
+      <ul>
+        <li><a href="#子弹管理组件"><strong>子弹管理组件</strong></a></li>
+        <li><a href="#开火组件"><strong>开火组件</strong></a>
+          <ul>
+            <li><a href="#射线枪开火组件"><strong>射线枪开火组件</strong></a></li>
+            <li><a href="#投掷类榴弹开火组件"><strong>投掷类榴弹开火组件</strong></a></li>
+          </ul>
+        </li>
+        <li><a href="#玩家复活"><strong>玩家复活</strong></a></li>
+        <li><a href="#出现的问题">出现的问题：</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>实习周报6.6</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Jun 6, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        8 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0">实习笔记</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0">实习笔记</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h1 id="实习周报66">实习周报6.6</h1>
+<p>武器组件化</p>
+<p>将武器的功能抽象成一个个独立可复用的模块，然后组合到武器实例上。比如射线枪和后坐力还有换弹都可以抽象成一个个功能，然后自由组合。</p>
+<p>组件继承UActorComponent，我写了两个组件分别是<strong>子弹管理组件</strong>和<strong>开火组件</strong>。</p>
+<h2 id="子弹管理组件"><strong>子弹管理组件</strong></h2>
+<p>子弹管理组件定义了子弹数量和初始化子弹数量、判断子弹数量是否满足开火条件、子弹减少等方法。并将之前在武器类中子弹数量变化的代理和子弹数量的网络同步转移到当前子弹管理组件脚本中。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UAmmoManagerComponent<span style="color:#f92672">::</span>GetLifetimeReplicatedProps(TArray<span style="color:#f92672">&lt;</span>FLifetimeProperty<span style="color:#f92672">&gt;&amp;</span> OutLifetimeProps) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>GetLifetimeReplicatedProps(OutLifetimeProps);
+</span></span><span style="display:flex;"><span>	DOREPLIFETIME(UAmmoManagerComponent, AmmoCount);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>UAmmoManagerComponent<span style="color:#f92672">::</span>UAmmoManagerComponent()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	PrimaryComponentTick.bCanEverTick <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	SetIsReplicatedByDefault(true);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UAmmoManagerComponent<span style="color:#f92672">::</span>BeginPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>BeginPlay();
+</span></span><span style="display:flex;"><span>	AmmoCount <span style="color:#f92672">=</span> MaxAmmo;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UAmmoManagerComponent<span style="color:#f92672">::</span>InitializeAmmo(int32 InAmmoCount, int32 InMaxAmmo)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	MaxAmmo <span style="color:#f92672">=</span> InMaxAmmo;
+</span></span><span style="display:flex;"><span>	AmmoCount <span style="color:#f92672">=</span> InAmmoCount;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UAmmoManagerComponent<span style="color:#f92672">::</span>ExpendAmmoCount()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">--</span> AmmoCount;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> UAmmoManagerComponent<span style="color:#f92672">::</span>EnoughAmmoToFire()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> AmmoCount <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UAmmoManagerComponent<span style="color:#f92672">::</span>SetMaxAmmo(int32 NewMaxAmmo)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	MaxAmmo <span style="color:#f92672">=</span> NewMaxAmmo;
+</span></span><span style="display:flex;"><span>	AmmoCount <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>Clamp(AmmoCount, <span style="color:#ae81ff">0</span>, MaxAmmo);
+</span></span><span style="display:flex;"><span>	OnRep_AmmoCount();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UAmmoManagerComponent<span style="color:#f92672">::</span>OnRep_AmmoCount()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	OnAmmoChanged.Broadcast(AmmoCount, MaxAmmo);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="开火组件"><strong>开火组件</strong></h2>
+<p>开火组件，创建了一个FireBase的基类开火组件，定义了一个OwnerWeapon用于获取当前开火的武器。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UDemoFireBase<span style="color:#f92672">::</span>Initialize(ADemoWeapon<span style="color:#f92672">*</span> InWeapon)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	OwnerWeapon <span style="color:#f92672">=</span> InWeapon;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在武器类中的BeginPlay去查找是否存在开火组件，如果存在就调用这个函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ADemoWeapon<span style="color:#f92672">::</span>BeginPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>BeginPlay();
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>	FireComponent <span style="color:#f92672">=</span> FindComponentByClass<span style="color:#f92672">&lt;</span>UDemoFireBase<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(FireComponent)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		FireComponent<span style="color:#f92672">-&gt;</span>Initialize(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>投掷类开火和射线开火都是FireBase的派生类，重写开火函数实现多态，游戏运行时会走当前开火组件的逻辑。</p>
+<h3 id="射线枪开火组件"><strong>射线枪开火组件</strong></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UDemoFireRaycast<span style="color:#f92672">::</span>Fire()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>Fire();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>OwnerWeapon <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>OwnerWeapon<span style="color:#f92672">-&gt;</span>CanFire()) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	FireRaycast();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UDemoFireRaycast<span style="color:#f92672">::</span>FireRaycast()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	ADemoPlayerCharacter<span style="color:#f92672">*</span> PlayerCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>ADemoPlayerCharacter<span style="color:#f92672">&gt;</span>(OwnerWeapon<span style="color:#f92672">-&gt;</span>GetOwner());
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(PlayerCharacter)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		FVector Start <span style="color:#f92672">=</span> PlayerCharacter<span style="color:#f92672">-&gt;</span>FirstPersonCamera<span style="color:#f92672">-&gt;</span>GetComponentLocation();
+</span></span><span style="display:flex;"><span>		FVector End <span style="color:#f92672">=</span> Start <span style="color:#f92672">+</span> PlayerCharacter<span style="color:#f92672">-&gt;</span>FirstPersonCamera<span style="color:#f92672">-&gt;</span>GetForwardVector() <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000.f</span>;
+</span></span><span style="display:flex;"><span>		FHitResult HitResult;
+</span></span><span style="display:flex;"><span>		FCollisionQueryParams Params;
+</span></span><span style="display:flex;"><span>		Params.AddIgnoredActor(PlayerCharacter);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">bool</span> bHit <span style="color:#f92672">=</span> GetWorld()<span style="color:#f92672">-&gt;</span>LineTraceSingleByChannel(HitResult, Start, End, (ECollisionChannel)TR_WeaponTrace, Params);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(bHit)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			AActor<span style="color:#f92672">*</span> HitActor <span style="color:#f92672">=</span> HitResult.GetActor();
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span>(HitActor)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				ADemoPlayerCharacter<span style="color:#f92672">*</span> HitCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>ADemoPlayerCharacter<span style="color:#f92672">&gt;</span>(HitActor);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span>(HitCharacter)
+</span></span><span style="display:flex;"><span>				{
+</span></span><span style="display:flex;"><span>					HitCharacter<span style="color:#f92672">-&gt;</span>TakeDamage(Damage); <span style="color:#75715e">// Damage也是射线组件定义的伤害
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="投掷类榴弹开火组件"><strong>投掷类榴弹开火组件</strong></h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditDefaultsOnly, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Projectile&#34;</span>)
+</span></span><span style="display:flex;"><span>	TSubclassOf<span style="color:#f92672">&lt;</span>ADemoGrenade<span style="color:#f92672">&gt;</span> ProjectileClass;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> LaunchSpeed <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000.f</span>;
+</span></span><span style="display:flex;"><span>	FName MuzzleSocketName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;FireMuzzleSocket&#34;</span>;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UDemoProjectileFire<span style="color:#f92672">::</span>Fire()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>Fire();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>ProjectileClass) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(OwnerWeapon)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		USkeletalMeshComponent<span style="color:#f92672">*</span> MeshComponent <span style="color:#f92672">=</span> OwnerWeapon<span style="color:#f92672">-&gt;</span>FindComponentByClass<span style="color:#f92672">&lt;</span>USkeletalMeshComponent<span style="color:#f92672">&gt;</span>(); <span style="color:#75715e">// 获取武器网格体为了获取枪口位置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span>(MeshComponent)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			FVector MuzzleLocation <span style="color:#f92672">=</span> MeshComponent<span style="color:#f92672">-&gt;</span>GetSocketLocation(MuzzleSocketName);
+</span></span><span style="display:flex;"><span>			FRotator MuzzleRotation <span style="color:#f92672">=</span> MeshComponent<span style="color:#f92672">-&gt;</span>GetSocketRotation(MuzzleSocketName);
+</span></span><span style="display:flex;"><span>			ADemoGrenade<span style="color:#f92672">*</span> SpawnGrenade <span style="color:#f92672">=</span> GetWorld()<span style="color:#f92672">-&gt;</span>SpawnActor<span style="color:#f92672">&lt;</span>ADemoGrenade<span style="color:#f92672">&gt;</span>(ProjectileClass, MuzzleLocation, MuzzleRotation); <span style="color:#75715e">// 在枪口位置生成手榴弹 
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span>(SpawnGrenade)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				UProjectileMovementComponent<span style="color:#f92672">*</span> ProjectileMovement <span style="color:#f92672">=</span> SpawnGrenade<span style="color:#f92672">-&gt;</span>FindComponentByClass<span style="color:#f92672">&lt;</span>UProjectileMovementComponent<span style="color:#f92672">&gt;</span>(); 
+</span></span><span style="display:flex;"><span>                            <span style="color:#75715e">// 通过ProjectileMovementComponent来实现榴弹的发射有速度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				<span style="color:#66d9ef">if</span>(ProjectileMovement)
+</span></span><span style="display:flex;"><span>				{
+</span></span><span style="display:flex;"><span>					FVector LaunchDirection <span style="color:#f92672">=</span> MuzzleRotation.Vector();
+</span></span><span style="display:flex;"><span>					ProjectileMovement<span style="color:#f92672">-&gt;</span>Velocity <span style="color:#f92672">=</span> LaunchDirection <span style="color:#f92672">*</span> LaunchSpeed;
+</span></span><span style="display:flex;"><span>					ProjectileMovement<span style="color:#f92672">-&gt;</span>Activate();
+</span></span><span style="display:flex;"><span>					ProjectileMovement<span style="color:#f92672">-&gt;</span>OnProjectileStop.AddDynamic(SpawnGrenade, <span style="color:#f92672">&amp;</span>ADemoGrenade<span style="color:#f92672">::</span>OnGrenadeStop); <span style="color:#75715e">// UE自带的监听手榴弹停止的委托 当手榴弹停止运动时爆炸、伤害
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>手榴弹类</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>ADemoGrenade<span style="color:#f92672">::</span>ADemoGrenade()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span> 	<span style="color:#75715e">// 初始化手榴弹组件 根组件是球形碰撞体（设置为BlockAll）挂载了GrenadeMesh（设置为NoCollsion），还有创建了ProjectileMovementComponent 并设置它的弹射 摩擦力等参数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	PrimaryActorTick.bCanEverTick <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	SphereCollision <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>USphereComponent<span style="color:#f92672">&gt;</span>(TEXT(<span style="color:#e6db74">&#34;SphereCollision&#34;</span>));
+</span></span><span style="display:flex;"><span>	SphereCollision<span style="color:#f92672">-&gt;</span>SetSphereRadius(<span style="color:#ae81ff">5</span>);
+</span></span><span style="display:flex;"><span>	RootComponent <span style="color:#f92672">=</span> SphereCollision;
+</span></span><span style="display:flex;"><span>	GrenadeMesh <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>UStaticMeshComponent<span style="color:#f92672">&gt;</span>(TEXT(<span style="color:#e6db74">&#34;GrenadeMesh&#34;</span>));
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(GrenadeMesh)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		GrenadeMesh<span style="color:#f92672">-&gt;</span>SetupAttachment(SphereCollision);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	ProjectileMoveComp <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>UProjectileMovementComponent<span style="color:#f92672">&gt;</span>(TEXT(<span style="color:#e6db74">&#34;ProjectileMovement&#34;</span>));
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(ProjectileMoveComp)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		ProjectileMoveComp<span style="color:#f92672">-&gt;</span>bShouldBounce <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>		ProjectileMoveComp<span style="color:#f92672">-&gt;</span>Bounciness <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.4</span>;
+</span></span><span style="display:flex;"><span>		ProjectileMoveComp<span style="color:#f92672">-&gt;</span>Friction <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.6</span>;
+</span></span><span style="display:flex;"><span>		ProjectileMoveComp<span style="color:#f92672">-&gt;</span>BounceVelocityStopSimulatingThreshold <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.1</span>;
+</span></span><span style="display:flex;"><span>		ProjectileMoveComp<span style="color:#f92672">-&gt;</span>InitialSpeed <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000.f</span>;
+</span></span><span style="display:flex;"><span>		ProjectileMoveComp<span style="color:#f92672">-&gt;</span>MaxSpeed <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000.f</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 手榴弹停止运动事件触发的函数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> ADemoGrenade<span style="color:#f92672">::</span>OnGrenadeStop(<span style="color:#66d9ef">const</span> FHitResult<span style="color:#f92672">&amp;</span> HitResult)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	FVector ExplosionCenter <span style="color:#f92672">=</span> HitResult.ImpactPoint; <span style="color:#75715e">// 将投掷中心点传入ApplyExplosionDamage
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	MulticastPlayExplosionEffect(ExplosionCenter); <span style="color:#75715e">// 多播RPC让大家看到爆炸
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	ApplyExplosionDamage(ExplosionCenter, ExplosionRadius);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ADemoGrenade<span style="color:#f92672">::</span>ApplyExplosionDamage(FVector ExplosionCenter, <span style="color:#66d9ef">float</span> Radius)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	TArray<span style="color:#f92672">&lt;</span>FOverlapResult<span style="color:#f92672">&gt;</span> OverlapResults;
+</span></span><span style="display:flex;"><span>	FCollisionShape CollisionShape;
+</span></span><span style="display:flex;"><span>	CollisionShape.SetSphere(Radius);
+</span></span><span style="display:flex;"><span>       <span style="color:#75715e">// 检测球形范围内有无物体
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">bool</span> bHit <span style="color:#f92672">=</span> GetWorld()<span style="color:#f92672">-&gt;</span>OverlapMultiByChannel(OverlapResults, ExplosionCenter, FQuat<span style="color:#f92672">::</span>Identity, (ECollisionChannel)TR_WeaponTrace, CollisionShape);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(bHit)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>              <span style="color:#75715e">// 遍历所有被击中的玩家 让他们受伤
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">const</span> FOverlapResult<span style="color:#f92672">&amp;</span> Result : OverlapResults)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			AActor<span style="color:#f92672">*</span> HitActor <span style="color:#f92672">=</span> Result.GetActor();
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span>(HitActor)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				ADemoPlayerCharacter<span style="color:#f92672">*</span> HitCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>ADemoPlayerCharacter<span style="color:#f92672">&gt;</span>(HitActor);
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span>(HitCharacter)
+</span></span><span style="display:flex;"><span>				{
+</span></span><span style="display:flex;"><span>					HitCharacter<span style="color:#f92672">-&gt;</span>TakeDamage(Damage);
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ADemoGrenade<span style="color:#f92672">::</span>MulticastPlayExplosionEffect_Implementation(FVector ExplosionCenter)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(ExplosionEffect)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		UNiagaraFunctionLibrary<span style="color:#f92672">::</span>SpawnSystemAtLocation(GetWorld(), ExplosionEffect,ExplosionCenter, FRotator<span style="color:#f92672">::</span>ZeroRotator);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="玩家复活"><strong>玩家复活</strong></h2>
+<p>玩家重生功能已经可以正常使用了。</p>
+<p>在角色类中声明动态多播委托</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPlayerDeath, ADemoPlayerCharacter<span style="color:#f92672">*</span>, DeadCharacter);
+</span></span><span style="display:flex;"><span>FOnPlayerDeath OnPlayerDeath;
+</span></span></code></pre></div><p>玩家受伤TakeDamage函数中如果生命值&lt;=0时，调用PlayerDead()函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ADemoPlayerCharacter<span style="color:#f92672">::</span>TakeDamage(int32 DamageAmount)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(bIsDead) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (HasAuthority())  <span style="color:#75715e">// 确保只有服务器才会处理伤害
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	{
+</span></span><span style="display:flex;"><span>		Health <span style="color:#f92672">-=</span> DamageAmount;
+</span></span><span style="display:flex;"><span>		OnHealthChanged.Broadcast(Health);
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (Health <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			Health <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>			bIsDead <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 第一人称死亡蒙太奇没找到合适的
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			PlayerDead();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ADemoPlayerCharacter<span style="color:#f92672">::</span>PlayerDead()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Multicast_PlayMontageAnimation(FPDeadMontage, TPDeadMontage); <span style="color:#75715e">// 播放死亡动画
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	GetCharacterMovement()<span style="color:#f92672">-&gt;</span>DisableMovement(); 
+</span></span><span style="display:flex;"><span>	GetCapsuleComponent()<span style="color:#f92672">-&gt;</span>SetCollisionEnabled(ECollisionEnabled<span style="color:#f92672">::</span>NoCollision);
+</span></span><span style="display:flex;"><span>	SetActorEnableCollision(false);
+</span></span><span style="display:flex;"><span>	OnPlayerDeath.Broadcast(<span style="color:#66d9ef">this</span>); <span style="color:#75715e">// 重生 参数传入当前玩家
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><p>在GameMode中重写UE内置的RestartPlayer函数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ADemoGameMode<span style="color:#f92672">::</span>RestartPlayer(AController<span style="color:#f92672">*</span> NewPlayer)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(NewPlayer <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span> <span style="color:#f92672">||</span> NewPlayer<span style="color:#f92672">-&gt;</span>IsPendingKillPending())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	TArray<span style="color:#f92672">&lt;</span>AActor<span style="color:#f92672">*&gt;</span> PlayerStarts;
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">// 存储世界中所有的玩家出生点到TArray数组中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UGameplayStatics<span style="color:#f92672">::</span>GetAllActorsOfClass(GetWorld(), APlayerStart<span style="color:#f92672">::</span>StaticClass(), PlayerStarts);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(PlayerStarts.Num() <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>   <span style="color:#75715e">// 获取随机出生点 调用RestartPlayerAtPlayerStart，传入这个随机出生点
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	APlayerStart<span style="color:#f92672">*</span> RandomStart <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APlayerStart<span style="color:#f92672">&gt;</span>(PlayerStarts[FMath<span style="color:#f92672">::</span>RandRange(<span style="color:#ae81ff">0</span>, PlayerStarts.Num() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)]);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(RandomStart)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		RestartPlayerAtPlayerStart(NewPlayer, RandomStart);
+</span></span><span style="display:flex;"><span>		ADemoPlayerCharacter<span style="color:#f92672">*</span> PlayerCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>ADemoPlayerCharacter<span style="color:#f92672">&gt;</span>(NewPlayer<span style="color:#f92672">-&gt;</span>GetPawn());
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(PlayerCharacter)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>          <span style="color:#75715e">// 每次出生都绑定玩家的死亡委托 恢复死亡前的状态
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			PlayerCharacter<span style="color:#f92672">-&gt;</span>OnPlayerDeath.AddDynamic(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>ADemoGameMode<span style="color:#f92672">::</span>ChangeDeath);
+</span></span><span style="display:flex;"><span>			PlayerCharacter<span style="color:#f92672">-&gt;</span>GetCharacterMovement()<span style="color:#f92672">-&gt;</span>SetMovementMode(MOVE_Walking);
+</span></span><span style="display:flex;"><span>			PlayerCharacter<span style="color:#f92672">-&gt;</span>GetCapsuleComponent()<span style="color:#f92672">-&gt;</span>SetCollisionEnabled(ECollisionEnabled<span style="color:#f92672">::</span>QueryAndPhysics);
+</span></span><span style="display:flex;"><span>			PlayerCharacter<span style="color:#f92672">-&gt;</span>SetActorEnableCollision(true);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="出现的问题">出现的问题：</h2>
+<p>武器同步问题</p>
+<p>beginplay中武器生成之后没办法正确同步，导致要么有客户端无法发射/有时候又正常，要么能发射但看不见手雷。——时序问题</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ADemoPlayerCharacter<span style="color:#f92672">::</span>BeginPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>BeginPlay();
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	MulticastUpdateVisibility();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (DefaultWeaponClass)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		CurrentWeapon <span style="color:#f92672">=</span> GetWorld()<span style="color:#f92672">-&gt;</span>SpawnActor<span style="color:#f92672">&lt;</span>ADemoWeapon<span style="color:#f92672">&gt;</span>(DefaultWeaponClass);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (HasAuthority() <span style="color:#f92672">&amp;&amp;</span> DefaultWeaponClass)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			CurrentWeapon<span style="color:#f92672">-&gt;</span>SetOwner(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ADemoPlayerCharacter<span style="color:#f92672">::</span>OnRep_CurrentWeapon()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(CurrentWeapon)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(IsLocallyControlled())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			CurrentWeapon<span style="color:#f92672">-&gt;</span>AttachToComponent(FirstPersonMesh, FAttachmentTransformRules<span style="color:#f92672">::</span>SnapToTargetIncludingScale, TEXT(<span style="color:#e6db74">&#34;GridPoint&#34;</span>));
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			CurrentWeapon<span style="color:#f92672">-&gt;</span>AttachToComponent(ThirdPersonMesh, FAttachmentTransformRules<span style="color:#f92672">::</span>SnapToTargetIncludingScale, TEXT(<span style="color:#e6db74">&#34;TPGridPoint&#34;</span>));
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.6%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a56.6&url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.6%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.6%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.6%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.6%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.6%2f
+			&title=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a56.6&summary=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a56.6%20%e6%ad%a6%e5%99%a8%e7%bb%84%e4%bb%b6%e5%8c%96%0a%e5%b0%86%e6%ad%a6%e5%99%a8%e7%9a%84%e5%8a%9f%e8%83%bd%e6%8a%bd%e8%b1%a1%e6%88%90%e4%b8%80%e4%b8%aa%e4%b8%aa%e7%8b%ac%e7%ab%8b%e5%8f%af%e5%a4%8d%e7%94%a8%e7%9a%84%e6%a8%a1%e5%9d%97%ef%bc%8c%e7%84%b6%e5%90%8e%e7%bb%84%e5%90%88%e5%88%b0%e6%ad%a6%e5%99%a8%e5%ae%9e%e4%be%8b%e4%b8%8a%e3%80%82%e6%af%94%e5%a6%82%e5%b0%84%e7%ba%bf%e6%9e%aa%e5%92%8c%e5%90%8e%e5%9d%90%e5%8a%9b%e8%bf%98%e6%9c%89%e6%8d%a2%e5%bc%b9%e9%83%bd%e5%8f%af%e4%bb%a5%e6%8a%bd%e8%b1%a1%e6%88%90%e4%b8%80%e4%b8%aa%e4%b8%aa%e5%8a%9f%e8%83%bd%ef%bc%8c%e7%84%b6%e5%90%8e%e8%87%aa%e7%94%b1%e7%bb%84%e5%90%88%e3%80%82%0a%e7%bb%84%e4%bb%b6%e7%bb%a7%e6%89%bfUActorComponent%ef%bc%8c%e6%88%91%e5%86%99%e4%ba%86%e4%b8%a4%e4%b8%aa%e7%bb%84%e4%bb%b6%e5%88%86%e5%88%ab%e6%98%af%e5%ad%90%e5%bc%b9%e7%ae%a1%e7%90%86%e7%bb%84%e4%bb%b6%e5%92%8c%e5%bc%80%e7%81%ab%e7%bb%84%e4%bb%b6%e3%80%82%0a%e5%ad%90%e5%bc%b9%e7%ae%a1%e7%90%86%e7%bb%84%e4%bb%b6%20%e5%ad%90%e5%bc%b9%e7%ae%a1%e7%90%86%e7%bb%84%e4%bb%b6%e5%ae%9a%e4%b9%89%e4%ba%86%e5%ad%90%e5%bc%b9%e6%95%b0%e9%87%8f%e5%92%8c%e5%88%9d%e5%a7%8b%e5%8c%96%e5%ad%90%e5%bc%b9%e6%95%b0%e9%87%8f%e3%80%81%e5%88%a4%e6%96%ad%e5%ad%90%e5%bc%b9%e6%95%b0%e9%87%8f%e6%98%af%e5%90%a6%e6%bb%a1%e8%b6%b3%e5%bc%80%e7%81%ab%e6%9d%a1%e4%bb%b6%e3%80%81%e5%ad%90%e5%bc%b9%e5%87%8f%e5%b0%91%e7%ad%89%e6%96%b9%e6%b3%95%e3%80%82%e5%b9%b6%e5%b0%86%e4%b9%8b%e5%89%8d%e5%9c%a8%e6%ad%a6%e5%99%a8%e7%b1%bb%e4%b8%ad%e5%ad%90%e5%bc%b9%e6%95%b0%e9%87%8f%e5%8f%98%e5%8c%96%e7%9a%84%e4%bb%a3%e7%90%86%e5%92%8c%e5%ad%90%e5%bc%b9%e6%95%b0%e9%87%8f%e7%9a%84%e7%bd%91%e7%bb%9c%e5%90%8c%e6%ad%a5%e8%bd%ac%e7%a7%bb%e5%88%b0%e5%bd%93%e5%89%8d%e5%ad%90%e5%bc%b9%e7%ae%a1%e7%90%86%e7%bb%84%e4%bb%b6%e8%84%9a%e6%9c%ac%e4%b8%ad%e3%80%82%0avoid%20UAmmoManagerComponent%3a%3aGetLifetimeReplicatedProps%28TArray%26lt%3bFLifetimeProperty%26gt%3b%26amp%3b%20OutLifetimeProps%29%20const%20%7b%20Super%3a%3aGetLifetimeReplicatedProps%28OutLifetimeProps%29%3b%20DOREPLIFETIME%28UAmmoManagerComponent%2c%20AmmoCount%29%3b%20%7d%20UAmmoManagerComponent%3a%3aUAmmoManagerComponent%28%29%20%7b%20PrimaryComponentTick.bCanEverTick%20%3d%20true%3b%20SetIsReplicatedByDefault%28true%29%3b%20%7d%20void%20UAmmoManagerComponent%3a%3aBeginPlay%28%29%20%7b%20Super%3a%3aBeginPlay%28%29%3b%20AmmoCount%20%3d%20MaxAmmo%3b%20%7d%20void%20UAmmoManagerComponent%3a%3aInitializeAmmo%28int32%20InAmmoCount%2c%20int32%20InMaxAmmo%29%20%7b%20MaxAmmo%20%3d%20InMaxAmmo%3b%20AmmoCount%20%3d%20InAmmoCount%3b%20%7d%20void%20UAmmoManagerComponent%3a%3aExpendAmmoCount%28%29%20%7b%20--%20AmmoCount%3b%20%7d%20bool%20UAmmoManagerComponent%3a%3aEnoughAmmoToFire%28%29%20%7b%20return%20AmmoCount%20%26gt%3b%200%3b%20%7d%20void%20UAmmoManagerComponent%3a%3aSetMaxAmmo%28int32%20NewMaxAmmo%29%20%7b%20MaxAmmo%20%3d%20NewMaxAmmo%3b%20AmmoCount%20%3d%20FMath%3a%3aClamp%28AmmoCount%2c%200%2c%20MaxAmmo%29%3b%20OnRep_AmmoCount%28%29%3b%20%7d%20void%20UAmmoManagerComponent%3a%3aOnRep_AmmoCount%28%29%20%7b%20OnAmmoChanged.&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a56.6&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.6%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

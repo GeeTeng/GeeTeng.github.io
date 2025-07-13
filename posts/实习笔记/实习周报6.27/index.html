@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    实习周报6.27 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="GAS知识点、弹夹的显示隐藏
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E4%B9%A0%E5%91%A8%E6%8A%A56.27/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="实习周报6.27">
+  <meta property="og:description" content="GAS知识点、弹夹的显示隐藏">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-06-27T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-06-27T00:00:00+00:00">
+    <meta property="article:tag" content="实习笔记">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="实习周报6.27">
+  <meta name="twitter:description" content="GAS知识点、弹夹的显示隐藏">
+
+
+  <meta itemprop="name" content="实习周报6.27">
+  <meta itemprop="description" content="GAS知识点、弹夹的显示隐藏">
+  <meta itemprop="datePublished" content="2025-06-27T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-06-27T00:00:00+00:00">
+  <meta itemprop="wordCount" content="320">
+  <meta itemprop="keywords" content="实习笔记">
+<link rel="canonical" href="https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E4%B9%A0%E5%91%A8%E6%8A%A56.27/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#实习周报627">实习周报6.27</a></li>
+    <li><a href="#gas部分知识点">GAS部分知识点</a>
+      <ul>
+        <li><a href="#asc">ASC</a></li>
+        <li><a href="#attribute">Attribute</a></li>
+      </ul>
+    </li>
+    <li><a href="#reload-弹夹的显示与隐藏掉落地上"><strong>Reload 弹夹的显示与隐藏、掉落地上。</strong></a></li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>实习周报6.27</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Jun 27, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        9 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0">实习笔记</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0">实习笔记</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h1 id="实习周报627">实习周报6.27</h1>
+<h1 id="gas部分知识点">GAS部分知识点</h1>
+<p>ASC（Ability System Component）主要组件（谁放技能）</p>
+<p>AS（Attribute Set）角色身上可以用float表示的属性，如生命值、体力值等（技能改变的属性）</p>
+<p>GA（Gameplay Abilities）角色的技能，包括攻击、疾跑、施法、翻滚、使用道具等，但不包括基础移动和UI（技能逻辑）</p>
+<p>GE（Gameplay Effects）用于修改属性，如增加移动速度等（技能的效果）</p>
+<p>GC（Gameplay Cues）播放特效、音效等（技能的视效）</p>
+<p>GameplayTag（技能涉及的条件）</p>
+<p>GameplayTask（技能长时行动）</p>
+<p>GameplayEvent（技能消息事件）</p>
+<h2 id="asc">ASC</h2>
+<p>在构造函数中创建ASC组件，其中ReplicationMode三种模式：Full、Mixed、Minimal</p>
+<p>比如大招GE会被同步给队友，但是普通技能的冷却时间不会被同步。但是AI设置为Minimal，因为不需要别人知道他的技能冷却时间等。</p>
+<p>其中Mixed模式必须要设置拥有者为控制器</p>
+<p><img src="/images/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/03.png" alt="img"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>PMSAbilitySystemComponent <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>UPMS_AbilitySystemComponent<span style="color:#f92672">&gt;</span>(CharacterASCName);
+</span></span><span style="display:flex;"><span>PMSAbilitySystemComponent<span style="color:#f92672">-&gt;</span>SetReplicationMode(EGameplayEffectReplicationMode<span style="color:#f92672">::</span>Mixed);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>PMSAttributeSetBase <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>UPMS_AttributeSetBase<span style="color:#f92672">&gt;</span>(CharacterAttributeSetName);
+</span></span></code></pre></div><h2 id="attribute">Attribute</h2>
+<p>有两个值，BaseValue和CurrentValue，其中CurrentValue是BaseValue加上GE给的临时修改值后得到的，比如BaseValue生命值100，捡到药水瓶CurrentValue = 150</p>
+<p>在PreAttributeChange中处理对CurrentValue的修改以及取值范围问题, 在PostGameplayEffectExecute中处理GE对BaseValue的修改</p>
+<p>Meta Attribute是临时的、可被任意GE修改、不可同步的，将于任意Attribute交互的临时属性。 比如伤害值作为Meta Attribute占位符, 而不是使用GE直接修改生命值Attribute, 使用这种方法, 伤害值就可以在GameplayEffectExecutionCalculation中由buff和debuff修改, 并且可以在AttributeSet中进一步操作。</p>
+<p>Set和Init的区别是在于Set只能设置basevalue， 而init可以设置currentvalue和basevalue</p>
+<p>在PlayerCharacterBase的BeginPlay中，绑定委托、初始化属性、初始化GA</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_CharacterBase<span style="color:#f92672">::</span>BeginPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>BeginPlay();
+</span></span><span style="display:flex;"><span>	BindAttributesDelegate();
+</span></span><span style="display:flex;"><span>	PMSAttributeSetBase<span style="color:#f92672">-&gt;</span>InitAttributes();
+</span></span><span style="display:flex;"><span>	FTimerHandle hld;
+</span></span><span style="display:flex;"><span>	GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().SetTimer(hld, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>APMS_CharacterBase<span style="color:#f92672">::</span>InitAttributes, <span style="color:#ae81ff">0.1f</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_CharacterBase<span style="color:#f92672">::</span>BindAttributesDelegate()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (IsValid(PMSAbilitySystemComponent) <span style="color:#f92672">&amp;&amp;</span> IsValid(PMSAttributeSetBase))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		HealthChangedDelegateHandle <span style="color:#f92672">=</span> PMSAbilitySystemComponent<span style="color:#f92672">-&gt;</span>GetGameplayAttributeValueChangeDelegate(PMSAttributeSetBase<span style="color:#f92672">-&gt;</span>GetHealthAttribute()).AddUObject(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>ThisClass<span style="color:#f92672">::</span>HealthChanged);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UPMS_AttributeSetBase<span style="color:#f92672">::</span>InitAttributes()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	InitHealth(<span style="color:#ae81ff">100.f</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">//...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_CharacterBase<span style="color:#f92672">::</span>InitAttributes()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (HasAuthority() <span style="color:#f92672">&amp;&amp;</span> InitAttributesGA)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		PMSAbilitySystemComponent<span style="color:#f92672">-&gt;</span>GiveAbility(FGameplayAbilitySpec(InitAttributesGA, <span style="color:#ae81ff">3</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">this</span>));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (HasAuthority() <span style="color:#f92672">&amp;&amp;</span> CharacterDieBaseGA)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		PMSAbilitySystemComponent<span style="color:#f92672">-&gt;</span>GiveAbility(FGameplayAbilitySpec(CharacterDieBaseGA, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#66d9ef">this</span>));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>FGameplayAbilityActorInfo 是一个结构体，其中包含了例如OwnerActor（playerstate / pawn等）、AvatarActor（character）、ASC等。</p>
+<p>FGameplayAbilitySpec 也是一个结构体，包含了能力、等级等</p>
+<h1 id="reload-弹夹的显示与隐藏掉落地上"><strong>Reload 弹夹的显示与隐藏、掉落地上。</strong></h1>
+<p>在换弹动画播放时，手将弹夹拿到接近腰旁时，隐藏当前弹夹，同时会生成一个新的弹夹。在手从背后掏出时，显示当前弹夹。</p>
+<p>创建继承AnimNotify的C++类，如下是创建弹夹的动画通知类。</p>
+<p>新建弹夹蓝图，将根组件设置为StaticMesh，并在蓝图中Delay30s后销毁。在代码中将玩家当前武器的弹夹StaticMesh赋值给弹夹蓝图的StaticMesh，然后开启物理模拟。添加一个当前手部方向的冲力。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UCLASS(DisplayName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;创建弹夹&#34;</span>, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;WeaponAnimNotify&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">PMSGAMEPLAY_API</span> UPMSAnimNotify_CreateClip : <span style="color:#66d9ef">public</span> UAnimNotify
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	GENERATED_BODY()
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> Notify(USkeletalMeshComponent<span style="color:#f92672">*</span> MeshComp, UAnimSequenceBase<span style="color:#f92672">*</span> Animation, <span style="color:#66d9ef">const</span> FAnimNotifyEventReference<span style="color:#f92672">&amp;</span> EventReference) <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditAnywhere)
+</span></span><span style="display:flex;"><span>	TSubclassOf<span style="color:#f92672">&lt;</span>ABJ_Actor<span style="color:#f92672">&gt;</span> MagazineClass;
+</span></span><span style="display:flex;"><span>	FTimerHandle DestroyHandle;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UPMSAnimNotify_CreateClip<span style="color:#f92672">::</span>Notify(USkeletalMeshComponent<span style="color:#f92672">*</span> MeshComp, UAnimSequenceBase<span style="color:#f92672">*</span> Animation,
+</span></span><span style="display:flex;"><span>                                       <span style="color:#66d9ef">const</span> FAnimNotifyEventReference<span style="color:#f92672">&amp;</span> EventReference)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>Notify(MeshComp, Animation, EventReference);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>IsValid(MeshComp) <span style="color:#f92672">||</span> MeshComp<span style="color:#f92672">-&gt;</span>GetWorld()<span style="color:#f92672">-&gt;</span>IsPreviewWorld() <span style="color:#f92672">||</span> MeshComp<span style="color:#f92672">-&gt;</span>IsNetMode(NM_DedicatedServer))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	APMS_Character<span style="color:#f92672">*</span> Character <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APMS_Character<span style="color:#f92672">&gt;</span>(MeshComp<span style="color:#f92672">-&gt;</span>GetOwner());
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(MagazineClass <span style="color:#f92672">&amp;&amp;</span> IsValid(Character))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (Character<span style="color:#f92672">-&gt;</span>GetCurrentWeapon() <span style="color:#f92672">&amp;&amp;</span> Character<span style="color:#f92672">-&gt;</span>GetCurrentWeapon()<span style="color:#f92672">-&gt;</span>FindComponentByTag<span style="color:#f92672">&lt;</span>UStaticMeshComponent<span style="color:#f92672">&gt;</span>(ComponentTag))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			FVector Location <span style="color:#f92672">=</span> Character<span style="color:#f92672">-&gt;</span>GetMesh()<span style="color:#f92672">-&gt;</span>GetSocketLocation(HandMagazineSocket);
+</span></span><span style="display:flex;"><span>			FRotator Rotation <span style="color:#f92672">=</span> Character<span style="color:#f92672">-&gt;</span>GetMesh()<span style="color:#f92672">-&gt;</span>GetSocketRotation(HandMagazineSocket);
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>			UStaticMesh<span style="color:#f92672">*</span> MagazineMesh <span style="color:#f92672">=</span> Character<span style="color:#f92672">-&gt;</span>GetCurrentWeapon()<span style="color:#f92672">-&gt;</span>FindComponentByTag<span style="color:#f92672">&lt;</span>UStaticMeshComponent<span style="color:#f92672">&gt;</span>(ComponentTag)<span style="color:#f92672">-&gt;</span>GetStaticMesh();
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (MagazineMesh)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span> (Character<span style="color:#f92672">-&gt;</span>GetWorld())
+</span></span><span style="display:flex;"><span>				{
+</span></span><span style="display:flex;"><span>					ABJ_Actor<span style="color:#f92672">*</span> NewMagazine <span style="color:#f92672">=</span> Character<span style="color:#f92672">-&gt;</span>GetWorld()<span style="color:#f92672">-&gt;</span>SpawnActor<span style="color:#f92672">&lt;</span>ABJ_Actor<span style="color:#f92672">&gt;</span>(MagazineClass, Location, Rotation);
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">if</span> (NewMagazine)
+</span></span><span style="display:flex;"><span>					{
+</span></span><span style="display:flex;"><span>						<span style="color:#66d9ef">if</span> (UStaticMeshComponent<span style="color:#f92672">*</span> StaticMeshComp <span style="color:#f92672">=</span> NewMagazine<span style="color:#f92672">-&gt;</span>FindComponentByClass<span style="color:#f92672">&lt;</span>UStaticMeshComponent<span style="color:#f92672">&gt;</span>())
+</span></span><span style="display:flex;"><span>						{
+</span></span><span style="display:flex;"><span>							StaticMeshComp<span style="color:#f92672">-&gt;</span>SetStaticMesh(MagazineMesh);
+</span></span><span style="display:flex;"><span>							StaticMeshComp<span style="color:#f92672">-&gt;</span>SetSimulatePhysics(true);
+</span></span><span style="display:flex;"><span>							StaticMeshComp<span style="color:#f92672">-&gt;</span>SetCollisionEnabled(ECollisionEnabled<span style="color:#f92672">::</span>QueryAndPhysics);
+</span></span><span style="display:flex;"><span>							FVector HandDirection <span style="color:#f92672">=</span> Character<span style="color:#f92672">-&gt;</span>GetMesh()<span style="color:#f92672">-&gt;</span>GetSocketRotation(HandMagazineSocket).Vector();
+</span></span><span style="display:flex;"><span>							FVector Impulse <span style="color:#f92672">=</span> HandDirection <span style="color:#f92672">*</span> ImpulsePower;
+</span></span><span style="display:flex;"><span>							StaticMeshComp<span style="color:#f92672">-&gt;</span>AddImpulse(Impulse);
+</span></span><span style="display:flex;"><span>						}
+</span></span><span style="display:flex;"><span>					}
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>显示与隐藏动画通知类</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UPMSAnimNotify_HideWeaponComponent<span style="color:#f92672">::</span>Notify(USkeletalMeshComponent<span style="color:#f92672">*</span> MeshComp, UAnimSequenceBase<span style="color:#f92672">*</span> Animation, <span style="color:#66d9ef">const</span> FAnimNotifyEventReference<span style="color:#f92672">&amp;</span> EventReference)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>Notify(MeshComp, Animation, EventReference);
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>IsValid(MeshComp) <span style="color:#f92672">||</span> MeshComp<span style="color:#f92672">-&gt;</span>GetWorld()<span style="color:#f92672">-&gt;</span>IsPreviewWorld() <span style="color:#f92672">||</span> MeshComp<span style="color:#f92672">-&gt;</span>IsNetMode(NM_DedicatedServer))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	APMS_Weapon<span style="color:#f92672">*</span> OwnerWeapon <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	AActor<span style="color:#f92672">*</span> OwnerActor <span style="color:#f92672">=</span> MeshComp<span style="color:#f92672">-&gt;</span>GetOwner();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(IsValid(OwnerActor))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		OwnerWeapon <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APMS_Weapon<span style="color:#f92672">&gt;</span>(OwnerActor);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>OwnerWeapon)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			APMS_Character<span style="color:#f92672">*</span> Character <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APMS_Character<span style="color:#f92672">&gt;</span>(OwnerActor);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span>(IsValid(Character))
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				OwnerWeapon <span style="color:#f92672">=</span> Character<span style="color:#f92672">-&gt;</span>GetCurrentWeapon();
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (IsValid(OwnerWeapon))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (OnlyFPP)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (OwnerWeapon<span style="color:#f92672">-&gt;</span>IsAutonomousPlayerControlled())
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				OwnerWeapon<span style="color:#f92672">-&gt;</span>HideWeaponComponent(bHide, ComponentTag);
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			OwnerWeapon<span style="color:#f92672">-&gt;</span>HideWeaponComponent(bHide, ComponentTag);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}<span style="color:#66d9ef">void</span> APMS_Weapon<span style="color:#f92672">::</span>HideWeaponComponent(<span style="color:#66d9ef">bool</span> bHide, FName ComponentTag)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	TArray<span style="color:#f92672">&lt;</span>UActorComponent<span style="color:#f92672">*&gt;</span> PrimitiveComponentComponentList <span style="color:#f92672">=</span> GetComponentsByTag(UPrimitiveComponent<span style="color:#f92672">::</span>StaticClass(), ComponentTag);
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (UActorComponent<span style="color:#f92672">*</span> PrimitiveComponent : PrimitiveComponentComponentList)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		Cast<span style="color:#f92672">&lt;</span>UPrimitiveComponent<span style="color:#f92672">&gt;</span>(PrimitiveComponent)<span style="color:#f92672">-&gt;</span>SetHiddenInGame(bHide);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.27%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a56.27&url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.27%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.27%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.27%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.27%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.27%2f
+			&title=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a56.27&summary=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a56.27%20GAS%e9%83%a8%e5%88%86%e7%9f%a5%e8%af%86%e7%82%b9%20ASC%ef%bc%88Ability%20System%20Component%ef%bc%89%e4%b8%bb%e8%a6%81%e7%bb%84%e4%bb%b6%ef%bc%88%e8%b0%81%e6%94%be%e6%8a%80%e8%83%bd%ef%bc%89%0aAS%ef%bc%88Attribute%20Set%ef%bc%89%e8%a7%92%e8%89%b2%e8%ba%ab%e4%b8%8a%e5%8f%af%e4%bb%a5%e7%94%a8float%e8%a1%a8%e7%a4%ba%e7%9a%84%e5%b1%9e%e6%80%a7%ef%bc%8c%e5%a6%82%e7%94%9f%e5%91%bd%e5%80%bc%e3%80%81%e4%bd%93%e5%8a%9b%e5%80%bc%e7%ad%89%ef%bc%88%e6%8a%80%e8%83%bd%e6%94%b9%e5%8f%98%e7%9a%84%e5%b1%9e%e6%80%a7%ef%bc%89%0aGA%ef%bc%88Gameplay%20Abilities%ef%bc%89%e8%a7%92%e8%89%b2%e7%9a%84%e6%8a%80%e8%83%bd%ef%bc%8c%e5%8c%85%e6%8b%ac%e6%94%bb%e5%87%bb%e3%80%81%e7%96%be%e8%b7%91%e3%80%81%e6%96%bd%e6%b3%95%e3%80%81%e7%bf%bb%e6%bb%9a%e3%80%81%e4%bd%bf%e7%94%a8%e9%81%93%e5%85%b7%e7%ad%89%ef%bc%8c%e4%bd%86%e4%b8%8d%e5%8c%85%e6%8b%ac%e5%9f%ba%e7%a1%80%e7%a7%bb%e5%8a%a8%e5%92%8cUI%ef%bc%88%e6%8a%80%e8%83%bd%e9%80%bb%e8%be%91%ef%bc%89%0aGE%ef%bc%88Gameplay%20Effects%ef%bc%89%e7%94%a8%e4%ba%8e%e4%bf%ae%e6%94%b9%e5%b1%9e%e6%80%a7%ef%bc%8c%e5%a6%82%e5%a2%9e%e5%8a%a0%e7%a7%bb%e5%8a%a8%e9%80%9f%e5%ba%a6%e7%ad%89%ef%bc%88%e6%8a%80%e8%83%bd%e7%9a%84%e6%95%88%e6%9e%9c%ef%bc%89%0aGC%ef%bc%88Gameplay%20Cues%ef%bc%89%e6%92%ad%e6%94%be%e7%89%b9%e6%95%88%e3%80%81%e9%9f%b3%e6%95%88%e7%ad%89%ef%bc%88%e6%8a%80%e8%83%bd%e7%9a%84%e8%a7%86%e6%95%88%ef%bc%89%0aGameplayTag%ef%bc%88%e6%8a%80%e8%83%bd%e6%b6%89%e5%8f%8a%e7%9a%84%e6%9d%a1%e4%bb%b6%ef%bc%89%0aGameplayTask%ef%bc%88%e6%8a%80%e8%83%bd%e9%95%bf%e6%97%b6%e8%a1%8c%e5%8a%a8%ef%bc%89%0aGameplayEvent%ef%bc%88%e6%8a%80%e8%83%bd%e6%b6%88%e6%81%af%e4%ba%8b%e4%bb%b6%ef%bc%89%0aASC%20%e5%9c%a8%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0%e4%b8%ad%e5%88%9b%e5%bb%baASC%e7%bb%84%e4%bb%b6%ef%bc%8c%e5%85%b6%e4%b8%adReplicationMode%e4%b8%89%e7%a7%8d%e6%a8%a1%e5%bc%8f%ef%bc%9aFull%e3%80%81Mixed%e3%80%81Minimal%0a%e6%af%94%e5%a6%82%e5%a4%a7%e6%8b%9bGE%e4%bc%9a%e8%a2%ab%e5%90%8c%e6%ad%a5%e7%bb%99%e9%98%9f%e5%8f%8b%ef%bc%8c%e4%bd%86%e6%98%af%e6%99%ae%e9%80%9a%e6%8a%80%e8%83%bd%e7%9a%84%e5%86%b7%e5%8d%b4%e6%97%b6%e9%97%b4%e4%b8%8d%e4%bc%9a%e8%a2%ab%e5%90%8c%e6%ad%a5%e3%80%82%e4%bd%86%e6%98%afAI%e8%ae%be%e7%bd%ae%e4%b8%baMinimal%ef%bc%8c%e5%9b%a0%e4%b8%ba%e4%b8%8d%e9%9c%80%e8%a6%81%e5%88%ab%e4%ba%ba%e7%9f%a5%e9%81%93%e4%bb%96%e7%9a%84%e6%8a%80%e8%83%bd%e5%86%b7%e5%8d%b4%e6%97%b6%e9%97%b4%e7%ad%89%e3%80%82%0a%e5%85%b6%e4%b8%adMixed%e6%a8%a1%e5%bc%8f%e5%bf%85%e9%a1%bb%e8%a6%81%e8%ae%be%e7%bd%ae%e6%8b%a5%e6%9c%89%e8%80%85%e4%b8%ba%e6%8e%a7%e5%88%b6%e5%99%a8%0aPMSAbilitySystemComponent%20%3d%20CreateDefaultSubobject%26lt%3bUPMS_AbilitySystemComponent%26gt%3b%28CharacterASCName%29%3b%20PMSAbilitySystemComponent-%26gt%3bSetReplicationMode%28EGameplayEffectReplicationMode%3a%3aMixed%29%3b%20PMSAttributeSetBase%20%3d%20CreateDefaultSubobject%26lt%3bUPMS_AttributeSetBase%26gt%3b%28CharacterAttributeSetName%29%3b%20Attribute%20%e6%9c%89%e4%b8%a4%e4%b8%aa%e5%80%bc%ef%bc%8cBaseValue%e5%92%8cCurrentValue%ef%bc%8c%e5%85%b6%e4%b8%adCurrentValue%e6%98%afBaseValue%e5%8a%a0%e4%b8%8aGE%e7%bb%99%e7%9a%84%e4%b8%b4%e6%97%b6%e4%bf%ae%e6%94%b9%e5%80%bc%e5%90%8e%e5%be%97%e5%88%b0%e7%9a%84%ef%bc%8c%e6%af%94%e5%a6%82BaseValue%e7%94%9f%e5%91%bd%e5%80%bc100%ef%bc%8c%e6%8d%a1%e5%88%b0%e8%8d%af%e6%b0%b4%e7%93%b6CurrentValue%20%3d%20150%0a%e5%9c%a8PreAttributeChange%e4%b8%ad%e5%a4%84%e7%90%86%e5%af%b9CurrentValue%e7%9a%84%e4%bf%ae%e6%94%b9%e4%bb%a5%e5%8f%8a%e5%8f%96%e5%80%bc%e8%8c%83%e5%9b%b4%e9%97%ae%e9%a2%98%2c%20%e5%9c%a8PostGameplayEffectExecute%e4%b8%ad%e5%a4%84%e7%90%86GE%e5%af%b9BaseValue%e7%9a%84%e4%bf%ae%e6%94%b9%0aMeta%20Attribute%e6%98%af%e4%b8%b4%e6%97%b6%e7%9a%84%e3%80%81%e5%8f%af%e8%a2%ab%e4%bb%bb%e6%84%8fGE%e4%bf%ae%e6%94%b9%e3%80%81%e4%b8%8d%e5%8f%af%e5%90%8c%e6%ad%a5%e7%9a%84%ef%bc%8c%e5%b0%86%e4%ba%8e%e4%bb%bb%e6%84%8fAttribute%e4%ba%a4%e4%ba%92%e7%9a%84%e4%b8%b4%e6%97%b6%e5%b1%9e%e6%80%a7%e3%80%82%20%e6%af%94%e5%a6%82%e4%bc%a4%e5%ae%b3%e5%80%bc%e4%bd%9c%e4%b8%baMeta%20Attribute%e5%8d%a0%e4%bd%8d%e7%ac%a6%2c%20%e8%80%8c%e4%b8%8d%e6%98%af%e4%bd%bf%e7%94%a8GE%e7%9b%b4%e6%8e%a5%e4%bf%ae%e6%94%b9%e7%94%9f%e5%91%bd%e5%80%bcAttribute%2c%20%e4%bd%bf%e7%94%a8%e8%bf%99%e7%a7%8d%e6%96%b9%e6%b3%95%2c%20%e4%bc%a4%e5%ae%b3%e5%80%bc%e5%b0%b1%e5%8f%af%e4%bb%a5%e5%9c%a8GameplayEffectExecutionCalculation%e4%b8%ad%e7%94%b1buff%e5%92%8cdebuff%e4%bf%ae%e6%94%b9%2c%20%e5%b9%b6%e4%b8%94%e5%8f%af%e4%bb%a5%e5%9c%a8AttributeSet%e4%b8%ad%e8%bf%9b%e4%b8%80%e6%ad%a5%e6%93%8d%e4%bd%9c%e3%80%82%0aSet%e5%92%8cInit%e7%9a%84%e5%8c%ba%e5%88%ab%e6%98%af%e5%9c%a8%e4%ba%8eSet%e5%8f%aa%e8%83%bd%e8%ae%be%e7%bd%aebasevalue%ef%bc%8c%20%e8%80%8cinit%e5%8f%af%e4%bb%a5%e8%ae%be%e7%bd%aecurrentvalue%e5%92%8cbasevalue%0a%e5%9c%a8PlayerCharacterBase%e7%9a%84BeginPlay%e4%b8%ad%ef%bc%8c%e7%bb%91%e5%ae%9a%e5%a7%94%e6%89%98%e3%80%81%e5%88%9d%e5%a7%8b%e5%8c%96%e5%b1%9e%e6%80%a7%e3%80%81%e5%88%9d%e5%a7%8b%e5%8c%96GA%0avoid%20APMS_CharacterBase%3a%3aBeginPlay%28%29%20%7b%20Super%3a%3aBeginPlay%28%29%3b%20BindAttributesDelegate%28%29%3b%20PMSAttributeSetBase-%26gt%3bInitAttributes%28%29%3b%20FTimerHandle%20hld%3b%20GetWorld%28%29-%26gt%3bGetTimerManager%28%29.SetTimer%28hld%2c%20this%2c%20%26amp%3bAPMS_CharacterBase%3a%3aInitAttributes%2c%200.1f%29%3b%20%7d%20void%20APMS_CharacterBase%3a%3aBindAttributesDelegate%28%29%20%7b%20if%20%28IsValid%28PMSAbilitySystemComponent%29%20%26amp%3b%26amp%3b%20IsValid%28PMSAttributeSetBase%29%29%20%7b%20HealthChangedDelegateHandle%20%3d%20PMSAbilitySystemComponent-%26gt%3bGetGameplayAttributeValueChangeDelegate%28PMSAttributeSetBase-%26gt%3bGetHealthAttribute%28%29%29.AddUObject%28this%2c%20%26amp%3bThisClass%3a%3aHealthChanged%29%3b%20%2f%2f%20.&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a56.27&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.27%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

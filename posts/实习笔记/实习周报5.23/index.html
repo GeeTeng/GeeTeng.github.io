@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    实习周报5.23 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="多人FPS游戏初步搭建、射击功能
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E4%B9%A0%E5%91%A8%E6%8A%A55.23/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="实习周报5.23">
+  <meta property="og:description" content="多人FPS游戏初步搭建、射击功能">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-05-23T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-05-23T00:00:00+00:00">
+    <meta property="article:tag" content="实习笔记">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="实习周报5.23">
+  <meta name="twitter:description" content="多人FPS游戏初步搭建、射击功能">
+
+
+  <meta itemprop="name" content="实习周报5.23">
+  <meta itemprop="description" content="多人FPS游戏初步搭建、射击功能">
+  <meta itemprop="datePublished" content="2025-05-23T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-05-23T00:00:00+00:00">
+  <meta itemprop="wordCount" content="242">
+  <meta itemprop="keywords" content="实习笔记">
+<link rel="canonical" href="https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E4%B9%A0%E5%91%A8%E6%8A%A55.23/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#实习周报523">实习周报5.23</a>
+      <ul>
+        <li><a href="#出现的问题"><strong>出现的问题：</strong></a></li>
+        <li><a href="#射击实现">射击实现</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>实习周报5.23</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">May 23, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        4 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0">实习笔记</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0">实习笔记</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h1 id="实习周报523">实习周报5.23</h1>
+<p>以下部分只是最初实现的代码，后来更改了武器组件化还有网络同步</p>
+<h2 id="出现的问题"><strong>出现的问题：</strong></h2>
+<p>​            1.     <strong>已解决</strong> 角色混合空间移动缺少左右动画，导致左右腿移动时重叠。—— 骨骼没适配</p>
+<p>​            2.     <strong>已解决</strong> 多人游戏中玩家奔跑只能自己看到 没办法被其他玩家看到 —— MaxWalkSpeed需要网络同步</p>
+<p><strong>实现了人物的移动、奔跑、跳跃、射击。</strong></p>
+<p>角色添加了四个骨骼，分别是第一人称视角的：LegMesh自己看自己的腿，FirstPersonMesh自己看自己的手，和其他玩家视角的全身模型：ThirdpersonMesh，以及ShadowMesh影子网格体</p>
+<p><img src="/images/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/02.png" alt="img"></p>
+<p>动画完成了人物的走跑（八方向混合空间）、跳（起跳—在空中—落地）、射击部分。</p>
+<h2 id="射击实现">射击实现</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> SetupInputComponent() <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;EnhancedInput&#34;</span>, meta <span style="color:#f92672">=</span> (AllowPrivateAccess <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;true&#34;</span>))
+</span></span><span style="display:flex;"><span>	TObjectPtr<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UInputMappingContext</span><span style="color:#f92672">&gt;</span> DefaultIMC;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ADemoPlayerController<span style="color:#f92672">::</span>SetupInputComponent()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>SetupInputComponent();
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(UEnhancedInputLocalPlayerSubsystem<span style="color:#f92672">*</span> Subsystem <span style="color:#f92672">=</span> ULocalPlayer<span style="color:#f92672">::</span>GetSubsystem<span style="color:#f92672">&lt;</span>UEnhancedInputLocalPlayerSubsystem<span style="color:#f92672">&gt;</span>(GetLocalPlayer()))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		FModifyContextOptions Options;
+</span></span><span style="display:flex;"><span>		Options.bForceImmediately <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>		Subsystem<span style="color:#f92672">-&gt;</span>ClearAllMappings();
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(DefaultIMC)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			Subsystem<span style="color:#f92672">-&gt;</span>AddMappingContext(DefaultIMC, <span style="color:#ae81ff">0</span>, Options);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在SetupPlayerInputComponent中调用自定义输入组件绑定输入。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ADemoPlayerCharacter<span style="color:#f92672">::</span>SetupPlayerInputComponent(UInputComponent<span style="color:#f92672">*</span> PlayerInputComponent)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>SetupPlayerInputComponent(PlayerInputComponent);
+</span></span><span style="display:flex;"><span>	UDemoPlayerInputComponent<span style="color:#f92672">*</span> DemoInput <span style="color:#f92672">=</span> CastChecked<span style="color:#f92672">&lt;</span>UDemoPlayerInputComponent<span style="color:#f92672">&gt;</span>(PlayerInputComponent);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (DemoInput)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		DemoInput<span style="color:#f92672">-&gt;</span>SetupInputBindings();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UDemoPlayerInputComponent<span style="color:#f92672">::</span>SetupInputBindings()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(IA_DemoFire)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		BindAction(IA_DemoFire, ETriggerEvent<span style="color:#f92672">::</span>Started, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>UDemoPlayerInputComponent<span style="color:#f92672">::</span>StartFire);
+</span></span><span style="display:flex;"><span>		BindAction(IA_DemoFire, ETriggerEvent<span style="color:#f92672">::</span>Completed, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>UDemoPlayerInputComponent<span style="color:#f92672">::</span>EndFire);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>自定义输入组件中的开火函数用来调用ADemoPlayerCharacter的开火函数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UDemoPlayerInputComponent<span style="color:#f92672">::</span>StartFire(<span style="color:#66d9ef">const</span> FInputActionValue<span style="color:#f92672">&amp;</span> InputActionValue)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	ADemoPlayerCharacter<span style="color:#f92672">*</span> CharacterOwner <span style="color:#f92672">=</span> GetOwner<span style="color:#f92672">&lt;</span>ADemoPlayerCharacter<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(IsValid(CharacterOwner))
+</span></span><span style="display:flex;"><span>	{		CharacterOwner<span style="color:#f92672">-&gt;</span>OnStartFire();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UDemoPlayerInputComponent<span style="color:#f92672">::</span>EndFire(<span style="color:#66d9ef">const</span> FInputActionValue<span style="color:#f92672">&amp;</span> InputActionValue)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	ADemoPlayerCharacter<span style="color:#f92672">*</span> CharacterOwner <span style="color:#f92672">=</span> GetOwner<span style="color:#f92672">&lt;</span>ADemoPlayerCharacter<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(IsValid(CharacterOwner))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		CharacterOwner<span style="color:#f92672">-&gt;</span>OnEndFire();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>角色类中的开火逻辑 定时器开火不断调用武器类中的开火</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ADemoPlayerCharacter<span style="color:#f92672">::</span>OnStartFire()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(CurrentWeapon)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().SetTimer(FireTimerHandle, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>ADemoPlayerCharacter<span style="color:#f92672">::</span>FireWeapon, FireRate, true);
+</span></span><span style="display:flex;"><span>		bIsFire <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ADemoPlayerCharacter<span style="color:#f92672">::</span>OnEndFire()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(CurrentWeapon)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().ClearTimer(FireTimerHandle);
+</span></span><span style="display:flex;"><span>		bIsFire <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ADemoPlayerCharacter<span style="color:#f92672">::</span>FireWeapon()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(CurrentWeapon)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		CurrentWeapon<span style="color:#f92672">-&gt;</span>Fire();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>武器类的开火逻辑</p>
+<p>其中AmmoCount是子弹数量设定为30， CanFire逻辑还没写，之后在里面判定枪械状态，比如说换弹时不能开枪。或者更复杂一些，比如被技能控制不能开火我认为都可以写在CanFire里。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ADemoWeapon<span style="color:#f92672">::</span>Fire()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(CanFire() <span style="color:#f92672">&amp;&amp;</span> AmmoCount <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		CurrentState <span style="color:#f92672">=</span> EWeaponState<span style="color:#f92672">::</span>WS_Firing;
+</span></span><span style="display:flex;"><span>		AmmoCount <span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>		UE_LOG(LogTemp, Warning, TEXT(<span style="color:#e6db74">&#34;Firing Weapon, AmmoCount:%d&#34;</span>),AmmoCount);
+</span></span><span style="display:flex;"><span>		FireRaycast();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// TODO:恢复到Idle状态
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> ADemoWeapon<span style="color:#f92672">::</span>FireRaycast()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	ADemoPlayerCharacter<span style="color:#f92672">*</span> PC <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>ADemoPlayerCharacter<span style="color:#f92672">&gt;</span>(GetOwner());
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(PC)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>	    
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>	FVector Start <span style="color:#f92672">=</span> PC<span style="color:#f92672">-&gt;</span>FirstPersonCamera<span style="color:#f92672">-&gt;</span>GetComponentLocation();
+</span></span><span style="display:flex;"><span>	FVector ForwardVector <span style="color:#f92672">=</span> PC<span style="color:#f92672">-&gt;</span>FirstPersonCamera<span style="color:#f92672">-&gt;</span>GetForwardVector();
+</span></span><span style="display:flex;"><span>	FVector End <span style="color:#f92672">=</span> (ForwardVector <span style="color:#f92672">*</span> <span style="color:#ae81ff">1000.f</span>) <span style="color:#f92672">+</span> Start;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 绘制射线
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	DrawDebugLine(GetWorld(), Start, End, FColor<span style="color:#f92672">::</span>Red, false, <span style="color:#ae81ff">1.0f</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1.0f</span>);
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>	FHitResult HitResult;
+</span></span><span style="display:flex;"><span>	FCollisionQueryParams CollisionParams;
+</span></span><span style="display:flex;"><span>	CollisionParams.AddIgnoredActor(GetOwner());
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> bHit <span style="color:#f92672">=</span> GetWorld()<span style="color:#f92672">-&gt;</span>LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (bHit)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		UE_LOG(LogTemp, Warning, TEXT(<span style="color:#e6db74">&#34;HitActor: %s&#34;</span>), <span style="color:#f92672">*</span>HitResult.GetActor()<span style="color:#f92672">-&gt;</span>GetName());
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A55.23%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a55.23&url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A55.23%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A55.23%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A55.23%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A55.23%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A55.23%2f
+			&title=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a55.23&summary=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a55.23%20%e4%bb%a5%e4%b8%8b%e9%83%a8%e5%88%86%e5%8f%aa%e6%98%af%e6%9c%80%e5%88%9d%e5%ae%9e%e7%8e%b0%e7%9a%84%e4%bb%a3%e7%a0%81%ef%bc%8c%e5%90%8e%e6%9d%a5%e6%9b%b4%e6%94%b9%e4%ba%86%e6%ad%a6%e5%99%a8%e7%bb%84%e4%bb%b6%e5%8c%96%e8%bf%98%e6%9c%89%e7%bd%91%e7%bb%9c%e5%90%8c%e6%ad%a5%0a%e5%87%ba%e7%8e%b0%e7%9a%84%e9%97%ae%e9%a2%98%ef%bc%9a%20%e2%80%8b%201.%20%e5%b7%b2%e8%a7%a3%e5%86%b3%20%e8%a7%92%e8%89%b2%e6%b7%b7%e5%90%88%e7%a9%ba%e9%97%b4%e7%a7%bb%e5%8a%a8%e7%bc%ba%e5%b0%91%e5%b7%a6%e5%8f%b3%e5%8a%a8%e7%94%bb%ef%bc%8c%e5%af%bc%e8%87%b4%e5%b7%a6%e5%8f%b3%e8%85%bf%e7%a7%bb%e5%8a%a8%e6%97%b6%e9%87%8d%e5%8f%a0%e3%80%82%e2%80%94%e2%80%94%20%e9%aa%a8%e9%aa%bc%e6%b2%a1%e9%80%82%e9%85%8d%0a%e2%80%8b%202.%20%e5%b7%b2%e8%a7%a3%e5%86%b3%20%e5%a4%9a%e4%ba%ba%e6%b8%b8%e6%88%8f%e4%b8%ad%e7%8e%a9%e5%ae%b6%e5%a5%94%e8%b7%91%e5%8f%aa%e8%83%bd%e8%87%aa%e5%b7%b1%e7%9c%8b%e5%88%b0%20%e6%b2%a1%e5%8a%9e%e6%b3%95%e8%a2%ab%e5%85%b6%e4%bb%96%e7%8e%a9%e5%ae%b6%e7%9c%8b%e5%88%b0%20%e2%80%94%e2%80%94%20MaxWalkSpeed%e9%9c%80%e8%a6%81%e7%bd%91%e7%bb%9c%e5%90%8c%e6%ad%a5%0a%e5%ae%9e%e7%8e%b0%e4%ba%86%e4%ba%ba%e7%89%a9%e7%9a%84%e7%a7%bb%e5%8a%a8%e3%80%81%e5%a5%94%e8%b7%91%e3%80%81%e8%b7%b3%e8%b7%83%e3%80%81%e5%b0%84%e5%87%bb%e3%80%82%0a%e8%a7%92%e8%89%b2%e6%b7%bb%e5%8a%a0%e4%ba%86%e5%9b%9b%e4%b8%aa%e9%aa%a8%e9%aa%bc%ef%bc%8c%e5%88%86%e5%88%ab%e6%98%af%e7%ac%ac%e4%b8%80%e4%ba%ba%e7%a7%b0%e8%a7%86%e8%a7%92%e7%9a%84%ef%bc%9aLegMesh%e8%87%aa%e5%b7%b1%e7%9c%8b%e8%87%aa%e5%b7%b1%e7%9a%84%e8%85%bf%ef%bc%8cFirstPersonMesh%e8%87%aa%e5%b7%b1%e7%9c%8b%e8%87%aa%e5%b7%b1%e7%9a%84%e6%89%8b%ef%bc%8c%e5%92%8c%e5%85%b6%e4%bb%96%e7%8e%a9%e5%ae%b6%e8%a7%86%e8%a7%92%e7%9a%84%e5%85%a8%e8%ba%ab%e6%a8%a1%e5%9e%8b%ef%bc%9aThirdpersonMesh%ef%bc%8c%e4%bb%a5%e5%8f%8aShadowMesh%e5%bd%b1%e5%ad%90%e7%bd%91%e6%a0%bc%e4%bd%93%0a%e5%8a%a8%e7%94%bb%e5%ae%8c%e6%88%90%e4%ba%86%e4%ba%ba%e7%89%a9%e7%9a%84%e8%b5%b0%e8%b7%91%ef%bc%88%e5%85%ab%e6%96%b9%e5%90%91%e6%b7%b7%e5%90%88%e7%a9%ba%e9%97%b4%ef%bc%89%e3%80%81%e8%b7%b3%ef%bc%88%e8%b5%b7%e8%b7%b3%e2%80%94%e5%9c%a8%e7%a9%ba%e4%b8%ad%e2%80%94%e8%90%bd%e5%9c%b0%ef%bc%89%e3%80%81%e5%b0%84%e5%87%bb%e9%83%a8%e5%88%86%e3%80%82%0a%e5%b0%84%e5%87%bb%e5%ae%9e%e7%8e%b0%20protected%3a%20void%20SetupInputComponent%28%29%20override%3b%20protected%3a%20UPROPERTY%28EditDefaultsOnly%2c%20BlueprintReadWrite%2c%20Category%20%3d%20%26%2334%3bEnhancedInput%26%2334%3b%2c%20meta%20%3d%20%28AllowPrivateAccess%20%3d%20%26%2334%3btrue%26%2334%3b%29%29%20TObjectPtr%26lt%3bclass%20UInputMappingContext%26gt%3b%20DefaultIMC%3b%20void%20ADemoPlayerController%3a%3aSetupInputComponent%28%29%20%7b%20Super%3a%3aSetupInputComponent%28%29%3b%20if%28UEnhancedInputLocalPlayerSubsystem%2a%20Subsystem%20%3d%20ULocalPlayer%3a%3aGetSubsystem%26lt%3bUEnhancedInputLocalPlayerSubsystem%26gt%3b%28GetLocalPlayer%28%29%29%29%20%7b%20FModifyContextOptions%20Options%3b%20Options.bForceImmediately%20%3d%20true%3b%20Subsystem-%26gt%3bClearAllMappings%28%29%3b%20if%28DefaultIMC%29%20%7b%20Subsystem-%26gt%3bAddMappingContext%28DefaultIMC%2c%200%2c%20Options%29%3b%20%7d%20%7d%20%7d%20%e5%9c%a8SetupPlayerInputComponent%e4%b8%ad%e8%b0%83%e7%94%a8%e8%87%aa%e5%ae%9a%e4%b9%89%e8%be%93%e5%85%a5%e7%bb%84%e4%bb%b6%e7%bb%91%e5%ae%9a%e8%be%93%e5%85%a5%e3%80%82%0avoid%20ADemoPlayerCharacter%3a%3aSetupPlayerInputComponent%28UInputComponent%2a%20PlayerInputComponent%29%20%7b%20Super%3a%3aSetupPlayerInputComponent%28PlayerInputComponent%29%3b%20UDemoPlayerInputComponent%2a%20DemoInput%20%3d%20CastChecked%26lt%3bUDemoPlayerInputComponent%26gt%3b%28PlayerInputComponent%29%3b%20if%20%28DemoInput%29%20%7b%20DemoInput-%26gt%3bSetupInputBindings%28%29%3b%20%7d%20%7d%20void%20UDemoPlayerInputComponent%3a%3aSetupInputBindings%28%29%20%7b%20if%28IA_DemoFire%29%20%7b%20BindAction%28IA_DemoFire%2c%20ETriggerEvent%3a%3aStarted%2c%20this%2c%20%26amp%3bUDemoPlayerInputComponent%3a%3aStartFire%29%3b%20BindAction%28IA_DemoFire%2c%20ETriggerEvent%3a%3aCompleted%2c%20this%2c%20%26amp%3bUDemoPlayerInputComponent%3a%3aEndFire%29%3b%20%7d%20%7d%20%e8%87%aa%e5%ae%9a%e4%b9%89%e8%be%93%e5%85%a5%e7%bb%84%e4%bb%b6%e4%b8%ad%e7%9a%84%e5%bc%80%e7%81%ab%e5%87%bd%e6%95%b0%e7%94%a8%e6%9d%a5%e8%b0%83%e7%94%a8ADemoPlayerCharacter%e7%9a%84%e5%bc%80%e7%81%ab%e5%87%bd%e6%95%b0&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a55.23&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A55.23%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

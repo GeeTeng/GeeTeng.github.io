@@ -35,7 +35,7 @@
   <meta itemprop="description" content="LeetCode热题100整理">
   <meta itemprop="datePublished" content="2025-03-12T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-12T00:00:00+00:00">
-  <meta itemprop="wordCount" content="7849">
+  <meta itemprop="wordCount" content="7822">
   <meta itemprop="keywords" content="算法">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/" />
 
@@ -379,7 +379,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        85 mins read
+                        86 mins read
                     </p>
                 </div>
             </div>
@@ -427,23 +427,24 @@
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> longestConsecutive(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
-</span></span><span style="display:flex;"><span>        unordered_set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> mp(nums.begin(), nums.end());
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> maxlen <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, curlen <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, curnum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> num : mp) {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (mp.find(num <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">==</span> mp.end()) {
-</span></span><span style="display:flex;"><span>                curlen <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, curnum <span style="color:#f92672">=</span> num;
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">while</span> (mp.find(curnum <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">!=</span> mp.end()) {
-</span></span><span style="display:flex;"><span>                    curlen <span style="color:#f92672">++</span>;
-</span></span><span style="display:flex;"><span>                    curnum <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>        unordered_set<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> map(nums.begin(), nums.end());
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> res <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> num : map) {
+</span></span><span style="display:flex;"><span>            cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (map.find(num <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">==</span> map.end()) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">while</span> (map.find(num <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">!=</span> map.end()) {
+</span></span><span style="display:flex;"><span>                    cnt<span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>                    num<span style="color:#f92672">++</span>;
 </span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>                maxlen <span style="color:#f92672">=</span> max(maxlen, curlen);
+</span></span><span style="display:flex;"><span>                res <span style="color:#f92672">=</span> max(res, cnt);
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> maxlen;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h2 id="双指针">双指针</h2>
 <h3 id="283-移动零">283. 移动零</h3>
+<p>l和r都从0开始遍历，r不断地++遍历整个数组，只有当r所指数字不为0时，l才会移动。</p>
 <p>为了保证数字的顺序，所以要交换的条件是当r不等于0的时候去交换。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
@@ -1746,70 +1747,67 @@
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h3 id="79-单词搜索">79. 单词搜索</h3>
 <p><em>回溯法</em></p>
+<p>重点：将字符改变成‘#’，递归，再改回来回溯。不需要记录选择了什么字符，只需要记录x y和index。</p>
 <p>像是图论问题，如果超出边界或者该字符不等于<code>word[k]</code>则返回false，遍历四个方向后再将该点的字符改回原值。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> dx[<span style="color:#ae81ff">4</span>] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>};
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> dy[<span style="color:#ae81ff">4</span>] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>};
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">backtrack</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string<span style="color:#f92672">&amp;</span> word, <span style="color:#66d9ef">int</span> i, <span style="color:#66d9ef">int</span> j, <span style="color:#66d9ef">int</span> k) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(k <span style="color:#f92672">==</span> word.size()) <span style="color:#66d9ef">return</span> true;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> i <span style="color:#f92672">&gt;=</span> board.size() <span style="color:#f92672">||</span> j <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> j <span style="color:#f92672">&gt;=</span> board[<span style="color:#ae81ff">0</span>].size() <span style="color:#f92672">||</span> word[k] <span style="color:#f92672">!=</span> board[i][j]) <span style="color:#66d9ef">return</span> false;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> tmp <span style="color:#f92672">=</span> board[i][j];
-</span></span><span style="display:flex;"><span>        board[i][j] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; d <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>; d <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> x <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> dx[d], y <span style="color:#f92672">=</span> j <span style="color:#f92672">+</span> dy[d];
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(backtrack(board, word, x, y, k <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>)) <span style="color:#66d9ef">return</span> true;
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        board[i][j] <span style="color:#f92672">=</span> tmp;
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> false;
-</span></span><span style="display:flex;"><span>         
-</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> dx[<span style="color:#ae81ff">4</span>] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">0</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>};
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> dy[<span style="color:#ae81ff">4</span>] <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>, <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">0</span>};
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">exist</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> board.size(), m <span style="color:#f92672">=</span> board[<span style="color:#ae81ff">0</span>].size();
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> m; j <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(backtrack(board, word, i, j, <span style="color:#ae81ff">0</span>)) <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> board.size(); i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> board[<span style="color:#ae81ff">0</span>].size(); j <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(board[i][j] <span style="color:#f92672">==</span> word[<span style="color:#ae81ff">0</span>]) <span style="color:#66d9ef">if</span>(dfs(board, word, <span style="color:#ae81ff">0</span>, i, j)) <span style="color:#66d9ef">return</span> true;
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">dfs</span>(vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">char</span><span style="color:#f92672">&gt;&gt;&amp;</span> board, string word, <span style="color:#66d9ef">int</span> index, <span style="color:#66d9ef">int</span> x, <span style="color:#66d9ef">int</span> y) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(index <span style="color:#f92672">==</span> word.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">char</span> tmp <span style="color:#f92672">=</span> board[x][y];
+</span></span><span style="display:flex;"><span>        board[x][y] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;#&#39;</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> nx <span style="color:#f92672">=</span> x <span style="color:#f92672">+</span> dx[i];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> ny <span style="color:#f92672">=</span> y <span style="color:#f92672">+</span> dy[i];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(nx <span style="color:#f92672">&lt;</span> board.size() <span style="color:#f92672">&amp;&amp;</span> nx <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> ny <span style="color:#f92672">&lt;</span> board[<span style="color:#ae81ff">0</span>].size() <span style="color:#f92672">&amp;&amp;</span> ny <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> board[nx][ny] <span style="color:#f92672">==</span> word[index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(dfs(board, word, index <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, nx, ny)) <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        board[x][y] <span style="color:#f92672">=</span> tmp;
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> false;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h3 id="131-分割回文串">131. 分割回文串</h3>
-<p><em>回溯法 + 动态规划</em></p>
-<p>动态规划：先预处理<code>isPalindrome</code>数组，用 <code>dp[i][j]</code> 表示 <code>s[i:j]</code> 是否为回文。如果<code>s[i] == s[j]</code>则长度为1和2的字符串一定是回文，如果长度超过2，则回文判断方法为<code>dp[i][j] = dp[i+1][j-1])</code>。</p>
 <p>回溯搜索：维护一个 <code>path</code> 记录当前切分方案，遍历 <code>s[i:j]</code>，如果是回文，则递归搜索 <code>s[j+1:]</code>。当 <code>start == s.size()</code> 时，说明找到了一组有效方案。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
-</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;</span> res;
-</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> path;
-</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;&gt;</span> isPalindrome;
-</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtrack</span>(string<span style="color:#f92672">&amp;</span> s, <span style="color:#66d9ef">int</span> start) {
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;</span> partition(string s) {
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;</span> res;
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;</span> cur;
+</span></span><span style="display:flex;"><span>        backtrack(s, <span style="color:#ae81ff">0</span>, cur, res);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    } <span style="color:#75715e">// 不断地切分字符串 比如aab，start = 0，a是回文则继续递归start = 1，看之后的字符。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">backtrack</span>(string s, <span style="color:#66d9ef">int</span> start, vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&amp;</span> cur, vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;&amp;</span> res) {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(start <span style="color:#f92672">==</span> s.size()) {
-</span></span><span style="display:flex;"><span>            res.push_back(path);
+</span></span><span style="display:flex;"><span>            res.push_back(cur);
 </span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span>;
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> end <span style="color:#f92672">=</span> start;  end <span style="color:#f92672">&lt;</span> s.size(); end <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(isPalindrome[start][end]) {
-</span></span><span style="display:flex;"><span>                path.push_back(s.substr(start, end <span style="color:#f92672">-</span> start <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>));
-</span></span><span style="display:flex;"><span>                backtrack(s, end <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
-</span></span><span style="display:flex;"><span>                path.pop_back();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> start; i <span style="color:#f92672">&lt;</span> s.size(); i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            string tmp <span style="color:#f92672">=</span> s.substr(start, i <span style="color:#f92672">-</span> start <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(isHuiWen(tmp)) {
+</span></span><span style="display:flex;"><span>                cur.push_back(tmp);
+</span></span><span style="display:flex;"><span>                backtrack(s, i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, cur, res);
+</span></span><span style="display:flex;"><span>                cur.pop_back();
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>    }
-</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span>vector<span style="color:#f92672">&lt;</span>string<span style="color:#f92672">&gt;&gt;</span> partition(string s) {
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> s.size();
-</span></span><span style="display:flex;"><span>        isPalindrome.assign(n, vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span>(n, false));
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; len <span style="color:#f92672">&lt;=</span> n; len <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">+</span> len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> len <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
-</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(s[i] <span style="color:#f92672">==</span> s[j]) {
-</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span>(len <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">||</span> len <span style="color:#f92672">==</span> <span style="color:#ae81ff">2</span>) isPalindrome[i][j] <span style="color:#f92672">=</span> true;
-</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">else</span> isPalindrome[i][j] <span style="color:#f92672">=</span> isPalindrome[i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>][j <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
-</span></span><span style="display:flex;"><span>                }
-</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    } <span style="color:#75715e">// 判断是否回文串
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isHuiWen</span>(string tmp) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, j <span style="color:#f92672">=</span> tmp.size() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(i <span style="color:#f92672">&lt;</span> j) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(tmp[i] <span style="color:#f92672">!=</span> tmp[j]) <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>            i <span style="color:#f92672">++</span>, j <span style="color:#f92672">--</span>;
 </span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        backtrack(s, <span style="color:#ae81ff">0</span>);
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> true;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h3 id="51-n皇后">51. N皇后</h3>
@@ -2061,8 +2059,8 @@
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">else</span> {
 </span></span><span style="display:flex;"><span>                stk.push(ch);
 </span></span><span style="display:flex;"><span>            }
-</span></span><span style="display:flex;"><span>        }
-</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> stk.empty();
+</span></span><span style="display:flex;"><span>        } <span style="color:#75715e">// 判断是否还有多余字符 有的话则无效
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">return</span> stk.empty();
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h3 id="394-字符串解码">394. 字符串解码</h3>
@@ -2070,7 +2068,7 @@
 <p>当遇到数字时，可能是多位数字，所以<code>num = num * 10 + (ch - '0');</code></p>
 <p>当遇到<code>[</code>时，要将栈中放入currentStr和num，并且置空这两个变量。</p>
 <p>当遇到<code>]</code>时，取出两个栈顶的数字和字符串，然后去重复字符串。</p>
-<p>当遇到字符时，就直接加入到currentStr中。</p>
+<p>当遇到字符时，就直接加入到currentStr中，currentStr中是累计的长字符，当遇到[时候要清空。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    string decodeString(string s) {
@@ -2108,6 +2106,7 @@
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h3 id="739-每日温度">739. 每日温度</h3>
 <p>单调栈，当遇到比栈顶温度大的天数，就得出了最近温度升高的那天，也就是<code>i - stk.top()</code>，并弹出栈顶元素。</p>
+<p>注意是while循环，而不是if，因为如果只处理了一个栈顶元素，如果当前温度比多个栈顶元素都大，就会漏处理。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
 </span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> dailyTemperatures(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> temperatures) {
@@ -2765,7 +2764,7 @@ public:
 	    </a>
 
 		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2fleetcodehot100%2f
-			&title=LeetCode%e7%83%ad%e9%a2%98100&summary=LeetCodeHot100%20%e5%93%88%e5%b8%8c%2049.%20%e5%ad%97%e6%af%8d%e5%bc%82%e4%bd%8d%e8%af%8d%e5%88%86%e7%bb%84%20class%20Solution%20%7b%20public%3a%20vector%26lt%3bvector%26lt%3bstring%26gt%3b%26gt%3b%20groupAnagrams%28vector%26lt%3bstring%26gt%3b%26amp%3b%20strs%29%20%7b%20int%20n%20%3d%20strs.size%28%29%3b%20vector%26lt%3bvector%26lt%3bstring%26gt%3b%26gt%3b%20res%3b%20unordered_map%26lt%3bstring%2c%20vector%26lt%3bstring%26gt%3b%26gt%3b%20mp%3b%20for%28int%20i%20%3d%200%3b%20i%20%26lt%3b%20n%3b%20i%20%2b%2b%29%20%7b%20string%20tmp%20%3d%20strs%5bi%5d%3b%20sort%28tmp.begin%28%29%2c%20tmp.end%28%29%29%3b%20mp%5btmp%5d.emplace_back%28strs%5bi%5d%29%3b%20%7d%20for%28auto%20it%20%3d%20mp.begin%28%29%3b%20it%20%21%3d%20mp.end%28%29%3b%20it%20%2b%2b%29%20%7b%20res.push_back%28it-%26gt%3bsecond%29%3b%20%7d%20return%20res%3b%20%7d%20%7d%3b%20128.%20%e6%9c%80%e9%95%bf%e8%bf%9e%e7%bb%ad%e5%ba%8f%e5%88%97%20%e5%a6%82%e6%9e%9cnum%20-%201%e6%98%af%e4%b8%8d%e5%ad%98%e5%9c%a8%e7%9a%84%ef%bc%8c%e5%88%99%e5%bc%80%e5%a7%8b%e5%be%80%e5%90%8e%e6%9f%a5%e6%89%benum%20%2b%201%ef%bc%8c%e6%af%8f%e6%ac%a1%e6%9b%b4%e6%96%b0num%e4%b8%banum%20%2b%201%ef%bc%8c%e7%bb%a7%e7%bb%ad%e6%89%benum%20%2b%201%ef%bc%8c%e7%9b%b4%e5%88%b0%e6%89%be%e4%b8%8d%e5%88%b0%e4%bd%8d%e7%bd%ae%ef%bc%8c%e5%8e%bb%e6%9b%b4%e6%96%b0maxlen%e3%80%82%0a%e6%b3%a8%e6%84%8f%ef%bc%9a%e8%a6%81%e9%81%8d%e5%8e%86unordered_set%ef%bc%8c%e8%80%8c%e4%b8%8d%e6%98%af%e5%8e%9f%e6%95%b0%e7%bb%84%ef%bc%8c%e5%90%a6%e5%88%99%e4%bc%9aTLE%e3%80%82%0aclass%20Solution%20%7b%20public%3a%20int%20longestConsecutive%28vector%26lt%3bint%26gt%3b%26amp%3b%20nums%29%20%7b%20unordered_set%26lt%3bint%26gt%3b%20mp%28nums.&source=rafed123.github.io"
+			&title=LeetCode%e7%83%ad%e9%a2%98100&summary=LeetCodeHot100%20%e5%93%88%e5%b8%8c%2049.%20%e5%ad%97%e6%af%8d%e5%bc%82%e4%bd%8d%e8%af%8d%e5%88%86%e7%bb%84%20class%20Solution%20%7b%20public%3a%20vector%26lt%3bvector%26lt%3bstring%26gt%3b%26gt%3b%20groupAnagrams%28vector%26lt%3bstring%26gt%3b%26amp%3b%20strs%29%20%7b%20int%20n%20%3d%20strs.size%28%29%3b%20vector%26lt%3bvector%26lt%3bstring%26gt%3b%26gt%3b%20res%3b%20unordered_map%26lt%3bstring%2c%20vector%26lt%3bstring%26gt%3b%26gt%3b%20mp%3b%20for%28int%20i%20%3d%200%3b%20i%20%26lt%3b%20n%3b%20i%20%2b%2b%29%20%7b%20string%20tmp%20%3d%20strs%5bi%5d%3b%20sort%28tmp.begin%28%29%2c%20tmp.end%28%29%29%3b%20mp%5btmp%5d.emplace_back%28strs%5bi%5d%29%3b%20%7d%20for%28auto%20it%20%3d%20mp.begin%28%29%3b%20it%20%21%3d%20mp.end%28%29%3b%20it%20%2b%2b%29%20%7b%20res.push_back%28it-%26gt%3bsecond%29%3b%20%7d%20return%20res%3b%20%7d%20%7d%3b%20128.%20%e6%9c%80%e9%95%bf%e8%bf%9e%e7%bb%ad%e5%ba%8f%e5%88%97%20%e5%a6%82%e6%9e%9cnum%20-%201%e6%98%af%e4%b8%8d%e5%ad%98%e5%9c%a8%e7%9a%84%ef%bc%8c%e5%88%99%e5%bc%80%e5%a7%8b%e5%be%80%e5%90%8e%e6%9f%a5%e6%89%benum%20%2b%201%ef%bc%8c%e6%af%8f%e6%ac%a1%e6%9b%b4%e6%96%b0num%e4%b8%banum%20%2b%201%ef%bc%8c%e7%bb%a7%e7%bb%ad%e6%89%benum%20%2b%201%ef%bc%8c%e7%9b%b4%e5%88%b0%e6%89%be%e4%b8%8d%e5%88%b0%e4%bd%8d%e7%bd%ae%ef%bc%8c%e5%8e%bb%e6%9b%b4%e6%96%b0maxlen%e3%80%82%0a%e6%b3%a8%e6%84%8f%ef%bc%9a%e8%a6%81%e9%81%8d%e5%8e%86unordered_set%ef%bc%8c%e8%80%8c%e4%b8%8d%e6%98%af%e5%8e%9f%e6%95%b0%e7%bb%84%ef%bc%8c%e5%90%a6%e5%88%99%e4%bc%9aTLE%e3%80%82%0aclass%20Solution%20%7b%20public%3a%20int%20longestConsecutive%28vector%26lt%3bint%26gt%3b%26amp%3b%20nums%29%20%7b%20unordered_set%26lt%3bint%26gt%3b%20map%28nums.&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>

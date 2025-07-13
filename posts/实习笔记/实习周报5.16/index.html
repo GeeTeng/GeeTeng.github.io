@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    实习周报5.16 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="数据结构、UGit使用、UE模块创建
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E4%B9%A0%E5%91%A8%E6%8A%A55.16/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="实习周报5.16">
+  <meta property="og:description" content="数据结构、UGit使用、UE模块创建">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-05-16T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-05-16T00:00:00+00:00">
+    <meta property="article:tag" content="实习笔记">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="实习周报5.16">
+  <meta name="twitter:description" content="数据结构、UGit使用、UE模块创建">
+
+
+  <meta itemprop="name" content="实习周报5.16">
+  <meta itemprop="description" content="数据结构、UGit使用、UE模块创建">
+  <meta itemprop="datePublished" content="2025-05-16T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-05-16T00:00:00+00:00">
+  <meta itemprop="wordCount" content="459">
+  <meta itemprop="keywords" content="实习笔记">
+<link rel="canonical" href="https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E4%B9%A0%E5%91%A8%E6%8A%A55.16/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#实习周报516">实习周报5.16</a></li>
+    <li><a href="#附件">附件：</a></li>
+    <li><a href="#tarray">TArray</a>
+      <ul>
+        <li><a href="#slack">Slack</a></li>
+        <li><a href="#堆">堆</a></li>
+        <li><a href="#插入">插入</a></li>
+        <li><a href="#排序">排序</a></li>
+        <li><a href="#删除">删除</a></li>
+        <li><a href="#查询">查询</a></li>
+      </ul>
+    </li>
+    <li><a href="#tmap">TMap</a>
+      <ul>
+        <li><a href="#unordered_map-和-map的区别">unordered_map 和 map的区别</a></li>
+        <li><a href="#查找机制keyfuncs">查找机制：KeyFuncs</a></li>
+        <li><a href="#哈希分布bucket-数组哈希槽">哈希分布：Bucket 数组（哈希槽）</a></li>
+        <li><a href="#删除和空位处理">删除和空位处理</a></li>
+        <li><a href="#内存与增长策略rehash">内存与增长策略（Rehash）</a></li>
+      </ul>
+    </li>
+    <li><a href="#ugit新增本地分支">UGit新增本地分支</a></li>
+    <li><a href="#ue模块创建">UE模块创建</a></li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>实习周报5.16</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">May 16, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        19 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0">实习笔记</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0">实习笔记</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h1 id="实习周报516">实习周报5.16</h1>
+<p>数据结构Array、List、Stack、Queue、TArray、TMap</p>
+<p>UGit新增分支</p>
+<p>UE模块创建</p>
+<h1 id="附件">附件：</h1>
+<p><a href="https://drive.weixin.qq.com/s?k=AJEAIQdfAAoRFPJrv7AYkAJgZ2AA8">List.cpp</a><a href="https://drive.weixin.qq.com/s?k=AJEAIQdfAAoyc3e6VrAYkAJgZ2AA8">Queue.cpp</a><a href="https://drive.weixin.qq.com/s?k=AJEAIQdfAAozQ21FjTAYkAJgZ2AA8">TMap.cpp</a><a href="https://drive.weixin.qq.com/s?k=AJEAIQdfAAoV0Eul1CAYkAJgZ2AA8">Stack.cpp</a><a href="https://drive.weixin.qq.com/s?k=AJEAIQdfAAoqYIXSCoAYkAJgZ2AA8">TArray.cpp</a><a href="https://drive.weixin.qq.com/s?k=AJEAIQdfAAouiDeY40AYkAJgZ2AA8">Array.cpp</a></p>
+<h1 id="tarray">TArray</h1>
+<p>TArray类型由两大属性定义：元素类型和可选分配器（默认FDefaultAllocator）。</p>
+<p>TArray只是内存的包装器，是对一块动态分配的连续内存进行管理。</p>
+<p>比如你要一次性从文件或网络中读取 100 个 FMyStruct，而不想一个一个 Add，还要调用构造函数再赋值，影响效率。就可以使用AddUninitialized。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>TArray<span style="color:#f92672">&lt;</span>FMyStruct<span style="color:#f92672">&gt;</span> MyArray;
+</span></span><span style="display:flex;"><span>MyArray.AddUninitialized(<span style="color:#ae81ff">100</span>); <span style="color:#75715e">// 分配空间而不调用构造
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 假设你从磁盘中读了一块内存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>FMemory<span style="color:#f92672">::</span>Memcpy(MyArray.GetData(), FileBuffer, <span style="color:#ae81ff">100</span> <span style="color:#f92672">*</span> <span style="color:#66d9ef">sizeof</span>(FMyStruct));
+</span></span><span style="display:flex;"><span> 
+</span></span></code></pre></div><p>AddZeroed(int32 Count) 插入5个元素，但不会调用构造函数并且内存会被填充为0（memset）。适合纯数据结构体（POD）：结构体没有虚函数、继承、自定义构造和析构。比如FString就不是POD，因为管理堆内存、有构造和析构等。</p>
+<p>SetNumUninitialized(int32 NewNum) 修改数组长度为100，扩容部分不会构造元素，只是扩展内存。</p>
+<h2 id="slack">Slack</h2>
+<p>Slack可调整数组的大小，为了避免每次添加元素都要重新分配内存，分配器提供的内存通常会超过必要内存，自认为和Vector一样。同样删除元素不会释放内存，此操作会是数组拥有Slack元素，也就是当前未使用的有效预分配元素储存槽。（可储存的元素数量 - 存储元素数量 = Slack）</p>
+<h2 id="堆">堆</h2>
+<p>TArray拥有支持二叉堆数据结构的函数，调用Heapify函数可将现有数组转换为堆。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>TArray<span style="color:#f92672">&lt;</span>int32<span style="color:#f92672">&gt;</span> HeapArr;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (int32 Val <span style="color:#f92672">=</span> <span style="color:#ae81ff">10</span>; Val <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>; <span style="color:#f92672">--</span>Val)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	HeapArr.Add(Val);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// HeapArr == [10,9,8,7,6,5,4,3,2,1]
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>HeapArr.Heapify();
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// HeapArr == [1,2,4,3,6,5,8,10,7,9]
+</span></span></span></code></pre></div><p>HeapPush 将新元素添加到堆，并重新排序维护堆。</p>
+<p>HeapPop和HeapPopDiscard函数用于移除堆的顶部节点，前者会返回顶部元素副本，而后者仅移除节点。</p>
+<p>HeapRemoveAt将删除数组中给定索引的元素，并重新排列元素维护堆。</p>
+<p>可使用 HeapTop 检查堆的顶部节点。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>TArray<span style="color:#f92672">&lt;</span>int32<span style="color:#f92672">&gt;</span> SlackArray;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// SlackArray.GetSlack() == 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// SlackArray.Num()      == 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// SlackArray.Max()      == 0
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 
+</span></span><span style="display:flex;"><span>	SlackArray.Add(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// SlackArray.GetSlack() == 3 = 4 - 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// SlackArray.Num()      == 1
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#75715e">// SlackArray.Max()      == 4
+</span></span></span></code></pre></div><p>可以管理Slack对数组进行优化，比如要添加100个元素，呢么就要确保有100个Slack。</p>
+<p>Empty就可以选择Slack参数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>MyArray.Empty(); <span style="color:#75715e">// 清空并释放所有内存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>MyArray.Empty(<span style="color:#ae81ff">10</span>); <span style="color:#75715e">// 清空但预留 10 个元素空间
+</span></span></span></code></pre></div><p>Shrink可以释放Slack，把容量压缩到正好存储当前元素数量。</p>
+<p>Reserve可以预先分配好空间，防止Add后再分配。</p>
+<h2 id="插入">插入</h2>
+<p>TArray中添加单个元素有：Add、Push、Emplace、AddUnique、Insert；前四种是在数组尾部追加元素，Insert可以在任意位置插入。</p>
+<p>TArray 中的 Emplace 与 Add 的区别，基本和 C++ STL 中 std::vector 的 emplace_back 与 push_back 的区别是一致的：Emplace/emplace_back 是原地构造，Add/push_back 是先构造再拷贝或移动。</p>
+<p>比如在TArray<FString>中，Add将用字符串文字创建临时FString，然后将该临时FString的内容移到容器内的新FString中，而Emplace可避免创建临时文件。由于FString非浅显，所以Emplace更好。</p>
+<p>所以Add最好用于浅显类型而Emplace用于其他类型。</p>
+<h2 id="排序">排序</h2>
+<p>TArray 的排序算法有三种，分别是 Sort快排、 HeapSort堆排序、 StableSort归并排序。</p>
+<h2 id="删除">删除</h2>
+<p>TArray 的删除有 Remove、 RemoveSingle、 RemoveAll、 RemoveAt、 Empty（清空数组）。</p>
+<h2 id="查询">查询</h2>
+<p>TArray 的查询有 [] 运算符、 Last、 Top。</p>
+<p>判断元素是否存在： Contains是否包含、 ContainsByPredicate（自定义规则）。</p>
+<p>查找元素所在的索引： Find返回第一个、 FindLast返回最后一个、 IndexOfByKey、 IndexOfByPredicate。</p>
+<p>查找元素对象： FindByKey、 FindByPredicate、 FilterByPredicate。</p>
+<h1 id="tmap">TMap</h1>
+<p>在STL的map中，使用 操作符[] 访问不存在的键时，会自动添加一个键值对元素，而在虚幻引擎TMap不同的是，操作符[] 访问了不存在的键会触发断言；</p>
+<p>TMap 是 哈希表（Hash Map），它的底层实现基于哈希算法（类似于 C++ 标准库中的 std::unordered_map）TSet：基于哈希表的哈希集合，类似于 std::unordered_set。</p>
+<h2 id="unordered_map-和-map的区别">unordered_map 和 map的区别</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>map</th>
+<th>unordered_map</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>底层结构</td>
+<td>红黑树</td>
+<td>哈希表</td>
+</tr>
+<tr>
+<td>是否排序</td>
+<td>有序</td>
+<td>无序</td>
+</tr>
+<tr>
+<td>时间复杂度</td>
+<td>O(log N)</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>内存使用</td>
+<td>少</td>
+<td>多</td>
+</tr>
+</tbody>
+</table>
+<p>TMap 的底层实现依赖于 TMapBase&lt;KeyType, ValueType, SetAllocator, bSparse&gt;。</p>
+<p>TMapBase 自己内部使用了一个 TSet&lt;TPair&lt;KeyType, ValueType&gt;, &hellip;&gt; 来存储键值对。</p>
+<p>也就是说：TMap 是通过包装一个内部的 TSet&lt;TPair&lt;Key, Value&raquo; 来实现的，TMap 是通过将键值对作为元素插入一个哈希集合 TSet 来实现的。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>TSet<span style="color:#f92672">&lt;</span>TPair<span style="color:#f92672">&lt;</span>KeyType, ValueType<span style="color:#f92672">&gt;</span>, ...<span style="color:#f92672">&gt;</span> Pairs;
+</span></span></code></pre></div><h2 id="查找机制keyfuncs">查找机制：KeyFuncs</h2>
+<p>告诉 TMap 如何比较两个 Key 是否相等，用于查找、删除、插入等操作。</p>
+<p>告诉 TMap 如何计算 Key 的哈希值，用于快速定位元素桶的位置。</p>
+<h2 id="哈希分布bucket-数组哈希槽">哈希分布：Bucket 数组（哈希槽）</h2>
+<p>TSet 内部维护了一个 Bucket 数组（哈希槽）：</p>
+<p>每个元素（TPair）根据 Key 的哈希值决定放在哪个槽；</p>
+<p>哈希冲突时使用 <strong>开放寻址法（Open Addressing）</strong>；</p>
+<h2 id="删除和空位处理">删除和空位处理</h2>
+<p>当元素被删除时，为了保持探测序列连续，不是直接清空，而是标记为 “已删除”（Removed Entry）。</p>
+<p>因此：</p>
+<p>会有 “空槽”、“占用槽”、“已删除槽” 三种状态；</p>
+<p>插入时跳过 “已删除槽”，找到第一个可用位置；</p>
+<p>为了避免占满，TMap 定期会触发 Rehash（重新构建哈希表）</p>
+<h2 id="内存与增长策略rehash">内存与增长策略（Rehash）</h2>
+<p>TSet 会根据元素数量动态扩容；</p>
+<p>通常使用 2 的幂次作为桶的个数；</p>
+<p>超过负载因子时会 Rehash：重新分配 Bucket，重新哈希所有元素。</p>
+<p>举例说当你插入一个键值对到TMap中，实际上会用KeyFuncs获取Key的哈希值，然后TSet根据哈希值找到桶的位置，检查冲突。如果冲突则线性探测下一个位置，否则就直接插入。如果负载上线，就会自动再哈希。</p>
+<p>TMap的Shrink可移除TMap中的全部Slack，Shrink只会在后端移除Slack，但是会在中间留下空白元素。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">for</span> (int32 i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>; i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>		FruitMap.Remove(i);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>FruitMap.Shrink(); <span style="color:#75715e">// 
+</span></span></span></code></pre></div><p>要移除所有slack，首先应使用Compact函数，将空白空间组合在一起，为调用 Shrink 做好准备。</p>
+<h1 id="ugit新增本地分支">UGit新增本地分支</h1>
+<p><img src="/images/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/01.png" alt="img"></p>
+<h1 id="ue模块创建">UE模块创建</h1>
+<p><a href="https://dev.epicgames.com/documentation/zh-cn/unreal-engine/how-to-make-a-gameplay-module-in-unreal-engine">如何在虚幻引擎中创建Gameplay模块 | 虚幻引擎 5.5 文档 | Epic Developer Community</a></p>
+<p>UE模块可以封装功能并隐藏代码</p>
+<p>模块为单独的编译单元，所以只有已更改的模块才需要编译，对于大项目编译时间会缩短。未使用的模块会被排除在编译之外。可以控制在运行时何时加载和卸载某个模块，也可以基于为哪个平台编译的而引入或排除模块。</p>
+<p>UE会根据项目中的Target.cs（Target.cs 决定了构建的目标Game、Editor、Server 等）和Build.cs构建项目，而不是IDE的解决方案文件sln构建。因为真正的构建系统是UBT（Unreal Build Tool）。</p>
+<p>ModuleName.Build.cs 决定了每个模块的依赖、包含路径、PCH、链接方式等。</p>
+<p>.uproject包含一个Modules列表，定义了哪些模块会纳入到项目中，以及模块加载的方式。</p>
+<p>大部分Gameplay模块将直接列出名称（Name），而类型（Type） 将设置为 Runtime。</p>
+<p><strong>UBT UHT</strong></p>
+<p>UBT编译cs文件，调用UHT文件来处理带有UCLASS/UPROPERTY等的宏代码</p>
+<p><strong>UBT本身不参与反射机制的实现，但是它负责调用UHT</strong>。</p>
+<p>完整编译流程：UBT搜集目录中的.cs文件，然后UBT调用UHT分析需要分析的.h .cpp文件（根据文件是否含有#include&quot;FileName.generated.h&quot;，是否有UCLASS()、UPROPERTY等宏）生成generated.h和gen.cpp文件，最后UBT调用MSBuild，将.h.cpp和generated.h gen.cpp结合到一起然后编译。</p>
+<p><strong>反射</strong></p>
+<p><a href="https://zhuanlan.zhihu.com/p/400473355">UE &ndash; UBT、UHT与反射基本理解 - 知乎</a></p>
+<p>C#中反射的定义是：运行中的程序查看本身的元数据或其他程序的元数据的行为。</p>
+<p>C++本身不支持反射，也没有垃圾回收，因此UE自己实现了一套反射系统，通过反射可以实现序列化、垃圾回收GC、网络复制、蓝图通信等重要功能。简而言之就是把C++代码暴露给引擎，可以使用蓝图、序列化等功能。</p>
+<p>Demo.h</p>
+<p>Gameplay模块要继承FDefaultGameModuleImpl</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#pragma once
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;CoreMinimal.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">FDemoModule</span> <span style="color:#f92672">:</span> <span style="color:#66d9ef">public</span> FDefaultGameModuleImpl
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> StartupModule() <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>Demo.cpp</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// Copyright Epic Games, Inc. All Rights Reserved.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span> 
+</span></span><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;Demo.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> FDemoModule<span style="color:#f92672">::</span>StartupModule()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	UE_LOG(LogTemp, Warning, TEXT(<span style="color:#e6db74">&#34;Demo module has started up.&#34;</span>));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>IMPLEMENT_GAME_MODULE(FDemoModule, Demo);
+</span></span><span style="display:flex;"><span> 
+</span></span></code></pre></div><p>Demo.Build.cs</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">using</span> UnrealBuildTool;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Demo</span> <span style="color:#f92672">:</span> ModuleRules
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">public</span> <span style="color:#a6e22e">Demo</span>(ReadOnlyTargetRules Target) <span style="color:#f92672">:</span> base(Target)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        PCHUsage <span style="color:#f92672">=</span> PCHUsageMode.UseExplicitOrSharedPCHs;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 公共依赖模块（其他模块能访问）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        PublicDependencyModuleNames.AddRange(<span style="color:#66d9ef">new</span> string[] {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;Core&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;CoreUObject&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;Engine&#34;</span>,
+</span></span><span style="display:flex;"><span>            
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 私有依赖模块（本模块内部用，其他模块不可访问）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        PrivateDependencyModuleNames.AddRange(<span style="color:#66d9ef">new</span> string[] {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;AnimGraphRuntime&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;EnhancedInput&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;Slate&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;SlateCore&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;UMG&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;GameplayAbilities&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;GameplayTasks&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;AdvancedWidgets&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;AnimGraphRuntime&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;NavigationSystem&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;OnlineSubsystem&#34;</span>,
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;OnlineSubsystemUtils&#34;</span>,
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 如果是编辑器模块，可以这样判断：
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (Target.Type <span style="color:#f92672">==</span> TargetType.Editor)
+</span></span><span style="display:flex;"><span>        {
+</span></span><span style="display:flex;"><span>            PrivateDependencyModuleNames.AddRange(<span style="color:#66d9ef">new</span> string[]
+</span></span><span style="display:flex;"><span>            {
+</span></span><span style="display:flex;"><span>                <span style="color:#e6db74">&#34;BJEditorTool&#34;</span>,
+</span></span><span style="display:flex;"><span>            });
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 添加额外的公共包含路径
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        PublicIncludePaths.AddRange(<span style="color:#66d9ef">new</span> string[] {
+</span></span><span style="display:flex;"><span>            <span style="color:#e6db74">&#34;Demo&#34;</span>,
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在xxxEditor.Target.cs和xxx.Target.cs文件中添加该模块。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>ExtraModuleNames.AddRange(<span style="color:#66d9ef">new</span> string[] { <span style="color:#e6db74">&#34;PMS&#34;</span>, <span style="color:#e6db74">&#34;BJFramework&#34;</span>, <span style="color:#e6db74">&#34;BJEditorTool&#34;</span>, <span style="color:#e6db74">&#34;PMSGamePlay&#34;</span>, <span style="color:#e6db74">&#34;Demo&#34;</span> });
+</span></span></code></pre></div><p>在Module中添加</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;Name&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Demo&#34;</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;Type&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Runtime&#34;</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;LoadingPhase&#34;</span><span style="color:#f92672">:</span> <span style="color:#e6db74">&#34;Default&#34;</span>,
+</span></span><span style="display:flex;"><span>	<span style="color:#e6db74">&#34;AdditionalDependencies&#34;</span><span style="color:#f92672">:</span> [
+</span></span><span style="display:flex;"><span>		<span style="color:#e6db74">&#34;Engine&#34;</span>
+</span></span><span style="display:flex;"><span>	]
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A55.16%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a55.16&url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A55.16%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A55.16%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A55.16%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A55.16%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A55.16%2f
+			&title=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a55.16&summary=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a55.16%20%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84Array%e3%80%81List%e3%80%81Stack%e3%80%81Queue%e3%80%81TArray%e3%80%81TMap%0aUGit%e6%96%b0%e5%a2%9e%e5%88%86%e6%94%af%0aUE%e6%a8%a1%e5%9d%97%e5%88%9b%e5%bb%ba%0a%e9%99%84%e4%bb%b6%ef%bc%9a%20List.cppQueue.cppTMap.cppStack.cppTArray.cppArray.cpp%0aTArray%20TArray%e7%b1%bb%e5%9e%8b%e7%94%b1%e4%b8%a4%e5%a4%a7%e5%b1%9e%e6%80%a7%e5%ae%9a%e4%b9%89%ef%bc%9a%e5%85%83%e7%b4%a0%e7%b1%bb%e5%9e%8b%e5%92%8c%e5%8f%af%e9%80%89%e5%88%86%e9%85%8d%e5%99%a8%ef%bc%88%e9%bb%98%e8%ae%a4FDefaultAllocator%ef%bc%89%e3%80%82%0aTArray%e5%8f%aa%e6%98%af%e5%86%85%e5%ad%98%e7%9a%84%e5%8c%85%e8%a3%85%e5%99%a8%ef%bc%8c%e6%98%af%e5%af%b9%e4%b8%80%e5%9d%97%e5%8a%a8%e6%80%81%e5%88%86%e9%85%8d%e7%9a%84%e8%bf%9e%e7%bb%ad%e5%86%85%e5%ad%98%e8%bf%9b%e8%a1%8c%e7%ae%a1%e7%90%86%e3%80%82%0a%e6%af%94%e5%a6%82%e4%bd%a0%e8%a6%81%e4%b8%80%e6%ac%a1%e6%80%a7%e4%bb%8e%e6%96%87%e4%bb%b6%e6%88%96%e7%bd%91%e7%bb%9c%e4%b8%ad%e8%af%bb%e5%8f%96%20100%20%e4%b8%aa%20FMyStruct%ef%bc%8c%e8%80%8c%e4%b8%8d%e6%83%b3%e4%b8%80%e4%b8%aa%e4%b8%80%e4%b8%aa%20Add%ef%bc%8c%e8%bf%98%e8%a6%81%e8%b0%83%e7%94%a8%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0%e5%86%8d%e8%b5%8b%e5%80%bc%ef%bc%8c%e5%bd%b1%e5%93%8d%e6%95%88%e7%8e%87%e3%80%82%e5%b0%b1%e5%8f%af%e4%bb%a5%e4%bd%bf%e7%94%a8AddUninitialized%e3%80%82%0aTArray%26lt%3bFMyStruct%26gt%3b%20MyArray%3b%20MyArray.AddUninitialized%28100%29%3b%20%2f%2f%20%e5%88%86%e9%85%8d%e7%a9%ba%e9%97%b4%e8%80%8c%e4%b8%8d%e8%b0%83%e7%94%a8%e6%9e%84%e9%80%a0%20%2f%2f%20%e5%81%87%e8%ae%be%e4%bd%a0%e4%bb%8e%e7%a3%81%e7%9b%98%e4%b8%ad%e8%af%bb%e4%ba%86%e4%b8%80%e5%9d%97%e5%86%85%e5%ad%98%20FMemory%3a%3aMemcpy%28MyArray.GetData%28%29%2c%20FileBuffer%2c%20100%20%2a%20sizeof%28FMyStruct%29%29%3b%20AddZeroed%28int32%20Count%29%20%e6%8f%92%e5%85%a55%e4%b8%aa%e5%85%83%e7%b4%a0%ef%bc%8c%e4%bd%86%e4%b8%8d%e4%bc%9a%e8%b0%83%e7%94%a8%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0%e5%b9%b6%e4%b8%94%e5%86%85%e5%ad%98%e4%bc%9a%e8%a2%ab%e5%a1%ab%e5%85%85%e4%b8%ba0%ef%bc%88memset%ef%bc%89%e3%80%82%e9%80%82%e5%90%88%e7%ba%af%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e4%bd%93%ef%bc%88POD%ef%bc%89%ef%bc%9a%e7%bb%93%e6%9e%84%e4%bd%93%e6%b2%a1%e6%9c%89%e8%99%9a%e5%87%bd%e6%95%b0%e3%80%81%e7%bb%a7%e6%89%bf%e3%80%81%e8%87%aa%e5%ae%9a%e4%b9%89%e6%9e%84%e9%80%a0%e5%92%8c%e6%9e%90%e6%9e%84%e3%80%82%e6%af%94%e5%a6%82FString%e5%b0%b1%e4%b8%8d%e6%98%afPOD%ef%bc%8c%e5%9b%a0%e4%b8%ba%e7%ae%a1%e7%90%86%e5%a0%86%e5%86%85%e5%ad%98%e3%80%81%e6%9c%89%e6%9e%84%e9%80%a0%e5%92%8c%e6%9e%90%e6%9e%84%e7%ad%89%e3%80%82%0aSetNumUninitialized%28int32%20NewNum%29%20%e4%bf%ae%e6%94%b9%e6%95%b0%e7%bb%84%e9%95%bf%e5%ba%a6%e4%b8%ba100%ef%bc%8c%e6%89%a9%e5%ae%b9%e9%83%a8%e5%88%86%e4%b8%8d%e4%bc%9a%e6%9e%84%e9%80%a0%e5%85%83%e7%b4%a0%ef%bc%8c%e5%8f%aa%e6%98%af%e6%89%a9%e5%b1%95%e5%86%85%e5%ad%98%e3%80%82%0aSlack%20Slack%e5%8f%af%e8%b0%83%e6%95%b4%e6%95%b0%e7%bb%84%e7%9a%84%e5%a4%a7%e5%b0%8f%ef%bc%8c%e4%b8%ba%e4%ba%86%e9%81%bf%e5%85%8d%e6%af%8f%e6%ac%a1%e6%b7%bb%e5%8a%a0%e5%85%83%e7%b4%a0%e9%83%bd%e8%a6%81%e9%87%8d%e6%96%b0%e5%88%86%e9%85%8d%e5%86%85%e5%ad%98%ef%bc%8c%e5%88%86%e9%85%8d%e5%99%a8%e6%8f%90%e4%be%9b%e7%9a%84%e5%86%85%e5%ad%98%e9%80%9a%e5%b8%b8%e4%bc%9a%e8%b6%85%e8%bf%87%e5%bf%85%e8%a6%81%e5%86%85%e5%ad%98%ef%bc%8c%e8%87%aa%e8%ae%a4%e4%b8%ba%e5%92%8cVector%e4%b8%80%e6%a0%b7%e3%80%82%e5%90%8c%e6%a0%b7%e5%88%a0%e9%99%a4%e5%85%83%e7%b4%a0%e4%b8%8d%e4%bc%9a%e9%87%8a%e6%94%be%e5%86%85%e5%ad%98%ef%bc%8c%e6%ad%a4%e6%93%8d%e4%bd%9c%e4%bc%9a%e6%98%af%e6%95%b0%e7%bb%84%e6%8b%a5%e6%9c%89Slack%e5%85%83%e7%b4%a0%ef%bc%8c%e4%b9%9f%e5%b0%b1%e6%98%af%e5%bd%93%e5%89%8d%e6%9c%aa%e4%bd%bf%e7%94%a8%e7%9a%84%e6%9c%89%e6%95%88%e9%a2%84%e5%88%86%e9%85%8d%e5%85%83%e7%b4%a0%e5%82%a8%e5%ad%98%e6%a7%bd%e3%80%82%ef%bc%88%e5%8f%af%e5%82%a8%e5%ad%98%e7%9a%84%e5%85%83%e7%b4%a0%e6%95%b0%e9%87%8f%20-%20%e5%ad%98%e5%82%a8%e5%85%83%e7%b4%a0%e6%95%b0%e9%87%8f%20%3d%20Slack%ef%bc%89%0a%e5%a0%86%20TArray%e6%8b%a5%e6%9c%89%e6%94%af%e6%8c%81%e4%ba%8c%e5%8f%89%e5%a0%86%e6%95%b0%e6%8d%ae%e7%bb%93%e6%9e%84%e7%9a%84%e5%87%bd%e6%95%b0%ef%bc%8c%e8%b0%83%e7%94%a8Heapify%e5%87%bd%e6%95%b0%e5%8f%af%e5%b0%86%e7%8e%b0%e6%9c%89%e6%95%b0%e7%bb%84%e8%bd%ac%e6%8d%a2%e4%b8%ba%e5%a0%86%e3%80%82%0aTArray%26lt%3bint32%26gt%3b%20HeapArr%3b%20for%20%28int32%20Val%20%3d%2010%3b%20Val%20%21%3d%200%3b%20--Val%29%20%7b%20HeapArr.Add%28Val%29%3b%20%7d%20%2f%2f%20HeapArr%20%3d%3d%20%5b10%2c9%2c8%2c7%2c6%2c5%2c4%2c3%2c2%2c1%5d%20HeapArr.Heapify%28%29%3b%20%2f%2f%20HeapArr%20%3d%3d%20%5b1%2c2%2c4%2c3%2c6%2c5%2c8%2c10%2c7%2c9%5d%20HeapPush%20%e5%b0%86%e6%96%b0%e5%85%83%e7%b4%a0%e6%b7%bb%e5%8a%a0%e5%88%b0%e5%a0%86%ef%bc%8c%e5%b9%b6%e9%87%8d%e6%96%b0%e6%8e%92%e5%ba%8f%e7%bb%b4%e6%8a%a4%e5%a0%86%e3%80%82%0aHeapPop%e5%92%8cHeapPopDiscard%e5%87%bd%e6%95%b0%e7%94%a8%e4%ba%8e%e7%a7%bb%e9%99%a4%e5%a0%86%e7%9a%84%e9%a1%b6%e9%83%a8%e8%8a%82%e7%82%b9%ef%bc%8c%e5%89%8d%e8%80%85%e4%bc%9a%e8%bf%94%e5%9b%9e%e9%a1%b6%e9%83%a8%e5%85%83%e7%b4%a0%e5%89%af%e6%9c%ac%ef%bc%8c%e8%80%8c%e5%90%8e%e8%80%85%e4%bb%85%e7%a7%bb%e9%99%a4%e8%8a%82%e7%82%b9%e3%80%82%0aHeapRemoveAt%e5%b0%86%e5%88%a0%e9%99%a4%e6%95%b0%e7%bb%84%e4%b8%ad%e7%bb%99%e5%ae%9a%e7%b4%a2%e5%bc%95%e7%9a%84%e5%85%83%e7%b4%a0%ef%bc%8c%e5%b9%b6%e9%87%8d%e6%96%b0%e6%8e%92%e5%88%97%e5%85%83%e7%b4%a0%e7%bb%b4%e6%8a%a4%e5%a0%86%e3%80%82%0a%e5%8f%af%e4%bd%bf%e7%94%a8%20HeapTop%20%e6%a3%80%e6%9f%a5%e5%a0%86%e7%9a%84%e9%a1%b6%e9%83%a8%e8%8a%82%e7%82%b9%e3%80%82&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a55.16&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A55.16%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

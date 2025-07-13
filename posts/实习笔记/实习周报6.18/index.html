@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    实习周报6.18 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="项目场景特效、补给箱破坏功能、UI按钮状态切换
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E4%B9%A0%E5%91%A8%E6%8A%A56.18/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="实习周报6.18">
+  <meta property="og:description" content="项目场景特效、补给箱破坏功能、UI按钮状态切换">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-06-18T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-06-18T00:00:00+00:00">
+    <meta property="article:tag" content="实习笔记">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="实习周报6.18">
+  <meta name="twitter:description" content="项目场景特效、补给箱破坏功能、UI按钮状态切换">
+
+
+  <meta itemprop="name" content="实习周报6.18">
+  <meta itemprop="description" content="项目场景特效、补给箱破坏功能、UI按钮状态切换">
+  <meta itemprop="datePublished" content="2025-06-18T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-06-18T00:00:00+00:00">
+  <meta itemprop="wordCount" content="477">
+  <meta itemprop="keywords" content="实习笔记">
+<link rel="canonical" href="https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%AE%9E%E4%B9%A0%E5%91%A8%E6%8A%A56.18/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#实习周报618">实习周报6.18</a>
+      <ul>
+        <li><a href="#场景飞屑特效表现功能"><strong>场景飞屑特效表现功能</strong></a></li>
+        <li><a href="#战备补给箱可被攻击破坏">战备补给箱可被攻击破坏</a></li>
+        <li><a href="#换弹攀爬按钮状态切换">换弹、攀爬按钮状态切换</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>实习周报6.18</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Jun 18, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        11 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0">实习笔记</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0">实习笔记</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h1 id="实习周报618">实习周报6.18</h1>
+<h2 id="场景飞屑特效表现功能"><strong>场景飞屑特效表现功能</strong></h2>
+<p>当角色进入到一个触发范围内会在角色位置上生成特效</p>
+<p>使用两个定时器分别是FPlayVfxTimerHandle和FCheckTimerHandle</p>
+<p>删除Tick函数设置bCanEverTick = false 因为不使用到Tick所以删除会提升性能</p>
+<p>构造函数中初始化初始化一个可见的无碰撞球体，为了布置场景时看到范围。在BeginPlay中直接获取球体半径作为DistanceToPlayer的值。</p>
+<p>FCheckTimerHandle定时器用于每秒判断角色是否进入到范围内</p>
+<p>FPlayVfxTimerHandle定时器用于不断播放特效，并设置一个bIsVFXPlaying用于判断是否正在播放特效，如果已经在播放特效了并且超出距离就会清空FPlayVfxTimerHandle特效播放定时器；如果没有在播放特效并且在距离范围内则会开启定时器。</p>
+<p>为什么一定需要bIsVFXPlaying，因为否则人物在距离内时第一个FCheckTimerHandle会不断地调用CheckDistance函数导致无法播放特效。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>APMS_VFXTriggerActor<span style="color:#f92672">::</span>APMS_VFXTriggerActor()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span> 	<span style="color:#75715e">// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don&#39;t need it.
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	PrimaryActorTick.bCanEverTick <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>	DetectionSphere <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>USphereComponent<span style="color:#f92672">&gt;</span>(TEXT(<span style="color:#e6db74">&#34;DetectionSphere&#34;</span>));
+</span></span><span style="display:flex;"><span>	RootComponent <span style="color:#f92672">=</span> DetectionSphere;
+</span></span><span style="display:flex;"><span>	DetectionSphere<span style="color:#f92672">-&gt;</span>SetCollisionEnabled(ECollisionEnabled<span style="color:#f92672">::</span>NoCollision);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_VFXTriggerActor<span style="color:#f92672">::</span>BeginPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>BeginPlay();
+</span></span><span style="display:flex;"><span>	DistanceToPlayer <span style="color:#f92672">=</span> DetectionSphere<span style="color:#f92672">-&gt;</span>GetScaledSphereRadius();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(GetWorld()<span style="color:#f92672">-&gt;</span>GetNetMode() <span style="color:#f92672">==</span> NM_Standalone <span style="color:#f92672">||</span> GetWorld()<span style="color:#f92672">-&gt;</span>GetNetMode() <span style="color:#f92672">==</span> NM_Client)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().SetTimer(FCheckTimerHandle, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>APMS_VFXTriggerActor<span style="color:#f92672">::</span>CheckDistance, <span style="color:#ae81ff">1.0f</span>, true);	
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_VFXTriggerActor<span style="color:#f92672">::</span>CheckDistance()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	APMS_ZombiePlayerCharacter<span style="color:#f92672">*</span> PlayerCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APMS_ZombiePlayerCharacter<span style="color:#f92672">&gt;</span>(GetWorld()<span style="color:#f92672">-&gt;</span>GetFirstPlayerController()<span style="color:#f92672">-&gt;</span>GetPawn());
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (PlayerCharacter)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">float</span> Distance <span style="color:#f92672">=</span> PlayerCharacter<span style="color:#f92672">-&gt;</span>GetDistanceTo(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (Distance <span style="color:#f92672">&lt;=</span> DistanceToPlayer <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>bIsVFXPlaying)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			bIsVFXPlaying <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>			PlayVFXEffect(PlayerCharacter<span style="color:#f92672">-&gt;</span>GetActorLocation());
+</span></span><span style="display:flex;"><span>			GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().SetTimer(FPlayVfxTimerHandle,
+</span></span><span style="display:flex;"><span>				[<span style="color:#66d9ef">this</span>, PlayerCharacter](){PlayVFXEffect(PlayerCharacter<span style="color:#f92672">-&gt;</span>GetActorLocation());},
+</span></span><span style="display:flex;"><span>				VFXDuration,
+</span></span><span style="display:flex;"><span>				true);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (Distance <span style="color:#f92672">&gt;</span> DistanceToPlayer <span style="color:#f92672">&amp;&amp;</span> bIsVFXPlaying)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			bIsVFXPlaying <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>			GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().ClearTimer(FPlayVfxTimerHandle);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_VFXTriggerActor<span style="color:#f92672">::</span>PlayVFXEffect(FVector Location)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>VFXEffect) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	UNiagaraFunctionLibrary<span style="color:#f92672">::</span>SpawnSystemAtLocation(GetWorld(), VFXEffect, Location);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="战备补给箱可被攻击破坏">战备补给箱可被攻击破坏</h2>
+<p>空投落下后，空投有一定生命值可被子弹破坏，当生命值为0时，补给箱炸飞，空投子物体隐藏。</p>
+<p>SupplyBox中补给箱需要有ProjectileMovementComponent，作用是自己被炸飞。</p>
+<p>在构造函数中设置球形碰撞体为根组件，原因是让补给箱落地很平稳，不会因为形状不规则而旋转的很奇怪。一开始将ProjectileMovementComponent设为失活，等待爆炸时再启用。</p>
+<p>在BeginPlay中绑定自带的投射物落地触发OnSupplyBoxStop事件的委托OnProjectileStop，让组件失活。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>	<span style="color:#75715e">// 空投爆炸补给箱抛射设置
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UPROPERTY(EditAnywhere)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> MinLaunchSpeed <span style="color:#f92672">=</span> <span style="color:#ae81ff">800.f</span>;
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditAnywhere)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> MaxLaunchSpeed <span style="color:#f92672">=</span> <span style="color:#ae81ff">1200.f</span>;
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditAnywhere)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> MinUpwardStrength <span style="color:#f92672">=</span> <span style="color:#ae81ff">800.f</span>;
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditAnywhere)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> MaxUpwardStrength <span style="color:#f92672">=</span> <span style="color:#ae81ff">1000.f</span>;
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditAnywhere)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> RandomCircleRadius <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.f</span>;
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditAnywhere)
+</span></span><span style="display:flex;"><span>	TObjectPtr<span style="color:#f92672">&lt;</span>UProjectileMovementComponent<span style="color:#f92672">&gt;</span> ProjectileMovementComponent;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>APMS_SupplyBox<span style="color:#f92672">::</span>APMS_SupplyBox()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	PrimaryActorTick.bCanEverTick <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	SphereCollision <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>USphereComponent<span style="color:#f92672">&gt;</span>(TEXT(<span style="color:#e6db74">&#34;SphereCollision&#34;</span>));
+</span></span><span style="display:flex;"><span>	RootComponent <span style="color:#f92672">=</span> SphereCollision;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(SphereCollision)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		MeshComponent <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>UStaticMeshComponent<span style="color:#f92672">&gt;</span>(TEXT(<span style="color:#e6db74">&#34;MeshComponent&#34;</span>));
+</span></span><span style="display:flex;"><span>		MeshComponent<span style="color:#f92672">-&gt;</span>SetupAttachment(SphereCollision);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	ProjectileMovementComponent <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>UProjectileMovementComponent<span style="color:#f92672">&gt;</span>(TEXT(<span style="color:#e6db74">&#34;ProjectileMovementComponent&#34;</span>));
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(ProjectileMovementComponent)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		ProjectileMovementComponent<span style="color:#f92672">-&gt;</span>bAutoActivate <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_SupplyBox<span style="color:#f92672">::</span>BeginPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>BeginPlay();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(HasAuthority())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		ProjectileMovementComponent<span style="color:#f92672">-&gt;</span>OnProjectileStop.AddUniqueDynamic(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>APMS_SupplyBox<span style="color:#f92672">::</span>OnSupplyBoxStop);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_SupplyBox<span style="color:#f92672">::</span>OnSupplyBoxStop(<span style="color:#66d9ef">const</span> FHitResult<span style="color:#f92672">&amp;</span> ImpactResult)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(ProjectileMovementComponent)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		ProjectileMovementComponent<span style="color:#f92672">-&gt;</span>Deactivate();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>ExplodeSupplyBox函数是爆炸后补给箱随机飞射的函数</p>
+<p>其中LaunchSpeed是飞得远近，UpwardStrength是飞的高低，RandomCircleRadius是飞的发散程度。原理是取圆的随机二维点，变成一个三维向量，X, Y 值是向量归一化后 * LaunchSpeed，向量的Z值是UpwardStrength。再去同步碰撞设置，使箱子不会穿过地面。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_SupplyBox<span style="color:#f92672">::</span>ExplodeSupplyBox()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (ProjectileMovementComponent)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		FVector2D Rand2D <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>RandPointInCircle(RandomCircleRadius);
+</span></span><span style="display:flex;"><span>		FVector HorizontalDir <span style="color:#f92672">=</span> FVector(Rand2D.X, Rand2D.Y, <span style="color:#ae81ff">0.f</span>);
+</span></span><span style="display:flex;"><span>		HorizontalDir.Normalize();
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">float</span> UpwardStrength <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>FRandRange(MinUpwardStrength, MaxUpwardStrength);
+</span></span><span style="display:flex;"><span>		FVector LaunchVelocity <span style="color:#f92672">=</span> HorizontalDir <span style="color:#f92672">*</span> FMath<span style="color:#f92672">::</span>FRandRange(MinLaunchSpeed, MaxLaunchSpeed);
+</span></span><span style="display:flex;"><span>		LaunchVelocity.Z <span style="color:#f92672">=</span> UpwardStrength;
+</span></span><span style="display:flex;"><span>		ProjectileMovementComponent<span style="color:#f92672">-&gt;</span>Velocity <span style="color:#f92672">=</span> LaunchVelocity;
+</span></span><span style="display:flex;"><span>		ProjectileMovementComponent<span style="color:#f92672">-&gt;</span>Activate();
+</span></span><span style="display:flex;"><span>		MulticastConfigureCollision();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_SupplyBox<span style="color:#f92672">::</span>MulticastConfigureCollision_Implementation()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(SphereCollision)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		SphereCollision<span style="color:#f92672">-&gt;</span>SetCollisionEnabled(ECollisionEnabled<span style="color:#f92672">::</span>QueryAndPhysics);
+</span></span><span style="display:flex;"><span>	} 
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>AirDrop中重写ReceiveDamage、CanTakeDamage和ServerTakeDamage函数</p>
+<p>其中PreDead是判断生命值是否&lt;=0。如果空投被破坏或者空投结束就不会再进到ServerTakeDamage函数中。</p>
+<p>在空投爆炸函数中将SupplyBox与空投分离，因为原来它是作为空投的ChildActor。如果空投正常工作时是可以被破坏的，如果补给箱被取走了空投就结束工作了相当于EAirDropState::EndPlay，这个时候就不能再执行重复执行AirDropEndPlay的逻辑了。并且广播爆炸特效。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_AirDrop<span style="color:#f92672">::</span>ReceiveDamage(<span style="color:#66d9ef">const</span> FPMS_DamageInfo<span style="color:#f92672">&amp;</span> DamageInfo)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>ReceiveDamage(DamageInfo);
+</span></span><span style="display:flex;"><span>	ServerTakeDamage(DamageInfo);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> APMS_AirDrop<span style="color:#f92672">::</span>CanTakeDamage(<span style="color:#66d9ef">const</span> FPMS_DamageInfo<span style="color:#f92672">&amp;</span> DamageInfo)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_AirDrop<span style="color:#f92672">::</span>ServerTakeDamage(<span style="color:#66d9ef">const</span> FPMS_DamageInfo<span style="color:#f92672">&amp;</span> DamageInfo)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(AirDropState <span style="color:#f92672">==</span> EAirDropState<span style="color:#f92672">::</span>Destroyed <span style="color:#f92672">||</span> AirDropState <span style="color:#f92672">==</span> EAirDropState<span style="color:#f92672">::</span>EndPlay) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(PreDead(DamageInfo))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(HasAuthority())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			AirDropExplode();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_AirDrop<span style="color:#f92672">::</span>AirDropExplode()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	TArray<span style="color:#f92672">&lt;</span>UChildActorComponent<span style="color:#f92672">*&gt;</span> ChildActorComponents;
+</span></span><span style="display:flex;"><span>	GetComponents(UChildActorComponent<span style="color:#f92672">::</span>StaticClass(), ChildActorComponents);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span>(int32 Index <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; Index <span style="color:#f92672">&lt;</span>FMath<span style="color:#f92672">::</span>Min(ChildActorComponents.Num(),DropClassList.Num()); Index<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		APMS_SupplyBox<span style="color:#f92672">*</span> SupplyBox <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APMS_SupplyBox<span style="color:#f92672">&gt;</span>(ChildActorComponents[Index]<span style="color:#f92672">-&gt;</span>GetChildActor());
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (IsValid(SupplyBox))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			SupplyBox<span style="color:#f92672">-&gt;</span>ExplodeSupplyBox();
+</span></span><span style="display:flex;"><span>			SupplyBox<span style="color:#f92672">-&gt;</span>DetachFromActor(FDetachmentTransformRules<span style="color:#f92672">::</span>KeepWorldTransform);
+</span></span><span style="display:flex;"><span>			SupplyBox<span style="color:#f92672">-&gt;</span>SetOwner(<span style="color:#66d9ef">nullptr</span>);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(AirDropState <span style="color:#f92672">==</span> EAirDropState<span style="color:#f92672">::</span>Play)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		AirDropState <span style="color:#f92672">=</span> EAirDropState<span style="color:#f92672">::</span>Destroyed;
+</span></span><span style="display:flex;"><span>		AirDropEndPlay();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	MulticastExplosionEffect();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这个函数将空投的Box设置为NoCollision，只留下空投底座是有碰撞的，并且如果空投是被破坏的，那么就将所有设置为HideComponentTag的子组件SetHiddenInGame。</p>
+<p>MARK_PROPERTY_DIRTY_FROM_NAME是手动修改了AirDropState枚举变量标记为Dirty，可以触发同步。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_AirDrop<span style="color:#f92672">::</span>AirDropEndPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	TArray<span style="color:#f92672">&lt;</span>UShapeComponent<span style="color:#f92672">*&gt;</span> ShapeComponents;
+</span></span><span style="display:flex;"><span>	GetComponents(UShapeComponent<span style="color:#f92672">::</span>StaticClass(), ShapeComponents);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">auto</span> ShapeComponent:ShapeComponents)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(ShapeComponent<span style="color:#f92672">-&gt;</span>ComponentHasTag(TEXT(<span style="color:#e6db74">&#34;EndWork&#34;</span>)))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			ShapeComponent<span style="color:#f92672">-&gt;</span>SetCollisionEnabled(ECollisionEnabled<span style="color:#f92672">::</span>QueryAndPhysics);
+</span></span><span style="display:flex;"><span>			ShapeComponent<span style="color:#f92672">-&gt;</span>SetCollisionProfileName(UCollisionProfile<span style="color:#f92672">::</span>BlockAllDynamic_ProfileName,false);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			ShapeComponent<span style="color:#f92672">-&gt;</span>SetCollisionEnabled(ECollisionEnabled<span style="color:#f92672">::</span>NoCollision);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(AirDropState <span style="color:#f92672">==</span> EAirDropState<span style="color:#f92672">::</span>Destroyed)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		TArray<span style="color:#f92672">&lt;</span>UActorComponent<span style="color:#f92672">*&gt;</span> PrimitiveComponentList <span style="color:#f92672">=</span> GetComponentsByTag(UPrimitiveComponent<span style="color:#f92672">::</span>StaticClass(), HideComponentTag);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span>(UActorComponent<span style="color:#f92672">*</span> PrimitiveComponent : PrimitiveComponentList)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			Cast<span style="color:#f92672">&lt;</span>UPrimitiveComponent<span style="color:#f92672">&gt;</span>(PrimitiveComponent)<span style="color:#f92672">-&gt;</span>SetHiddenInGame(true);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	MARK_PROPERTY_DIRTY_FROM_NAME(ThisClass, AirDropState, <span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_AirDrop<span style="color:#f92672">::</span>MulticastExplosionEffect_Implementation()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(GetNetMode() <span style="color:#f92672">!=</span> NM_DedicatedServer)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(DestroyEffect <span style="color:#f92672">!=</span><span style="color:#66d9ef">nullptr</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			UNiagaraFunctionLibrary<span style="color:#f92672">::</span>SpawnSystemAtLocation(<span style="color:#66d9ef">this</span>, DestroyEffect, GetActorLocation(), GetActorRotation(), FVector(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">1</span>), true, true, ENCPoolMethod<span style="color:#f92672">::</span>None, true);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="换弹攀爬按钮状态切换">换弹、攀爬按钮状态切换</h2>
+<p>以攀爬为例，通过自定义的PMS_GameDelegate_WorldSubsystem向UI层（TS脚本）进行广播，再由UI接收到消息后执行切换图片</p>
+<p>在PMS_GameDelegate_WorldSubsystem中定义无参数委托类型</p>
+<p>DECLARE_DYNAMIC_MULTICAST_DELEGATE(FNotifyWithNoParam);</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>	UPROPERTY(BlueprintAssignable)
+</span></span><span style="display:flex;"><span>	FNotifyWithNoParam OnJumpStart;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>	UPROPERTY(BlueprintAssignable)
+</span></span><span style="display:flex;"><span>	FNotifyWithNoParam OnJumpEnd;
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>	FNotifyWithNoParam<span style="color:#f92672">&amp;</span> GetOnJumpStart() { <span style="color:#66d9ef">return</span> OnJumpStart; }
+</span></span><span style="display:flex;"><span>	FNotifyWithNoParam<span style="color:#f92672">&amp;</span> GetOnJumpEnd() { <span style="color:#66d9ef">return</span> OnJumpEnd; }
+</span></span></code></pre></div><p>然后广播事件，其中BroadcastEvent是自定义封装的函数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">BroadcastEvent</span>(UWorld<span style="color:#f92672">*</span> World, DelegateType Delegate, Args<span style="color:#f92672">&amp;&amp;</span>... args)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (World <span style="color:#f92672">!=</span> <span style="color:#66d9ef">nullptr</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> (UPMS_GameDelegate_WorldSubsystem<span style="color:#f92672">*</span> GameDelegate <span style="color:#f92672">=</span> World<span style="color:#f92672">-&gt;</span>GetSubsystem<span style="color:#f92672">&lt;</span>UPMS_GameDelegate_WorldSubsystem<span style="color:#f92672">&gt;</span>())
+</span></span><span style="display:flex;"><span>       {
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span> ((GameDelegate<span style="color:#f92672">-&gt;*</span>Delegate)().IsBound())
+</span></span><span style="display:flex;"><span>          {
+</span></span><span style="display:flex;"><span>             (GameDelegate<span style="color:#f92672">-&gt;*</span>Delegate)().Broadcast(std<span style="color:#f92672">::</span>forward<span style="color:#f92672">&lt;</span>Args<span style="color:#f92672">&gt;</span>(args)...);
+</span></span><span style="display:flex;"><span>          }
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UPMS_GameDelegate_WorldSubsystem<span style="color:#f92672">::</span>BroadcastEvent(GetWorld(), <span style="color:#f92672">&amp;</span>UPMS_GameDelegate_WorldSubsystem<span style="color:#f92672">::</span>GetOnJumpStart);
+</span></span><span style="display:flex;"><span>UPMS_GameDelegate_WorldSubsystem<span style="color:#f92672">::</span>BroadcastEvent(GetWorld(), <span style="color:#f92672">&amp;</span>UPMS_GameDelegate_WorldSubsystem<span style="color:#f92672">::</span>GetOnJumpEnd);
+</span></span></code></pre></div><p>然后在TypeScript\HUD\GameInputSystem.ts中</p>
+<p>将函数绑定到OnJumpStart中</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">@</span>D.UEGameDelegateBind(<span style="color:#e6db74">&#34;OnJumpStart&#34;</span>)
+</span></span><span style="display:flex;"><span>    OnJumpStart() {
+</span></span><span style="display:flex;"><span>        console.log(<span style="color:#e6db74">&#34;OnJumpStart called!&#34;</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.UEWidget.GameButton_Jump.NormalBorder.SetBrush(
+</span></span><span style="display:flex;"><span>            UE.WidgetBlueprintLibrary.MakeBrushFromTexture(<span style="color:#66d9ef">this</span>.UEWidget.GameButton_Jump.EnableSprite)
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span> 
+</span></span><span style="display:flex;"><span>    <span style="color:#960050;background-color:#1e0010">@</span>D.UEGameDelegateBind(<span style="color:#e6db74">&#34;OnJumpEnd&#34;</span>)
+</span></span><span style="display:flex;"><span>    OnJumpEnd() {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.UEWidget.GameButton_Jump.NormalBorder.SetBrush(
+</span></span><span style="display:flex;"><span>            UE.WidgetBlueprintLibrary.MakeBrushFromTexture(<span style="color:#66d9ef">this</span>.UEWidget.GameButton_Jump.NormalSprite)
+</span></span><span style="display:flex;"><span>        );
+</span></span><span style="display:flex;"><span>    }
+</span></span></code></pre></div>
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.18%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a56.18&url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.18%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.18%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.18%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.18%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.18%2f
+			&title=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a56.18&summary=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a56.18%20%e5%9c%ba%e6%99%af%e9%a3%9e%e5%b1%91%e7%89%b9%e6%95%88%e8%a1%a8%e7%8e%b0%e5%8a%9f%e8%83%bd%20%e5%bd%93%e8%a7%92%e8%89%b2%e8%bf%9b%e5%85%a5%e5%88%b0%e4%b8%80%e4%b8%aa%e8%a7%a6%e5%8f%91%e8%8c%83%e5%9b%b4%e5%86%85%e4%bc%9a%e5%9c%a8%e8%a7%92%e8%89%b2%e4%bd%8d%e7%bd%ae%e4%b8%8a%e7%94%9f%e6%88%90%e7%89%b9%e6%95%88%0a%e4%bd%bf%e7%94%a8%e4%b8%a4%e4%b8%aa%e5%ae%9a%e6%97%b6%e5%99%a8%e5%88%86%e5%88%ab%e6%98%afFPlayVfxTimerHandle%e5%92%8cFCheckTimerHandle%0a%e5%88%a0%e9%99%a4Tick%e5%87%bd%e6%95%b0%e8%ae%be%e7%bd%aebCanEverTick%20%3d%20false%20%e5%9b%a0%e4%b8%ba%e4%b8%8d%e4%bd%bf%e7%94%a8%e5%88%b0Tick%e6%89%80%e4%bb%a5%e5%88%a0%e9%99%a4%e4%bc%9a%e6%8f%90%e5%8d%87%e6%80%a7%e8%83%bd%0a%e6%9e%84%e9%80%a0%e5%87%bd%e6%95%b0%e4%b8%ad%e5%88%9d%e5%a7%8b%e5%8c%96%e5%88%9d%e5%a7%8b%e5%8c%96%e4%b8%80%e4%b8%aa%e5%8f%af%e8%a7%81%e7%9a%84%e6%97%a0%e7%a2%b0%e6%92%9e%e7%90%83%e4%bd%93%ef%bc%8c%e4%b8%ba%e4%ba%86%e5%b8%83%e7%bd%ae%e5%9c%ba%e6%99%af%e6%97%b6%e7%9c%8b%e5%88%b0%e8%8c%83%e5%9b%b4%e3%80%82%e5%9c%a8BeginPlay%e4%b8%ad%e7%9b%b4%e6%8e%a5%e8%8e%b7%e5%8f%96%e7%90%83%e4%bd%93%e5%8d%8a%e5%be%84%e4%bd%9c%e4%b8%baDistanceToPlayer%e7%9a%84%e5%80%bc%e3%80%82%0aFCheckTimerHandle%e5%ae%9a%e6%97%b6%e5%99%a8%e7%94%a8%e4%ba%8e%e6%af%8f%e7%a7%92%e5%88%a4%e6%96%ad%e8%a7%92%e8%89%b2%e6%98%af%e5%90%a6%e8%bf%9b%e5%85%a5%e5%88%b0%e8%8c%83%e5%9b%b4%e5%86%85%0aFPlayVfxTimerHandle%e5%ae%9a%e6%97%b6%e5%99%a8%e7%94%a8%e4%ba%8e%e4%b8%8d%e6%96%ad%e6%92%ad%e6%94%be%e7%89%b9%e6%95%88%ef%bc%8c%e5%b9%b6%e8%ae%be%e7%bd%ae%e4%b8%80%e4%b8%aabIsVFXPlaying%e7%94%a8%e4%ba%8e%e5%88%a4%e6%96%ad%e6%98%af%e5%90%a6%e6%ad%a3%e5%9c%a8%e6%92%ad%e6%94%be%e7%89%b9%e6%95%88%ef%bc%8c%e5%a6%82%e6%9e%9c%e5%b7%b2%e7%bb%8f%e5%9c%a8%e6%92%ad%e6%94%be%e7%89%b9%e6%95%88%e4%ba%86%e5%b9%b6%e4%b8%94%e8%b6%85%e5%87%ba%e8%b7%9d%e7%a6%bb%e5%b0%b1%e4%bc%9a%e6%b8%85%e7%a9%baFPlayVfxTimerHandle%e7%89%b9%e6%95%88%e6%92%ad%e6%94%be%e5%ae%9a%e6%97%b6%e5%99%a8%ef%bc%9b%e5%a6%82%e6%9e%9c%e6%b2%a1%e6%9c%89%e5%9c%a8%e6%92%ad%e6%94%be%e7%89%b9%e6%95%88%e5%b9%b6%e4%b8%94%e5%9c%a8%e8%b7%9d%e7%a6%bb%e8%8c%83%e5%9b%b4%e5%86%85%e5%88%99%e4%bc%9a%e5%bc%80%e5%90%af%e5%ae%9a%e6%97%b6%e5%99%a8%e3%80%82%0a%e4%b8%ba%e4%bb%80%e4%b9%88%e4%b8%80%e5%ae%9a%e9%9c%80%e8%a6%81bIsVFXPlaying%ef%bc%8c%e5%9b%a0%e4%b8%ba%e5%90%a6%e5%88%99%e4%ba%ba%e7%89%a9%e5%9c%a8%e8%b7%9d%e7%a6%bb%e5%86%85%e6%97%b6%e7%ac%ac%e4%b8%80%e4%b8%aaFCheckTimerHandle%e4%bc%9a%e4%b8%8d%e6%96%ad%e5%9c%b0%e8%b0%83%e7%94%a8CheckDistance%e5%87%bd%e6%95%b0%e5%af%bc%e8%87%b4%e6%97%a0%e6%b3%95%e6%92%ad%e6%94%be%e7%89%b9%e6%95%88%e3%80%82%0aAPMS_VFXTriggerActor%3a%3aAPMS_VFXTriggerActor%28%29%20%7b%20%2f%2f%20Set%20this%20actor%20to%20call%20Tick%28%29%20every%20frame.%20You%20can%20turn%20this%20off%20to%20improve%20performance%20if%20you%20don%26%2339%3bt%20need%20it.%20PrimaryActorTick.bCanEverTick%20%3d%20false%3b%20DetectionSphere%20%3d%20CreateDefaultSubobject%26lt%3bUSphereComponent%26gt%3b%28TEXT%28%26%2334%3bDetectionSphere%26%2334%3b%29%29%3b%20RootComponent%20%3d%20DetectionSphere%3b%20DetectionSphere-%26gt%3bSetCollisionEnabled%28ECollisionEnabled%3a%3aNoCollision%29%3b%20%7d%20void%20APMS_VFXTriggerActor%3a%3aBeginPlay%28%29%20%7b%20Super%3a%3aBeginPlay%28%29%3b%20DistanceToPlayer%20%3d%20DetectionSphere-%26gt%3bGetScaledSphereRadius%28%29%3b%20if%28GetWorld%28%29-%26gt%3bGetNetMode%28%29%20%3d%3d%20NM_Standalone%20%7c%7c%20GetWorld%28%29-%26gt%3bGetNetMode%28%29%20%3d%3d%20NM_Client%29%20%7b%20GetWorld%28%29-%26gt%3bGetTimerManager%28%29.SetTimer%28FCheckTimerHandle%2c%20this%2c%20%26amp%3bAPMS_VFXTriggerActor%3a%3aCheckDistance%2c%201.0f%2c%20true%29%3b%09%7d%20%7d%20void%20APMS_VFXTriggerActor%3a%3aCheckDistance%28%29%20%7b%20APMS_ZombiePlayerCharacter%2a%20PlayerCharacter%20%3d%20Cast%26lt%3bAPMS_ZombiePlayerCharacter%26gt%3b%28GetWorld%28%29-%26gt%3bGetFirstPlayerController%28%29-%26gt%3bGetPawn%28%29%29%3b%20if%20%28PlayerCharacter%29%20%7b%20float%20Distance%20%3d%20PlayerCharacter-%26gt%3bGetDistanceTo%28this%29%3b%20if%20%28Distance%20%26lt%3b%3d%20DistanceToPlayer%20%26amp%3b%26amp%3b%20%21&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=%e5%ae%9e%e4%b9%a0%e5%91%a8%e6%8a%a56.18&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E5%25AE%259E%25E4%25B9%25A0%25E5%2591%25A8%25E6%258A%25A56.18%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>
