@@ -212,7 +212,7 @@
         <li><a href="#attribute">Attribute</a></li>
       </ul>
     </li>
-    <li><a href="#reload-弹夹的显示与隐藏掉落地上"><strong>Reload 弹夹的显示与隐藏、掉落地上。</strong></a></li>
+    <li><a href="#reload-弹夹的显示与隐藏掉落地上">Reload 弹夹的显示与隐藏、掉落地上</a></li>
   </ul>
 </nav>
     </nav>
@@ -314,7 +314,7 @@
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>FGameplayAbilityActorInfo 是一个结构体，其中包含了例如OwnerActor（playerstate / pawn等）、AvatarActor（character）、ASC等。</p>
 <p>FGameplayAbilitySpec 也是一个结构体，包含了能力、等级等</p>
-<h1 id="reload-弹夹的显示与隐藏掉落地上"><strong>Reload 弹夹的显示与隐藏、掉落地上。</strong></h1>
+<h1 id="reload-弹夹的显示与隐藏掉落地上">Reload 弹夹的显示与隐藏、掉落地上</h1>
 <p>在换弹动画播放时，手将弹夹拿到接近腰旁时，隐藏当前弹夹，同时会生成一个新的弹夹。在手从背后掏出时，显示当前弹夹。</p>
 <p>创建继承AnimNotify的C++类，如下是创建弹夹的动画通知类。</p>
 <p>新建弹夹蓝图，将根组件设置为StaticMesh，并在蓝图中Delay30s后销毁。在代码中将玩家当前武器的弹夹StaticMesh赋值给弹夹蓝图的StaticMesh，然后开启物理模拟。添加一个当前手部方向的冲力。</p>
