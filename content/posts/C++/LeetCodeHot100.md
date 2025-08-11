@@ -645,6 +645,191 @@ public:
 
 
 
+### 141. 环形链表
+
+```c++
+#include<iostream>
+#include<vector>
+using namespace std;
+
+struct ListNode
+{
+	ListNode* next;
+	int val;
+	ListNode(int val):val(val), next(nullptr) {}
+};
+
+bool hasCircle(ListNode* head) {
+	ListNode* slow = head, * fast = head;
+	do {
+		if (slow) slow = slow->next;
+		else return false;
+		if (fast && fast->next) fast = fast->next->next;
+		else return false;
+	} while (slow != fast);
+	return true;
+}
+
+int main() {
+	int n, pos;
+	cin >> n >> pos;
+	vector<ListNode*> nodes;
+	for (int i = 0; i < n; i++) {
+		int val;
+		cin >> val;
+		ListNode* node = new ListNode(val);
+		nodes.push_back(node);
+		if (i > 0) nodes[i - 1]->next = nodes[i];
+	}
+	if (pos != -1 && pos < n) {
+		nodes[n - 1]->next = nodes[pos];
+	}
+	ListNode* head = nodes[0];
+	bool res = hasCircle(head);
+	cout << res << endl;
+	return 0;
+}
+```
+
+
+
+### 142. 环形链表Ⅱ
+
+```c++
+#include<iostream>
+#include<vector>
+using namespace std;
+
+struct ListNode
+{
+	ListNode* next;
+	int val;
+	ListNode(int val):val(val), next(nullptr) {}
+};
+
+ListNode* insert(ListNode* node, int val) {
+	if (node == nullptr) return new ListNode(val);
+	ListNode* newNode = new ListNode(val);
+	newNode->next = node->next;
+	node->next = newNode;
+	return node;
+}
+
+bool hasCircle(ListNode* head) {
+	ListNode* slow = head, * fast = head;
+	do {
+		if (slow) slow = slow->next;
+		else return false;
+		if (fast && fast->next) fast = fast->next->next;
+		else return false;
+	} while (slow != fast);
+	return true;
+}
+
+ListNode* hasCircle2(ListNode* head) {
+	ListNode* slow = head, * fast = head;
+	do {
+		if (slow) slow = slow->next;
+		else return nullptr;
+		if (fast && fast->next) fast = fast->next->next;
+		else return nullptr;
+	} while (slow != fast);
+	fast = head;
+	while (slow != fast) {
+		fast = fast->next;
+		slow = slow->next;
+	}
+	return slow;
+}
+
+int main() {
+	int n, pos;
+	cin >> n >> pos;
+	vector<ListNode*> nodes;
+	for (int i = 0; i < n; i++) {
+		int val;
+		cin >> val;
+		ListNode* node = new ListNode(val);
+		nodes.push_back(node);
+		if (i > 0) nodes[i - 1]->next = nodes[i];
+	}
+	if (pos != -1 && pos < n) {
+		nodes[n - 1]->next = nodes[pos];
+	}
+	ListNode* head = nodes[0];
+	ListNode* res = hasCircle2(head);
+	cout << res->val << endl;
+	return 0;
+}
+```
+
+
+
+### 21. 合并两个有序链表
+
+```c++
+#include<iostream>
+#include<vector>
+
+using namespace std;
+
+struct ListNode {
+	int val;
+	ListNode* next;
+	ListNode(int val) :val(val), next(nullptr) {};
+};
+
+ListNode* merge(ListNode* head1, ListNode* head2)
+{
+	ListNode* res = new ListNode(0);
+	ListNode* cur1 = head1, * cur2 = head2, *cur = res;
+	while(cur1 && cur2) {
+		if (cur1->val > cur2->val) {
+			cur->next = cur2;
+			cur2 = cur2->next;
+		}
+		else {
+			cur->next = cur1;
+			cur1 = cur1->next;
+		}
+		cur = cur->next;
+		
+	}
+	if (cur1) cur->next = cur1;
+	if (cur2) cur->next = cur2;
+	return res->next;
+}
+int main() {
+	int n1, n2;
+	cin >> n1 >> n2;
+	vector<ListNode*> nodes1, nodes2;
+	for (int i = 0; i < n1; i++) {
+		int val;
+		cin >> val;
+		ListNode* node = new ListNode(val);
+		nodes1.push_back(node);
+		if (i > 0) nodes1[i - 1]->next = nodes1[i];
+	}
+	for (int i = 0; i < n2; i++) {
+		int val;
+		cin >> val;
+		ListNode* node = new ListNode(val);
+		nodes2.push_back(node);
+		if (i > 0) nodes2[i - 1]->next = nodes2[i];
+	}
+	ListNode* head1 = nodes1[0], * head2 = nodes2[0];
+	ListNode* res = merge(head1, head2);
+	ListNode* cur = res;
+	while (cur) {
+		cout << cur->val << ' ';
+		cur = cur->next;
+	}
+	return 0;
+}
+```
+
+
+
 ### 2. 两数相加
 
 初始化一个新的头节点res，用carry记录进位，在下次遍历中增加到sum中，不断地new一个新节点连接到res上。
@@ -1167,54 +1352,54 @@ int maxPathSum(TreeNode* root) {
 双向链表存储的是{key, value}，哈希表存储的是双向链表的迭代器。
 
 ```c++
-#include<iostream>
-#include<list>
-#include<unordered_map>
-using namespace std;
-
-class LRUCache {
-private:
-	int capacity;
+struct LRUCache
+{
+	int capcity;
 	list<pair<int, int>> cache;
 	unordered_map<int, list<pair<int, int>>::iterator> hashTable;
-
-public:
-	LRUCache(int cap) : capacity(cap) { }
-	int get(int key) {
-		if (hashTable.find(key) == hashTable.end()) return -1;
-		cache.splice(cache.begin(), cache, hashTable[key]); // 移动到头部
-		return hashTable[key]->second;
-	}
-
-	void put(int key, int value) {
+	LRUCache(int cap) :capcity(cap) { };
+	void put(int key, int val) {
 		if (hashTable.find(key) != hashTable.end()) {
-			hashTable[key]->second = value;
-			cache.splice(cache.begin(), cache, hashTable[key]); //如果在缓存中，则移动到头部
+			hashTable[key]->second = val;
+			cache.splice(cache.begin(), cache, hashTable[key]);
 		}
-		else { // 如果不在缓存中
-			if (cache.size() >= capacity) { // 并且容量满了
+		else {
+			if (capcity <= cache.size()) {
 				auto last = cache.back();
-				hashTable.erase(last.first); // 从哈希表中删除
-				cache.pop_back(); // 把最不常用的队尾的pop
+				hashTable.erase(last.first);
+				cache.pop_back();
 			}
-			cache.push_front({ key, value });
+			// 必须是这个顺序先pushback然后再哈希表指向list的迭代器
+			// 因为一旦list为空，就指向了一个无效的迭代器，呢么会导致崩溃
+			cache.push_back({ key, val });
 			hashTable[key] = cache.begin();
 		}
+	}
+	int get(int key) {
+		if (hashTable.find(key) != hashTable.end()) {
+			// splice 第一个参数是pos目标位置 把元素插入到该位置
+			// 第二个参数是数据来源的list
+			// 第三个参数是要被移动的元素迭代器
+			cache.splice(cache.begin(), cache, hashTable[key]);
+			return hashTable[key]->second;
+		}
+		else return -1;
 	}
 };
 
 int main() {
-	LRUCache lru(2);
-	lru.put(1, 10);
-	lru.put(2, 20);
-	cout << lru.get(1) << endl;
-	lru.put(3, 30);
-	cout << lru.get(2) << endl;
+	LRUCache res(2);
+	res.put(1, 1);
+	res.put(2, 2);
+	cout << res.get(1) << endl;
+	res.put(3, 3);
+	cout << res.get(2) << endl;
+
 	return 0;
 }
 ```
 
-### 
+
 
 ## 图论
 
