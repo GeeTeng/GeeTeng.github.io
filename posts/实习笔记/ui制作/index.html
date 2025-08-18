@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    UI制作体力条、选择房间 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="选择服务器、显示房间号、体力条
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/ui%E5%88%B6%E4%BD%9C/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="UI制作体力条、选择房间">
+  <meta property="og:description" content="选择服务器、显示房间号、体力条">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-07-04T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-07-04T00:00:00+00:00">
+    <meta property="article:tag" content="实习笔记">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="UI制作体力条、选择房间">
+  <meta name="twitter:description" content="选择服务器、显示房间号、体力条">
+
+
+  <meta itemprop="name" content="UI制作体力条、选择房间">
+  <meta itemprop="description" content="选择服务器、显示房间号、体力条">
+  <meta itemprop="datePublished" content="2025-07-04T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-07-04T00:00:00+00:00">
+  <meta itemprop="wordCount" content="606">
+  <meta itemprop="keywords" content="实习笔记">
+<link rel="canonical" href="https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/ui%E5%88%B6%E4%BD%9C/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#选择房间进入不同服务器">选择房间进入不同服务器</a></li>
+        <li><a href="#设置面板中显示玩家所在房间">设置面板中显示玩家所在房间</a></li>
+        <li><a href="#体力条显示">体力条显示</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>UI制作体力条、选择房间</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Jul 4, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        11 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0">实习笔记</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0">实习笔记</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h2 id="选择房间进入不同服务器">选择房间进入不同服务器</h2>
+<p>创建一个通用的UMG_CheckBox，其中包含显示房间号的TextBlock和CheckBox。</p>
+<p>在UIDefine.ts中声明一个Map用来存储房间号和端口的映射关系 这个文件的数据全局都可以访问到。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#66d9ef">export</span> <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">RoomToPortMap</span>: <span style="color:#66d9ef">Map</span>&lt;<span style="color:#f92672">string</span><span style="color:#960050;background-color:#1e0010">,</span> <span style="color:#a6e22e">string</span>&gt; <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Map</span>&lt;<span style="color:#f92672">string</span><span style="color:#960050;background-color:#1e0010">,</span> <span style="color:#a6e22e">string</span>&gt;([
+</span></span><span style="display:flex;"><span>    [<span style="color:#e6db74">&#34;房间1&#34;</span>, <span style="color:#e6db74">&#34;7770&#34;</span>],
+</span></span><span style="display:flex;"><span>    [<span style="color:#e6db74">&#34;房间2&#34;</span>, <span style="color:#e6db74">&#34;7771&#34;</span>],
+</span></span><span style="display:flex;"><span>    [<span style="color:#e6db74">&#34;房间3&#34;</span>, <span style="color:#e6db74">&#34;7772&#34;</span>],
+</span></span><span style="display:flex;"><span>]);
+</span></span></code></pre></div><p>在LobbyMainSystem.ts（进入游戏前的大厅）的OnCreated中调用创建选择房间的CheckBox控件</p>
+<p>声明一个Map用来存储CheckBox和房间号的映射，可以通过CheckBox对应的房间号查找到RoomToPortMap的房间对应的端口号。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#a6e22e">CheckBoxToRoom</span>: <span style="color:#66d9ef">Map</span>&lt;<span style="color:#f92672">UE.CheckBox</span><span style="color:#960050;background-color:#1e0010">,</span> <span style="color:#a6e22e">string</span>&gt; <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#a6e22e">Map</span>();
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">OnCreated</span>(<span style="color:#a6e22e">InUEWidget</span>: <span style="color:#66d9ef">UE.BJ_UserWidgetBase</span>)<span style="color:#f92672">:</span> <span style="color:#66d9ef">void</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">super</span>.<span style="color:#a6e22e">OnCreated</span>(<span style="color:#a6e22e">InUEWidget</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">Container</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span>.<span style="color:#a6e22e">CheckBoxContainer</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">UE</span>.<span style="color:#a6e22e">VerticalBox</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">CreateRoomCheckBox</span>(<span style="color:#a6e22e">Container</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">protected</span> <span style="color:#a6e22e">UncheckOtherCheckBoxes</span>(<span style="color:#a6e22e">SelectCheckBox</span>: <span style="color:#66d9ef">UE.CheckBox</span>)<span style="color:#f92672">:</span> <span style="color:#66d9ef">void</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> [<span style="color:#a6e22e">CheckBox</span>] <span style="color:#66d9ef">of</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">CheckBoxToRoom</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">CheckBox</span> <span style="color:#f92672">!==</span> <span style="color:#a6e22e">SelectCheckBox</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">CheckBox</span>.<span style="color:#a6e22e">SetIsChecked</span>(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protected</span> <span style="color:#a6e22e">GetSelectedRoomPort</span>()<span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span> <span style="color:#f92672">|</span> <span style="color:#66d9ef">null</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> [<span style="color:#a6e22e">Checkbox</span>, <span style="color:#a6e22e">Room</span>] <span style="color:#66d9ef">of</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">CheckBoxToRoom</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">Checkbox</span>.<span style="color:#a6e22e">IsChecked</span>()) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">RoomToPortMap</span>.<span style="color:#66d9ef">get</span>(<span style="color:#a6e22e">Room</span>) <span style="color:#f92672">||</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">null</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protected</span> <span style="color:#a6e22e">CreateRoomCheckBox</span>(<span style="color:#a6e22e">Container</span>: <span style="color:#66d9ef">UE.VerticalBox</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">CheckBoxToRoom</span>.<span style="color:#a6e22e">clear</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">CheckBoxClass</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">UE</span>.<span style="color:#a6e22e">Class</span>.<span style="color:#a6e22e">Load</span>(<span style="color:#e6db74">&#34;/Game/UI/UMG/Lobby/UMG_CheckBox.UMG_CheckBox_C&#34;</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">isFirst</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#a6e22e">RoomToPortMap</span>.<span style="color:#a6e22e">forEach</span>((<span style="color:#a6e22e">Port</span>, <span style="color:#a6e22e">Room</span>) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">CheckBox</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">UIUtil</span>.<span style="color:#a6e22e">CreateWidget</span>(<span style="color:#a6e22e">CheckBoxClass</span>) <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">UE</span>.<span style="color:#a6e22e">UMG_CheckBox_C</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">CheckBox</span>.<span style="color:#a6e22e">TextBlock_Room</span>.<span style="color:#a6e22e">SetText</span>(<span style="color:#a6e22e">Room</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#75715e">// 默认第一个CheckBox选中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isFirst</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">isFirst</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">CheckBox</span>.<span style="color:#a6e22e">CheckBox_Room</span>.<span style="color:#a6e22e">SetIsChecked</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#a6e22e">CheckBox</span>.<span style="color:#a6e22e">CheckBox_Room</span>.<span style="color:#a6e22e">SetIsChecked</span>(<span style="color:#66d9ef">false</span>);
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">CheckBox</span>.<span style="color:#a6e22e">CheckBox_Room</span>.<span style="color:#a6e22e">OnCheckStateChanged</span>.<span style="color:#a6e22e">Add</span>((<span style="color:#a6e22e">isChecked</span>: <span style="color:#66d9ef">boolean</span>) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">isChecked</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UncheckOtherCheckBoxes</span>(<span style="color:#a6e22e">CheckBox</span>.<span style="color:#a6e22e">CheckBox_Room</span>);
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">hasChecked</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> [<span style="color:#a6e22e">cb</span>] <span style="color:#66d9ef">of</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">CheckBoxToRoom</span>) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">cb</span>.<span style="color:#a6e22e">IsChecked</span>()) {
+</span></span><span style="display:flex;"><span>                        <span style="color:#a6e22e">hasChecked</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">true</span>;
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                    }
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">hasChecked</span>) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#a6e22e">CheckBox</span>.<span style="color:#a6e22e">CheckBox_Room</span>.<span style="color:#a6e22e">SetIsChecked</span>(<span style="color:#66d9ef">true</span>);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        });
+</span></span><span style="display:flex;"><span>        <span style="color:#a6e22e">Container</span>.<span style="color:#a6e22e">AddChildToVerticalBox</span>(<span style="color:#a6e22e">CheckBox</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">CheckBoxToRoom</span>.<span style="color:#66d9ef">set</span>(<span style="color:#a6e22e">CheckBox</span>.<span style="color:#a6e22e">CheckBox_Room</span>, <span style="color:#a6e22e">Room</span>);
+</span></span><span style="display:flex;"><span>    });
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="设置面板中显示玩家所在房间">设置面板中显示玩家所在房间</h2>
+<p>在Debug面板的UMG中创建一个新的TextBlock用于显示所在房间</p>
+<p>GameDebugSystem.ts中的OnCreated函数会调用当前文件的Init函数，Init函数中添加初始化房间号的函数InitCurrentRoomText</p>
+<p>其中调用玩家的GetDSPort方法，用于获取当前连接的网络端口号，再从RoomToPortMap中查找对应的房间号。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#a6e22e">InitCurrentRoomText</span> <span style="color:#f92672">=</span> () <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">Player</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">?</span>.<span style="color:#a6e22e">GetOwningPlayer</span>() <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">UE</span>.<span style="color:#a6e22e">PMS_ZombiePlayerController</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">Player</span> <span style="color:#f92672">!==</span> <span style="color:#66d9ef">undefined</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">ReturnPort</span> <span style="color:#f92672">=</span> String(<span style="color:#a6e22e">Player</span>.<span style="color:#a6e22e">GetDSPort</span>());
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">ReturnPort</span> <span style="color:#f92672">!==</span> <span style="color:#66d9ef">undefined</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">let</span> [<span style="color:#a6e22e">Room</span>, <span style="color:#a6e22e">Port</span>] <span style="color:#66d9ef">of</span> <span style="color:#a6e22e">RoomToPortMap</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">ReturnPort</span> <span style="color:#f92672">===</span> <span style="color:#a6e22e">Port</span>) {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span>.<span style="color:#a6e22e">TextBlock_Room</span>.<span style="color:#a6e22e">SetText</span>(<span style="color:#a6e22e">Room</span>);
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>                } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span>.<span style="color:#a6e22e">TextBlock_Room</span>.<span style="color:#a6e22e">SetText</span>(<span style="color:#e6db74">&#34;未加入房间&#34;</span>);
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h2 id="体力条显示">体力条显示</h2>
+<p>在UMG_HUDInfo中新增一个ProgressBar叫做ProgressBar_Energy用于显示体力的进度条，同时创建两个SlateBrush变量分别是Brush_LowEnergy和Brush_NormalEnergy。</p>
+<p>Brush_LowEnergy是当体力值低于百分之30时，赋值给this.UEWidget!.ProgressBar_Energy.WidgetStyle.BackgroundImage，可以将进度条的背景更改为红色。Brush_NormalEnergy是体力值高于百分之30时的正常背景颜色。</p>
+<p>在PMS_CharacterBase.h中将BindAttributesDelegate和UnBindAttributesDelegate更改为虚函数可被重写。PMS_CharacterBase是怪物AI和玩家的基类，由于玩家有Energy属性怪物没有，所以要在PMS_HeroCharacter中绑定体力改变的委托。</p>
+<p>在PMS_GameDelegate_WorldSubsystem.h中声明体力变化的委托</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UPROPERTY(BlueprintAssignable)
+</span></span><span style="display:flex;"><span>FPawnFloatValueChange OnLocalPlayerCurEnergyChange;
+</span></span><span style="display:flex;"><span>UPROPERTY(BlueprintAssignable)
+</span></span><span style="display:flex;"><span>FPawnFloatValueChange OnLocalPlayerMaxEnergyChange;
+</span></span><span style="display:flex;"><span>FPawnFloatValueChange<span style="color:#f92672">&amp;</span> GetOnLocalPlayerCurEnergyChange() { <span style="color:#66d9ef">return</span> OnLocalPlayerCurEnergyChange; }
+</span></span><span style="display:flex;"><span>FPawnFloatValueChange<span style="color:#f92672">&amp;</span> GetOnLocalPlayerMaxEnergyChange() { <span style="color:#66d9ef">return</span> OnLocalPlayerMaxEnergyChange; }
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> NotifyControllerChanged() <span style="color:#66d9ef">override</span>;	
+</span></span><span style="display:flex;"><span>	UFUNCTION(BlueprintCallable)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> GetEnergy();	
+</span></span><span style="display:flex;"><span>	UFUNCTION(BlueprintCallable)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> GetMaxEnergy();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> InitDefaultGameAbilities() <span style="color:#66d9ef">override</span>;	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">BindAttributesDelegate</span>() <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">UnBindAttributesDelegate</span>() <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> EnergyChanged(<span style="color:#66d9ef">const</span> FOnAttributeChangeData<span style="color:#f92672">&amp;</span> Data);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> <span style="color:#a6e22e">MaxEnergyChanged</span>(<span style="color:#66d9ef">const</span> FOnAttributeChangeData<span style="color:#f92672">&amp;</span> Data);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(BlueprintAssignable, Category <span style="color:#f92672">=</span> Character)
+</span></span><span style="display:flex;"><span>	FOnCharacterFloatValueChange OnEnergyChanged;	
+</span></span><span style="display:flex;"><span>	UPROPERTY(BlueprintAssignable, Category <span style="color:#f92672">=</span> Character)
+</span></span><span style="display:flex;"><span>	FOnCharacterFloatValueChange OnMaxEnergyChanged;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	FDelegateHandle EnergyChangedDelegateHandle;
+</span></span><span style="display:flex;"><span>	FDelegateHandle MaxEnergyChangedDelegateHandle;
+</span></span></code></pre></div><p>然后在TS脚本的GameHUDInfoSystem.ts中声明TargetEnergy代表当前真实的体力值，DisplayEnergy代表UI表现的体力值，UI表现的体力值要去追赶真实体力值。设置这两个变量是为了做进度条平滑的移动，防止一下子减少一截。</p>
+<p>因为体力值可能不是100，可能是任何数字，所以要去获取角色实际的体力值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#a6e22e">CurEnergy</span>: <span style="color:#66d9ef">number</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>;
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">EnergyBlinkTimer</span>: <span style="color:#66d9ef">number</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; <span style="color:#75715e">// 体力值为0的闪烁定时器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#a6e22e">isEnergyBlinkState</span>: <span style="color:#66d9ef">boolean</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">false</span>; <span style="color:#75715e">// 切换闪烁时的背景状态
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">private</span> <span style="color:#a6e22e">TargetEnergy</span>: <span style="color:#66d9ef">number</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>; 
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span> <span style="color:#a6e22e">DisplayEnergy</span>: <span style="color:#66d9ef">number</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>; <span style="color:#75715e">// 之后会将实际体力值赋值给它们
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">OnCreated</span>(<span style="color:#a6e22e">InUEWidget</span>: <span style="color:#66d9ef">UE.BJ_UserWidgetBase</span>)<span style="color:#f92672">:</span> <span style="color:#66d9ef">void</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">super</span>.<span style="color:#a6e22e">OnCreated</span>(<span style="color:#a6e22e">InUEWidget</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">SetVisibility</span>(<span style="color:#a6e22e">UE</span>.<span style="color:#a6e22e">ESlateVisibility</span>.<span style="color:#a6e22e">Hidden</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">ReadyToNotifyStart</span>();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">localPlayer</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">GetOwningPlayer</span>() <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">UE</span>.<span style="color:#a6e22e">PMS_ZombiePlayerController</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">SelfCharacter</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">localPlayer</span>.<span style="color:#a6e22e">Pawn</span> <span style="color:#66d9ef">as</span> <span style="color:#a6e22e">UE</span>.<span style="color:#a6e22e">PMS_ZombiePlayerCharacter</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">SelfCharacter</span> <span style="color:#f92672">!==</span> <span style="color:#66d9ef">undefined</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">CurEnergy</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">SelfCharacter</span>.<span style="color:#a6e22e">GetEnergy</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">MaxEnergy</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">SelfCharacter</span>.<span style="color:#a6e22e">GetMaxEnergy</span>();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">const</span> <span style="color:#a6e22e">EnergyPercent</span>: <span style="color:#66d9ef">number</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">min</span>(Math.<span style="color:#a6e22e">max</span>(<span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">CurEnergy</span> <span style="color:#f92672">/</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">MaxEnergy</span>), <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">SetProgressBarEnergyPercent</span>(<span style="color:#a6e22e">EnergyPercent</span>);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在TSTick中每帧计算当前要增加或减少的步长CurStep。</p>
+<p>其中RecoverEnergySpeed和CostEnergySpeed是需要在UMG中配置的消耗、恢复能量速度。</p>
+<p>比如说0.2秒减少1点能量，速度是0.2。让EnergyStep去除以速度，是为了保证能量变化的幅度不会因为速率不同而出现问题。</p>
+<p>出现问题的原因是因为let CurStep = this.EnergyStep * InDeltaTime;</p>
+<p>这句代码表示，InDeltaTime是1/60秒，当前CurStep是一秒钟变化的步长。所以一定要除以速率。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-typescript" data-lang="typescript"><span style="display:flex;"><span><span style="color:#a6e22e">TSTick</span> <span style="color:#f92672">=</span> (<span style="color:#a6e22e">MyGeometry</span>: <span style="color:#66d9ef">UE.Geometry</span>, <span style="color:#a6e22e">InDeltaTime</span>: <span style="color:#66d9ef">number</span>) <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">CurStep</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyStep</span> <span style="color:#f92672">*</span> <span style="color:#a6e22e">InDeltaTime</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (Math.<span style="color:#a6e22e">sign</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyStep</span>) <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">DisplayEnergy</span> <span style="color:#f92672">&gt;</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">TargetEnergy</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">DisplayEnergy</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">TargetEnergy</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyStep</span> <span style="color:#f92672">!==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyStep</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (Math.<span style="color:#a6e22e">sign</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyStep</span>) <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">DisplayEnergy</span> <span style="color:#f92672">&lt;</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">TargetEnergy</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">DisplayEnergy</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">TargetEnergy</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyStep</span> <span style="color:#f92672">!==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyStep</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">DisplayEnergy</span> <span style="color:#f92672">+=</span> <span style="color:#a6e22e">CurStep</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">let</span> <span style="color:#a6e22e">percent</span> <span style="color:#f92672">=</span> Math.<span style="color:#a6e22e">min</span>(Math.<span style="color:#a6e22e">max</span>(<span style="color:#ae81ff">0</span>, <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">DisplayEnergy</span> <span style="color:#f92672">/</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">MaxEnergy</span>), <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">SetProgressBarEnergyPercent</span>(<span style="color:#a6e22e">percent</span>);
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 绑定C++中的委托 体力值改变时修改TargetEnergy值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">@D</span>.<span style="color:#a6e22e">UEGameDelegateBind</span>(<span style="color:#e6db74">&#34;OnLocalPlayerCurEnergyChange&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">OnCurEnergyChange</span>(<span style="color:#a6e22e">Pawn</span>: <span style="color:#66d9ef">$Nullable</span>&lt;<span style="color:#f92672">UE.Pawn</span>&gt;, <span style="color:#a6e22e">OldValue</span>: <span style="color:#66d9ef">number</span>, <span style="color:#a6e22e">NewValue</span>: <span style="color:#66d9ef">number</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">Pawn</span> <span style="color:#f92672">===</span> <span style="color:#66d9ef">null</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#a6e22e">Pawn</span>.<span style="color:#a6e22e">IsLocallyControlled</span>()) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">TargetEnergy</span> <span style="color:#f92672">!==</span> <span style="color:#a6e22e">NewValue</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyStep</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">NewValue</span> <span style="color:#f92672">-</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">TargetEnergy</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyStep</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">RecoverEnergySpeed</span> <span style="color:#f92672">!==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyStep</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyStep</span> <span style="color:#f92672">/</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">RecoverEnergySpeed</span>;
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyStep</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">CostEnergySpeed</span> <span style="color:#f92672">!==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyStep</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyStep</span> <span style="color:#f92672">/</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">CostEnergySpeed</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">TargetEnergy</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">NewValue</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#a6e22e">SetProgressBarEnergyPercent</span>(<span style="color:#a6e22e">Percent</span>: <span style="color:#66d9ef">number</span>) {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">Percent</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">1.0</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">ProgressBar_Energy</span>.<span style="color:#a6e22e">SetVisibility</span>(<span style="color:#a6e22e">UE</span>.<span style="color:#a6e22e">ESlateVisibility</span>.<span style="color:#a6e22e">Hidden</span>);
+</span></span><span style="display:flex;"><span>    } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">ProgressBar_Energy</span>.<span style="color:#a6e22e">SetVisibility</span>(<span style="color:#a6e22e">UE</span>.<span style="color:#a6e22e">ESlateVisibility</span>.<span style="color:#a6e22e">Visible</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">Percent</span> <span style="color:#f92672">===</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyBlinkTimer</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyBlinkTimer</span> <span style="color:#f92672">=</span> <span style="color:#a6e22e">Timer</span>.<span style="color:#a6e22e">StartTimer</span>(
+</span></span><span style="display:flex;"><span>                    () <span style="color:#f92672">=&gt;</span> {
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">isEnergyBlinkState</span>) {
+</span></span><span style="display:flex;"><span>                            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">ProgressBar_Energy</span>.<span style="color:#a6e22e">WidgetStyle</span>.<span style="color:#a6e22e">BackgroundImage</span> <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">Brush_NormalEnergy</span>;
+</span></span><span style="display:flex;"><span>                        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                            <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">ProgressBar_Energy</span>.<span style="color:#a6e22e">WidgetStyle</span>.<span style="color:#a6e22e">BackgroundImage</span> <span style="color:#f92672">=</span>
+</span></span><span style="display:flex;"><span>                                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">Brush_LowEnergy</span>;
+</span></span><span style="display:flex;"><span>                        }
+</span></span><span style="display:flex;"><span>                        <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">isEnergyBlinkState</span> <span style="color:#f92672">=</span> <span style="color:#f92672">!</span><span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">isEnergyBlinkState</span>;
+</span></span><span style="display:flex;"><span>                    },
+</span></span><span style="display:flex;"><span>                    <span style="color:#ae81ff">0.3</span>,
+</span></span><span style="display:flex;"><span>                    <span style="color:#66d9ef">true</span>
+</span></span><span style="display:flex;"><span>                );
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyBlinkTimer</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#a6e22e">Timer</span>.<span style="color:#a6e22e">StopTimer</span>(<span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyBlinkTimer</span>);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">EnergyBlinkTimer</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">Percent</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0.3</span>) {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">ProgressBar_Energy</span>.<span style="color:#a6e22e">WidgetStyle</span>.<span style="color:#a6e22e">BackgroundImage</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">Brush_LowEnergy</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">ProgressBar_Energy</span>.<span style="color:#a6e22e">WidgetStyle</span>.<span style="color:#a6e22e">FillImage</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">FillBrush_LowEnergy</span>;
+</span></span><span style="display:flex;"><span>            } <span style="color:#66d9ef">else</span> {
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">ProgressBar_Energy</span>.<span style="color:#a6e22e">WidgetStyle</span>.<span style="color:#a6e22e">BackgroundImage</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">Brush_NormalEnergy</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">ProgressBar_Energy</span>.<span style="color:#a6e22e">WidgetStyle</span>.<span style="color:#a6e22e">FillImage</span> <span style="color:#f92672">=</span> <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">FillBrush_NormalEnergy</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">this</span>.<span style="color:#a6e22e">UEWidget</span><span style="color:#f92672">!</span>.<span style="color:#a6e22e">ProgressBar_Energy</span>.<span style="color:#a6e22e">SetPercent</span>(<span style="color:#a6e22e">Percent</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2fui%25E5%2588%25B6%25E4%25BD%259C%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=UI%e5%88%b6%e4%bd%9c%e4%bd%93%e5%8a%9b%e6%9d%a1%e3%80%81%e9%80%89%e6%8b%a9%e6%88%bf%e9%97%b4&url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2fui%25E5%2588%25B6%25E4%25BD%259C%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2fui%25E5%2588%25B6%25E4%25BD%259C%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2fui%25E5%2588%25B6%25E4%25BD%259C%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2fui%25E5%2588%25B6%25E4%25BD%259C%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2fui%25E5%2588%25B6%25E4%25BD%259C%2f
+			&title=UI%e5%88%b6%e4%bd%9c%e4%bd%93%e5%8a%9b%e6%9d%a1%e3%80%81%e9%80%89%e6%8b%a9%e6%88%bf%e9%97%b4&summary=%e9%80%89%e6%8b%a9%e6%88%bf%e9%97%b4%e8%bf%9b%e5%85%a5%e4%b8%8d%e5%90%8c%e6%9c%8d%e5%8a%a1%e5%99%a8%20%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aa%e9%80%9a%e7%94%a8%e7%9a%84UMG_CheckBox%ef%bc%8c%e5%85%b6%e4%b8%ad%e5%8c%85%e5%90%ab%e6%98%be%e7%a4%ba%e6%88%bf%e9%97%b4%e5%8f%b7%e7%9a%84TextBlock%e5%92%8cCheckBox%e3%80%82%0a%e5%9c%a8UIDefine.ts%e4%b8%ad%e5%a3%b0%e6%98%8e%e4%b8%80%e4%b8%aaMap%e7%94%a8%e6%9d%a5%e5%ad%98%e5%82%a8%e6%88%bf%e9%97%b4%e5%8f%b7%e5%92%8c%e7%ab%af%e5%8f%a3%e7%9a%84%e6%98%a0%e5%b0%84%e5%85%b3%e7%b3%bb%20%e8%bf%99%e4%b8%aa%e6%96%87%e4%bb%b6%e7%9a%84%e6%95%b0%e6%8d%ae%e5%85%a8%e5%b1%80%e9%83%bd%e5%8f%af%e4%bb%a5%e8%ae%bf%e9%97%ae%e5%88%b0%e3%80%82%0aexport%20const%20RoomToPortMap%3a%20Map%26lt%3bstring%2c%20string%26gt%3b%20%3d%20new%20Map%26lt%3bstring%2c%20string%26gt%3b%28%5b%20%5b%26%2334%3b%e6%88%bf%e9%97%b41%26%2334%3b%2c%20%26%2334%3b7770%26%2334%3b%5d%2c%20%5b%26%2334%3b%e6%88%bf%e9%97%b42%26%2334%3b%2c%20%26%2334%3b7771%26%2334%3b%5d%2c%20%5b%26%2334%3b%e6%88%bf%e9%97%b43%26%2334%3b%2c%20%26%2334%3b7772%26%2334%3b%5d%2c%20%5d%29%3b%20%e5%9c%a8LobbyMainSystem.ts%ef%bc%88%e8%bf%9b%e5%85%a5%e6%b8%b8%e6%88%8f%e5%89%8d%e7%9a%84%e5%a4%a7%e5%8e%85%ef%bc%89%e7%9a%84OnCreated%e4%b8%ad%e8%b0%83%e7%94%a8%e5%88%9b%e5%bb%ba%e9%80%89%e6%8b%a9%e6%88%bf%e9%97%b4%e7%9a%84CheckBox%e6%8e%a7%e4%bb%b6%0a%e5%a3%b0%e6%98%8e%e4%b8%80%e4%b8%aaMap%e7%94%a8%e6%9d%a5%e5%ad%98%e5%82%a8CheckBox%e5%92%8c%e6%88%bf%e9%97%b4%e5%8f%b7%e7%9a%84%e6%98%a0%e5%b0%84%ef%bc%8c%e5%8f%af%e4%bb%a5%e9%80%9a%e8%bf%87CheckBox%e5%af%b9%e5%ba%94%e7%9a%84%e6%88%bf%e9%97%b4%e5%8f%b7%e6%9f%a5%e6%89%be%e5%88%b0RoomToPortMap%e7%9a%84%e6%88%bf%e9%97%b4%e5%af%b9%e5%ba%94%e7%9a%84%e7%ab%af%e5%8f%a3%e5%8f%b7%e3%80%82%0aCheckBoxToRoom%3a%20Map%26lt%3bUE.CheckBox%2c%20string%26gt%3b%20%3d%20new%20Map%28%29%3b%20OnCreated%28InUEWidget%3a%20UE.BJ_UserWidgetBase%29%3a%20void%20%7b%20super.OnCreated%28InUEWidget%29%3b%20%2f%2f%20...%20const%20Container%20%3d%20this.UEWidget.CheckBoxContainer%20as%20UE.VerticalBox%3b%20this.CreateRoomCheckBox%28Container%29%3b%20%7d%20protected%20UncheckOtherCheckBoxes%28SelectCheckBox%3a%20UE.CheckBox%29%3a%20void%20%7b%20for%20%28let%20%5bCheckBox%5d%20of%20this.CheckBoxToRoom%29%20%7b%20if%20%28CheckBox%20%21%3d%3d%20SelectCheckBox%29%20%7b%20CheckBox.SetIsChecked%28false%29%3b%20%7d%20%7d%20%7d%20protected%20GetSelectedRoomPort%28%29%3a%20string%20%7c%20null%20%7b%20for%20%28let%20%5bCheckbox%2c%20Room%5d%20of%20this.&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=UI%e5%88%b6%e4%bd%9c%e4%bd%93%e5%8a%9b%e6%9d%a1%e3%80%81%e9%80%89%e6%8b%a9%e6%88%bf%e9%97%b4&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2fui%25E5%2588%25B6%25E4%25BD%259C%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

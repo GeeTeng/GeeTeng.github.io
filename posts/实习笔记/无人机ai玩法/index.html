@@ -1,0 +1,1122 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    无人机AI玩法制作 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="完整的任务支线制作流程
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%97%A0%E4%BA%BA%E6%9C%BAai%E7%8E%A9%E6%B3%95/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="无人机AI玩法制作">
+  <meta property="og:description" content="完整的任务支线制作流程">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-07-11T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-07-11T00:00:00+00:00">
+    <meta property="article:tag" content="实习笔记">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="无人机AI玩法制作">
+  <meta name="twitter:description" content="完整的任务支线制作流程">
+
+
+  <meta itemprop="name" content="无人机AI玩法制作">
+  <meta itemprop="description" content="完整的任务支线制作流程">
+  <meta itemprop="datePublished" content="2025-07-11T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-07-11T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1502">
+  <meta itemprop="keywords" content="实习笔记">
+<link rel="canonical" href="https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%97%A0%E4%BA%BA%E6%9C%BAai%E7%8E%A9%E6%B3%95/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#无人机巡逻追踪玩家第一版">无人机巡逻追踪玩家第一版：</a></li>
+        <li><a href="#无人机巡逻追踪玩家第二版">无人机巡逻追踪玩家第二版:</a>
+          <ul>
+            <li><a href="#探照灯玩法之怪物攻击">探照灯玩法之怪物攻击</a></li>
+          </ul>
+        </li>
+        <li><a href="#出现问题">出现问题：</a>
+          <ul>
+            <li><a href="#无法隐藏全部无人机">无法隐藏全部无人机</a></li>
+            <li><a href="#网络同步不生效">网络同步不生效</a></li>
+            <li><a href="#垃圾回收导致崩溃">垃圾回收导致崩溃</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>无人机AI玩法制作</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Jul 11, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        20 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0">实习笔记</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0">实习笔记</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h2 id="无人机巡逻追踪玩家第一版">无人机巡逻追踪玩家第一版：</h2>
+<p>目标：场景中有无人机巡逻飞行，无人机下挂着探照灯，巡逻时是白色灯光沿着样条线飞行；当遇到玩家后灯光变黄色并且追踪玩家，玩家在灯光区域内待到一定时间就会触发警报。</p>
+<p>方法：</p>
+<p>球形碰撞体为根组件位置在无人机的下方用于检测玩家是否进入这个区域（overlap）</p>
+<p>骨骼网格体是无人机的骨骼 不做任何事</p>
+<p>SpotLight灯光 更换灯光颜色</p>
+<p>静态网格体是圆锥体形状的灯柱 更换材质上的颜色</p>
+<p>SplineComponent 样条线组件 设置为绝对世界坐标</p>
+<p>FloatingPawn移动组件用于飞行移动 更改速度</p>
+<p><img src="/images/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/04.png" alt="04"></p>
+<p>样条线组件有自己的方法可以得到当前点的位置，当移动到起始位置和终点位置时切换方向，假如有3个点，呢就是0 1 2 1 0这样遍历每个点的位置，无人机AIController直接MoveToLocation到这个点。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_PatrolDrone<span style="color:#f92672">::</span>MoveAlongPatrol()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(PatrolRouteComponent)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		FVector TargetPosition <span style="color:#f92672">=</span> GetSplinePointWorldPosition();
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(AIController)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			AIController<span style="color:#f92672">-&gt;</span>MoveToLocation(TargetPosition, <span style="color:#ae81ff">5</span>);
+</span></span><span style="display:flex;"><span>			IncrementPatrolRoute();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_PatrolDrone<span style="color:#f92672">::</span>IncrementPatrolRoute()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	PatrolIndex <span style="color:#f92672">+=</span> Direction;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(PatrolRouteComponent<span style="color:#f92672">-&gt;</span>GetNumberOfSplinePoints() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> PatrolIndex)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		Direction <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(PatrolIndex <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) {
+</span></span><span style="display:flex;"><span>		Direction <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>FVector APMS_PatrolDrone<span style="color:#f92672">::</span>GetSplinePointWorldPosition()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	FVector Position <span style="color:#f92672">=</span> PatrolRouteComponent<span style="color:#f92672">-&gt;</span>GetLocationAtSplinePoint(PatrolIndex, ESplineCoordinateSpace<span style="color:#f92672">::</span>World);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> Position;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在服务器端BeginPlay执行巡逻并且绑定球形碰撞体的Overlap委托。服务器用于改变速度，客户端更改灯光灯柱颜色。枚举变量FlightState有巡逻、追踪、警告状态，同步状态变量，在更改时调用OnSetState，</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_PatrolDrone<span style="color:#f92672">::</span>BeginPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>BeginPlay();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (GetNetMode() <span style="color:#f92672">!=</span> NM_Client)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(SphereComponent)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>		SphereComponent<span style="color:#f92672">-&gt;</span>OnComponentBeginOverlap.AddDynamic(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>APMS_PatrolDrone<span style="color:#f92672">::</span>OnOverlapBegin);
+</span></span><span style="display:flex;"><span>			SphereComponent<span style="color:#f92672">-&gt;</span>OnComponentEndOverlap.AddDynamic(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>APMS_PatrolDrone<span style="color:#f92672">::</span>OnOverlapEnd);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		StartPatrol();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>SetFlightState()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(GetNetMode() <span style="color:#f92672">==</span> NM_DedicatedServer)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Patrol)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			GetCharacterMovement()<span style="color:#f92672">-&gt;</span>MaxFlySpeed <span style="color:#f92672">=</span> PatrolSpeed;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Follow)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			GetCharacterMovement()<span style="color:#f92672">-&gt;</span>MaxFlySpeed <span style="color:#f92672">=</span> FollowSpeed;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Alert)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>		
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Patrol)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			ChangeMaterialColor(PatrolColor);
+</span></span><span style="display:flex;"><span>			GetCharacterMovement()<span style="color:#f92672">-&gt;</span>MaxFlySpeed <span style="color:#f92672">=</span> PatrolSpeed;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Follow)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			ChangeMaterialColor(FollowColor);
+</span></span><span style="display:flex;"><span>			GetCharacterMovement()<span style="color:#f92672">-&gt;</span>MaxFlySpeed <span style="color:#f92672">=</span> FollowSpeed;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Alert)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>		
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>OnRep_FlightState()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	SetFlightState();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>Overlap两个事件：</p>
+<p>OnOverlapBegin玩家进入区域时，记录进入时间，设置布尔变量已经进入区域（用于），无人机停止巡逻并开始追踪玩家。</p>
+<p>OnOverlapEnd玩家离开区域时，计算时间</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_PatrolDrone<span style="color:#f92672">::</span>OnOverlapBegin(UPrimitiveComponent<span style="color:#f92672">*</span> OverlappedComp, AActor<span style="color:#f92672">*</span> OtherActor,
+</span></span><span style="display:flex;"><span>                                      UPrimitiveComponent<span style="color:#f92672">*</span> OtherComp, int32 OtherBodyIndex, <span style="color:#66d9ef">bool</span> bFromSweep, <span style="color:#66d9ef">const</span> FHitResult<span style="color:#f92672">&amp;</span> SweepResult)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(GetNetMode() <span style="color:#f92672">!=</span> NM_Client)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(OtherActor <span style="color:#f92672">&amp;&amp;</span> OtherActor <span style="color:#f92672">!=</span> <span style="color:#66d9ef">this</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			APMS_HeroCharacter<span style="color:#f92672">*</span> PlayerCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APMS_HeroCharacter<span style="color:#f92672">&gt;</span>(OtherActor);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>PlayerCharacter) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>			bIsOverlap <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>			OverlapStartTime <span style="color:#f92672">=</span> FPlatformTime<span style="color:#f92672">::</span>Seconds(); ;
+</span></span><span style="display:flex;"><span>			StopPatrol();
+</span></span><span style="display:flex;"><span>			StartFollowingPlayer(PlayerCharacter);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_PatrolDrone<span style="color:#f92672">::</span>OnOverlapEnd(UPrimitiveComponent<span style="color:#f92672">*</span> OverlappedComp, AActor<span style="color:#f92672">*</span> OtherActor,
+</span></span><span style="display:flex;"><span>	UPrimitiveComponent<span style="color:#f92672">*</span> OtherComp, int32 OtherBodyIndex)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(GetNetMode() <span style="color:#f92672">!=</span> NM_Client)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(OtherActor <span style="color:#f92672">&amp;&amp;</span> OtherActor <span style="color:#f92672">!=</span> <span style="color:#66d9ef">this</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			APMS_HeroCharacter<span style="color:#f92672">*</span> PlayerCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APMS_HeroCharacter<span style="color:#f92672">&gt;</span>(OtherActor);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>PlayerCharacter) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>			bIsOverlap <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>StartFollowingPlayer启用定时器调用UpdateFollowPosition更新玩家坐标</p>
+<p>UpdateFollowPosition中累计跟踪时间，超出时间没捕捉到玩家就返回巡逻状态；并且记录在区域内的时间（如果不在区域内bIsOverlap会变成false就不会计算OverlapDuration了），超出时间就会触发警报。</p>
+<p>StartPatrol也是设置定时器，StopPatrol和StopFollowing都是取消定时器。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_PatrolDrone<span style="color:#f92672">::</span>StartFollowingPlayer(APMS_HeroCharacter<span style="color:#f92672">*</span> PlayerCharacter)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(AIController <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>bIsFollowTimerActive)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		bIsFollowing <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>		CurrentAimPlayer <span style="color:#f92672">=</span> PlayerCharacter;
+</span></span><span style="display:flex;"><span>		GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().SetTimer(FollowTimerHandle, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>APMS_PatrolDrone<span style="color:#f92672">::</span>UpdateFollowPosition, FollowInterval, true);
+</span></span><span style="display:flex;"><span>		FlightState <span style="color:#f92672">=</span> EFlightState<span style="color:#f92672">::</span>Warning;
+</span></span><span style="display:flex;"><span>		SetFlightState();
+</span></span><span style="display:flex;"><span>		bIsFollowTimerActive <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>		FollowTimeDuration <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_PatrolDrone<span style="color:#f92672">::</span>UpdateFollowPosition()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(bIsFollowing <span style="color:#f92672">&amp;&amp;</span> CurrentAimPlayer)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		FVector Location <span style="color:#f92672">=</span> CurrentAimPlayer<span style="color:#f92672">-&gt;</span>GetActorLocation();
+</span></span><span style="display:flex;"><span>		AIController<span style="color:#f92672">-&gt;</span>MoveToLocation(Location);
+</span></span><span style="display:flex;"><span>		FollowTimeDuration <span style="color:#f92672">+=</span> FollowInterval;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(bIsOverlap)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			OverlapDuration <span style="color:#f92672">=</span> FPlatformTime<span style="color:#f92672">::</span>Seconds() <span style="color:#f92672">-</span> OverlapStartTime;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span>(OverlapDuration <span style="color:#f92672">&gt;</span> MaxOverlapTime)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				OverlapDuration <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>				OverlapStartTime <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>				StopFollowingPlayer();
+</span></span><span style="display:flex;"><span>				<span style="color:#75715e">// 警报逻辑
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(FollowTimeDuration <span style="color:#f92672">&gt;=</span> MaxFollowTime)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			StopFollowingPlayer();
+</span></span><span style="display:flex;"><span>			StartPatrol();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_PatrolDrone<span style="color:#f92672">::</span>StopFollowingPlayer()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(AIController <span style="color:#f92672">&amp;&amp;</span> bIsFollowTimerActive)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		bIsFollowing <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>		GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().ClearTimer(FollowTimerHandle);
+</span></span><span style="display:flex;"><span>		bIsFollowTimerActive <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>		CurrentAimPlayer <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>		AIController<span style="color:#f92672">-&gt;</span>StopMovement();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_PatrolDrone<span style="color:#f92672">::</span>StartPatrol()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>bIsPatrolTimerActive)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		FlightState <span style="color:#f92672">=</span> EFlightState<span style="color:#f92672">::</span>Patrol;
+</span></span><span style="display:flex;"><span>		SetFlightState();
+</span></span><span style="display:flex;"><span>		GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().SetTimer(PatrolTimerHandle, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>APMS_PatrolDrone<span style="color:#f92672">::</span>MoveAlongPatrol, PatrolInterval, true);
+</span></span><span style="display:flex;"><span>		bIsPatrolTimerActive <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_PatrolDrone<span style="color:#f92672">::</span>StopPatrol()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(bIsPatrolTimerActive)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		GetWorld()<span style="color:#f92672">-&gt;</span>GetTimerManager().ClearTimer(PatrolTimerHandle);
+</span></span><span style="display:flex;"><span>		bIsPatrolTimerActive <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="无人机巡逻追踪玩家第二版">无人机巡逻追踪玩家第二版:</h2>
+<p>由于第一版在巡逻时行走不够平滑，并且追踪玩家会有导航不到的情况（因为样条线不贴地 MoveTo是基于导航网格实现），而且FloatingPawnMovement不会处理无人机转向问题，等等不好的效果&hellip;</p>
+<p>所以改进，继承Character，移动组件使用CharacterMovement，自动处理好了转向。</p>
+<p>将沿着样条线移动更换成在Tick中不断设置无人机的位置，然后自定义一个任务，用于控制AI移动到指定位置一次性的或者不停跟随指定玩家。</p>
+<p><strong>TickTask</strong>：这是每一帧都调用的方法，用于控制角色的移动。</p>
+<p>计算当前角色位置到目标位置的距离，如果距离小于容忍半径，则停止移动，并根据 bEndOnTargetReached 参数判断是否结束任务。</p>
+<p>如果目标没有到达，计算角色的移动方向，并更新角色的位置和朝向。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UGameplayTask_FlyMoveTo<span style="color:#f92672">::</span>UGameplayTask_FlyMoveTo(<span style="color:#66d9ef">const</span> FObjectInitializer<span style="color:#f92672">&amp;</span> ObjectInitializer)
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">:</span> Super(ObjectInitializer)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	bTickingTask <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>UGameplayTask_FlyMoveTo<span style="color:#f92672">*</span> UGameplayTask_FlyMoveTo<span style="color:#f92672">::</span>FlyMoveTo(
+</span></span><span style="display:flex;"><span>	TScriptInterface<span style="color:#f92672">&lt;</span>IGameplayTaskOwnerInterface<span style="color:#f92672">&gt;</span> TaskOwner,
+</span></span><span style="display:flex;"><span>	FVector TargetLocation,
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> InAcceptableRadius,
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> InMoveSpeed,
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> InTurnRate)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (TaskOwner.GetInterface() <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	AAIController<span style="color:#f92672">*</span> TaskOwnerActor <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>AAIController<span style="color:#f92672">&gt;</span>(TaskOwner<span style="color:#f92672">-&gt;</span>GetGameplayTaskOwner(<span style="color:#66d9ef">nullptr</span>));
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>IsValid(TaskOwnerActor))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">auto</span> ControlledPawn <span style="color:#f92672">=</span> TaskOwnerActor<span style="color:#f92672">-&gt;</span>GetPawn();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>IsValid(ControlledPawn))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	UGameplayTask_FlyMoveTo<span style="color:#f92672">*</span> Task <span style="color:#f92672">=</span> NewTask<span style="color:#f92672">&lt;</span>UGameplayTask_FlyMoveTo<span style="color:#f92672">&gt;</span>(TaskOwner);
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>InitTask(<span style="color:#f92672">*</span>TaskOwner, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>GoalLocation       <span style="color:#f92672">=</span> TargetLocation;
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>AcceptableRadius   <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>Max(<span style="color:#ae81ff">1.f</span>, InAcceptableRadius);
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>AcceptableRadiusSq <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>Square(Task<span style="color:#f92672">-&gt;</span>AcceptableRadius);
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>MoveSpeed          <span style="color:#f92672">=</span> InMoveSpeed;
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>TurnRate           <span style="color:#f92672">=</span> InTurnRate;
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>ControlledPawn     <span style="color:#f92672">=</span> ControlledPawn;
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>ReadyForActivation();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> Task;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>UGameplayTask_FlyMoveTo<span style="color:#f92672">*</span> UGameplayTask_FlyMoveTo<span style="color:#f92672">::</span>FlyMoveToActor(
+</span></span><span style="display:flex;"><span>	TScriptInterface<span style="color:#f92672">&lt;</span>IGameplayTaskOwnerInterface<span style="color:#f92672">&gt;</span> TaskOwner, AActor<span style="color:#f92672">*</span> TargetActor, <span style="color:#66d9ef">float</span> AcceptableRadius,
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> MoveSpeed, <span style="color:#66d9ef">float</span> TurnRate, <span style="color:#66d9ef">float</span> OffsetZ, <span style="color:#66d9ef">bool</span> bEndOnTargetReached)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (TaskOwner.GetInterface() <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	AAIController<span style="color:#f92672">*</span> TaskOwnerActor <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>AAIController<span style="color:#f92672">&gt;</span>(TaskOwner<span style="color:#f92672">-&gt;</span>GetGameplayTaskOwner(<span style="color:#66d9ef">nullptr</span>));
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>IsValid(TaskOwnerActor))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">auto</span> ControlledPawn <span style="color:#f92672">=</span> TaskOwnerActor<span style="color:#f92672">-&gt;</span>GetPawn();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>IsValid(ControlledPawn))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	UGameplayTask_FlyMoveTo<span style="color:#f92672">*</span> Task <span style="color:#f92672">=</span> NewTask<span style="color:#f92672">&lt;</span>UGameplayTask_FlyMoveTo<span style="color:#f92672">&gt;</span>(TaskOwner);
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>InitTask(<span style="color:#f92672">*</span>TaskOwner, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>TargetActor       <span style="color:#f92672">=</span> TargetActor;
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>AcceptableRadius   <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>Max(<span style="color:#ae81ff">1.f</span>, AcceptableRadius);
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>AcceptableRadiusSq <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>Square(Task<span style="color:#f92672">-&gt;</span>AcceptableRadius);
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>MoveSpeed          <span style="color:#f92672">=</span> MoveSpeed;
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>TurnRate           <span style="color:#f92672">=</span> TurnRate;
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>OffsetZ            <span style="color:#f92672">=</span> OffsetZ;
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>ControlledPawn     <span style="color:#f92672">=</span> ControlledPawn;
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>bEndOnTargetReached <span style="color:#f92672">=</span> bEndOnTargetReached;
+</span></span><span style="display:flex;"><span>	Task<span style="color:#f92672">-&gt;</span>ReadyForActivation();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> Task;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UGameplayTask_FlyMoveTo<span style="color:#f92672">::</span>Activate()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>Activate();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>ControlledPawn.IsValid())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		FinishTask(false);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (ACharacter<span style="color:#f92672">*</span> TempCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>ACharacter<span style="color:#f92672">&gt;</span>(ControlledPawn.Get()))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		UCharacterMovementComponent<span style="color:#f92672">*</span> MoveComp <span style="color:#f92672">=</span> TempCharacter<span style="color:#f92672">-&gt;</span>GetCharacterMovement();
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (MoveComp <span style="color:#f92672">&amp;&amp;</span> MoveComp<span style="color:#f92672">-&gt;</span>MovementMode <span style="color:#f92672">!=</span> MOVE_Flying)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			MoveComp<span style="color:#f92672">-&gt;</span>SetMovementMode(MOVE_Flying);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UGameplayTask_FlyMoveTo<span style="color:#f92672">::</span>SetTargetLocation(<span style="color:#66d9ef">const</span> FVector<span style="color:#f92672">&amp;</span> NewLocation)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	GoalLocation <span style="color:#f92672">=</span> NewLocation;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UGameplayTask_FlyMoveTo<span style="color:#f92672">::</span>SetTargetActor(AActor<span style="color:#f92672">*</span> NewTarget)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	TargetActor <span style="color:#f92672">=</span> NewTarget;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UGameplayTask_FlyMoveTo<span style="color:#f92672">::</span>TickTask(<span style="color:#66d9ef">float</span> DeltaTime)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>ControlledPawn.IsValid())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		FinishTask(false);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	APawn<span style="color:#f92672">*</span> Pawn <span style="color:#f92672">=</span> ControlledPawn.Get();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">auto</span> TempCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>ACharacter<span style="color:#f92672">&gt;</span>(Pawn);
+</span></span><span style="display:flex;"><span>	FVector TargetLoc <span style="color:#f92672">=</span> TargetActor.IsValid() <span style="color:#f92672">?</span> TargetActor<span style="color:#f92672">-&gt;</span>GetActorLocation() <span style="color:#f92672">+</span> FVector(<span style="color:#ae81ff">0.f</span>, <span style="color:#ae81ff">0.f</span>, OffsetZ) <span style="color:#f92672">:</span> GoalLocation;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> FVector CurrLoc <span style="color:#f92672">=</span> Pawn<span style="color:#f92672">-&gt;</span>GetActorLocation();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> DistSq <span style="color:#f92672">=</span> FVector<span style="color:#f92672">::</span>DistSquared(CurrLoc, TargetLoc);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (DistSq <span style="color:#f92672">&lt;=</span> AcceptableRadiusSq)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (IsValid(TempCharacter))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			TempCharacter<span style="color:#f92672">-&gt;</span>GetCharacterMovement()<span style="color:#f92672">-&gt;</span>StopMovementImmediately();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (bEndOnTargetReached)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			FinishTask(true);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> FVector Dir <span style="color:#f92672">=</span> (TargetLoc <span style="color:#f92672">-</span> CurrLoc).GetSafeNormal();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (IsValid(TempCharacter))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		UCharacterMovementComponent<span style="color:#f92672">*</span> CMC <span style="color:#f92672">=</span> TempCharacter<span style="color:#f92672">-&gt;</span>GetCharacterMovement();
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (CMC)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			CMC<span style="color:#f92672">-&gt;</span>Velocity <span style="color:#f92672">=</span> Dir <span style="color:#f92672">*</span> MoveSpeed;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">const</span> FRotator TargetRot <span style="color:#f92672">=</span> Dir.Rotation();
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">const</span> FRotator NewRot    <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>RInterpConstantTo(TempCharacter<span style="color:#f92672">-&gt;</span>GetActorRotation(), TargetRot, DeltaTime, TurnRate);
+</span></span><span style="display:flex;"><span>		TempCharacter<span style="color:#f92672">-&gt;</span>SetActorRotation(NewRot);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		Pawn<span style="color:#f92672">-&gt;</span>AddActorWorldOffset(Dir <span style="color:#f92672">*</span> MoveSpeed <span style="color:#f92672">*</span> DeltaTime, true);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UGameplayTask_FlyMoveTo<span style="color:#f92672">::</span>FinishTask(<span style="color:#66d9ef">bool</span> bSuccess)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (bSuccess)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		OnSucceeded.Broadcast();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		OnFailed.Broadcast();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	EndTask();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UGameplayTask_FlyMoveTo<span style="color:#f92672">::</span>OnDestroy(<span style="color:#66d9ef">bool</span> bInOwnerFinished)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>OnDestroy(bInOwnerFinished);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>无人机在追踪玩家之后，得移动到原来的巡逻离开的当前位置。所以需要使用FlyMoveTo任务，通过广播的OnSucceed来判断是否到达地点。而FlyMoveToActor是指定玩家后，任务中自动Tick。只需要判断是否到达最大跟随时间，结束任务就行。</p>
+<p>无人机在触发警报后会消失，同时触发警告逻辑。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>APMS_Drone<span style="color:#f92672">::</span>APMS_Drone()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	PrimaryActorTick.bCanEverTick <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	SphereComponent <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>USphereComponent<span style="color:#f92672">&gt;</span>(TEXT(<span style="color:#e6db74">&#34;SphereComponent&#34;</span>));
+</span></span><span style="display:flex;"><span>	SphereComponent<span style="color:#f92672">-&gt;</span>SetupAttachment(RootComponent);
+</span></span><span style="display:flex;"><span>	SpotLightComponent <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>USpotLightComponent<span style="color:#f92672">&gt;</span>(TEXT(<span style="color:#e6db74">&#34;SpotLightComponent&#34;</span>));
+</span></span><span style="display:flex;"><span>	SpotLightComponent<span style="color:#f92672">-&gt;</span>SetupAttachment(GetMesh());
+</span></span><span style="display:flex;"><span>	StaticMeshComponent <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>UStaticMeshComponent<span style="color:#f92672">&gt;</span>(TEXT(<span style="color:#e6db74">&#34;StaticMeshComponent&#34;</span>));
+</span></span><span style="display:flex;"><span>	StaticMeshComponent<span style="color:#f92672">-&gt;</span>SetupAttachment(SpotLightComponent);
+</span></span><span style="display:flex;"><span>	SplineComponent <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>USplineComponent<span style="color:#f92672">&gt;</span>(TEXT(<span style="color:#e6db74">&#34;PatrolRouteComponent&#34;</span>));
+</span></span><span style="display:flex;"><span>	SplineComponent<span style="color:#f92672">-&gt;</span>SetupAttachment(RootComponent);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>BeginPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>BeginPlay();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (GetNetMode() <span style="color:#f92672">!=</span> NM_Client)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(SphereComponent)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			SphereComponent<span style="color:#f92672">-&gt;</span>OnComponentBeginOverlap.AddDynamic(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>APMS_Drone<span style="color:#f92672">::</span>OnOverlapBegin);
+</span></span><span style="display:flex;"><span>			SphereComponent<span style="color:#f92672">-&gt;</span>OnComponentEndOverlap.AddDynamic(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>APMS_Drone<span style="color:#f92672">::</span>OnOverlapEnd);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		UGameplayStatics<span style="color:#f92672">::</span>GetAllActorsOfClass(GetWorld(), APMS_SaveArea<span style="color:#f92672">::</span>StaticClass(), SaveAreas);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span>(AActor<span style="color:#f92672">*</span> Actor : SaveAreas)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			APMS_SaveArea<span style="color:#f92672">*</span> SaveArea <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APMS_SaveArea<span style="color:#f92672">&gt;</span>(Actor);
+</span></span><span style="display:flex;"><span>			SaveArea<span style="color:#f92672">-&gt;</span>OnPlayerEnterSafeArea.AddDynamic(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>APMS_Drone<span style="color:#f92672">::</span>OnPlayerEnterSafeArea);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		GetCharacterMovement()<span style="color:#f92672">-&gt;</span>SetMovementMode(MOVE_Flying);
+</span></span><span style="display:flex;"><span>		FlightState <span style="color:#f92672">=</span> EFlightState<span style="color:#f92672">::</span>Idle; <span style="color:#75715e">// 暂时设置为Idle 因为之后会有进入区域触发无人机巡逻
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		OnSetFlightState();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>Tick(<span style="color:#66d9ef">float</span> DeltaTime)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>Tick(DeltaTime);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(HasAuthority())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Patrol)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			StartPatrol(DeltaTime);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Follow)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>bisFollow <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>bisAlert)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				StartFollow();
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			FollowDuration <span style="color:#f92672">+=</span> DeltaTime;
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 超出最大跟随时间并且没有触发警报 则返回巡逻
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span>(FollowDuration <span style="color:#f92672">&gt;=</span> MaxFollowTime <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>bisAlert)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				FollowReturnPatrol();
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 超出最大停留时间 则触发警报
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#66d9ef">if</span>(OverlapStartTime)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				OverlapDuration <span style="color:#f92672">=</span> GetWorld()<span style="color:#f92672">-&gt;</span>GetTimeSeconds() <span style="color:#f92672">-</span> OverlapStartTime;
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span>(OverlapDuration <span style="color:#f92672">&gt;=</span> MaxOverlapTime)
+</span></span><span style="display:flex;"><span>				{
+</span></span><span style="display:flex;"><span>					bisAlert <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>					StartAlert();
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>PossessedBy(AController<span style="color:#f92672">*</span> NewController)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>PossessedBy(NewController);
+</span></span><span style="display:flex;"><span>	AIController <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>AAIController<span style="color:#f92672">&gt;</span>(GetController());
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>GetLifetimeReplicatedProps(TArray<span style="color:#f92672">&lt;</span>FLifetimeProperty<span style="color:#f92672">&gt;&amp;</span> OutLifetimeProps) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>GetLifetimeReplicatedProps(OutLifetimeProps);
+</span></span><span style="display:flex;"><span>	DOREPLIFETIME(APMS_Drone, FlightState);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>OnOverlapBegin(UPrimitiveComponent<span style="color:#f92672">*</span> OverlappedComp, AActor<span style="color:#f92672">*</span> OtherActor, UPrimitiveComponent<span style="color:#f92672">*</span> OtherComp,
+</span></span><span style="display:flex;"><span>                                int32 OtherBodyIndex, <span style="color:#66d9ef">bool</span> bFromSweep, <span style="color:#66d9ef">const</span> FHitResult<span style="color:#f92672">&amp;</span> SweepResult)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(GetNetMode() <span style="color:#f92672">!=</span> NM_Client)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(OtherActor <span style="color:#f92672">&amp;&amp;</span> OtherActor <span style="color:#f92672">!=</span> <span style="color:#66d9ef">this</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			APMS_HeroCharacter<span style="color:#f92672">*</span> PlayerCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APMS_HeroCharacter<span style="color:#f92672">&gt;</span>(OtherActor);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>PlayerCharacter) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>			TargetActor <span style="color:#f92672">=</span> PlayerCharacter;
+</span></span><span style="display:flex;"><span>			FlightState <span style="color:#f92672">=</span> EFlightState<span style="color:#f92672">::</span>Follow;
+</span></span><span style="display:flex;"><span>			OnSetFlightState();
+</span></span><span style="display:flex;"><span>			OverlapStartTime <span style="color:#f92672">=</span> GetWorld()<span style="color:#f92672">-&gt;</span>GetTimeSeconds();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>OnOverlapEnd(UPrimitiveComponent<span style="color:#f92672">*</span> OverlappedComp, AActor<span style="color:#f92672">*</span> OtherActor, UPrimitiveComponent<span style="color:#f92672">*</span> OtherComp,
+</span></span><span style="display:flex;"><span>	int32 OtherBodyIndex)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(GetNetMode() <span style="color:#f92672">!=</span> NM_Client)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(OtherActor <span style="color:#f92672">&amp;&amp;</span> OtherActor <span style="color:#f92672">!=</span> <span style="color:#66d9ef">this</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			APMS_HeroCharacter<span style="color:#f92672">*</span> PlayerCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APMS_HeroCharacter<span style="color:#f92672">&gt;</span>(OtherActor);
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>PlayerCharacter) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>			OverlapStartTime <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>			OverlapDuration <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>StartPatrol(<span style="color:#66d9ef">float</span> DeltaTime)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (SplineComponent)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		DistanceAlongSpline <span style="color:#f92672">+=</span> Direction <span style="color:#f92672">*</span> PatrolSpeed <span style="color:#f92672">*</span> DeltaTime;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (DistanceAlongSpline <span style="color:#f92672">&gt;=</span> SplineComponent<span style="color:#f92672">-&gt;</span>GetSplineLength())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			DistanceAlongSpline <span style="color:#f92672">=</span> SplineComponent<span style="color:#f92672">-&gt;</span>GetSplineLength();
+</span></span><span style="display:flex;"><span>			Direction <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(DistanceAlongSpline <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			DistanceAlongSpline <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>			Direction <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		CurrentPosition <span style="color:#f92672">=</span> SplineComponent<span style="color:#f92672">-&gt;</span>GetLocationAtDistanceAlongSpline(DistanceAlongSpline, ESplineCoordinateSpace<span style="color:#f92672">::</span>World);
+</span></span><span style="display:flex;"><span>		SetActorLocation(CurrentPosition);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>StartFollow()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	bisFollow <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(TargetActor)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (IsValid(FlyMoveToActorTask))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			FlyMoveToActorTask<span style="color:#f92672">-&gt;</span>EndTask();
+</span></span><span style="display:flex;"><span>			FlyMoveToActorTask <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		FlyMoveToActorTask <span style="color:#f92672">=</span> UGameplayTask_FlyMoveTo<span style="color:#f92672">::</span>FlyMoveToActor(AIController, TargetActor, AcceptableRadius, FollowSpeed, TurnRate, OffsetZ, false);
+</span></span><span style="display:flex;"><span>		FollowDuration <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>StartAlert()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	FlightState <span style="color:#f92672">=</span> EFlightState<span style="color:#f92672">::</span>Alert;
+</span></span><span style="display:flex;"><span>	OnSetFlightState();
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...警告逻辑
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>FollowReturnPatrol()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (IsValid(FlyMoveToActorTask))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		FlyMoveToActorTask<span style="color:#f92672">-&gt;</span>EndTask();
+</span></span><span style="display:flex;"><span>		FlyMoveToActorTask <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	bisFollow <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (IsValid(FlyMoveToTask))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		FlyMoveToTask<span style="color:#f92672">-&gt;</span>EndTask();
+</span></span><span style="display:flex;"><span>		FlyMoveToTask <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	FlightState <span style="color:#f92672">=</span> EFlightState<span style="color:#f92672">::</span>Idle; <span style="color:#75715e">// 状态过渡
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	OnSetFlightState();
+</span></span><span style="display:flex;"><span>	FlyMoveToTask <span style="color:#f92672">=</span> UGameplayTask_FlyMoveTo<span style="color:#f92672">::</span>FlyMoveTo(AIController, CurrentPosition, <span style="color:#ae81ff">0.f</span>, PatrolSpeed, TurnRate);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (IsValid(FlyMoveToTask))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		FlyMoveToTask<span style="color:#f92672">-&gt;</span>OnSucceeded.AddDynamic(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>APMS_Drone<span style="color:#f92672">::</span>OnFlyMoveToSuccess);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>OnPlayerEnterSafeArea(APMS_HeroCharacter<span style="color:#f92672">*</span> EntryCharacter)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(EntryCharacter)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(TargetActor <span style="color:#f92672">&amp;&amp;</span> EntryCharacter <span style="color:#f92672">==</span> TargetActor)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			FollowReturnPatrol();
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>ChangeMaterialColor(FLinearColor FresnelColor)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(StaticMeshComponent <span style="color:#f92672">&amp;&amp;</span> StaticMeshComponent<span style="color:#f92672">-&gt;</span>GetMaterial(<span style="color:#ae81ff">0</span>))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		StaticMeshComponent<span style="color:#f92672">-&gt;</span>SetCustomPrimitiveDataVector4(<span style="color:#ae81ff">0</span>,FresnelColor);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(SpotLightComponent)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		SpotLightComponent<span style="color:#f92672">-&gt;</span>SetLightColor(FresnelColor);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>OnSetFlightState()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(GetNetMode() <span style="color:#f92672">==</span> NM_DedicatedServer)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Idle)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			GetCharacterMovement()<span style="color:#f92672">-&gt;</span>MaxFlySpeed <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Patrol)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			GetCharacterMovement()<span style="color:#f92672">-&gt;</span>MaxFlySpeed <span style="color:#f92672">=</span> PatrolSpeed;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Follow)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			GetCharacterMovement()<span style="color:#f92672">-&gt;</span>MaxFlySpeed <span style="color:#f92672">=</span> FollowSpeed;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Idle)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			GetCharacterMovement()<span style="color:#f92672">-&gt;</span>MaxFlySpeed <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>			ChangeMaterialColor(PatrolColor);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Patrol)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			ChangeMaterialColor(PatrolColor);
+</span></span><span style="display:flex;"><span>			GetCharacterMovement()<span style="color:#f92672">-&gt;</span>MaxFlySpeed <span style="color:#f92672">=</span> PatrolSpeed;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Follow)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			ChangeMaterialColor(FollowColor);
+</span></span><span style="display:flex;"><span>			GetCharacterMovement()<span style="color:#f92672">-&gt;</span>MaxFlySpeed <span style="color:#f92672">=</span> FollowSpeed;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Alert)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			SetActorHiddenInGame(true);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>OnRep_FlightState()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	OnSetFlightState();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>OnFlyMoveToSuccess()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	FlightState <span style="color:#f92672">=</span> EFlightState<span style="color:#f92672">::</span>Patrol;
+</span></span><span style="display:flex;"><span>	OnSetFlightState();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="探照灯玩法之怪物攻击">探照灯玩法之怪物攻击</h3>
+<p>当无人机发出警报后，无人机消失，怪物会增加仇恨值目标是距离它最近的玩家。</p>
+<p>如果同时有4个玩家，玩家们聚集在一个地方，当无人机触发警报之后，会引发四周的怪物分别朝向距离最近的玩家攻击。</p>
+<p>增加丧尸仇恨值方法，遍历世界中的怪物AIController，通过AIController获取Pawn，怪物的Location保存下来。</p>
+<p>遍历GameState中的PlayState数组（一共四个玩家），如果玩家存活就计算怪物与玩家的最短距离，将怪物的目标设置为当前距离最短的玩家，再通过调用AddHatredActorWithSightCheck来增加丧失的仇恨值。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>AddHatredToClosestActor()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(APMS_ZombieGameState<span style="color:#f92672">*</span> GameState <span style="color:#f92672">=</span> GetWorld()<span style="color:#f92672">-&gt;</span>GetGameState<span style="color:#f92672">&lt;</span>APMS_ZombieGameState<span style="color:#f92672">&gt;</span>())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">for</span>(TActorIterator<span style="color:#f92672">&lt;</span>APMS_ZombieMonsterAIController<span style="color:#f92672">&gt;</span> It(GetWorld()); It; <span style="color:#f92672">++</span> It)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">float</span> MinDistance <span style="color:#f92672">=</span> FLT_MAX;
+</span></span><span style="display:flex;"><span>			APawn<span style="color:#f92672">*</span> Pawn <span style="color:#f92672">=</span> It<span style="color:#f92672">-&gt;</span>GetPawn();
+</span></span><span style="display:flex;"><span>			APMS_ZombiePlayerCharacter<span style="color:#f92672">*</span> TargetCharacter <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span>(IsValid(Pawn))
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				APMS_ZombieAIMonsterCharacter<span style="color:#f92672">*</span> MonsterCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APMS_ZombieAIMonsterCharacter<span style="color:#f92672">&gt;</span>(Pawn);
+</span></span><span style="display:flex;"><span>				FVector MonsterLocation <span style="color:#f92672">=</span> MonsterCharacter<span style="color:#f92672">-&gt;</span>GetActorLocation();
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">auto</span> Element : GameState<span style="color:#f92672">-&gt;</span>PlayerArray)
+</span></span><span style="display:flex;"><span>				{
+</span></span><span style="display:flex;"><span>					APMS_ZombiePlayerState<span style="color:#f92672">*</span> PMS_PlayerState <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APMS_ZombiePlayerState<span style="color:#f92672">&gt;</span>(Element);
+</span></span><span style="display:flex;"><span>					APMS_ZombiePlayerCharacter<span style="color:#f92672">*</span> PlayerCharacter <span style="color:#f92672">=</span> PMS_PlayerState<span style="color:#f92672">-&gt;</span>GetPawn<span style="color:#f92672">&lt;</span>APMS_ZombiePlayerCharacter<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>					<span style="color:#66d9ef">if</span>(IsValid(PMS_PlayerState) <span style="color:#f92672">&amp;&amp;</span> IsValid(PlayerCharacter) <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>PMS_PlayerState<span style="color:#f92672">-&gt;</span>IsDead())
+</span></span><span style="display:flex;"><span>					{
+</span></span><span style="display:flex;"><span>						<span style="color:#66d9ef">float</span> Distance <span style="color:#f92672">=</span> FVector<span style="color:#f92672">::</span>Dist(MonsterLocation, PlayerCharacter<span style="color:#f92672">-&gt;</span>GetActorLocation());
+</span></span><span style="display:flex;"><span>						<span style="color:#66d9ef">if</span> (Distance <span style="color:#f92672">&lt;</span> MinDistance)
+</span></span><span style="display:flex;"><span>						{
+</span></span><span style="display:flex;"><span>							MinDistance <span style="color:#f92672">=</span> Distance;
+</span></span><span style="display:flex;"><span>							TargetCharacter <span style="color:#f92672">=</span> PlayerCharacter;
+</span></span><span style="display:flex;"><span>						}
+</span></span><span style="display:flex;"><span>					}
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span> (IsValid(TargetCharacter))
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				UPMS_GamePlayUtilsFunctionLibrary<span style="color:#f92672">::</span>AddHatredActorWithSightCheck(TargetCharacter, (<span style="color:#f92672">*</span>It));
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="出现问题">出现问题：</h2>
+<h3 id="无法隐藏全部无人机">无法隐藏全部无人机</h3>
+<p>如果设置为发出警报就隐藏无人机，但是场景中多个无人机无法隐藏其他无人机。并且进入场景任务触发区域激活无人机巡逻行为以及离开任务区域会关闭玩法，所以要通过任务Tag来绑定委托 当无人机触发警报时要先隐藏无人机，并SetActorTickEnabled(false);</p>
+<p>等到玩家离开无人机区域后，要销毁无人机。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>	UFUNCTION()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> OnTriggerActivateDrone(FGameplayTag Topic, UObject<span style="color:#f92672">*</span> Payload);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	UFUNCTION()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> OnTriggerDestoryDrone(FGameplayTag Topic, UObject<span style="color:#f92672">*</span> Payload);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	UFUNCTION()
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> OnTriggerHiddenDrone(FGameplayTag Topic, UObject<span style="color:#f92672">*</span> Payload);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditAnywhere, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Settings&#34;</span>, meta <span style="color:#f92672">=</span> (ToolTip <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;激活无人机的tag&#34;</span>))
+</span></span><span style="display:flex;"><span>	FGameplayTag ActivateTriggerTag;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditAnywhere, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Settings&#34;</span>, meta <span style="color:#f92672">=</span> (ToolTip <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;警报后无人机销毁的Tag&#34;</span>))
+</span></span><span style="display:flex;"><span>	FGameplayTag HideTriggerTag;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditAnywhere, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Settings&#34;</span>, meta <span style="color:#f92672">=</span> (ToolTip <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;离开区域无人机销毁的Tag&#34;</span>))
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	FGameplayTag LeaveTriggerTag;
+</span></span><span style="display:flex;"><span>	FDispatchitoDynamicDelegate OnDroneActivatedDelegate;
+</span></span><span style="display:flex;"><span>	FDispatchitoEventBindingHandle DroneActivatedHandle;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	FDispatchitoDynamicDelegate OnHideDroneDelegate;
+</span></span><span style="display:flex;"><span>	FDispatchitoEventBindingHandle HideDroneHandle;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	FDispatchitoDynamicDelegate OnLeaveAreaDelegate;
+</span></span><span style="display:flex;"><span>	FDispatchitoEventBindingHandle LeaveAreaHandle;
+</span></span></code></pre></div><p>无人机Tick中新增警告状态判断，用于判断警告后过了多少秒会消除警告UI和声音（TS中写的逻辑）。并且在OnSetFlightState中的客户端增加一个警告状态用于广播开始警报的事件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>		<span style="color:#75715e">// Tick
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span>(FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Alert)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			AlertDuration <span style="color:#f92672">=</span> GetWorld()<span style="color:#f92672">-&gt;</span>GetTimeSeconds() <span style="color:#f92672">-</span> AlertStartTime;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">if</span>(AlertDuration <span style="color:#f92672">&gt;=</span> MaxAlertTime)
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				MulticastRemoveAlert();
+</span></span><span style="display:flex;"><span>				SetActorTickEnabled(false);
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>		}		
+</span></span><span style="display:flex;"><span>      <span style="color:#75715e">// OnSetFlightState
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>        <span style="color:#66d9ef">else</span> <span style="color:#a6e22e">if</span> (FlightState <span style="color:#f92672">==</span> EFlightState<span style="color:#f92672">::</span>Alert)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			UPMS_GameDelegate_WorldSubsystem<span style="color:#f92672">::</span>BroadcastEvent(GetWorld(), <span style="color:#f92672">&amp;</span>UPMS_GameDelegate_WorldSubsystem<span style="color:#f92672">::</span>GetOnStartAlert);
+</span></span><span style="display:flex;"><span>		}
+</span></span></code></pre></div><p>BeginPlay中绑定Tag的触发委托</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>BeginPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>BeginPlay();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (GetNetMode() <span style="color:#f92672">!=</span> NM_Client)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (ActivateTriggerTag.IsValid())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			OnDroneActivatedDelegate.BindDynamic(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>APMS_Drone<span style="color:#f92672">::</span>OnTriggerActivateDrone);
+</span></span><span style="display:flex;"><span>			DroneActivatedHandle <span style="color:#f92672">=</span> UDispatchitoBlueprintLibrary<span style="color:#f92672">::</span>SubscribeToTopic(<span style="color:#66d9ef">this</span>, ActivateTriggerTag, OnDroneActivatedDelegate);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(HideTriggerTag.IsValid())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			OnHideDroneDelegate.BindDynamic(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>APMS_Drone<span style="color:#f92672">::</span>OnTriggerHiddenDrone);
+</span></span><span style="display:flex;"><span>			HideDroneHandle <span style="color:#f92672">=</span> UDispatchitoBlueprintLibrary<span style="color:#f92672">::</span>SubscribeToTopic(<span style="color:#66d9ef">this</span>, HideTriggerTag, OnHideDroneDelegate);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span>(LeaveTriggerTag.IsValid())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			OnLeaveAreaDelegate.BindDynamic(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>APMS_Drone<span style="color:#f92672">::</span>OnTriggerDestoryDrone);
+</span></span><span style="display:flex;"><span>			LeaveAreaHandle <span style="color:#f92672">=</span> UDispatchitoBlueprintLibrary<span style="color:#f92672">::</span>SubscribeToTopic(<span style="color:#66d9ef">this</span>, LeaveTriggerTag, OnLeaveAreaDelegate);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>EndPlay(<span style="color:#66d9ef">const</span> EEndPlayReason<span style="color:#f92672">::</span>Type EndPlayReason)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>EndPlay(EndPlayReason);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(DroneActivatedHandle.IsValid())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		UDispatchitoBlueprintLibrary<span style="color:#f92672">::</span>Unsubscribe(<span style="color:#66d9ef">this</span>, DroneActivatedHandle);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(HideDroneHandle.IsValid())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		UDispatchitoBlueprintLibrary<span style="color:#f92672">::</span>Unsubscribe(<span style="color:#66d9ef">this</span>, HideDroneHandle);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span>(LeaveAreaHandle.IsValid())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		UDispatchitoBlueprintLibrary<span style="color:#f92672">::</span>Unsubscribe(<span style="color:#66d9ef">this</span>, LeaveAreaHandle);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>OnTriggerActivateDrone(FGameplayTag Topic, UObject<span style="color:#f92672">*</span> Payload)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	FlightState <span style="color:#f92672">=</span> EFlightState<span style="color:#f92672">::</span>Patrol;
+</span></span><span style="display:flex;"><span>	OnSetFlightState();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>OnTriggerHiddenDrone(FGameplayTag Topic, UObject<span style="color:#f92672">*</span> Payload)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	SetActorHiddenInGame(true);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>MulticastRemoveAlert_Implementation()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	UPMS_GameDelegate_WorldSubsystem<span style="color:#f92672">::</span>BroadcastEvent(GetWorld(), <span style="color:#f92672">&amp;</span>UPMS_GameDelegate_WorldSubsystem<span style="color:#f92672">::</span>GetOnRemoveAlert);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> APMS_Drone<span style="color:#f92672">::</span>OnTriggerDestoryDrone(FGameplayTag Topic, UObject<span style="color:#f92672">*</span> Payload)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Destroy();
+</span></span><span style="display:flex;"><span>	FlyMoveToActorTask<span style="color:#f92672">-&gt;</span>EndTask();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="网络同步不生效">网络同步不生效</h3>
+<p>因为h2d场景的网络同步压力太大了 所以unreliable函数没办法执行了</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UFUNCTION(NetMulticast, Reliable)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> MulticastRemoveAlert();
+</span></span></code></pre></div><h3 id="垃圾回收导致崩溃">垃圾回收导致崩溃</h3>
+<p>对象成员 &lsquo;FlyMoveToActorTask&rsquo;可能会在垃圾收集期间被销毁，导致指针过时。所以需要更改成如下这样，确保垃圾回收时不会回收这些。</p>
+<p>UPROPERTY避免垃圾回收了这些任务，TWeakObjectPtr是弱指针引用，为了在对象销毁后，指针会自动失效，避免了悬空指针</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>	TWeakObjectPtr<span style="color:#f92672">&lt;</span>AAIController<span style="color:#f92672">&gt;</span> AIController;
+</span></span><span style="display:flex;"><span>	TWeakObjectPtr<span style="color:#f92672">&lt;</span>APMS_HeroCharacter<span style="color:#f92672">&gt;</span> TargetActor <span style="color:#f92672">=</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	UPROPERTY()
+</span></span><span style="display:flex;"><span>	TObjectPtr<span style="color:#f92672">&lt;</span>UGameplayTask_FlyMoveTo<span style="color:#f92672">&gt;</span> FlyMoveToActorTask;
+</span></span><span style="display:flex;"><span>	UPROPERTY()
+</span></span><span style="display:flex;"><span>	TObjectPtr<span style="color:#f92672">&lt;</span>UGameplayTask_FlyMoveTo<span style="color:#f92672">&gt;</span> FlyMoveToTask;
+</span></span></code></pre></div>
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E6%2597%25A0%25E4%25BA%25BA%25E6%259C%25BAai%25E7%258E%25A9%25E6%25B3%2595%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=%e6%97%a0%e4%ba%ba%e6%9c%baAI%e7%8e%a9%e6%b3%95%e5%88%b6%e4%bd%9c&url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E6%2597%25A0%25E4%25BA%25BA%25E6%259C%25BAai%25E7%258E%25A9%25E6%25B3%2595%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E6%2597%25A0%25E4%25BA%25BA%25E6%259C%25BAai%25E7%258E%25A9%25E6%25B3%2595%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E6%2597%25A0%25E4%25BA%25BA%25E6%259C%25BAai%25E7%258E%25A9%25E6%25B3%2595%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E6%2597%25A0%25E4%25BA%25BA%25E6%259C%25BAai%25E7%258E%25A9%25E6%25B3%2595%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E6%2597%25A0%25E4%25BA%25BA%25E6%259C%25BAai%25E7%258E%25A9%25E6%25B3%2595%2f
+			&title=%e6%97%a0%e4%ba%ba%e6%9c%baAI%e7%8e%a9%e6%b3%95%e5%88%b6%e4%bd%9c&summary=%e6%97%a0%e4%ba%ba%e6%9c%ba%e5%b7%a1%e9%80%bb%e8%bf%bd%e8%b8%aa%e7%8e%a9%e5%ae%b6%e7%ac%ac%e4%b8%80%e7%89%88%ef%bc%9a%20%e7%9b%ae%e6%a0%87%ef%bc%9a%e5%9c%ba%e6%99%af%e4%b8%ad%e6%9c%89%e6%97%a0%e4%ba%ba%e6%9c%ba%e5%b7%a1%e9%80%bb%e9%a3%9e%e8%a1%8c%ef%bc%8c%e6%97%a0%e4%ba%ba%e6%9c%ba%e4%b8%8b%e6%8c%82%e7%9d%80%e6%8e%a2%e7%85%a7%e7%81%af%ef%bc%8c%e5%b7%a1%e9%80%bb%e6%97%b6%e6%98%af%e7%99%bd%e8%89%b2%e7%81%af%e5%85%89%e6%b2%bf%e7%9d%80%e6%a0%b7%e6%9d%a1%e7%ba%bf%e9%a3%9e%e8%a1%8c%ef%bc%9b%e5%bd%93%e9%81%87%e5%88%b0%e7%8e%a9%e5%ae%b6%e5%90%8e%e7%81%af%e5%85%89%e5%8f%98%e9%bb%84%e8%89%b2%e5%b9%b6%e4%b8%94%e8%bf%bd%e8%b8%aa%e7%8e%a9%e5%ae%b6%ef%bc%8c%e7%8e%a9%e5%ae%b6%e5%9c%a8%e7%81%af%e5%85%89%e5%8c%ba%e5%9f%9f%e5%86%85%e5%be%85%e5%88%b0%e4%b8%80%e5%ae%9a%e6%97%b6%e9%97%b4%e5%b0%b1%e4%bc%9a%e8%a7%a6%e5%8f%91%e8%ad%a6%e6%8a%a5%e3%80%82%0a%e6%96%b9%e6%b3%95%ef%bc%9a%0a%e7%90%83%e5%bd%a2%e7%a2%b0%e6%92%9e%e4%bd%93%e4%b8%ba%e6%a0%b9%e7%bb%84%e4%bb%b6%e4%bd%8d%e7%bd%ae%e5%9c%a8%e6%97%a0%e4%ba%ba%e6%9c%ba%e7%9a%84%e4%b8%8b%e6%96%b9%e7%94%a8%e4%ba%8e%e6%a3%80%e6%b5%8b%e7%8e%a9%e5%ae%b6%e6%98%af%e5%90%a6%e8%bf%9b%e5%85%a5%e8%bf%99%e4%b8%aa%e5%8c%ba%e5%9f%9f%ef%bc%88overlap%ef%bc%89%0a%e9%aa%a8%e9%aa%bc%e7%bd%91%e6%a0%bc%e4%bd%93%e6%98%af%e6%97%a0%e4%ba%ba%e6%9c%ba%e7%9a%84%e9%aa%a8%e9%aa%bc%20%e4%b8%8d%e5%81%9a%e4%bb%bb%e4%bd%95%e4%ba%8b%0aSpotLight%e7%81%af%e5%85%89%20%e6%9b%b4%e6%8d%a2%e7%81%af%e5%85%89%e9%a2%9c%e8%89%b2%0a%e9%9d%99%e6%80%81%e7%bd%91%e6%a0%bc%e4%bd%93%e6%98%af%e5%9c%86%e9%94%a5%e4%bd%93%e5%bd%a2%e7%8a%b6%e7%9a%84%e7%81%af%e6%9f%b1%20%e6%9b%b4%e6%8d%a2%e6%9d%90%e8%b4%a8%e4%b8%8a%e7%9a%84%e9%a2%9c%e8%89%b2%0aSplineComponent%20%e6%a0%b7%e6%9d%a1%e7%ba%bf%e7%bb%84%e4%bb%b6%20%e8%ae%be%e7%bd%ae%e4%b8%ba%e7%bb%9d%e5%af%b9%e4%b8%96%e7%95%8c%e5%9d%90%e6%a0%87%0aFloatingPawn%e7%a7%bb%e5%8a%a8%e7%bb%84%e4%bb%b6%e7%94%a8%e4%ba%8e%e9%a3%9e%e8%a1%8c%e7%a7%bb%e5%8a%a8%20%e6%9b%b4%e6%94%b9%e9%80%9f%e5%ba%a6%0a%e6%a0%b7%e6%9d%a1%e7%ba%bf%e7%bb%84%e4%bb%b6%e6%9c%89%e8%87%aa%e5%b7%b1%e7%9a%84%e6%96%b9%e6%b3%95%e5%8f%af%e4%bb%a5%e5%be%97%e5%88%b0%e5%bd%93%e5%89%8d%e7%82%b9%e7%9a%84%e4%bd%8d%e7%bd%ae%ef%bc%8c%e5%bd%93%e7%a7%bb%e5%8a%a8%e5%88%b0%e8%b5%b7%e5%a7%8b%e4%bd%8d%e7%bd%ae%e5%92%8c%e7%bb%88%e7%82%b9%e4%bd%8d%e7%bd%ae%e6%97%b6%e5%88%87%e6%8d%a2%e6%96%b9%e5%90%91%ef%bc%8c%e5%81%87%e5%a6%82%e6%9c%893%e4%b8%aa%e7%82%b9%ef%bc%8c%e5%91%a2%e5%b0%b1%e6%98%af0%201%202%201%200%e8%bf%99%e6%a0%b7%e9%81%8d%e5%8e%86%e6%af%8f%e4%b8%aa%e7%82%b9%e7%9a%84%e4%bd%8d%e7%bd%ae%ef%bc%8c%e6%97%a0%e4%ba%ba%e6%9c%baAIController%e7%9b%b4%e6%8e%a5MoveToLocation%e5%88%b0%e8%bf%99%e4%b8%aa%e7%82%b9%e3%80%82%0avoid%20APMS_PatrolDrone%3a%3aMoveAlongPatrol%28%29%20%7b%20if%28PatrolRouteComponent%29%20%7b%20FVector%20TargetPosition%20%3d%20GetSplinePointWorldPosition%28%29%3b%20if%28AIController%29%20%7b%20AIController-%26gt%3bMoveToLocation%28TargetPosition%2c%205%29%3b%20IncrementPatrolRoute%28%29%3b%20%7d%20%7d%20%7d%20void%20APMS_PatrolDrone%3a%3aIncrementPatrolRoute%28%29%20%7b%20PatrolIndex%20%2b%3d%20Direction%3b%20if%28PatrolRouteComponent-%26gt%3bGetNumberOfSplinePoints%28%29%20-%201%20%3d%3d%20PatrolIndex%29%20%7b%20Direction%20%3d%20-1%3b%20%7d%20else%20if%28PatrolIndex%20%3d%3d%200%29%20%7b%20Direction%20%3d%201%3b%20%7d%20%7d%20FVector%20APMS_PatrolDrone%3a%3aGetSplinePointWorldPosition%28%29%20%7b%20FVector%20Position%20%3d%20PatrolRouteComponent-%26gt%3bGetLocationAtSplinePoint%28PatrolIndex%2c%20ESplineCoordinateSpace%3a%3aWorld%29%3b%20return%20Position%3b%20%7d%20%e5%9c%a8%e6%9c%8d%e5%8a%a1%e5%99%a8%e7%ab%afBeginPlay%e6%89%a7%e8%a1%8c%e5%b7%a1%e9%80%bb%e5%b9%b6%e4%b8%94%e7%bb%91%e5%ae%9a%e7%90%83%e5%bd%a2%e7%a2%b0%e6%92%9e%e4%bd%93%e7%9a%84Overlap%e5%a7%94%e6%89%98%e3%80%82%e6%9c%8d%e5%8a%a1%e5%99%a8%e7%94%a8%e4%ba%8e%e6%94%b9%e5%8f%98%e9%80%9f%e5%ba%a6%ef%bc%8c%e5%ae%a2%e6%88%b7%e7%ab%af%e6%9b%b4%e6%94%b9%e7%81%af%e5%85%89%e7%81%af%e6%9f%b1%e9%a2%9c%e8%89%b2%e3%80%82%e6%9e%9a%e4%b8%be%e5%8f%98%e9%87%8fFlightState%e6%9c%89%e5%b7%a1%e9%80%bb%e3%80%81%e8%bf%bd%e8%b8%aa%e3%80%81%e8%ad%a6%e5%91%8a%e7%8a%b6%e6%80%81%ef%bc%8c%e5%90%8c%e6%ad%a5%e7%8a%b6%e6%80%81%e5%8f%98%e9%87%8f%ef%bc%8c%e5%9c%a8%e6%9b%b4%e6%94%b9%e6%97%b6%e8%b0%83%e7%94%a8OnSetState%ef%bc%8c&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=%e6%97%a0%e4%ba%ba%e6%9c%baAI%e7%8e%a9%e6%b3%95%e5%88%b6%e4%bd%9c&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2f%25E5%25AE%259E%25E4%25B9%25A0%25E7%25AC%2594%25E8%25AE%25B0%2f%25E6%2597%25A0%25E4%25BA%25BA%25E6%259C%25BAai%25E7%258E%25A9%25E6%25B3%2595%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>
