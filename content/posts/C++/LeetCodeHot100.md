@@ -3063,7 +3063,56 @@ public:
 
 ## 技巧
 
-### 颜色分类（荷兰国旗）
+### 136. 只出现一次的数字
+
+任何数和0异或仍然是该数
+
+任何数和自身异或结果为0
+
+所以得出结论，所有数组的数字异或一遍，成对出现的数字都会为0，最后得出的结果就是只出现一次的数字。
+
+```c++
+class Solution {
+public:
+    int singleNumber(vector<int>& nums) {
+        int res = 0;
+        for(int i = 0; i < nums.size(); i ++) {
+            res ^= nums[i];
+        }
+        return res;
+    }
+};
+```
+
+
+
+### 169. 多数元素
+
+**Boyer-Moore 投票算法** ，候选者初始为第一个数字，数量为1。如果遇到相同数字，则cnt++；否则cnt--，如果cnt小于0，则意味着候选数字并不是出现次数最多的数字，所以更换候选数字和数量。
+
+```c++
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        int candidate = nums[0], cnt = 1;
+        for(int i = 1; i < nums.size(); i ++) {
+            if(nums[i] == candidate) cnt ++;
+            else {
+                cnt --;
+                if(cnt < 0) {
+                    candidate = nums[i];
+                    cnt = 1;
+                }
+            }
+        }
+        return candidate;
+    }
+};
+```
+
+
+
+### 75. 颜色分类（荷兰国旗）
 
 *双指针 + 一趟扫描*
 
