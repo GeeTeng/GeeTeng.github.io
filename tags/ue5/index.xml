@@ -6,28 +6,14 @@
     <description>Recent content in UE5 on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 22 Apr 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 15 Apr 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/tags/ue5/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Lyra动画蓝图——角色基础移动</title>
-      <link>https://geeteng.github.io/posts/ue/lyraanimation_1/</link>
-      <pubDate>Tue, 22 Apr 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ue/lyraanimation_1/</guid>
-      <description>首先将lyra的动画导入到项目中，一共需要创建如下动画蓝图和动画层接口。&#xA;并勾选所需插件Animation Locomotion Library和Animation Warping。&#xA;CharacterBase CharacterBase用于绑定角色蓝图的动画&#xA;Lyra中用了**BlueprintThreadSafeUpdateAnimation**线程安全的动画更新方法，用于在工作线程中执行高性能的动画计算，避免阻塞游戏线程。&#xA;这三个函数分别用来更新角色的朝向和转向、更新速度大小处理走跑和加速度数据起步和急停，需要勾选线程安全。&#xA;GetMovementComponent函数用来返回角色的移动组件，用于Update Acceleration Data函数中获取角色当前加速度。&#xA;动画事件中，四个状态：Idle、Start（开始走）、Cycle（行走循环）、Stop（停止走）&#xA;Idle&amp;ndash;&amp;gt;Start：有加速度时，提升为共享ToStart，Blend Profile混合配置为FastFeet(细节，脚先移动) Start&amp;ndash;&amp;gt;Cycle：勾选Automatic Rule Based on Sequence Player In State（自动播放到下一个动画） Cycle&amp;ndash;&amp;gt;Stop：没有加速度时，提升为共享ToStart Stop&amp;ndash;&amp;gt;Idle：勾选Automatic Rule Based on Sequence Player In State Stop&amp;ndash;&amp;gt;Start和Start&amp;ndash;&amp;gt;Stop：使用共享 LayerInterface 接下来新建动画层接口，在动画层接口中新建4个动画层，分别是FullBody_Idle、FullBody_Start、FullBody_Cycle、FullBody_Stop。&#xA;点击Idle等状态机，将动画层输出。&#xA;LayersBase 创建动画序列连接到输出，并且stop和start将LoopAnimation取消&#xA;PistolLayer 新建LayersBase子蓝图&#xA;可以在右侧面板对动画赋值&#xA;之后在角色蓝图中新建动画层图标，运行PistolLayer，将网格体动画蓝图和这个动画层关联起来，同时PistolLayer又继承了LayerInterface，CharacterBase又关联了LayerInterface。&#xA;此时动画已经可以播放了，但是出现问题发现角色移动跑到一个地方又退回来，发现是根动画的原因。&#xA;将动画序列通过属性矩阵进行批量编辑，RootMotion启用根运动、强制根锁定。&#xA;您的浏览器不支持视频标签。&#xD;</description>
-    </item>
     <item>
       <title>FPS游戏项目制作笔记</title>
       <link>https://geeteng.github.io/posts/ue/fps%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/</link>
       <pubDate>Tue, 15 Apr 2025 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/ue/fps%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/</guid>
       <description>枪械 考虑到不同枪有不同后坐力，所以在ShooterGun.h中创建了结构体用来存储枪械的后坐力。&#xA;USTRUCT(BlueprintType) struct FRecoilConfig { GENERATED_BODY() UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = &amp;#34;Recoil&amp;#34;) float VerticalBase = -0.1f; // 基础垂直后坐力 UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = &amp;#34;Recoil&amp;#34;) float VerticalRandomRange = 0.02f; // 垂直随机扰动范围 UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = &amp;#34;Recoil&amp;#34;) float HorizontalRandomRange = 0.05f; // 水平随机扰动范围 }; 在该函数中改变控制器的Pitch和Yaw偏移量&#xA;void AShooterGun::MakeRecoilCPP() { AShooterCharacter* Character = Cast&amp;lt;AShooterCharacter&amp;gt;(UGameplayStatics::GetPlayerCharacter(this, 0)); if (Character) { // 根据不同枪设置不同后坐力 float FinalPitch = RecoilConfig.VerticalBase + FMath::FRandRange(-RecoilConfig.VerticalRandomRange, RecoilConfig.VerticalRandomRange); float FinalYaw = FMath::FRandRange(-RecoilConfig.HorizontalRandomRange, RecoilConfig.HorizontalRandomRange); Character-&amp;gt;AddControllerPitchInput(FinalPitch); Character-&amp;gt;AddControllerYawInput(FinalYaw); } } 添加镜头抖动</description>
-    </item>
-    <item>
-      <title>UE5源码阅读</title>
-      <link>https://geeteng.github.io/posts/ue/uesourcecode/</link>
-      <pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ue/uesourcecode/</guid>
-      <description>启动文件 Launch.cpp&#xA;预初始化PreInit，此时会发生：&#xA;对于每个UCLASS类，引擎会创建一个类默认对象（CDO），为实例提供默认值，注册完成后 调用StartupModule进行模块初始化、对应的有ShutdownModule函数（卸载模块清理资源） 主循环中初始化阶段Init&#xA;读取引擎配置文件来确定使用哪个GameEngine类作为核心引擎 创建GEngine实例（全局对象），可以通过它访问渲染、输入、音频等 创建了引擎，它就会被初始化，完成后引擎循环会触发一个全局委托以指示引擎现已初始化。 加载配置为延迟加载的模块/项目 加载地图（加载之前已经有了UGameEngine、GameInstance、GameViewportClient、LocalPlayer） ​&#xA;1.其中在GameEngine.cpp中&#xA;​&#x9;引擎初始化阶段，主要做了些什么？&#xA;​&#x9;1.1 创建GameInstance&#xA;// Create game instance. For GameEngine, this should be the only GameInstance that ever gets created. { FSoftClassPath GameInstanceClassName = GetDefault&amp;lt;UGameMapsSettings&amp;gt;()-&amp;gt;GameInstanceClass; UClass* GameInstanceClass = (GameInstanceClassName.IsValid() ? LoadObject&amp;lt;UClass&amp;gt;(NULL, *GameInstanceClassName.ToString()) : UGameInstance::StaticClass()); GameInstance = NewObject&amp;lt;UGameInstance&amp;gt;(this, GameInstanceClass); GameInstance-&amp;gt;InitializeStandalone(); } ​&#x9;1.2 初始化视口GameViewportClient&#xA;ViewportClient = NewObject&amp;lt;UGameViewportClient&amp;gt;(this, GameViewportClientClass); ViewportClient-&amp;gt;Init(*GameInstance-&amp;gt;GetWorldContext(), GameInstance); GameViewport = ViewportClient; GameInstance-&amp;gt;GetWorldContext()-&amp;gt;GameViewport = ViewportClient; ​&#x9;1.</description>
     </item>
     <item>
       <title>Animation</title>

@@ -188,9 +188,9 @@
 
 
 <div class="blog-brief">
-    <a href="/posts/graphics/1_transform/">
+    <a href="/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/">
         <h3 class="title is-4">
-            Model-View-Projection
+            
         </h3>
     </a>
 
@@ -199,8 +199,8 @@
 
             
             <div class="level-item">
-                <a href="/posts/graphics/1_transform/">
-                    <p class="subtitle info date">Nov 2, 2024
+                <a href="/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/">
+                    <p class="subtitle info date">Jan 1, 0001
                     </p>
                 </a>
             </div>
@@ -208,16 +208,14 @@
 
 
             <div class="level-item">
-                <a href="/posts/graphics/1_transform/">
+                <a href="/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/">
                     <p class="subtitle info">
-                        9 mins read
+                        34 mins read
                     </p>
                 </a>
             </div>
         </div>
         <div class="level-right is-hidden-touch">
-            
-            <a class="tag is-rounded" href="/tags/graphics">Graphics</a>
             
         </div>
     </div>
@@ -226,9 +224,11 @@
         
 
         <div>
-            <a href="/posts/graphics/1_transform/">
+            <a href="/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/">
                 <p class="summary">
-                    MVP变换及GAMES101作业0和作业1
+                    FishParkoutSystem.ts enum EFishState { None, Swim, //正常游泳期 Jump, //跳跃动画期 QTEJump, //QTE跳跃 QTEFail, //QTE失败 InAir, //滑行期 AirToSwim, //窗口期 Hit, //受击动画到入水期 } onCreateNodeData onCreateNodeData是在PostCreateGameDataByFlowNodeSAction这个action执行时调用的函数，也就是当注册FishParkourData之前调用这个函数，在这个函数中绑定了蓝图中的委托（OnBeginOverlap、OnInputJumpStart、OnFallingInWater）并且更新了UI，调用了一个setParkourSplinePointInfo( params.splineSpawnerId, selfActor.ParkourMovement);函数，设置组件的setActive(true)，其中params是通过如下得到。
+let params = findObjectParam( action.params, SettingFishParkourNodeCreateParam ); //Define.ts export class SettingFishParkourNodeCreateParam extends SettingNodeParam { public splineSpawnerId: string = &#34;&#34;; } 这个函数在Util.ts工具类中，存入样条线全部的点。
+export function setParkourSplinePointInfo(spawnerId: string, parkourMovementComponent: UE.ParkourMovementComponent) { let splinePoints = findSplinePointsBySpawnerId(spawnerId); // 返回splinePoints数组 F.assert(splinePoints); let pointTransforms = UE.NewArray(UE.Transform); for (let info of splinePoints) { // 从该数组拿到每个点 let transform = new UE.
                     
                 </p>
             </a>
@@ -239,15 +239,15 @@
         <div class="level-left">
         </div>
         <div class="level-right">
-            <a href="/posts/graphics/1_transform/">Continue reading <i class="fa fa-angle-double-right"
+            <a href="/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/">Continue reading <i class="fa fa-angle-double-right"
                     aria-hidden="true"></i></a>
         </div>
     </div>
     <hr>
 </div><div class="blog-brief">
-    <a href="/about-me/">
+    <a href="/posts/ue/warriorproject/">
         <h3 class="title is-4">
-            About Author
+            
         </h3>
     </a>
 
@@ -256,8 +256,8 @@
 
             
             <div class="level-item">
-                <a href="/about-me/">
-                    <p class="subtitle info date">Nov 1, 2024
+                <a href="/posts/ue/warriorproject/">
+                    <p class="subtitle info date">Jan 1, 0001
                     </p>
                 </a>
             </div>
@@ -265,9 +265,9 @@
 
 
             <div class="level-item">
-                <a href="/about-me/">
+                <a href="/posts/ue/warriorproject/">
                     <p class="subtitle info">
-                        1 min read
+                        6 mins read
                     </p>
                 </a>
             </div>
@@ -279,14 +279,26 @@
 
     <div>
         
-            <a href="/about-me/">
-                <img src="/images/author.png">
-            </a>
-        
 
         <div>
-            <a href="/about-me/">
+            <a href="/posts/ue/warriorproject/">
                 <p class="summary">
+                    Hard Reference &amp; Soft Reference Reference Viewer 引用查看器显示的白色线条是硬引用关系，粉色线条是软引用关系。比如一个蓝图在属性里引用了某个材质、贴图、Mesh等。
+如下图所示，右边的所有内容是角色的依赖项，左边的所有内容依赖于角色资产：
+硬引用示例：
+蓝图的 Cast to XXXX 节点会导致硬引用对象，即使存在但不使用该节点也会硬引用cast对象。这是因为：当你使用 Cast To BP_XXX 节点时，蓝图编译器会在生成的 bytecode 里记录该蓝图类的引用（UBlueprintGeneratedClass 对象）以及SpawnActorFromClass也会导致硬引用。 蓝图变量引用资源或者继承自另一个BP类。 C&#43;&#43;中使用FObjectFinder，构造期强制加载资源。 DataTable / DataAsset 直接存放UObject* ​	….
+总之，只要蓝图或C&#43;&#43;中有明确的对象引用或类引用（即编译器能追踪到的UObject、UClass），都会形成硬引用。
+SizeMap 如下图所示， BP_ThirdPersonCharacter 占据了207.4MB，其中SKM_Quinn_Simple占据了198.6MB，像一个盒子层层嵌套，你可以观察到内存占比最大的是哪个引用：
+硬引用和软引用的区别是 —— 硬引用可以更快速的访问对象，对象已经被加载到内存中，所以可以直接使用；而软引用可以减少内存占用，但是速度会比较慢，如果被使用，先要访问是否存在，才能访问它指向的对象。所以相当于内存换取了速度。
+避免硬引用的方法
+使用软引用（SoftObjectPtr / SoftClassPtr）、接口可以避免硬引用、使用字符串路径 &#43; 动态加载。
+什么时候用软引用什么时候用硬引用
+应该在关键对象上使用硬引用（GameMode、PlayerController等） 还有只会加载一次的资源地形等。
+对于暂时不需要且体积大的对象用软引用，比如武器库、剧情章节等。
+对象指针 TobjectPtr 虽然也属于硬引用，但相比传统 UObject*，它的确能减少一些不必要的加载链触发和GC压力，因为它底层是句柄索引，普通指针在 GC 或序列化时可能触发对象加载，而 TObjectPtr 通过索引追踪，避免了这种不必要的加载链。
+在发布构建的时候会转化原始指针，为了提升运行时性能（少一次句柄解析开销），减少内存占用（不需要额外维护句柄表引用）
+GameplayTags全局访问 创建WarriorGameplayTags文件，用于集中管理标签。
+#include &#34;NativeGameplayTags.h&#34; namespace WarriorGameplayTags { /** Input Tags **/ UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Move) // 声明一个外部可访问的FGameplayTag UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Look) } #include &#34;WarriorGameplayTags.
                     
                 </p>
             </a>
@@ -297,7 +309,7 @@
         <div class="level-left">
         </div>
         <div class="level-right">
-            <a href="/about-me/">Continue reading <i class="fa fa-angle-double-right"
+            <a href="/posts/ue/warriorproject/">Continue reading <i class="fa fa-angle-double-right"
                     aria-hidden="true"></i></a>
         </div>
     </div>
