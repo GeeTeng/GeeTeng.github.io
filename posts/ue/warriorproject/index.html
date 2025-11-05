@@ -1,99 +1,45 @@
 <!DOCTYPE html>
 <html lang="en-us">
 
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
 
     <title>
-    
+    Warrior项目笔记 1 | 
     
     GeeTeng</title>
 
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Hard Reference &amp; Soft Reference Reference Viewer 引用查看器显示的白色线条是硬引用关系，粉色线条是软引用关系。比如一个蓝图在属性里引用了某个材质、贴图、Mesh等。
-如下图所示，右边的所有内容是角色的依赖项，左边的所有内容依赖于角色资产：
-硬引用示例：
-蓝图的 Cast to XXXX 节点会导致硬引用对象，即使存在但不使用该节点也会硬引用cast对象。这是因为：当你使用 Cast To BP_XXX 节点时，蓝图编译器会在生成的 bytecode 里记录该蓝图类的引用（UBlueprintGeneratedClass 对象）以及SpawnActorFromClass也会导致硬引用。 蓝图变量引用资源或者继承自另一个BP类。 C&#43;&#43;中使用FObjectFinder，构造期强制加载资源。 DataTable / DataAsset 直接存放UObject* ​	&hellip;.
-总之，只要蓝图或C&#43;&#43;中有明确的对象引用或类引用（即编译器能追踪到的UObject、UClass），都会形成硬引用。
-SizeMap 如下图所示， BP_ThirdPersonCharacter 占据了207.4MB，其中SKM_Quinn_Simple占据了198.6MB，像一个盒子层层嵌套，你可以观察到内存占比最大的是哪个引用：
-硬引用和软引用的区别是 —— 硬引用可以更快速的访问对象，对象已经被加载到内存中，所以可以直接使用；而软引用可以减少内存占用，但是速度会比较慢，如果被使用，先要访问是否存在，才能访问它指向的对象。所以相当于内存换取了速度。
-避免硬引用的方法
-使用软引用（SoftObjectPtr / SoftClassPtr）、接口可以避免硬引用、使用字符串路径 &#43; 动态加载。
-什么时候用软引用什么时候用硬引用
-应该在关键对象上使用硬引用（GameMode、PlayerController等） 还有只会加载一次的资源地形等。
-对于暂时不需要且体积大的对象用软引用，比如武器库、剧情章节等。
-对象指针 TobjectPtr 虽然也属于硬引用，但相比传统 UObject*，它的确能减少一些不必要的加载链触发和GC压力，因为它底层是句柄索引，普通指针在 GC 或序列化时可能触发对象加载，而 TObjectPtr 通过索引追踪，避免了这种不必要的加载链。
-在发布构建的时候会转化原始指针，为了提升运行时性能（少一次句柄解析开销），减少内存占用（不需要额外维护句柄表引用）
-GameplayTags全局访问 创建WarriorGameplayTags文件，用于集中管理标签。
-#include &#34;NativeGameplayTags.h&#34; namespace WarriorGameplayTags { /** Input Tags **/ UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Move) // 声明一个外部可访问的FGameplayTag UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Look) } #include &#34;WarriorGameplayTags.
+<meta name="description" content="Warrior项目笔记第一部分
     ">
 
 
-<meta property="og:url" content="https://geeteng.github.io/posts/ue/warriorproject/">
+<meta property="og:url" content="http://localhost:1313/posts/ue/warriorproject/">
   <meta property="og:site_name" content="GeeTeng">
-  <meta property="og:title" content="GeeTeng">
-  <meta property="og:description" content="Hard Reference &amp; Soft Reference Reference Viewer 引用查看器显示的白色线条是硬引用关系，粉色线条是软引用关系。比如一个蓝图在属性里引用了某个材质、贴图、Mesh等。
-如下图所示，右边的所有内容是角色的依赖项，左边的所有内容依赖于角色资产：
-硬引用示例：
-蓝图的 Cast to XXXX 节点会导致硬引用对象，即使存在但不使用该节点也会硬引用cast对象。这是因为：当你使用 Cast To BP_XXX 节点时，蓝图编译器会在生成的 bytecode 里记录该蓝图类的引用（UBlueprintGeneratedClass 对象）以及SpawnActorFromClass也会导致硬引用。 蓝图变量引用资源或者继承自另一个BP类。 C&#43;&#43;中使用FObjectFinder，构造期强制加载资源。 DataTable / DataAsset 直接存放UObject* ​	….
-总之，只要蓝图或C&#43;&#43;中有明确的对象引用或类引用（即编译器能追踪到的UObject、UClass），都会形成硬引用。
-SizeMap 如下图所示， BP_ThirdPersonCharacter 占据了207.4MB，其中SKM_Quinn_Simple占据了198.6MB，像一个盒子层层嵌套，你可以观察到内存占比最大的是哪个引用：
-硬引用和软引用的区别是 —— 硬引用可以更快速的访问对象，对象已经被加载到内存中，所以可以直接使用；而软引用可以减少内存占用，但是速度会比较慢，如果被使用，先要访问是否存在，才能访问它指向的对象。所以相当于内存换取了速度。
-避免硬引用的方法
-使用软引用（SoftObjectPtr / SoftClassPtr）、接口可以避免硬引用、使用字符串路径 &#43; 动态加载。
-什么时候用软引用什么时候用硬引用
-应该在关键对象上使用硬引用（GameMode、PlayerController等） 还有只会加载一次的资源地形等。
-对于暂时不需要且体积大的对象用软引用，比如武器库、剧情章节等。
-对象指针 TobjectPtr 虽然也属于硬引用，但相比传统 UObject*，它的确能减少一些不必要的加载链触发和GC压力，因为它底层是句柄索引，普通指针在 GC 或序列化时可能触发对象加载，而 TObjectPtr 通过索引追踪，避免了这种不必要的加载链。
-在发布构建的时候会转化原始指针，为了提升运行时性能（少一次句柄解析开销），减少内存占用（不需要额外维护句柄表引用）
-GameplayTags全局访问 创建WarriorGameplayTags文件，用于集中管理标签。
-#include &#34;NativeGameplayTags.h&#34; namespace WarriorGameplayTags { /** Input Tags **/ UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Move) // 声明一个外部可访问的FGameplayTag UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Look) } #include &#34;WarriorGameplayTags.">
+  <meta property="og:title" content="Warrior项目笔记 1">
+  <meta property="og:description" content="Warrior项目笔记第一部分">
   <meta property="og:locale" content="en_us">
   <meta property="og:type" content="article">
     <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-05T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-11-05T00:00:00+00:00">
+    <meta property="article:tag" content="UE5">
 
 
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:title" content="GeeTeng">
-  <meta name="twitter:description" content="Hard Reference &amp; Soft Reference Reference Viewer 引用查看器显示的白色线条是硬引用关系，粉色线条是软引用关系。比如一个蓝图在属性里引用了某个材质、贴图、Mesh等。
-如下图所示，右边的所有内容是角色的依赖项，左边的所有内容依赖于角色资产：
-硬引用示例：
-蓝图的 Cast to XXXX 节点会导致硬引用对象，即使存在但不使用该节点也会硬引用cast对象。这是因为：当你使用 Cast To BP_XXX 节点时，蓝图编译器会在生成的 bytecode 里记录该蓝图类的引用（UBlueprintGeneratedClass 对象）以及SpawnActorFromClass也会导致硬引用。 蓝图变量引用资源或者继承自另一个BP类。 C&#43;&#43;中使用FObjectFinder，构造期强制加载资源。 DataTable / DataAsset 直接存放UObject* ​	….
-总之，只要蓝图或C&#43;&#43;中有明确的对象引用或类引用（即编译器能追踪到的UObject、UClass），都会形成硬引用。
-SizeMap 如下图所示， BP_ThirdPersonCharacter 占据了207.4MB，其中SKM_Quinn_Simple占据了198.6MB，像一个盒子层层嵌套，你可以观察到内存占比最大的是哪个引用：
-硬引用和软引用的区别是 —— 硬引用可以更快速的访问对象，对象已经被加载到内存中，所以可以直接使用；而软引用可以减少内存占用，但是速度会比较慢，如果被使用，先要访问是否存在，才能访问它指向的对象。所以相当于内存换取了速度。
-避免硬引用的方法
-使用软引用（SoftObjectPtr / SoftClassPtr）、接口可以避免硬引用、使用字符串路径 &#43; 动态加载。
-什么时候用软引用什么时候用硬引用
-应该在关键对象上使用硬引用（GameMode、PlayerController等） 还有只会加载一次的资源地形等。
-对于暂时不需要且体积大的对象用软引用，比如武器库、剧情章节等。
-对象指针 TobjectPtr 虽然也属于硬引用，但相比传统 UObject*，它的确能减少一些不必要的加载链触发和GC压力，因为它底层是句柄索引，普通指针在 GC 或序列化时可能触发对象加载，而 TObjectPtr 通过索引追踪，避免了这种不必要的加载链。
-在发布构建的时候会转化原始指针，为了提升运行时性能（少一次句柄解析开销），减少内存占用（不需要额外维护句柄表引用）
-GameplayTags全局访问 创建WarriorGameplayTags文件，用于集中管理标签。
-#include &#34;NativeGameplayTags.h&#34; namespace WarriorGameplayTags { /** Input Tags **/ UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Move) // 声明一个外部可访问的FGameplayTag UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Look) } #include &#34;WarriorGameplayTags.">
+  <meta name="twitter:title" content="Warrior项目笔记 1">
+  <meta name="twitter:description" content="Warrior项目笔记第一部分">
 
 
-  <meta itemprop="name" content="GeeTeng">
-  <meta itemprop="description" content="Hard Reference &amp; Soft Reference Reference Viewer 引用查看器显示的白色线条是硬引用关系，粉色线条是软引用关系。比如一个蓝图在属性里引用了某个材质、贴图、Mesh等。
-如下图所示，右边的所有内容是角色的依赖项，左边的所有内容依赖于角色资产：
-硬引用示例：
-蓝图的 Cast to XXXX 节点会导致硬引用对象，即使存在但不使用该节点也会硬引用cast对象。这是因为：当你使用 Cast To BP_XXX 节点时，蓝图编译器会在生成的 bytecode 里记录该蓝图类的引用（UBlueprintGeneratedClass 对象）以及SpawnActorFromClass也会导致硬引用。 蓝图变量引用资源或者继承自另一个BP类。 C&#43;&#43;中使用FObjectFinder，构造期强制加载资源。 DataTable / DataAsset 直接存放UObject* ​	….
-总之，只要蓝图或C&#43;&#43;中有明确的对象引用或类引用（即编译器能追踪到的UObject、UClass），都会形成硬引用。
-SizeMap 如下图所示， BP_ThirdPersonCharacter 占据了207.4MB，其中SKM_Quinn_Simple占据了198.6MB，像一个盒子层层嵌套，你可以观察到内存占比最大的是哪个引用：
-硬引用和软引用的区别是 —— 硬引用可以更快速的访问对象，对象已经被加载到内存中，所以可以直接使用；而软引用可以减少内存占用，但是速度会比较慢，如果被使用，先要访问是否存在，才能访问它指向的对象。所以相当于内存换取了速度。
-避免硬引用的方法
-使用软引用（SoftObjectPtr / SoftClassPtr）、接口可以避免硬引用、使用字符串路径 &#43; 动态加载。
-什么时候用软引用什么时候用硬引用
-应该在关键对象上使用硬引用（GameMode、PlayerController等） 还有只会加载一次的资源地形等。
-对于暂时不需要且体积大的对象用软引用，比如武器库、剧情章节等。
-对象指针 TobjectPtr 虽然也属于硬引用，但相比传统 UObject*，它的确能减少一些不必要的加载链触发和GC压力，因为它底层是句柄索引，普通指针在 GC 或序列化时可能触发对象加载，而 TObjectPtr 通过索引追踪，避免了这种不必要的加载链。
-在发布构建的时候会转化原始指针，为了提升运行时性能（少一次句柄解析开销），减少内存占用（不需要额外维护句柄表引用）
-GameplayTags全局访问 创建WarriorGameplayTags文件，用于集中管理标签。
-#include &#34;NativeGameplayTags.h&#34; namespace WarriorGameplayTags { /** Input Tags **/ UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Move) // 声明一个外部可访问的FGameplayTag UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Look) } #include &#34;WarriorGameplayTags.">
-  <meta itemprop="wordCount" content="130">
-<link rel="canonical" href="https://geeteng.github.io/posts/ue/warriorproject/" />
+  <meta itemprop="name" content="Warrior项目笔记 1">
+  <meta itemprop="description" content="Warrior项目笔记第一部分">
+  <meta itemprop="datePublished" content="2025-11-05T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-11-05T00:00:00+00:00">
+  <meta itemprop="wordCount" content="420">
+  <meta itemprop="keywords" content="UE5">
+<link rel="canonical" href="http://localhost:1313/posts/ue/warriorproject/" />
 
-<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+<link rel="icon" type="image/png" href="http://localhost:1313/image/favicon.ico">
 
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/bulma.min.css">
@@ -110,33 +56,22 @@ GameplayTags全局访问 创建WarriorGameplayTags文件，用于集中管理标
         });"></script>
 
 
-  
-    
-      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
-      <script>
-        var doNotTrack = false;
-        if ( false ) {
-          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
-          var doNotTrack = (dnt == "1" || dnt == "yes");
-        }
-        if (!doNotTrack) {
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'analytics-code');
-        }
-      </script>
-    
-  
 
-
-
-
+<link rel="stylesheet" href=/css/chordsheet.css>
 
 <script src=/js/ramium.js></script>
 <link rel="stylesheet" href=/css/ramium.css>
 
 
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
 
 
 
@@ -251,7 +186,15 @@ GameplayTags全局访问 创建WarriorGameplayTags文件，用于集中管理标
     <li>
       <ul>
         <li><a href="#hard-reference--soft-reference">Hard Reference &amp; Soft Reference</a></li>
-        <li><a href="#gameplaytags全局访问">GameplayTags全局访问</a></li>
+        <li><a href="#输入绑定流程">输入绑定流程</a>
+          <ul>
+            <li><a href="#gameplaytags全局访问">GameplayTags全局访问</a></li>
+            <li><a href="#input-config-data-asset">Input Config Data Asset</a></li>
+            <li><a href="#自定义输入组件">自定义输入组件</a></li>
+            <li><a href="#绑定输入定义callbacks">绑定输入定义callbacks</a></li>
+          </ul>
+        </li>
+        <li><a href="#角色动画">角色动画</a></li>
       </ul>
     </li>
   </ul>
@@ -261,31 +204,35 @@ GameplayTags全局访问 创建WarriorGameplayTags文件，用于集中管理标
 
     
     <div class="content blog">
-        <h1></h1>
+        <h1>Warrior项目笔记 1</h1>
 
         <div id="infobar" class="level is-mobile">
             <div class="level-left">
                 
                 <div class="level-item">
-                    <p class="subtitle info date">Jan 1, 0001
+                    <p class="subtitle info date">Nov 5, 2025
                     </p>
                 </div>
                 
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        6 mins read
+                        14 mins read
                     </p>
                 </div>
             </div>
             <div class="level-right is-hidden-touch">
                 <div class="tags">
                     
+                    <a class="tag is-dark is-rounded" href="/tags/ue5">UE5</a>
+                    
                 </div>
             </div>
         </div>
 
         <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/ue5">Ue5</a>
             
         </div>
 
@@ -319,7 +266,13 @@ GameplayTags全局访问 创建WarriorGameplayTags文件，用于集中管理标
 <p>对于暂时不需要且体积大的对象用软引用，比如武器库、剧情章节等。</p>
 <p>对象指针 <code>TobjectPtr</code> 虽然也属于硬引用，但相比传统 <code>UObject*</code>，它的确能<strong>减少一些不必要的加载链触发和GC压力</strong>，因为它底层是句柄索引，普通指针在 GC 或序列化时可能触发对象加载，而 <code>TObjectPtr</code> 通过索引追踪，避免了这种不必要的加载链。</p>
 <p>在发布构建的时候会转化原始指针，为了提升运行时性能（少一次句柄解析开销），减少内存占用（不需要额外维护句柄表引用）</p>
-<h2 id="gameplaytags全局访问">GameplayTags全局访问</h2>
+<h2 id="输入绑定流程">输入绑定流程</h2>
+<p>Native Gameplay Tags 创建全局访问的GameplayTags</p>
+<p>Input Config Data Asset 创建DataAsset用于映射gameplaytag&mdash;&gt;input action</p>
+<p>Custom Input Component 自定义输入组件</p>
+<p>Binding Inputs 定义input callbacks</p>
+<p>Assign assets in editor</p>
+<h3 id="gameplaytags全局访问">GameplayTags全局访问</h3>
 <p>创建WarriorGameplayTags文件，用于集中管理标签。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;NativeGameplayTags.h&#34;</span><span style="color:#75715e">
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
@@ -337,7 +290,8 @@ GameplayTags全局访问 创建WarriorGameplayTags文件，用于集中管理标
 </span></span><span style="display:flex;"><span>	UE_DEFINE_GAMEPLAY_TAG(InputTag_Move, <span style="color:#e6db74">&#34;InputTag.Move&#34;</span>) <span style="color:#75715e">// 创建 FGameplayTag 对象并初始化
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look, <span style="color:#e6db74">&#34;InputTag.Look&#34;</span>) <span style="color:#75715e">// 第一个参数是c++中的名称 第二个是编辑器中看到的名字
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
-</span></span></code></pre></div><p>之后创建一个DataAsset的cpp文件</p>
+</span></span></code></pre></div><h3 id="input-config-data-asset">Input Config Data Asset</h3>
+<p>之后创建一个DataAsset的cpp文件</p>
 <p>定义结构体，每个Tag关联一个InputAction。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>USTRUCT(BlueprintType)
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FWarriorInputActionConfig</span>
@@ -356,7 +310,124 @@ GameplayTags全局访问 创建WarriorGameplayTags文件，用于集中管理标
 </span></span><span style="display:flex;"><span>UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta <span style="color:#f92672">=</span> (TitleProperty <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;InputTag&#34;</span>))
 </span></span><span style="display:flex;"><span>TArray<span style="color:#f92672">&lt;</span>FWarriorInputActionConfig<span style="color:#f92672">&gt;</span> NativeInputActions;
 </span></span></code></pre></div><p><img src="/images/UE/WarriorProject/2.png" alt="2"></p>
-
+<p>并且还有一个通过gameplaytag去查找inputaction的函数<code>FindNativeInputActionByTag</code></p>
+<h3 id="自定义输入组件">自定义输入组件</h3>
+<p>创建一个WarriorInputComponent文件用于自定义输入组件代替增强输入组件，在其中定义一个模板内联函数用于BindAction</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserObject</span>, <span style="color:#66d9ef">typename</span> CallbackFunc<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> BindNativeInputAction(<span style="color:#66d9ef">const</span> UDataAsset_InputConfig<span style="color:#f92672">*</span> InInputConfig, <span style="color:#66d9ef">const</span> FGameplayTag<span style="color:#f92672">&amp;</span> InInputTag, ETriggerEvent TriggerEvent, UserObject<span style="color:#f92672">*</span> ContextObject, CallbackFunc Func);
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserObject</span>, <span style="color:#66d9ef">typename</span> CallbackFunc<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> UWarriorInputComponent<span style="color:#f92672">::</span>BindNativeInputAction(<span style="color:#66d9ef">const</span> UDataAsset_InputConfig<span style="color:#f92672">*</span> InInputConfig, <span style="color:#66d9ef">const</span> FGameplayTag<span style="color:#f92672">&amp;</span> InInputTag, ETriggerEvent TriggerEvent, UserObject<span style="color:#f92672">*</span> ContextObject, CallbackFunc Func)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	checkf(InInputConfig,TEXT(<span style="color:#e6db74">&#34;InputConfigDataAsset is null&#34;</span>));
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (UInputAction<span style="color:#f92672">*</span> FindAction <span style="color:#f92672">=</span> InInputConfig<span style="color:#f92672">-&gt;</span>FindNativeInputActionByTag(InInputTag))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		BindAction(FindAction, TriggerEvent, ContextObject, Func);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="绑定输入定义callbacks">绑定输入定义callbacks</h3>
+<p>创建虚函数继承SetupPlayerInputComponent，在其中获取本地玩家增强输入子系统，添加输入映射上下文，然后再通过自定义输入组件绑定在角色类中定义的callback函数，分别是<code>Input_Move</code>和<code>Input_Look</code>。</p>
+<p>这样角色就实现了移动和视角。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorHeroCharacter<span style="color:#f92672">::</span>SetupPlayerInputComponent(UInputComponent<span style="color:#f92672">*</span> PlayerInputComponent)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	checkf(InputConfigDataAsset, TEXT(<span style="color:#e6db74">&#34;Forget to assign inputconfig data asset.&#34;</span>));
+</span></span><span style="display:flex;"><span>	ULocalPlayer<span style="color:#f92672">*</span> LocalPlayer <span style="color:#f92672">=</span> GetController<span style="color:#f92672">&lt;</span>APlayerController<span style="color:#f92672">&gt;</span>()<span style="color:#f92672">-&gt;</span>GetLocalPlayer();
+</span></span><span style="display:flex;"><span>	UEnhancedInputLocalPlayerSubsystem<span style="color:#f92672">*</span> Subsystem <span style="color:#f92672">=</span> ULocalPlayer<span style="color:#f92672">::</span>GetSubsystem<span style="color:#f92672">&lt;</span>UEnhancedInputLocalPlayerSubsystem<span style="color:#f92672">&gt;</span>(LocalPlayer);
+</span></span><span style="display:flex;"><span>	check(Subsystem);
+</span></span><span style="display:flex;"><span>	Subsystem<span style="color:#f92672">-&gt;</span>AddMappingContext(InputConfigDataAsset<span style="color:#f92672">-&gt;</span>DefaultMappingContext, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>	UWarriorInputComponent<span style="color:#f92672">*</span> WarriorInputComponent <span style="color:#f92672">=</span> CastChecked<span style="color:#f92672">&lt;</span>UWarriorInputComponent<span style="color:#f92672">&gt;</span>(PlayerInputComponent);
+</span></span><span style="display:flex;"><span>	WarriorInputComponent<span style="color:#f92672">-&gt;</span>BindNativeInputAction(InputConfigDataAsset, WarriorGameplayTags<span style="color:#f92672">::</span>InputTag_Move, ETriggerEvent<span style="color:#f92672">::</span>Triggered, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>ThisClass<span style="color:#f92672">::</span>Input_Move);
+</span></span><span style="display:flex;"><span>	WarriorInputComponent<span style="color:#f92672">-&gt;</span>BindNativeInputAction(InputConfigDataAsset, WarriorGameplayTags<span style="color:#f92672">::</span>InputTag_Look, ETriggerEvent<span style="color:#f92672">::</span>Triggered, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>ThisClass<span style="color:#f92672">::</span>Input_Look);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorHeroCharacter<span style="color:#f92672">::</span>Input_Move(<span style="color:#66d9ef">const</span> FInputActionValue<span style="color:#f92672">&amp;</span> InputActionValue)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> FVector2D MoveVector <span style="color:#f92672">=</span> InputActionValue.Get<span style="color:#f92672">&lt;</span>FVector2D<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> FRotator <span style="color:#a6e22e">MoveRotator</span>(<span style="color:#ae81ff">0.f</span>, Controller<span style="color:#f92672">-&gt;</span>GetControlRotation().Yaw, <span style="color:#ae81ff">0.f</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (MoveVector.Y <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0.f</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 把世界坐标系下的“前方向量”(0,1,0)用 MoveRotator（控制器朝向）旋转一下，得到角色当前朝向的前方方向
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">const</span> FVector ForwardVector <span style="color:#f92672">=</span> MoveRotator.RotateVector(FVector<span style="color:#f92672">::</span>ForwardVector);
+</span></span><span style="display:flex;"><span>		AddMovementInput(ForwardVector, MoveVector.Y);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (MoveVector.X <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0.f</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">const</span> FVector RightVector <span style="color:#f92672">=</span> MoveRotator.RotateVector(FVector<span style="color:#f92672">::</span>RightVector);
+</span></span><span style="display:flex;"><span>		AddMovementInput(RightVector, MoveVector.X);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorHeroCharacter<span style="color:#f92672">::</span>Input_Look(<span style="color:#66d9ef">const</span> FInputActionValue<span style="color:#f92672">&amp;</span> InputActionValue)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> FVector2D LookAxisVector <span style="color:#f92672">=</span> InputActionValue.Get<span style="color:#f92672">&lt;</span>FVector2D<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (LookAxisVector.X <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0.f</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		AddControllerYawInput(LookAxisVector.X);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (LookAxisVector.Y <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0.f</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		AddControllerPitchInput(LookAxisVector.Y);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="角色动画">角色动画</h2>
+<p>创建一系列C++文件分别是</p>
+<p>WarriorBaseAnimInstance继承AnimInstance</p>
+<p>|——WarriorHeroLinkedAnimLayer</p>
+<p>|——WarriorCharacterAnimInstance</p>
+<p>​	  |——WarriorHeroAnimInstance</p>
+<p>首先在WarriorCharacterAnimInstance中定义两个函数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">NativeInitializeAnimation</span>() <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 这个函数是动画系统的线程安全更新入口，用于在多线程模式下在工作线程中执行动画更新逻辑，从而分担主线程负载、提升性能
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">NativeThreadSafeUpdateAnimation</span>(<span style="color:#66d9ef">float</span> DeltaSeconds) <span style="color:#66d9ef">override</span>;
+</span></span></code></pre></div><p>在初始化动画函数中获取当前角色和角色的移动组件存入到OwningCharacter和OwningMovementComponent中。</p>
+<p>在线程安全更新函数中去获取角色当前地面速度和是否有加速度。这两个变量中的加速度用于切换动画状态机的静止和移动状态，而地面速度用于BlendSpace混合空间处理奔跑动画。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorCharacterAnimInstance<span style="color:#f92672">::</span>NativeInitializeAnimation()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	OwningCharacter <span style="color:#f92672">=</span>  Cast<span style="color:#f92672">&lt;</span>AWarriorBaseCharacter<span style="color:#f92672">&gt;</span>(TryGetPawnOwner());
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (OwningCharacter)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		OwningMovementComponent <span style="color:#f92672">=</span> OwningCharacter<span style="color:#f92672">-&gt;</span>GetCharacterMovement();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorCharacterAnimInstance<span style="color:#f92672">::</span>NativeThreadSafeUpdateAnimation(<span style="color:#66d9ef">float</span> DeltaSeconds)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>OwningCharacter <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>OwningMovementComponent)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	GroundSpeed <span style="color:#f92672">=</span> OwningCharacter<span style="color:#f92672">-&gt;</span>GetVelocity().Size2D();
+</span></span><span style="display:flex;"><span>	bHasAcceleration <span style="color:#f92672">=</span> OwningMovementComponent<span style="color:#f92672">-&gt;</span>GetCurrentAcceleration().SizeSquared2D() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>因此现在我们有了两个状态，在动画蓝图ABP_Hero继承自WarriorHeroAnimInstance分别是Idle和Jog。</p>
+<p>继续添加一个新状态Relax，用于在角色静止达到一定时间后切换一个放松的动作，在状态机中通过RandomSequencePlayer达到随机多个relax动画的效果。</p>
+<p>在WarriorHeroAnimInstance文件中这个新状态的过渡条件是通过C++中的<code>bShouldEnterRelaxState</code>，同时有EnterRelaxStateThreshold和IdleElapsedTime变量，分别是进入到放松状态所需时间和目前经过了多久的时间。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorHeroAnimInstance<span style="color:#f92672">::</span>NativeInitializeAnimation()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>NativeInitializeAnimation();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (OwningCharacter)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		OwningHeroCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>AWarriorHeroCharacter<span style="color:#f92672">&gt;</span>(OwningCharacter);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorHeroAnimInstance<span style="color:#f92672">::</span>NativeThreadSafeUpdateAnimation(<span style="color:#66d9ef">float</span> DeltaSeconds)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>NativeThreadSafeUpdateAnimation(DeltaSeconds);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (bHasAcceleration)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		bShouldEnterRelaxState <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>		IdleElapsedTime <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		IdleElapsedTime <span style="color:#f92672">+=</span> DeltaSeconds;
+</span></span><span style="display:flex;"><span>		bShouldEnterRelaxState <span style="color:#f92672">=</span> (IdleElapsedTime <span style="color:#f92672">&gt;=</span> EnterRelaxStateThreshold);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
         </div>
     </div>
 </div><div id="social-media-share" class="has-text-centered">
@@ -364,44 +435,44 @@ GameplayTags全局访问 创建WarriorGameplayTags文件，用于集中管理标
 	<br>
 	
 	<div class="share-buttons">
-	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fwarriorproject%2f"
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2fwarriorproject%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Facebook. Opens in a new window.">
 	        <img src=/img/icons/45px/facebook.png>
 	    </a>
 
-	    <a  href="https://twitter.com/intent/tweet?text=&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fwarriorproject%2f"
+	    <a  href="https://twitter.com/intent/tweet?text=Warrior%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b0%201&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2fwarriorproject%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Twitter. Opens in a new window." >
 	        <img src=/img/icons/45px/twitter.png>
 	    </a>
 
-		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fwarriorproject%2f"
+		<a  href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2fwarriorproject%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Reddit. Opens in a new window." >
 	        <img src=/img/icons/45px/reddit.png>
 	    </a>
 
-	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fwarriorproject%2f"
+	    <a  href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2fwarriorproject%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Pinterest. Opens in a new window." >
 	        <img src=/img/icons/45px/pinterest.png>
 	    </a>
 
-	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fwarriorproject%2f"
+	    <a  href="http://www.tumblr.com/share/link?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2fwarriorproject%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Tumblr. Opens in a new window." >
 	        <img src=/img/icons/45px/tumblr.png>
 	    </a>
 
-		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fwarriorproject%2f
-			&title=&summary=Hard%20Reference%20%26amp%3b%20Soft%20Reference%20Reference%20Viewer%20%e5%bc%95%e7%94%a8%e6%9f%a5%e7%9c%8b%e5%99%a8%e6%98%be%e7%a4%ba%e7%9a%84%e7%99%bd%e8%89%b2%e7%ba%bf%e6%9d%a1%e6%98%af%e7%a1%ac%e5%bc%95%e7%94%a8%e5%85%b3%e7%b3%bb%ef%bc%8c%e7%b2%89%e8%89%b2%e7%ba%bf%e6%9d%a1%e6%98%af%e8%bd%af%e5%bc%95%e7%94%a8%e5%85%b3%e7%b3%bb%e3%80%82%e6%af%94%e5%a6%82%e4%b8%80%e4%b8%aa%e8%93%9d%e5%9b%be%e5%9c%a8%e5%b1%9e%e6%80%a7%e9%87%8c%e5%bc%95%e7%94%a8%e4%ba%86%e6%9f%90%e4%b8%aa%e6%9d%90%e8%b4%a8%e3%80%81%e8%b4%b4%e5%9b%be%e3%80%81Mesh%e7%ad%89%e3%80%82%0a%e5%a6%82%e4%b8%8b%e5%9b%be%e6%89%80%e7%a4%ba%ef%bc%8c%e5%8f%b3%e8%be%b9%e7%9a%84%e6%89%80%e6%9c%89%e5%86%85%e5%ae%b9%e6%98%af%e8%a7%92%e8%89%b2%e7%9a%84%e4%be%9d%e8%b5%96%e9%a1%b9%ef%bc%8c%e5%b7%a6%e8%be%b9%e7%9a%84%e6%89%80%e6%9c%89%e5%86%85%e5%ae%b9%e4%be%9d%e8%b5%96%e4%ba%8e%e8%a7%92%e8%89%b2%e8%b5%84%e4%ba%a7%ef%bc%9a%0a%e7%a1%ac%e5%bc%95%e7%94%a8%e7%a4%ba%e4%be%8b%ef%bc%9a%0a%e8%93%9d%e5%9b%be%e7%9a%84%20Cast%20to%20XXXX%20%e8%8a%82%e7%82%b9%e4%bc%9a%e5%af%bc%e8%87%b4%e7%a1%ac%e5%bc%95%e7%94%a8%e5%af%b9%e8%b1%a1%ef%bc%8c%e5%8d%b3%e4%bd%bf%e5%ad%98%e5%9c%a8%e4%bd%86%e4%b8%8d%e4%bd%bf%e7%94%a8%e8%af%a5%e8%8a%82%e7%82%b9%e4%b9%9f%e4%bc%9a%e7%a1%ac%e5%bc%95%e7%94%a8cast%e5%af%b9%e8%b1%a1%e3%80%82%e8%bf%99%e6%98%af%e5%9b%a0%e4%b8%ba%ef%bc%9a%e5%bd%93%e4%bd%a0%e4%bd%bf%e7%94%a8%20Cast%20To%20BP_XXX%20%e8%8a%82%e7%82%b9%e6%97%b6%ef%bc%8c%e8%93%9d%e5%9b%be%e7%bc%96%e8%af%91%e5%99%a8%e4%bc%9a%e5%9c%a8%e7%94%9f%e6%88%90%e7%9a%84%20bytecode%20%e9%87%8c%e8%ae%b0%e5%bd%95%e8%af%a5%e8%93%9d%e5%9b%be%e7%b1%bb%e7%9a%84%e5%bc%95%e7%94%a8%ef%bc%88UBlueprintGeneratedClass%20%e5%af%b9%e8%b1%a1%ef%bc%89%e4%bb%a5%e5%8f%8aSpawnActorFromClass%e4%b9%9f%e4%bc%9a%e5%af%bc%e8%87%b4%e7%a1%ac%e5%bc%95%e7%94%a8%e3%80%82%20%e8%93%9d%e5%9b%be%e5%8f%98%e9%87%8f%e5%bc%95%e7%94%a8%e8%b5%84%e6%ba%90%e6%88%96%e8%80%85%e7%bb%a7%e6%89%bf%e8%87%aa%e5%8f%a6%e4%b8%80%e4%b8%aaBP%e7%b1%bb%e3%80%82%20C%2b%2b%e4%b8%ad%e4%bd%bf%e7%94%a8FObjectFinder%ef%bc%8c%e6%9e%84%e9%80%a0%e6%9c%9f%e5%bc%ba%e5%88%b6%e5%8a%a0%e8%bd%bd%e8%b5%84%e6%ba%90%e3%80%82%20DataTable%20%2f%20DataAsset%20%e7%9b%b4%e6%8e%a5%e5%ad%98%e6%94%beUObject%2a%20%e2%80%8b%09%26hellip%3b.%0a%e6%80%bb%e4%b9%8b%ef%bc%8c%e5%8f%aa%e8%a6%81%e8%93%9d%e5%9b%be%e6%88%96C%2b%2b%e4%b8%ad%e6%9c%89%e6%98%8e%e7%a1%ae%e7%9a%84%e5%af%b9%e8%b1%a1%e5%bc%95%e7%94%a8%e6%88%96%e7%b1%bb%e5%bc%95%e7%94%a8%ef%bc%88%e5%8d%b3%e7%bc%96%e8%af%91%e5%99%a8%e8%83%bd%e8%bf%bd%e8%b8%aa%e5%88%b0%e7%9a%84UObject%e3%80%81UClass%ef%bc%89%ef%bc%8c%e9%83%bd%e4%bc%9a%e5%bd%a2%e6%88%90%e7%a1%ac%e5%bc%95%e7%94%a8%e3%80%82%0aSizeMap%20%e5%a6%82%e4%b8%8b%e5%9b%be%e6%89%80%e7%a4%ba%ef%bc%8c%20BP_ThirdPersonCharacter%20%e5%8d%a0%e6%8d%ae%e4%ba%86207.4MB%ef%bc%8c%e5%85%b6%e4%b8%adSKM_Quinn_Simple%e5%8d%a0%e6%8d%ae%e4%ba%86198.6MB%ef%bc%8c%e5%83%8f%e4%b8%80%e4%b8%aa%e7%9b%92%e5%ad%90%e5%b1%82%e5%b1%82%e5%b5%8c%e5%a5%97%ef%bc%8c%e4%bd%a0%e5%8f%af%e4%bb%a5%e8%a7%82%e5%af%9f%e5%88%b0%e5%86%85%e5%ad%98%e5%8d%a0%e6%af%94%e6%9c%80%e5%a4%a7%e7%9a%84%e6%98%af%e5%93%aa%e4%b8%aa%e5%bc%95%e7%94%a8%ef%bc%9a%0a%e7%a1%ac%e5%bc%95%e7%94%a8%e5%92%8c%e8%bd%af%e5%bc%95%e7%94%a8%e7%9a%84%e5%8c%ba%e5%88%ab%e6%98%af%20%e2%80%94%e2%80%94%20%e7%a1%ac%e5%bc%95%e7%94%a8%e5%8f%af%e4%bb%a5%e6%9b%b4%e5%bf%ab%e9%80%9f%e7%9a%84%e8%ae%bf%e9%97%ae%e5%af%b9%e8%b1%a1%ef%bc%8c%e5%af%b9%e8%b1%a1%e5%b7%b2%e7%bb%8f%e8%a2%ab%e5%8a%a0%e8%bd%bd%e5%88%b0%e5%86%85%e5%ad%98%e4%b8%ad%ef%bc%8c%e6%89%80%e4%bb%a5%e5%8f%af%e4%bb%a5%e7%9b%b4%e6%8e%a5%e4%bd%bf%e7%94%a8%ef%bc%9b%e8%80%8c%e8%bd%af%e5%bc%95%e7%94%a8%e5%8f%af%e4%bb%a5%e5%87%8f%e5%b0%91%e5%86%85%e5%ad%98%e5%8d%a0%e7%94%a8%ef%bc%8c%e4%bd%86%e6%98%af%e9%80%9f%e5%ba%a6%e4%bc%9a%e6%af%94%e8%be%83%e6%85%a2%ef%bc%8c%e5%a6%82%e6%9e%9c%e8%a2%ab%e4%bd%bf%e7%94%a8%ef%bc%8c%e5%85%88%e8%a6%81%e8%ae%bf%e9%97%ae%e6%98%af%e5%90%a6%e5%ad%98%e5%9c%a8%ef%bc%8c%e6%89%8d%e8%83%bd%e8%ae%bf%e9%97%ae%e5%ae%83%e6%8c%87%e5%90%91%e7%9a%84%e5%af%b9%e8%b1%a1%e3%80%82%e6%89%80%e4%bb%a5%e7%9b%b8%e5%bd%93%e4%ba%8e%e5%86%85%e5%ad%98%e6%8d%a2%e5%8f%96%e4%ba%86%e9%80%9f%e5%ba%a6%e3%80%82%0a%e9%81%bf%e5%85%8d%e7%a1%ac%e5%bc%95%e7%94%a8%e7%9a%84%e6%96%b9%e6%b3%95%0a%e4%bd%bf%e7%94%a8%e8%bd%af%e5%bc%95%e7%94%a8%ef%bc%88SoftObjectPtr%20%2f%20SoftClassPtr%ef%bc%89%e3%80%81%e6%8e%a5%e5%8f%a3%e5%8f%af%e4%bb%a5%e9%81%bf%e5%85%8d%e7%a1%ac%e5%bc%95%e7%94%a8%e3%80%81%e4%bd%bf%e7%94%a8%e5%ad%97%e7%ac%a6%e4%b8%b2%e8%b7%af%e5%be%84%20%2b%20%e5%8a%a8%e6%80%81%e5%8a%a0%e8%bd%bd%e3%80%82%0a%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e7%94%a8%e8%bd%af%e5%bc%95%e7%94%a8%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e7%94%a8%e7%a1%ac%e5%bc%95%e7%94%a8%0a%e5%ba%94%e8%af%a5%e5%9c%a8%e5%85%b3%e9%94%ae%e5%af%b9%e8%b1%a1%e4%b8%8a%e4%bd%bf%e7%94%a8%e7%a1%ac%e5%bc%95%e7%94%a8%ef%bc%88GameMode%e3%80%81PlayerController%e7%ad%89%ef%bc%89%20%e8%bf%98%e6%9c%89%e5%8f%aa%e4%bc%9a%e5%8a%a0%e8%bd%bd%e4%b8%80%e6%ac%a1%e7%9a%84%e8%b5%84%e6%ba%90%e5%9c%b0%e5%bd%a2%e7%ad%89%e3%80%82%0a%e5%af%b9%e4%ba%8e%e6%9a%82%e6%97%b6%e4%b8%8d%e9%9c%80%e8%a6%81%e4%b8%94%e4%bd%93%e7%a7%af%e5%a4%a7%e7%9a%84%e5%af%b9%e8%b1%a1%e7%94%a8%e8%bd%af%e5%bc%95%e7%94%a8%ef%bc%8c%e6%af%94%e5%a6%82%e6%ad%a6%e5%99%a8%e5%ba%93%e3%80%81%e5%89%a7%e6%83%85%e7%ab%a0%e8%8a%82%e7%ad%89%e3%80%82%0a%e5%af%b9%e8%b1%a1%e6%8c%87%e9%92%88%20TobjectPtr%20%e8%99%bd%e7%84%b6%e4%b9%9f%e5%b1%9e%e4%ba%8e%e7%a1%ac%e5%bc%95%e7%94%a8%ef%bc%8c%e4%bd%86%e7%9b%b8%e6%af%94%e4%bc%a0%e7%bb%9f%20UObject%2a%ef%bc%8c%e5%ae%83%e7%9a%84%e7%a1%ae%e8%83%bd%e5%87%8f%e5%b0%91%e4%b8%80%e4%ba%9b%e4%b8%8d%e5%bf%85%e8%a6%81%e7%9a%84%e5%8a%a0%e8%bd%bd%e9%93%be%e8%a7%a6%e5%8f%91%e5%92%8cGC%e5%8e%8b%e5%8a%9b%ef%bc%8c%e5%9b%a0%e4%b8%ba%e5%ae%83%e5%ba%95%e5%b1%82%e6%98%af%e5%8f%a5%e6%9f%84%e7%b4%a2%e5%bc%95%ef%bc%8c%e6%99%ae%e9%80%9a%e6%8c%87%e9%92%88%e5%9c%a8%20GC%20%e6%88%96%e5%ba%8f%e5%88%97%e5%8c%96%e6%97%b6%e5%8f%af%e8%83%bd%e8%a7%a6%e5%8f%91%e5%af%b9%e8%b1%a1%e5%8a%a0%e8%bd%bd%ef%bc%8c%e8%80%8c%20TObjectPtr%20%e9%80%9a%e8%bf%87%e7%b4%a2%e5%bc%95%e8%bf%bd%e8%b8%aa%ef%bc%8c%e9%81%bf%e5%85%8d%e4%ba%86%e8%bf%99%e7%a7%8d%e4%b8%8d%e5%bf%85%e8%a6%81%e7%9a%84%e5%8a%a0%e8%bd%bd%e9%93%be%e3%80%82%0a%e5%9c%a8%e5%8f%91%e5%b8%83%e6%9e%84%e5%bb%ba%e7%9a%84%e6%97%b6%e5%80%99%e4%bc%9a%e8%bd%ac%e5%8c%96%e5%8e%9f%e5%a7%8b%e6%8c%87%e9%92%88%ef%bc%8c%e4%b8%ba%e4%ba%86%e6%8f%90%e5%8d%87%e8%bf%90%e8%a1%8c%e6%97%b6%e6%80%a7%e8%83%bd%ef%bc%88%e5%b0%91%e4%b8%80%e6%ac%a1%e5%8f%a5%e6%9f%84%e8%a7%a3%e6%9e%90%e5%bc%80%e9%94%80%ef%bc%89%ef%bc%8c%e5%87%8f%e5%b0%91%e5%86%85%e5%ad%98%e5%8d%a0%e7%94%a8%ef%bc%88%e4%b8%8d%e9%9c%80%e8%a6%81%e9%a2%9d%e5%a4%96%e7%bb%b4%e6%8a%a4%e5%8f%a5%e6%9f%84%e8%a1%a8%e5%bc%95%e7%94%a8%ef%bc%89%0aGameplayTags%e5%85%a8%e5%b1%80%e8%ae%bf%e9%97%ae%20%e5%88%9b%e5%bb%baWarriorGameplayTags%e6%96%87%e4%bb%b6%ef%bc%8c%e7%94%a8%e4%ba%8e%e9%9b%86%e4%b8%ad%e7%ae%a1%e7%90%86%e6%a0%87%e7%ad%be%e3%80%82%0a%23include%20%26%2334%3bNativeGameplayTags.h%26%2334%3b%20namespace%20WarriorGameplayTags%20%7b%20%2f%2a%2a%20Input%20Tags%20%2a%2a%2f%20UE_DECLARE_GAMEPLAY_TAG_EXTERN%28InputTag_Move%29%20%2f%2f%20%e5%a3%b0%e6%98%8e%e4%b8%80%e4%b8%aa%e5%a4%96%e9%83%a8%e5%8f%af%e8%ae%bf%e9%97%ae%e7%9a%84FGameplayTag%20UE_DECLARE_GAMEPLAY_TAG_EXTERN%28InputTag_Look%29%20%7d%20%23include%20%26%2334%3bWarriorGameplayTags.&source=rafed123.github.io"
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2fwarriorproject%2f
+			&title=Warrior%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b0%201&summary=Hard%20Reference%20%26amp%3b%20Soft%20Reference%20Reference%20Viewer%20%e5%bc%95%e7%94%a8%e6%9f%a5%e7%9c%8b%e5%99%a8%e6%98%be%e7%a4%ba%e7%9a%84%e7%99%bd%e8%89%b2%e7%ba%bf%e6%9d%a1%e6%98%af%e7%a1%ac%e5%bc%95%e7%94%a8%e5%85%b3%e7%b3%bb%ef%bc%8c%e7%b2%89%e8%89%b2%e7%ba%bf%e6%9d%a1%e6%98%af%e8%bd%af%e5%bc%95%e7%94%a8%e5%85%b3%e7%b3%bb%e3%80%82%e6%af%94%e5%a6%82%e4%b8%80%e4%b8%aa%e8%93%9d%e5%9b%be%e5%9c%a8%e5%b1%9e%e6%80%a7%e9%87%8c%e5%bc%95%e7%94%a8%e4%ba%86%e6%9f%90%e4%b8%aa%e6%9d%90%e8%b4%a8%e3%80%81%e8%b4%b4%e5%9b%be%e3%80%81Mesh%e7%ad%89%e3%80%82%0a%e5%a6%82%e4%b8%8b%e5%9b%be%e6%89%80%e7%a4%ba%ef%bc%8c%e5%8f%b3%e8%be%b9%e7%9a%84%e6%89%80%e6%9c%89%e5%86%85%e5%ae%b9%e6%98%af%e8%a7%92%e8%89%b2%e7%9a%84%e4%be%9d%e8%b5%96%e9%a1%b9%ef%bc%8c%e5%b7%a6%e8%be%b9%e7%9a%84%e6%89%80%e6%9c%89%e5%86%85%e5%ae%b9%e4%be%9d%e8%b5%96%e4%ba%8e%e8%a7%92%e8%89%b2%e8%b5%84%e4%ba%a7%ef%bc%9a%0a%e7%a1%ac%e5%bc%95%e7%94%a8%e7%a4%ba%e4%be%8b%ef%bc%9a%0a%e8%93%9d%e5%9b%be%e7%9a%84%20Cast%20to%20XXXX%20%e8%8a%82%e7%82%b9%e4%bc%9a%e5%af%bc%e8%87%b4%e7%a1%ac%e5%bc%95%e7%94%a8%e5%af%b9%e8%b1%a1%ef%bc%8c%e5%8d%b3%e4%bd%bf%e5%ad%98%e5%9c%a8%e4%bd%86%e4%b8%8d%e4%bd%bf%e7%94%a8%e8%af%a5%e8%8a%82%e7%82%b9%e4%b9%9f%e4%bc%9a%e7%a1%ac%e5%bc%95%e7%94%a8cast%e5%af%b9%e8%b1%a1%e3%80%82%e8%bf%99%e6%98%af%e5%9b%a0%e4%b8%ba%ef%bc%9a%e5%bd%93%e4%bd%a0%e4%bd%bf%e7%94%a8%20Cast%20To%20BP_XXX%20%e8%8a%82%e7%82%b9%e6%97%b6%ef%bc%8c%e8%93%9d%e5%9b%be%e7%bc%96%e8%af%91%e5%99%a8%e4%bc%9a%e5%9c%a8%e7%94%9f%e6%88%90%e7%9a%84%20bytecode%20%e9%87%8c%e8%ae%b0%e5%bd%95%e8%af%a5%e8%93%9d%e5%9b%be%e7%b1%bb%e7%9a%84%e5%bc%95%e7%94%a8%ef%bc%88UBlueprintGeneratedClass%20%e5%af%b9%e8%b1%a1%ef%bc%89%e4%bb%a5%e5%8f%8aSpawnActorFromClass%e4%b9%9f%e4%bc%9a%e5%af%bc%e8%87%b4%e7%a1%ac%e5%bc%95%e7%94%a8%e3%80%82%20%e8%93%9d%e5%9b%be%e5%8f%98%e9%87%8f%e5%bc%95%e7%94%a8%e8%b5%84%e6%ba%90%e6%88%96%e8%80%85%e7%bb%a7%e6%89%bf%e8%87%aa%e5%8f%a6%e4%b8%80%e4%b8%aaBP%e7%b1%bb%e3%80%82%20C%2b%2b%e4%b8%ad%e4%bd%bf%e7%94%a8FObjectFinder%ef%bc%8c%e6%9e%84%e9%80%a0%e6%9c%9f%e5%bc%ba%e5%88%b6%e5%8a%a0%e8%bd%bd%e8%b5%84%e6%ba%90%e3%80%82%20DataTable%20%2f%20DataAsset%20%e7%9b%b4%e6%8e%a5%e5%ad%98%e6%94%beUObject%2a%20%e2%80%8b%09%26hellip%3b.%0a%e6%80%bb%e4%b9%8b%ef%bc%8c%e5%8f%aa%e8%a6%81%e8%93%9d%e5%9b%be%e6%88%96C%2b%2b%e4%b8%ad%e6%9c%89%e6%98%8e%e7%a1%ae%e7%9a%84%e5%af%b9%e8%b1%a1%e5%bc%95%e7%94%a8%e6%88%96%e7%b1%bb%e5%bc%95%e7%94%a8%ef%bc%88%e5%8d%b3%e7%bc%96%e8%af%91%e5%99%a8%e8%83%bd%e8%bf%bd%e8%b8%aa%e5%88%b0%e7%9a%84UObject%e3%80%81UClass%ef%bc%89%ef%bc%8c%e9%83%bd%e4%bc%9a%e5%bd%a2%e6%88%90%e7%a1%ac%e5%bc%95%e7%94%a8%e3%80%82%0aSizeMap%20%e5%a6%82%e4%b8%8b%e5%9b%be%e6%89%80%e7%a4%ba%ef%bc%8c%20BP_ThirdPersonCharacter%20%e5%8d%a0%e6%8d%ae%e4%ba%86207.4MB%ef%bc%8c%e5%85%b6%e4%b8%adSKM_Quinn_Simple%e5%8d%a0%e6%8d%ae%e4%ba%86198.6MB%ef%bc%8c%e5%83%8f%e4%b8%80%e4%b8%aa%e7%9b%92%e5%ad%90%e5%b1%82%e5%b1%82%e5%b5%8c%e5%a5%97%ef%bc%8c%e4%bd%a0%e5%8f%af%e4%bb%a5%e8%a7%82%e5%af%9f%e5%88%b0%e5%86%85%e5%ad%98%e5%8d%a0%e6%af%94%e6%9c%80%e5%a4%a7%e7%9a%84%e6%98%af%e5%93%aa%e4%b8%aa%e5%bc%95%e7%94%a8%ef%bc%9a%0a%e7%a1%ac%e5%bc%95%e7%94%a8%e5%92%8c%e8%bd%af%e5%bc%95%e7%94%a8%e7%9a%84%e5%8c%ba%e5%88%ab%e6%98%af%20%e2%80%94%e2%80%94%20%e7%a1%ac%e5%bc%95%e7%94%a8%e5%8f%af%e4%bb%a5%e6%9b%b4%e5%bf%ab%e9%80%9f%e7%9a%84%e8%ae%bf%e9%97%ae%e5%af%b9%e8%b1%a1%ef%bc%8c%e5%af%b9%e8%b1%a1%e5%b7%b2%e7%bb%8f%e8%a2%ab%e5%8a%a0%e8%bd%bd%e5%88%b0%e5%86%85%e5%ad%98%e4%b8%ad%ef%bc%8c%e6%89%80%e4%bb%a5%e5%8f%af%e4%bb%a5%e7%9b%b4%e6%8e%a5%e4%bd%bf%e7%94%a8%ef%bc%9b%e8%80%8c%e8%bd%af%e5%bc%95%e7%94%a8%e5%8f%af%e4%bb%a5%e5%87%8f%e5%b0%91%e5%86%85%e5%ad%98%e5%8d%a0%e7%94%a8%ef%bc%8c%e4%bd%86%e6%98%af%e9%80%9f%e5%ba%a6%e4%bc%9a%e6%af%94%e8%be%83%e6%85%a2%ef%bc%8c%e5%a6%82%e6%9e%9c%e8%a2%ab%e4%bd%bf%e7%94%a8%ef%bc%8c%e5%85%88%e8%a6%81%e8%ae%bf%e9%97%ae%e6%98%af%e5%90%a6%e5%ad%98%e5%9c%a8%ef%bc%8c%e6%89%8d%e8%83%bd%e8%ae%bf%e9%97%ae%e5%ae%83%e6%8c%87%e5%90%91%e7%9a%84%e5%af%b9%e8%b1%a1%e3%80%82%e6%89%80%e4%bb%a5%e7%9b%b8%e5%bd%93%e4%ba%8e%e5%86%85%e5%ad%98%e6%8d%a2%e5%8f%96%e4%ba%86%e9%80%9f%e5%ba%a6%e3%80%82%0a%e9%81%bf%e5%85%8d%e7%a1%ac%e5%bc%95%e7%94%a8%e7%9a%84%e6%96%b9%e6%b3%95%0a%e4%bd%bf%e7%94%a8%e8%bd%af%e5%bc%95%e7%94%a8%ef%bc%88SoftObjectPtr%20%2f%20SoftClassPtr%ef%bc%89%e3%80%81%e6%8e%a5%e5%8f%a3%e5%8f%af%e4%bb%a5%e9%81%bf%e5%85%8d%e7%a1%ac%e5%bc%95%e7%94%a8%e3%80%81%e4%bd%bf%e7%94%a8%e5%ad%97%e7%ac%a6%e4%b8%b2%e8%b7%af%e5%be%84%20%2b%20%e5%8a%a8%e6%80%81%e5%8a%a0%e8%bd%bd%e3%80%82%0a%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e7%94%a8%e8%bd%af%e5%bc%95%e7%94%a8%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e7%94%a8%e7%a1%ac%e5%bc%95%e7%94%a8%0a%e5%ba%94%e8%af%a5%e5%9c%a8%e5%85%b3%e9%94%ae%e5%af%b9%e8%b1%a1%e4%b8%8a%e4%bd%bf%e7%94%a8%e7%a1%ac%e5%bc%95%e7%94%a8%ef%bc%88GameMode%e3%80%81PlayerController%e7%ad%89%ef%bc%89%20%e8%bf%98%e6%9c%89%e5%8f%aa%e4%bc%9a%e5%8a%a0%e8%bd%bd%e4%b8%80%e6%ac%a1%e7%9a%84%e8%b5%84%e6%ba%90%e5%9c%b0%e5%bd%a2%e7%ad%89%e3%80%82%0a%e5%af%b9%e4%ba%8e%e6%9a%82%e6%97%b6%e4%b8%8d%e9%9c%80%e8%a6%81%e4%b8%94%e4%bd%93%e7%a7%af%e5%a4%a7%e7%9a%84%e5%af%b9%e8%b1%a1%e7%94%a8%e8%bd%af%e5%bc%95%e7%94%a8%ef%bc%8c%e6%af%94%e5%a6%82%e6%ad%a6%e5%99%a8%e5%ba%93%e3%80%81%e5%89%a7%e6%83%85%e7%ab%a0%e8%8a%82%e7%ad%89%e3%80%82%0a%e5%af%b9%e8%b1%a1%e6%8c%87%e9%92%88%20TobjectPtr%20%e8%99%bd%e7%84%b6%e4%b9%9f%e5%b1%9e%e4%ba%8e%e7%a1%ac%e5%bc%95%e7%94%a8%ef%bc%8c%e4%bd%86%e7%9b%b8%e6%af%94%e4%bc%a0%e7%bb%9f%20UObject%2a%ef%bc%8c%e5%ae%83%e7%9a%84%e7%a1%ae%e8%83%bd%e5%87%8f%e5%b0%91%e4%b8%80%e4%ba%9b%e4%b8%8d%e5%bf%85%e8%a6%81%e7%9a%84%e5%8a%a0%e8%bd%bd%e9%93%be%e8%a7%a6%e5%8f%91%e5%92%8cGC%e5%8e%8b%e5%8a%9b%ef%bc%8c%e5%9b%a0%e4%b8%ba%e5%ae%83%e5%ba%95%e5%b1%82%e6%98%af%e5%8f%a5%e6%9f%84%e7%b4%a2%e5%bc%95%ef%bc%8c%e6%99%ae%e9%80%9a%e6%8c%87%e9%92%88%e5%9c%a8%20GC%20%e6%88%96%e5%ba%8f%e5%88%97%e5%8c%96%e6%97%b6%e5%8f%af%e8%83%bd%e8%a7%a6%e5%8f%91%e5%af%b9%e8%b1%a1%e5%8a%a0%e8%bd%bd%ef%bc%8c%e8%80%8c%20TObjectPtr%20%e9%80%9a%e8%bf%87%e7%b4%a2%e5%bc%95%e8%bf%bd%e8%b8%aa%ef%bc%8c%e9%81%bf%e5%85%8d%e4%ba%86%e8%bf%99%e7%a7%8d%e4%b8%8d%e5%bf%85%e8%a6%81%e7%9a%84%e5%8a%a0%e8%bd%bd%e9%93%be%e3%80%82%0a%e5%9c%a8%e5%8f%91%e5%b8%83%e6%9e%84%e5%bb%ba%e7%9a%84%e6%97%b6%e5%80%99%e4%bc%9a%e8%bd%ac%e5%8c%96%e5%8e%9f%e5%a7%8b%e6%8c%87%e9%92%88%ef%bc%8c%e4%b8%ba%e4%ba%86%e6%8f%90%e5%8d%87%e8%bf%90%e8%a1%8c%e6%97%b6%e6%80%a7%e8%83%bd%ef%bc%88%e5%b0%91%e4%b8%80%e6%ac%a1%e5%8f%a5%e6%9f%84%e8%a7%a3%e6%9e%90%e5%bc%80%e9%94%80%ef%bc%89%ef%bc%8c%e5%87%8f%e5%b0%91%e5%86%85%e5%ad%98%e5%8d%a0%e7%94%a8%ef%bc%88%e4%b8%8d%e9%9c%80%e8%a6%81%e9%a2%9d%e5%a4%96%e7%bb%b4%e6%8a%a4%e5%8f%a5%e6%9f%84%e8%a1%a8%e5%bc%95%e7%94%a8%ef%bc%89%0a%e8%be%93%e5%85%a5%e7%bb%91%e5%ae%9a%e6%b5%81%e7%a8%8b%20Native%20Gameplay%20Tags%20%e5%88%9b%e5%bb%ba%e5%85%a8%e5%b1%80%e8%ae%bf%e9%97%ae%e7%9a%84GameplayTags%0aInput%20Config%20Data%20Asset%20%e5%88%9b%e5%bb%baDataAsset%e7%94%a8%e4%ba%8e%e6%98%a0%e5%b0%84gameplaytag%26mdash%3b%26gt%3binput%20action%0aCustom%20Input%20Component%20%e8%87%aa%e5%ae%9a%e4%b9%89%e8%be%93%e5%85%a5%e7%bb%84%e4%bb%b6&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>
 	    </a>
 
-	    <a  href="mailto:?subject=&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fwarriorproject%2f"
+	    <a  href="mailto:?subject=Warrior%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b0%201&amp;body=Check out this site http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2fwarriorproject%2f"
 	        title="Share via Email. Opens in a new window." >
 	        <img src=/img/icons/45px/mail.png>
 	    </a>

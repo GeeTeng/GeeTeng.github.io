@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 
-<head>
+<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
 
     <title>
     Posts | 
@@ -14,7 +14,7 @@
 
 
 
-<meta property="og:url" content="https://geeteng.github.io/posts/">
+<meta property="og:url" content="http://localhost:1313/posts/">
   <meta property="og:site_name" content="GeeTeng">
   <meta property="og:title" content="Posts">
   <meta property="og:description" content="A description for the meta tag of the site">
@@ -29,11 +29,11 @@
 
   <meta itemprop="name" content="Posts">
   <meta itemprop="description" content="A description for the meta tag of the site">
-  <meta itemprop="datePublished" content="2025-07-11T00:00:00+00:00">
-  <meta itemprop="dateModified" content="2025-07-11T00:00:00+00:00">
-<link rel="canonical" href="https://geeteng.github.io/posts/" />
+  <meta itemprop="datePublished" content="2025-11-05T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-11-05T00:00:00+00:00">
+<link rel="canonical" href="http://localhost:1313/posts/" />
 
-<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+<link rel="icon" type="image/png" href="http://localhost:1313/image/favicon.ico">
 
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/bulma.min.css">
@@ -48,28 +48,6 @@
           ],
           throwOnError: false
         });"></script>
-
-
-  
-    
-      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
-      <script>
-        var doNotTrack = false;
-        if ( false ) {
-          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
-          var doNotTrack = (dnt == "1" || dnt == "yes");
-        }
-        if (!doNotTrack) {
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'analytics-code');
-        }
-      </script>
-    
-  
-
-
 
 
 
@@ -188,6 +166,64 @@
 
 
 <div class="blog-brief">
+    <a href="/about-me/">
+        <h3 class="title is-4">
+            About Author
+        </h3>
+    </a>
+
+    <div class="level is-mobile details">
+        <div class="level-left">
+
+            
+            <div class="level-item">
+                <a href="/about-me/">
+                    <p class="subtitle info date">Nov 1, 2024
+                    </p>
+                </a>
+            </div>
+            
+
+
+            <div class="level-item">
+                <a href="/about-me/">
+                    <p class="subtitle info">
+                        1 min read
+                    </p>
+                </a>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            
+        </div>
+    </div>
+
+    <div>
+        
+            <a href="/about-me/">
+                <img src="/images/author.png">
+            </a>
+        
+
+        <div>
+            <a href="/about-me/">
+                <p class="summary">
+                    
+                </p>
+            </a>
+        </div>
+    </div>
+
+    <div class="level is-mobile continue-reading">
+        <div class="level-left">
+        </div>
+        <div class="level-right">
+            <a href="/about-me/">Continue reading <i class="fa fa-angle-double-right"
+                    aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <hr>
+</div><div class="blog-brief">
     <a href="/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/">
         <h3 class="title is-4">
             
@@ -240,130 +276,6 @@ export function setParkourSplinePointInfo(spawnerId: string, parkourMovementComp
         </div>
         <div class="level-right">
             <a href="/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/">Continue reading <i class="fa fa-angle-double-right"
-                    aria-hidden="true"></i></a>
-        </div>
-    </div>
-    <hr>
-</div><div class="blog-brief">
-    <a href="/posts/ue/warriorproject/">
-        <h3 class="title is-4">
-            
-        </h3>
-    </a>
-
-    <div class="level is-mobile details">
-        <div class="level-left">
-
-            
-            <div class="level-item">
-                <a href="/posts/ue/warriorproject/">
-                    <p class="subtitle info date">Jan 1, 0001
-                    </p>
-                </a>
-            </div>
-            
-
-
-            <div class="level-item">
-                <a href="/posts/ue/warriorproject/">
-                    <p class="subtitle info">
-                        6 mins read
-                    </p>
-                </a>
-            </div>
-        </div>
-        <div class="level-right is-hidden-touch">
-            
-        </div>
-    </div>
-
-    <div>
-        
-
-        <div>
-            <a href="/posts/ue/warriorproject/">
-                <p class="summary">
-                    Hard Reference &amp; Soft Reference Reference Viewer 引用查看器显示的白色线条是硬引用关系，粉色线条是软引用关系。比如一个蓝图在属性里引用了某个材质、贴图、Mesh等。
-如下图所示，右边的所有内容是角色的依赖项，左边的所有内容依赖于角色资产：
-硬引用示例：
-蓝图的 Cast to XXXX 节点会导致硬引用对象，即使存在但不使用该节点也会硬引用cast对象。这是因为：当你使用 Cast To BP_XXX 节点时，蓝图编译器会在生成的 bytecode 里记录该蓝图类的引用（UBlueprintGeneratedClass 对象）以及SpawnActorFromClass也会导致硬引用。 蓝图变量引用资源或者继承自另一个BP类。 C&#43;&#43;中使用FObjectFinder，构造期强制加载资源。 DataTable / DataAsset 直接存放UObject* ​	….
-总之，只要蓝图或C&#43;&#43;中有明确的对象引用或类引用（即编译器能追踪到的UObject、UClass），都会形成硬引用。
-SizeMap 如下图所示， BP_ThirdPersonCharacter 占据了207.4MB，其中SKM_Quinn_Simple占据了198.6MB，像一个盒子层层嵌套，你可以观察到内存占比最大的是哪个引用：
-硬引用和软引用的区别是 —— 硬引用可以更快速的访问对象，对象已经被加载到内存中，所以可以直接使用；而软引用可以减少内存占用，但是速度会比较慢，如果被使用，先要访问是否存在，才能访问它指向的对象。所以相当于内存换取了速度。
-避免硬引用的方法
-使用软引用（SoftObjectPtr / SoftClassPtr）、接口可以避免硬引用、使用字符串路径 &#43; 动态加载。
-什么时候用软引用什么时候用硬引用
-应该在关键对象上使用硬引用（GameMode、PlayerController等） 还有只会加载一次的资源地形等。
-对于暂时不需要且体积大的对象用软引用，比如武器库、剧情章节等。
-对象指针 TobjectPtr 虽然也属于硬引用，但相比传统 UObject*，它的确能减少一些不必要的加载链触发和GC压力，因为它底层是句柄索引，普通指针在 GC 或序列化时可能触发对象加载，而 TObjectPtr 通过索引追踪，避免了这种不必要的加载链。
-在发布构建的时候会转化原始指针，为了提升运行时性能（少一次句柄解析开销），减少内存占用（不需要额外维护句柄表引用）
-GameplayTags全局访问 创建WarriorGameplayTags文件，用于集中管理标签。
-#include &#34;NativeGameplayTags.h&#34; namespace WarriorGameplayTags { /** Input Tags **/ UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Move) // 声明一个外部可访问的FGameplayTag UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Look) } #include &#34;WarriorGameplayTags.
-                    
-                </p>
-            </a>
-        </div>
-    </div>
-
-    <div class="level is-mobile continue-reading">
-        <div class="level-left">
-        </div>
-        <div class="level-right">
-            <a href="/posts/ue/warriorproject/">Continue reading <i class="fa fa-angle-double-right"
-                    aria-hidden="true"></i></a>
-        </div>
-    </div>
-    <hr>
-</div><div class="blog-brief">
-    <a href="/posts/ue/5_ai/">
-        <h3 class="title is-4">
-            
-        </h3>
-    </a>
-
-    <div class="level is-mobile details">
-        <div class="level-left">
-
-            
-            <div class="level-item">
-                <a href="/posts/ue/5_ai/">
-                    <p class="subtitle info date">Jan 1, 0001
-                    </p>
-                </a>
-            </div>
-            
-
-
-            <div class="level-item">
-                <a href="/posts/ue/5_ai/">
-                    <p class="subtitle info">
-                        1 min read
-                    </p>
-                </a>
-            </div>
-        </div>
-        <div class="level-right is-hidden-touch">
-            
-        </div>
-    </div>
-
-    <div>
-        
-
-        <div>
-            <a href="/posts/ue/5_ai/">
-                <p class="summary">
-                    
-                </p>
-            </a>
-        </div>
-    </div>
-
-    <div class="level is-mobile continue-reading">
-        <div class="level-left">
-        </div>
-        <div class="level-right">
-            <a href="/posts/ue/5_ai/">Continue reading <i class="fa fa-angle-double-right"
                     aria-hidden="true"></i></a>
         </div>
     </div>

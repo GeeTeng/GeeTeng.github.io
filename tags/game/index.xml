@@ -2,45 +2,45 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Game on GeeTeng</title>
-    <link>https://geeteng.github.io/tags/game/</link>
+    <link>http://localhost:1313/tags/game/</link>
     <description>Recent content in Game on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 05 Mar 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="https://geeteng.github.io/tags/game/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="http://localhost:1313/tags/game/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>路径规划算法</title>
-      <link>https://geeteng.github.io/posts/game/pathplaning/</link>
+      <link>http://localhost:1313/posts/game/pathplaning/</link>
       <pubDate>Wed, 05 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/game/pathplaning/</guid>
+      <guid>http://localhost:1313/posts/game/pathplaning/</guid>
       <description>A*搜索算法 A*算法是启发式搜索方法，但是在游戏开发中，A*算法会受到一些因素的制约：&#xA;计算开销和实时性问题 在图比较大的时候可能非常耗时，尤其是在需要频繁计算路径的实时游戏中。游戏中的路径寻找需要快速响应，尤其是在开放世界或有动态元素的场景中。而且A*算法通常是在静态地图上执行的，但是许多环境玩家、敌人、障碍物会发生改变，每当发生改变的时候都需要重新计算路径，导致性能问题。&#xA;平滑性&#xA;A*算法生成的路径通常是“阶梯状”的，并不自然。可能导致拐角过多，移动不平滑，而如果再去平滑路径，又增加了额外的计算开销。&#xA;把代价分成两部分：&#xA;当前代价：一共走过多少格子 预估代价：从当前位置到终点位置需要走多少格子 可以使用曼哈顿距离或欧拉距离，将两部分代价相加起来。永远走向代价最小的位置。</description>
     </item>
     <item>
       <title>游戏网络基础</title>
-      <link>https://geeteng.github.io/posts/game/onlinegame/</link>
+      <link>http://localhost:1313/posts/game/onlinegame/</link>
       <pubDate>Wed, 08 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/game/onlinegame/</guid>
+      <guid>http://localhost:1313/posts/game/onlinegame/</guid>
       <description>多人网络游戏的挑战： 网络同步 网络延迟、丢包 玩家开挂 不同游戏平台连接 高性能服务器 TCP协议 面向连接的 可靠、有序 流量控制 拥塞控制 TCP重传机制&#xA;正常发包1,2,3,4,5,6,7,8，收包都会带一个ACK序号，收包1,2,3,4,5,6,7,8&#xA;如果5号包丢了的话，那么收到的就是1,2,3,4,4,4,4,4&#xA;Question：什么时候使用TCP / UDP？&#xA;Answer：对于实时性要求不高的游戏会采用TCP协议 - 炉石传说&#xA;需要低延迟的游戏会采用UDP协议 - CSGO&#xA;但是登陆验证、商城等数据会使用TCP协议，因为对数据的可靠性要求高。&#xA;UDP协议 现在很多游戏不会直接使用原生的UDP，因为UDP本身并不可靠、数据的到达顺序也是混乱的，如说喝了一瓶药恢复魔法值再释放一个技能结果变成了释放了技能却没有魔法值之后再喝了药，因此通常会在UDP上进行优化增加类似于TCP的可靠性。&#xA;自动重传请求机制ARQ：是基于ACK的错误控制方法，发送端会等待接收端的ACK，如果确认未到达或收到的是错误反馈，发送端会自动重传未正确到达的数据。&#xA;滑窗协议(sliding window protocol) 滑窗协议是经典的ARQ实现方法&#xA;Stop-and-Wait ARQ&#xA;发送端发送一个数据包，等待接收端的确认（ACK）。如果超时未收到 ACK，重新发送数据包。&#xA;特点：实现简单，但效率低（管道中只能同时传输一个包）。&#xA;Go-Back-N ARQ&#xA;发送端可以连续发送多个数据包，而无需等待每个包的确认。&#xA;如果一个包出错，接收端会丢弃当前包和其后的所有包，发送端需要重发从出错包开始的所有数据包。&#xA;特点：提高了管道利用率，但重传开销大。&#xA;Selective Repeat ARQ&#xA;发送端可以连续发送多个数据包，接收端仅请求重传错误的包。&#xA;特点：管道利用率高，重传开销小，但实现复杂。&#xA;FEC算法（Forward Error Correction） 异或校验位&#xA;Reed-Solomon codes&#xA;NTP时间同步协议（Network Time Protocol） 由于网络通信延迟的存在，客户端向服务器端发送一个包后都需要等待一定的时间才能收到回包，这个间隔的时间称为round-trip time(RTT)。&#xA;NTP：为了尽可能精准地将客户端的时间与时间服务器同步。&#xA;NTP消息中包含4个关键时间戳：&#xA;T1（客户端发送请求的时间）： 客户端向服务器发送请求时的本地时间。 T2（服务器接收请求的时间）： 时间服务器接收到客户端请求时的时间。 T3（服务器发送响应的时间）： 时间服务器准备响应时的时间。 T4（客户端接收响应的时间）： 客户端接收到服务器响应时的本地时间。 偏移量如图所示&#xA;客户端时间正确是17：01：35，客户端接收后增加偏移量。&#xA;尽管利用socket我们可以实现客户端和服务器的通信，但对于网络游戏来说完全基于socket的通信非常复杂。这主要是因为网络游戏中客户端需要向服务器发送大量不同类型的消息，同时客户端也需要解析相应类型的反馈，这就会导致游戏逻辑变得无比复杂。</description>
     </item>
     <item>
       <title>Piccolo LUT</title>
-      <link>https://geeteng.github.io/posts/game/lut/</link>
+      <link>http://localhost:1313/posts/game/lut/</link>
       <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/game/lut/</guid>
+      <guid>http://localhost:1313/posts/game/lut/</guid>
       <description>LUT（LookUp Table）查找表 LUT是一种常见的优化或效果实现工具，用于通过查表得方式快速映射输入数据到目标结果，避免复杂的实时计算&#xA;颜色分级（Color Grading LUT）：&#xA;用于后期处理阶段，将场景颜色转换为特定的色彩基调。&#xA;参考资料 LUT.html&#xA;void main() { highp ivec2 lut_tex_size = textureSize(color_grading_lut_texture_sampler, 0); // 纹理的高度16 和 纹理的宽度256 highp float _COLORS = float(lut_tex_size.y); highp float xsize = float(lut_tex_size.x); highp vec4 color = subpassLoad(in_color).rgba; // 将颜色分量映射到LUT索引范围[0, 15] highp float blueoffset = (_COLORS - 1.0) * color.b; highp float redoffset = (_COLORS - 1.0) * color.r; highp float greenoffset = (_COLORS - 1.0) * color.g; // 红色和绿色决定小块中的水平垂直位置 蓝色决定哪个小块 highp float u = (redoffset + floor(blueoffset) * _COLORS) / xsize; highp float v = greenoffset / _COLORS; highp vec2 uv = vec2(u, v); highp vec4 color_sampled = texture(color_grading_lut_texture_sampler, uv); out_color = color_sampled; } 由于条纹问题，看到别人说是因为mipmap精度问题，所以</description>
     </item>
     <item>
       <title>空间数据结构</title>
-      <link>https://geeteng.github.io/posts/game/spatialdatastructures/</link>
+      <link>http://localhost:1313/posts/game/spatialdatastructures/</link>
       <pubDate>Tue, 17 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/game/spatialdatastructures/</guid>
+      <guid>http://localhost:1313/posts/game/spatialdatastructures/</guid>
       <description>多人在线游戏中，由于玩家规模十分庞大，如果想通过计算每一个玩家与其他 n - 1 个玩家之间的信息，时间复杂度会达到n^2，性能会变得很低。于是需要正确的处理这些数据，优化性能。&#xA;包围体层次结构 (BVH, Bounding Volume Hierarchy) 层次包围盒树，根节点是一个大的包围盒，往下是其子包围盒。&#xA;AABB（Axis-Aligned Bounding Box） 是一种常用的 包围盒（Bounding Box）类型&#xA;在 2D 空间 中，AABB 可以表示为：&#xA;Min = (x_min, y_min) Max = (x_max, y_max) 在 3D 空间 中，AABB 可以表示为：&#xA;Min = (x_min, y_min, z_min) Max = (x_max, y_max, z_max) 在游戏引擎中，大部分物体都会动态更新，而层次包围盒树 / 层次球包围盒树可以动态更新，从叶节点一级一级的往上更新上面的节点，使包围体包住子节点。&#xA;四叉树（Quadtree) 四叉树基本思想是将 2D 空间递归划分成不同层次的树结构，将已知范围的空间等分成 4 个相等的空间，直到树的层次到达一定深度或满足要求后停止分割。&#xA;八叉树 (Octree) 八叉树与四叉树结构类似，拥有 8 个节点，适用于 3D 空间。应用于：碰撞检车、物体的空间位置等。&#xA;八叉树和四叉树的区别是一个用于二维空间，一个用于三维空间。但是当四维空间&amp;hellip;.更多维度的空间时该怎么办呢？总不能2的n次方去划分，于是引出了KD-Tree，一种跟维度没有关系，可以划分空间。&#xA;k-d 树 k-d 树就是一种特殊形式的BSP树（轴对齐的BSP树），其每个节点都代表一个k维坐标点，树的每层都是对应一个划分维度。&#xA;构建 k-d 树将一组n个点按维度递归地划分成子空间，通常使用中位数分割法，所以构建树时间复杂度为O（n logn），最近邻搜索最优O（log n）</description>
     </item>
     <item>
       <title>Piccolo引擎编译运行</title>
-      <link>https://geeteng.github.io/posts/game/piccolo/</link>
+      <link>http://localhost:1313/posts/game/piccolo/</link>
       <pubDate>Sun, 15 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/game/piccolo/</guid>
+      <guid>http://localhost:1313/posts/game/piccolo/</guid>
       <description>构建 构建Piccolo的sln文件，运行在Visual Studio2022中&#xA;源码解读 在Runtime文件夹下面有四个子文件夹，核心层、功能层、资源层、平台层，以及engine.cpp和engine.h（整个引擎的入口）。&#xA;打开engine.cpp其中有4个重要的函数，StartEngine、shutdownEngine、run、tickOneFrame。&#xA;StartEngine、shutdownEngine一个注册类型源信息，一个取消注册，相对的函数。&#xA;void PiccoloEngine::run() { std::shared_ptr&amp;lt;WindowSystem&amp;gt; window_system = g_runtime_global_context.m_window_system; ASSERT(window_system); while (!window_system-&amp;gt;shouldClose()) { const float delta_time = calculateDeltaTime(); tickOneFrame(delta_time); } } run中，当窗口没有关闭时，不断执行tickOneFrame。点击g_runtime_global_context进入到global_context文件中。&#xA;发现声明了一个全局变量，并且实例化很多Manager（物理、粒子等）、System（窗口、渲染等）&#xA;RuntimeGlobalContext g_runtime_global_context; void RuntimeGlobalContext::startSystems(const std::string&amp;amp; config_file_path) { m_config_manager = std::make_shared&amp;lt;ConfigManager&amp;gt;(); m_config_manager-&amp;gt;initialize(config_file_path); m_file_system = std::make_shared&amp;lt;FileSystem&amp;gt;(); ... } tickOneFrame中logicalTick(delta_time);逻辑Tick、calculateFPS(delta_time);计算FPS、rendererTick(delta_time);渲染Tick。&#xA;void PiccoloEngine::logicalTick(float delta_time) { // tick world 和 用户输入 g_runtime_global_context.m_world_manager-&amp;gt;tick(delta_time); g_runtime_global_context.m_input_system-&amp;gt;tick(); } void WorldManager::tick(float delta_time) { if (!m_is_world_loaded) { loadWorld(m_current_world_url); } // tick the active level std::shared_ptr&amp;lt;Level&amp;gt; active_level = m_current_active_level.</description>
     </item>
   </channel>
