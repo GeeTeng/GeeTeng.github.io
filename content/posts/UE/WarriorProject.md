@@ -1,3 +1,13 @@
+---
+title: "Warrior项目笔记 1"
+date: 2025-11-05
+tags: [UE5]
+description: "Warrior项目笔记第一部分"
+showDate: true
+math: true
+chordsheet: true
+---
+
 
 
 ## Hard Reference & Soft Reference
@@ -53,7 +63,19 @@
 
 
 
-## GameplayTags全局访问
+## 输入绑定流程
+
+Native Gameplay Tags 创建全局访问的GameplayTags
+
+Input Config Data Asset 创建DataAsset用于映射gameplaytag--->input action
+
+Custom Input Component 自定义输入组件
+
+Binding Inputs 定义input callbacks
+
+Assign assets in editor 
+
+### GameplayTags全局访问
 
 创建WarriorGameplayTags文件，用于集中管理标签。
 
@@ -79,6 +101,8 @@ namespace WarriorGameplayTags
 	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look, "InputTag.Look") // 第一个参数是c++中的名称 第二个是编辑器中看到的名字
 }
 ```
+
+### Input Config Data Asset
 
 之后创建一个DataAsset的cpp文件
 
@@ -108,3 +132,161 @@ TArray<FWarriorInputActionConfig> NativeInputActions;
 ```
 
 ![2](/images/UE/WarriorProject/2.png)
+
+并且还有一个通过gameplaytag去查找inputaction的函数`FindNativeInputActionByTag`
+
+### 自定义输入组件
+
+创建一个WarriorInputComponent文件用于自定义输入组件代替增强输入组件，在其中定义一个模板内联函数用于BindAction
+
+```c++
+public:
+	template<class UserObject, typename CallbackFunc>
+	void BindNativeInputAction(const UDataAsset_InputConfig* InInputConfig, const FGameplayTag& InInputTag, ETriggerEvent TriggerEvent, UserObject* ContextObject, CallbackFunc Func);
+	
+};
+template<class UserObject, typename CallbackFunc>
+inline void UWarriorInputComponent::BindNativeInputAction(const UDataAsset_InputConfig* InInputConfig, const FGameplayTag& InInputTag, ETriggerEvent TriggerEvent, UserObject* ContextObject, CallbackFunc Func)
+{
+	checkf(InInputConfig,TEXT("InputConfigDataAsset is null"));
+	if (UInputAction* FindAction = InInputConfig->FindNativeInputActionByTag(InInputTag))
+	{
+		BindAction(FindAction, TriggerEvent, ContextObject, Func);
+	}
+}
+```
+
+
+
+### 绑定输入定义callbacks
+
+创建虚函数继承SetupPlayerInputComponent，在其中获取本地玩家增强输入子系统，添加输入映射上下文，然后再通过自定义输入组件绑定在角色类中定义的callback函数，分别是`Input_Move`和`Input_Look`。
+
+这样角色就实现了移动和视角。
+
+```c++
+void AWarriorHeroCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+	checkf(InputConfigDataAsset, TEXT("Forget to assign inputconfig data asset."));
+	ULocalPlayer* LocalPlayer = GetController<APlayerController>()->GetLocalPlayer();
+	UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(LocalPlayer);
+	check(Subsystem);
+	Subsystem->AddMappingContext(InputConfigDataAsset->DefaultMappingContext, 0);
+	UWarriorInputComponent* WarriorInputComponent = CastChecked<UWarriorInputComponent>(PlayerInputComponent);
+	WarriorInputComponent->BindNativeInputAction(InputConfigDataAsset, WarriorGameplayTags::InputTag_Move, ETriggerEvent::Triggered, this, &ThisClass::Input_Move);
+	WarriorInputComponent->BindNativeInputAction(InputConfigDataAsset, WarriorGameplayTags::InputTag_Look, ETriggerEvent::Triggered, this, &ThisClass::Input_Look);
+}
+
+void AWarriorHeroCharacter::Input_Move(const FInputActionValue& InputActionValue)
+{
+	const FVector2D MoveVector = InputActionValue.Get<FVector2D>();
+	const FRotator MoveRotator(0.f, Controller->GetControlRotation().Yaw, 0.f);
+	if (MoveVector.Y != 0.f)
+	{
+		// 把世界坐标系下的“前方向量”(0,1,0)用 MoveRotator（控制器朝向）旋转一下，得到角色当前朝向的前方方向
+		const FVector ForwardVector = MoveRotator.RotateVector(FVector::ForwardVector);
+		AddMovementInput(ForwardVector, MoveVector.Y);
+	}
+	if (MoveVector.X != 0.f)
+	{
+		const FVector RightVector = MoveRotator.RotateVector(FVector::RightVector);
+		AddMovementInput(RightVector, MoveVector.X);
+	}
+}
+
+void AWarriorHeroCharacter::Input_Look(const FInputActionValue& InputActionValue)
+{
+	const FVector2D LookAxisVector = InputActionValue.Get<FVector2D>();
+	if (LookAxisVector.X != 0.f)
+	{
+		AddControllerYawInput(LookAxisVector.X);
+	}
+	if (LookAxisVector.Y != 0.f)
+	{
+		AddControllerPitchInput(LookAxisVector.Y);
+	}
+}
+
+```
+
+
+
+## 角色动画
+
+创建一系列C++文件分别是
+
+WarriorBaseAnimInstance继承AnimInstance
+
+|——WarriorHeroLinkedAnimLayer
+
+|——WarriorCharacterAnimInstance
+
+​	  |——WarriorHeroAnimInstance
+
+
+
+首先在WarriorCharacterAnimInstance中定义两个函数
+
+```c++
+virtual void NativeInitializeAnimation() override;
+// 这个函数是动画系统的线程安全更新入口，用于在多线程模式下在工作线程中执行动画更新逻辑，从而分担主线程负载、提升性能
+virtual void NativeThreadSafeUpdateAnimation(float DeltaSeconds) override;
+```
+
+在初始化动画函数中获取当前角色和角色的移动组件存入到OwningCharacter和OwningMovementComponent中。
+
+在线程安全更新函数中去获取角色当前地面速度和是否有加速度。这两个变量中的加速度用于切换动画状态机的静止和移动状态，而地面速度用于BlendSpace混合空间处理奔跑动画。
+
+```c++
+void UWarriorCharacterAnimInstance::NativeInitializeAnimation()
+{
+	OwningCharacter =  Cast<AWarriorBaseCharacter>(TryGetPawnOwner());
+	if (OwningCharacter)
+	{
+		OwningMovementComponent = OwningCharacter->GetCharacterMovement();
+	}
+}
+
+void UWarriorCharacterAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
+{
+	if (!OwningCharacter || !OwningMovementComponent)
+	{
+		return;
+	}
+	GroundSpeed = OwningCharacter->GetVelocity().Size2D();
+	bHasAcceleration = OwningMovementComponent->GetCurrentAcceleration().SizeSquared2D() > 0.f;
+}
+```
+
+因此现在我们有了两个状态，在动画蓝图ABP_Hero继承自WarriorHeroAnimInstance分别是Idle和Jog。
+
+继续添加一个新状态Relax，用于在角色静止达到一定时间后切换一个放松的动作，在状态机中通过RandomSequencePlayer达到随机多个relax动画的效果。
+
+在WarriorHeroAnimInstance文件中这个新状态的过渡条件是通过C++中的`bShouldEnterRelaxState`，同时有EnterRelaxStateThreshold和IdleElapsedTime变量，分别是进入到放松状态所需时间和目前经过了多久的时间。
+
+```c++
+void UWarriorHeroAnimInstance::NativeInitializeAnimation()
+{
+	Super::NativeInitializeAnimation();
+	if (OwningCharacter)
+	{
+		OwningHeroCharacter = Cast<AWarriorHeroCharacter>(OwningCharacter);
+	}
+}
+
+void UWarriorHeroAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
+{
+	Super::NativeThreadSafeUpdateAnimation(DeltaSeconds);
+	if (bHasAcceleration)
+	{
+		bShouldEnterRelaxState = false;
+		IdleElapsedTime = 0.f;
+	}
+	else
+	{
+		IdleElapsedTime += DeltaSeconds;
+		bShouldEnterRelaxState = (IdleElapsedTime >= EnterRelaxStateThreshold);
+	}
+}
+```
+
