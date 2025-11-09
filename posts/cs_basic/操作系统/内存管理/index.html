@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
 
     <title>
     内存管理 | 
@@ -14,7 +14,7 @@
     ">
 
 
-<meta property="og:url" content="http://localhost:1313/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
+<meta property="og:url" content="https://geeteng.github.io/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/">
   <meta property="og:site_name" content="GeeTeng">
   <meta property="og:title" content="内存管理">
   <meta property="og:description" content="内存管理知识点">
@@ -37,9 +37,9 @@
   <meta itemprop="dateModified" content="2025-03-19T00:00:00+00:00">
   <meta itemprop="wordCount" content="74">
   <meta itemprop="keywords" content="操作系统">
-<link rel="canonical" href="http://localhost:1313/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" />
+<link rel="canonical" href="https://geeteng.github.io/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" />
 
-<link rel="icon" type="image/png" href="http://localhost:1313/image/favicon.ico">
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
 
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/bulma.min.css">
@@ -54,6 +54,28 @@
           ],
           throwOnError: false
         });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
 
 
 
@@ -291,44 +313,44 @@
 	<br>
 	
 	<div class="share-buttons">
-	    <a  href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f"
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Facebook. Opens in a new window.">
 	        <img src=/img/icons/45px/facebook.png>
 	    </a>
 
-	    <a  href="https://twitter.com/intent/tweet?text=%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f"
+	    <a  href="https://twitter.com/intent/tweet?text=%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Twitter. Opens in a new window." >
 	        <img src=/img/icons/45px/twitter.png>
 	    </a>
 
-		<a  href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f"
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Reddit. Opens in a new window." >
 	        <img src=/img/icons/45px/reddit.png>
 	    </a>
 
-	    <a  href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f"
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Pinterest. Opens in a new window." >
 	        <img src=/img/icons/45px/pinterest.png>
 	    </a>
 
-	    <a  href="http://www.tumblr.com/share/link?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f"
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Tumblr. Opens in a new window." >
 	        <img src=/img/icons/45px/tumblr.png>
 	    </a>
 
-		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f
 			&title=%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86&summary=%e5%86%85%e5%ad%98%e5%9b%9e%e6%94%b6OOM%20malloc%e5%88%86%e9%85%8d%e7%9a%84%e6%98%af%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%ef%bc%8c%e8%80%8c%e9%9d%9e%e7%89%a9%e7%90%86%e5%86%85%e5%ad%98%e3%80%82%e5%bd%93%e8%bf%99%e5%9d%97%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e8%a2%ab%e8%af%bb%e5%86%99%e4%ba%86%e7%9a%84%e6%97%b6%e5%80%99%ef%bc%8cCPU%e4%bc%9a%e8%ae%bf%e9%97%ae%e8%bf%99%e5%9d%97%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%ef%bc%8c%e7%84%b6%e5%90%8e%e5%8f%91%e7%8e%b0%e8%af%a5%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e6%b2%a1%e6%9c%89%e8%a2%ab%e6%98%a0%e5%b0%84%e5%88%b0%e7%89%a9%e7%90%86%e5%86%85%e5%ad%98%ef%bc%8cCPU%e5%b0%b1%e4%bc%9a%e4%ba%a7%e7%94%9f%e7%bc%ba%e9%a1%b5%e4%b8%ad%e6%96%ad%ef%bc%8c%e8%bf%9b%e7%a8%8b%e4%bb%8e%e7%94%a8%e6%88%b7%e6%80%81%20%e4%b8%80%26gt%3b%20%e5%86%85%e6%a0%b8%e6%80%81%e3%80%82%0a%e7%bc%ba%e9%a1%b5%e4%b8%ad%e6%96%ad%e5%a4%84%e7%90%86%e5%87%bd%e6%95%b0%ef%bc%88Page%20Fault%20Handler%ef%bc%89%e4%bc%9a%e5%88%a4%e6%96%ad%e6%98%af%e5%90%a6%e6%9c%89%e7%a9%ba%e9%97%b2%e7%9a%84%e7%89%a9%e7%90%86%e5%86%85%e5%ad%98%ef%bc%8c%e5%a6%82%e6%9e%9c%e6%9c%89%ef%bc%8c%e5%b0%b1%e7%9b%b4%e6%8e%a5%e5%88%86%e9%85%8d%e7%89%a9%e7%90%86%e5%86%85%e5%ad%98%ef%bc%8c%e5%90%a6%e5%88%99%e5%9b%9e%e6%94%b6%e5%86%85%e5%ad%98%e3%80%82%0a%e6%9c%89%e4%b8%a4%e7%a7%8d%e5%9b%9e%e6%94%b6%e5%86%85%e5%ad%98%e7%9a%84%e6%96%b9%e5%bc%8f%ef%bc%9a%e5%90%8e%e5%8f%b0%e5%86%85%e5%ad%98%e5%9b%9e%e6%94%b6%ef%bc%88%e5%bc%82%e6%ad%a5%ef%bc%89%e3%80%81%e7%9b%b4%e6%8e%a5%e5%86%85%e5%ad%98%e5%9b%9e%e6%94%b6%ef%bc%88%e5%a6%82%e6%9e%9c%e5%90%8e%e5%8f%b0%e5%9b%9e%e6%94%b6%e8%b7%9f%e4%b8%8d%e4%b8%8a%e8%bf%9b%e7%a8%8b%e5%86%85%e5%ad%98%e7%94%b3%e8%af%b7%e7%9a%84%e9%80%9f%e5%ba%a6%e5%b0%b1%e4%bc%9a%e5%bc%80%e5%a7%8b%e7%9b%b4%e6%8e%a5%e5%9b%9e%e6%94%b6%ef%bc%8c%e8%bf%99%e4%b8%aa%e8%bf%87%e7%a8%8b%e6%98%af%e5%90%8c%e6%ad%a5%e7%9a%84%ef%bc%8c%e4%bc%9a%e9%98%bb%e5%a1%9e%e8%bf%9b%e7%a8%8b%e6%89%a7%e8%a1%8c%ef%bc%89%e3%80%82%0a%e5%a6%82%e6%9e%9c%e7%9b%b4%e6%8e%a5%e5%86%85%e5%ad%98%e5%9b%9e%e6%94%b6%ef%bc%8c%e4%bb%8d%e6%97%a7%e4%b8%8d%e6%bb%a1%e8%b6%b3%e7%94%b3%e8%af%b7%e7%9a%84%e5%86%85%e5%ad%98%e5%a4%a7%e5%b0%8f%ef%bc%8c%e9%82%a3%e4%b9%88%e5%b0%b1%e4%bc%9a%e8%a7%a6%e5%8f%91OOM%ef%bc%88Out%20Of%20Memory%ef%bc%89%e6%9c%ba%e5%88%b6%e3%80%82%0aOOM%e6%9c%ba%e5%88%b6%e4%bc%9a%e6%a0%b9%e6%8d%ae%e7%ae%97%e6%b3%95%e6%9d%80%e6%ad%bb%e4%b8%80%e4%b8%aa%e5%8d%a0%e7%94%a8%e7%89%a9%e7%90%86%e5%86%85%e5%ad%98%e6%9c%80%e9%ab%98%e7%9a%84%e8%bf%9b%e7%a8%8b%ef%bc%8c%e5%a6%82%e6%9e%9c%e8%bf%98%e6%98%af%e6%97%a0%e6%b3%95%e6%bb%a1%e8%b6%b3%ef%bc%8c%e7%bb%a7%e7%bb%ad%e6%9d%80%e6%ad%bb%e8%bf%9b%e7%a8%8b%ef%bc%8c%e7%9b%b4%e5%88%b0%e9%87%8a%e6%94%be%e8%b6%b3%e5%a4%9f%e5%a4%9a%e7%9a%84%e5%86%85%e5%ad%98%e3%80%82%0a%e5%a6%82%e4%bd%95%e4%bf%9d%e6%8a%a4%e4%b8%80%e4%b8%aa%e8%bf%9b%e7%a8%8b%e4%b8%8d%e8%a2%abOOM%e6%9d%80%e6%8e%89%e5%91%a2%ef%bc%9f%0aLinux%e4%b8%ad%e9%80%9a%e8%bf%87oom_badness%28%29%e5%af%b9%e6%af%8f%e4%b8%aa%e8%bf%9b%e7%a8%8b%e6%89%93%e5%88%86%ef%bc%8c%e5%be%97%e5%88%86%e6%9c%80%e9%ab%98%e7%9a%84%e8%bf%9b%e7%a8%8b%e4%bc%9a%e8%a2%ab%e6%9d%80%e6%8e%89%e3%80%82%e5%be%97%e5%88%86%e6%9c%ba%e5%88%b6%ef%bc%9a%0a%e8%bf%9b%e7%a8%8b%e6%89%80%e5%8d%a0%e7%94%a8%e7%89%a9%e7%90%86%e5%86%85%e5%ad%98%e9%a1%b5%e9%9d%a2%e6%95%b0%e9%87%8f%20%e6%af%8f%e4%b8%aa%e8%bf%9b%e7%a8%8b%e7%9a%84OOM%e6%a0%a1%e5%87%86%e5%80%bcoom_score_adj%20%5b-1000%2c%201000%5d%20%e6%88%91%e4%bb%ac%e5%8f%af%e4%bb%a5%e9%80%9a%e8%bf%87%e8%b0%83%e6%95%b4%e6%a0%a1%e5%87%86%e5%80%bc%e6%9d%a5%e9%98%b2%e6%ad%a2%e8%bf%9b%e7%a8%8b%e8%a2%abOOM%e6%9d%80%e6%8e%89%e3%80%82%e6%af%94%e5%a6%82%e8%af%b4%e8%ae%be%e7%bd%ae%e6%88%90-1000%ef%bc%8c%e6%97%a0%e8%ae%ba%e5%a6%82%e4%bd%95%e9%83%bd%e4%b8%8d%e4%bc%9a%e8%a2%ab%e6%9d%80%e6%8e%89%e3%80%82%e4%bd%86%e6%98%af%e4%b8%8d%e5%bb%ba%e8%ae%ae%e5%b0%86%e4%b8%9a%e5%8a%a1%e7%a8%8b%e5%ba%8f%e8%bf%99%e6%a0%b7%e8%ae%be%e7%bd%ae%ef%bc%8c%e5%9b%a0%e4%b8%ba%e5%a6%82%e6%9e%9c%e6%9f%90%e4%b8%aa%e4%b8%9a%e5%8a%a1%e7%a8%8b%e5%ba%8f%e5%8f%91%e7%94%9f%e5%86%85%e5%ad%98%e6%b3%84%e6%bc%8f%ef%bc%8c%e8%80%8c%e5%8f%88%e6%97%a0%e6%b3%95%e8%a2%ab%e6%9d%80%e6%8e%89%ef%bc%8c%e9%82%a3%e4%b9%88OOM%e4%bc%9a%e6%8a%8a%e5%85%b6%e4%bb%96%e8%bf%9b%e7%a8%8b%e9%83%bd%e6%9d%80%e6%8e%89%e4%ba%86%e3%80%82%0a%e6%96%87%e4%bb%b6%e9%a1%b5%e5%92%8c%e5%8c%bf%e5%90%8d%e9%a1%b5%20%e5%93%aa%e4%ba%9b%e5%86%85%e5%ad%98%e4%bc%9a%e8%a2%ab%e5%9b%9e%e6%94%b6%ef%bc%9f%0a%e6%96%87%e4%bb%b6%e9%a1%b5%ef%bc%9a%e5%86%85%e6%a0%b8%e7%bc%93%e5%ad%98%e7%9a%84%e6%96%87%e4%bb%b6%e6%95%b0%e6%8d%ae%ef%bc%88Cache%ef%bc%89%e5%92%8c%e5%86%85%e6%a0%b8%e7%bc%93%e5%ad%98%e7%9a%84%e7%a3%81%e7%9b%98%e6%95%b0%e6%8d%ae%ef%bc%88Buffer%ef%bc%89%e9%83%bd%e5%b1%9e%e4%ba%8e%e6%96%87%e4%bb%b6%e9%a1%b5%e3%80%82%e5%a6%82%e6%9e%9c%e8%a2%ab%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e4%bf%ae%e6%94%b9%e8%bf%87%e5%b9%b6%e4%b8%94%e8%bf%98%e6%b2%a1%e5%86%99%e5%85%a5%e7%a3%81%e7%9b%98%e7%9a%84%e6%95%b0%e6%8d%ae%e5%8f%ab%e5%81%9a%e8%84%8f%e9%a1%b5%e3%80%82%e5%9b%9e%e6%94%b6%e5%b9%b2%e5%87%80%e9%a1%b5%e7%9a%84%e6%96%b9%e5%bc%8f%e6%98%af%e7%9b%b4%e6%8e%a5%e9%87%8a%e6%94%be%e5%86%85%e5%ad%98%ef%bc%8c%e5%9b%9e%e6%94%b6%e8%84%8f%e9%a1%b5%e7%9a%84%e6%96%b9%e5%bc%8f%e6%98%af%e5%85%88%e5%86%99%e5%9b%9e%e7%a3%81%e7%9b%98%e5%90%8e%e5%86%8d%e9%87%8a%e6%94%be%e5%86%85%e5%ad%98%e3%80%82%0a%e5%8c%bf%e5%90%8d%e9%a1%b5%ef%bc%9a%e6%b2%a1%e6%9c%89%e7%a3%81%e7%9b%98%e8%bf%99%e6%a0%b7%e7%9a%84%e5%ae%9e%e9%99%85%e8%bd%bd%e4%bd%93%ef%bc%8c%e6%af%94%e5%a6%82%e6%a0%88%e5%92%8c%e5%a0%86%e3%80%82%e8%bf%99%e4%ba%9b%e5%86%85%e5%ad%98%e4%b8%8d%e8%83%bd%e7%9b%b4%e6%8e%a5%e9%87%8a%e6%94%be%ef%bc%8c%e5%9b%a0%e4%b8%ba%e5%be%88%e5%8f%af%e8%83%bd%e4%bc%9a%e5%86%8d%e6%ac%a1%e8%a2%ab%e8%ae%bf%e9%97%ae%e3%80%82%e5%b0%86%e4%b8%8d%e5%b8%b8%e8%ae%bf%e9%97%ae%e7%9a%84%e6%95%b0%e6%8d%ae%e6%8d%a2%e5%87%ba%e7%89%a9%e7%90%86%e5%86%85%e5%ad%98%e6%94%be%e5%88%b0%e7%a3%81%e7%9b%98%e4%b8%ad%e7%9a%84swap%e5%88%86%e5%8c%ba%ef%bc%8c%e5%a6%82%e6%9e%9c%e9%9c%80%e8%a6%81%e8%ae%bf%e9%97%ae%ef%bc%8c%e5%b0%b1%e4%bb%8e%e7%a3%81%e7%9b%98%e4%b8%ad%e8%af%bb%e5%85%a5%e5%86%85%e5%ad%98%ef%bc%88%e4%bc%9a%e5%8f%91%e7%94%9f%e7%bc%ba%e9%a1%b5%e4%b8%ad%e6%96%ad%ef%bc%89%e8%80%8c%e5%b8%b8%e8%ae%bf%e9%97%ae%e7%9a%84%e6%95%b0%e6%8d%ae%e4%bc%9a%e5%9c%a8%e7%89%a9%e7%90%86%e5%86%85%e5%ad%98RAM%20%2f%20Cache%20%2f%20TLB%e2%80%94%e2%80%94%e7%b3%bb%e7%bb%9f%e4%bc%9a%e6%a0%b9%e6%8d%ae%e6%95%b0%e6%8d%ae%e7%9a%84%e8%ae%bf%e9%97%ae%e7%83%ad%e5%ba%a6%ef%bc%8c%e5%9c%a8%e5%a4%9a%e4%b8%aa%e5%b1%82%e6%ac%a1%e8%87%aa%e5%8a%a8%e5%81%9a%e7%bc%93%e5%ad%98%e6%88%96%e5%b8%b8%e9%a9%bb%e5%a4%84%e7%90%86%e3%80%82%0a%e6%96%87%e4%bb%b6%e9%a1%b5%e6%98%af%e6%af%94%e5%a6%82%e8%af%b4%e6%88%91d%e7%9b%98%e9%87%8c%e6%9c%89%e4%b8%80%e4%b8%aa%e6%96%87%e4%bb%b6%e7%84%b6%e5%90%8e%e7%a8%8b%e5%ba%8f%e5%8e%bb%e8%af%bb%e5%8f%96%ef%bc%8c%e8%af%bb%e5%8f%96%e4%b9%8b%e5%90%8e%e5%8f%af%e4%bb%a5%e4%b8%a2%e6%8e%89%e5%9b%a0%e4%b8%ba%e7%a3%81%e7%9b%98%e9%87%8c%e6%9c%89%e8%bf%99%e4%b8%aa%e4%b8%9c%e8%a5%bf%ef%bc%8c%e4%bd%86%e6%98%af%e5%8c%bf%e5%90%8d%e9%a1%b5%e6%98%af%e6%b2%a1%e6%9c%89%e5%ae%9e%e9%99%85%e8%bd%bd%e4%bd%93%ef%bc%8c%e6%98%af%e5%9c%a8%e7%a8%8b%e5%ba%8f%e8%bf%90%e8%a1%8c%e4%b8%ad%e5%88%86%e9%85%8d%e7%9a%84%e6%95%b0%e6%8d%ae%e3%80%82%0a%e6%96%87%e4%bb%b6%e9%a1%b5%e5%92%8c%e5%8c%bf%e5%90%8d%e9%a1%b5%e7%9a%84%e5%9b%9e%e6%94%b6%e9%83%bd%e5%9f%ba%e4%ba%8eLRU%e7%ae%97%e6%b3%95%e3%80%82%0a%e5%9b%9e%e6%94%b6%e5%86%85%e5%ad%98%e9%99%a4%e4%ba%86%e5%9b%9e%e6%94%b6%e5%b9%b2%e5%87%80%e9%a1%b5%ef%bc%8c%e9%83%bd%e4%bc%9a%e5%8f%91%e7%94%9f%e7%a3%81%e7%9b%98%20I%2fO%e7%9a%84%ef%bc%8c%e8%bf%99%e4%bc%9a%e5%bd%b1%e5%93%8d%e7%b3%bb%e7%bb%9f%e6%80%a7%e8%83%bd%e3%80%82%0a%e5%8f%af%e4%bb%a5%e7%94%b3%e8%af%b7%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e8%b6%85%e8%bf%87%e7%89%a9%e7%90%86%e5%86%85%e5%ad%98%e5%90%97%ef%bc%9f%0a%e5%9c%a832%e4%bd%8d%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%ef%bc%8c%e8%bf%9b%e7%a8%8b%e6%9c%80%e5%a4%a7%e5%8f%aa%e8%83%bd%e7%94%b3%e8%af%b73GB%e7%9a%84%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e3%80%82%0a%e5%9c%a864%e4%bd%8d%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%ef%bc%8c%e8%bf%9b%e7%a8%8b%e6%9c%80%e5%a4%a7%e5%8f%af%e4%bb%a5%e7%94%b3%e8%af%b7128TB%e7%9a%84%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e3%80%82%0a%e6%89%80%e4%bb%a5%e5%a6%82%e6%9e%9c%e6%83%b3%e5%9c%a84GB%e7%9a%84%e7%89%a9%e7%90%86%e5%86%85%e5%ad%98%e7%a9%ba%e9%97%b4%e4%b8%8a%e7%9b%b4%e6%8e%a5%e7%94%b3%e8%af%b78GB%e7%9a%84%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%ef%bc%8c%e5%9c%a832%e4%bd%8d%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e4%b8%8a%e4%bc%9a%e7%94%b3%e8%af%b7%e5%a4%b1%e8%b4%a5%ef%bc%8c%e8%80%8c%e5%9c%a864%e4%bd%8d%e4%bc%9a%e6%88%90%e5%8a%9f%e3%80%82%0a%e5%a6%82%e6%9e%9c%e6%9c%89Swap%e5%88%86%e5%8c%ba%ef%bc%8c%e5%8d%b3%e4%bd%bf%e7%89%a9%e7%90%86%e5%86%85%e5%ad%98%e5%8f%aa%e6%9c%894GB%ef%bc%8c%e8%bf%9b%e7%a8%8b%e4%b9%9f%e5%8f%af%e4%bb%a5%e6%ad%a3%e5%b8%b8%e4%bd%bf%e7%94%a88GB%e7%9a%84%e5%86%85%e5%ad%98%e3%80%82%0aLRU%e9%a2%84%e8%af%bb%e5%a4%b1%e6%95%88%20LRU%e9%a2%84%e8%af%bb%e5%a4%b1%e6%95%88%e6%80%8e%e4%b9%88%e5%8a%9e%ef%bc%9f%0a%e5%a6%82%e6%9e%9c%e5%ba%94%e7%94%a8%e7%a8%8b%e5%ba%8f%e6%83%b3%e8%af%bb%e5%8f%96%200%20-%203KB%20%e8%8c%83%e5%9b%b4%e5%86%85%e7%9a%84%e6%95%b0%e6%8d%ae%ef%bc%8c%e7%94%b1%e4%ba%8e%e7%a3%81%e7%9b%98%e5%9f%ba%e6%9c%ac%e8%af%bb%e5%86%99%e5%8d%95%e4%bd%8d%e4%b8%ba%20block%ef%bc%884KB%ef%bc%89%ef%bc%8c%e4%ba%8e%e6%98%af%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e8%87%b3%e5%b0%91%e4%bc%9a%e8%af%bb%200%20-%204KB%20%e7%9a%84%e5%86%85%e5%ae%b9%ef%bc%8c%e4%bd%86%e6%98%af%e7%94%b1%e4%ba%8e%e7%a9%ba%e9%97%b4%e5%b1%80%e9%83%a8%e6%80%a7%e5%8e%9f%e7%90%86%ef%bc%88%e9%9d%a0%e8%bf%91%e5%bd%93%e5%89%8d%e8%a2%ab%e8%ae%bf%e9%97%ae%e6%95%b0%e6%8d%ae%e7%9a%84%e6%95%b0%e6%8d%ae%ef%bc%8c%e5%9c%a8%e6%9c%aa%e6%9d%a5%e5%be%88%e5%a4%a7%e6%a6%82%e7%8e%87%e4%bc%9a%e8%a2%ab%e8%ae%bf%e9%97%ae%e5%88%b0%ef%bc%89%ef%bc%8c%e6%89%80%e4%bb%a5%e4%bc%9a%e6%8a%8a%5b4%2c%208%5d%ef%bc%8c%5b8%2c%2012%5d%e4%bb%a5%e5%8f%8a%5b12%2c%2016%5d%e9%83%bd%e5%8a%a0%e8%bd%bd%e5%88%b0%e5%86%85%e5%ad%98%e3%80%82%0a%e9%a2%84%e8%af%bb%e6%9c%ba%e5%88%b6%e5%b8%a6%e6%9d%a5%e7%9a%84%e5%a5%bd%e5%a4%84%e6%98%af%e5%87%8f%e5%b0%91%e7%a3%81%e7%9b%98%20I%2fO%20%e6%ac%a1%e6%95%b0%ef%bc%8c%e6%8f%90%e9%ab%98%e7%b3%bb%e7%bb%9f%e7%a3%81%e7%9b%98%20I%2fO%20%e5%90%9e%e5%90%90%e9%87%8f%e3%80%82%0a%e9%a2%84%e8%af%bb%e5%a4%b1%e6%95%88%ef%bc%9a%e5%b0%b1%e6%98%af%e8%bf%99%e4%ba%9b%e8%a2%ab%e6%8f%90%e5%89%8d%e5%8a%a0%e8%bd%bd%e8%bf%9b%e6%9d%a5%e7%9a%84%e9%a1%b5%e9%9d%a2%e6%b2%a1%e6%9c%89%e8%a2%ab%e8%ae%bf%e9%97%ae%ef%bc%8c%e7%9b%b8%e5%bd%93%e4%ba%8e%e9%a2%84%e8%af%bb%e7%99%bd%e5%81%9a%e4%ba%86%e3%80%82%e4%b8%8d%e4%bc%9a%e8%a2%ab%e8%ae%bf%e9%97%ae%e7%9a%84%e9%a2%84%e8%af%bb%e9%a1%b5%e5%8d%b4%e5%8d%a0%e7%94%a8%e4%ba%86%20LRU%20%e9%93%be%e8%a1%a8%e5%89%8d%e6%8e%92%e7%9a%84%e4%bd%8d%e7%bd%ae%ef%bc%8c%e8%80%8c%e6%9c%ab%e5%b0%be%e6%b7%98%e6%b1%b0%e7%9a%84%e9%a1%b5%ef%bc%8c%e5%8f%af%e8%83%bd%e6%98%af%e7%83%ad%e7%82%b9%e6%95%b0%e6%8d%ae%ef%bc%8c%e8%bf%99%e6%a0%b7%e5%b0%b1%e5%a4%a7%e5%a4%a7%e9%99%8d%e4%bd%8e%e4%ba%86%e7%bc%93%e5%ad%98%e5%91%bd%e4%b8%ad%e7%8e%87%e3%80%82%0a%e6%83%b3%e8%a6%81%e9%81%bf%e5%85%8d%e9%a2%84%e8%af%bb%e5%a4%b1%e6%95%88%ef%bc%8c%e5%b0%b1%e8%a6%81%e5%b0%bd%e5%8f%af%e8%83%bd%e5%9c%b0%e4%bf%9d%e8%af%81%e9%a2%84%e8%af%bb%e7%9a%84%e6%95%b0%e6%8d%ae%e5%81%9c%e7%95%99%e5%86%85%e5%ad%98%e7%9a%84%e6%97%b6%e9%97%b4%e8%a6%81%e7%9f%ad%ef%bc%8c%e7%9c%9f%e6%ad%a3%e7%9a%84%e7%83%ad%e7%82%b9%e6%95%b0%e6%8d%ae%e5%b0%bd%e5%8f%af%e8%83%bd%e4%b9%85%e7%9a%84%e7%95%99%e5%9c%a8%e5%86%85%e5%ad%98%e3%80%82Linux%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e5%b0%b1%e5%ae%9e%e7%8e%b0%e4%ba%86%e4%b8%a4%e4%b8%aaLRU%e9%93%be%e8%a1%a8%ef%bc%9a%e6%b4%bb%e8%b7%83LRU%e9%93%be%e8%a1%a8%28active_list%29%e5%92%8c%e9%9d%9e%e6%b4%bb%e8%b7%83LRU%e9%93%be%e8%a1%a8%28inactive_list%29%e3%80%82%0a%e9%a2%84%e8%af%bb%e9%a1%b5%e5%b0%b1%e5%8f%aa%e9%9c%80%e8%a6%81%e5%8a%a0%e5%85%a5%e5%88%b0%20inactive%20list%20%e5%8c%ba%e5%9f%9f%e7%9a%84%e5%a4%b4%e9%83%a8%ef%bc%8c%e5%bd%93%e9%a1%b5%e8%a2%ab%e7%9c%9f%e6%ad%a3%e8%ae%bf%e9%97%ae%e7%9a%84%e6%97%b6%e5%80%99%ef%bc%8c%e6%89%8d%e5%b0%86%e9%a1%b5%e6%8f%92%e5%85%a5%20active%20list%20%e7%9a%84%e5%a4%b4%e9%83%a8%e3%80%82%0a%e7%bc%93%e5%ad%98%e6%b1%a1%e6%9f%93%20%e7%bc%93%e5%ad%98%e6%b1%a1%e6%9f%93%e6%80%8e%e4%b9%88%e5%8a%9e%ef%bc%9f%0a%e8%99%bd%e7%84%b6%e4%b8%a4%e4%b8%aaLRU%e9%93%be%e8%a1%a8%e5%8f%af%e4%bb%a5%e8%a7%a3%e5%86%b3%e9%a2%84%e8%af%bb%e5%a4%b1%e6%95%88%e7%9a%84%e9%97%ae%e9%a2%98%ef%bc%8c%e4%bd%86%e6%98%af%e8%bf%98%e4%bc%9a%e5%ad%98%e5%9c%a8%e7%bc%93%e5%ad%98%e6%b1%a1%e6%9f%93%e7%9a%84%e9%97%ae%e9%a2%98%e3%80%82%e5%bd%93%e6%89%b9%e9%87%8f%e8%af%bb%e5%8f%96%e6%95%b0%e6%8d%ae%e6%97%b6%ef%bc%8c%e5%a6%82%e6%9e%9c%e6%95%b0%e6%8d%ae%e8%a2%ab%e8%ae%bf%e9%97%ae%e4%ba%86%e4%b8%80%e6%ac%a1%e5%b0%b1%e5%8a%a0%e5%85%a5%e5%88%b0LRU%e4%b8%ad%ef%bc%8c%e9%82%a3%e4%b9%88%e6%b4%bb%e8%b7%83%e9%93%be%e8%a1%a8%e4%b8%ad%e4%bc%9a%e4%b8%80%e4%b8%8b%e5%ad%90%e6%b7%98%e6%b1%b0%e4%ba%86%e5%be%88%e5%a4%9a%e7%83%ad%e7%82%b9%e6%95%b0%e6%8d%ae%ef%bc%8c%e8%80%8c%e9%82%a3%e4%ba%9b%e8%a2%ab%e6%96%b0%e5%8a%a0%e5%85%a5%e7%9a%84%e6%95%b0%e6%8d%ae%e5%be%88%e9%95%bf%e4%b8%80%e6%ae%b5%e6%97%b6%e9%97%b4%e4%b8%8d%e4%bc%9a%e8%a2%ab%e8%ae%bf%e9%97%ae%ef%bc%8c%e5%af%bc%e8%87%b4%e4%ba%86%e6%95%b4%e4%b8%aaLRU%e6%b4%bb%e8%b7%83%e9%93%be%e8%a1%a8%e8%a2%ab%e6%b1%a1%e6%9f%93%e3%80%82%e7%ad%89%e5%88%b0%e4%b8%8b%e4%b8%80%e6%ac%a1%e8%af%bb%e5%88%b0%e9%82%a3%e4%ba%9b%e7%83%ad%e7%82%b9%e6%95%b0%e6%8d%ae%e7%9a%84%e6%97%b6%e5%80%99%ef%bc%8c%e4%b8%80%e4%b8%8b%e5%ad%90%e5%8f%91%e7%94%9f%e4%ba%86%e5%be%88%e5%a4%9a%e6%ac%a1%e7%a3%81%e7%9b%98I%2fO%ef%bc%8c%e6%80%a7%e8%83%bd%e6%80%a5%e5%89%a7%e4%b8%8b%e9%99%8d%e3%80%82&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>
 	    </a>
 
-	    <a  href="mailto:?subject=%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86&amp;body=Check out this site http%3a%2f%2flocalhost%3a1313%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f"
+	    <a  href="mailto:?subject=%e5%86%85%e5%ad%98%e7%ae%a1%e7%90%86&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fcs_basic%2f%25E6%2593%258D%25E4%25BD%259C%25E7%25B3%25BB%25E7%25BB%259F%2f%25E5%2586%2585%25E5%25AD%2598%25E7%25AE%25A1%25E7%2590%2586%2f"
 	        title="Share via Email. Opens in a new window." >
 	        <img src=/img/icons/45px/mail.png>
 	    </a>

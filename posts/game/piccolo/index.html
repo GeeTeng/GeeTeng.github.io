@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
 
     <title>
     Piccolo引擎编译运行 | 
@@ -14,7 +14,7 @@
     ">
 
 
-<meta property="og:url" content="http://localhost:1313/posts/game/piccolo/">
+<meta property="og:url" content="https://geeteng.github.io/posts/game/piccolo/">
   <meta property="og:site_name" content="GeeTeng">
   <meta property="og:title" content="Piccolo引擎编译运行">
   <meta property="og:description" content="源码解读 添加lua、sol2">
@@ -37,9 +37,9 @@
   <meta itemprop="dateModified" content="2024-12-15T00:00:00+00:00">
   <meta itemprop="wordCount" content="242">
   <meta itemprop="keywords" content="Game">
-<link rel="canonical" href="http://localhost:1313/posts/game/piccolo/" />
+<link rel="canonical" href="https://geeteng.github.io/posts/game/piccolo/" />
 
-<link rel="icon" type="image/png" href="http://localhost:1313/image/favicon.ico">
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
 
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/bulma.min.css">
@@ -54,6 +54,28 @@
           ],
           throwOnError: false
         });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
 
 
 
@@ -376,44 +398,44 @@
 	<br>
 	
 	<div class="share-buttons">
-	    <a  href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fgame%2fpiccolo%2f"
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2fpiccolo%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Facebook. Opens in a new window.">
 	        <img src=/img/icons/45px/facebook.png>
 	    </a>
 
-	    <a  href="https://twitter.com/intent/tweet?text=Piccolo%e5%bc%95%e6%93%8e%e7%bc%96%e8%af%91%e8%bf%90%e8%a1%8c&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgame%2fpiccolo%2f"
+	    <a  href="https://twitter.com/intent/tweet?text=Piccolo%e5%bc%95%e6%93%8e%e7%bc%96%e8%af%91%e8%bf%90%e8%a1%8c&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2fpiccolo%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Twitter. Opens in a new window." >
 	        <img src=/img/icons/45px/twitter.png>
 	    </a>
 
-		<a  href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgame%2fpiccolo%2f"
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2fpiccolo%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Reddit. Opens in a new window." >
 	        <img src=/img/icons/45px/reddit.png>
 	    </a>
 
-	    <a  href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgame%2fpiccolo%2f"
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2fpiccolo%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Pinterest. Opens in a new window." >
 	        <img src=/img/icons/45px/pinterest.png>
 	    </a>
 
-	    <a  href="http://www.tumblr.com/share/link?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgame%2fpiccolo%2f"
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2fpiccolo%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Tumblr. Opens in a new window." >
 	        <img src=/img/icons/45px/tumblr.png>
 	    </a>
 
-		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fgame%2fpiccolo%2f
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2fpiccolo%2f
 			&title=Piccolo%e5%bc%95%e6%93%8e%e7%bc%96%e8%af%91%e8%bf%90%e8%a1%8c&summary=%e6%9e%84%e5%bb%ba%20%e6%9e%84%e5%bb%baPiccolo%e7%9a%84sln%e6%96%87%e4%bb%b6%ef%bc%8c%e8%bf%90%e8%a1%8c%e5%9c%a8Visual%20Studio2022%e4%b8%ad%0a%e6%ba%90%e7%a0%81%e8%a7%a3%e8%af%bb%20%e5%9c%a8Runtime%e6%96%87%e4%bb%b6%e5%a4%b9%e4%b8%8b%e9%9d%a2%e6%9c%89%e5%9b%9b%e4%b8%aa%e5%ad%90%e6%96%87%e4%bb%b6%e5%a4%b9%ef%bc%8c%e6%a0%b8%e5%bf%83%e5%b1%82%e3%80%81%e5%8a%9f%e8%83%bd%e5%b1%82%e3%80%81%e8%b5%84%e6%ba%90%e5%b1%82%e3%80%81%e5%b9%b3%e5%8f%b0%e5%b1%82%ef%bc%8c%e4%bb%a5%e5%8f%8aengine.cpp%e5%92%8cengine.h%ef%bc%88%e6%95%b4%e4%b8%aa%e5%bc%95%e6%93%8e%e7%9a%84%e5%85%a5%e5%8f%a3%ef%bc%89%e3%80%82%0a%e6%89%93%e5%bc%80engine.cpp%e5%85%b6%e4%b8%ad%e6%9c%894%e4%b8%aa%e9%87%8d%e8%a6%81%e7%9a%84%e5%87%bd%e6%95%b0%ef%bc%8cStartEngine%e3%80%81shutdownEngine%e3%80%81run%e3%80%81tickOneFrame%e3%80%82%0aStartEngine%e3%80%81shutdownEngine%e4%b8%80%e4%b8%aa%e6%b3%a8%e5%86%8c%e7%b1%bb%e5%9e%8b%e6%ba%90%e4%bf%a1%e6%81%af%ef%bc%8c%e4%b8%80%e4%b8%aa%e5%8f%96%e6%b6%88%e6%b3%a8%e5%86%8c%ef%bc%8c%e7%9b%b8%e5%af%b9%e7%9a%84%e5%87%bd%e6%95%b0%e3%80%82%0avoid%20PiccoloEngine%3a%3arun%28%29%20%7b%20std%3a%3ashared_ptr%26lt%3bWindowSystem%26gt%3b%20window_system%20%3d%20g_runtime_global_context.m_window_system%3b%20ASSERT%28window_system%29%3b%20while%20%28%21window_system-%26gt%3bshouldClose%28%29%29%20%7b%20const%20float%20delta_time%20%3d%20calculateDeltaTime%28%29%3b%20tickOneFrame%28delta_time%29%3b%20%7d%20%7d%20run%e4%b8%ad%ef%bc%8c%e5%bd%93%e7%aa%97%e5%8f%a3%e6%b2%a1%e6%9c%89%e5%85%b3%e9%97%ad%e6%97%b6%ef%bc%8c%e4%b8%8d%e6%96%ad%e6%89%a7%e8%a1%8ctickOneFrame%e3%80%82%e7%82%b9%e5%87%bbg_runtime_global_context%e8%bf%9b%e5%85%a5%e5%88%b0global_context%e6%96%87%e4%bb%b6%e4%b8%ad%e3%80%82%0a%e5%8f%91%e7%8e%b0%e5%a3%b0%e6%98%8e%e4%ba%86%e4%b8%80%e4%b8%aa%e5%85%a8%e5%b1%80%e5%8f%98%e9%87%8f%ef%bc%8c%e5%b9%b6%e4%b8%94%e5%ae%9e%e4%be%8b%e5%8c%96%e5%be%88%e5%a4%9aManager%ef%bc%88%e7%89%a9%e7%90%86%e3%80%81%e7%b2%92%e5%ad%90%e7%ad%89%ef%bc%89%e3%80%81System%ef%bc%88%e7%aa%97%e5%8f%a3%e3%80%81%e6%b8%b2%e6%9f%93%e7%ad%89%ef%bc%89%0aRuntimeGlobalContext%20g_runtime_global_context%3b%20void%20RuntimeGlobalContext%3a%3astartSystems%28const%20std%3a%3astring%26amp%3b%20config_file_path%29%20%7b%20m_config_manager%20%3d%20std%3a%3amake_shared%26lt%3bConfigManager%26gt%3b%28%29%3b%20m_config_manager-%26gt%3binitialize%28config_file_path%29%3b%20m_file_system%20%3d%20std%3a%3amake_shared%26lt%3bFileSystem%26gt%3b%28%29%3b%20...%20%7d%20tickOneFrame%e4%b8%adlogicalTick%28delta_time%29%3b%e9%80%bb%e8%be%91Tick%e3%80%81calculateFPS%28delta_time%29%3b%e8%ae%a1%e7%ae%97FPS%e3%80%81rendererTick%28delta_time%29%3b%e6%b8%b2%e6%9f%93Tick%e3%80%82%0avoid%20PiccoloEngine%3a%3alogicalTick%28float%20delta_time%29%20%7b%20%2f%2f%20tick%20world%20%e5%92%8c%20%e7%94%a8%e6%88%b7%e8%be%93%e5%85%a5%20g_runtime_global_context.m_world_manager-%26gt%3btick%28delta_time%29%3b%20g_runtime_global_context.m_input_system-%26gt%3btick%28%29%3b%20%7d%20void%20WorldManager%3a%3atick%28float%20delta_time%29%20%7b%20if%20%28%21m_is_world_loaded%29%20%7b%20loadWorld%28m_current_world_url%29%3b%20%7d%20%2f%2f%20tick%20the%20active%20level%20std%3a%3ashared_ptr%26lt%3bLevel%26gt%3b%20active_level%20%3d%20m_current_active_level.&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>
 	    </a>
 
-	    <a  href="mailto:?subject=Piccolo%e5%bc%95%e6%93%8e%e7%bc%96%e8%af%91%e8%bf%90%e8%a1%8c&amp;body=Check out this site http%3a%2f%2flocalhost%3a1313%2fposts%2fgame%2fpiccolo%2f"
+	    <a  href="mailto:?subject=Piccolo%e5%bc%95%e6%93%8e%e7%bc%96%e8%af%91%e8%bf%90%e8%a1%8c&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2fpiccolo%2f"
 	        title="Share via Email. Opens in a new window." >
 	        <img src=/img/icons/45px/mail.png>
 	    </a>

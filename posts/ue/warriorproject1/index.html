@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    Warrior项目笔记 1 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Warrior项目笔记第一部分
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/ue/warriorproject1/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="Warrior项目笔记 1">
+  <meta property="og:description" content="Warrior项目笔记第一部分">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-05T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-11-05T00:00:00+00:00">
+    <meta property="article:tag" content="UE5">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Warrior项目笔记 1">
+  <meta name="twitter:description" content="Warrior项目笔记第一部分">
+
+
+  <meta itemprop="name" content="Warrior项目笔记 1">
+  <meta itemprop="description" content="Warrior项目笔记第一部分">
+  <meta itemprop="datePublished" content="2025-11-05T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-11-05T00:00:00+00:00">
+  <meta itemprop="wordCount" content="739">
+  <meta itemprop="keywords" content="UE5">
+<link rel="canonical" href="https://geeteng.github.io/posts/ue/warriorproject1/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#hard-reference--soft-reference">Hard Reference &amp; Soft Reference</a></li>
+        <li><a href="#输入绑定流程">输入绑定流程</a>
+          <ul>
+            <li><a href="#gameplaytags全局访问">GameplayTags全局访问</a></li>
+            <li><a href="#input-config-data-asset">Input Config Data Asset</a></li>
+            <li><a href="#自定义输入组件">自定义输入组件</a></li>
+            <li><a href="#绑定输入定义callbacks">绑定输入定义callbacks</a></li>
+          </ul>
+        </li>
+        <li><a href="#角色动画">角色动画</a></li>
+        <li><a href="#武器生成">武器生成</a>
+          <ul>
+            <li><a href="#创建武器类">创建武器类</a></li>
+            <li><a href="#配置角色初始化能力">配置角色初始化能力</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>Warrior项目笔记 1</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Nov 5, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        24 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/ue5">UE5</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/ue5">Ue5</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h2 id="hard-reference--soft-reference">Hard Reference &amp; Soft Reference</h2>
+<p><strong>Reference Viewer</strong> 引用查看器显示的白色线条是硬引用关系，粉色线条是软引用关系。比如一个蓝图在属性里引用了某个材质、贴图、Mesh等。</p>
+<p>如下图所示，右边的所有内容是角色的依赖项，左边的所有内容依赖于角色资产：</p>
+<p><img src="/images/UE/WarriorProject/0.png" alt="1761894933114"></p>
+<p>硬引用示例：</p>
+<ol>
+<li>蓝图的 <code>Cast to XXXX</code> 节点会导致硬引用对象，即使存在但不使用该节点也会硬引用cast对象。这是因为：当你使用 <code>Cast To BP_XXX</code> 节点时，蓝图编译器会在生成的 bytecode 里记录该蓝图类的引用（<code>UBlueprintGeneratedClass</code> 对象）以及<code>SpawnActorFromClass</code>也会导致硬引用。</li>
+<li>蓝图变量引用资源或者继承自另一个BP类。</li>
+<li>C++中使用FObjectFinder，构造期强制加载资源。</li>
+<li>DataTable / DataAsset 直接存放UObject*</li>
+</ol>
+<p>​	&hellip;.</p>
+<p>总之，只要蓝图或C++中有明确的对象引用或类引用（即编译器能追踪到的UObject、UClass），都会形成硬引用。</p>
+<p><strong>SizeMap</strong> 如下图所示， <em>BP_ThirdPersonCharacter</em> 占据了207.4MB，其中<em>SKM_Quinn_Simple</em>占据了198.6MB，像一个盒子层层嵌套，你可以观察到内存占比最大的是哪个引用：</p>
+<p><img src="/images/UE/WarriorProject/1.png" alt="1761894985945"></p>
+<p><strong>硬引用和软引用的区别是</strong> —— 硬引用可以更快速的访问对象，对象已经被加载到内存中，所以可以直接使用；而软引用可以减少内存占用，但是速度会比较慢，如果被使用，先要访问是否存在，才能访问它指向的对象。所以相当于内存换取了速度。</p>
+<blockquote>
+<p>避免硬引用的方法</p>
+</blockquote>
+<p>使用软引用（SoftObjectPtr / SoftClassPtr）、接口可以避免硬引用、使用字符串路径 + 动态加载。</p>
+<blockquote>
+<p>什么时候用软引用什么时候用硬引用</p>
+</blockquote>
+<p>应该在关键对象上使用硬引用（GameMode、PlayerController等） 还有只会加载一次的资源地形等。</p>
+<p>对于暂时不需要且体积大的对象用软引用，比如武器库、剧情章节等。</p>
+<p>对象指针 <code>TobjectPtr</code> 虽然也属于硬引用，但相比传统 <code>UObject*</code>，它的确能<strong>减少一些不必要的加载链触发和GC压力</strong>，因为它底层是句柄索引，普通指针在 GC 或序列化时可能触发对象加载，而 <code>TObjectPtr</code> 通过索引追踪，避免了这种不必要的加载链。</p>
+<p>在发布构建的时候会转化原始指针，为了提升运行时性能（少一次句柄解析开销），减少内存占用（不需要额外维护句柄表引用）</p>
+<h2 id="输入绑定流程">输入绑定流程</h2>
+<p>Native Gameplay Tags 创建全局访问的GameplayTags</p>
+<p>Input Config Data Asset 创建DataAsset用于映射gameplaytag&mdash;&gt;input action</p>
+<p>Custom Input Component 自定义输入组件</p>
+<p>Binding Inputs 定义input callbacks</p>
+<p>Assign assets in editor</p>
+<h3 id="gameplaytags全局访问">GameplayTags全局访问</h3>
+<p>创建WarriorGameplayTags文件，用于集中管理标签。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;NativeGameplayTags.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">namespace</span> WarriorGameplayTags
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/** Input Tags **/</span>
+</span></span><span style="display:flex;"><span>	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Move) <span style="color:#75715e">// 声明一个外部可访问的FGameplayTag
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Look)
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include</span> <span style="color:#75715e">&#34;WarriorGameplayTags.h&#34;</span><span style="color:#75715e">
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">namespace</span> WarriorGameplayTags
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">/** Input Tags **/</span>
+</span></span><span style="display:flex;"><span>	UE_DEFINE_GAMEPLAY_TAG(InputTag_Move, <span style="color:#e6db74">&#34;InputTag.Move&#34;</span>) <span style="color:#75715e">// 创建 FGameplayTag 对象并初始化
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UE_DEFINE_GAMEPLAY_TAG(InputTag_Look, <span style="color:#e6db74">&#34;InputTag.Look&#34;</span>) <span style="color:#75715e">// 第一个参数是c++中的名称 第二个是编辑器中看到的名字
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>}
+</span></span></code></pre></div><h3 id="input-config-data-asset">Input Config Data Asset</h3>
+<p>之后创建一个DataAsset的cpp文件</p>
+<p>定义结构体，每个Tag关联一个InputAction。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>USTRUCT(BlueprintType)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FWarriorInputActionConfig</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	GENERATED_BODY()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta <span style="color:#f92672">=</span> (Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;InputTag&#34;</span>))
+</span></span><span style="display:flex;"><span>	FGameplayTag InputTag;
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+</span></span><span style="display:flex;"><span>	UInputAction<span style="color:#f92672">*</span> InputAction;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>并且在该文件中，DataAsset中有一个输入映射和包含很多个<code>FWarriorInputActionConfig</code>结构体的数组。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+</span></span><span style="display:flex;"><span>UInputMappingContext<span style="color:#f92672">*</span> DefaultMappingContext;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta <span style="color:#f92672">=</span> (TitleProperty <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;InputTag&#34;</span>))
+</span></span><span style="display:flex;"><span>TArray<span style="color:#f92672">&lt;</span>FWarriorInputActionConfig<span style="color:#f92672">&gt;</span> NativeInputActions;
+</span></span></code></pre></div><p><img src="/images/UE/WarriorProject/2.png" alt="2"></p>
+<p>并且还有一个通过gameplaytag去查找inputaction的函数<code>FindNativeInputActionByTag</code></p>
+<h3 id="自定义输入组件">自定义输入组件</h3>
+<p>创建一个WarriorInputComponent文件用于自定义输入组件代替增强输入组件，在其中定义一个模板内联函数用于BindAction</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserObject</span>, <span style="color:#66d9ef">typename</span> CallbackFunc<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> BindNativeInputAction(<span style="color:#66d9ef">const</span> UDataAsset_InputConfig<span style="color:#f92672">*</span> InInputConfig, <span style="color:#66d9ef">const</span> FGameplayTag<span style="color:#f92672">&amp;</span> InInputTag, ETriggerEvent TriggerEvent, UserObject<span style="color:#f92672">*</span> ContextObject, CallbackFunc Func);
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserObject</span>, <span style="color:#66d9ef">typename</span> CallbackFunc<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> UWarriorInputComponent<span style="color:#f92672">::</span>BindNativeInputAction(<span style="color:#66d9ef">const</span> UDataAsset_InputConfig<span style="color:#f92672">*</span> InInputConfig, <span style="color:#66d9ef">const</span> FGameplayTag<span style="color:#f92672">&amp;</span> InInputTag, ETriggerEvent TriggerEvent, UserObject<span style="color:#f92672">*</span> ContextObject, CallbackFunc Func)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	checkf(InInputConfig,TEXT(<span style="color:#e6db74">&#34;InputConfigDataAsset is null&#34;</span>));
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (UInputAction<span style="color:#f92672">*</span> FindAction <span style="color:#f92672">=</span> InInputConfig<span style="color:#f92672">-&gt;</span>FindNativeInputActionByTag(InInputTag))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		BindAction(FindAction, TriggerEvent, ContextObject, Func);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="绑定输入定义callbacks">绑定输入定义callbacks</h3>
+<p>创建虚函数继承SetupPlayerInputComponent，在其中获取本地玩家增强输入子系统，添加输入映射上下文，然后再通过自定义输入组件绑定在角色类中定义的callback函数，分别是<code>Input_Move</code>和<code>Input_Look</code>。</p>
+<p>这样角色就实现了移动和视角。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorHeroCharacter<span style="color:#f92672">::</span>SetupPlayerInputComponent(UInputComponent<span style="color:#f92672">*</span> PlayerInputComponent)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	checkf(InputConfigDataAsset, TEXT(<span style="color:#e6db74">&#34;Forget to assign inputconfig data asset.&#34;</span>));
+</span></span><span style="display:flex;"><span>	ULocalPlayer<span style="color:#f92672">*</span> LocalPlayer <span style="color:#f92672">=</span> GetController<span style="color:#f92672">&lt;</span>APlayerController<span style="color:#f92672">&gt;</span>()<span style="color:#f92672">-&gt;</span>GetLocalPlayer();
+</span></span><span style="display:flex;"><span>	UEnhancedInputLocalPlayerSubsystem<span style="color:#f92672">*</span> Subsystem <span style="color:#f92672">=</span> ULocalPlayer<span style="color:#f92672">::</span>GetSubsystem<span style="color:#f92672">&lt;</span>UEnhancedInputLocalPlayerSubsystem<span style="color:#f92672">&gt;</span>(LocalPlayer);
+</span></span><span style="display:flex;"><span>	check(Subsystem);
+</span></span><span style="display:flex;"><span>	Subsystem<span style="color:#f92672">-&gt;</span>AddMappingContext(InputConfigDataAsset<span style="color:#f92672">-&gt;</span>DefaultMappingContext, <span style="color:#ae81ff">0</span>);
+</span></span><span style="display:flex;"><span>	UWarriorInputComponent<span style="color:#f92672">*</span> WarriorInputComponent <span style="color:#f92672">=</span> CastChecked<span style="color:#f92672">&lt;</span>UWarriorInputComponent<span style="color:#f92672">&gt;</span>(PlayerInputComponent);
+</span></span><span style="display:flex;"><span>	WarriorInputComponent<span style="color:#f92672">-&gt;</span>BindNativeInputAction(InputConfigDataAsset, WarriorGameplayTags<span style="color:#f92672">::</span>InputTag_Move, ETriggerEvent<span style="color:#f92672">::</span>Triggered, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>ThisClass<span style="color:#f92672">::</span>Input_Move);
+</span></span><span style="display:flex;"><span>	WarriorInputComponent<span style="color:#f92672">-&gt;</span>BindNativeInputAction(InputConfigDataAsset, WarriorGameplayTags<span style="color:#f92672">::</span>InputTag_Look, ETriggerEvent<span style="color:#f92672">::</span>Triggered, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>ThisClass<span style="color:#f92672">::</span>Input_Look);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorHeroCharacter<span style="color:#f92672">::</span>Input_Move(<span style="color:#66d9ef">const</span> FInputActionValue<span style="color:#f92672">&amp;</span> InputActionValue)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> FVector2D MoveVector <span style="color:#f92672">=</span> InputActionValue.Get<span style="color:#f92672">&lt;</span>FVector2D<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> FRotator <span style="color:#a6e22e">MoveRotator</span>(<span style="color:#ae81ff">0.f</span>, Controller<span style="color:#f92672">-&gt;</span>GetControlRotation().Yaw, <span style="color:#ae81ff">0.f</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (MoveVector.Y <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0.f</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 把世界坐标系下的“前方向量”(0,1,0)用 MoveRotator（控制器朝向）旋转一下，得到角色当前朝向的前方方向
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">const</span> FVector ForwardVector <span style="color:#f92672">=</span> MoveRotator.RotateVector(FVector<span style="color:#f92672">::</span>ForwardVector);
+</span></span><span style="display:flex;"><span>		AddMovementInput(ForwardVector, MoveVector.Y);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (MoveVector.X <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0.f</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">const</span> FVector RightVector <span style="color:#f92672">=</span> MoveRotator.RotateVector(FVector<span style="color:#f92672">::</span>RightVector);
+</span></span><span style="display:flex;"><span>		AddMovementInput(RightVector, MoveVector.X);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorHeroCharacter<span style="color:#f92672">::</span>Input_Look(<span style="color:#66d9ef">const</span> FInputActionValue<span style="color:#f92672">&amp;</span> InputActionValue)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> FVector2D LookAxisVector <span style="color:#f92672">=</span> InputActionValue.Get<span style="color:#f92672">&lt;</span>FVector2D<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (LookAxisVector.X <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0.f</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		AddControllerYawInput(LookAxisVector.X);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (LookAxisVector.Y <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0.f</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		AddControllerPitchInput(LookAxisVector.Y);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="角色动画">角色动画</h2>
+<p>创建一系列C++文件分别是</p>
+<p>WarriorBaseAnimInstance继承AnimInstance</p>
+<p>|——WarriorHeroLinkedAnimLayer</p>
+<p>|——WarriorCharacterAnimInstance</p>
+<p>​	  |——WarriorHeroAnimInstance</p>
+<p>首先在WarriorCharacterAnimInstance中定义两个函数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">NativeInitializeAnimation</span>() <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 这个函数是动画系统的线程安全更新入口，用于在多线程模式下在工作线程中执行动画更新逻辑，从而分担主线程负载、提升性能
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">NativeThreadSafeUpdateAnimation</span>(<span style="color:#66d9ef">float</span> DeltaSeconds) <span style="color:#66d9ef">override</span>;
+</span></span></code></pre></div><p>在初始化动画函数中获取当前角色和角色的移动组件存入到OwningCharacter和OwningMovementComponent中。</p>
+<p>在线程安全更新函数中去获取角色当前地面速度和是否有加速度。这两个变量中的加速度用于切换动画状态机的静止和移动状态，而地面速度用于BlendSpace混合空间处理奔跑动画。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorCharacterAnimInstance<span style="color:#f92672">::</span>NativeInitializeAnimation()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	OwningCharacter <span style="color:#f92672">=</span>  Cast<span style="color:#f92672">&lt;</span>AWarriorBaseCharacter<span style="color:#f92672">&gt;</span>(TryGetPawnOwner());
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (OwningCharacter)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		OwningMovementComponent <span style="color:#f92672">=</span> OwningCharacter<span style="color:#f92672">-&gt;</span>GetCharacterMovement();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorCharacterAnimInstance<span style="color:#f92672">::</span>NativeThreadSafeUpdateAnimation(<span style="color:#66d9ef">float</span> DeltaSeconds)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>OwningCharacter <span style="color:#f92672">||</span> <span style="color:#f92672">!</span>OwningMovementComponent)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	GroundSpeed <span style="color:#f92672">=</span> OwningCharacter<span style="color:#f92672">-&gt;</span>GetVelocity().Size2D();
+</span></span><span style="display:flex;"><span>	bHasAcceleration <span style="color:#f92672">=</span> OwningMovementComponent<span style="color:#f92672">-&gt;</span>GetCurrentAcceleration().SizeSquared2D() <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>因此现在我们有了两个状态，在动画蓝图ABP_Hero继承自WarriorHeroAnimInstance分别是Idle和Jog。</p>
+<p>继续添加一个新状态Relax，用于在角色静止达到一定时间后切换一个放松的动作，在状态机中通过RandomSequencePlayer达到随机多个relax动画的效果。</p>
+<p>在WarriorHeroAnimInstance文件中这个新状态的过渡条件是通过C++中的<code>bShouldEnterRelaxState</code>，同时有EnterRelaxStateThreshold和IdleElapsedTime变量，分别是进入到放松状态所需时间和目前经过了多久的时间。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorHeroAnimInstance<span style="color:#f92672">::</span>NativeInitializeAnimation()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>NativeInitializeAnimation();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (OwningCharacter)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		OwningHeroCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>AWarriorHeroCharacter<span style="color:#f92672">&gt;</span>(OwningCharacter);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorHeroAnimInstance<span style="color:#f92672">::</span>NativeThreadSafeUpdateAnimation(<span style="color:#66d9ef">float</span> DeltaSeconds)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>NativeThreadSafeUpdateAnimation(DeltaSeconds);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (bHasAcceleration)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		bShouldEnterRelaxState <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>		IdleElapsedTime <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		IdleElapsedTime <span style="color:#f92672">+=</span> DeltaSeconds;
+</span></span><span style="display:flex;"><span>		bShouldEnterRelaxState <span style="color:#f92672">=</span> (IdleElapsedTime <span style="color:#f92672">&gt;=</span> EnterRelaxStateThreshold);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h2 id="武器生成">武器生成</h2>
+<p>生成武器的流程：</p>
+<p>ASC &mdash;-&gt; 设置Spawn Ability &mdash;-&gt; 创建武器类 &mdash;-&gt; Grant Ability</p>
+<p>首先提一下FORCEINLINE，是UE自定义的宏，用于强制编译器内联（几乎一定内联）</p>
+<p>创建两个C++文件，分别是WarriorAbilitySystemComponent和WarriorAttributeSet。</p>
+<p>之后要 在WarriorBaseCharacter中获取这个能力组件和属性集。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ~ Begin IAbilitySystemInterface Interface
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">virtual</span> UAbilitySystemComponent<span style="color:#f92672">*</span> GetAbilitySystemComponent() <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ~ End IAbilitySystemInterface Interface
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ~ Begin APawn Interface
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> PossessedBy(AController<span style="color:#f92672">*</span> NewController) <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// ~ End APawn Interface
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;AbilitySystem&#34;</span>)
+</span></span><span style="display:flex;"><span>	UWarriorAbilitySystemComponent<span style="color:#f92672">*</span> WarriorAbilitySystemComponent;
+</span></span><span style="display:flex;"><span>	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;AbilitySystem&#34;</span>)
+</span></span><span style="display:flex;"><span>	UWarriorAttributeSet<span style="color:#f92672">*</span> WarriorAttributeSet;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	FORCEINLINE UWarriorAbilitySystemComponent<span style="color:#f92672">*</span> GetWarriorAbilitySystemComponent() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> WarriorAbilitySystemComponent; }
+</span></span><span style="display:flex;"><span>	FORCEINLINE UWarriorAttributeSet<span style="color:#f92672">*</span> <span style="color:#a6e22e">GetWarriorAttributeSet</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> WarriorAttributeSet; }
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UAbilitySystemComponent<span style="color:#f92672">*</span> AWarriorBaseCharacter<span style="color:#f92672">::</span>GetAbilitySystemComponent() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">GetWarriorAbilitySystemComponent</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorBaseCharacter<span style="color:#f92672">::</span>PossessedBy(AController<span style="color:#f92672">*</span> NewController)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>PossessedBy(NewController);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (WarriorAbilitySystemComponent)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		WarriorAbilitySystemComponent<span style="color:#f92672">-&gt;</span>InitAbilityActorInfo(<span style="color:#66d9ef">this</span>, <span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><strong>之后再派生类WarriorHeroCharacter中也重写PossessedBy函数</strong></p>
+<p>新建一个WarriorGameplayAbility文件，用于做GA蓝图的基类。</p>
+<p>在其中定义一个枚举类包含OnTriggered和OnGiven，并且重写<code>OnGiveAbility</code>和<code>EndAbility</code>函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UENUM(BlueprintType)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EWarriorAbilityActivationPolicy</span> <span style="color:#f92672">:</span> uint8
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	OnTriggered,
+</span></span><span style="display:flex;"><span>	OnGiven
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>OnGiveAbility：当能力被赋予角色，如果是OnGiven，那么立刻激活这个能力，使得能力在“被添加的瞬间”就能运行逻辑。</p>
+<p>EndAbility：如果是OnGiven，在结束时，会自动清除自己。因为它无需重复触发。</p>
+<p>这种能力往往是“一次性”或“瞬发型”逻辑。比如生成武器。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorGameplayAbility<span style="color:#f92672">::</span>OnGiveAbility(<span style="color:#66d9ef">const</span> FGameplayAbilityActorInfo<span style="color:#f92672">*</span> ActorInfo,
+</span></span><span style="display:flex;"><span>                                            <span style="color:#66d9ef">const</span> FGameplayAbilitySpec<span style="color:#f92672">&amp;</span> Spec)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>OnGiveAbility(ActorInfo, Spec);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (AbilityActivationPolicy <span style="color:#f92672">==</span> EWarriorAbilityActivationPolicy<span style="color:#f92672">::</span>OnGiven)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (ActorInfo <span style="color:#f92672">&amp;&amp;</span> <span style="color:#f92672">!</span>Spec.IsActive())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			ActorInfo<span style="color:#f92672">-&gt;</span>AbilitySystemComponent<span style="color:#f92672">-&gt;</span>TryActivateAbility(Spec.Handle);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorGameplayAbility<span style="color:#f92672">::</span>EndAbility(<span style="color:#66d9ef">const</span> FGameplayAbilitySpecHandle Handle,
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> FGameplayAbilityActorInfo<span style="color:#f92672">*</span> ActorInfo, <span style="color:#66d9ef">const</span> FGameplayAbilityActivationInfo ActivationInfo,
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> bReplicateEndAbility, <span style="color:#66d9ef">bool</span> bWasCancelled)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (AbilityActivationPolicy <span style="color:#f92672">==</span> EWarriorAbilityActivationPolicy<span style="color:#f92672">::</span>OnGiven)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (ActorInfo)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			ActorInfo<span style="color:#f92672">-&gt;</span>AbilitySystemComponent<span style="color:#f92672">-&gt;</span>ClearAbility(Handle);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>之后创建GA蓝图继承WarriorGameplayAbility，命名为GA_Shared_SpawnWeapon用于武器生成。</p>
+<h3 id="创建武器类">创建武器类</h3>
+<p>WarriorWeaponBase</p>
+<p>|__WarriorHeroWeapon</p>
+<p>​	|__BP_HeroWeaponBase</p>
+<p>​		|__BP_HeroWeaponAxe</p>
+<p>在WarriorWeaponBase构造函数中定义组件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>WeaponMesh <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>UStaticMeshComponent<span style="color:#f92672">&gt;</span>(TEXT(<span style="color:#e6db74">&#34;WeaponMesh&#34;</span>));
+</span></span><span style="display:flex;"><span>SetRootComponent(WeaponMesh);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>WeaponCollisionBox <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>UBoxComponent<span style="color:#f92672">&gt;</span>(TEXT(<span style="color:#e6db74">&#34;WeaponCollisionBox&#34;</span>));
+</span></span><span style="display:flex;"><span>WeaponCollisionBox<span style="color:#f92672">-&gt;</span>SetupAttachment(GetRootComponent());
+</span></span><span style="display:flex;"><span>WeaponCollisionBox<span style="color:#f92672">-&gt;</span>SetBoxExtent(FVector(<span style="color:#ae81ff">20.f</span>));
+</span></span><span style="display:flex;"><span>WeaponCollisionBox<span style="color:#f92672">-&gt;</span>SetCollisionEnabled(ECollisionEnabled<span style="color:#f92672">::</span>NoCollision);
+</span></span></code></pre></div><p><img src="/images/UE/WarriorProject/3.png" alt="3"></p>
+<p>有了武器类后就要想办法通过能力来生成武器，于是在GA_Shared_SpawnWeapon中添加逻辑。</p>
+<p><img src="../../../static/images/UE/WarriorProject/4.png" alt="4"></p>
+<p>创建GA_Hero_SpawnAxe继承GA_Shared_SpawnWeapon，在当中设置WeaponClassToSpawn和SocketNameToAttachTo。</p>
+<p>现在我们拥有了角色的生成武器能力和武器类，但是还需要去将能力赋予给角色。</p>
+<h3 id="配置角色初始化能力">配置角色初始化能力</h3>
+<p>新建一个DataAsset_StartUpDataBase用于配置角色初始能力，其中包含两种能力：</p>
+<ol>
+<li><strong>ActivateOnGivenAbilities</strong>：授予时就自动激活（例如被动能力、光环、初始化Buff）；</li>
+<li><strong>ReactiveAbilities</strong>：等待事件触发（例如受击反击、技能响应类能力）。</li>
+</ol>
+<blockquote>
+<p>为什么使用DataAsset？</p>
+</blockquote>
+<p>设计解耦、蓝图可配置、复用性强，玩家和敌人可以单独创建DA同时可以继承这个StartUpDataBase。</p>
+<pre tabindex="0"><code>角色初始化时（如 BeginPlay 或 Possess）：
+└── 调用 StartUpDataAsset-&gt;GiveToAbilitySystemComponent(ASC)
+    ├── GrantAbilities(ActivateOnGivenAbilities)
+    │   ├── 调用 ASC-&gt;GiveAbility()
+    │   ├── 能力 OnGiven 被触发 → 自动激活执行逻辑
+    │   └── EndAbility() 后自动清除
+    └── GrantAbilities(ReactiveAbilities)
+        ├── 调用 ASC-&gt;GiveAbility()
+        └── 等待事件触发再执行
+</code></pre><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UDataAsset_StartUpDataBase<span style="color:#f92672">::</span>GiveToAbilitySystemComponent(UWarriorAbilitySystemComponent<span style="color:#f92672">*</span> InWarriorASCToGive,
+</span></span><span style="display:flex;"><span>                                                              int32 ApplyLevel)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	check(InWarriorASCToGive);
+</span></span><span style="display:flex;"><span>	GrantAbilities(ActivateOnGivenAbilities, InWarriorASCToGive, ApplyLevel);
+</span></span><span style="display:flex;"><span>	GrantAbilities(ReactiveAbilities, InWarriorASCToGive, ApplyLevel);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UDataAsset_StartUpDataBase<span style="color:#f92672">::</span>GrantAbilities(<span style="color:#66d9ef">const</span> TArray<span style="color:#f92672">&lt;</span>TSubclassOf<span style="color:#f92672">&lt;</span>UWarriorGameplayAbility<span style="color:#f92672">&gt;&gt;&amp;</span> InAbilityToGive,
+</span></span><span style="display:flex;"><span>	UWarriorAbilitySystemComponent<span style="color:#f92672">*</span> InWarriorASCToGive, int32 ApplyLevel)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (InAbilityToGive.IsEmpty())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 遍历每一个能力类，创建spec 设置来源和等级 再调用giveability将能力注册到asc中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> TSubclassOf<span style="color:#f92672">&lt;</span>UWarriorGameplayAbility<span style="color:#f92672">&gt;&amp;</span> Ability : InAbilityToGive)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>Ability) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>		FGameplayAbilitySpec <span style="color:#a6e22e">AbilitySpec</span>(Ability);
+</span></span><span style="display:flex;"><span>		AbilitySpec.SourceObject <span style="color:#f92672">=</span> InWarriorASCToGive<span style="color:#f92672">-&gt;</span>GetAvatarActor();
+</span></span><span style="display:flex;"><span>		AbilitySpec.Level <span style="color:#f92672">=</span> ApplyLevel;
+</span></span><span style="display:flex;"><span>		InWarriorASCToGive<span style="color:#f92672">-&gt;</span>GiveAbility(AbilitySpec);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>之后创建一个DataAsset_HeroStartUpData继承DataAsset_StartUpDataBase用作角色的能力初始化数据资产。</p>
+<p>创建蓝图DA_Hero继承DataAsset_HeroStartUpData。</p>
+<p>DataAsset_StartUpDataBase</p>
+<p>|__DataAsset_HeroStartUpData</p>
+<p>​     |__DA_Hero(蓝图)</p>
+<p><img src="/images/UE/WarriorProject/5.png" alt="5"></p>
+<p>在WarriorBaseCharacter中定义软引用，用于关联CharacterStartUpData角色初始化能力的数据资产。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;CharacterData&#34;</span>)
+</span></span><span style="display:flex;"><span>TSoftObjectPtr<span style="color:#f92672">&lt;</span>UDataAsset_StartUpDataBase<span style="color:#f92672">&gt;</span> CharacterStartUpData;
+</span></span></code></pre></div><p>然后在WarriorHeroCharacter的PossessedBy中使用同步加载这个数据资产，这样当PossessedBy时，会加载这个能力初始化数据资产，然后调用<code>DataAsset_StartUpDataBase::GiveToAbilitySystemComponent</code>。</p>
+<ul>
+<li>
+<p>同步加载（Synchronous）</p>
+<p>在游戏线程中立即加载资源，但容易卡顿，掉帧。</p>
+</li>
+<li>
+<p>异步加载（Asynchronous）</p>
+<p>在后台线程异步加载，加载完成后再通知主线程</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorHeroCharacter<span style="color:#f92672">::</span>PossessedBy(AController<span style="color:#f92672">*</span> NewController)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>PossessedBy(NewController);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>CharacterStartUpData.IsNull())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (UDataAsset_StartUpDataBase<span style="color:#f92672">*</span> LoadedData <span style="color:#f92672">=</span> CharacterStartUpData.LoadSynchronous())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			LoadedData<span style="color:#f92672">-&gt;</span>GiveToAbilitySystemComponent(WarriorAbilitySystemComponent);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这一小节我们实现了角色的基础功能包括角色移动动画，输入绑定，搭建了能力系统，并且创建一个生成武器的能力。</p>
+
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fwarriorproject1%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=Warrior%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b0%201&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fwarriorproject1%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fwarriorproject1%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fwarriorproject1%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fwarriorproject1%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fwarriorproject1%2f
+			&title=Warrior%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b0%201&summary=Hard%20Reference%20%26amp%3b%20Soft%20Reference%20Reference%20Viewer%20%e5%bc%95%e7%94%a8%e6%9f%a5%e7%9c%8b%e5%99%a8%e6%98%be%e7%a4%ba%e7%9a%84%e7%99%bd%e8%89%b2%e7%ba%bf%e6%9d%a1%e6%98%af%e7%a1%ac%e5%bc%95%e7%94%a8%e5%85%b3%e7%b3%bb%ef%bc%8c%e7%b2%89%e8%89%b2%e7%ba%bf%e6%9d%a1%e6%98%af%e8%bd%af%e5%bc%95%e7%94%a8%e5%85%b3%e7%b3%bb%e3%80%82%e6%af%94%e5%a6%82%e4%b8%80%e4%b8%aa%e8%93%9d%e5%9b%be%e5%9c%a8%e5%b1%9e%e6%80%a7%e9%87%8c%e5%bc%95%e7%94%a8%e4%ba%86%e6%9f%90%e4%b8%aa%e6%9d%90%e8%b4%a8%e3%80%81%e8%b4%b4%e5%9b%be%e3%80%81Mesh%e7%ad%89%e3%80%82%0a%e5%a6%82%e4%b8%8b%e5%9b%be%e6%89%80%e7%a4%ba%ef%bc%8c%e5%8f%b3%e8%be%b9%e7%9a%84%e6%89%80%e6%9c%89%e5%86%85%e5%ae%b9%e6%98%af%e8%a7%92%e8%89%b2%e7%9a%84%e4%be%9d%e8%b5%96%e9%a1%b9%ef%bc%8c%e5%b7%a6%e8%be%b9%e7%9a%84%e6%89%80%e6%9c%89%e5%86%85%e5%ae%b9%e4%be%9d%e8%b5%96%e4%ba%8e%e8%a7%92%e8%89%b2%e8%b5%84%e4%ba%a7%ef%bc%9a%0a%e7%a1%ac%e5%bc%95%e7%94%a8%e7%a4%ba%e4%be%8b%ef%bc%9a%0a%e8%93%9d%e5%9b%be%e7%9a%84%20Cast%20to%20XXXX%20%e8%8a%82%e7%82%b9%e4%bc%9a%e5%af%bc%e8%87%b4%e7%a1%ac%e5%bc%95%e7%94%a8%e5%af%b9%e8%b1%a1%ef%bc%8c%e5%8d%b3%e4%bd%bf%e5%ad%98%e5%9c%a8%e4%bd%86%e4%b8%8d%e4%bd%bf%e7%94%a8%e8%af%a5%e8%8a%82%e7%82%b9%e4%b9%9f%e4%bc%9a%e7%a1%ac%e5%bc%95%e7%94%a8cast%e5%af%b9%e8%b1%a1%e3%80%82%e8%bf%99%e6%98%af%e5%9b%a0%e4%b8%ba%ef%bc%9a%e5%bd%93%e4%bd%a0%e4%bd%bf%e7%94%a8%20Cast%20To%20BP_XXX%20%e8%8a%82%e7%82%b9%e6%97%b6%ef%bc%8c%e8%93%9d%e5%9b%be%e7%bc%96%e8%af%91%e5%99%a8%e4%bc%9a%e5%9c%a8%e7%94%9f%e6%88%90%e7%9a%84%20bytecode%20%e9%87%8c%e8%ae%b0%e5%bd%95%e8%af%a5%e8%93%9d%e5%9b%be%e7%b1%bb%e7%9a%84%e5%bc%95%e7%94%a8%ef%bc%88UBlueprintGeneratedClass%20%e5%af%b9%e8%b1%a1%ef%bc%89%e4%bb%a5%e5%8f%8aSpawnActorFromClass%e4%b9%9f%e4%bc%9a%e5%af%bc%e8%87%b4%e7%a1%ac%e5%bc%95%e7%94%a8%e3%80%82%20%e8%93%9d%e5%9b%be%e5%8f%98%e9%87%8f%e5%bc%95%e7%94%a8%e8%b5%84%e6%ba%90%e6%88%96%e8%80%85%e7%bb%a7%e6%89%bf%e8%87%aa%e5%8f%a6%e4%b8%80%e4%b8%aaBP%e7%b1%bb%e3%80%82%20C%2b%2b%e4%b8%ad%e4%bd%bf%e7%94%a8FObjectFinder%ef%bc%8c%e6%9e%84%e9%80%a0%e6%9c%9f%e5%bc%ba%e5%88%b6%e5%8a%a0%e8%bd%bd%e8%b5%84%e6%ba%90%e3%80%82%20DataTable%20%2f%20DataAsset%20%e7%9b%b4%e6%8e%a5%e5%ad%98%e6%94%beUObject%2a%20%e2%80%8b%09%26hellip%3b.%0a%e6%80%bb%e4%b9%8b%ef%bc%8c%e5%8f%aa%e8%a6%81%e8%93%9d%e5%9b%be%e6%88%96C%2b%2b%e4%b8%ad%e6%9c%89%e6%98%8e%e7%a1%ae%e7%9a%84%e5%af%b9%e8%b1%a1%e5%bc%95%e7%94%a8%e6%88%96%e7%b1%bb%e5%bc%95%e7%94%a8%ef%bc%88%e5%8d%b3%e7%bc%96%e8%af%91%e5%99%a8%e8%83%bd%e8%bf%bd%e8%b8%aa%e5%88%b0%e7%9a%84UObject%e3%80%81UClass%ef%bc%89%ef%bc%8c%e9%83%bd%e4%bc%9a%e5%bd%a2%e6%88%90%e7%a1%ac%e5%bc%95%e7%94%a8%e3%80%82%0aSizeMap%20%e5%a6%82%e4%b8%8b%e5%9b%be%e6%89%80%e7%a4%ba%ef%bc%8c%20BP_ThirdPersonCharacter%20%e5%8d%a0%e6%8d%ae%e4%ba%86207.4MB%ef%bc%8c%e5%85%b6%e4%b8%adSKM_Quinn_Simple%e5%8d%a0%e6%8d%ae%e4%ba%86198.6MB%ef%bc%8c%e5%83%8f%e4%b8%80%e4%b8%aa%e7%9b%92%e5%ad%90%e5%b1%82%e5%b1%82%e5%b5%8c%e5%a5%97%ef%bc%8c%e4%bd%a0%e5%8f%af%e4%bb%a5%e8%a7%82%e5%af%9f%e5%88%b0%e5%86%85%e5%ad%98%e5%8d%a0%e6%af%94%e6%9c%80%e5%a4%a7%e7%9a%84%e6%98%af%e5%93%aa%e4%b8%aa%e5%bc%95%e7%94%a8%ef%bc%9a%0a%e7%a1%ac%e5%bc%95%e7%94%a8%e5%92%8c%e8%bd%af%e5%bc%95%e7%94%a8%e7%9a%84%e5%8c%ba%e5%88%ab%e6%98%af%20%e2%80%94%e2%80%94%20%e7%a1%ac%e5%bc%95%e7%94%a8%e5%8f%af%e4%bb%a5%e6%9b%b4%e5%bf%ab%e9%80%9f%e7%9a%84%e8%ae%bf%e9%97%ae%e5%af%b9%e8%b1%a1%ef%bc%8c%e5%af%b9%e8%b1%a1%e5%b7%b2%e7%bb%8f%e8%a2%ab%e5%8a%a0%e8%bd%bd%e5%88%b0%e5%86%85%e5%ad%98%e4%b8%ad%ef%bc%8c%e6%89%80%e4%bb%a5%e5%8f%af%e4%bb%a5%e7%9b%b4%e6%8e%a5%e4%bd%bf%e7%94%a8%ef%bc%9b%e8%80%8c%e8%bd%af%e5%bc%95%e7%94%a8%e5%8f%af%e4%bb%a5%e5%87%8f%e5%b0%91%e5%86%85%e5%ad%98%e5%8d%a0%e7%94%a8%ef%bc%8c%e4%bd%86%e6%98%af%e9%80%9f%e5%ba%a6%e4%bc%9a%e6%af%94%e8%be%83%e6%85%a2%ef%bc%8c%e5%a6%82%e6%9e%9c%e8%a2%ab%e4%bd%bf%e7%94%a8%ef%bc%8c%e5%85%88%e8%a6%81%e8%ae%bf%e9%97%ae%e6%98%af%e5%90%a6%e5%ad%98%e5%9c%a8%ef%bc%8c%e6%89%8d%e8%83%bd%e8%ae%bf%e9%97%ae%e5%ae%83%e6%8c%87%e5%90%91%e7%9a%84%e5%af%b9%e8%b1%a1%e3%80%82%e6%89%80%e4%bb%a5%e7%9b%b8%e5%bd%93%e4%ba%8e%e5%86%85%e5%ad%98%e6%8d%a2%e5%8f%96%e4%ba%86%e9%80%9f%e5%ba%a6%e3%80%82%0a%e9%81%bf%e5%85%8d%e7%a1%ac%e5%bc%95%e7%94%a8%e7%9a%84%e6%96%b9%e6%b3%95%0a%e4%bd%bf%e7%94%a8%e8%bd%af%e5%bc%95%e7%94%a8%ef%bc%88SoftObjectPtr%20%2f%20SoftClassPtr%ef%bc%89%e3%80%81%e6%8e%a5%e5%8f%a3%e5%8f%af%e4%bb%a5%e9%81%bf%e5%85%8d%e7%a1%ac%e5%bc%95%e7%94%a8%e3%80%81%e4%bd%bf%e7%94%a8%e5%ad%97%e7%ac%a6%e4%b8%b2%e8%b7%af%e5%be%84%20%2b%20%e5%8a%a8%e6%80%81%e5%8a%a0%e8%bd%bd%e3%80%82%0a%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e7%94%a8%e8%bd%af%e5%bc%95%e7%94%a8%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e7%94%a8%e7%a1%ac%e5%bc%95%e7%94%a8%0a%e5%ba%94%e8%af%a5%e5%9c%a8%e5%85%b3%e9%94%ae%e5%af%b9%e8%b1%a1%e4%b8%8a%e4%bd%bf%e7%94%a8%e7%a1%ac%e5%bc%95%e7%94%a8%ef%bc%88GameMode%e3%80%81PlayerController%e7%ad%89%ef%bc%89%20%e8%bf%98%e6%9c%89%e5%8f%aa%e4%bc%9a%e5%8a%a0%e8%bd%bd%e4%b8%80%e6%ac%a1%e7%9a%84%e8%b5%84%e6%ba%90%e5%9c%b0%e5%bd%a2%e7%ad%89%e3%80%82%0a%e5%af%b9%e4%ba%8e%e6%9a%82%e6%97%b6%e4%b8%8d%e9%9c%80%e8%a6%81%e4%b8%94%e4%bd%93%e7%a7%af%e5%a4%a7%e7%9a%84%e5%af%b9%e8%b1%a1%e7%94%a8%e8%bd%af%e5%bc%95%e7%94%a8%ef%bc%8c%e6%af%94%e5%a6%82%e6%ad%a6%e5%99%a8%e5%ba%93%e3%80%81%e5%89%a7%e6%83%85%e7%ab%a0%e8%8a%82%e7%ad%89%e3%80%82%0a%e5%af%b9%e8%b1%a1%e6%8c%87%e9%92%88%20TobjectPtr%20%e8%99%bd%e7%84%b6%e4%b9%9f%e5%b1%9e%e4%ba%8e%e7%a1%ac%e5%bc%95%e7%94%a8%ef%bc%8c%e4%bd%86%e7%9b%b8%e6%af%94%e4%bc%a0%e7%bb%9f%20UObject%2a%ef%bc%8c%e5%ae%83%e7%9a%84%e7%a1%ae%e8%83%bd%e5%87%8f%e5%b0%91%e4%b8%80%e4%ba%9b%e4%b8%8d%e5%bf%85%e8%a6%81%e7%9a%84%e5%8a%a0%e8%bd%bd%e9%93%be%e8%a7%a6%e5%8f%91%e5%92%8cGC%e5%8e%8b%e5%8a%9b%ef%bc%8c%e5%9b%a0%e4%b8%ba%e5%ae%83%e5%ba%95%e5%b1%82%e6%98%af%e5%8f%a5%e6%9f%84%e7%b4%a2%e5%bc%95%ef%bc%8c%e6%99%ae%e9%80%9a%e6%8c%87%e9%92%88%e5%9c%a8%20GC%20%e6%88%96%e5%ba%8f%e5%88%97%e5%8c%96%e6%97%b6%e5%8f%af%e8%83%bd%e8%a7%a6%e5%8f%91%e5%af%b9%e8%b1%a1%e5%8a%a0%e8%bd%bd%ef%bc%8c%e8%80%8c%20TObjectPtr%20%e9%80%9a%e8%bf%87%e7%b4%a2%e5%bc%95%e8%bf%bd%e8%b8%aa%ef%bc%8c%e9%81%bf%e5%85%8d%e4%ba%86%e8%bf%99%e7%a7%8d%e4%b8%8d%e5%bf%85%e8%a6%81%e7%9a%84%e5%8a%a0%e8%bd%bd%e9%93%be%e3%80%82%0a%e5%9c%a8%e5%8f%91%e5%b8%83%e6%9e%84%e5%bb%ba%e7%9a%84%e6%97%b6%e5%80%99%e4%bc%9a%e8%bd%ac%e5%8c%96%e5%8e%9f%e5%a7%8b%e6%8c%87%e9%92%88%ef%bc%8c%e4%b8%ba%e4%ba%86%e6%8f%90%e5%8d%87%e8%bf%90%e8%a1%8c%e6%97%b6%e6%80%a7%e8%83%bd%ef%bc%88%e5%b0%91%e4%b8%80%e6%ac%a1%e5%8f%a5%e6%9f%84%e8%a7%a3%e6%9e%90%e5%bc%80%e9%94%80%ef%bc%89%ef%bc%8c%e5%87%8f%e5%b0%91%e5%86%85%e5%ad%98%e5%8d%a0%e7%94%a8%ef%bc%88%e4%b8%8d%e9%9c%80%e8%a6%81%e9%a2%9d%e5%a4%96%e7%bb%b4%e6%8a%a4%e5%8f%a5%e6%9f%84%e8%a1%a8%e5%bc%95%e7%94%a8%ef%bc%89%0a%e8%be%93%e5%85%a5%e7%bb%91%e5%ae%9a%e6%b5%81%e7%a8%8b%20Native%20Gameplay%20Tags%20%e5%88%9b%e5%bb%ba%e5%85%a8%e5%b1%80%e8%ae%bf%e9%97%ae%e7%9a%84GameplayTags%0aInput%20Config%20Data%20Asset%20%e5%88%9b%e5%bb%baDataAsset%e7%94%a8%e4%ba%8e%e6%98%a0%e5%b0%84gameplaytag%26mdash%3b%26gt%3binput%20action%0aCustom%20Input%20Component%20%e8%87%aa%e5%ae%9a%e4%b9%89%e8%be%93%e5%85%a5%e7%bb%84%e4%bb%b6&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=Warrior%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b0%201&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fwarriorproject1%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

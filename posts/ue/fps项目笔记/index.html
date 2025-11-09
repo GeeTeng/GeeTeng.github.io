@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
 
     <title>
     FPS游戏项目制作笔记 | 
@@ -14,7 +14,7 @@
     ">
 
 
-<meta property="og:url" content="http://localhost:1313/posts/ue/fps%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/">
+<meta property="og:url" content="https://geeteng.github.io/posts/ue/fps%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/">
   <meta property="og:site_name" content="GeeTeng">
   <meta property="og:title" content="FPS游戏项目制作笔记">
   <meta property="og:description" content="记录游戏中的核心代码和解决过的问题">
@@ -37,9 +37,9 @@
   <meta itemprop="dateModified" content="2025-04-15T00:00:00+00:00">
   <meta itemprop="wordCount" content="543">
   <meta itemprop="keywords" content="UE5">
-<link rel="canonical" href="http://localhost:1313/posts/ue/fps%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" />
+<link rel="canonical" href="https://geeteng.github.io/posts/ue/fps%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/" />
 
-<link rel="icon" type="image/png" href="http://localhost:1313/image/favicon.ico">
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
 
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/bulma.min.css">
@@ -54,6 +54,28 @@
           ],
           throwOnError: false
         });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
 
 
 
@@ -486,44 +508,44 @@
 	<br>
 	
 	<div class="share-buttons">
-	    <a  href="https://www.facebook.com/sharer/sharer.php?u=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Facebook. Opens in a new window.">
 	        <img src=/img/icons/45px/facebook.png>
 	    </a>
 
-	    <a  href="https://twitter.com/intent/tweet?text=FPS%e6%b8%b8%e6%88%8f%e9%a1%b9%e7%9b%ae%e5%88%b6%e4%bd%9c%e7%ac%94%e8%ae%b0&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
+	    <a  href="https://twitter.com/intent/tweet?text=FPS%e6%b8%b8%e6%88%8f%e9%a1%b9%e7%9b%ae%e5%88%b6%e4%bd%9c%e7%ac%94%e8%ae%b0&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
 	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
 	        title="Share on Twitter. Opens in a new window." >
 	        <img src=/img/icons/45px/twitter.png>
 	    </a>
 
-		<a  href="http://www.reddit.com/submit?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Reddit. Opens in a new window." >
 	        <img src=/img/icons/45px/reddit.png>
 	    </a>
 
-	    <a  href="http://pinterest.com/pin/create/button/?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Pinterest. Opens in a new window." >
 	        <img src=/img/icons/45px/pinterest.png>
 	    </a>
 
-	    <a  href="http://www.tumblr.com/share/link?url=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on Tumblr. Opens in a new window." >
 	        <img src=/img/icons/45px/tumblr.png>
 	    </a>
 
-		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f
 			&title=FPS%e6%b8%b8%e6%88%8f%e9%a1%b9%e7%9b%ae%e5%88%b6%e4%bd%9c%e7%ac%94%e8%ae%b0&summary=%e6%9e%aa%e6%a2%b0%20%e8%80%83%e8%99%91%e5%88%b0%e4%b8%8d%e5%90%8c%e6%9e%aa%e6%9c%89%e4%b8%8d%e5%90%8c%e5%90%8e%e5%9d%90%e5%8a%9b%ef%bc%8c%e6%89%80%e4%bb%a5%e5%9c%a8ShooterGun.h%e4%b8%ad%e5%88%9b%e5%bb%ba%e4%ba%86%e7%bb%93%e6%9e%84%e4%bd%93%e7%94%a8%e6%9d%a5%e5%ad%98%e5%82%a8%e6%9e%aa%e6%a2%b0%e7%9a%84%e5%90%8e%e5%9d%90%e5%8a%9b%e3%80%82%0aUSTRUCT%28BlueprintType%29%20struct%20FRecoilConfig%20%7b%20GENERATED_BODY%28%29%20UPROPERTY%28EditDefaultsOnly%2c%20BlueprintReadWrite%2c%20Category%20%3d%20%26%2334%3bRecoil%26%2334%3b%29%20float%20VerticalBase%20%3d%20-0.1f%3b%20%2f%2f%20%e5%9f%ba%e7%a1%80%e5%9e%82%e7%9b%b4%e5%90%8e%e5%9d%90%e5%8a%9b%20UPROPERTY%28EditDefaultsOnly%2c%20BlueprintReadWrite%2c%20Category%20%3d%20%26%2334%3bRecoil%26%2334%3b%29%20float%20VerticalRandomRange%20%3d%200.02f%3b%20%2f%2f%20%e5%9e%82%e7%9b%b4%e9%9a%8f%e6%9c%ba%e6%89%b0%e5%8a%a8%e8%8c%83%e5%9b%b4%20UPROPERTY%28EditDefaultsOnly%2c%20BlueprintReadWrite%2c%20Category%20%3d%20%26%2334%3bRecoil%26%2334%3b%29%20float%20HorizontalRandomRange%20%3d%200.05f%3b%20%2f%2f%20%e6%b0%b4%e5%b9%b3%e9%9a%8f%e6%9c%ba%e6%89%b0%e5%8a%a8%e8%8c%83%e5%9b%b4%20%7d%3b%20%e5%9c%a8%e8%af%a5%e5%87%bd%e6%95%b0%e4%b8%ad%e6%94%b9%e5%8f%98%e6%8e%a7%e5%88%b6%e5%99%a8%e7%9a%84Pitch%e5%92%8cYaw%e5%81%8f%e7%a7%bb%e9%87%8f%0avoid%20AShooterGun%3a%3aMakeRecoilCPP%28%29%20%7b%20AShooterCharacter%2a%20Character%20%3d%20Cast%26lt%3bAShooterCharacter%26gt%3b%28UGameplayStatics%3a%3aGetPlayerCharacter%28this%2c%200%29%29%3b%20if%20%28Character%29%20%7b%20%2f%2f%20%e6%a0%b9%e6%8d%ae%e4%b8%8d%e5%90%8c%e6%9e%aa%e8%ae%be%e7%bd%ae%e4%b8%8d%e5%90%8c%e5%90%8e%e5%9d%90%e5%8a%9b%20float%20FinalPitch%20%3d%20RecoilConfig.VerticalBase%20%2b%20FMath%3a%3aFRandRange%28-RecoilConfig.VerticalRandomRange%2c%20RecoilConfig.VerticalRandomRange%29%3b%20float%20FinalYaw%20%3d%20FMath%3a%3aFRandRange%28-RecoilConfig.HorizontalRandomRange%2c%20RecoilConfig.HorizontalRandomRange%29%3b%20Character-%26gt%3bAddControllerPitchInput%28FinalPitch%29%3b%20Character-%26gt%3bAddControllerYawInput%28FinalYaw%29%3b%20%7d%20%7d%20%e6%b7%bb%e5%8a%a0%e9%95%9c%e5%a4%b4%e6%8a%96%e5%8a%a8&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>
 	    </a>
 
-	    <a  href="mailto:?subject=FPS%e6%b8%b8%e6%88%8f%e9%a1%b9%e7%9b%ae%e5%88%b6%e4%bd%9c%e7%ac%94%e8%ae%b0&amp;body=Check out this site http%3a%2f%2flocalhost%3a1313%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
+	    <a  href="mailto:?subject=FPS%e6%b8%b8%e6%88%8f%e9%a1%b9%e7%9b%ae%e5%88%b6%e4%bd%9c%e7%ac%94%e8%ae%b0&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2ffps%25E9%25A1%25B9%25E7%259B%25AE%25E7%25AC%2594%25E8%25AE%25B0%2f"
 	        title="Share via Email. Opens in a new window." >
 	        <img src=/img/icons/45px/mail.png>
 	    </a>

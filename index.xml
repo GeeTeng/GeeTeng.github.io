@@ -2,269 +2,276 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>GeeTeng</title>
-    <link>http://localhost:1313/</link>
+    <link>https://geeteng.github.io/</link>
     <description>Recent content on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
     <lastBuildDate>Wed, 05 Nov 2025 00:00:00 +0000</lastBuildDate>
-    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <atom:link href="https://geeteng.github.io/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Warrior项目笔记 1</title>
-      <link>http://localhost:1313/posts/ue/warriorproject/</link>
+      <link>https://geeteng.github.io/posts/ue/warriorproject1/</link>
       <pubDate>Wed, 05 Nov 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/ue/warriorproject/</guid>
+      <guid>https://geeteng.github.io/posts/ue/warriorproject1/</guid>
       <description>Hard Reference &amp;amp; Soft Reference Reference Viewer 引用查看器显示的白色线条是硬引用关系，粉色线条是软引用关系。比如一个蓝图在属性里引用了某个材质、贴图、Mesh等。&#xA;如下图所示，右边的所有内容是角色的依赖项，左边的所有内容依赖于角色资产：&#xA;硬引用示例：&#xA;蓝图的 Cast to XXXX 节点会导致硬引用对象，即使存在但不使用该节点也会硬引用cast对象。这是因为：当你使用 Cast To BP_XXX 节点时，蓝图编译器会在生成的 bytecode 里记录该蓝图类的引用（UBlueprintGeneratedClass 对象）以及SpawnActorFromClass也会导致硬引用。 蓝图变量引用资源或者继承自另一个BP类。 C++中使用FObjectFinder，构造期强制加载资源。 DataTable / DataAsset 直接存放UObject* ​&#x9;&amp;hellip;.&#xA;总之，只要蓝图或C++中有明确的对象引用或类引用（即编译器能追踪到的UObject、UClass），都会形成硬引用。&#xA;SizeMap 如下图所示， BP_ThirdPersonCharacter 占据了207.4MB，其中SKM_Quinn_Simple占据了198.6MB，像一个盒子层层嵌套，你可以观察到内存占比最大的是哪个引用：&#xA;硬引用和软引用的区别是 —— 硬引用可以更快速的访问对象，对象已经被加载到内存中，所以可以直接使用；而软引用可以减少内存占用，但是速度会比较慢，如果被使用，先要访问是否存在，才能访问它指向的对象。所以相当于内存换取了速度。&#xA;避免硬引用的方法&#xA;使用软引用（SoftObjectPtr / SoftClassPtr）、接口可以避免硬引用、使用字符串路径 + 动态加载。&#xA;什么时候用软引用什么时候用硬引用&#xA;应该在关键对象上使用硬引用（GameMode、PlayerController等） 还有只会加载一次的资源地形等。&#xA;对于暂时不需要且体积大的对象用软引用，比如武器库、剧情章节等。&#xA;对象指针 TobjectPtr 虽然也属于硬引用，但相比传统 UObject*，它的确能减少一些不必要的加载链触发和GC压力，因为它底层是句柄索引，普通指针在 GC 或序列化时可能触发对象加载，而 TObjectPtr 通过索引追踪，避免了这种不必要的加载链。&#xA;在发布构建的时候会转化原始指针，为了提升运行时性能（少一次句柄解析开销），减少内存占用（不需要额外维护句柄表引用）&#xA;输入绑定流程 Native Gameplay Tags 创建全局访问的GameplayTags&#xA;Input Config Data Asset 创建DataAsset用于映射gameplaytag&amp;mdash;&amp;gt;input action&#xA;Custom Input Component 自定义输入组件</description>
     </item>
     <item>
       <title>无人机AI玩法制作</title>
-      <link>http://localhost:1313/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%97%A0%E4%BA%BA%E6%9C%BAai%E7%8E%A9%E6%B3%95/</link>
+      <link>https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%97%A0%E4%BA%BA%E6%9C%BAai%E7%8E%A9%E6%B3%95/</link>
       <pubDate>Fri, 11 Jul 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%97%A0%E4%BA%BA%E6%9C%BAai%E7%8E%A9%E6%B3%95/</guid>
+      <guid>https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E6%97%A0%E4%BA%BA%E6%9C%BAai%E7%8E%A9%E6%B3%95/</guid>
       <description>无人机巡逻追踪玩家第一版： 目标：场景中有无人机巡逻飞行，无人机下挂着探照灯，巡逻时是白色灯光沿着样条线飞行；当遇到玩家后灯光变黄色并且追踪玩家，玩家在灯光区域内待到一定时间就会触发警报。&#xA;方法：&#xA;球形碰撞体为根组件位置在无人机的下方用于检测玩家是否进入这个区域（overlap）&#xA;骨骼网格体是无人机的骨骼 不做任何事&#xA;SpotLight灯光 更换灯光颜色&#xA;静态网格体是圆锥体形状的灯柱 更换材质上的颜色&#xA;SplineComponent 样条线组件 设置为绝对世界坐标&#xA;FloatingPawn移动组件用于飞行移动 更改速度&#xA;样条线组件有自己的方法可以得到当前点的位置，当移动到起始位置和终点位置时切换方向，假如有3个点，呢就是0 1 2 1 0这样遍历每个点的位置，无人机AIController直接MoveToLocation到这个点。&#xA;void APMS_PatrolDrone::MoveAlongPatrol() { if(PatrolRouteComponent) { FVector TargetPosition = GetSplinePointWorldPosition(); if(AIController) { AIController-&amp;gt;MoveToLocation(TargetPosition, 5); IncrementPatrolRoute(); } } } void APMS_PatrolDrone::IncrementPatrolRoute() { PatrolIndex += Direction; if(PatrolRouteComponent-&amp;gt;GetNumberOfSplinePoints() - 1 == PatrolIndex) { Direction = -1; } else if(PatrolIndex == 0) { Direction = 1; } } FVector APMS_PatrolDrone::GetSplinePointWorldPosition() { FVector Position = PatrolRouteComponent-&amp;gt;GetLocationAtSplinePoint(PatrolIndex, ESplineCoordinateSpace::World); return Position; } 在服务器端BeginPlay执行巡逻并且绑定球形碰撞体的Overlap委托。服务器用于改变速度，客户端更改灯光灯柱颜色。枚举变量FlightState有巡逻、追踪、警告状态，同步状态变量，在更改时调用OnSetState，</description>
     </item>
     <item>
       <title>UI制作体力条、选择房间</title>
-      <link>http://localhost:1313/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/ui%E5%88%B6%E4%BD%9C/</link>
+      <link>https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/ui%E5%88%B6%E4%BD%9C/</link>
       <pubDate>Fri, 04 Jul 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/ui%E5%88%B6%E4%BD%9C/</guid>
+      <guid>https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/ui%E5%88%B6%E4%BD%9C/</guid>
       <description>选择房间进入不同服务器 创建一个通用的UMG_CheckBox，其中包含显示房间号的TextBlock和CheckBox。&#xA;在UIDefine.ts中声明一个Map用来存储房间号和端口的映射关系 这个文件的数据全局都可以访问到。&#xA;export const RoomToPortMap: Map&amp;lt;string, string&amp;gt; = new Map&amp;lt;string, string&amp;gt;([ [&amp;#34;房间1&amp;#34;, &amp;#34;7770&amp;#34;], [&amp;#34;房间2&amp;#34;, &amp;#34;7771&amp;#34;], [&amp;#34;房间3&amp;#34;, &amp;#34;7772&amp;#34;], ]); 在LobbyMainSystem.ts（进入游戏前的大厅）的OnCreated中调用创建选择房间的CheckBox控件&#xA;声明一个Map用来存储CheckBox和房间号的映射，可以通过CheckBox对应的房间号查找到RoomToPortMap的房间对应的端口号。&#xA;CheckBoxToRoom: Map&amp;lt;UE.CheckBox, string&amp;gt; = new Map(); OnCreated(InUEWidget: UE.BJ_UserWidgetBase): void { super.OnCreated(InUEWidget); // ... const Container = this.UEWidget.CheckBoxContainer as UE.VerticalBox; this.CreateRoomCheckBox(Container); } protected UncheckOtherCheckBoxes(SelectCheckBox: UE.CheckBox): void { for (let [CheckBox] of this.CheckBoxToRoom) { if (CheckBox !== SelectCheckBox) { CheckBox.SetIsChecked(false); } } } protected GetSelectedRoomPort(): string | null { for (let [Checkbox, Room] of this.</description>
     </item>
     <item>
       <title>GAS知识点笔记</title>
-      <link>http://localhost:1313/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/gas%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
+      <link>https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/gas%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
       <pubDate>Fri, 27 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/gas%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
+      <guid>https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/gas%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
       <description>GAS部分知识点 ASC（Ability System Component）主要组件（谁放技能）&#xA;AS（Attribute Set）角色身上可以用float表示的属性，如生命值、体力值等（技能改变的属性）&#xA;GA（Gameplay Abilities）角色的技能，包括攻击、疾跑、施法、翻滚、使用道具等，但不包括基础移动和UI（技能逻辑）&#xA;GE（Gameplay Effects）用于修改属性，如增加移动速度等（技能的效果）&#xA;GC（Gameplay Cues）播放特效、音效等（技能的视效）&#xA;GameplayTag（技能涉及的条件）&#xA;GameplayTask（技能长时行动）&#xA;GameplayEvent（技能消息事件）&#xA;ASC 在构造函数中创建ASC组件，其中ReplicationMode三种模式：Full、Mixed、Minimal&#xA;比如大招GE会被同步给队友，但是普通技能的冷却时间不会被同步。但是AI设置为Minimal，因为不需要别人知道他的技能冷却时间等。&#xA;其中Mixed模式必须要设置拥有者为控制器&#xA;PMSAbilitySystemComponent = CreateDefaultSubobject&amp;lt;UPMS_AbilitySystemComponent&amp;gt;(CharacterASCName); PMSAbilitySystemComponent-&amp;gt;SetReplicationMode(EGameplayEffectReplicationMode::Mixed); PMSAttributeSetBase = CreateDefaultSubobject&amp;lt;UPMS_AttributeSetBase&amp;gt;(CharacterAttributeSetName); Attribute 有两个值，BaseValue和CurrentValue，其中CurrentValue是BaseValue加上GE给的临时修改值后得到的，比如BaseValue生命值100，捡到药水瓶CurrentValue = 150&#xA;在PreAttributeChange中处理对CurrentValue的修改以及取值范围问题, 在PostGameplayEffectExecute中处理GE对BaseValue的修改&#xA;Meta Attribute是临时的、可被任意GE修改、不可同步的，将于任意Attribute交互的临时属性。 比如伤害值作为Meta Attribute占位符, 而不是使用GE直接修改生命值Attribute, 使用这种方法, 伤害值就可以在GameplayEffectExecutionCalculation中由buff和debuff修改, 并且可以在AttributeSet中进一步操作。&#xA;Set和Init的区别是在于Set只能设置basevalue， 而init可以设置currentvalue和basevalue&#xA;在PlayerCharacterBase的BeginPlay中，绑定委托、初始化属性、初始化GA&#xA;void APMS_CharacterBase::BeginPlay() { Super::BeginPlay(); BindAttributesDelegate(); PMSAttributeSetBase-&amp;gt;InitAttributes(); FTimerHandle hld; GetWorld()-&amp;gt;GetTimerManager().SetTimer(hld, this, &amp;amp;APMS_CharacterBase::InitAttributes, 0.1f); } void APMS_CharacterBase::BindAttributesDelegate() { if (IsValid(PMSAbilitySystemComponent) &amp;amp;&amp;amp; IsValid(PMSAttributeSetBase)) { HealthChangedDelegateHandle = PMSAbilitySystemComponent-&amp;gt;GetGameplayAttributeValueChangeDelegate(PMSAttributeSetBase-&amp;gt;GetHealthAttribute()).AddUObject(this, &amp;amp;ThisClass::HealthChanged); // ... } } void UPMS_AttributeSetBase::InitAttributes() { InitHealth(100.</description>
     </item>
     <item>
       <title>场景基础功能优化</title>
-      <link>http://localhost:1313/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%9C%BA%E6%99%AF%E5%9F%BA%E7%A1%80%E5%8A%9F%E8%83%BD%E4%BC%98%E5%8C%96/</link>
+      <link>https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%9C%BA%E6%99%AF%E5%9F%BA%E7%A1%80%E5%8A%9F%E8%83%BD%E4%BC%98%E5%8C%96/</link>
       <pubDate>Wed, 18 Jun 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%9C%BA%E6%99%AF%E5%9F%BA%E7%A1%80%E5%8A%9F%E8%83%BD%E4%BC%98%E5%8C%96/</guid>
+      <guid>https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%9C%BA%E6%99%AF%E5%9F%BA%E7%A1%80%E5%8A%9F%E8%83%BD%E4%BC%98%E5%8C%96/</guid>
       <description>场景飞屑特效表现功能 当角色进入到一个触发范围内会在角色位置上生成特效&#xA;使用两个定时器分别是FPlayVfxTimerHandle和FCheckTimerHandle&#xA;删除Tick函数设置bCanEverTick = false 因为不使用到Tick所以删除会提升性能&#xA;构造函数中初始化初始化一个可见的无碰撞球体，为了布置场景时看到范围。在BeginPlay中直接获取球体半径作为DistanceToPlayer的值。&#xA;FCheckTimerHandle定时器用于每秒判断角色是否进入到范围内&#xA;FPlayVfxTimerHandle定时器用于不断播放特效，并设置一个bIsVFXPlaying用于判断是否正在播放特效，如果已经在播放特效了并且超出距离就会清空FPlayVfxTimerHandle特效播放定时器；如果没有在播放特效并且在距离范围内则会开启定时器。&#xA;为什么一定需要bIsVFXPlaying，因为否则人物在距离内时第一个FCheckTimerHandle会不断地调用CheckDistance函数导致无法播放特效。&#xA;APMS_VFXTriggerActor::APMS_VFXTriggerActor() { // Set this actor to call Tick() every frame. You can turn this off to improve performance if you don&amp;#39;t need it. PrimaryActorTick.bCanEverTick = false; DetectionSphere = CreateDefaultSubobject&amp;lt;USphereComponent&amp;gt;(TEXT(&amp;#34;DetectionSphere&amp;#34;)); RootComponent = DetectionSphere; DetectionSphere-&amp;gt;SetCollisionEnabled(ECollisionEnabled::NoCollision); } void APMS_VFXTriggerActor::BeginPlay() { Super::BeginPlay(); DistanceToPlayer = DetectionSphere-&amp;gt;GetScaledSphereRadius(); if(GetWorld()-&amp;gt;GetNetMode() == NM_Standalone || GetWorld()-&amp;gt;GetNetMode() == NM_Client) { GetWorld()-&amp;gt;GetTimerManager().SetTimer(FCheckTimerHandle, this, &amp;amp;APMS_VFXTriggerActor::CheckDistance, 1.0f, true);&#x9;} } void APMS_VFXTriggerActor::CheckDistance() { APMS_ZombiePlayerCharacter* PlayerCharacter = Cast&amp;lt;APMS_ZombiePlayerCharacter&amp;gt;(GetWorld()-&amp;gt;GetFirstPlayerController()-&amp;gt;GetPawn()); if (PlayerCharacter) { float Distance = PlayerCharacter-&amp;gt;GetDistanceTo(this); if (Distance &amp;lt;= DistanceToPlayer &amp;amp;&amp;amp; !</description>
     </item>
     <item>
       <title>多人FPS游戏制作笔记</title>
-      <link>http://localhost:1313/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%A4%9A%E4%BA%BAfps%E6%B8%B8%E6%88%8F%E5%88%B6%E4%BD%9C/</link>
+      <link>https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%A4%9A%E4%BA%BAfps%E6%B8%B8%E6%88%8F%E5%88%B6%E4%BD%9C/</link>
       <pubDate>Fri, 23 May 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%A4%9A%E4%BA%BAfps%E6%B8%B8%E6%88%8F%E5%88%B6%E4%BD%9C/</guid>
+      <guid>https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E5%A4%9A%E4%BA%BAfps%E6%B8%B8%E6%88%8F%E5%88%B6%E4%BD%9C/</guid>
       <description>角色添加了四个骨骼，分别是第一人称视角的：LegMesh自己看自己的腿，FirstPersonMesh自己看自己的手，和其他玩家视角的全身模型：ThirdpersonMesh，以及ShadowMesh影子网格体&#xA;动画完成了人物的走跑（八方向混合空间）、跳（起跳—在空中—落地）、射击部分。&#xA;射击实现 protected: void SetupInputComponent() override; protected: UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = &amp;#34;EnhancedInput&amp;#34;, meta = (AllowPrivateAccess = &amp;#34;true&amp;#34;)) TObjectPtr&amp;lt;class UInputMappingContext&amp;gt; DefaultIMC; void ADemoPlayerController::SetupInputComponent() { Super::SetupInputComponent(); if(UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem&amp;lt;UEnhancedInputLocalPlayerSubsystem&amp;gt;(GetLocalPlayer())) { FModifyContextOptions Options; Options.bForceImmediately = true; Subsystem-&amp;gt;ClearAllMappings(); if(DefaultIMC) { Subsystem-&amp;gt;AddMappingContext(DefaultIMC, 0, Options); } } } 在SetupPlayerInputComponent中调用自定义输入组件绑定输入。&#xA;void ADemoPlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) { Super::SetupPlayerInputComponent(PlayerInputComponent); UDemoPlayerInputComponent* DemoInput = CastChecked&amp;lt;UDemoPlayerInputComponent&amp;gt;(PlayerInputComponent); if (DemoInput) { DemoInput-&amp;gt;SetupInputBindings(); } } void UDemoPlayerInputComponent::SetupInputBindings() { if(IA_DemoFire) { BindAction(IA_DemoFire, ETriggerEvent::Started, this, &amp;amp;UDemoPlayerInputComponent::StartFire); BindAction(IA_DemoFire, ETriggerEvent::Completed, this, &amp;amp;UDemoPlayerInputComponent::EndFire); } } 自定义输入组件中的开火函数用来调用ADemoPlayerCharacter的开火函数</description>
     </item>
     <item>
       <title>数据结构与UE模块创建</title>
-      <link>http://localhost:1313/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/tarrayandtmap/</link>
+      <link>https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/tarrayandtmap/</link>
       <pubDate>Fri, 16 May 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/tarrayandtmap/</guid>
+      <guid>https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/tarrayandtmap/</guid>
       <description>数据结构Array、List、Stack、Queue、TArray、TMap&#xA;UGit新增分支&#xA;UE模块创建&#xA;附件： List.cpp Queue.cpp Stack.cpp TArray.cpp TMap.cpp&#xA;Array.cpp&#xA;TArray TArray类型由两大属性定义：元素类型和可选分配器（默认FDefaultAllocator）。&#xA;TArray只是内存的包装器，是对一块动态分配的连续内存进行管理。&#xA;比如你要一次性从文件或网络中读取 100 个 FMyStruct，而不想一个一个 Add，还要调用构造函数再赋值，影响效率。就可以使用AddUninitialized。&#xA;TArray&amp;lt;FMyStruct&amp;gt; MyArray; MyArray.AddUninitialized(100); // 分配空间而不调用构造 // 假设你从磁盘中读了一块内存 FMemory::Memcpy(MyArray.GetData(), FileBuffer, 100 * sizeof(FMyStruct)); AddZeroed(int32 Count) 插入5个元素，但不会调用构造函数并且内存会被填充为0（memset）。适合纯数据结构体（POD）：结构体没有虚函数、继承、自定义构造和析构。比如FString就不是POD，因为管理堆内存、有构造和析构等。&#xA;SetNumUninitialized(int32 NewNum) 修改数组长度为100，扩容部分不会构造元素，只是扩展内存。&#xA;Slack Slack可调整数组的大小，为了避免每次添加元素都要重新分配内存，分配器提供的内存通常会超过必要内存，自认为和Vector一样。同样删除元素不会释放内存，此操作会是数组拥有Slack元素，也就是当前未使用的有效预分配元素储存槽。（可储存的元素数量 - 存储元素数量 = Slack）&#xA;堆 TArray拥有支持二叉堆数据结构的函数，调用Heapify函数可将现有数组转换为堆。&#xA;TArray&amp;lt;int32&amp;gt; HeapArr; for (int32 Val = 10; Val != 0; --Val) { HeapArr.Add(Val); } // HeapArr == [10,9,8,7,6,5,4,3,2,1] HeapArr.Heapify(); // HeapArr == [1,2,4,3,6,5,8,10,7,9] HeapPush 将新元素添加到堆，并重新排序维护堆。</description>
     </item>
     <item>
       <title>FPS游戏项目制作笔记</title>
-      <link>http://localhost:1313/posts/ue/fps%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/</link>
+      <link>https://geeteng.github.io/posts/ue/fps%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/</link>
       <pubDate>Tue, 15 Apr 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/ue/fps%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/</guid>
+      <guid>https://geeteng.github.io/posts/ue/fps%E9%A1%B9%E7%9B%AE%E7%AC%94%E8%AE%B0/</guid>
       <description>枪械 考虑到不同枪有不同后坐力，所以在ShooterGun.h中创建了结构体用来存储枪械的后坐力。&#xA;USTRUCT(BlueprintType) struct FRecoilConfig { GENERATED_BODY() UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = &amp;#34;Recoil&amp;#34;) float VerticalBase = -0.1f; // 基础垂直后坐力 UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = &amp;#34;Recoil&amp;#34;) float VerticalRandomRange = 0.02f; // 垂直随机扰动范围 UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = &amp;#34;Recoil&amp;#34;) float HorizontalRandomRange = 0.05f; // 水平随机扰动范围 }; 在该函数中改变控制器的Pitch和Yaw偏移量&#xA;void AShooterGun::MakeRecoilCPP() { AShooterCharacter* Character = Cast&amp;lt;AShooterCharacter&amp;gt;(UGameplayStatics::GetPlayerCharacter(this, 0)); if (Character) { // 根据不同枪设置不同后坐力 float FinalPitch = RecoilConfig.VerticalBase + FMath::FRandRange(-RecoilConfig.VerticalRandomRange, RecoilConfig.VerticalRandomRange); float FinalYaw = FMath::FRandRange(-RecoilConfig.HorizontalRandomRange, RecoilConfig.HorizontalRandomRange); Character-&amp;gt;AddControllerPitchInput(FinalPitch); Character-&amp;gt;AddControllerYawInput(FinalYaw); } } 添加镜头抖动</description>
     </item>
     <item>
       <title>LeetCode日常刷题整理</title>
-      <link>http://localhost:1313/posts/c&#43;&#43;/leetcode%E6%97%A5%E5%B8%B8%E5%88%B7%E9%A2%98%E6%95%B4%E7%90%86/</link>
+      <link>https://geeteng.github.io/posts/c&#43;&#43;/leetcode%E6%97%A5%E5%B8%B8%E5%88%B7%E9%A2%98%E6%95%B4%E7%90%86/</link>
       <pubDate>Thu, 27 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/c&#43;&#43;/leetcode%E6%97%A5%E5%B8%B8%E5%88%B7%E9%A2%98%E6%95%B4%E7%90%86/</guid>
+      <guid>https://geeteng.github.io/posts/c&#43;&#43;/leetcode%E6%97%A5%E5%B8%B8%E5%88%B7%E9%A2%98%E6%95%B4%E7%90%86/</guid>
       <description>841. 钥匙和房间 841. 钥匙和房间 - 力扣（LeetCode）&#xA;有 n 个房间，房间按从 0 到 n - 1 编号。最初，除 0 号房间外的其余所有房间都被锁住。你的目标是进入所有的房间。然而，你不能在没有获得钥匙的时候进入锁住的房间。&#xA;当你进入一个房间，你可能会在里面找到一套 不同的钥匙，每把钥匙上都有对应的房间号，即表示钥匙可以打开的房间。你可以拿上所有钥匙去解锁其他房间。&#xA;给你一个数组 rooms 其中 rooms[i] 是你进入 i 号房间可以获得的钥匙集合。如果能进入 所有 房间返回 true，否则返回 false。&#xA;示例 1：&#xA;输入：rooms = [[1],[2],[3],[]]&#xD;输出：true&#xD;解释：&#xD;我们从 0 号房间开始，拿到钥匙 1。&#xD;之后我们去 1 号房间，拿到钥匙 2。&#xD;然后我们去 2 号房间，拿到钥匙 3。&#xD;最后我们去了 3 号房间。&#xD;由于我们能够进入每个房间，我们返回 true。 我用的bfs方法，用一个indexused数组来标记是否该房间被访问过，将访问过的房间的钥匙不断加入到队列中。&#xA;最后遍历indexused数组，看是否所有房间都被访问过。&#xA;class Solution { public: bool canVisitAllRooms(vector&amp;lt;vector&amp;lt;int&amp;gt;&amp;gt;&amp;amp; rooms) { int n = rooms.size(); queue&amp;lt;int&amp;gt; q; vector&amp;lt;bool&amp;gt; indexused(n, false); q.</description>
     </item>
     <item>
       <title>内存管理</title>
-      <link>http://localhost:1313/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</link>
+      <link>https://geeteng.github.io/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</link>
       <pubDate>Wed, 19 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</guid>
+      <guid>https://geeteng.github.io/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/</guid>
       <description>内存回收OOM malloc分配的是虚拟内存，而非物理内存。当这块虚拟内存被读写了的时候，CPU会访问这块虚拟内存，然后发现该虚拟内存没有被映射到物理内存，CPU就会产生缺页中断，进程从用户态 一&amp;gt; 内核态。&#xA;缺页中断处理函数（Page Fault Handler）会判断是否有空闲的物理内存，如果有，就直接分配物理内存，否则回收内存。&#xA;有两种回收内存的方式：后台内存回收（异步）、直接内存回收（如果后台回收跟不上进程内存申请的速度就会开始直接回收，这个过程是同步的，会阻塞进程执行）。&#xA;如果直接内存回收，仍旧不满足申请的内存大小，那么就会触发OOM（Out Of Memory）机制。&#xA;OOM机制会根据算法杀死一个占用物理内存最高的进程，如果还是无法满足，继续杀死进程，直到释放足够多的内存。&#xA;如何保护一个进程不被OOM杀掉呢？&#xA;Linux中通过oom_badness()对每个进程打分，得分最高的进程会被杀掉。得分机制：&#xA;进程所占用物理内存页面数量 每个进程的OOM校准值oom_score_adj [-1000, 1000] 我们可以通过调整校准值来防止进程被OOM杀掉。比如说设置成-1000，无论如何都不会被杀掉。但是不建议将业务程序这样设置，因为如果某个业务程序发生内存泄漏，而又无法被杀掉，那么OOM会把其他进程都杀掉了。&#xA;文件页和匿名页 哪些内存会被回收？&#xA;文件页：内核缓存的文件数据（Cache）和内核缓存的磁盘数据（Buffer）都属于文件页。如果被应用程序修改过并且还没写入磁盘的数据叫做脏页。回收干净页的方式是直接释放内存，回收脏页的方式是先写回磁盘后再释放内存。&#xA;匿名页：没有磁盘这样的实际载体，比如栈和堆。这些内存不能直接释放，因为很可能会再次被访问。将不常访问的数据换出物理内存放到磁盘中的swap分区，如果需要访问，就从磁盘中读入内存（会发生缺页中断）而常访问的数据会在物理内存RAM / Cache / TLB——系统会根据数据的访问热度，在多个层次自动做缓存或常驻处理。&#xA;文件页是比如说我d盘里有一个文件然后程序去读取，读取之后可以丢掉因为磁盘里有这个东西，但是匿名页是没有实际载体，是在程序运行中分配的数据。&#xA;文件页和匿名页的回收都基于LRU算法。&#xA;回收内存除了回收干净页，都会发生磁盘 I/O的，这会影响系统性能。&#xA;可以申请虚拟内存超过物理内存吗？&#xA;在32位操作系统，进程最大只能申请3GB的虚拟内存。&#xA;在64位操作系统，进程最大可以申请128TB的虚拟内存。&#xA;所以如果想在4GB的物理内存空间上直接申请8GB的虚拟内存，在32位操作系统上会申请失败，而在64位会成功。&#xA;如果有Swap分区，即使物理内存只有4GB，进程也可以正常使用8GB的内存。&#xA;LRU预读失效 LRU预读失效怎么办？&#xA;如果应用程序想读取 0 - 3KB 范围内的数据，由于磁盘基本读写单位为 block（4KB），于是操作系统至少会读 0 - 4KB 的内容，但是由于空间局部性原理（靠近当前被访问数据的数据，在未来很大概率会被访问到），所以会把[4, 8]，[8, 12]以及[12, 16]都加载到内存。&#xA;预读机制带来的好处是减少磁盘 I/O 次数，提高系统磁盘 I/O 吞吐量。&#xA;预读失效：就是这些被提前加载进来的页面没有被访问，相当于预读白做了。不会被访问的预读页却占用了 LRU 链表前排的位置，而末尾淘汰的页，可能是热点数据，这样就大大降低了缓存命中率。&#xA;想要避免预读失效，就要尽可能地保证预读的数据停留内存的时间要短，真正的热点数据尽可能久的留在内存。Linux操作系统就实现了两个LRU链表：活跃LRU链表(active_list)和非活跃LRU链表(inactive_list)。&#xA;预读页就只需要加入到 inactive list 区域的头部，当页被真正访问的时候，才将页插入 active list 的头部。&#xA;缓存污染 缓存污染怎么办？&#xA;虽然两个LRU链表可以解决预读失效的问题，但是还会存在缓存污染的问题。当批量读取数据时，如果数据被访问了一次就加入到LRU中，那么活跃链表中会一下子淘汰了很多热点数据，而那些被新加入的数据很长一段时间不会被访问，导致了整个LRU活跃链表被污染。等到下一次读到那些热点数据的时候，一下子发生了很多次磁盘I/O，性能急剧下降。</description>
     </item>
     <item>
       <title>图形学基础题汇总</title>
-      <link>http://localhost:1313/posts/graphics/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%9F%BA%E7%A1%80%E9%A2%98/</link>
+      <link>https://geeteng.github.io/posts/graphics/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%9F%BA%E7%A1%80%E9%A2%98/</link>
       <pubDate>Tue, 18 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/graphics/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%9F%BA%E7%A1%80%E9%A2%98/</guid>
+      <guid>https://geeteng.github.io/posts/graphics/%E5%9B%BE%E5%BD%A2%E5%AD%A6%E5%9F%BA%E7%A1%80%E9%A2%98/</guid>
       <description>判断线段是否和矩形相交 #include&amp;lt;iostream&amp;gt; struct Point { double x, y; }; // 是否在矩形内部 bool insideRectangle(Point p, Point rectMin, Point rectMax) { return p.x &amp;lt;= rectMax.x &amp;amp;&amp;amp; p.x &amp;gt;= rectMin.x &amp;amp;&amp;amp; p.y &amp;lt;= rectMax.y &amp;amp;&amp;amp; p.y &amp;gt;= rectMin.y; } // 叉乘公式 double crossProduct(Point a, Point b, Point c) { return (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x); } // 线段是否相交 bool isIntersecting(Point p1, Point p2, Point q1, Point q2) { double d1 = crossProduct(p1, p2, q1); double d2 = crossProduct(p1, p2, q2); double d3 = crossProduct(q1, q2, p1); double d4 = crossProduct(q1, q2, p2); return (d1 * d2 &amp;lt;= 0) &amp;amp;&amp;amp; (d3 * d4 &amp;lt;= 0); } bool LineIntersectingRectangle(Point p1, Point p2, Point rectMin, Point rectMax) { if (insideRectangle(p1, rectMin, rectMax) || insideRectangle(p2, rectMin, rectMax)) return true; Point topLeft = { rectMin.</description>
     </item>
     <item>
       <title>剑指Offer</title>
-      <link>http://localhost:1313/posts/c&#43;&#43;/%E5%89%91%E6%8C%87offer/</link>
+      <link>https://geeteng.github.io/posts/c&#43;&#43;/%E5%89%91%E6%8C%87offer/</link>
       <pubDate>Thu, 13 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/c&#43;&#43;/%E5%89%91%E6%8C%87offer/</guid>
+      <guid>https://geeteng.github.io/posts/c&#43;&#43;/%E5%89%91%E6%8C%87offer/</guid>
       <description>剑指offer JZ8 二叉树的下一个节点 先找到传入节点所在树的根节点，然后用一个数组存储好中序遍历的节点。就可以顺序查找到下一个节点了。&#xA;vector&amp;lt;TreeLinkNode*&amp;gt; node; TreeLinkNode* GetNext(TreeLinkNode* pNode) { if(pNode == nullptr) return nullptr; TreeLinkNode* root = pNode; while(root-&amp;gt;next) { root = root-&amp;gt;next; } inOrder(root); for(int i = 0; i &amp;lt; node.size(); i ++) { if(node[i] == pNode) return node[i + 1]; } return nullptr; } void inOrder(TreeLinkNode* pNode) { if(pNode == nullptr) return; inOrder(pNode-&amp;gt;left); node.push_back(pNode); inOrder(pNode-&amp;gt;right); } JZ11 旋转数组的最小数字 旋转数组左边数组大于右边数组，所以如果中间元素大于右边元素的话，最小值在右边。如果中间元素小于右边，那么最小值在左边。如果中间元素等于右边元素，则无法判断，一个个移动。&#xA;int minNumberInRotateArray(vector&amp;lt;int&amp;gt;&amp;amp; nums) { int l = 0, r = nums.</description>
     </item>
     <item>
       <title>LeetCode热题100</title>
-      <link>http://localhost:1313/posts/c&#43;&#43;/leetcodehot100/</link>
+      <link>https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/</link>
       <pubDate>Wed, 12 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/c&#43;&#43;/leetcodehot100/</guid>
+      <guid>https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/</guid>
       <description>LeetCodeHot100 哈希 49. 字母异位词分组 class Solution { public: vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; groupAnagrams(vector&amp;lt;string&amp;gt;&amp;amp; strs) { int n = strs.size(); vector&amp;lt;vector&amp;lt;string&amp;gt;&amp;gt; res; unordered_map&amp;lt;string, vector&amp;lt;string&amp;gt;&amp;gt; mp; for(int i = 0; i &amp;lt; n; i ++) { string tmp = strs[i]; sort(tmp.begin(), tmp.end()); mp[tmp].emplace_back(strs[i]); } for(auto it = mp.begin(); it != mp.end(); it ++) { res.push_back(it-&amp;gt;second); } return res; } }; 128. 最长连续序列 如果num - 1是不存在的，则开始往后查找num + 1，每次更新num为num + 1，继续找num + 1，直到找不到位置，去更新maxlen。&#xA;注意：要遍历unordered_set，而不是原数组，否则会TLE。&#xA;class Solution { public: int longestConsecutive(vector&amp;lt;int&amp;gt;&amp;amp; nums) { unordered_set&amp;lt;int&amp;gt; map(nums.</description>
     </item>
     <item>
       <title>路径规划算法</title>
-      <link>http://localhost:1313/posts/game/pathplaning/</link>
+      <link>https://geeteng.github.io/posts/game/pathplaning/</link>
       <pubDate>Wed, 05 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/game/pathplaning/</guid>
+      <guid>https://geeteng.github.io/posts/game/pathplaning/</guid>
       <description>A*搜索算法 A*算法是启发式搜索方法，但是在游戏开发中，A*算法会受到一些因素的制约：&#xA;计算开销和实时性问题 在图比较大的时候可能非常耗时，尤其是在需要频繁计算路径的实时游戏中。游戏中的路径寻找需要快速响应，尤其是在开放世界或有动态元素的场景中。而且A*算法通常是在静态地图上执行的，但是许多环境玩家、敌人、障碍物会发生改变，每当发生改变的时候都需要重新计算路径，导致性能问题。&#xA;平滑性&#xA;A*算法生成的路径通常是“阶梯状”的，并不自然。可能导致拐角过多，移动不平滑，而如果再去平滑路径，又增加了额外的计算开销。&#xA;把代价分成两部分：&#xA;当前代价：一共走过多少格子 预估代价：从当前位置到终点位置需要走多少格子 可以使用曼哈顿距离或欧拉距离，将两部分代价相加起来。永远走向代价最小的位置。</description>
     </item>
     <item>
       <title>Linux学习</title>
-      <link>http://localhost:1313/posts/c&#43;&#43;/linux/</link>
+      <link>https://geeteng.github.io/posts/c&#43;&#43;/linux/</link>
       <pubDate>Sun, 02 Mar 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/c&#43;&#43;/linux/</guid>
+      <guid>https://geeteng.github.io/posts/c&#43;&#43;/linux/</guid>
       <description>Linux基础操作 静态库 动态库 静态库：程序在编译时会把库文件的二进制编码链接到目标程序中。&#xA;如果多个程序中用到了同一静态库中的函数，就会存在多份拷贝。&#xA;生成静态库&#xA;g++ -c -o libpublic.a public.cpp 编译 demo.cpp 并链接一个名为 public 的库&#xA;g++ -o demo demo.cpp -L/home/test1/codes/tools -lpublic 动态库（共享库）：编译时不会把库文件的二进制代码链接到目标程序中，运行时候才会被载入。&#xA;如果多个进程在用到同一动态库中的函数 / 类，那么在内存中只有一份，避免了空间浪费的问题。&#xA;程序升级比较简单 不需要重新编译 只需要更新动态库。&#xA;如果静态库和动态库同时存在，会优先使用动态库。&#xA;生成动态库&#xA;g++ -gPIC -shared -o libpublic.so public.cpp 编译并链接动态库&#xA;g++ -o demo demo.cpp -L/home/test1/codes/tools -lpublic 发现执行会报错显示找不到这样的文件 原因是需要设置好环境变量&#xA;使用make来生成库，可以避免写呢么多代码。&#xA;# 指定编译的目标文件是 libpublic.a 和 libpublic.so all:libpublic.a \ libpublic.so # 编译 libpublic.a 需要依赖 public.h 和 public.cpp # 如果被依赖文件内容发生了变化，将重新编译 libpublic.a libpublic.a:public.h public.cpp g++ -c -o libpublic.</description>
     </item>
     <item>
       <title>应用层传输层网络层</title>
-      <link>http://localhost:1313/posts/cs_basic/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ip%E5%B1%82/</link>
+      <link>https://geeteng.github.io/posts/cs_basic/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ip%E5%B1%82/</link>
       <pubDate>Mon, 13 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/cs_basic/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ip%E5%B1%82/</guid>
+      <guid>https://geeteng.github.io/posts/cs_basic/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/ip%E5%B1%82/</guid>
       <description>网络通信协议(互联网协议) - cls超 - 博客园&#xA;1. IP篇 ip地址划分 A类：1.0.0.1 ~ 126.255.255.254（0 - 127）&#xA;B类：128.0.0.1 ~ 191.255.255.254（128 - 192）&#xA;C类：192.0.0.1 ~ 223.255.255.254 （192 - 224）&#xA;D类 组播 VRRP协议（224 - 239）&#xA;E类 科研（240 - 255）&#xA;其中127地址可用作本地软件环回测试，进程之间通信。127.0.0.1（本机地址） 是一个不可路由的私有 IP 地址。&#xA;通过判断第1位地址为0还是1、第2位地址为0还是1..来判断是哪类地址。&#xA;私有ip地址范围：&#xA;A类 10.0.0.0 ~ 10.255.255.255&#xA;B类 172.16.0.0 ~ 172.31.255.255&#xA;C类 192.168.0.0 ~ 192.168.255.255&#xA;默认网关 = 路由器地址公网ip（自己电脑看是内网ip）&#xA;主机号全为0表示某个网络，主机号全为1表示某个网络下的所有主机，用于广播。&#xA;广播地址用于在同一个链路中互相连接的主机之间发送数据包。&#xA;子网掩码 子网掩码表示子网络特征的一个参数，它的网络部分全部为1，主机部分全部为0，比如255.255.255.128。&#xA;知道子网掩码就可以判断两个IP地址是否处于同一网段，将两个IP地址分别进行AND运算，比较结果是否相同，如果是的话就表明在同一网络中。&#xA;假设有一个IP地址172.16.10.1的子网掩码是255.255.255.0（对应二进制有24个1），所以可以写为172.16.10.1/24。&#xA;IP协议的作用主要有两个，一个是为每一台计算机分配IP地址（DHCP动态分配），另一个是确定哪些地址在同一个子网络。&#xA;DNS解析 DNS（Domain Name System）：域名系统，将域名解析成ip地址。&#xA;计算机和计算机直接通信是通过ip:端口来实现的。&#xA;DNS由来： 比如说你想访问百度，但是没办法记住它的ip地址，因为就算记住了百度，还有其他很多别的网站。于是计算机帮我们将ip地址保留在系统里，C:\windows\system32\drivers\etc\hosts文件&#xA;后来有网站专门提供最新的host，但是不断更新很麻烦，所以出现了DNS服务器。&#xA;比如阿里云的：235.5.5.5，谷歌 8.</description>
     </item>
     <item>
       <title>计算机网络课程笔记</title>
-      <link>http://localhost:1313/posts/cs_basic/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
+      <link>https://geeteng.github.io/posts/cs_basic/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
       <pubDate>Mon, 13 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/cs_basic/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
+      <guid>https://geeteng.github.io/posts/cs_basic/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C/%E8%AE%A1%E7%AE%97%E6%9C%BA%E7%BD%91%E7%BB%9C%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
       <description>1. 第一章 概述 1.1 计算机网络体系结构 七层OSI模型&#xA;应用层、表示层、会话层、传输层、网络层、数据链路层、物理层&#xA;应用层：各种应用软件，会发送一个探测数据包，探测双方网络是否能胡同。&#xA;表示层：用来描述文件的类型(比如发送图片，会在整体二进制数据前加上文件类型数据标记)、数据加密。&#xA;会话层：发起会话/接受会话&#xA;传输层：传输数据TCP、UDP&#xA;网络层：定义IP编址、路由功能，如数据转发&#xA;数据链路层：定义数据基本格式，如MAC地址&#xA;物理层：定义物理设备标准，如网线/光纤的接口类型、传输速率等&#xA;五层模型&#xA;应用层、传输层、网络层、数据链路层、物理层&#xA;TCP/IP四层模型&#xA;应用层（HTTP\SMTP\DNS\RTP）、运输层(TCP\UDP)、网络层(IP)、网络接口层&#xA;协议三要素：&#xA;语法：定义交换信息的格式 语义：定义收发双方要完成的操作 同步：定义收发双方的时序关系 1.2 计算机网络分类 1.3 三种交换方式 电路交换 ​&#x9;电话交换机接通电话线的方式称为电路交换，使用电路交换传送计算机数据时，其线路的传输效率往往很低。&#xA;​&#x9;三个步骤：&#xA;建立连接 通话 释放连接 分组交换 ​&#x9;分组交换采用的是存储转发技术&#xA;​&#x9;在发送报文之前，先把较长的报文划分成一个个更小的等长的数据段；然后在数据段的前面加上一些由必要的控制信息组成的首部&#x9;后，就构成了一个分组&#xA;​&#x9;发送方：构造分组、发送分组&#xA;​&#x9;路由器：缓存分组、转发分组&#xA;​&#x9;接收方：接受分组、还原报文&#xA;​&#x9;报文交换 ​&#x9;用于早期的电报通信网，现在较少使用，通常被分组交换方式所取代。&#xA;对比&#xA;2. 第二章 物理层 2.1 物理层的基本概念 解决在各种传输媒体上传输比特0和1的问题，给数据链路层提供透明传输比特流的服务，如：双绞线、同轴电缆、光纤等。&#xA;物理层协议的主要任务&#xA;机械特性：指明接口所用接线器的形状和尺寸、引脚数目和排列、固定和锁定装置。 电气特性：指明在接口电缆的各条线上出现的电压的范围。 功能特性：指明某条线上出现的某一电平的电压表示何种意义。 过程特性：指明对于不同功能的各种可能事件的出现顺序。 2.2 传输媒体和传输方式 导引型传输媒体：同轴电缆、双绞线、光纤（多模光纤、单模光纤）、电力线&#xA;非导引性传输媒体：无线电波、微波、红外线、可见光&#xA;串行传输 / 并行传输&#xA;计算机远距离传输采用串行传输，计算机内部采用并行传输</description>
     </item>
     <item>
       <title>操作系统</title>
-      <link>http://localhost:1313/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
+      <link>https://geeteng.github.io/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</link>
       <pubDate>Fri, 10 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
+      <guid>https://geeteng.github.io/posts/cs_basic/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F/</guid>
       <description>1. 第一章 操作系统概述 1.1 操作系统概念、特征 操作系统是指控制和管理整个计算机系统的硬件和软件资源，并合理的组织调度计算机的工作和资源的分配，以提供给用户和其他软件方便的接口和环境集合。&#xA;并发 并发是指两个或多个事件在同一时间间隔内发生。操作系统的并发是通过分时得以实现的。操作系统的并发性是指计算机系统中同时存在多个运行着的程序，因此它具有处理和调度多个程序同时执行的能力。&#xA;共享 资源共享就是共享，系统中的资源可供内存中多个并发执行的进程同时使用，可分为以下两种。&#xA;互斥共享方式&#xA;比如打印机，不能同时打印两份内容，不然会造成内容混淆。&#xA;同时访问方式&#xA;交替的对该资源进行访问 “分时共享”。&#xA;虚拟 操作系统中利用了多种虚拟技术，分别用来实现虚拟处理机、虚拟内存和虚拟外部设备。&#xA;在虚拟处理器技术中，让多道程序并发执行来分时使用一台处理器，虽然只有一台处理器，但是能同时为多个用户服务。把一台物理上的CPU虚拟为多态逻辑上的CPU称为虚拟处理器。&#xA;虚拟存储器，从逻辑上来扩充存储器的容量。&#xA;虚拟设备技术，将一台物理IO设备虚拟为多台逻辑上的IO设备，允许多个用户同时访问的共享设备。&#xA;异步 在多道程序环境下，允许多个程序并发执行，但由于资源有限，进程的执行不是一贯到底，而是走走停停，以不可预知的速度向前推进，这就是进程的异步性。&#xA;操作系统的目标和功能 为了给多道程序提供良好的运行环境，操作系统应该具有：处理器管理、存储器管理、文件管理和设备管理，还必须向用户提供接口，同时操作系统可用来扩充机器，以提供更方便的服务、更高的资源利用率。&#xA;处理器管理&#xA;对处理器的管理可归结为对进程的管理，主要功能有：进程控制、进程同步、进程通信、死锁处理、处理器调度等。&#xA;存储器管理&#xA;方便用户使用以及提高内存的利用率，存储器管理应具备：内存分配、地址映射、内存保护、共享和内存扩充等。&#xA;文件管理&#xA;包括文件的存储空间管理、目录管理和文件读写管理、文件保护。&#xA;设备管理&#xA;完成用户的IO请求，主要包括混充管理、设备分配、设备处理和虚拟设备等。&#xA;为了方便用户使用操作系统，操作系统还提供了用户接口，分为以下两类。&#xA;命令接口&#xA;使用命令接口进行作业控制的主要方式有两种：联机命令接口和脱机命令接口。&#xA;程序接口&#xA;程序接口由一组系统调用命令组成，用户可以直接使用命令向系统提出各种请求。&#xA;操作系统的结构 简单结构、模块化结构、分层式结构、微内核结构。&#xA;1.3 操作系统的运行环境 操作系统在具体实现上划分了用户态、核心态。&#xA;操作系统内核包括以下4方面：&#xA;时钟管理&#xA;操作系统需要通过时钟管理，向用户提供标准的系统时间。通过时钟中断的管理，可以实现进程切换。&#xA;中断机制&#xA;引入中断机制是为了提高多道程序运行环境中CPU的利用率。&#xA;原语&#xA;原语处于操作系统最底层，是最接近硬件的部分；具有原子性（一气呵成，不可中断）；运行时间短、调用频繁。&#xA;系统控制的数据结构及处理&#xA;常见的基本操作有以下3种，进程管理、存储器管理、设备管理。&#xA;中断和异常 引入核心态和用户态之后，就需要考虑如何在这两种状态下切换。**中断是让操作系统内核夺回CPU使用权的唯一途径。**内核工作在核心态，应用程序工作在用户态，系统不允许用户使用核心态的功能，但是它们又必须使用。&#xA;中断（外中断）&#xA;中断信号来源于CPU外部，与当前执行的指令无关。比如说时钟中断和I/O中断请求，当输入输出任务完成时，向CPU发送中断信号，或时钟部件每隔50ms发送一个中断信号。&#xA;异常（内中断）&#xA;源于CPU执行指令内部，比如程序的非法操作。&#xA;一些由用户态转为核心态的例子：1）用户程序要求系统服务 2）发生一次中断 3）用户程序产生错误 4）用户程序企图执行特权指令&#xA;2. 第二章 进程管理 2.1 进程与线程 进程控制块（PCB）描述进程的基本情况和运行状态，PCB是进程存在的唯一标志。&#xA;进程由PCB、程序段、数据段组成。&#xA;进程的特征 动态性(最基本的特性)、并发性、独立性、异步性、结构性。</description>
     </item>
     <item>
       <title>游戏网络基础</title>
-      <link>http://localhost:1313/posts/game/onlinegame/</link>
+      <link>https://geeteng.github.io/posts/game/onlinegame/</link>
       <pubDate>Wed, 08 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/game/onlinegame/</guid>
+      <guid>https://geeteng.github.io/posts/game/onlinegame/</guid>
       <description>多人网络游戏的挑战： 网络同步 网络延迟、丢包 玩家开挂 不同游戏平台连接 高性能服务器 TCP协议 面向连接的 可靠、有序 流量控制 拥塞控制 TCP重传机制&#xA;正常发包1,2,3,4,5,6,7,8，收包都会带一个ACK序号，收包1,2,3,4,5,6,7,8&#xA;如果5号包丢了的话，那么收到的就是1,2,3,4,4,4,4,4&#xA;Question：什么时候使用TCP / UDP？&#xA;Answer：对于实时性要求不高的游戏会采用TCP协议 - 炉石传说&#xA;需要低延迟的游戏会采用UDP协议 - CSGO&#xA;但是登陆验证、商城等数据会使用TCP协议，因为对数据的可靠性要求高。&#xA;UDP协议 现在很多游戏不会直接使用原生的UDP，因为UDP本身并不可靠、数据的到达顺序也是混乱的，如说喝了一瓶药恢复魔法值再释放一个技能结果变成了释放了技能却没有魔法值之后再喝了药，因此通常会在UDP上进行优化增加类似于TCP的可靠性。&#xA;自动重传请求机制ARQ：是基于ACK的错误控制方法，发送端会等待接收端的ACK，如果确认未到达或收到的是错误反馈，发送端会自动重传未正确到达的数据。&#xA;滑窗协议(sliding window protocol) 滑窗协议是经典的ARQ实现方法&#xA;Stop-and-Wait ARQ&#xA;发送端发送一个数据包，等待接收端的确认（ACK）。如果超时未收到 ACK，重新发送数据包。&#xA;特点：实现简单，但效率低（管道中只能同时传输一个包）。&#xA;Go-Back-N ARQ&#xA;发送端可以连续发送多个数据包，而无需等待每个包的确认。&#xA;如果一个包出错，接收端会丢弃当前包和其后的所有包，发送端需要重发从出错包开始的所有数据包。&#xA;特点：提高了管道利用率，但重传开销大。&#xA;Selective Repeat ARQ&#xA;发送端可以连续发送多个数据包，接收端仅请求重传错误的包。&#xA;特点：管道利用率高，重传开销小，但实现复杂。&#xA;FEC算法（Forward Error Correction） 异或校验位&#xA;Reed-Solomon codes&#xA;NTP时间同步协议（Network Time Protocol） 由于网络通信延迟的存在，客户端向服务器端发送一个包后都需要等待一定的时间才能收到回包，这个间隔的时间称为round-trip time(RTT)。&#xA;NTP：为了尽可能精准地将客户端的时间与时间服务器同步。&#xA;NTP消息中包含4个关键时间戳：&#xA;T1（客户端发送请求的时间）： 客户端向服务器发送请求时的本地时间。 T2（服务器接收请求的时间）： 时间服务器接收到客户端请求时的时间。 T3（服务器发送响应的时间）： 时间服务器准备响应时的时间。 T4（客户端接收响应的时间）： 客户端接收到服务器响应时的本地时间。 偏移量如图所示&#xA;客户端时间正确是17：01：35，客户端接收后增加偏移量。&#xA;尽管利用socket我们可以实现客户端和服务器的通信，但对于网络游戏来说完全基于socket的通信非常复杂。这主要是因为网络游戏中客户端需要向服务器发送大量不同类型的消息，同时客户端也需要解析相应类型的反馈，这就会导致游戏逻辑变得无比复杂。</description>
     </item>
     <item>
       <title>设计模式</title>
-      <link>http://localhost:1313/posts/c&#43;&#43;/designpattern/</link>
+      <link>https://geeteng.github.io/posts/c&#43;&#43;/designpattern/</link>
       <pubDate>Wed, 08 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/c&#43;&#43;/designpattern/</guid>
+      <guid>https://geeteng.github.io/posts/c&#43;&#43;/designpattern/</guid>
       <description>简单工厂模式 Factory：工厂类是整个模式的关键.包含了必要的逻辑判断,根据外界给定的信息,决定究竟应该创建哪个具体类的对象。&#xA;客户端代码无需关心类的实现细节，如果需要新增运算，只需要新增对应的派生类，并在工厂中添加逻辑。&#xA;class Operation { protected: double numberA; double numberB; public: void setNumberA(double a) { numberA = a; } void setNumberB(double b) { numberB = b; } virtual double GetResult() { double result = 0; return result; } virtual ~Operation() = default; }; class OperationAdd : public Operation { public: double GetResult() override { return numberA + numberB; } }; class OperationSub : public Operation { public: double GetResult() override { return numberA - numberB; } }; class OperationFactory { public: static std::unique_ptr&amp;lt;Operation&amp;gt; createOperation(char op) { switch (op) { case &amp;#39;+&amp;#39;: return std::make_unique&amp;lt;OperationAdd&amp;gt;(); case&amp;#39;-&amp;#39;: return std::make_unique&amp;lt;OperationSub&amp;gt;(); default: throw std::invalid_argument(&amp;#34;Invalid operation type&amp;#34;); break; } } }; int main() { try { char op; std::cin &amp;gt;&amp;gt; op; auto operation = OperationFactory::createOperation(op); double a, b; std::cin &amp;gt;&amp;gt; a &amp;gt;&amp;gt; b; operation-&amp;gt;setNumberA(a); operation-&amp;gt;setNumberB(b); double result = operation-&amp;gt;GetResult(); std::cout &amp;lt;&amp;lt; result &amp;lt;&amp;lt; std::endl; } catch(const std::exception&amp;amp; ex) { std::cerr &amp;lt;&amp;lt; &amp;#34;Error &amp;#34; &amp;lt;&amp;lt; ex.</description>
     </item>
     <item>
       <title>RayTracing光线追踪</title>
-      <link>http://localhost:1313/posts/graphics/5_raytracing/</link>
+      <link>https://geeteng.github.io/posts/graphics/5_raytracing/</link>
       <pubDate>Fri, 03 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/graphics/5_raytracing/</guid>
+      <guid>https://geeteng.github.io/posts/graphics/5_raytracing/</guid>
       <description>ShadowMapping（阴影贴图） 从光源视角生成深度图，存储深度值。 主摄像机渲染场景并计算阴影，与存储的深度值进行比较，如果当前点深度大于阴影贴图深度，说明该点被遮挡是阴影点；否则是光照射的点。 缺点：&#xA;生成的是硬阴影（点光源） 效果取决于shadowmap分辨率 浮点精度比较问题 由于点光源有大小，会形成如图所示的（Umbra）本影区域和半影（Penumbra）区域。所以会形成阴影的过渡。&#xA;Question：为什么需要光线追踪？&#xA;Answer：光栅化难以做软阴影、难以表现光线多次弹射、光栅化（实时 游戏 快），光线追踪（离线 动画 慢）&#xA;光栅化：实时渲染，速度快，但是质量低。&#xA;光线追踪：离线渲染，速度慢，但是质量高。&#xA;比如疯狂动物城里的一张画面，每一帧渲染需要 10KCPU 核心小时，相当于如果只有100个CPU核，将会花费100个小时才可以渲染完成。&#xA;Whitted-Style光线追踪 关于光线3个假设：&#xD;1. 假设光线是直线的。&#xD;2. 当光线相交时，不会发生碰撞。&#xD;3. 光线从光源传播到眼睛，路径是可逆的。（互异性Reciprocity）&#xD;其中第3点意味着，当光从光源发出进行弹射后，最终进入眼睛；其实也可以认为是眼睛发射了一束感知光线进行弹射，最终回到光源。 从观察者（相机）出发，射出光线到场景中的物体表面，如果和某个物体相交，说明眼睛能看到这里。再让焦点与光线连接，判断是否有遮挡，如果没有遮挡就形成了一条有效的光路，否则为阴影。&#xA;然后对该点进行局部光照模型计算，得到该像素的颜色。&#xA;假设人眼是一个点，且光线打到物体后会进行完美的反射 / 折射。&#xA;primary ray：人眼到第一个点的光线路径 secondary ray：除了primary ray的其他光线 shadow ray：光线与物体交点到光源的光线 每一个交点的颜色贡献来源于直接光照、反射方向间接光、折射方向间接光。&#xA;求光线与物体的交点 光线的定义如下：&#xA;求光与球的交点，将光线公式代入到球公式中，解t。可以判断和球是否有交点，有几个交点。&#xA;如果是其他隐式几何也是同样联合光线方程。&#xA;真正在图形学中运用的其实是显式曲面，很多个三角形，因此判断的是光线与三角面的交点。与三角面的焦点可以想象成三角形在一个平面上，就变成了光线与平面的交点了。&#xA;光线与平面的交点假设是p‘，那么交点与平面上任何一点p的连线，将会与N（平面的法线）垂直。&#xA;之后再判断交点是否在三角形的内部。&#xA;但是这样一个个计算太麻烦了，于是有了更方便地方法——Möller–Trumbore算法&#xA;Möller–Trumbore 利用向量的外积和重心坐标来计算是否相交，大大的提高了效率。&#xA;在光线追踪中，光线与场景的相交检测是最核心的计算之一。简单的光线相交检测对于每一道光线需要逐一检查是否与每一个物体相交，会遍历每一个三角形进行相交测试，找出离光线最近的交点（最小t值）。但是当场景变得复杂时，三角形数量会变多，使得计算开销增加。&#xA;所以会使用一些加速结构（包围盒树、八叉树等）来减少三角形数量，使得光线与场景的相交测试只需要在较小的区域内执行，而非全部三角形。&#xA;Bounding Volumes包围盒结构 如果一个光线连包围盒都碰不到，也绝对不会碰到包围盒里的物体。&#xA;轴对称包围盒：将长方体用3对不同的平面包围住，任何一对平面都与x轴y轴z轴垂直，所以称为AABB包围盒。&#xA;下图为光线穿过包围盒的3个对面所经历的时间，取这3个时间的交集，就是光线在包围盒里的时间段。&#xA;进入包围盒：进入所有对面 $$&#xD;最晚进入盒子的时间：t_{enter} = max\{t_{min}\}&#xD;$$ 离开包围盒：离开任一对面 $$&#xD;最早离开盒子的时间：t_{exit} = min\{t_{max}\}&#xD;$$ 然而光线并不是直线，光线是一条射线，所以要判断t是否为正数。</description>
     </item>
     <item>
       <title>Geometry</title>
-      <link>http://localhost:1313/posts/graphics/4_geomery/</link>
+      <link>https://geeteng.github.io/posts/graphics/4_geomery/</link>
       <pubDate>Thu, 02 Jan 2025 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/graphics/4_geomery/</guid>
+      <guid>https://geeteng.github.io/posts/graphics/4_geomery/</guid>
       <description>几何的表示方法可以分为两类：隐式几何（explicit）、显式几何（implicit）。&#xA;隐式几何 缺点：很难通过表达式看出是什么图形，难以描述复杂形状&#xA;优点：容易判断一个点与物体的位置关系（内外上），易于处理拓扑变化、做光线和表面的相交。&#xA;例子：&#xA;代数曲面（Algebraic Surfaces） 只能用代数方程表达一些简单的形状，却无法处理复杂的图形。&#xA;CSG(Constructive Solid Geometry) 布尔运算，采用集合的交并差运算思想。&#xA;距离函数（Distance Functions） 距离函数SDF：Signed Distance Function&#xA;SDF = 0：位于物体表面&#xA;SDF &amp;gt; 0：位于物体外部&#xA;SDF &amp;lt; 0：位于物体内部&#xA;Question：如果将图片A和图片B混合，A中灰色物体占1/3, B中灰色物体占2/3，中间状态是什么样？&#xA;Answer：如果直接线性混合，会出现1/3黑色物体、1/3灰色物体、1/3没有物体，过度会很生硬。&#xA;如果构造SDF，边界(SDF = 0)处于图片中间，可以得到平滑的融合效果。&#xA;使用网格存储距离信息，网格值为0的地方是物体表面，在地理中称作等高线。&#xA;分型 描述具有自相似形的物体，雪花、微生物。&#xA;显式几何 缺点：难以判断某点与物体的位置关系&#xA;例子：&#xA;点云(Point Cloud) 除了原始数据很少被使用，密度低时无法成面&#xA;多边形网格 Wavefront Object File（.obj）格式 描述立方体的一堆点、法线、纹理坐标及他们之间的关系&#xA;贝塞尔曲线 曲线一定要经过起始点p0到终止点p3，且切线为p0p1方向、p2p3方向。&#xA;在b0 b1上找一点t 同理其他两条边，连接后变成3个点，找到b30点和该点切线&#xA;迪卡斯特里奥算法 类似二项式的展开，起点系数为(1 - t)&#xA;但是当n = 10时，会很难通过点去控制每条曲线，所以引出逐段贝塞尔曲线。&#xA;像是Photoshop中的钢笔工具一样，当两个点的距离相等和斜率相同时两条曲线连续。&#xA;性质：&#xA;规定了起点和终点 t = 0一定在起点 t = 1一定在终点&#xA;起点终点的斜率确定&#xA;对贝塞尔曲线的仿射变换可以用在控制点上，对控制点进行仿射变换后，再重新画出贝塞尔曲线就可以了。（仿射变换可以，但是投影不可以）</description>
     </item>
     <item>
       <title>Animation</title>
-      <link>http://localhost:1313/posts/ue/4_animation/</link>
+      <link>https://geeteng.github.io/posts/ue/4_animation/</link>
       <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/ue/4_animation/</guid>
+      <guid>https://geeteng.github.io/posts/ue/4_animation/</guid>
       <description>序列帧动画 无需计算，直接显示图片逻辑简单。缺点：占用空间大，不适合复杂动画。&#xA;模型动画 顶点动画&#xA;直接存储每个顶点的动画信息 。缺点：数据量大，迭代缓慢。&#xA;例子：水流、捏脸Morph Target Animation&#xA;骨骼动画（Skinned Animation） 通过改变骨骼的朝向和位置来生成动画 蒙皮：将mesh顶点附着到骨骼上（不同顶点权重不一样每个顶点可以被多个骨骼控制）&#xA;每个骨骼有一个变换矩阵，最终网格顶点的位置是多个骨骼变换矩阵的加权和。&#xA;蒙皮矩阵的计算（Skinning Matrix）: $$&#xD;M_{skin} =M_{bone}×M_{inverse}&#xD;$$ M_inverse是你绑定矩阵，用于骨骼从骨骼空间转换到模型空间的变换。&#xA;Quaternion NLerp用于物体旋转的平滑过渡。&#xA;NLerp和SLerp（球面线性插值）&#xA;NLerp 比 Slerp 更简单，计算开销较小，因为它只进行线性插值，不涉及球面插值的复杂计算。&#xA;当旋转角度较大时，使用Slerp。&#xA;基于物理的动画（Physics-based Animation）&#xA;布娃娃系统（Ragdoll）&#xA;布料和流体模拟（Cloth and Fluid simulation）&#xA;反向动力学（Inverse Kinematics(IK)）&#xA;（关节）Joint 两个Joint定义一个骨骼&#xA;Root Joint在人的双腿之间&#xA;Pelvis Joint（骨盆关节） 蹲起&#xA;Joint Pose有9个DOF（自由度） 放缩、平移、旋转&#xA;万向节锁（Gimbal Lock） 在三维空间中使用欧拉角表示旋转时，当旋转顺序导致某两个旋转轴对齐时，会丧失一个自由度，导致旋转不再是完全独立的，从而限制了旋转的自由度。这个现象被称为 万向节锁。&#xA;如：大疆无人机、pocket3的镜头防抖动，就是使用陀螺仪和万向节锁来实现的。&#xA;引出四元数解决万向节锁&#xA;骨骼动画资产类型 Skeleton ​&#x9;骨架资源，存储骨骼的层级、动画数据关联。&#xA;​&#x9;多个模型可以共享同一个骨架。&#xA;SkeletalMesh ​&#x9;骨骼网格体，用于渲染。&#xA;​&#x9;包含蒙皮信息，顶点如何受骨骼影响。&#xA;PhysicsAsset ​&#x9;定义骨骼与物理系统的交互。&#xA;​&#x9;用于 ragdoll、碰撞检测等。</description>
     </item>
     <item>
       <title>Piccolo LUT</title>
-      <link>http://localhost:1313/posts/game/lut/</link>
+      <link>https://geeteng.github.io/posts/game/lut/</link>
       <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/game/lut/</guid>
+      <guid>https://geeteng.github.io/posts/game/lut/</guid>
       <description>LUT（LookUp Table）查找表 LUT是一种常见的优化或效果实现工具，用于通过查表得方式快速映射输入数据到目标结果，避免复杂的实时计算&#xA;颜色分级（Color Grading LUT）：&#xA;用于后期处理阶段，将场景颜色转换为特定的色彩基调。&#xA;参考资料 LUT.html&#xA;void main() { highp ivec2 lut_tex_size = textureSize(color_grading_lut_texture_sampler, 0); // 纹理的高度16 和 纹理的宽度256 highp float _COLORS = float(lut_tex_size.y); highp float xsize = float(lut_tex_size.x); highp vec4 color = subpassLoad(in_color).rgba; // 将颜色分量映射到LUT索引范围[0, 15] highp float blueoffset = (_COLORS - 1.0) * color.b; highp float redoffset = (_COLORS - 1.0) * color.r; highp float greenoffset = (_COLORS - 1.0) * color.g; // 红色和绿色决定小块中的水平垂直位置 蓝色决定哪个小块 highp float u = (redoffset + floor(blueoffset) * _COLORS) / xsize; highp float v = greenoffset / _COLORS; highp vec2 uv = vec2(u, v); highp vec4 color_sampled = texture(color_grading_lut_texture_sampler, uv); out_color = color_sampled; } 由于条纹问题，看到别人说是因为mipmap精度问题，所以</description>
     </item>
     <item>
       <title>UE网络</title>
-      <link>http://localhost:1313/posts/ue/network/</link>
+      <link>https://geeteng.github.io/posts/ue/network/</link>
       <pubDate>Mon, 23 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/ue/network/</guid>
+      <guid>https://geeteng.github.io/posts/ue/network/</guid>
       <description>网络模式 NM_Standalone模式：服务器在本地计算机运行，不接受来自远程计算机的客户端，适合单人游戏或者本地多人游戏。没有服务器和客户端的区别，逻辑都在本地执行。&#xA;NM_DedicatedServer模式（专用服务器）：专属服务器没有本地玩家，用于托管在受信任服务器上的多人游戏，比如在线射击游戏。服务器不会有本地玩家ULocalPlayer、APlayerController等一些客户端专有的类，也会抛弃掉客户端独有的逻辑，为了减少性能开销。总而言之，就是服务器只处理多人游戏逻辑和同步，不参与游戏，节省资源。&#xA;NM_ListenServer模式（监听服务器）：本机又是服务器又是客户端，主客户端拥有全部服务器权限，其他客户端可以连接这个Listen Server。举例子：星露谷物语、Minecraft这种游戏的联机模式。&#xA;NM_Client模式（纯客户端）：非服务器模式，本地计算机是专属或监听服务器的客户端，不会允许服务器端逻辑。&#xA;Playable Has Authority Clients Can Join NM_Standalone ✅ ✅ ❌ NM_DedicatedServer ✅ ✅ ✅ NM_ListenServer ❌ ✅ ✅ NM_Client ✅ ❌ ❌ 局域网联机（LAN） HostLANGame函数代表本机加载这个路径的地图，然后作为监听服务器等待其他玩家加入。&#xA;JoinLANGame函数代表客户端连接到这个ip地址的服务器中作为客户端加入。&#xA;void AMultiplayerGameGameMode::HostLANGame() { // ?listen代表游戏作为监听服务器（Listen Server） 这个游戏实例既是服务器又是客户端 GetWorld()-&amp;gt;ServerTravel(&amp;#34;/Game/ThirdPerson/Maps/ThirdPersonMap?listen&amp;#34;); } void AMultiplayerGameGameMode::JoinLANGame() { APlayerController *PC = GetGameInstance()-&amp;gt;GetFirstLocalPlayerController(); if (PC) { PC-&amp;gt;ClientTravel(&amp;#34;192.168.31.130&amp;#34;, TRAVEL_Absolute); } } 在蓝图中调用该函数，然后将项目打包后运行在另一个局域网电脑中，就可以实现局域网联机了。&#xA;Actor复制（Replication）机制 创建和销毁：服务器创建的Actor，客户端也能看到，并且销毁时同步消除。这一部分UE已经帮我们实现了，不需要我们做什么。&#xA;移动复制：同步Actor的位置、旋转、速度等移动信息，保持物理表现一致。只需要在蓝图上勾选Replication中的选项。&#xA;变量复制：同步服务器上的变量（比如血量、分数、状态）到客户端。&#xA;RPCs远程函数调用：1. Server（客户端向服务器请求，比如攻击） 2. Client（服务器通知客户端，比如受伤） 3. Multicast（广播，比如爆炸）&#xA;网络角色（Network Role） AActor::GetLocalRole函数用来返回角色控制权限，返回值有：&#xA;ROLE_None：无效，不参与网络同步。 ROLE_SimulatedProxy：模拟代理，只做视觉表现不控制逻辑，比如客户端上看到的其他玩家。 ROLE_AutonomousProxy：自主代理，拥有本地控制权，比如客户端自己的Pawn。 ROLE_Authority：拥有最高控制权，服务器对所有的Actor来说都是Authority。 通过HasAuthority()来测试是否当前运行的是客户端或者服务端。</description>
     </item>
     <item>
       <title>空间数据结构</title>
-      <link>http://localhost:1313/posts/game/spatialdatastructures/</link>
+      <link>https://geeteng.github.io/posts/game/spatialdatastructures/</link>
       <pubDate>Tue, 17 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/game/spatialdatastructures/</guid>
+      <guid>https://geeteng.github.io/posts/game/spatialdatastructures/</guid>
       <description>多人在线游戏中，由于玩家规模十分庞大，如果想通过计算每一个玩家与其他 n - 1 个玩家之间的信息，时间复杂度会达到n^2，性能会变得很低。于是需要正确的处理这些数据，优化性能。&#xA;包围体层次结构 (BVH, Bounding Volume Hierarchy) 层次包围盒树，根节点是一个大的包围盒，往下是其子包围盒。&#xA;AABB（Axis-Aligned Bounding Box） 是一种常用的 包围盒（Bounding Box）类型&#xA;在 2D 空间 中，AABB 可以表示为：&#xA;Min = (x_min, y_min) Max = (x_max, y_max) 在 3D 空间 中，AABB 可以表示为：&#xA;Min = (x_min, y_min, z_min) Max = (x_max, y_max, z_max) 在游戏引擎中，大部分物体都会动态更新，而层次包围盒树 / 层次球包围盒树可以动态更新，从叶节点一级一级的往上更新上面的节点，使包围体包住子节点。&#xA;四叉树（Quadtree) 四叉树基本思想是将 2D 空间递归划分成不同层次的树结构，将已知范围的空间等分成 4 个相等的空间，直到树的层次到达一定深度或满足要求后停止分割。&#xA;八叉树 (Octree) 八叉树与四叉树结构类似，拥有 8 个节点，适用于 3D 空间。应用于：碰撞检车、物体的空间位置等。&#xA;八叉树和四叉树的区别是一个用于二维空间，一个用于三维空间。但是当四维空间&amp;hellip;.更多维度的空间时该怎么办呢？总不能2的n次方去划分，于是引出了KD-Tree，一种跟维度没有关系，可以划分空间。&#xA;k-d 树 k-d 树就是一种特殊形式的BSP树（轴对齐的BSP树），其每个节点都代表一个k维坐标点，树的每层都是对应一个划分维度。&#xA;构建 k-d 树将一组n个点按维度递归地划分成子空间，通常使用中位数分割法，所以构建树时间复杂度为O（n logn），最近邻搜索最优O（log n）</description>
     </item>
     <item>
       <title>Shader</title>
-      <link>http://localhost:1313/posts/graphics/3_shader/</link>
+      <link>https://geeteng.github.io/posts/graphics/3_shader/</link>
       <pubDate>Mon, 16 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/graphics/3_shader/</guid>
+      <guid>https://geeteng.github.io/posts/graphics/3_shader/</guid>
       <description>Z-Buffer(深度缓存） 用来处理可见性问题，即确定每个像素最前层物体。&#xA;Frame Buffer(帧缓冲区：用于存储最终图像数据)、Depth Buffer（深度缓冲区：判断哪些物体在前，哪些物体被遮挡）&#xA;工作原理：近处是更黑的，远处是发白的。&#xA;Z-Buffer处理不了透明物体，透明物体需要特殊处理。&#xA;Z-Buffer Algorithm R代表无穷大，如果有三角形，就覆盖掉这些无穷大的像素&#xA;新的三角形深度是8 肯定要被原本三角形深度5所遮挡 所以就忽略它&#xA;如果新的三角形离的更近 更新这个像素对应的深度值&#xA;Z-Buffer复杂度 - O(n)&#xA;**Question：**为什么排序n个三角形是在线性的时间？&#xA;**Answer：**其实它不是排序，只是在对每个像素一直求最小值。&#xA;Shader 定义：对不同的物体应用不同材质的过程&#xA;物体在经过MVP（模型、视图、投影矩阵变换）、ViewPort之后现在我们会得到一系列旋转的立方体&#xA;需要对他做着色（Shading）&#xA;Blinn-Phong 反射模型 Blinn-Phong 反射模型是计算光照和表面反射的常用模型。它将光照分为三部分：&#xA;漫反射（Diffuse Reflection）：表示光照与物体表面相互作用后，光线在不同方向上散射的现象，通常效果比较均匀，不会有明显的亮点。 镜面反射（Specular Highlights）：表示光线被物体表面镜面反射的部分，产生亮光点，通常依赖于视角与光源方向的关系，产生较强的高光效果。 环境光照（Ambient Lighting）：表示全局环境中的光照，通常是一个常量，作用于整个场景，不依赖于具体的物体或光源。 diffuse reflection 通常假设反射光是一个半球，并计算每个着色点（shading point）接收到的能量。漫反射的强度与光照方向和表面法线之间的夹角有关。&#xA;Lambert‘s cosine law：描述漫反射光照强度与光照方向和法线之间夹角的关系，公式如下： $$&#xD;L_{d}=k_{d}\left(I / r^{2}\right) \max (0, \mathbf{n} \cdot \mathbf{l})&#xD;$$ $$&#xD;L_d:漫反射分量（反射光强度）\qquad k_d:漫反射系数（物体表面材质的属性）\qquad I:光源强度\qquad r:光源到表面点的距离 \qquad n:法线方向 \qquad l:光源方向&#xD;$$ 注意：漫反射不考虑其他物体的影响，只关注当前着色点的表面法线与光照方向的关系。&#xA;Specular Highlights v和R足够接近的时候，会看到高光，其中v是观测方向，R是光线反射方向。&#xA;实际上是n法线方向和h半程向量很接近，利用平行四边形法则，可以求v+l向量，再求单位向量就是半程向量h。&#xA;镜面反射光的公式 $$&#xD;L_{s}=k_{s}\left(I / r^{2}\right) \max (0, \mathbf{n} \cdot \mathbf{h})^p&#xD;$$ 高光非常亮，且集中在一个很小的角度里，所以要有指数，将角度范围缩小，高光就会越来越小。</description>
     </item>
     <item>
       <title>TinyRenderer</title>
-      <link>http://localhost:1313/posts/graphics/tinyrenderer/</link>
+      <link>https://geeteng.github.io/posts/graphics/tinyrenderer/</link>
       <pubDate>Mon, 16 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/graphics/tinyrenderer/</guid>
+      <guid>https://geeteng.github.io/posts/graphics/tinyrenderer/</guid>
       <description>1 画线 mainCRTStartup&#xA;void line(int x0, int y0, int x1, int y1, TGAImage&amp;amp; image, TGAColor color) { for (float t = 0.f; t &amp;lt; 1; t += 0.01) { int x = x0 + (x1 - x0) * t; int y = y0 + (y1 - y0) * t; image.set(x, y, color); } } 描绘了100个点，但是能否用x来遍历，这样可以从13 - 80 只需要描绘67个点&#xA;void line(int x0, int y0, int x1, int y1, TGAImage&amp;amp; image, TGAColor color) { for (int x = x0; x &amp;lt; x1; x++) { float t = (x - x0) / (float)(x1 - x0); int y = y0 * (1 - t) + y1 * t; image.</description>
     </item>
     <item>
       <title>Piccolo引擎编译运行</title>
-      <link>http://localhost:1313/posts/game/piccolo/</link>
+      <link>https://geeteng.github.io/posts/game/piccolo/</link>
       <pubDate>Sun, 15 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/game/piccolo/</guid>
+      <guid>https://geeteng.github.io/posts/game/piccolo/</guid>
       <description>构建 构建Piccolo的sln文件，运行在Visual Studio2022中&#xA;源码解读 在Runtime文件夹下面有四个子文件夹，核心层、功能层、资源层、平台层，以及engine.cpp和engine.h（整个引擎的入口）。&#xA;打开engine.cpp其中有4个重要的函数，StartEngine、shutdownEngine、run、tickOneFrame。&#xA;StartEngine、shutdownEngine一个注册类型源信息，一个取消注册，相对的函数。&#xA;void PiccoloEngine::run() { std::shared_ptr&amp;lt;WindowSystem&amp;gt; window_system = g_runtime_global_context.m_window_system; ASSERT(window_system); while (!window_system-&amp;gt;shouldClose()) { const float delta_time = calculateDeltaTime(); tickOneFrame(delta_time); } } run中，当窗口没有关闭时，不断执行tickOneFrame。点击g_runtime_global_context进入到global_context文件中。&#xA;发现声明了一个全局变量，并且实例化很多Manager（物理、粒子等）、System（窗口、渲染等）&#xA;RuntimeGlobalContext g_runtime_global_context; void RuntimeGlobalContext::startSystems(const std::string&amp;amp; config_file_path) { m_config_manager = std::make_shared&amp;lt;ConfigManager&amp;gt;(); m_config_manager-&amp;gt;initialize(config_file_path); m_file_system = std::make_shared&amp;lt;FileSystem&amp;gt;(); ... } tickOneFrame中logicalTick(delta_time);逻辑Tick、calculateFPS(delta_time);计算FPS、rendererTick(delta_time);渲染Tick。&#xA;void PiccoloEngine::logicalTick(float delta_time) { // tick world 和 用户输入 g_runtime_global_context.m_world_manager-&amp;gt;tick(delta_time); g_runtime_global_context.m_input_system-&amp;gt;tick(); } void WorldManager::tick(float delta_time) { if (!m_is_world_loaded) { loadWorld(m_current_world_url); } // tick the active level std::shared_ptr&amp;lt;Level&amp;gt; active_level = m_current_active_level.</description>
     </item>
     <item>
       <title>UMG</title>
-      <link>http://localhost:1313/posts/ue/3_umg/</link>
+      <link>https://geeteng.github.io/posts/ue/3_umg/</link>
       <pubDate>Fri, 13 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/ue/3_umg/</guid>
+      <guid>https://geeteng.github.io/posts/ue/3_umg/</guid>
       <description>可直接跳转到文末查看最终效果图&#xA;创建主页面 新建HUD类-MainUIHUD和GameMode-MainMenuGameMode，并新建BP_UIGameMode蓝图类。&#xA;// 将该HUD绑定到该GameMode上 AMainMenuGameMode::AMainMenuGameMode() { HUDClass = AMainUIHUD::StaticClass(); } 在MainUIHUD中加载主界面，新建UserWidget类MainUIHUD和继承其的蓝图（往后每一个界面都是这样的创建方式）&#xA;class UMainUserWidget; protected: UPROPERTY() UMainUserWidget* MainUserWidget; #include &amp;#34;MenuLevel/MainUserWidget.h&amp;#34; void AMainUIHUD::BeginPlay() { Super::BeginPlay(); // 显示UI 加载蓝图类 TSubclassOf&amp;lt;UMainUserWidget&amp;gt; WidgetClass = LoadClass&amp;lt;UMainUserWidget&amp;gt;(nullptr,TEXT(&amp;#34;/Script/UMGEditor.WidgetBlueprint&amp;#39;/Game/FPSGame/UI/UMG/UMG_MainUI.UMG_MainUI_C&amp;#39;&amp;#34;)); if (WidgetClass) { // CreatWidget() MainUserWidget = CreateWidget&amp;lt;UMainUserWidget&amp;gt;(GetOwningPlayerController(), WidgetClass); if (MainUserWidget) { MainUserWidget-&amp;gt;AddToViewport(); } } // 显示鼠标 GetOwningPlayerController()-&amp;gt;bShowMouseCursor = true; } 创建主页面（图片文字为后加上的）&#xA;MainUserWidget&#xA;protected: virtual void NativeOnInitialized() override; virtual void NativeConstruct() override; UPROPERTY(meta=(BindWidgetAnim), Transient) UWidgetAnimation* MenuUIAni; void UMainUserWidget::NativeOnInitialized() { Super::NativeOnInitialized(); } void UMainUserWidget::NativeConstruct() { Super::NativeConstruct(); // 制作了一个简单的动画 - 进入游戏按钮的透明度改变，并且按钮点击有音效 PlayAnimation(MenuUIAni); } 按钮的背景图是自己制作的 - 新建一个Material，提取UV坐标的R，[0, 1] * [1, 0] = &amp;gt; 中间最大值为0.</description>
     </item>
     <item>
       <title>C&#43;&#43;知识回顾</title>
-      <link>http://localhost:1313/posts/c&#43;&#43;/c&#43;&#43;learning/</link>
+      <link>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</link>
       <pubDate>Wed, 11 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/c&#43;&#43;/c&#43;&#43;learning/</guid>
+      <guid>https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/</guid>
       <description>C++ 内存布局 内存区域 存储内容 代码段（.text） 存储程序的可执行代码，包括普通函数和虚函数的实现 数据段（全局静态区）（.data 和 .bss） 存储全局/静态变量（已初始化的放在 .data，未初始化的放在 .bss） 只读数据段（常量区）（.rodata） 存储常量数据（如字符串字面量、const 变量、VTable） 堆区（Heap） 由 new、malloc 动态分配，程序员手动释放。从低地址向上增长。 文件映射段 包括动态库、共享内存等 栈区（Stack） 由函数的局部变量、函数调用帧等组成，自动管理。一般是8MB，向低地址增长。 随机存储器RAM（主存）&#xA;与CPU直接交换数据，可读写区域，存放全局（静态）区、堆区、栈区。&#xA;只读存储器ROM&#xA;只能读出 所存数据稳定，断电后数据不会改变。存放代码区和常量区。&#xA;堆和栈的空间大小&#xA;栈大小在linux默认8MB，也可手动增大（但不是无限增大，否则碰到mmap区），通常大小是固定的。但是堆大小可动态增长。&#xA;每个进程都有自己的虚拟内存空间，在虚拟内存空间中有内核空间和用户空间。32位的linux中内核空间占1GB，用户空间占3GB；而64位的linux用户空间可能有128TB。&#xA;其中用户空间从上到下有栈、文件映射区、堆、全局静态区（.data,.bss）、代码区。所以32位linux中堆的申请大小不会超过3GB，但是64位linux通过swap技术可以扩展高达上百GB的空间。&#xA;为什么栈小堆大？&#xA;因为栈是为了局部变量和函数调用设计的，这个用途决定了它只需要一点就够了。 每个线程都有一个独立的栈，如果开了1000个线程就是8GB。所以为了避免爆内存也要限制栈的大小。 栈是连续的，不像堆一样分块管理，如果太大会出现碎片。 线程的“运行开销”确实体现在它的栈上，但线程能不能申请堆空间、用不用堆，跟它有没有栈，是两回事。线程的栈大小是线程运行时用来存储局部变量、函数调用帧的空间，一般是固定的（比如 8MB）。线程 new/malloc 出来的 8GB 空间是从进程的堆里来的，是虚拟内存空间的一部分，并不是从它那 8MB 栈里“挤出来”的。&#xA;const用法和constexpr const用法：&#xA;修饰变量 变量不能修改 指针常量 （先出现指针 再出现const） 常量指针 （先出现const 再出现指针） 修饰引用 不能通过引用修改值 修饰成员函数 相当于修饰了成员函数隐藏的this指针 顶层const和底层const 顶层const指的是const修饰的变量本身是一个常量（指针本身），如int* const p，底层const指的是const修饰的变量所指向的对象是一个常量（指针指向的内容），如const int* p。&#xA;const int * const p3 = p2 // 靠右的const是顶层const，靠左的是底层const 常量指针const int* p1中，const修饰的是*p1，所以修改不了指针指向的值，也就是修改不了*p1;但是p1和指向对象的值是可以改变的，只是不能改变指针指向的值。</description>
     </item>
     <item>
       <title>光栅化Rasterize</title>
-      <link>http://localhost:1313/posts/graphics/2_rasterize/</link>
+      <link>https://geeteng.github.io/posts/graphics/2_rasterize/</link>
       <pubDate>Tue, 03 Dec 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/graphics/2_rasterize/</guid>
+      <guid>https://geeteng.github.io/posts/graphics/2_rasterize/</guid>
       <description>屏幕坐标系 屏幕空间 - 在屏幕上建立一个坐标系&#xA;屏幕的左下角是原点（0，0） 向上是Y 向右是x&#xA;视口变换 要做的事：[-1, 1]^3映射到屏幕上&#xA;其中：width 和 height 是屏幕或视口的宽度和高度&#xA;在标准化设备坐标中，3D物体的投影结果被限制在 (−1,−1)到 (1,1) 的范围：&#xA;(−1,−1) 代表左下角 (1,1) 代表右上角 这是一个对称的正方形坐标系，中心点是 (0,0) 我们需要将这个范围映射到屏幕坐标系：&#xA;左下角是 (0,0)，右上角是 (width,height) $$&#xD;M_{viewport} = \begin{pmatrix}&#xD;\frac{width}{2} &amp; 0 &amp; 0 &amp; \frac{width}{2}\\&#xD;0 &amp; \frac{height}{2} &amp; 0 &amp; \frac{height}{2}\\&#xD;0 &amp; 0 &amp; 1 &amp; 0 \\&#xD;0 &amp; 0 &amp; 0 &amp; 1&#xD;\end{pmatrix}&#xD;$$ 光栅显示设备 示波器（曾经做过的物理实验）和早期显示器相同原理 ​&#x9;阴极射线管 电子经过加速穿过显示设备 发生偏转 就可以看到CRT屏幕 （Cathode Ray Tube）</description>
     </item>
     <item>
       <title>GameMode游戏模式</title>
-      <link>http://localhost:1313/posts/ue/2_gamemode/</link>
+      <link>https://geeteng.github.io/posts/ue/2_gamemode/</link>
       <pubDate>Sat, 23 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/ue/2_gamemode/</guid>
+      <guid>https://geeteng.github.io/posts/ue/2_gamemode/</guid>
       <description>平行世界？World UE中有三个世界&#xA;游戏世界 编辑器世界 预览世界 关卡蓝图-定义关卡规则&#xA;UGameInstance 存在于游戏的整个生命周期中 不会随着地图切换 销毁 适合业务全局管理操作，Uengine 管理 GameInstance&#xA;游戏中最重要的实体AActor AActor 标志所有权的Owner指针，标志本地权限的Role枚举，作为网格同步的基础单位，根组件提供世界变化信息&#xA;Actor不只是3D中的表示，一些不可见对象也可以是Actor，如AInfo（派生类Aworldsetting，AGameMode，AgameState&amp;hellip;）&#xA;Actor在UE中就像是世界里的元素&#xA;Component 是 Actor 的组成部分，用于定义 Actor 的特性和行为&#xA;RootComponent是Actor的核心组件，决定了Actor在场景中的位置、旋转和缩放 SceneComponent 是一个基础组件，主要用于定义场景中对象的位置、旋转和缩放。它本身是一个抽象组件，不会直接渲染或显示。 Actor生命周期详解&#xA;生命周期1&#xA;actor分为&#xA;静态的actor - 在关卡编辑器里直接放置的Actor 动态创建的actor（spawnActor） - 通过代码或蓝图在运行时动态生成的 Actor 生命周期2 重要的生命周期函数&#xA;BeginPlay - 在Actor激活时调用 初始化&#xA;Tick - 每帧调用一次 处理逻辑&#xA;EndPlay - 在Actor即将销毁时调用 清理资源&#xA;生命周期3 GC完成收尾 注意有效性的判断&#xA;if (IsValid(MyActor)) { // Actor 有效 } if (MyActor &amp;amp;&amp;amp; !MyActor-&amp;gt;IsPendingKill()) { // Actor 没有被标记为销毁 } isPendingKill是否已被标记为即将销毁，但尚未被垃圾回收系统（GC）完全移除。</description>
     </item>
     <item>
       <title>UE入门</title>
-      <link>http://localhost:1313/posts/ue/1_uedownload/</link>
+      <link>https://geeteng.github.io/posts/ue/1_uedownload/</link>
       <pubDate>Wed, 13 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/ue/1_uedownload/</guid>
+      <guid>https://geeteng.github.io/posts/ue/1_uedownload/</guid>
       <description>安装UE5.4.4源码 1 在GitHub上下载UE5.4.4源码 在这之前需要关联账号并验证至虚幻引擎&#xA;EpicGames/UnrealEngine at 5.4.4-release&#xA;我直接下载文件压缩包，没有使用git拉取，原因是网络不稳定&#xA;2 生成sln文件 解压文件，并将文件夹改名为UE，以防后续因为文件名太长而出错&#xA;启动Setup.bat文件 注意：网络一定要通畅并且不能自行关闭 安静等待&amp;hellip;&#xA;之后运行GenerateProjectFiles.bat文件 会生成一个UE5.sln文件&#xA;3 配置VS 一定要增加UnrealEngine安装程序 建议VisualStudio2022 17.8版本&#xA;因为之前试过17.12版本发现一些NuGet包无法还原 不知道什么原因&#xA;打开UE5.sln 在右侧会提示安装插件 点击后可以安装额外的插件 配置如下：&#xA;4 生成UE5 将UE5设为启动项 点击生成UE5 不要点生成解决方案&#xA;为了使编译速度快一些 我试过使用Incredibuild 速度是很快 但是会发现有一些文件属于嵌套关系 并行编译时会出错 于是乎换用其他方式&#xA;&amp;ldquo;C:\Users\用户名\AppData\Roaming\Unreal Engine\UnrealBuildTool\BuildConfiguration.xml&amp;quot;修改BuildConfiguration.xml文件&#xA;// 指定构建时可以同时运行8个编译任务 &amp;lt;MaxParallelActions&amp;gt;8&amp;lt;/MaxParallelActions&amp;gt; // 设置最少需要使用 PCH 文件的源文件数量 &amp;lt;MinFilesUsingPrecompiledHeader&amp;gt;6&amp;lt;/MinFilesUsingPrecompiledHeader&amp;gt; 这样就将编译时间从五六个小时 缩短到了一个小时左右&#xA;切记：&#xA;不要参照网上exclude一些VS2013等文件 会导致之后因为奇怪的原因无法运行 白白浪费时间&#xA;成功生成UE5后不要再点任何重新生成解决方案/项目 否则会清理掉几个小时编译的文件&#xA;编译完成后会生成这样的文件结构 exe文件位于\Engine\Binaries\Win64中 双击即可运行&#xA;5 新建C++项目 创建一个第一人称模板项目 选择C++&#xA;点击创建之后会跳出vs界面&#xA;点击执行 会加载出UE5界面 第一次加载时间会很长 之后时间会缩短一些&#xA;将General - SourceCode设置为VisualStudio2022编辑器</description>
     </item>
     <item>
       <title>Model-View-Projection</title>
-      <link>http://localhost:1313/posts/graphics/1_transform/</link>
+      <link>https://geeteng.github.io/posts/graphics/1_transform/</link>
       <pubDate>Sat, 02 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/graphics/1_transform/</guid>
+      <guid>https://geeteng.github.io/posts/graphics/1_transform/</guid>
       <description>2D Transformations Scale $$&#xD;S(s_x, s_y) = \begin{pmatrix}&#xD;s_x &amp; 0 &amp; 0 \\&#xD;0 &amp; s_y &amp; 0 \\&#xD;0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Rotation $$&#xD;R(\alpha) = \begin{pmatrix} \cos \alpha &amp; -\sin \alpha &amp; 0 \\ \sin \alpha &amp; \cos \alpha &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Translation $$&#xD;T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \\ 0 &amp; 1 &amp; t_y \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ 齐次坐标的最后一位为 0 表示方向或无穷远点</description>
     </item>
     <item>
       <title>About Author</title>
-      <link>http://localhost:1313/about-me/</link>
+      <link>https://geeteng.github.io/about-me/</link>
       <pubDate>Fri, 01 Nov 2024 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/about-me/</guid>
+      <guid>https://geeteng.github.io/about-me/</guid>
       <description></description>
     </item>
     <item>
       <title></title>
-      <link>http://localhost:1313/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/</link>
+      <link>https://geeteng.github.io/posts/ue/warriorproject2/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>http://localhost:1313/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/</guid>
+      <guid>https://geeteng.github.io/posts/ue/warriorproject2/</guid>
+      <description>武器装备与连击系统&#xA;角色扩展组件 PawnExtensionComponentBase&#xA;|__PawnCombatComponent&#xA;​ |__HeroCombatComponent&#xA;​ |__EnemyCombatComponent&#xA;static_assert 是 编译期断言，会在编译时检查条件是否成立，不成立就报编译错误。&#xA;创建一个PawnExtensionComponentBase，用于角色组件，统一访问Pawn、Controller等。&#xA;protected: template&amp;lt;class T&amp;gt; T* GetOwningPawn() const { // TPointerIsConvertibleFromTo 测试 T 是否可转换为 APawn static_assert(TPointerIsConvertibleFromTo&amp;lt;T,APawn&amp;gt;::Value, &amp;#34;&amp;#39;T&amp;#39; Template Parameter to GetPawn must be derived from APawn&amp;#34;); return CastChecked&amp;lt;T&amp;gt;(GetOwner()); } APawn* GetOwningPawn() const { return GetOwningPawn&amp;lt;APawn&amp;gt;(); } template&amp;lt;class T&amp;gt; T* GetOwningController() const { static_assert(TPointerIsConvertibleFromTo&amp;lt;T,AController&amp;gt;::Value, &amp;#34;&amp;#39;T&amp;#39; Template Parameter to GetController must be derived from AController&amp;#34;); return GetOwningPawn&amp;lt;APawn&amp;gt;()-&amp;gt;GetController&amp;lt;T&amp;gt;(); } 之后在WarriorHeroCharacter中定义一个能够获取HeroCombatComponent组件的函数。&#xA;FORCEINLINE UHeroCombatComponent* GetHeroCombatComponent() const { return HeroCombatComponent; } 注册生成的武器 PawnCombatComponent中定义一个map存储tag-weapon。</description>
+    </item>
+    <item>
+      <title></title>
+      <link>https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/</guid>
       <description>FishParkoutSystem.ts enum EFishState { None, Swim, //正常游泳期 Jump, //跳跃动画期 QTEJump, //QTE跳跃 QTEFail, //QTE失败 InAir, //滑行期 AirToSwim, //窗口期 Hit, //受击动画到入水期 } onCreateNodeData onCreateNodeData是在PostCreateGameDataByFlowNodeSAction这个action执行时调用的函数，也就是当注册FishParkourData之前调用这个函数，在这个函数中绑定了蓝图中的委托（OnBeginOverlap、OnInputJumpStart、OnFallingInWater）并且更新了UI，调用了一个setParkourSplinePointInfo( params.splineSpawnerId, selfActor.ParkourMovement);函数，设置组件的setActive(true)，其中params是通过如下得到。&#xA;let params = findObjectParam( action.params, SettingFishParkourNodeCreateParam ); //Define.ts export class SettingFishParkourNodeCreateParam extends SettingNodeParam { public splineSpawnerId: string = &amp;#34;&amp;#34;; } 这个函数在Util.ts工具类中，存入样条线全部的点。&#xA;export function setParkourSplinePointInfo(spawnerId: string, parkourMovementComponent: UE.ParkourMovementComponent) { let splinePoints = findSplinePointsBySpawnerId(spawnerId); // 返回splinePoints数组 F.assert(splinePoints); let pointTransforms = UE.NewArray(UE.Transform); for (let info of splinePoints) { // 从该数组拿到每个点 let transform = new UE.</description>
     </item>
   </channel>

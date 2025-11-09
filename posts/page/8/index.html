@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en-us">
 
-<head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script>
+<head>
 
     <title>
     Posts | 
@@ -14,7 +14,7 @@
 
 
 
-<meta property="og:url" content="http://localhost:1313/posts/">
+<meta property="og:url" content="https://geeteng.github.io/posts/">
   <meta property="og:site_name" content="GeeTeng">
   <meta property="og:title" content="Posts">
   <meta property="og:description" content="A description for the meta tag of the site">
@@ -31,9 +31,9 @@
   <meta itemprop="description" content="A description for the meta tag of the site">
   <meta itemprop="datePublished" content="2025-11-05T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-11-05T00:00:00+00:00">
-<link rel="canonical" href="http://localhost:1313/posts/" />
+<link rel="canonical" href="https://geeteng.github.io/posts/" />
 
-<link rel="icon" type="image/png" href="http://localhost:1313/image/favicon.ico">
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
 
 <link rel="stylesheet" href="/css/font-awesome.min.css">
 <link rel="stylesheet" href="/css/bulma.min.css">
@@ -48,6 +48,28 @@
           ],
           throwOnError: false
         });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
 
 
 
@@ -276,6 +298,69 @@ export function setParkourSplinePointInfo(spawnerId: string, parkourMovementComp
         </div>
         <div class="level-right">
             <a href="/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/">Continue reading <i class="fa fa-angle-double-right"
+                    aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <hr>
+</div><div class="blog-brief">
+    <a href="/posts/ue/warriorproject2/">
+        <h3 class="title is-4">
+            
+        </h3>
+    </a>
+
+    <div class="level is-mobile details">
+        <div class="level-left">
+
+            
+            <div class="level-item">
+                <a href="/posts/ue/warriorproject2/">
+                    <p class="subtitle info date">Jan 1, 0001
+                    </p>
+                </a>
+            </div>
+            
+
+
+            <div class="level-item">
+                <a href="/posts/ue/warriorproject2/">
+                    <p class="subtitle info">
+                        17 mins read
+                    </p>
+                </a>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            
+        </div>
+    </div>
+
+    <div>
+        
+
+        <div>
+            <a href="/posts/ue/warriorproject2/">
+                <p class="summary">
+                    武器装备与连击系统
+角色扩展组件 PawnExtensionComponentBase
+|__PawnCombatComponent
+​ |__HeroCombatComponent
+​ |__EnemyCombatComponent
+static_assert 是 编译期断言，会在编译时检查条件是否成立，不成立就报编译错误。
+创建一个PawnExtensionComponentBase，用于角色组件，统一访问Pawn、Controller等。
+protected: template&lt;class T&gt; T* GetOwningPawn() const { // TPointerIsConvertibleFromTo 测试 T 是否可转换为 APawn static_assert(TPointerIsConvertibleFromTo&lt;T,APawn&gt;::Value, &#34;&#39;T&#39; Template Parameter to GetPawn must be derived from APawn&#34;); return CastChecked&lt;T&gt;(GetOwner()); } APawn* GetOwningPawn() const { return GetOwningPawn&lt;APawn&gt;(); } template&lt;class T&gt; T* GetOwningController() const { static_assert(TPointerIsConvertibleFromTo&lt;T,AController&gt;::Value, &#34;&#39;T&#39; Template Parameter to GetController must be derived from AController&#34;); return GetOwningPawn&lt;APawn&gt;()-&gt;GetController&lt;T&gt;(); } 之后在WarriorHeroCharacter中定义一个能够获取HeroCombatComponent组件的函数。
+FORCEINLINE UHeroCombatComponent* GetHeroCombatComponent() const { return HeroCombatComponent; } 注册生成的武器 PawnCombatComponent中定义一个map存储tag-weapon。
+                    
+                </p>
+            </a>
+        </div>
+    </div>
+
+    <div class="level is-mobile continue-reading">
+        <div class="level-left">
+        </div>
+        <div class="level-right">
+            <a href="/posts/ue/warriorproject2/">Continue reading <i class="fa fa-angle-double-right"
                     aria-hidden="true"></i></a>
         </div>
     </div>
