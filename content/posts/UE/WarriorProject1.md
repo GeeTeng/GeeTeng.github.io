@@ -290,3 +290,232 @@ void UWarriorHeroAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSecond
 }
 ```
 
+## 武器生成
+
+生成武器的流程：
+
+ASC ----> 设置Spawn Ability ----> 创建武器类 ----> Grant Ability
+
+首先提一下FORCEINLINE，是UE自定义的宏，用于强制编译器内联（几乎一定内联）
+
+创建两个C++文件，分别是WarriorAbilitySystemComponent和WarriorAttributeSet。
+
+之后要 在WarriorBaseCharacter中获取这个能力组件和属性集。
+
+```c++
+public:
+	// ~ Begin IAbilitySystemInterface Interface
+	virtual UAbilitySystemComponent* GetAbilitySystemComponent() const override;
+	// ~ End IAbilitySystemInterface Interface
+protected:
+	// ~ Begin APawn Interface
+	virtual void PossessedBy(AController* NewController) override;
+	// ~ End APawn Interface
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
+	UWarriorAbilitySystemComponent* WarriorAbilitySystemComponent;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AbilitySystem")
+	UWarriorAttributeSet* WarriorAttributeSet;
+public:
+	FORCEINLINE UWarriorAbilitySystemComponent* GetWarriorAbilitySystemComponent() const { return WarriorAbilitySystemComponent; }
+	FORCEINLINE UWarriorAttributeSet* GetWarriorAttributeSet() const { return WarriorAttributeSet; }
+
+UAbilitySystemComponent* AWarriorBaseCharacter::GetAbilitySystemComponent() const
+{
+	return GetWarriorAbilitySystemComponent();
+}
+
+void AWarriorBaseCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	if (WarriorAbilitySystemComponent)
+	{
+		WarriorAbilitySystemComponent->InitAbilityActorInfo(this, this);
+	}
+}
+```
+
+**之后再派生类WarriorHeroCharacter中也重写PossessedBy函数**
+
+新建一个WarriorGameplayAbility文件，用于做GA蓝图的基类。
+
+在其中定义一个枚举类包含OnTriggered和OnGiven，并且重写`OnGiveAbility`和`EndAbility`函数。
+
+```c++
+UENUM(BlueprintType)
+enum class EWarriorAbilityActivationPolicy : uint8
+{
+	OnTriggered,
+	OnGiven
+};
+```
+
+OnGiveAbility：当能力被赋予角色，如果是OnGiven，那么立刻激活这个能力，使得能力在“被添加的瞬间”就能运行逻辑。
+
+EndAbility：如果是OnGiven，在结束时，会自动清除自己。因为它无需重复触发。
+
+这种能力往往是“一次性”或“瞬发型”逻辑。比如生成武器。
+
+```c++
+void UWarriorGameplayAbility::OnGiveAbility(const FGameplayAbilityActorInfo* ActorInfo,
+                                            const FGameplayAbilitySpec& Spec)
+{
+	Super::OnGiveAbility(ActorInfo, Spec);
+	if (AbilityActivationPolicy == EWarriorAbilityActivationPolicy::OnGiven)
+	{
+		if (ActorInfo && !Spec.IsActive())
+		{
+			ActorInfo->AbilitySystemComponent->TryActivateAbility(Spec.Handle);
+		}
+	}
+}
+
+void UWarriorGameplayAbility::EndAbility(const FGameplayAbilitySpecHandle Handle,
+	const FGameplayAbilityActorInfo* ActorInfo, const FGameplayAbilityActivationInfo ActivationInfo,
+	bool bReplicateEndAbility, bool bWasCancelled)
+{
+	Super::EndAbility(Handle, ActorInfo, ActivationInfo, bReplicateEndAbility, bWasCancelled);
+	if (AbilityActivationPolicy == EWarriorAbilityActivationPolicy::OnGiven)
+	{
+		if (ActorInfo)
+		{
+			ActorInfo->AbilitySystemComponent->ClearAbility(Handle);
+		}
+	}
+}
+```
+
+之后创建GA蓝图继承WarriorGameplayAbility，命名为GA_Shared_SpawnWeapon用于武器生成。
+
+### 创建武器类
+
+WarriorWeaponBase
+
+|__WarriorHeroWeapon
+
+​	|__BP_HeroWeaponBase
+
+​		|__BP_HeroWeaponAxe
+
+在WarriorWeaponBase构造函数中定义组件
+
+```c++
+WeaponMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("WeaponMesh"));
+SetRootComponent(WeaponMesh);
+
+WeaponCollisionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("WeaponCollisionBox"));
+WeaponCollisionBox->SetupAttachment(GetRootComponent());
+WeaponCollisionBox->SetBoxExtent(FVector(20.f));
+WeaponCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+```
+
+![3](/images/UE/WarriorProject/3.png)
+
+有了武器类后就要想办法通过能力来生成武器，于是在GA_Shared_SpawnWeapon中添加逻辑。
+
+![4](../../../static/images/UE/WarriorProject/4.png)
+
+创建GA_Hero_SpawnAxe继承GA_Shared_SpawnWeapon，在当中设置WeaponClassToSpawn和SocketNameToAttachTo。
+
+现在我们拥有了角色的生成武器能力和武器类，但是还需要去将能力赋予给角色。
+
+### 配置角色初始化能力
+
+新建一个DataAsset_StartUpDataBase用于配置角色初始能力，其中包含两种能力：
+
+1. **ActivateOnGivenAbilities**：授予时就自动激活（例如被动能力、光环、初始化Buff）；
+2. **ReactiveAbilities**：等待事件触发（例如受击反击、技能响应类能力）。
+
+> 为什么使用DataAsset？
+
+设计解耦、蓝图可配置、复用性强，玩家和敌人可以单独创建DA同时可以继承这个StartUpDataBase。
+
+```
+角色初始化时（如 BeginPlay 或 Possess）：
+└── 调用 StartUpDataAsset->GiveToAbilitySystemComponent(ASC)
+    ├── GrantAbilities(ActivateOnGivenAbilities)
+    │   ├── 调用 ASC->GiveAbility()
+    │   ├── 能力 OnGiven 被触发 → 自动激活执行逻辑
+    │   └── EndAbility() 后自动清除
+    └── GrantAbilities(ReactiveAbilities)
+        ├── 调用 ASC->GiveAbility()
+        └── 等待事件触发再执行
+```
+
+
+
+```c++
+void UDataAsset_StartUpDataBase::GiveToAbilitySystemComponent(UWarriorAbilitySystemComponent* InWarriorASCToGive,
+                                                              int32 ApplyLevel)
+{
+	check(InWarriorASCToGive);
+	GrantAbilities(ActivateOnGivenAbilities, InWarriorASCToGive, ApplyLevel);
+	GrantAbilities(ReactiveAbilities, InWarriorASCToGive, ApplyLevel);
+}
+
+void UDataAsset_StartUpDataBase::GrantAbilities(const TArray<TSubclassOf<UWarriorGameplayAbility>>& InAbilityToGive,
+	UWarriorAbilitySystemComponent* InWarriorASCToGive, int32 ApplyLevel)
+{
+	if (InAbilityToGive.IsEmpty())
+	{
+		return;
+	}
+	// 遍历每一个能力类，创建spec 设置来源和等级 再调用giveability将能力注册到asc中
+	for (const TSubclassOf<UWarriorGameplayAbility>& Ability : InAbilityToGive)
+	{
+		if (!Ability) continue;
+		FGameplayAbilitySpec AbilitySpec(Ability);
+		AbilitySpec.SourceObject = InWarriorASCToGive->GetAvatarActor();
+		AbilitySpec.Level = ApplyLevel;
+		InWarriorASCToGive->GiveAbility(AbilitySpec);
+	}
+}
+```
+
+之后创建一个DataAsset_HeroStartUpData继承DataAsset_StartUpDataBase用作角色的能力初始化数据资产。
+
+创建蓝图DA_Hero继承DataAsset_HeroStartUpData。
+
+DataAsset_StartUpDataBase
+
+|__DataAsset_HeroStartUpData
+
+​     |__DA_Hero(蓝图)
+
+![5](/images/UE/WarriorProject/5.png)
+
+
+
+在WarriorBaseCharacter中定义软引用，用于关联CharacterStartUpData角色初始化能力的数据资产。
+
+```c++
+UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "CharacterData")
+TSoftObjectPtr<UDataAsset_StartUpDataBase> CharacterStartUpData;
+```
+
+然后在WarriorHeroCharacter的PossessedBy中使用同步加载这个数据资产，这样当PossessedBy时，会加载这个能力初始化数据资产，然后调用`DataAsset_StartUpDataBase::GiveToAbilitySystemComponent`。
+
+- 同步加载（Synchronous）
+
+  在游戏线程中立即加载资源，但容易卡顿，掉帧。
+
+- 异步加载（Asynchronous）
+
+  在后台线程异步加载，加载完成后再通知主线程
+
+```c++
+void AWarriorHeroCharacter::PossessedBy(AController* NewController)
+{
+	Super::PossessedBy(NewController);
+	if (!CharacterStartUpData.IsNull())
+	{
+		if (UDataAsset_StartUpDataBase* LoadedData = CharacterStartUpData.LoadSynchronous())
+		{
+			LoadedData->GiveToAbilitySystemComponent(WarriorAbilitySystemComponent);
+		}
+	}
+}
+```
+
+
+
+这一小节我们实现了角色的基础功能包括角色移动动画，输入绑定，搭建了能力系统，并且创建一个生成武器的能力。
