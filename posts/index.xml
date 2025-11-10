@@ -6,8 +6,15 @@
     <description>Recent content in Posts on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 05 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Nov 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Warrior项目笔记 2</title>
+      <link>https://geeteng.github.io/posts/ue/warriorproject2/</link>
+      <pubDate>Mon, 10 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/ue/warriorproject2/</guid>
+      <description>角色扩展组件 PawnExtensionComponentBase&#xA;|__PawnCombatComponent&#xA;​ |__HeroCombatComponent&#xA;​ |__EnemyCombatComponent&#xA;static_assert 是 编译期断言，会在编译时检查条件是否成立，不成立就报编译错误。&#xA;创建一个PawnExtensionComponentBase，用于角色组件，统一访问Pawn、Controller等。&#xA;protected: template&amp;lt;class T&amp;gt; T* GetOwningPawn() const { // TPointerIsConvertibleFromTo 测试 T 是否可转换为 APawn static_assert(TPointerIsConvertibleFromTo&amp;lt;T,APawn&amp;gt;::Value, &amp;#34;&amp;#39;T&amp;#39; Template Parameter to GetPawn must be derived from APawn&amp;#34;); return CastChecked&amp;lt;T&amp;gt;(GetOwner()); } APawn* GetOwningPawn() const { return GetOwningPawn&amp;lt;APawn&amp;gt;(); } template&amp;lt;class T&amp;gt; T* GetOwningController() const { static_assert(TPointerIsConvertibleFromTo&amp;lt;T,AController&amp;gt;::Value, &amp;#34;&amp;#39;T&amp;#39; Template Parameter to GetController must be derived from AController&amp;#34;); return GetOwningPawn&amp;lt;APawn&amp;gt;()-&amp;gt;GetController&amp;lt;T&amp;gt;(); } 之后在WarriorHeroCharacter中定义一个能够获取HeroCombatComponent组件的函数。&#xA;FORCEINLINE UHeroCombatComponent* GetHeroCombatComponent() const { return HeroCombatComponent; } 注册生成的武器 PawnCombatComponent中定义一个map存储tag-weapon。</description>
+    </item>
     <item>
       <title>Warrior项目笔记 1</title>
       <link>https://geeteng.github.io/posts/ue/warriorproject1/</link>
@@ -252,13 +259,6 @@
       <pubDate>Sat, 02 Nov 2024 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/graphics/1_transform/</guid>
       <description>2D Transformations Scale $$&#xD;S(s_x, s_y) = \begin{pmatrix}&#xD;s_x &amp; 0 &amp; 0 \\&#xD;0 &amp; s_y &amp; 0 \\&#xD;0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Rotation $$&#xD;R(\alpha) = \begin{pmatrix} \cos \alpha &amp; -\sin \alpha &amp; 0 \\ \sin \alpha &amp; \cos \alpha &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ Translation $$&#xD;T(t_x, t_y) = \begin{pmatrix} 1 &amp; 0 &amp; t_x \\ 0 &amp; 1 &amp; t_y \\ 0 &amp; 0 &amp; 1 \end{pmatrix}&#xD;$$ 齐次坐标的最后一位为 0 表示方向或无穷远点</description>
-    </item>
-    <item>
-      <title></title>
-      <link>https://geeteng.github.io/posts/ue/warriorproject2/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ue/warriorproject2/</guid>
-      <description>武器装备与连击系统&#xA;角色扩展组件 PawnExtensionComponentBase&#xA;|__PawnCombatComponent&#xA;​ |__HeroCombatComponent&#xA;​ |__EnemyCombatComponent&#xA;static_assert 是 编译期断言，会在编译时检查条件是否成立，不成立就报编译错误。&#xA;创建一个PawnExtensionComponentBase，用于角色组件，统一访问Pawn、Controller等。&#xA;protected: template&amp;lt;class T&amp;gt; T* GetOwningPawn() const { // TPointerIsConvertibleFromTo 测试 T 是否可转换为 APawn static_assert(TPointerIsConvertibleFromTo&amp;lt;T,APawn&amp;gt;::Value, &amp;#34;&amp;#39;T&amp;#39; Template Parameter to GetPawn must be derived from APawn&amp;#34;); return CastChecked&amp;lt;T&amp;gt;(GetOwner()); } APawn* GetOwningPawn() const { return GetOwningPawn&amp;lt;APawn&amp;gt;(); } template&amp;lt;class T&amp;gt; T* GetOwningController() const { static_assert(TPointerIsConvertibleFromTo&amp;lt;T,AController&amp;gt;::Value, &amp;#34;&amp;#39;T&amp;#39; Template Parameter to GetController must be derived from AController&amp;#34;); return GetOwningPawn&amp;lt;APawn&amp;gt;()-&amp;gt;GetController&amp;lt;T&amp;gt;(); } 之后在WarriorHeroCharacter中定义一个能够获取HeroCombatComponent组件的函数。&#xA;FORCEINLINE UHeroCombatComponent* GetHeroCombatComponent() const { return HeroCombatComponent; } 注册生成的武器 PawnCombatComponent中定义一个map存储tag-weapon。</description>
     </item>
     <item>
       <title></title>

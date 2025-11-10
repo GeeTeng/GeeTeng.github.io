@@ -6,8 +6,15 @@
     <description>Recent content in UE5 on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 05 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 10 Nov 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/tags/ue5/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Warrior项目笔记 2</title>
+      <link>https://geeteng.github.io/posts/ue/warriorproject2/</link>
+      <pubDate>Mon, 10 Nov 2025 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/ue/warriorproject2/</guid>
+      <description>角色扩展组件 PawnExtensionComponentBase&#xA;|__PawnCombatComponent&#xA;​ |__HeroCombatComponent&#xA;​ |__EnemyCombatComponent&#xA;static_assert 是 编译期断言，会在编译时检查条件是否成立，不成立就报编译错误。&#xA;创建一个PawnExtensionComponentBase，用于角色组件，统一访问Pawn、Controller等。&#xA;protected: template&amp;lt;class T&amp;gt; T* GetOwningPawn() const { // TPointerIsConvertibleFromTo 测试 T 是否可转换为 APawn static_assert(TPointerIsConvertibleFromTo&amp;lt;T,APawn&amp;gt;::Value, &amp;#34;&amp;#39;T&amp;#39; Template Parameter to GetPawn must be derived from APawn&amp;#34;); return CastChecked&amp;lt;T&amp;gt;(GetOwner()); } APawn* GetOwningPawn() const { return GetOwningPawn&amp;lt;APawn&amp;gt;(); } template&amp;lt;class T&amp;gt; T* GetOwningController() const { static_assert(TPointerIsConvertibleFromTo&amp;lt;T,AController&amp;gt;::Value, &amp;#34;&amp;#39;T&amp;#39; Template Parameter to GetController must be derived from AController&amp;#34;); return GetOwningPawn&amp;lt;APawn&amp;gt;()-&amp;gt;GetController&amp;lt;T&amp;gt;(); } 之后在WarriorHeroCharacter中定义一个能够获取HeroCombatComponent组件的函数。&#xA;FORCEINLINE UHeroCombatComponent* GetHeroCombatComponent() const { return HeroCombatComponent; } 注册生成的武器 PawnCombatComponent中定义一个map存储tag-weapon。</description>
+    </item>
     <item>
       <title>Warrior项目笔记 1</title>
       <link>https://geeteng.github.io/posts/ue/warriorproject1/</link>
