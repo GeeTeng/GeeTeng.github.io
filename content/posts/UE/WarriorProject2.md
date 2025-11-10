@@ -1,4 +1,12 @@
-武器装备与连击系统
+---
+title: "Warrior项目笔记 2"
+date: 2025-11-10
+tags: [UE5]
+description: "Warrior项目笔记第2部分 武器装配、武器能力与连击系统"
+showDate: true
+math: true
+chordsheet: true
+---
 
 ## 角色扩展组件
 
@@ -9,8 +17,6 @@ PawnExtensionComponentBase
 ​     |__HeroCombatComponent
 
 ​     |__EnemyCombatComponent
-
-
 
 `static_assert` 是 **编译期断言**，会在编译时检查条件是否成立，不成立就报编译错误。
 
@@ -354,7 +360,7 @@ UWarriorHeroAnimInstance* UWarriorHeroLinkedAnimLayer::GetHeroAnimInstance() con
 }
 ```
 
-![13](../../../static/images/UE/WarriorProject/13.png)
+![13](/images/UE/WarriorProject/13.png)
 
 之后在创建一个继承MasterLayer_Hero的AnimLayer_HeroAxe，用于播放持有武器的混合动画。在类默认中配置DefaultLocomotionBlendSpace为新建的BlendSpace1D持有武器的混合空间动画。
 
@@ -395,3 +401,91 @@ AWarriorHeroWeapon* UHeroCombatComponent::GetHeroCarriedWeaponByTag(FGameplayTag
 在GA中添加如下的逻辑，通过LinkAnimClassLayers来实现关联动画层。这样就可以完成了武器装配后动画的切换了。
 
 ![15](/images/UE/WarriorProject/15.png)
+
+
+
+## 卸下武器
+
+声明GameplayTag
+
+```c++
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Equip_Axe);
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_UnEquip_Axe);
+```
+
+将tag设置到GA中
+
+![16](/images/UE/WarriorProject/16.png)
+
+之后创建收回武器的蒙太奇动画，添加动画通知并设置EventTag。在GA蓝图中像装配武器那样处理接收到event之后的逻辑。
+
+创建一个InputAction用于收回武器的输入触发，并配置在DA_InputConfig中，同样需要一个GameplayTag。
+
+```c++
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_UnEquipAxe);
+```
+
+![17](/images/UE/WarriorProject/17.png)
+
+
+
+思考一个问题：玩家卸下武器的能力应该要在玩家出生时就拥有，还是在装配武器后才拥有。
+
+显而易见，应该在装配武器后才会拥有卸下武器的能力，因此我们需要在HeroWeaponData中（那个结构体，已有AnimLayerToLink成员）添加一些新的成员。
+
+HeroWeaponData
+
+|__AnimLayerToLink（切换持有武器的动画）
+
+|__DefaultWeaponAbility(获取武器能力，比如卸下武器、轻击、重击)
+
+|__InputMappingContext（更改按键绑定）
+
+将FWarriorHeroAbilitySet结构体从DataAsset_HeroStartUpData移动到WarriorStructType中。之后定义新的成员分别是`WeaponInputMappingContext`和`DefaultWeaponAbilities`
+
+```c++
+USTRUCT(BlueprintType)
+struct FWarriorHeroWeaponData
+{
+    GENERATED_BODY()
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TSubclassOf<UWarriorHeroLinkedAnimLayer> WeaponAnimLayerToLink;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    UInputMappingContext* WeaponInputMappingContext;
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta = (TitleProperty = "InputTag"))
+    TArray<FWarriorHeroAbilitySet> DefaultWeaponAbilities;
+};
+```
+
+创建一个新的IMC，其中有武器能力的输入，在BP_HeroAxe中修改HeroWeaponData。
+
+![18](/images/UE/WarriorProject/18.png)
+
+在WarriorAbilitySystemComponent中增加一个函数用于赋予武器能力。
+
+在`GiveAbility`后GAS会返回一个`FGameplayAbilitySpecHandle`，`OutGrantedAbilitySpecHandles` 用来**收集并保存每个被授予的能力的句柄**，方便你之后按句柄精确地移除、查找或管理这些能力。
+
+```c++
+void UWarriorAbilitySystemComponent::GrantHeroWeaponAbilities(
+    const TArray<FWarriorHeroAbilitySet>& InDefaultWeaponAbilities, int32 ApplyLevel,
+    TArray<FGameplayAbilitySpecHandle>& OutGrantedAbilitySpecHandles)
+{
+    if (InDefaultWeaponAbilities.IsEmpty())
+    {
+       return;
+    }
+    for (const FWarriorHeroAbilitySet& AbilitySet : InDefaultWeaponAbilities)
+    {
+       if (!AbilitySet.IsValid()) continue;
+       FGameplayAbilitySpec AbilitySpec(AbilitySet.AbilityToGrant);
+       AbilitySpec.SourceObject = GetAvatarActor();
+       AbilitySpec.Level = ApplyLevel;
+       AbilitySpec.DynamicAbilityTags.AddTag(AbilitySet.InputTag);
+       OutGrantedAbilitySpecHandles.AddUnique(GiveAbility(AbilitySpec));
+    }
+}
+```
+
+在GA_Hero_EquipAxe中创建新函数`HandleEquipWeapon`用来替代之前写的逻辑。
+
+![19](/images/UE/WarriorProject/19.png)
