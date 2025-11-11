@@ -8,6 +8,32 @@ math: true
 chordsheet: true
 ---
 
+
+
+
+
+## 整体框架概览：
+
+ ![26](/images/UE/WarriorProject/26.png)
+
+
+
+## BP Function Library 蓝图函数库
+
+**蓝图函数库是静态函数的集合，提供与Gameplay对象无关的实用工具功能，**
+
+比如UGameplayStatics和UKismetSystemLibrary
+
+有时候你写游戏逻辑，会发现：
+
+> “我想写一个通用的小函数，比如把某个 Actor 转成 Pawn 并拿到它的 AIController。”
+
+但这个逻辑既不是某个角色特有的、也不是某个组件专属的。它只是一个到处都能用的“小工具函数”。这时候你就不该把它写在 `Actor`、`Component`、`GameInstance` 里，因为那样会让这个逻辑绑死在具体类型上。
+
+👉 所以 Unreal 提供了一个专门的“函数容器”——`UBlueprintFunctionLibrary`。
+
+
+
 ## 角色扩展组件
 
 PawnExtensionComponentBase
@@ -489,3 +515,177 @@ void UWarriorAbilitySystemComponent::GrantHeroWeaponAbilities(
 在GA_Hero_EquipAxe中创建新函数`HandleEquipWeapon`用来替代之前写的逻辑。
 
 ![19](/images/UE/WarriorProject/19.png)
+
+在WarriorHeroWeapon中添加两个函数。装配武器蓝图中在`GrantHeroWeaponAbilities`后面调用`AssignGrantedAbilitySpecHandles`。
+
+
+
+```c++
+void AWarriorHeroWeapon::AssignGrantedAbilitySpecHandles(const TArray<FGameplayAbilitySpecHandle>& InSpecHandles)
+{
+    GrantAbilitySpecHandles = InSpecHandles;
+}
+
+TArray<FGameplayAbilitySpecHandle> AWarriorHeroWeapon::GetGrantedAbilitySpecHandles() const
+{
+    return GrantAbilitySpecHandles;
+}
+```
+
+在WarriorAbilitySystemComponent中添加一个新函数，用于移除武器赋予的能力。
+
+```c++
+void UWarriorAbilitySystemComponent::RemoveGrantedHeroWeaponAbilities(
+    TArray<FGameplayAbilitySpecHandle>& InSpecHandlesToRemove)
+{
+    if (InSpecHandlesToRemove.IsEmpty())
+    {
+       return;
+    }
+    for (const FGameplayAbilitySpecHandle& SpecHandle : InSpecHandlesToRemove)
+    {
+       if (SpecHandle.IsValid())
+       {
+          ClearAbility(SpecHandle);
+       }
+    }
+    InSpecHandlesToRemove.Empty();
+}
+```
+
+卸下武器的GA中写如下逻辑
+
+![25](/images/UE/WarriorProject/25.png)
+
+
+
+## 武器攻击
+
+同样需要声明GameplayTag。
+
+```c++
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_LightAttack_Axe);
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_HeavyAttack_Axe);
+
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Attack_Light_Axe);
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Player_Ability_Attack_Heavy_Axe);
+```
+
+创建新的GA：GA_Hero_LightAttackMaster和GA_Hero_LightAttack_Axe（继承前一个master）。配置好标签，如下图所示，并且将Equip和UnEquip的Block也添加Attack的标签。
+
+![20](/images/UE/WarriorProject/20.png)
+
+创建新的IA_LightAttack_Axe，并添加到DA_InputConfig和IMC_Axe中。
+
+在BP_HeroAxe的WeaponData中添加新的元素。
+
+**能力实例化策略**
+
+1. 在每一次执行时实例化 （但是每次都会被重置默认值）
+2. 在每个角色实例化 （只会在第一次生成，之后只需要每次激活重用生成的实例）
+3. 不实例化（必须完全在C++中实现）
+
+在轻击这里使用第二种策略，也就是只实例化一次，之后复用。
+
+### 连击
+
+在GA_Hero_LightAttackMaster创建一个Map用来存储连击次数与动画的映射。
+
+在每次EndAbility后设置一个定时器，如果在定时器的时间内没有进行下一次攻击，则会调用自定义事件——ResetAttackComboCount（将连击次数重置为1）。如果在规定时间内进行了连击，则会进入到激活能力的流程中清除定时器（也就不会执行自定义Event）。
+
+根据连击次数调用蒙太奇动画，如果连击次数达到Map的容量，则清空连击次数（调用自定义Event），否则连击数++。
+
+![21](/images/UE/WarriorProject/21.png)
+
+之后创建连击动画的蒙太奇动画，并更改插槽为FullBody，在ABP_Hero中添加该插槽。之后再配置GA中的Map。就可以实现连击了。
+
+![22](/images/UE/WarriorProject/22.png)
+
+### 重击
+
+重击与轻击相同逻辑，不再赘述。重击会有2次连击效果。
+
+### JumpToFinsher
+
+在本节中会创建一个蓝图函数库的C++类。
+
+由于蓝图只能使用执行引脚，不能用bool返回节点控制流，因此使用`ExpandEnumAsExecs`让枚举展开成多个执行引脚。`DisplayName`指定蓝图节点上显示的名字（而不是函数名）。
+
+```c++
+UENUM()
+enum class EWarriorConfirmType :uint8
+{
+	Yes,
+	No
+};
+
+UCLASS()
+class WARRIOR_API UWarriorFunctionLibrary : public UBlueprintFunctionLibrary
+{
+	GENERATED_BODY()
+	
+public:
+	static UWarriorAbilitySystemComponent* NativeGetWarriorASCFromActor(AActor* InActor);
+	
+	UFUNCTION(BlueprintCallable, Category = "Warrior|FunctionLibrary")
+	static void AddGameplayTagToActorIfNone(AActor* InActor, FGameplayTag TagToAdd);
+
+	UFUNCTION(BlueprintCallable, Category = "Warrior|FunctionLibrary")
+	static void RemoveGameplayFromActorIfFound(AActor* InActor, FGameplayTag TagToRemove);
+	// C++调用
+	static bool NativeDoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck);
+	// 蓝图调用
+	UFUNCTION(BlueprintCallable, Category = "Warrior|FunctionLibrary", meta = (DisplayName = "Does Actor Have Tag", ExpandEnumAsExecs = "OutConfirmType"))
+	static void BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck, EWarriorConfirmType& OutConfirmType);
+};
+
+UWarriorAbilitySystemComponent* UWarriorFunctionLibrary::NativeGetWarriorASCFromActor(AActor* InActor)
+{
+    check(InActor);
+    return CastChecked<UWarriorAbilitySystemComponent>(UAbilitySystemBlueprintLibrary::GetAbilitySystemComponent(InActor));
+}
+
+void UWarriorFunctionLibrary::AddGameplayTagToActorIfNone(AActor* InActor, FGameplayTag TagToAdd)
+{
+    UWarriorAbilitySystemComponent* ASC = NativeGetWarriorASCFromActor(InActor);
+    if (!ASC->HasMatchingGameplayTag(TagToAdd))
+    {
+       ASC->AddLooseGameplayTag(TagToAdd); // 不会触发激活逻辑 添加临时状态
+    }
+}
+
+void UWarriorFunctionLibrary::RemoveGameplayFromActorIfFound(AActor* InActor, FGameplayTag TagToRemove)
+{
+    UWarriorAbilitySystemComponent* ASC = NativeGetWarriorASCFromActor(InActor);
+    if (ASC->HasMatchingGameplayTag(TagToRemove))
+    {
+       ASC->RemoveLooseGameplayTag(TagToRemove);
+    }
+}
+
+bool UWarriorFunctionLibrary::NativeDoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck)
+{
+    UWarriorAbilitySystemComponent* ASC = NativeGetWarriorASCFromActor(InActor);
+    return ASC->HasMatchingGameplayTag(TagToCheck);
+}
+
+void UWarriorFunctionLibrary::BP_DoesActorHaveTag(AActor* InActor, FGameplayTag TagToCheck,
+    EWarriorConfirmType& OutConfirmType)
+{
+    OutConfirmType = NativeDoesActorHaveTag(InActor, TagToCheck) ? EWarriorConfirmType::Yes : EWarriorConfirmType::No;
+}
+```
+
+JumpToFinsher是一个新的临时Tag，目的是当轻击次数达到最后一次之前，如果使用重击，则直接跳跃到重击的最后一个连击效果。
+
+例子：轻击有4个，重击有2个。当轻击到第三下时使用重击会直接跳到重击的第二个效果。
+
+```c++
+UE_DEFINE_GAMEPLAY_TAG(Player_Status_JumpToFinisher, "Player.Status.JumpToFinisher");
+```
+
+![23](/images/UE/WarriorProject/23.png)
+
+在EndAbility后也需要调用RemoveGameplayFromActorIfFound。
+
+![24](/images/UE/WarriorProject/24.png)
