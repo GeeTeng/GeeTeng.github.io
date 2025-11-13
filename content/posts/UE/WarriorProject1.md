@@ -1,5 +1,5 @@
 ---
-title: "Warrior项目笔记 1"
+title: "Warrior项目笔记1"
 date: 2025-11-05
 tags: [UE5]
 description: "Warrior项目笔记第一部分"
@@ -88,7 +88,6 @@ namespace WarriorGameplayTags
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Move) // 声明一个外部可访问的FGameplayTag
 	UE_DECLARE_GAMEPLAY_TAG_EXTERN(InputTag_Look)
 }
-
 ```
 
 ```c++
@@ -156,8 +155,6 @@ inline void UWarriorInputComponent::BindNativeInputAction(const UDataAsset_Input
 }
 ```
 
-
-
 ### 绑定输入定义callbacks
 
 创建虚函数继承SetupPlayerInputComponent，在其中获取本地玩家增强输入子系统，添加输入映射上下文，然后再通过自定义输入组件绑定在角色类中定义的callback函数，分别是`Input_Move`和`Input_Look`。
@@ -209,21 +206,19 @@ void AWarriorHeroCharacter::Input_Look(const FInputActionValue& InputActionValue
 
 ```
 
-
-
 ## 角色动画
 
 创建一系列C++文件分别是
 
 WarriorBaseAnimInstance继承AnimInstance
 
-|——WarriorHeroLinkedAnimLayer
+|__WarriorHeroLinkedAnimLayer
 
-|——WarriorCharacterAnimInstance
+|__WarriorCharacterAnimInstance
 
-​	  |——WarriorHeroAnimInstance
+​	  |__WarriorHeroAnimInstance
 
-
+其中WarriorBaseAnimInstance目前没有逻辑，而WarriorCharacterAnimInstance在线程安全更新函数中更新GroundSpeed和HasAcceleration。WarriorHeroAnimInstance在线程安全更新函数中目前写了关于Relax动画状态判定的逻辑。
 
 首先在WarriorCharacterAnimInstance中定义两个函数
 
@@ -273,7 +268,6 @@ void UWarriorHeroAnimInstance::NativeInitializeAnimation()
 		OwningHeroCharacter = Cast<AWarriorHeroCharacter>(OwningCharacter);
 	}
 }
-
 void UWarriorHeroAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSeconds)
 {
 	Super::NativeThreadSafeUpdateAnimation(DeltaSeconds);
@@ -289,6 +283,30 @@ void UWarriorHeroAnimInstance::NativeThreadSafeUpdateAnimation(float DeltaSecond
 	}
 }
 ```
+
+动画相关蓝图有：
+
+WarriorHeroLinkedAnimLayer
+
+|__MasterLayer_Hero
+
+​	|__AnimLayer_HeroAxe
+
+ALI_Hero继承AnimLayerInterface
+
+在ALI_Hero添加一个动画层`ArmedLocomotionState`，将其关联到ABP_Hero中和MasterLayer_Hero中，
+
+属性存取获得到Combat组件中的CurrentEquippedWeaponTag，如果Tag存在（当前持有武器）则选择ArmedLocomotionState，也就是我们添加的动画层。
+
+![30](/images/UE/WarriorProject/30.png)
+
+MasterLayer_Hero中逻辑如下，提升为变量的DefaultLocomotionBlendSpace将在子类AnimLayer_HeroAxe中设置角色的武器混合空间动画。
+
+![31](/images/UE/WarriorProject/31.png)
+
+之后（下一部分会涉及到）武器会有一个FWarriorHeroWeaponData类，其中会有`TSubclassOf<UWarriorHeroLinkedAnimLayer> WeaponAnimLayerToLink;`
+
+通过在装配武器的GA中调用`LinkAnimClassLayers`，使UWarriorHeroLinkedAnimLayer和其子类AnimLayer_HeroAxe播放locomotion动画。
 
 ## 武器生成
 
@@ -412,7 +430,7 @@ WeaponCollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 
 有了武器类后就要想办法通过能力来生成武器，于是在GA_Shared_SpawnWeapon中添加逻辑。
 
-![4](../../../static/images/UE/WarriorProject/4.png)
+![4](/images/UE/WarriorProject/4.png)
 
 创建GA_Hero_SpawnAxe继承GA_Shared_SpawnWeapon，在当中设置WeaponClassToSpawn和SocketNameToAttachTo。
 
@@ -515,7 +533,5 @@ void AWarriorHeroCharacter::PossessedBy(AController* NewController)
 	}
 }
 ```
-
-
 
 这一小节我们实现了角色的基础功能包括角色移动动画，输入绑定，搭建了能力系统，并且创建一个生成武器的能力。

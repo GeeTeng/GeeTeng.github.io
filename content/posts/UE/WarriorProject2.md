@@ -1,5 +1,5 @@
 ---
-title: "Warrior项目笔记 2"
+title: "Warrior项目笔记2"
 date: 2025-11-10
 tags: [UE5]
 description: "Warrior项目笔记第2部分 武器装配、武器能力与连击系统"
@@ -13,6 +13,8 @@ chordsheet: true
 
 
 ## 整体框架概览：
+
+该图形状方框代表函数，菱形代表蓝图、连接线不代表任何继承关系，仅用作思维导图。
 
  ![26](/images/UE/WarriorProject/26.png)
 
