@@ -35,7 +35,7 @@
   <meta itemprop="description" content="Warrior项目笔记第3部分 小怪制作 角色属性 自定义计算类的GE造成伤害">
   <meta itemprop="datePublished" content="2025-11-13T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-11-13T00:00:00+00:00">
-  <meta itemprop="wordCount" content="745">
+  <meta itemprop="wordCount" content="1138">
   <meta itemprop="keywords" content="UE5">
 <link rel="canonical" href="https://geeteng.github.io/posts/ue/warriorproject3/" />
 
@@ -214,6 +214,9 @@
             <li><a href="#怪物属性与ge">怪物属性与GE</a></li>
             <li><a href="#武器碰撞检测">武器碰撞检测</a></li>
             <li><a href="#应用伤害">应用伤害</a></li>
+            <li><a href="#击中反应">击中反应</a></li>
+            <li><a href="#敌人死亡">敌人死亡</a></li>
+            <li><a href="#ui">UI</a></li>
           </ul>
         </li>
       </ul>
@@ -238,7 +241,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        23 mins read
+                        38 mins read
                     </p>
                 </div>
             </div>
@@ -634,6 +637,208 @@ FGameplayEffectAttributeCaptureDefinition AttackPowerProperty;
 </span></span></code></pre></div><p>相当于上面方法的宏展开版，但是很麻烦。</p>
 </li>
 </ol>
+<p>接下来计算伤害：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UGEExecCalc_DamageTaken<span style="color:#f92672">::</span>Execute_Implementation(<span style="color:#66d9ef">const</span> FGameplayEffectCustomExecutionParameters<span style="color:#f92672">&amp;</span> ExecutionParams,
+</span></span><span style="display:flex;"><span>	FGameplayEffectCustomExecutionOutput<span style="color:#f92672">&amp;</span> OutExecutionOutput) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// GameplayEffectSpec 就是本次伤害实例的数据包 包含来源对象、tags等数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">const</span> FGameplayEffectSpec<span style="color:#f92672">&amp;</span> EffectSpec <span style="color:#f92672">=</span> ExecutionParams.GetOwningSpec();
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	FAggregatorEvaluateParameters EvaluateParameters;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 获取来源方和目标方在GESpec创建瞬间被捕获下来的标签集合
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	EvaluateParameters.SourceTags <span style="color:#f92672">=</span> EffectSpec.CapturedSourceTags.GetAggregatedTags();
+</span></span><span style="display:flex;"><span>	EvaluateParameters.TargetTags <span style="color:#f92672">=</span> EffectSpec.CapturedTargetTags.GetAggregatedTags();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> SourceAttackPower <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 捕获来源方的攻击力
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetWarriorDamageCapture().AttackPowerDef, EvaluateParameters,SourceAttackPower);
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> BaseDamage <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>	int32 UsedLightAttackComboCount <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	int32 UsedHeavyAttackComboCount <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 读取 SetByCaller 的值，这个值已经在UWarriorHeroGameplayAbility::MakeHeroDamageEffectSpecHandle被传入了
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> TPair<span style="color:#f92672">&lt;</span>FGameplayTag, <span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;&amp;</span> TagMagnitude : EffectSpec.SetByCallerTagMagnitudes)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (TagMagnitude.Key.MatchesTagExact(WarriorGameplayTags<span style="color:#f92672">::</span>Shared_SetByCaller_BaseDamage))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			BaseDamage <span style="color:#f92672">=</span> TagMagnitude.Value;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (TagMagnitude.Key.MatchesTagExact(WarriorGameplayTags<span style="color:#f92672">::</span>Player_SetByCaller_AttackType_Light))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			UsedLightAttackComboCount <span style="color:#f92672">=</span> TagMagnitude.Value;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (TagMagnitude.Key.MatchesTagExact(WarriorGameplayTags<span style="color:#f92672">::</span>Player_SetByCaller_AttackType_Heavy))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			UsedHeavyAttackComboCount <span style="color:#f92672">=</span> TagMagnitude.Value;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> TargetDefensePower <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 捕获目标方的防御力
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetWarriorDamageCapture().DefensePowerDef, EvaluateParameters, TargetDefensePower);
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (UsedLightAttackComboCount <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> DamageIncreasePercentLight <span style="color:#f92672">=</span> (UsedLightAttackComboCount <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">0.05</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1.f</span>;
+</span></span><span style="display:flex;"><span>		BaseDamage <span style="color:#f92672">*=</span> DamageIncreasePercentLight;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (UsedHeavyAttackComboCount <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> DamageIncreasePercentHeavy <span style="color:#f92672">=</span> UsedHeavyAttackComboCount <span style="color:#f92672">*</span> <span style="color:#ae81ff">0.15f</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1.f</span>;
+</span></span><span style="display:flex;"><span>		BaseDamage <span style="color:#f92672">*=</span> DamageIncreasePercentHeavy;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> FinalDamageDone <span style="color:#f92672">=</span> BaseDamage <span style="color:#f92672">*</span> SourceAttackPower <span style="color:#f92672">/</span> TargetDefensePower;
+</span></span><span style="display:flex;"><span>	Debug<span style="color:#f92672">::</span>Print(TEXT(<span style="color:#e6db74">&#34;FinalDamageDone&#34;</span>), FinalDamageDone);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (FinalDamageDone <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.f</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		OutExecutionOutput.AddOutputModifier(
+</span></span><span style="display:flex;"><span>			FGameplayModifierEvaluatedData(
+</span></span><span style="display:flex;"><span>				GetWarriorDamageCapture().DamageTakenProperty,
+</span></span><span style="display:flex;"><span>				EGameplayModOp<span style="color:#f92672">::</span>Override,
+</span></span><span style="display:flex;"><span>				FinalDamageDone
+</span></span><span style="display:flex;"><span>			)
+</span></span><span style="display:flex;"><span>		);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在WarriorAttributeSet中重写PostGameplayEffectExecute，在GE执行后做一个Clamp和通过DamageTaken改变Health属性。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorAttributeSet<span style="color:#f92672">::</span>PostGameplayEffectExecute(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FGameplayEffectModCallbackData</span><span style="color:#f92672">&amp;</span> Data)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (Data.EvaluatedData.Attribute <span style="color:#f92672">==</span> GetCurrentHealthAttribute())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> NewCurrentHealth <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>Clamp(GetCurrentHealth(), <span style="color:#ae81ff">0.f</span>, GetMaxHealth());
+</span></span><span style="display:flex;"><span>       SetCurrentHealth(NewCurrentHealth);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (Data.EvaluatedData.Attribute <span style="color:#f92672">==</span> GetCurrentRageAttribute())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> NewCurrentRage <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>Clamp(GetCurrentRage(), <span style="color:#ae81ff">0.f</span>, GetMaxRage());
+</span></span><span style="display:flex;"><span>       SetCurrentRage(NewCurrentRage);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (Data.EvaluatedData.Attribute <span style="color:#f92672">==</span> GetDamageTakenAttribute())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> OldHealth <span style="color:#f92672">=</span> GetCurrentHealth();
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> DamageDone <span style="color:#f92672">=</span> GetDamageTaken();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> NewCurrentHealth <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>Clamp(OldHealth <span style="color:#f92672">-</span> DamageDone, <span style="color:#ae81ff">0.f</span>, GetMaxHealth());
+</span></span><span style="display:flex;"><span>       SetCurrentHealth(NewCurrentHealth);
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">const</span> FString DebugString <span style="color:#f92672">=</span> FString<span style="color:#f92672">::</span>Printf(TEXT(<span style="color:#e6db74">&#34;OldHealth: %f, DamageDone:%f, NewCurrentHealth:%f&#34;</span>), OldHealth, DamageDone, NewCurrentHealth);
+</span></span><span style="display:flex;"><span>       Debug<span style="color:#f92672">::</span>Print(DebugString, FColor<span style="color:#f92672">::</span>Green);
+</span></span><span style="display:flex;"><span>       
+</span></span><span style="display:flex;"><span>       <span style="color:#75715e">// TODO: 通知UI
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>       <span style="color:#75715e">// TODO: 玩家死亡
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>       <span style="color:#66d9ef">if</span> (NewCurrentHealth <span style="color:#f92672">==</span> <span style="color:#ae81ff">0.f</span>)
+</span></span><span style="display:flex;"><span>       {
+</span></span><span style="display:flex;"><span>          
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="击中反应">击中反应</h3>
+<p><strong>目标1</strong>：敌人在受击时会面对玩家播放受击蒙太奇动画。</p>
+<p>添加如下几个Tag。分别用于敌人近战、远程、受击的能力、触发受击的事件。并配置DA_Guardian。</p>
+<pre tabindex="0"><code>WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Melee);
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Ranged);
+
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_HitReact);
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_HitReact);
+</code></pre><p>将之前轻击和重击GA中处理受伤的逻辑封装成一个函数。在该函数中调用SendGameplayEventtoActor函数，发送Shared.Event.HitReact给敌人。</p>
+<p>创建一个GA_Enemy_HitReact_Base、GA_Guardian_HitReact（继承前一个）</p>
+<p>配置好基类的Tags和Triggers，更改InstancingPolicy为InstancedPerActor。</p>
+<p><img src="/images/UE/WarriorProject/34.png" alt="34"></p>
+<p>在子类受击GA中添加随机蒙太奇。</p>
+<p>**目标2：**敌人在受击时材料颜色更改为红色。</p>
+<p><img src="/images/UE/WarriorProject/35.png" alt="35"></p>
+<p><img src="/images/UE/WarriorProject/36.png" alt="36"></p>
+<p>**目标3：**敌人在受击时全局缩放时间</p>
+<p>添加新的GameplayTag——<strong>Player_Event_HitPause</strong>、<strong>Player_Ability_HitPause</strong></p>
+<p>在HeroCombatComponent中OnHitTargetActor函数添加一个发送Event。并在DA_Hero中配置好ReactAbility为Player_Ability_HitPause。然后创建<strong>GA_Hero_HitPause</strong>配置好那些东西。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UHeroCombatComponent<span style="color:#f92672">::</span>OnHitTargetActor(AActor<span style="color:#f92672">*</span> HitActor)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    UAbilitySystemBlueprintLibrary<span style="color:#f92672">::</span>SendGameplayEventToActor(
+</span></span><span style="display:flex;"><span>       GetOwningPawn(),
+</span></span><span style="display:flex;"><span>       WarriorGameplayTags<span style="color:#f92672">::</span>Shared_Event_MeleeHit,
+</span></span><span style="display:flex;"><span>       Data
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>    UAbilitySystemBlueprintLibrary<span style="color:#f92672">::</span>SendGameplayEventToActor(
+</span></span><span style="display:flex;"><span>       GetOwningPawn(),
+</span></span><span style="display:flex;"><span>       WarriorGameplayTags<span style="color:#f92672">::</span>Player_Event_HitPause,
+</span></span><span style="display:flex;"><span>       FGameplayEventData()
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UHeroCombatComponent<span style="color:#f92672">::</span>OnWeaponPulledFromTargetActor(AActor<span style="color:#f92672">*</span> InteractedActor)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    UAbilitySystemBlueprintLibrary<span style="color:#f92672">::</span>SendGameplayEventToActor(
+</span></span><span style="display:flex;"><span>    GetOwningPawn(),
+</span></span><span style="display:flex;"><span>    WarriorGameplayTags<span style="color:#f92672">::</span>Player_Event_HitPause,
+</span></span><span style="display:flex;"><span>    FGameplayEventData()
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>**目标4：**击中后镜头摇晃</p>
+<p>创建<strong>CameraShake_HeroMelee</strong>蓝图继承DefaultCameraShakeBase，按照如下配置：</p>
+<p><img src="/images/UE/WarriorProject/37.png" alt="37"></p>
+<p>在GA_Hero_HitPause中继续连接ClientStartCameraShake函数去播放该创建好的CameraShake类。</p>
+<p>目标5：受击怪物声音</p>
+<p>与之前相同，在蒙太奇动画中添加Notify，但是多个怪物会发出多个声音，因此创建一个SoundConcurrency命名<strong>Concurrency_OneAtATime</strong>，目的是为了让同一个音效只播放一个，新的会覆盖旧的。并且添加到SoundCue中。</p>
+<p>**目标5：**玩家击中声音</p>
+<p>首先在Config文件夹中的DefaultGame.ini中添加GameplayCue的文件夹路径<code>GameplayCueNotifyPaths = &quot;/Game/GameplayCues&quot;</code></p>
+<p>之后在GameplayCue文件夹中创建一个继承GameplayCueNotifyStatic的蓝图，创建一个新的GameplayCueTag——(TagName=&quot;<strong>GameplayCue.Sounds.MeleeHit.Axe</strong>&quot;)，在蓝图中播放音效。</p>
+<p><img src="/images/UE/WarriorProject/38.png" alt="38"></p>
+<p>在攻击的GA中添加ExecuteGameplayCueOnOwner去执行这个Cue。</p>
+<h3 id="敌人死亡">敌人死亡</h3>
+<p>生命值为0时添加Tag，然后播放蒙太奇动画。</p>
+<p>创建两个Tag，分别是添加的死亡状态Tag——<strong>Shared_Status_Death</strong>，收到这个Tag之后会触发死亡的能力——<strong>Shared_Ability_Death</strong>。</p>
+<p>之后在WarriorAttributeSet::PostGameplayEffectExecute中添加如下代码，它会在角色死亡时在身上添加一个死亡状态Tag。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (NewCurrentHealth <span style="color:#f92672">==</span> <span style="color:#ae81ff">0.f</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    UWarriorFunctionLibrary<span style="color:#f92672">::</span>AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), WarriorGameplayTags<span style="color:#f92672">::</span>Shared_Status_Death);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>创建<strong>GA_Enemy_Death_Base</strong>，这一次不需要更改实例化方式，因为死亡不是频发发生的，所以保持默认InstancedPerExecution。</p>
+<p>但是要注意Triggers中的TriggerSource需要更改成OwnedTagAdded，而不是之前的GameplayEvent。</p>
+<p><img src="/images/UE/WarriorProject/39.png" alt="39"></p>
+<p>之后创建GC，和击中的GC一样。创建子类<strong>GA_Guardian_Death</strong>，配置好蒙太奇动画和GCTag。</p>
+<p><img src="/images/UE/WarriorProject/40.png" alt="40"></p>
+<p>这样可以实现角色死亡后播放蒙太奇动画了。但是播放完动画角色仍然会回到之前Idle状态，这个时候需要我们去在死亡之后通知角色，1.停止动画 2.碰撞体失效 3.材质FX 4.粒子FX 5.角色销毁</p>
+<p>创建一个蓝图接口——<strong>BPI_EnemyDeath</strong>用于敌人死亡的接口，该接口中有一个OnEnemyDied函数，在敌人类中添加该接口，并且调用该接口去做动画暂停与碰撞体失效等逻辑。</p>
+<p>创建一个TimeLine曲线，可以使材质的DissolveAmount值完成1秒内0-1的渐变。（TotalDissolveTime那里是Divide /号而不是%号，已改正）</p>
+<p><img src="/images/UE/WarriorProject/42.png" alt="42"></p>
+<p>在GA_Enemy_Death_Base的能力End之后执行OnEnemyDied函数。在敌人的角色蓝图中完成如下逻辑：</p>
+<p><img src="/images/UE/WarriorProject/41.png" alt="41"></p>
+<p>在OnEnemyDied函数中添加NiagaraSystem软引用对象的输入，可以在子类GA中配置粒子特效。</p>
+<p>死亡的Nagara粒子特效，</p>
+<p><img src="/images/UE/WarriorProject/43.png" alt="43"></p>
+<h3 id="ui">UI</h3>
+<p>属性变换会通知PawnUIComponent，然后去做广播。</p>
+<p>而Widgets会监听并做更新。</p>
+<p>首先创建几个Cpp文件：</p>
+<p>PawnUIInterface（获取UI组件，需要被添加到角色基类）</p>
+<p>PawnUIComponent</p>
+<p>|__HeroUIComponent</p>
+<p>|__EnemyUIComponent</p>
+<p>角色基类中与子类都要去实现该函数：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// ~ Begin IPawnUIInterface Interface
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">virtual</span> UPawnUIComponent<span style="color:#f92672">*</span> <span style="color:#a6e22e">GetPawnUIComponent</span>() <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ~ End IPawnUIInterface Interface
+</span></span></span></code></pre></div><p>为了获得Hero中独特的Rage属性，IPawnUIInterface和Hero中需要额外实现一个函数。</p>
+<pre tabindex="0"><code>virtual UHeroUIComponent* GetHeroUIComponent() const override;
+</code></pre><p>定义多播委托：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPercentChangeDelegate, <span style="color:#66d9ef">float</span>, NewPercent);
+</span></span><span style="display:flex;"><span>UPROPERTY(BlueprintAssignable)
+</span></span><span style="display:flex;"><span>FOnPercentChangeDelegate OnCurrentHealthChanged;
+</span></span></code></pre></div><p>HeroUIComponent中额外有一个rage：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UPROPERTY(BlueprintAssignable)
+</span></span><span style="display:flex;"><span>FOnPercentChangeDelegate OnCurrentRageChanged;
+</span></span></code></pre></div><p>因此在WarriorAttributeSet中的PostGameplayEffectExecute可以添加委托的广播了</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>CachedPawnUIInterface.IsValid())
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    CachedPawnUIInterface <span style="color:#f92672">=</span> TWeakInterfacePtr<span style="color:#f92672">&lt;</span>IPawnUIInterface<span style="color:#f92672">&gt;</span>(Data.Target.GetAvatarActor());
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>UPawnUIComponent<span style="color:#f92672">*</span> PawnUIComponent <span style="color:#f92672">=</span> CachedPawnUIInterface<span style="color:#f92672">-&gt;</span>GetPawnUIComponent();
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>PawnUIComponent<span style="color:#f92672">-&gt;</span>OnCurrentHealthChanged.Broadcast(GetCurrentHealth() <span style="color:#f92672">/</span> GetMaxHealth());
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (UHeroUIComponent<span style="color:#f92672">*</span> HeroUIComponent <span style="color:#f92672">=</span> CachedPawnUIInterface<span style="color:#f92672">-&gt;</span>GetHeroUIComponent())
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    HeroUIComponent<span style="color:#f92672">-&gt;</span>OnCurrentRageChanged.Broadcast(GetCurrentRage() <span style="color:#f92672">/</span> GetMaxRage());
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>创建一个新的cpp文件——WarriorWidgetBase</p>
 
         </div>
     </div>
