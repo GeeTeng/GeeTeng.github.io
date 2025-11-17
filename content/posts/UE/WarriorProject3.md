@@ -513,5 +513,299 @@ FActiveGameplayEffectHandle UWarriorGameplayAbility::BP_ApplyEffectSpecHandleToT
 
    相当于上面方法的宏展开版，但是很麻烦。
 
+接下来计算伤害：
+
+```c++
+void UGEExecCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustomExecutionParameters& ExecutionParams,
+	FGameplayEffectCustomExecutionOutput& OutExecutionOutput) const
+{
+	// GameplayEffectSpec 就是本次伤害实例的数据包 包含来源对象、tags等数据
+	const FGameplayEffectSpec& EffectSpec = ExecutionParams.GetOwningSpec();
+	
+	FAggregatorEvaluateParameters EvaluateParameters;
+	// 获取来源方和目标方在GESpec创建瞬间被捕获下来的标签集合
+	EvaluateParameters.SourceTags = EffectSpec.CapturedSourceTags.GetAggregatedTags();
+	EvaluateParameters.TargetTags = EffectSpec.CapturedTargetTags.GetAggregatedTags();
+
+	float SourceAttackPower = 0.f;
+	// 捕获来源方的攻击力
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetWarriorDamageCapture().AttackPowerDef, EvaluateParameters,SourceAttackPower);
+	
+	float BaseDamage = 0.f;
+	int32 UsedLightAttackComboCount = 0;
+	int32 UsedHeavyAttackComboCount = 0;
+	// 读取 SetByCaller 的值，这个值已经在UWarriorHeroGameplayAbility::MakeHeroDamageEffectSpecHandle被传入了
+	for (const TPair<FGameplayTag, float>& TagMagnitude : EffectSpec.SetByCallerTagMagnitudes)
+	{
+		if (TagMagnitude.Key.MatchesTagExact(WarriorGameplayTags::Shared_SetByCaller_BaseDamage))
+		{
+			BaseDamage = TagMagnitude.Value;
+		}
+		if (TagMagnitude.Key.MatchesTagExact(WarriorGameplayTags::Player_SetByCaller_AttackType_Light))
+		{
+			UsedLightAttackComboCount = TagMagnitude.Value;
+		}
+		if (TagMagnitude.Key.MatchesTagExact(WarriorGameplayTags::Player_SetByCaller_AttackType_Heavy))
+		{
+			UsedHeavyAttackComboCount = TagMagnitude.Value;
+		}
+	}
+	
+	float TargetDefensePower = 0.f;
+	// 捕获目标方的防御力
+	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetWarriorDamageCapture().DefensePowerDef, EvaluateParameters, TargetDefensePower);
+	
+	if (UsedLightAttackComboCount != 0)
+	{
+		const float DamageIncreasePercentLight = (UsedLightAttackComboCount - 1) * 0.05 + 1.f;
+		BaseDamage *= DamageIncreasePercentLight;
+	}
+	if (UsedHeavyAttackComboCount != 0)
+	{
+		const float DamageIncreasePercentHeavy = UsedHeavyAttackComboCount * 0.15f + 1.f;
+		BaseDamage *= DamageIncreasePercentHeavy;
+	}
+	const float FinalDamageDone = BaseDamage * SourceAttackPower / TargetDefensePower;
+	Debug::Print(TEXT("FinalDamageDone"), FinalDamageDone);
+	if (FinalDamageDone > 0.f)
+	{
+		OutExecutionOutput.AddOutputModifier(
+			FGameplayModifierEvaluatedData(
+				GetWarriorDamageCapture().DamageTakenProperty,
+				EGameplayModOp::Override,
+				FinalDamageDone
+			)
+		);
+	}
+}
+```
+
+在WarriorAttributeSet中重写PostGameplayEffectExecute，在GE执行后做一个Clamp和通过DamageTaken改变Health属性。
+
+```c++
+void UWarriorAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data)
+{
+    if (Data.EvaluatedData.Attribute == GetCurrentHealthAttribute())
+    {
+       const float NewCurrentHealth = FMath::Clamp(GetCurrentHealth(), 0.f, GetMaxHealth());
+       SetCurrentHealth(NewCurrentHealth);
+    }
+    if (Data.EvaluatedData.Attribute == GetCurrentRageAttribute())
+    {
+       const float NewCurrentRage = FMath::Clamp(GetCurrentRage(), 0.f, GetMaxRage());
+       SetCurrentRage(NewCurrentRage);
+    }
+    if (Data.EvaluatedData.Attribute == GetDamageTakenAttribute())
+    {
+       const float OldHealth = GetCurrentHealth();
+       const float DamageDone = GetDamageTaken();
+
+       const float NewCurrentHealth = FMath::Clamp(OldHealth - DamageDone, 0.f, GetMaxHealth());
+       SetCurrentHealth(NewCurrentHealth);
+       const FString DebugString = FString::Printf(TEXT("OldHealth: %f, DamageDone:%f, NewCurrentHealth:%f"), OldHealth, DamageDone, NewCurrentHealth);
+       Debug::Print(DebugString, FColor::Green);
+       
+       // TODO: 通知UI
+       // TODO: 玩家死亡
+       if (NewCurrentHealth == 0.f)
+       {
+          
+       }
+    }
+}
+```
 
 
+
+### 击中反应
+
+**目标1**：敌人在受击时会面对玩家播放受击蒙太奇动画。
+
+添加如下几个Tag。分别用于敌人近战、远程、受击的能力、触发受击的事件。并配置DA_Guardian。
+
+```
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Melee);
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Ranged);
+
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_HitReact);
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_HitReact);
+```
+
+将之前轻击和重击GA中处理受伤的逻辑封装成一个函数。在该函数中调用SendGameplayEventtoActor函数，发送Shared.Event.HitReact给敌人。
+
+创建一个GA_Enemy_HitReact_Base、GA_Guardian_HitReact（继承前一个）
+
+配置好基类的Tags和Triggers，更改InstancingPolicy为InstancedPerActor。
+
+![34](/images/UE/WarriorProject/34.png)
+
+在子类受击GA中添加随机蒙太奇。
+
+**目标2：**敌人在受击时材料颜色更改为红色。
+
+![35](/images/UE/WarriorProject/35.png)
+
+![36](/images/UE/WarriorProject/36.png)
+
+**目标3：**敌人在受击时全局缩放时间
+
+添加新的GameplayTag——**Player_Event_HitPause**、**Player_Ability_HitPause**
+
+在HeroCombatComponent中OnHitTargetActor函数添加一个发送Event。并在DA_Hero中配置好ReactAbility为Player_Ability_HitPause。然后创建**GA_Hero_HitPause**配置好那些东西。
+
+```c++
+void UHeroCombatComponent::OnHitTargetActor(AActor* HitActor)
+{
+    // ...
+    UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+       GetOwningPawn(),
+       WarriorGameplayTags::Shared_Event_MeleeHit,
+       Data
+    );
+    UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+       GetOwningPawn(),
+       WarriorGameplayTags::Player_Event_HitPause,
+       FGameplayEventData()
+    );
+}
+void UHeroCombatComponent::OnWeaponPulledFromTargetActor(AActor* InteractedActor)
+{
+    UAbilitySystemBlueprintLibrary::SendGameplayEventToActor(
+    GetOwningPawn(),
+    WarriorGameplayTags::Player_Event_HitPause,
+    FGameplayEventData()
+    );
+}
+```
+
+**目标4：**击中后镜头摇晃
+
+创建**CameraShake_HeroMelee**蓝图继承DefaultCameraShakeBase，按照如下配置：
+
+![37](/images/UE/WarriorProject/37.png)
+
+在GA_Hero_HitPause中继续连接ClientStartCameraShake函数去播放该创建好的CameraShake类。
+
+目标5：受击怪物声音
+
+与之前相同，在蒙太奇动画中添加Notify，但是多个怪物会发出多个声音，因此创建一个SoundConcurrency命名**Concurrency_OneAtATime**，目的是为了让同一个音效只播放一个，新的会覆盖旧的。并且添加到SoundCue中。
+
+**目标5：**玩家击中声音
+
+首先在Config文件夹中的DefaultGame.ini中添加GameplayCue的文件夹路径`GameplayCueNotifyPaths = "/Game/GameplayCues"`
+
+之后在GameplayCue文件夹中创建一个继承GameplayCueNotifyStatic的蓝图，创建一个新的GameplayCueTag——(TagName="**GameplayCue.Sounds.MeleeHit.Axe**")，在蓝图中播放音效。
+
+![38](/images/UE/WarriorProject/38.png)
+
+在攻击的GA中添加ExecuteGameplayCueOnOwner去执行这个Cue。
+
+
+
+### 敌人死亡
+
+生命值为0时添加Tag，然后播放蒙太奇动画。
+
+创建两个Tag，分别是添加的死亡状态Tag——**Shared_Status_Death**，收到这个Tag之后会触发死亡的能力——**Shared_Ability_Death**。
+
+之后在WarriorAttributeSet::PostGameplayEffectExecute中添加如下代码，它会在角色死亡时在身上添加一个死亡状态Tag。
+
+```c++
+if (NewCurrentHealth == 0.f)
+{
+    UWarriorFunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), WarriorGameplayTags::Shared_Status_Death);
+}
+```
+
+创建**GA_Enemy_Death_Base**，这一次不需要更改实例化方式，因为死亡不是频发发生的，所以保持默认InstancedPerExecution。
+
+但是要注意Triggers中的TriggerSource需要更改成OwnedTagAdded，而不是之前的GameplayEvent。
+
+![39](/images/UE/WarriorProject/39.png)
+
+之后创建GC，和击中的GC一样。创建子类**GA_Guardian_Death**，配置好蒙太奇动画和GCTag。
+
+![40](/images/UE/WarriorProject/40.png)
+
+这样可以实现角色死亡后播放蒙太奇动画了。但是播放完动画角色仍然会回到之前Idle状态，这个时候需要我们去在死亡之后通知角色，1.停止动画 2.碰撞体失效 3.材质FX 4.粒子FX 5.角色销毁
+
+创建一个蓝图接口——**BPI_EnemyDeath**用于敌人死亡的接口，该接口中有一个OnEnemyDied函数，在敌人类中添加该接口，并且调用该接口去做动画暂停与碰撞体失效等逻辑。
+
+创建一个TimeLine曲线，可以使材质的DissolveAmount值完成1秒内0-1的渐变。（TotalDissolveTime那里是Divide /号而不是%号，已改正）
+
+![42](/images/UE/WarriorProject/42.png)
+
+在GA_Enemy_Death_Base的能力End之后执行OnEnemyDied函数。在敌人的角色蓝图中完成如下逻辑：
+
+![41](/images/UE/WarriorProject/41.png)
+
+在OnEnemyDied函数中添加NiagaraSystem软引用对象的输入，可以在子类GA中配置粒子特效。
+
+死亡的Nagara粒子特效，
+
+![43](/images/UE/WarriorProject/43.png)
+
+
+
+### UI
+
+属性变换会通知PawnUIComponent，然后去做广播。
+
+而Widgets会监听并做更新。
+
+首先创建几个Cpp文件：
+
+PawnUIInterface（获取UI组件，需要被添加到角色基类）
+
+PawnUIComponent
+
+|__HeroUIComponent
+
+|__EnemyUIComponent
+
+角色基类中与子类都要去实现该函数：
+
+```c++
+// ~ Begin IPawnUIInterface Interface
+virtual UPawnUIComponent* GetPawnUIComponent() const override;
+// ~ End IPawnUIInterface Interface
+```
+
+为了获得Hero中独特的Rage属性，IPawnUIInterface和Hero中需要额外实现一个函数。
+
+```
+virtual UHeroUIComponent* GetHeroUIComponent() const override;
+```
+
+定义多播委托：
+
+```c++
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPercentChangeDelegate, float, NewPercent);
+UPROPERTY(BlueprintAssignable)
+FOnPercentChangeDelegate OnCurrentHealthChanged;
+```
+
+HeroUIComponent中额外有一个rage：
+
+```c++
+UPROPERTY(BlueprintAssignable)
+FOnPercentChangeDelegate OnCurrentRageChanged;
+```
+
+因此在WarriorAttributeSet中的PostGameplayEffectExecute可以添加委托的广播了
+
+```c++
+if (!CachedPawnUIInterface.IsValid())
+{
+    CachedPawnUIInterface = TWeakInterfacePtr<IPawnUIInterface>(Data.Target.GetAvatarActor());
+}
+UPawnUIComponent* PawnUIComponent = CachedPawnUIInterface->GetPawnUIComponent();
+// ...
+PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
+if (UHeroUIComponent* HeroUIComponent = CachedPawnUIInterface->GetHeroUIComponent())
+{
+    HeroUIComponent->OnCurrentRageChanged.Broadcast(GetCurrentRage() / GetMaxRage());
+}
+```
+
+创建一个新的cpp文件——WarriorWidgetBase
