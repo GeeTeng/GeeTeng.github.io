@@ -809,3 +809,79 @@ if (UHeroUIComponent* HeroUIComponent = CachedPawnUIInterface->GetHeroUIComponen
 ```
 
 创建一个新的cpp文件——WarriorWidgetBase
+
+在该类中重写NativeOnInitialized写调用蓝图的函数和敌人创建UI初始化的函数。
+
+```c++
+UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "On Owning Hero UI Comonent Initialized"))
+void BP_OnOwningHeroUIComponentInitialized(UHeroUIComponent* OwningHeroUIComponent);
+
+UFUNCTION(BlueprintImplementableEvent, meta = (DisplayName = "On Owning Enemy UI Comonent Initialized"))
+void BP_OnOwningEnemyUIComponentInitialized(UEnemyUIComponent* OwningEnemyUIComponent);
+
+void UWarriorWidgetBase::NativeOnInitialized()
+{
+    Super::NativeOnInitialized();
+    if (IPawnUIInterface* PawnUIInterface = Cast<IPawnUIInterface>(GetOwningPlayerPawn()))
+    {
+       if (UHeroUIComponent* HeroUIComponent = Cast<UHeroUIComponent>(PawnUIInterface->GetHeroUIComponent()))
+       {
+          BP_OnOwningHeroUIComponentInitialized(HeroUIComponent);
+       }
+    }
+}
+void UWarriorWidgetBase::InitEnemyCreatedWidget(AActor* OwningEnemyActor)
+{
+	if (IPawnUIInterface* PawnUIInterface = Cast<IPawnUIInterface>(OwningEnemyActor))
+	{
+		UEnemyUIComponent* EnemyUIComponent = PawnUIInterface->GetEnemyUIComponent();
+		checkf(EnemyUIComponent, TEXT("Failed to extact an EnemyUIComponent from %s"), *OwningEnemyActor->GetActorNameOrLabel());
+		BP_OnOwningEnemyUIComponentInitialized(EnemyUIComponent);
+	}
+}
+```
+
+UI部分不做过多阐述
+
+创建一个继承SizeBox的蓝图**WarriorSizeBox**用于更改控件的大小和继承WarriorWidgetBase的**TPWBP_IconSlot**用于显示装配的武器和**TPWBP_StatusBar**用于显示玩家、敌人生命值和玩家怒气值。其中该控件根据不同比例来更改FillColor以实现生命值低于50为橙色进度条，低于20为红色进度条。
+
+在敌人角色类中添加一个新组件**EnemyHealthWidgetComponent**挂载到骨骼下面，用于显示敌人血条。
+
+添加角色新的GA——GA_Hero_DrawOverlayWidget，在初始时激活OnGiven规则，该能力无需tag，创建**WBP_HeroOverlayWidget**，在当中绑定属性改变的事件，Add to Viewport。
+
+至此实现了玩家和敌人血条、怒气值的血条进度监听。
+
+为了使武器图标能够显示当前装配的武器，我们需要在WeaponData中增加一个成员。
+
+```c++
+UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+TSoftObjectPtr<UTexture2D> SoftWeaponIconTexture;
+```
+
+在HeroUIComponent中添加一个委托。
+
+```c++
+DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquippedWeaponChangedDelegate, TSoftObjectPtr<UTexture2D>, SoftWeaponIcon);
+UPROPERTY(BlueprintCallable, BlueprintAssignable)
+FOnEquippedWeaponChangedDelegate OnEquippedWeaponChanged;
+```
+
+然后在装配武器的GA中添加新逻辑，去CallOn这个委托。
+
+之后在WBP_HeroOverlayWidget中绑定委托的触发事件：Set Soft Texture as Icon。
+
+### 武器图标加载导致的问题
+
+武器图标会闪一下，因为异步加载还未加载好的原因。因此删除Set Soft Texture as Icon这个函数。
+
+原因是：当软引用有效时，会调用Set Brush from Soft Texture，但是这个过程会有一段时间，调用完这个函数会立刻执行Set Visbility，很有可能没加载好就直接Set Visbility了。
+
+![44](/images/UE/WarriorProject/44.png)
+
+解决方法1：我们可以第一次加载时先手动加载。
+
+解决方法2：可以延迟调用Set Visibility
+
+我们采用第一种方式：
+
+![45](/images/UE/WarriorProject/45.png)
