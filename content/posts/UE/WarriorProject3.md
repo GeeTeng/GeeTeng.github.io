@@ -1,12 +1,22 @@
 ---
 title: "Warrior项目笔记3"
-date: 2025-11-13
+date: 2025-11-20
 tags: [UE5]
-description: "Warrior项目笔记第3部分 小怪制作 角色属性 自定义计算类的GE造成伤害"
+description: "Warrior项目笔记第3部分 角色属性、攻击自定义计算伤害、小怪死亡、UI初步搭建"
 showDate: true
 math: true
 chordsheet: true
 ---
+
+
+
+
+
+
+
+### 整体流程图
+
+![整体流程图](/images/UE/WarriorProject/整体流程图.png)
 
 
 
@@ -140,7 +150,7 @@ UWarriorAttributeSet::UWarriorAttributeSet()
 
 之后创建GE_HeroStartUp填写要修改的属性。这是为了让玩家初始拥有最大血量、最大怒气值、攻击力和防御力。
 
-![27](../../../static/images/UE/WarriorProject/27.png)
+![27](/images/UE/WarriorProject/27.png)
 
 之后创建一个同样用作初始化玩家属性的GE_Hero_Static，设置**Magnitude Calculation Type**为**Attribute Based**，该类型是基于某个属性去做修改。
 
@@ -325,7 +335,7 @@ InWeaponToRegister->OnWeaponHitTarget.BindUObject(this, &ThisClass::OnHitTargetA
 InWeaponToRegister->OnWeaponPulledFromTarget.BindUObject(this, &ThisClass::OnWeaponPulledFromTargetActor);
 ```
 
-这两个函数在其子类UHeroCombatComponent要做重写。需要重新定义一个`WarriorGameplayTags::Shared_Event_MeleeHit`，也就是该函数会在攻击到敌人时会发送一个GameplayEvent给自己。
+这两个函数在其子类UHeroCombatComponent要做重写。需要重新定义一个`WarriorGameplayTags::Shared_Event_MeleeHit`，也就是该函数会在攻击到敌人时会发送一个GameplayEvent给自己。在GA中可以接收这个event执行逻辑。目的是为了在接收之后处理应用伤害（调用HandleAppyDamage）。
 
 ```c++
 void UHeroCombatComponent::OnHitTargetActor(AActor* HitActor)
@@ -345,8 +355,6 @@ void UHeroCombatComponent::OnHitTargetActor(AActor* HitActor)
        );
 }
 ```
-
-在GA中可以接受这个event执行逻辑。
 
 
 
@@ -394,6 +402,19 @@ FGameplayEffectSpecHandle UWarriorHeroGameplayAbility::MakeHeroDamageEffectSpecH
     return EffectSpecHandle;
 }
 ```
+
+MakeHeroDamage其实做了装数据的事情:
+
+```
+FGameplayEffectSpecHandle = {
+    Context：来源信息
+    Level：Ability Level 
+    SetByCaller：基础伤害 + 轻击/重击连击参数
+    EffectClass：GA_Damage
+}
+```
+
+注意EffectClass中的Execute_Implementation函数并不会被MakeHeroDamageEffectSpecHandle调用，只是在当中作为构造Spec的一员。在ApplyGameplayEffectSpecToTarget才会被调用。
 
 接下来就可以在蓝图中调用该函数了，为了将输入传入这个函数，我们需要有一个1GE蓝图类、2还有一个能获取武器伤害数值的函数、3当前攻击的类别和4连击次数。
 
@@ -585,33 +606,46 @@ void UGEExecCalc_DamageTaken::Execute_Implementation(const FGameplayEffectCustom
 ```c++
 void UWarriorAttributeSet::PostGameplayEffectExecute(const struct FGameplayEffectModCallbackData& Data)
 {
-    if (Data.EvaluatedData.Attribute == GetCurrentHealthAttribute())
-    {
-       const float NewCurrentHealth = FMath::Clamp(GetCurrentHealth(), 0.f, GetMaxHealth());
-       SetCurrentHealth(NewCurrentHealth);
-    }
-    if (Data.EvaluatedData.Attribute == GetCurrentRageAttribute())
-    {
-       const float NewCurrentRage = FMath::Clamp(GetCurrentRage(), 0.f, GetMaxRage());
-       SetCurrentRage(NewCurrentRage);
-    }
-    if (Data.EvaluatedData.Attribute == GetDamageTakenAttribute())
-    {
-       const float OldHealth = GetCurrentHealth();
-       const float DamageDone = GetDamageTaken();
+	if (!CachedPawnUIInterface.IsValid())
+	{
+		CachedPawnUIInterface = TWeakInterfacePtr<IPawnUIInterface>(Data.Target.GetAvatarActor());
+	}
+	checkf(CachedPawnUIInterface.IsValid(), TEXT("didn't implement IPawnUIInterface"));
+	
+	UPawnUIComponent* PawnUIComponent = CachedPawnUIInterface->GetPawnUIComponent();
+	checkf(PawnUIComponent, TEXT("Couldn't extract a PawnUIComponent from %s"), *Data.Target.GetAvatarActor()->GetActorNameOrLabel());
 
-       const float NewCurrentHealth = FMath::Clamp(OldHealth - DamageDone, 0.f, GetMaxHealth());
-       SetCurrentHealth(NewCurrentHealth);
-       const FString DebugString = FString::Printf(TEXT("OldHealth: %f, DamageDone:%f, NewCurrentHealth:%f"), OldHealth, DamageDone, NewCurrentHealth);
-       Debug::Print(DebugString, FColor::Green);
-       
-       // TODO: 通知UI
-       // TODO: 玩家死亡
-       if (NewCurrentHealth == 0.f)
-       {
-          
-       }
-    }
+	if (Data.EvaluatedData.Attribute == GetCurrentHealthAttribute())
+	{
+		const float NewCurrentHealth = FMath::Clamp(GetCurrentHealth(), 0.f, GetMaxHealth());
+		SetCurrentHealth(NewCurrentHealth);
+		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
+	}
+	if (Data.EvaluatedData.Attribute == GetCurrentRageAttribute())
+	{
+		const float NewCurrentRage = FMath::Clamp(GetCurrentRage(), 0.f, GetMaxRage());
+		SetCurrentRage(NewCurrentRage);
+		if (UHeroUIComponent* HeroUIComponent = CachedPawnUIInterface->GetHeroUIComponent())
+		{
+			HeroUIComponent->OnCurrentRageChanged.Broadcast(GetCurrentRage() / GetMaxRage());
+		}
+	}
+	if (Data.EvaluatedData.Attribute == GetDamageTakenAttribute())
+	{
+		const float OldHealth = GetCurrentHealth();
+		const float DamageDone = GetDamageTaken();
+
+		const float NewCurrentHealth = FMath::Clamp(OldHealth - DamageDone, 0.f, GetMaxHealth());
+		SetCurrentHealth(NewCurrentHealth);
+		const FString DebugString = FString::Printf(TEXT("OldHealth: %f, DamageDone:%f, NewCurrentHealth:%f"), OldHealth, DamageDone, NewCurrentHealth);
+		Debug::Print(DebugString, FColor::Green);
+		
+		PawnUIComponent->OnCurrentHealthChanged.Broadcast(GetCurrentHealth() / GetMaxHealth());
+		if (NewCurrentHealth == 0.f)
+		{
+			UWarriorFunctionLibrary::AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), WarriorGameplayTags::Shared_Status_Death);
+		}
+	}
 }
 ```
 
@@ -631,7 +665,7 @@ WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_HitReact);
 WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_HitReact);
 ```
 
-将之前轻击和重击GA中处理受伤的逻辑封装成一个函数。在该函数中调用SendGameplayEventtoActor函数，发送Shared.Event.HitReact给敌人。
+将之前轻击和重击GA中处理受伤的逻辑封装成一个函数。在该函数中调用SendGameplayEventToActor函数，发送Shared.Event.HitReact给敌人。
 
 创建一个GA_Enemy_HitReact_Base、GA_Guardian_HitReact（继承前一个）
 
