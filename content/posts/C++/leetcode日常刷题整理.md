@@ -175,3 +175,190 @@ public:
 };
 ```
 
+
+
+### 快速排序
+
+```c++
+void quickSort(int q[], int l, int r){
+    if(r <= l) return;
+    int tmp = q[l + r >> 1];
+    int i = l - 1, j = r + 1;
+    while(i < j){
+        do i ++; while(tmp > q[i]);
+        do j --; while(tmp < q[j]);
+        if(i < j) swap(q[i], q[j]);
+    }
+    quickSort(q, l, j);
+    quickSort(q, j + 1, r);
+}
+```
+
+
+
+### 直接插入排序
+
+找到比前一个元素小的元素，然后用key（有哨兵的改版）存储起来，之后向前去将每个元素往后移动一位，直到找到适合它的大小的位置，将key放入进去。
+
+```c++
+#include<iostream>
+using namespace std;
+
+const int N = 1010;
+int nums[N];
+
+void insertSort(int nums[], int n){
+    int i, j, key;
+    for(i = 1; i < n; i ++) {
+        if(nums[i] < nums[i - 1]){
+            key = nums[i];
+            j = i - 1;
+            while(j >= 0 && nums[j] > key){
+                nums[j + 1] = nums[j];
+                j --;
+            }
+            nums[j + 1] = key;
+        }
+    }
+}
+
+int main(){
+    int n;
+    cin >> n;
+    for(int i = 0; i < n; i ++){
+        cin >> nums[i];
+    }
+    insertSort(nums, n);
+    for(int i = 0; i < n; i ++){
+        cout << nums[i] << ' ';
+    }
+    return 0;
+}
+```
+
+
+
+### 选择排序
+
+每次选择最小的元素放在第0个位置、第2个位置, ...., 第n个位置。i是位置，j查找最小元素。
+
+```c++
+void chooseSort(int nums[], int n){
+    for(int i = 0; i < n; i ++){
+        int minIdx = i;
+        for(int j = i + 1; j < n; j ++){
+            if(nums[j] < nums[minIdx]) minIdx = j;
+        }
+        if(minIdx != i) swap(nums[i], nums[minIdx]);
+    }
+}
+```
+
+
+
+### 冒泡排序
+
+每一轮都把最大的元素冒到最后，因此 j 遍历是在n - i - 1的地方。
+
+i = 0时，固定n - 1位的最大元素
+
+i = 1时，固定n - 2位的最大元素
+
+i = n - 1时，固定第0位最大元素。
+
+```c++
+void BubbleSort(int nums[], int n){
+    for(int i = 0; i < n; i ++){
+        bool swapped = false;
+        for(int j = 0; j < n - i - 1; j ++){
+            if(nums[j] > nums[j + 1]){
+                swap(nums[j], nums[j + 1]);
+                swapped = true;
+            }
+        }
+        if(!swapped) return; 
+    }
+}
+```
+
+
+
+### 归并排序
+
+切记tmp存储每次归并的结果，再还原到q数组中[l,r]位置上。
+
+```c++
+#include<iostream>
+using namespace std;
+const int N = 1e6 + 10;
+int q[N],tmp[N];
+int n;
+
+void merge(int q[], int l, int r){
+    if(l >= r) return;
+    int mid = l + r >> 1;
+    int i = l, j = mid + 1, k = 0;
+    merge(q, l, mid), merge(q, mid + 1, r);
+    while(i <= mid && j <= r){
+        if(q[i] < q[j]) tmp[k ++] = q[i ++];
+        else tmp[k ++] = q[j ++];
+    }
+    while(i <= mid) tmp[k ++] = q[i ++];
+    while(j <= r) tmp[k ++] = q[j ++];
+    for(int i = l, j = 0; i <= r; i ++, j ++) q[i] = tmp[j];
+}
+
+int main(){
+    scanf("%d", &n);
+    int i;
+    for ( i = 0; i < n; i++)
+    {
+        scanf("%d", &q[i]);
+    }
+    merge(q, 0, n - 1);
+    for ( i = 0; i < n; i++)
+    {
+        printf("%d ", q[i]);
+    }
+    return 0;
+}
+```
+
+
+
+### 堆排序
+
+```
+#include<iostream>
+using namespace std;
+const int N = 1e6 + 10;
+int n, m;
+int h[N], siz;
+
+void down(int u){
+    int t = u;
+    if(u * 2 <= siz && h[u * 2] < h[t]) t = u * 2;
+    if(u * 2 + 1 <= siz && h[u * 2 + 1] < h[t]) t = u * 2 + 1;
+    if(u != t) {
+        swap(h[u], h[t]);
+        down(t);
+    }
+}
+
+int main(){
+    cin >> n >> m;
+    for(int i = 1; i <= n; i ++){
+        cin >> h[i];
+    }
+    siz = n;
+    for(int i = n / 2; i; i --) down(i);
+    while(m --){
+        cout << h[1] << ' ';
+        h[1] = h[siz];
+        siz --;
+        down(1);
+    }
+    return 0;
+}
+```
+

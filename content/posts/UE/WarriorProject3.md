@@ -18,7 +18,7 @@ chordsheet: true
 
 ![整体流程图](/images/UE/WarriorProject/整体流程图.png)
 
-
+武器的beginplay中绑定自定义回调函数到OnComponentBeginOverlap、OnComponentEndOverlap的委托，也就是当overlap时会触发自定义的回调函数，然后在该函数中传递击中的角色调用了绑定OnWeaponHitTarget委托的回调函数（在扩展组件的PawnCombatComponent中武器注册的时候绑定的），因此会调用HeroCombatComponent（子类），其中会将碰撞到的物体都存入一个数组中，然后SendGameplayEventToActor，这样在GA中通过waitgameplayevent可以处理接收到event后的伤害逻辑——》HandleApplyDamage，在其中调用MakeHeroDamageEffectSpecHandle（自定义生成一个处理角色伤害GE的Spec Handle）传入到NativeApplyEffectSpecHandleToTarget
 
 ### 怪物生成武器
 
@@ -355,6 +355,14 @@ void UHeroCombatComponent::OnHitTargetActor(AActor* HitActor)
        );
 }
 ```
+
+#### 委托底层原理
+
+委托是一种观察者模式，也叫做代理，用于降低不同对象之间的耦合度。
+
+监听者将需要响应的函数绑定到委托对象上，当事件触发时，委托会自动调用这些已绑定的函数，实现通知与回调。
+
+原理：在委托类内部**保存了一个函数指针，等需要执行时把参数传给它，然后调用它**。
 
 
 

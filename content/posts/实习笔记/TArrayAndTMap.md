@@ -244,23 +244,7 @@ ModuleName.Build.cs 决定了每个模块的依赖、包含路径、PCH、链接
 
 大部分Gameplay模块将直接列出名称（Name），而类型（Type） 将设置为 Runtime。
 
- 
 
-**UBT UHT**
-
-UBT编译cs文件，调用UHT文件来处理带有UCLASS/UPROPERTY等的宏代码
-
-**UBT本身不参与反射机制的实现，但是它负责调用UHT**。
-
-完整编译流程：UBT搜集目录中的.cs文件，然后UBT调用UHT分析需要分析的.h .cpp文件（根据文件是否含有#include"FileName.generated.h"，是否有UCLASS()、UPROPERTY等宏）生成generated.h和gen.cpp文件，最后UBT调用MSBuild，将.h.cpp和generated.h gen.cpp结合到一起然后编译。
-
-**反射**
-
-[UE -- UBT、UHT与反射基本理解 - 知乎](https://zhuanlan.zhihu.com/p/400473355)
-
-C#中反射的定义是：运行中的程序查看本身的元数据或其他程序的元数据的行为。
-
-C++本身不支持反射，也没有垃圾回收，因此UE自己实现了一套反射系统，通过反射可以实现序列化、垃圾回收GC、网络复制、蓝图通信等重要功能。简而言之就是把C++代码暴露给引擎，可以使用蓝图、序列化等功能。
 
 Demo.h
 

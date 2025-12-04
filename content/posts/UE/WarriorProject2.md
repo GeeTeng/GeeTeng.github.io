@@ -18,7 +18,17 @@ chordsheet: true
 
  ![26](/images/UE/WarriorProject/26.png)
 
+DA_InputConfig中配置了IMC、移动和视角的NativeInputActions和AbilityInputActions（tag和inputaction的映射结构体）
 
+角色类中SetupPlayerInputComponent通过WarriorInputComponent::BindAbilityInputAction绑定玩家的移动和视角旋转的输入，绑定能力的输入，还有设置回调函数Input_AbilityInputPressed（去调用自定义ASC中的OnAbilityInputPressed，其中会TryActivateAbility），对该结构体数组中每个元素绑定。
+
+角色类中PossessedBy中同步加载DA_StartUpData，调用DataAsset_StartUpDataBase的GiveToAbilitySystemComponent去赋予初始时就有的能力，通过调用GrantAbilityies去激活ActivateOnGivenAbilities（UI显示、生成武器）和ReactiveAbilities（受击能力）。在这个函数中只是GiveAbility装备技能，但是激活逻辑不在这里，而在GA基类中。
+
+因为有一个AbilityActivationPolicy枚举，在GA基类中定义，在OnGiveAbility（虚函数）会判断这个GA在装配时需不需要激活，如果需要呢么就会TryActivateAbility。其中典型代表GA生成武器。
+
+当然DataAsset_HeroStartUpData中的GiveToAbilitySystemComponent（继承DataAsset_StartUpDataBase）会额外装配角色初始化的能力（GA装配武器），但是该GA的AbilityActivationPolicy不是OnGiven，所以不会在这里激活，而是在输入绑定后按键激活。
+
+装配武器之后会链接动画类层（目的是去调用武器对应的动画层），添加武器对应的输入映射，还有赋予武器的能力（卸下武器、轻击、重击）
 
 ## BP Function Library 蓝图函数库
 
