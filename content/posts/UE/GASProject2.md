@@ -1,8 +1,8 @@
 ---
-title: "Warrior项目笔记2"
+title: "GAS项目笔记2"
 date: 2025-11-10
 tags: [UE5]
-description: "Warrior项目笔记第2部分 武器装配、武器能力与连击系统"
+description: "GAS项目笔记第2部分 武器装配、武器能力与连击系统"
 showDate: true
 math: true
 chordsheet: true

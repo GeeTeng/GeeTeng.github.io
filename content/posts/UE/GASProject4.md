@@ -1,3 +1,15 @@
+---
+title: "GAS项目笔记4"
+date: 2025-12-7
+tags: [UE5]
+description: GAS项目笔记第4部分 怪物AI避障 行为树 EQS"
+showDate: true
+math: true
+chordsheet: true
+---
+
+![小怪AI行为树](/images/UE/WarriorProject/小怪AI行为树.png)
+
 ### UE避障算法
 
 [在虚幻引擎寻路系统中使用避障机制 | 虚幻引擎 5.7 文档 | Epic Developer Community](https://dev.epicgames.com/documentation/zh-cn/unreal-engine/using-avoidance-with-the-navigation-system-in-unreal-engine)

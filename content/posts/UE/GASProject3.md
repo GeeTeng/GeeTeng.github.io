@@ -1,8 +1,8 @@
 ---
-title: "Warrior项目笔记3"
+title: "GAS项目笔记3"
 date: 2025-11-20
 tags: [UE5]
-description: "Warrior项目笔记第3部分 角色属性、攻击自定义计算伤害、小怪死亡、UI初步搭建"
+description: "GAS项目笔记第3部分 角色属性、攻击自定义计算伤害、小怪死亡、UI初步搭建"
 showDate: true
 math: true
 chordsheet: true

@@ -1,8 +1,8 @@
 ---
-title: "Warrior项目笔记1"
+title: "GAS项目笔记1"
 date: 2025-11-05
 tags: [UE5]
-description: "Warrior项目笔记第一部分"
+description: "GAS项目笔记第1部分：输入绑定、角色动画、初始能力"
 showDate: true
 math: true
 chordsheet: true
