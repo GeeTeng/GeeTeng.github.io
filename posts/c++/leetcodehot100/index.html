@@ -35,7 +35,7 @@
   <meta itemprop="description" content="LeetCode热题100整理">
   <meta itemprop="datePublished" content="2025-03-12T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-12T00:00:00+00:00">
-  <meta itemprop="wordCount" content="8452">
+  <meta itemprop="wordCount" content="8505">
   <meta itemprop="keywords" content="算法">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/" />
 
@@ -264,6 +264,7 @@
         </li>
         <li><a href="#二叉树">二叉树</a>
           <ul>
+            <li><a href="#104二叉树最大深度">104.二叉树最大深度</a></li>
             <li><a href="#101-对称二叉树">101. 对称二叉树</a></li>
             <li><a href="#543-二叉树的直径">543. 二叉树的直径</a></li>
             <li><a href="#102-二叉树的层序遍历">102. 二叉树的层序遍历</a></li>
@@ -383,7 +384,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        90 mins read
+                        91 mins read
                     </p>
                 </div>
             </div>
@@ -1249,7 +1250,29 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h2 id="二叉树">二叉树</h2>
-<h3 id="101-对称二叉树">101. 对称二叉树</h3>
+<h3 id="104二叉树最大深度">104.二叉树最大深度</h3>
+<p>队列deque，一层一层放进队列，每次深度++。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> maxDepth(TreeNode<span style="color:#f92672">*</span> root) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(root <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        deque<span style="color:#f92672">&lt;</span>TreeNode<span style="color:#f92672">*&gt;</span> q;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> depth <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        q.push_back(root);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(<span style="color:#f92672">!</span>q.empty()){
+</span></span><span style="display:flex;"><span>            depth <span style="color:#f92672">++</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> q.size();
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>                TreeNode<span style="color:#f92672">*</span> p <span style="color:#f92672">=</span> q.front();
+</span></span><span style="display:flex;"><span>                q.pop_front();
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(p<span style="color:#f92672">-&gt;</span>left) q.push_back(p<span style="color:#f92672">-&gt;</span>left);
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">if</span>(p<span style="color:#f92672">-&gt;</span>right) q.push_back(p<span style="color:#f92672">-&gt;</span>right);
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> depth;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="101-对称二叉树">101. 对称二叉树</h3>
 <p><em>递归</em>：将root的左右子树传递给check函数。check函数递归左右子树的左右子树。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>

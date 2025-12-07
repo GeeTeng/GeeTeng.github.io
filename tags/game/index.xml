@@ -30,6 +30,13 @@
       <description>LUT（LookUp Table）查找表 LUT是一种常见的优化或效果实现工具，用于通过查表得方式快速映射输入数据到目标结果，避免复杂的实时计算&#xA;颜色分级（Color Grading LUT）：&#xA;用于后期处理阶段，将场景颜色转换为特定的色彩基调。&#xA;参考资料 LUT.html&#xA;void main() { highp ivec2 lut_tex_size = textureSize(color_grading_lut_texture_sampler, 0); // 纹理的高度16 和 纹理的宽度256 highp float _COLORS = float(lut_tex_size.y); highp float xsize = float(lut_tex_size.x); highp vec4 color = subpassLoad(in_color).rgba; // 将颜色分量映射到LUT索引范围[0, 15] highp float blueoffset = (_COLORS - 1.0) * color.b; highp float redoffset = (_COLORS - 1.0) * color.r; highp float greenoffset = (_COLORS - 1.0) * color.g; // 红色和绿色决定小块中的水平垂直位置 蓝色决定哪个小块 highp float u = (redoffset + floor(blueoffset) * _COLORS) / xsize; highp float v = greenoffset / _COLORS; highp vec2 uv = vec2(u, v); highp vec4 color_sampled = texture(color_grading_lut_texture_sampler, uv); out_color = color_sampled; } 由于条纹问题，看到别人说是因为mipmap精度问题，所以</description>
     </item>
     <item>
+      <title>Games104 AI</title>
+      <link>https://geeteng.github.io/posts/game/ai/</link>
+      <pubDate>Tue, 17 Dec 2024 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/game/ai/</guid>
+      <description>AI HTN 像人类一样将大任务分解成多个子任务，从高层目标逐层展开到可执行的原子任务&#xA;架构组成：&#xA;l World State：AI对世界的抽象视角。&#xA;l Sensors：感知World State变化。&#xA;l HTN Domain：层次化任务结构（Task树）。&#xA;l Planner：根据任务树生成计划。&#xA;l Plan：具体执行步骤，执行完会更新World State。&#xA;任务类型：&#xA;Primitive Task：原子任务，可直接执行。&#xA;Compound Task：复合任务，包含多个方法，类似行为树中的Selector + Sequence。&#xA;示例：AI要解毒 → 可以选择制作药水或购买药水 → 使用药水。&#xA;Replanning触发条件：&#xA;没有可用计划。 当前计划完成或失败。 World State发生变化。 比如说：AI需要一瓶药水解毒，它可以选择用足够的材料制作药水再使用药水，也可以花足够的钱去购买药水再使用药水。&#xA;HTN相当于有一个Root，在进行任务的时候选择目标Task，然后一层层的展开，最后选择一个PrimitiveTask，每个任务都会被展开成更具体的子任务，直到最终可以通过执行原子操作来完成。完成一系列执行之后会更新World State的属性（更改世界的状态）。&#xA;Replanning（重新规划）是指在计划执行过程中，由于环境或任务状态的变化，需要重新生成或调整任务计划的过程。有三种情况：没有这个计划、当前plan已经完成或失败、&#xA;感知到了World State改变。&#xA;和行为树很像，执行效率高于行为树，因为每次都要遍历整棵树。HTN大部分逻辑是写死的，可能因为环境改变导致有些计划过时了没办法被执行，并且如果高度不确认性的环境HTN如果逻辑非常紧密会适得其反。&#xA;GOAP 目标导向AI系统 类似人类倒叙的思考&#xA;比如说我要完成解毒修改这个WorldState，那么我就需要一瓶药水，需要把这个state和Plan加到堆栈中，然后我要获取这瓶药水，继续把State和Plan加入到堆栈中，直到能满足这个State，弹出堆栈。最后完成目标会使所有的栈都清空。&#xA;目标集 Goal Set 各个目标有优先级&#xA;行为集 Action Set 改变世界状态数据的行为&#xA;Goap 会让AI变得更活，将目标和行为分开，能够动态组合给出不同方案，缺点是需要大量计算（A*和动态规划图的结构）。&#xA;MCTS 蒙特卡洛树搜索 AlphaGo围棋就是使用蒙特卡洛树搜索</description>
+    </item>
+    <item>
       <title>空间数据结构</title>
       <link>https://geeteng.github.io/posts/game/spatialdatastructures/</link>
       <pubDate>Tue, 17 Dec 2024 00:00:00 +0000</pubDate>

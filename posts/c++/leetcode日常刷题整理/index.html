@@ -35,7 +35,7 @@
   <meta itemprop="description" content="LeetCode日常刷题整理笔记">
   <meta itemprop="datePublished" content="2025-03-27T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-27T00:00:00+00:00">
-  <meta itemprop="wordCount" content="358">
+  <meta itemprop="wordCount" content="922">
   <meta itemprop="keywords" content="算法">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/leetcode%E6%97%A5%E5%B8%B8%E5%88%B7%E9%A2%98%E6%95%B4%E7%90%86/" />
 
@@ -211,6 +211,12 @@
           <ul>
             <li><a href="#841-钥匙和房间">841. 钥匙和房间</a></li>
             <li><a href="#6-z字形变换">6. Z字形变换</a></li>
+            <li><a href="#快速排序">快速排序</a></li>
+            <li><a href="#直接插入排序">直接插入排序</a></li>
+            <li><a href="#选择排序">选择排序</a></li>
+            <li><a href="#冒泡排序">冒泡排序</a></li>
+            <li><a href="#归并排序">归并排序</a></li>
+            <li><a href="#堆排序">堆排序</a></li>
           </ul>
         </li>
       </ul>
@@ -235,7 +241,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        7 mins read
+                        11 mins read
                     </p>
                 </div>
             </div>
@@ -371,7 +377,151 @@ Y   I   R
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> duration;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div>
+</span></span></code></pre></div><h3 id="快速排序">快速排序</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">quickSort</span>(<span style="color:#66d9ef">int</span> q[], <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(r <span style="color:#f92672">&lt;=</span> l) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> q[l <span style="color:#f92672">+</span> r <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> l <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>, j <span style="color:#f92672">=</span> r <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span>(i <span style="color:#f92672">&lt;</span> j){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">do</span> i <span style="color:#f92672">++</span>; <span style="color:#66d9ef">while</span>(tmp <span style="color:#f92672">&gt;</span> q[i]);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">do</span> j <span style="color:#f92672">--</span>; <span style="color:#66d9ef">while</span>(tmp <span style="color:#f92672">&lt;</span> q[j]);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(i <span style="color:#f92672">&lt;</span> j) swap(q[i], q[j]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    quickSort(q, l, j);
+</span></span><span style="display:flex;"><span>    quickSort(q, j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, r);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="直接插入排序">直接插入排序</h3>
+<p>找到比前一个元素小的元素，然后用key（有哨兵的改版）存储起来，之后向前去将每个元素往后移动一位，直到找到适合它的大小的位置，将key放入进去。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1010</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> nums[N];
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">insertSort</span>(<span style="color:#66d9ef">int</span> nums[], <span style="color:#66d9ef">int</span> n){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> i, j, key;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(nums[i] <span style="color:#f92672">&lt;</span> nums[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]){
+</span></span><span style="display:flex;"><span>            key <span style="color:#f92672">=</span> nums[i];
+</span></span><span style="display:flex;"><span>            j <span style="color:#f92672">=</span> i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span>(j <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> nums[j] <span style="color:#f92672">&gt;</span> key){
+</span></span><span style="display:flex;"><span>                nums[j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> nums[j];
+</span></span><span style="display:flex;"><span>                j <span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            nums[j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> key;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>    cin <span style="color:#f92672">&gt;&gt;</span> n;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>        cin <span style="color:#f92672">&gt;&gt;</span> nums[i];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    insertSort(nums, n);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>        cout <span style="color:#f92672">&lt;&lt;</span> nums[i] <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#39; &#39;</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="选择排序">选择排序</h3>
+<p>每次选择最小的元素放在第0个位置、第2个位置, &hellip;., 第n个位置。i是位置，j查找最小元素。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">chooseSort</span>(<span style="color:#66d9ef">int</span> nums[], <span style="color:#66d9ef">int</span> n){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> minIdx <span style="color:#f92672">=</span> i;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> n; j <span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(nums[j] <span style="color:#f92672">&lt;</span> nums[minIdx]) minIdx <span style="color:#f92672">=</span> j;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(minIdx <span style="color:#f92672">!=</span> i) swap(nums[i], nums[minIdx]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="冒泡排序">冒泡排序</h3>
+<p>每一轮都把最大的元素冒到最后，因此 j 遍历是在n - i - 1的地方。</p>
+<p>i = 0时，固定n - 1位的最大元素</p>
+<p>i = 1时，固定n - 2位的最大元素</p>
+<p>i = n - 1时，固定第0位最大元素。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">BubbleSort</span>(<span style="color:#66d9ef">int</span> nums[], <span style="color:#66d9ef">int</span> n){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">bool</span> swapped <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; j <span style="color:#f92672">&lt;</span> n <span style="color:#f92672">-</span> i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">++</span>){
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(nums[j] <span style="color:#f92672">&gt;</span> nums[j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]){
+</span></span><span style="display:flex;"><span>                swap(nums[j], nums[j <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>]);
+</span></span><span style="display:flex;"><span>                swapped <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(<span style="color:#f92672">!</span>swapped) <span style="color:#66d9ef">return</span>; 
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="归并排序">归并排序</h3>
+<p>切记tmp存储每次归并的结果，再还原到q数组中[l,r]位置上。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">const</span> <span style="color:#66d9ef">int</span> N <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e6</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> q[N],tmp[N];
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> n;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">merge</span>(<span style="color:#66d9ef">int</span> q[], <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r){
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(l <span style="color:#f92672">&gt;=</span> r) <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> mid <span style="color:#f92672">=</span> l <span style="color:#f92672">+</span> r <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> l, j <span style="color:#f92672">=</span> mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, k <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>    merge(q, l, mid), merge(q, mid <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, r);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span>(i <span style="color:#f92672">&lt;=</span> mid <span style="color:#f92672">&amp;&amp;</span> j <span style="color:#f92672">&lt;=</span> r){
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(q[i] <span style="color:#f92672">&lt;</span> q[j]) tmp[k <span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> q[i <span style="color:#f92672">++</span>];
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">else</span> tmp[k <span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> q[j <span style="color:#f92672">++</span>];
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span>(i <span style="color:#f92672">&lt;=</span> mid) tmp[k <span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> q[i <span style="color:#f92672">++</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">while</span>(j <span style="color:#f92672">&lt;=</span> r) tmp[k <span style="color:#f92672">++</span>] <span style="color:#f92672">=</span> q[j <span style="color:#f92672">++</span>];
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> l, j <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;=</span> r; i <span style="color:#f92672">++</span>, j <span style="color:#f92672">++</span>) q[i] <span style="color:#f92672">=</span> tmp[j];
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>(){
+</span></span><span style="display:flex;"><span>    scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>n);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> i;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> ( i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        scanf(<span style="color:#e6db74">&#34;%d&#34;</span>, <span style="color:#f92672">&amp;</span>q[i]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    merge(q, <span style="color:#ae81ff">0</span>, n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> ( i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>        printf(<span style="color:#e6db74">&#34;%d &#34;</span>, q[i]);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="堆排序">堆排序</h3>
+<pre tabindex="0"><code>#include&lt;iostream&gt;
+using namespace std;
+const int N = 1e6 + 10;
+int n, m;
+int h[N], siz;
+
+void down(int u){
+    int t = u;
+    if(u * 2 &lt;= siz &amp;&amp; h[u * 2] &lt; h[t]) t = u * 2;
+    if(u * 2 + 1 &lt;= siz &amp;&amp; h[u * 2 + 1] &lt; h[t]) t = u * 2 + 1;
+    if(u != t) {
+        swap(h[u], h[t]);
+        down(t);
+    }
+}
+
+int main(){
+    cin &gt;&gt; n &gt;&gt; m;
+    for(int i = 1; i &lt;= n; i ++){
+        cin &gt;&gt; h[i];
+    }
+    siz = n;
+    for(int i = n / 2; i; i --) down(i);
+    while(m --){
+        cout &lt;&lt; h[1] &lt;&lt; &#39; &#39;;
+        h[1] = h[siz];
+        siz --;
+        down(1);
+    }
+    return 0;
+}
+</code></pre>
         </div>
     </div>
 </div><div id="social-media-share" class="has-text-centered">

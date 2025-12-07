@@ -35,7 +35,7 @@
   <meta itemprop="description" content="Warrior项目笔记第3部分 角色属性、攻击自定义计算伤害、小怪死亡、UI初步搭建">
   <meta itemprop="datePublished" content="2025-11-20T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-11-20T00:00:00+00:00">
-  <meta itemprop="wordCount" content="1304">
+  <meta itemprop="wordCount" content="1310">
   <meta itemprop="keywords" content="UE5">
 <link rel="canonical" href="https://geeteng.github.io/posts/ue/warriorproject3/" />
 
@@ -213,7 +213,11 @@
             <li><a href="#怪物生成武器">怪物生成武器</a></li>
             <li><a href="#创建属性">创建属性</a></li>
             <li><a href="#怪物属性与ge">怪物属性与GE</a></li>
-            <li><a href="#武器碰撞检测">武器碰撞检测</a></li>
+            <li><a href="#武器碰撞检测">武器碰撞检测</a>
+              <ul>
+                <li><a href="#委托底层原理">委托底层原理</a></li>
+              </ul>
+            </li>
             <li><a href="#应用伤害">应用伤害</a></li>
             <li><a href="#击中反应">击中反应</a></li>
             <li><a href="#敌人死亡">敌人死亡</a></li>
@@ -243,7 +247,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        44 mins read
+                        47 mins read
                     </p>
                 </div>
             </div>
@@ -267,6 +271,7 @@
 
             <h3 id="整体流程图">整体流程图</h3>
 <p><img src="/images/UE/WarriorProject/%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="整体流程图"></p>
+<p>武器的beginplay中绑定自定义回调函数到OnComponentBeginOverlap、OnComponentEndOverlap的委托，也就是当overlap时会触发自定义的回调函数，然后在该函数中传递击中的角色调用了绑定OnWeaponHitTarget委托的回调函数（在扩展组件的PawnCombatComponent中武器注册的时候绑定的），因此会调用HeroCombatComponent（子类），其中会将碰撞到的物体都存入一个数组中，然后SendGameplayEventToActor，这样在GA中通过waitgameplayevent可以处理接收到event后的伤害逻辑——》HandleApplyDamage，在其中调用MakeHeroDamageEffectSpecHandle（自定义生成一个处理角色伤害GE的Spec Handle）传入到NativeApplyEffectSpecHandleToTarget</p>
 <h3 id="怪物生成武器">怪物生成武器</h3>
 <p>创建新的cpp文件：</p>
 <ol>
@@ -508,7 +513,11 @@ bUseDebugTargetFromHud = true
 </span></span><span style="display:flex;"><span>       Data
 </span></span><span style="display:flex;"><span>       );
 </span></span><span style="display:flex;"><span>}
-</span></span></code></pre></div><h3 id="应用伤害">应用伤害</h3>
+</span></span></code></pre></div><h4 id="委托底层原理">委托底层原理</h4>
+<p>委托是一种观察者模式，也叫做代理，用于降低不同对象之间的耦合度。</p>
+<p>监听者将需要响应的函数绑定到委托对象上，当事件触发时，委托会自动调用这些已绑定的函数，实现通知与回调。</p>
+<p>原理：在委托类内部<strong>保存了一个函数指针，等需要执行时把参数传给它，然后调用它</strong>。</p>
+<h3 id="应用伤害">应用伤害</h3>
 <p>应用伤害流程</p>
 <p>GA—— Make Gameplay Effect Spec Handle —— Apply Handle To Target —— Gameplay Effect Execution Calculation —— Attribute Set —— Notify UI</p>
 <p>在WarriorHeroGameplayAbility中定义一个新的函数用于把一次攻击的上下文信息——（是谁打的、什么攻击、伤害多少）打包成一个 GameplayEffectSpec，供 GAS 系统分发处理。</p>
@@ -951,7 +960,7 @@ WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_HitReact);
 	    </a>
 
 		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fwarriorproject3%2f
-			&title=Warrior%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b03&summary=%e6%95%b4%e4%bd%93%e6%b5%81%e7%a8%8b%e5%9b%be%20%e6%80%aa%e7%89%a9%e7%94%9f%e6%88%90%e6%ad%a6%e5%99%a8%20%e5%88%9b%e5%bb%ba%e6%96%b0%e7%9a%84cpp%e6%96%87%e4%bb%b6%ef%bc%9a%0aUEnemyCombatComponent%20%3a%20public%20UPawnCombatComponent%20UWarriorEnemyGameplayAbility%20%3a%20public%20UWarriorGameplayAbility%20AWarriorEnemyCharacter%20%3a%20public%20AWarriorBaseCharacter%20UDataAsset_EnemyStartUpData%20%3a%20public%20UDataAsset_StartUpDataBase%20%e5%b9%b6%e5%9c%a8%e7%bc%96%e8%be%91%e5%99%a8%e4%b8%ad%e5%88%9b%e5%bb%ba%ef%bc%9a%0aABP_Enemy_Base%0a%7c__ABP_Guardian%0aBS_Guardian_Default%0aBP_EnemyCharacter_Base%0a%7c__BP_Gruntling_Base%0a%e2%80%8b%20%7c__BP_Gruntling_Guardian%0a%e5%9c%a8AWarriorEnemyCharacter%e4%b8%ad%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aaEnemyCombatComponent%e7%bb%84%e4%bb%b6%ef%bc%8c%e8%ae%be%e7%bd%ae%e6%80%aa%e7%89%a9%e8%a7%92%e8%89%b2%e7%9a%84%e5%9f%ba%e7%a1%80%e5%b1%9e%e6%80%a7%e3%80%82%0a%e5%9c%a8UWarriorEnemyGameplayAbility%e4%b8%ad%e5%92%8cUWarriorHeroGameplayAbility%e4%b8%80%e6%a0%b7%ef%bc%8c%e9%9c%80%e8%a6%81%e5%88%9b%e5%bb%ba%e5%a6%82%e4%b8%8b%e5%87%bd%e6%95%b0%ef%bc%8c%e6%9a%b4%e9%9c%b2%e7%bb%99%e8%93%9d%e5%9b%be%ef%bc%8c%e7%94%a8%e4%ba%8e%e8%8e%b7%e5%8f%96%e6%80%aa%e7%89%a9%e8%a7%92%e8%89%b2%e5%92%8c%e6%80%aa%e7%89%a9%e7%9a%84Combat%e7%bb%84%e4%bb%b6%e3%80%82%0aUFUNCTION%28BlueprintPure%2c%20Category%20%3d%20%26%2334%3bWarrior%7cAbility%26%2334%3b%29%20AWarriorEnemyCharacter%2a%20GetEnemyCharacterFromActorInfo%28%29%3b%20UFUNCTION%28BlueprintPure%2c%20Category%20%3d%20%26%2334%3bWarrior%7cAbility%26%2334%3b%29%20UEnemyCombatComponent%2a%20GetEnemyCombatComponentFromActorInfo%28%29%3b%20private%3a%20TWeakObjectPtr%26lt%3bAWarriorEnemyCharacter%26gt%3b%20CachedWarriorEnemyCharacter%3b%20%e5%9c%a8UDataAsset_EnemyStartUpData%e4%b8%ad%e9%87%8d%e5%86%99%e7%88%b6%e7%b1%bb%e7%9a%84GiveToAbilitySystemComponent%e3%80%82%e8%af%a5%e5%87%bd%e6%95%b0%e4%bc%9a%e5%9c%a8%e6%80%aa%e7%89%a9%e8%a7%92%e8%89%b2%e7%9a%84PossessedBy%e4%b8%ad%e8%b0%83%e7%94%a8%e3%80%82%0avoid%20UDataAsset_EnemyStartUpData%3a%3aGiveToAbilitySystemComponent%28UWarriorAbilitySystemComponent%2a%20InASCToGive%2c%20int32%20ApplyLevel%29%20%7b%20Super%3a%3aGiveToAbilitySystemComponent%28InASCToGive%2c%20ApplyLevel%29%3b%20if%20%28%21EnemyCombatAbilities.IsEmpty%28%29%29%20%7b%20for%20%28const%20TSubclassOf%26lt%3bUWarriorEnemyGameplayAbility%26gt%3b%26amp%3b%20AbilityClass%20%3a%20EnemyCombatAbilities%29%20%7b%20if%20%28%21AbilityClass%29%20continue%3b%20FGameplayAbilitySpec%20AbilitySpec%28AbilityClass%29%3b%20AbilitySpec.SourceObject%20%3d%20InASCToGive-%26gt%3bGetAvatarActor%28%29%3b%20AbilitySpec.&source=rafed123.github.io"
+			&title=Warrior%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b03&summary=%e6%95%b4%e4%bd%93%e6%b5%81%e7%a8%8b%e5%9b%be%20%e6%ad%a6%e5%99%a8%e7%9a%84beginplay%e4%b8%ad%e7%bb%91%e5%ae%9a%e8%87%aa%e5%ae%9a%e4%b9%89%e5%9b%9e%e8%b0%83%e5%87%bd%e6%95%b0%e5%88%b0OnComponentBeginOverlap%e3%80%81OnComponentEndOverlap%e7%9a%84%e5%a7%94%e6%89%98%ef%bc%8c%e4%b9%9f%e5%b0%b1%e6%98%af%e5%bd%93overlap%e6%97%b6%e4%bc%9a%e8%a7%a6%e5%8f%91%e8%87%aa%e5%ae%9a%e4%b9%89%e7%9a%84%e5%9b%9e%e8%b0%83%e5%87%bd%e6%95%b0%ef%bc%8c%e7%84%b6%e5%90%8e%e5%9c%a8%e8%af%a5%e5%87%bd%e6%95%b0%e4%b8%ad%e4%bc%a0%e9%80%92%e5%87%bb%e4%b8%ad%e7%9a%84%e8%a7%92%e8%89%b2%e8%b0%83%e7%94%a8%e4%ba%86%e7%bb%91%e5%ae%9aOnWeaponHitTarget%e5%a7%94%e6%89%98%e7%9a%84%e5%9b%9e%e8%b0%83%e5%87%bd%e6%95%b0%ef%bc%88%e5%9c%a8%e6%89%a9%e5%b1%95%e7%bb%84%e4%bb%b6%e7%9a%84PawnCombatComponent%e4%b8%ad%e6%ad%a6%e5%99%a8%e6%b3%a8%e5%86%8c%e7%9a%84%e6%97%b6%e5%80%99%e7%bb%91%e5%ae%9a%e7%9a%84%ef%bc%89%ef%bc%8c%e5%9b%a0%e6%ad%a4%e4%bc%9a%e8%b0%83%e7%94%a8HeroCombatComponent%ef%bc%88%e5%ad%90%e7%b1%bb%ef%bc%89%ef%bc%8c%e5%85%b6%e4%b8%ad%e4%bc%9a%e5%b0%86%e7%a2%b0%e6%92%9e%e5%88%b0%e7%9a%84%e7%89%a9%e4%bd%93%e9%83%bd%e5%ad%98%e5%85%a5%e4%b8%80%e4%b8%aa%e6%95%b0%e7%bb%84%e4%b8%ad%ef%bc%8c%e7%84%b6%e5%90%8eSendGameplayEventToActor%ef%bc%8c%e8%bf%99%e6%a0%b7%e5%9c%a8GA%e4%b8%ad%e9%80%9a%e8%bf%87waitgameplayevent%e5%8f%af%e4%bb%a5%e5%a4%84%e7%90%86%e6%8e%a5%e6%94%b6%e5%88%b0event%e5%90%8e%e7%9a%84%e4%bc%a4%e5%ae%b3%e9%80%bb%e8%be%91%e2%80%94%e2%80%94%e3%80%8bHandleApplyDamage%ef%bc%8c%e5%9c%a8%e5%85%b6%e4%b8%ad%e8%b0%83%e7%94%a8MakeHeroDamageEffectSpecHandle%ef%bc%88%e8%87%aa%e5%ae%9a%e4%b9%89%e7%94%9f%e6%88%90%e4%b8%80%e4%b8%aa%e5%a4%84%e7%90%86%e8%a7%92%e8%89%b2%e4%bc%a4%e5%ae%b3GE%e7%9a%84Spec%20Handle%ef%bc%89%e4%bc%a0%e5%85%a5%e5%88%b0NativeApplyEffectSpecHandleToTarget%0a%e6%80%aa%e7%89%a9%e7%94%9f%e6%88%90%e6%ad%a6%e5%99%a8%20%e5%88%9b%e5%bb%ba%e6%96%b0%e7%9a%84cpp%e6%96%87%e4%bb%b6%ef%bc%9a%0aUEnemyCombatComponent%20%3a%20public%20UPawnCombatComponent%20UWarriorEnemyGameplayAbility%20%3a%20public%20UWarriorGameplayAbility%20AWarriorEnemyCharacter%20%3a%20public%20AWarriorBaseCharacter%20UDataAsset_EnemyStartUpData%20%3a%20public%20UDataAsset_StartUpDataBase%20%e5%b9%b6%e5%9c%a8%e7%bc%96%e8%be%91%e5%99%a8%e4%b8%ad%e5%88%9b%e5%bb%ba%ef%bc%9a%0aABP_Enemy_Base%0a%7c__ABP_Guardian%0aBS_Guardian_Default%0aBP_EnemyCharacter_Base%0a%7c__BP_Gruntling_Base%0a%e2%80%8b%20%7c__BP_Gruntling_Guardian%0a%e5%9c%a8AWarriorEnemyCharacter%e4%b8%ad%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aaEnemyCombatComponent%e7%bb%84%e4%bb%b6%ef%bc%8c%e8%ae%be%e7%bd%ae%e6%80%aa%e7%89%a9%e8%a7%92%e8%89%b2%e7%9a%84%e5%9f%ba%e7%a1%80%e5%b1%9e%e6%80%a7%e3%80%82%0a%e5%9c%a8UWarriorEnemyGameplayAbility%e4%b8%ad%e5%92%8cUWarriorHeroGameplayAbility%e4%b8%80%e6%a0%b7%ef%bc%8c%e9%9c%80%e8%a6%81%e5%88%9b%e5%bb%ba%e5%a6%82%e4%b8%8b%e5%87%bd%e6%95%b0%ef%bc%8c%e6%9a%b4%e9%9c%b2%e7%bb%99%e8%93%9d%e5%9b%be%ef%bc%8c%e7%94%a8%e4%ba%8e%e8%8e%b7%e5%8f%96%e6%80%aa%e7%89%a9%e8%a7%92%e8%89%b2%e5%92%8c%e6%80%aa%e7%89%a9%e7%9a%84Combat%e7%bb%84%e4%bb%b6%e3%80%82%0aUFUNCTION%28BlueprintPure%2c%20Category%20%3d%20%26%2334%3bWarrior%7cAbility%26%2334%3b%29%20AWarriorEnemyCharacter%2a%20GetEnemyCharacterFromActorInfo%28%29%3b%20UFUNCTION%28BlueprintPure%2c%20Category%20%3d%20%26%2334%3bWarrior%7cAbility%26%2334%3b%29%20UEnemyCombatComponent%2a%20GetEnemyCombatComponentFromActorInfo%28%29%3b%20private%3a%20TWeakObjectPtr%26lt%3bAWarriorEnemyCharacter%26gt%3b%20CachedWarriorEnemyCharacter%3b%20%e5%9c%a8UDataAsset_EnemyStartUpData%e4%b8%ad%e9%87%8d%e5%86%99%e7%88%b6%e7%b1%bb%e7%9a%84GiveToAbilitySystemComponent%e3%80%82%e8%af%a5%e5%87%bd%e6%95%b0%e4%bc%9a%e5%9c%a8%e6%80%aa%e7%89%a9%e8%a7%92%e8%89%b2%e7%9a%84PossessedBy%e4%b8%ad%e8%b0%83%e7%94%a8%e3%80%82%0avoid%20UDataAsset_EnemyStartUpData%3a%3aGiveToAbilitySystemComponent%28UWarriorAbilitySystemComponent%2a%20InASCToGive%2c%20int32%20ApplyLevel%29%20%7b%20Super%3a%3aGiveToAbilitySystemComponent%28InASCToGive%2c%20ApplyLevel%29%3b%20if%20%28%21EnemyCombatAbilities.IsEmpty%28%29%29%20%7b%20for%20%28const%20TSubclassOf%26lt%3bUWarriorEnemyGameplayAbility%26gt%3b%26amp%3b%20AbilityClass%20%3a%20EnemyCombatAbilities%29%20%7b%20if%20%28%21AbilityClass%29%20continue%3b%20FGameplayAbilitySpec%20AbilitySpec%28AbilityClass%29%3b%20AbilitySpec.&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>

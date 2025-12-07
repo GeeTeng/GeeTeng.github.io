@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="垃圾回收 如何保持新建的不被自动GC垃圾回收？
+使用AddToRoot()函数可以保护对象不被自动回收，移除保护时使用RemoveFromRoot()并把对象指针置为nullptr即可由引擎自动回收； UMyObject* MyObject=NewObject&lt;UMyObject&gt;(); MyObject-&gt;AddToRoot(); //保护对象不被回收 MyObject-&gt;RemoveFromRoot(); MyObject=nullptr; //交给引擎回收对象 使用UPROPERTY宏标记一下对象指针变量也可以保护对象不被自动回收，在该类被销毁时，新建的对象也会被引擎自动回收；
+使用FStreamableManager加载资源时，将bManageActiveHandle设置为true也可以防止对象被回收；
+FSoftObjectPath AssetPaths(TEXT(&#34;[资源路径]&#34;)); FStreamableManager&amp; AssetLoader = UAssetManager::GetStreamableManager(); TSharedPtr&lt;FStreamableHandle&gt; Handle = AssetLoader.RequestSyncLoad(AssetPath, true);//加载资源到内存中，bManageActiveHandle=true 反射 UE &ndash; UBT、UHT与反射基本理解 - 知乎
+C#中反射的定义是：运行中的程序查看本身的元数据或其他程序的元数据的行为。
+C&#43;&#43;本身不支持反射，也没有垃圾回收，因此UE自己实现了一套反射系统，通过反射可以实现序列化、垃圾回收GC、网络复制、蓝图通信等重要功能。简而言之就是把C&#43;&#43;代码暴露给引擎，可以使用蓝图、序列化等功能。
+因此UHT必须要把UE代码转换成C&#43;&#43;代码，而UBT就是负责调用UHT做这件事情的。——UBT本身不参与反射机制的实现，但是它负责调用UHT。
+完整编译流程：UBT搜集目录中的.cs文件，然后UBT调用UHT分析.h .cpp文件（根据文件是否含有#include&quot;FileName.generated.h&quot;，是否有UCLASS()、UPROPERTY等宏）生成generated.h和gen.cpp文件，最后UBT调用MSBuild，将.h.cpp和generated.h gen.cpp结合到一起然后编译。
+C&#43;&#43;与蓝图对比 C&#43;&#43; or 蓝图
+C&#43;&#43;是编程语言，适合实现游戏底层系统；蓝图是脚本系统，适合定义高级交互、装饰性细节等。它没有一个明确的界限必须在什么时候使用蓝图或C&#43;&#43;，但是两者可以很轻易的互通。
+从源码构建项目时，C&#43;&#43;会被编译为机器码。能够直接在CPU上运行的指令列表；而蓝图会由脚本编译器编译成脚本字节码，由引擎的脚本虚拟机在运行时执行。编译器会对C&#43;&#43;进行一些优化，从而性能会更好，但是蓝图不会，所以消耗更大。因此复杂的数学计算或Tick这样被频繁调用的函数最好用C&#43;&#43;实现。
+虚幻提供了蓝图本地化（Blueprint Nativization）用来让蓝图转换成C&#43;&#43;源代码，这也意味着不再通过虚拟机执行，而是会像C&#43;&#43;一样被编译为原生机器代码。但是生成的代码不像C&#43;&#43;一样容易阅读。
+所以我们可以对蓝图节点中开销比较大的位置用C&#43;&#43;重构。
+C&#43;&#43;中可以通过模块化管理类的依赖关系，但是蓝图没有模块化的概念，可以自由引用C&#43;&#43;任何类，而C&#43;&#43;类不会知道任何蓝图类型相关的信息。
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/ue/ue%E7%9F%A5%E8%AF%86%E7%82%B9/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="GeeTeng">
+  <meta property="og:description" content="垃圾回收 如何保持新建的不被自动GC垃圾回收？
+使用AddToRoot()函数可以保护对象不被自动回收，移除保护时使用RemoveFromRoot()并把对象指针置为nullptr即可由引擎自动回收； UMyObject* MyObject=NewObject&lt;UMyObject&gt;(); MyObject-&gt;AddToRoot(); //保护对象不被回收 MyObject-&gt;RemoveFromRoot(); MyObject=nullptr; //交给引擎回收对象 使用UPROPERTY宏标记一下对象指针变量也可以保护对象不被自动回收，在该类被销毁时，新建的对象也会被引擎自动回收；
+使用FStreamableManager加载资源时，将bManageActiveHandle设置为true也可以防止对象被回收；
+FSoftObjectPath AssetPaths(TEXT(&#34;[资源路径]&#34;)); FStreamableManager&amp; AssetLoader = UAssetManager::GetStreamableManager(); TSharedPtr&lt;FStreamableHandle&gt; Handle = AssetLoader.RequestSyncLoad(AssetPath, true);//加载资源到内存中，bManageActiveHandle=true 反射 UE – UBT、UHT与反射基本理解 - 知乎
+C#中反射的定义是：运行中的程序查看本身的元数据或其他程序的元数据的行为。
+C&#43;&#43;本身不支持反射，也没有垃圾回收，因此UE自己实现了一套反射系统，通过反射可以实现序列化、垃圾回收GC、网络复制、蓝图通信等重要功能。简而言之就是把C&#43;&#43;代码暴露给引擎，可以使用蓝图、序列化等功能。
+因此UHT必须要把UE代码转换成C&#43;&#43;代码，而UBT就是负责调用UHT做这件事情的。——UBT本身不参与反射机制的实现，但是它负责调用UHT。
+完整编译流程：UBT搜集目录中的.cs文件，然后UBT调用UHT分析.h .cpp文件（根据文件是否含有#include&#34;FileName.generated.h&#34;，是否有UCLASS()、UPROPERTY等宏）生成generated.h和gen.cpp文件，最后UBT调用MSBuild，将.h.cpp和generated.h gen.cpp结合到一起然后编译。
+C&#43;&#43;与蓝图对比 C&#43;&#43; or 蓝图
+C&#43;&#43;是编程语言，适合实现游戏底层系统；蓝图是脚本系统，适合定义高级交互、装饰性细节等。它没有一个明确的界限必须在什么时候使用蓝图或C&#43;&#43;，但是两者可以很轻易的互通。
+从源码构建项目时，C&#43;&#43;会被编译为机器码。能够直接在CPU上运行的指令列表；而蓝图会由脚本编译器编译成脚本字节码，由引擎的脚本虚拟机在运行时执行。编译器会对C&#43;&#43;进行一些优化，从而性能会更好，但是蓝图不会，所以消耗更大。因此复杂的数学计算或Tick这样被频繁调用的函数最好用C&#43;&#43;实现。
+虚幻提供了蓝图本地化（Blueprint Nativization）用来让蓝图转换成C&#43;&#43;源代码，这也意味着不再通过虚拟机执行，而是会像C&#43;&#43;一样被编译为原生机器代码。但是生成的代码不像C&#43;&#43;一样容易阅读。
+所以我们可以对蓝图节点中开销比较大的位置用C&#43;&#43;重构。
+C&#43;&#43;中可以通过模块化管理类的依赖关系，但是蓝图没有模块化的概念，可以自由引用C&#43;&#43;任何类，而C&#43;&#43;类不会知道任何蓝图类型相关的信息。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="GeeTeng">
+  <meta name="twitter:description" content="垃圾回收 如何保持新建的不被自动GC垃圾回收？
+使用AddToRoot()函数可以保护对象不被自动回收，移除保护时使用RemoveFromRoot()并把对象指针置为nullptr即可由引擎自动回收； UMyObject* MyObject=NewObject&lt;UMyObject&gt;(); MyObject-&gt;AddToRoot(); //保护对象不被回收 MyObject-&gt;RemoveFromRoot(); MyObject=nullptr; //交给引擎回收对象 使用UPROPERTY宏标记一下对象指针变量也可以保护对象不被自动回收，在该类被销毁时，新建的对象也会被引擎自动回收；
+使用FStreamableManager加载资源时，将bManageActiveHandle设置为true也可以防止对象被回收；
+FSoftObjectPath AssetPaths(TEXT(&#34;[资源路径]&#34;)); FStreamableManager&amp; AssetLoader = UAssetManager::GetStreamableManager(); TSharedPtr&lt;FStreamableHandle&gt; Handle = AssetLoader.RequestSyncLoad(AssetPath, true);//加载资源到内存中，bManageActiveHandle=true 反射 UE – UBT、UHT与反射基本理解 - 知乎
+C#中反射的定义是：运行中的程序查看本身的元数据或其他程序的元数据的行为。
+C&#43;&#43;本身不支持反射，也没有垃圾回收，因此UE自己实现了一套反射系统，通过反射可以实现序列化、垃圾回收GC、网络复制、蓝图通信等重要功能。简而言之就是把C&#43;&#43;代码暴露给引擎，可以使用蓝图、序列化等功能。
+因此UHT必须要把UE代码转换成C&#43;&#43;代码，而UBT就是负责调用UHT做这件事情的。——UBT本身不参与反射机制的实现，但是它负责调用UHT。
+完整编译流程：UBT搜集目录中的.cs文件，然后UBT调用UHT分析.h .cpp文件（根据文件是否含有#include&#34;FileName.generated.h&#34;，是否有UCLASS()、UPROPERTY等宏）生成generated.h和gen.cpp文件，最后UBT调用MSBuild，将.h.cpp和generated.h gen.cpp结合到一起然后编译。
+C&#43;&#43;与蓝图对比 C&#43;&#43; or 蓝图
+C&#43;&#43;是编程语言，适合实现游戏底层系统；蓝图是脚本系统，适合定义高级交互、装饰性细节等。它没有一个明确的界限必须在什么时候使用蓝图或C&#43;&#43;，但是两者可以很轻易的互通。
+从源码构建项目时，C&#43;&#43;会被编译为机器码。能够直接在CPU上运行的指令列表；而蓝图会由脚本编译器编译成脚本字节码，由引擎的脚本虚拟机在运行时执行。编译器会对C&#43;&#43;进行一些优化，从而性能会更好，但是蓝图不会，所以消耗更大。因此复杂的数学计算或Tick这样被频繁调用的函数最好用C&#43;&#43;实现。
+虚幻提供了蓝图本地化（Blueprint Nativization）用来让蓝图转换成C&#43;&#43;源代码，这也意味着不再通过虚拟机执行，而是会像C&#43;&#43;一样被编译为原生机器代码。但是生成的代码不像C&#43;&#43;一样容易阅读。
+所以我们可以对蓝图节点中开销比较大的位置用C&#43;&#43;重构。
+C&#43;&#43;中可以通过模块化管理类的依赖关系，但是蓝图没有模块化的概念，可以自由引用C&#43;&#43;任何类，而C&#43;&#43;类不会知道任何蓝图类型相关的信息。">
+
+
+  <meta itemprop="name" content="GeeTeng">
+  <meta itemprop="description" content="垃圾回收 如何保持新建的不被自动GC垃圾回收？
+使用AddToRoot()函数可以保护对象不被自动回收，移除保护时使用RemoveFromRoot()并把对象指针置为nullptr即可由引擎自动回收； UMyObject* MyObject=NewObject&lt;UMyObject&gt;(); MyObject-&gt;AddToRoot(); //保护对象不被回收 MyObject-&gt;RemoveFromRoot(); MyObject=nullptr; //交给引擎回收对象 使用UPROPERTY宏标记一下对象指针变量也可以保护对象不被自动回收，在该类被销毁时，新建的对象也会被引擎自动回收；
+使用FStreamableManager加载资源时，将bManageActiveHandle设置为true也可以防止对象被回收；
+FSoftObjectPath AssetPaths(TEXT(&#34;[资源路径]&#34;)); FStreamableManager&amp; AssetLoader = UAssetManager::GetStreamableManager(); TSharedPtr&lt;FStreamableHandle&gt; Handle = AssetLoader.RequestSyncLoad(AssetPath, true);//加载资源到内存中，bManageActiveHandle=true 反射 UE – UBT、UHT与反射基本理解 - 知乎
+C#中反射的定义是：运行中的程序查看本身的元数据或其他程序的元数据的行为。
+C&#43;&#43;本身不支持反射，也没有垃圾回收，因此UE自己实现了一套反射系统，通过反射可以实现序列化、垃圾回收GC、网络复制、蓝图通信等重要功能。简而言之就是把C&#43;&#43;代码暴露给引擎，可以使用蓝图、序列化等功能。
+因此UHT必须要把UE代码转换成C&#43;&#43;代码，而UBT就是负责调用UHT做这件事情的。——UBT本身不参与反射机制的实现，但是它负责调用UHT。
+完整编译流程：UBT搜集目录中的.cs文件，然后UBT调用UHT分析.h .cpp文件（根据文件是否含有#include&#34;FileName.generated.h&#34;，是否有UCLASS()、UPROPERTY等宏）生成generated.h和gen.cpp文件，最后UBT调用MSBuild，将.h.cpp和generated.h gen.cpp结合到一起然后编译。
+C&#43;&#43;与蓝图对比 C&#43;&#43; or 蓝图
+C&#43;&#43;是编程语言，适合实现游戏底层系统；蓝图是脚本系统，适合定义高级交互、装饰性细节等。它没有一个明确的界限必须在什么时候使用蓝图或C&#43;&#43;，但是两者可以很轻易的互通。
+从源码构建项目时，C&#43;&#43;会被编译为机器码。能够直接在CPU上运行的指令列表；而蓝图会由脚本编译器编译成脚本字节码，由引擎的脚本虚拟机在运行时执行。编译器会对C&#43;&#43;进行一些优化，从而性能会更好，但是蓝图不会，所以消耗更大。因此复杂的数学计算或Tick这样被频繁调用的函数最好用C&#43;&#43;实现。
+虚幻提供了蓝图本地化（Blueprint Nativization）用来让蓝图转换成C&#43;&#43;源代码，这也意味着不再通过虚拟机执行，而是会像C&#43;&#43;一样被编译为原生机器代码。但是生成的代码不像C&#43;&#43;一样容易阅读。
+所以我们可以对蓝图节点中开销比较大的位置用C&#43;&#43;重构。
+C&#43;&#43;中可以通过模块化管理类的依赖关系，但是蓝图没有模块化的概念，可以自由引用C&#43;&#43;任何类，而C&#43;&#43;类不会知道任何蓝图类型相关的信息。">
+  <meta itemprop="wordCount" content="45">
+<link rel="canonical" href="https://geeteng.github.io/posts/ue/ue%E7%9F%A5%E8%AF%86%E7%82%B9/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#垃圾回收"><strong>垃圾回收</strong></a></li>
+            <li><a href="#反射">反射</a></li>
+            <li><a href="#c与蓝图对比">C++与蓝图对比</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1></h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Jan 1, 0001
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        7 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h3 id="垃圾回收"><strong>垃圾回收</strong></h3>
+<blockquote>
+<p>如何保持新建的不被自动GC垃圾回收？</p>
+</blockquote>
+<ul>
+<li>使用AddToRoot()函数可以保护对象不被自动回收，移除保护时使用RemoveFromRoot()并把对象指针置为nullptr即可由引擎自动回收；</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>UMyObject<span style="color:#f92672">*</span> MyObject<span style="color:#f92672">=</span>NewObject<span style="color:#f92672">&lt;</span>UMyObject<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>MyObject<span style="color:#f92672">-&gt;</span>AddToRoot();                     <span style="color:#75715e">//保护对象不被回收
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>MyObject<span style="color:#f92672">-&gt;</span>RemoveFromRoot();
+</span></span><span style="display:flex;"><span>MyObject<span style="color:#f92672">=</span><span style="color:#66d9ef">nullptr</span>;                          <span style="color:#75715e">//交给引擎回收对象
+</span></span></span></code></pre></div><ul>
+<li>
+<p>使用UPROPERTY宏标记一下对象指针变量也可以保护对象不被自动回收，在该类被销毁时，新建的对象也会被引擎自动回收；</p>
+</li>
+<li>
+<p>使用FStreamableManager加载资源时，将<code>bManageActiveHandle</code>设置为true也可以防止对象被回收；</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-cpp" data-lang="cpp"><span style="display:flex;"><span>FSoftObjectPath <span style="color:#a6e22e">AssetPaths</span>(TEXT(<span style="color:#e6db74">&#34;[资源路径]&#34;</span>));
+</span></span><span style="display:flex;"><span>FStreamableManager<span style="color:#f92672">&amp;</span> AssetLoader <span style="color:#f92672">=</span> UAssetManager<span style="color:#f92672">::</span>GetStreamableManager();
+</span></span><span style="display:flex;"><span>TSharedPtr<span style="color:#f92672">&lt;</span>FStreamableHandle<span style="color:#f92672">&gt;</span> Handle <span style="color:#f92672">=</span> AssetLoader.RequestSyncLoad(AssetPath, true);<span style="color:#75715e">//加载资源到内存中，bManageActiveHandle=true
+</span></span></span></code></pre></div><h3 id="反射">反射</h3>
+<p><a href="https://zhuanlan.zhihu.com/p/400473355">UE &ndash; UBT、UHT与反射基本理解 - 知乎</a></p>
+<p>C#中反射的定义是：运行中的程序查看本身的元数据或其他程序的元数据的行为。</p>
+<p>C++本身不支持反射，也没有垃圾回收，因此UE自己实现了一套反射系统，通过反射可以实现序列化、垃圾回收GC、网络复制、蓝图通信等重要功能。简而言之就是把C++代码暴露给引擎，可以使用蓝图、序列化等功能。</p>
+<p>因此UHT必须要把UE代码转换成C++代码，而UBT就是负责调用UHT做这件事情的。——<strong>UBT本身不参与反射机制的实现，但是它负责调用UHT</strong>。</p>
+<p><strong>完整编译流程：<strong>UBT搜集目录中的.cs文件，然后UBT调用UHT分析.h .cpp文件（根据文件是否含有#include&quot;FileName.generated.h&quot;，是否有UCLASS()、UPROPERTY等宏）生成</strong>generated.h</strong>和<strong>gen.cpp</strong>文件，最后UBT调用<strong>MSBuild</strong>，将.h.cpp和generated.h gen.cpp结合到一起然后编译。</p>
+<p><img src="/images/UE/UE%E7%9F%A5%E8%AF%86%E7%82%B9/01.jpg" alt="01"></p>
+<h3 id="c与蓝图对比">C++与蓝图对比</h3>
+<p>C++ or 蓝图</p>
+<p>C++是编程语言，适合实现游戏底层系统；蓝图是脚本系统，适合定义高级交互、装饰性细节等。它没有一个明确的界限必须在什么时候使用蓝图或C++，但是两者可以很轻易的互通。</p>
+<p>从源码构建项目时，C++会被编译为机器码。能够直接在CPU上运行的指令列表；而蓝图会由脚本编译器编译成脚本字节码，由引擎的脚本虚拟机在运行时执行。编译器会对C++进行一些优化，从而性能会更好，但是蓝图不会，所以消耗更大。因此复杂的数学计算或Tick这样被频繁调用的函数最好用C++实现。</p>
+<p>虚幻提供了蓝图本地化（Blueprint Nativization）用来让蓝图转换成C++源代码，这也意味着不再通过虚拟机执行，而是会像C++一样被编译为原生机器代码。但是生成的代码不像C++一样容易阅读。</p>
+<p>所以我们可以对蓝图节点中开销比较大的位置用C++重构。</p>
+<p>C++中可以通过模块化管理类的依赖关系，但是蓝图没有模块化的概念，可以自由引用C++任何类，而C++类不会知道任何蓝图类型相关的信息。</p>
+
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fue%25E7%259F%25A5%25E8%25AF%2586%25E7%2582%25B9%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fue%25E7%259F%25A5%25E8%25AF%2586%25E7%2582%25B9%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fue%25E7%259F%25A5%25E8%25AF%2586%25E7%2582%25B9%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fue%25E7%259F%25A5%25E8%25AF%2586%25E7%2582%25B9%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fue%25E7%259F%25A5%25E8%25AF%2586%25E7%2582%25B9%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fue%25E7%259F%25A5%25E8%25AF%2586%25E7%2582%25B9%2f
+			&title=&summary=%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6%20%e5%a6%82%e4%bd%95%e4%bf%9d%e6%8c%81%e6%96%b0%e5%bb%ba%e7%9a%84%e4%b8%8d%e8%a2%ab%e8%87%aa%e5%8a%a8GC%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6%ef%bc%9f%0a%e4%bd%bf%e7%94%a8AddToRoot%28%29%e5%87%bd%e6%95%b0%e5%8f%af%e4%bb%a5%e4%bf%9d%e6%8a%a4%e5%af%b9%e8%b1%a1%e4%b8%8d%e8%a2%ab%e8%87%aa%e5%8a%a8%e5%9b%9e%e6%94%b6%ef%bc%8c%e7%a7%bb%e9%99%a4%e4%bf%9d%e6%8a%a4%e6%97%b6%e4%bd%bf%e7%94%a8RemoveFromRoot%28%29%e5%b9%b6%e6%8a%8a%e5%af%b9%e8%b1%a1%e6%8c%87%e9%92%88%e7%bd%ae%e4%b8%banullptr%e5%8d%b3%e5%8f%af%e7%94%b1%e5%bc%95%e6%93%8e%e8%87%aa%e5%8a%a8%e5%9b%9e%e6%94%b6%ef%bc%9b%20UMyObject%2a%20MyObject%3dNewObject%26lt%3bUMyObject%26gt%3b%28%29%3b%20MyObject-%26gt%3bAddToRoot%28%29%3b%20%2f%2f%e4%bf%9d%e6%8a%a4%e5%af%b9%e8%b1%a1%e4%b8%8d%e8%a2%ab%e5%9b%9e%e6%94%b6%20MyObject-%26gt%3bRemoveFromRoot%28%29%3b%20MyObject%3dnullptr%3b%20%2f%2f%e4%ba%a4%e7%bb%99%e5%bc%95%e6%93%8e%e5%9b%9e%e6%94%b6%e5%af%b9%e8%b1%a1%20%e4%bd%bf%e7%94%a8UPROPERTY%e5%ae%8f%e6%a0%87%e8%ae%b0%e4%b8%80%e4%b8%8b%e5%af%b9%e8%b1%a1%e6%8c%87%e9%92%88%e5%8f%98%e9%87%8f%e4%b9%9f%e5%8f%af%e4%bb%a5%e4%bf%9d%e6%8a%a4%e5%af%b9%e8%b1%a1%e4%b8%8d%e8%a2%ab%e8%87%aa%e5%8a%a8%e5%9b%9e%e6%94%b6%ef%bc%8c%e5%9c%a8%e8%af%a5%e7%b1%bb%e8%a2%ab%e9%94%80%e6%af%81%e6%97%b6%ef%bc%8c%e6%96%b0%e5%bb%ba%e7%9a%84%e5%af%b9%e8%b1%a1%e4%b9%9f%e4%bc%9a%e8%a2%ab%e5%bc%95%e6%93%8e%e8%87%aa%e5%8a%a8%e5%9b%9e%e6%94%b6%ef%bc%9b%0a%e4%bd%bf%e7%94%a8FStreamableManager%e5%8a%a0%e8%bd%bd%e8%b5%84%e6%ba%90%e6%97%b6%ef%bc%8c%e5%b0%86bManageActiveHandle%e8%ae%be%e7%bd%ae%e4%b8%batrue%e4%b9%9f%e5%8f%af%e4%bb%a5%e9%98%b2%e6%ad%a2%e5%af%b9%e8%b1%a1%e8%a2%ab%e5%9b%9e%e6%94%b6%ef%bc%9b%0aFSoftObjectPath%20AssetPaths%28TEXT%28%26%2334%3b%5b%e8%b5%84%e6%ba%90%e8%b7%af%e5%be%84%5d%26%2334%3b%29%29%3b%20FStreamableManager%26amp%3b%20AssetLoader%20%3d%20UAssetManager%3a%3aGetStreamableManager%28%29%3b%20TSharedPtr%26lt%3bFStreamableHandle%26gt%3b%20Handle%20%3d%20AssetLoader.RequestSyncLoad%28AssetPath%2c%20true%29%3b%2f%2f%e5%8a%a0%e8%bd%bd%e8%b5%84%e6%ba%90%e5%88%b0%e5%86%85%e5%ad%98%e4%b8%ad%ef%bc%8cbManageActiveHandle%3dtrue%20%e5%8f%8d%e5%b0%84%20UE%20%26ndash%3b%20UBT%e3%80%81UHT%e4%b8%8e%e5%8f%8d%e5%b0%84%e5%9f%ba%e6%9c%ac%e7%90%86%e8%a7%a3%20-%20%e7%9f%a5%e4%b9%8e%0aC%23%e4%b8%ad%e5%8f%8d%e5%b0%84%e7%9a%84%e5%ae%9a%e4%b9%89%e6%98%af%ef%bc%9a%e8%bf%90%e8%a1%8c%e4%b8%ad%e7%9a%84%e7%a8%8b%e5%ba%8f%e6%9f%a5%e7%9c%8b%e6%9c%ac%e8%ba%ab%e7%9a%84%e5%85%83%e6%95%b0%e6%8d%ae%e6%88%96%e5%85%b6%e4%bb%96%e7%a8%8b%e5%ba%8f%e7%9a%84%e5%85%83%e6%95%b0%e6%8d%ae%e7%9a%84%e8%a1%8c%e4%b8%ba%e3%80%82%0aC%2b%2b%e6%9c%ac%e8%ba%ab%e4%b8%8d%e6%94%af%e6%8c%81%e5%8f%8d%e5%b0%84%ef%bc%8c%e4%b9%9f%e6%b2%a1%e6%9c%89%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6%ef%bc%8c%e5%9b%a0%e6%ad%a4UE%e8%87%aa%e5%b7%b1%e5%ae%9e%e7%8e%b0%e4%ba%86%e4%b8%80%e5%a5%97%e5%8f%8d%e5%b0%84%e7%b3%bb%e7%bb%9f%ef%bc%8c%e9%80%9a%e8%bf%87%e5%8f%8d%e5%b0%84%e5%8f%af%e4%bb%a5%e5%ae%9e%e7%8e%b0%e5%ba%8f%e5%88%97%e5%8c%96%e3%80%81%e5%9e%83%e5%9c%be%e5%9b%9e%e6%94%b6GC%e3%80%81%e7%bd%91%e7%bb%9c%e5%a4%8d%e5%88%b6%e3%80%81%e8%93%9d%e5%9b%be%e9%80%9a%e4%bf%a1%e7%ad%89%e9%87%8d%e8%a6%81%e5%8a%9f%e8%83%bd%e3%80%82%e7%ae%80%e8%80%8c%e8%a8%80%e4%b9%8b%e5%b0%b1%e6%98%af%e6%8a%8aC%2b%2b%e4%bb%a3%e7%a0%81%e6%9a%b4%e9%9c%b2%e7%bb%99%e5%bc%95%e6%93%8e%ef%bc%8c%e5%8f%af%e4%bb%a5%e4%bd%bf%e7%94%a8%e8%93%9d%e5%9b%be%e3%80%81%e5%ba%8f%e5%88%97%e5%8c%96%e7%ad%89%e5%8a%9f%e8%83%bd%e3%80%82%0a%e5%9b%a0%e6%ad%a4UHT%e5%bf%85%e9%a1%bb%e8%a6%81%e6%8a%8aUE%e4%bb%a3%e7%a0%81%e8%bd%ac%e6%8d%a2%e6%88%90C%2b%2b%e4%bb%a3%e7%a0%81%ef%bc%8c%e8%80%8cUBT%e5%b0%b1%e6%98%af%e8%b4%9f%e8%b4%a3%e8%b0%83%e7%94%a8UHT%e5%81%9a%e8%bf%99%e4%bb%b6%e4%ba%8b%e6%83%85%e7%9a%84%e3%80%82%e2%80%94%e2%80%94UBT%e6%9c%ac%e8%ba%ab%e4%b8%8d%e5%8f%82%e4%b8%8e%e5%8f%8d%e5%b0%84%e6%9c%ba%e5%88%b6%e7%9a%84%e5%ae%9e%e7%8e%b0%ef%bc%8c%e4%bd%86%e6%98%af%e5%ae%83%e8%b4%9f%e8%b4%a3%e8%b0%83%e7%94%a8UHT%e3%80%82%0a%e5%ae%8c%e6%95%b4%e7%bc%96%e8%af%91%e6%b5%81%e7%a8%8b%ef%bc%9aUBT%e6%90%9c%e9%9b%86%e7%9b%ae%e5%bd%95%e4%b8%ad%e7%9a%84.cs%e6%96%87%e4%bb%b6%ef%bc%8c%e7%84%b6%e5%90%8eUBT%e8%b0%83%e7%94%a8UHT%e5%88%86%e6%9e%90.h%20.cpp%e6%96%87%e4%bb%b6%ef%bc%88%e6%a0%b9%e6%8d%ae%e6%96%87%e4%bb%b6%e6%98%af%e5%90%a6%e5%90%ab%e6%9c%89%23include%26quot%3bFileName.generated.h%26quot%3b%ef%bc%8c%e6%98%af%e5%90%a6%e6%9c%89UCLASS%28%29%e3%80%81UPROPERTY%e7%ad%89%e5%ae%8f%ef%bc%89%e7%94%9f%e6%88%90generated.h%e5%92%8cgen.cpp%e6%96%87%e4%bb%b6%ef%bc%8c%e6%9c%80%e5%90%8eUBT%e8%b0%83%e7%94%a8MSBuild%ef%bc%8c%e5%b0%86.h.cpp%e5%92%8cgenerated.h%20gen.cpp%e7%bb%93%e5%90%88%e5%88%b0%e4%b8%80%e8%b5%b7%e7%84%b6%e5%90%8e%e7%bc%96%e8%af%91%e3%80%82%0aC%2b%2b%e4%b8%8e%e8%93%9d%e5%9b%be%e5%af%b9%e6%af%94%20C%2b%2b%20or%20%e8%93%9d%e5%9b%be%0aC%2b%2b%e6%98%af%e7%bc%96%e7%a8%8b%e8%af%ad%e8%a8%80%ef%bc%8c%e9%80%82%e5%90%88%e5%ae%9e%e7%8e%b0%e6%b8%b8%e6%88%8f%e5%ba%95%e5%b1%82%e7%b3%bb%e7%bb%9f%ef%bc%9b%e8%93%9d%e5%9b%be%e6%98%af%e8%84%9a%e6%9c%ac%e7%b3%bb%e7%bb%9f%ef%bc%8c%e9%80%82%e5%90%88%e5%ae%9a%e4%b9%89%e9%ab%98%e7%ba%a7%e4%ba%a4%e4%ba%92%e3%80%81%e8%a3%85%e9%a5%b0%e6%80%a7%e7%bb%86%e8%8a%82%e7%ad%89%e3%80%82%e5%ae%83%e6%b2%a1%e6%9c%89%e4%b8%80%e4%b8%aa%e6%98%8e%e7%a1%ae%e7%9a%84%e7%95%8c%e9%99%90%e5%bf%85%e9%a1%bb%e5%9c%a8%e4%bb%80%e4%b9%88%e6%97%b6%e5%80%99%e4%bd%bf%e7%94%a8%e8%93%9d%e5%9b%be%e6%88%96C%2b%2b%ef%bc%8c%e4%bd%86%e6%98%af%e4%b8%a4%e8%80%85%e5%8f%af%e4%bb%a5%e5%be%88%e8%bd%bb%e6%98%93%e7%9a%84%e4%ba%92%e9%80%9a%e3%80%82%0a%e4%bb%8e%e6%ba%90%e7%a0%81%e6%9e%84%e5%bb%ba%e9%a1%b9%e7%9b%ae%e6%97%b6%ef%bc%8cC%2b%2b%e4%bc%9a%e8%a2%ab%e7%bc%96%e8%af%91%e4%b8%ba%e6%9c%ba%e5%99%a8%e7%a0%81%e3%80%82%e8%83%bd%e5%a4%9f%e7%9b%b4%e6%8e%a5%e5%9c%a8CPU%e4%b8%8a%e8%bf%90%e8%a1%8c%e7%9a%84%e6%8c%87%e4%bb%a4%e5%88%97%e8%a1%a8%ef%bc%9b%e8%80%8c%e8%93%9d%e5%9b%be%e4%bc%9a%e7%94%b1%e8%84%9a%e6%9c%ac%e7%bc%96%e8%af%91%e5%99%a8%e7%bc%96%e8%af%91%e6%88%90%e8%84%9a%e6%9c%ac%e5%ad%97%e8%8a%82%e7%a0%81%ef%bc%8c%e7%94%b1%e5%bc%95%e6%93%8e%e7%9a%84%e8%84%9a%e6%9c%ac%e8%99%9a%e6%8b%9f%e6%9c%ba%e5%9c%a8%e8%bf%90%e8%a1%8c%e6%97%b6%e6%89%a7%e8%a1%8c%e3%80%82%e7%bc%96%e8%af%91%e5%99%a8%e4%bc%9a%e5%af%b9C%2b%2b%e8%bf%9b%e8%a1%8c%e4%b8%80%e4%ba%9b%e4%bc%98%e5%8c%96%ef%bc%8c%e4%bb%8e%e8%80%8c%e6%80%a7%e8%83%bd%e4%bc%9a%e6%9b%b4%e5%a5%bd%ef%bc%8c%e4%bd%86%e6%98%af%e8%93%9d%e5%9b%be%e4%b8%8d%e4%bc%9a%ef%bc%8c%e6%89%80%e4%bb%a5%e6%b6%88%e8%80%97%e6%9b%b4%e5%a4%a7%e3%80%82%e5%9b%a0%e6%ad%a4%e5%a4%8d%e6%9d%82%e7%9a%84%e6%95%b0%e5%ad%a6%e8%ae%a1%e7%ae%97%e6%88%96Tick%e8%bf%99%e6%a0%b7%e8%a2%ab%e9%a2%91%e7%b9%81%e8%b0%83%e7%94%a8%e7%9a%84%e5%87%bd%e6%95%b0%e6%9c%80%e5%a5%bd%e7%94%a8C%2b%2b%e5%ae%9e%e7%8e%b0%e3%80%82%0a%e8%99%9a%e5%b9%bb%e6%8f%90%e4%be%9b%e4%ba%86%e8%93%9d%e5%9b%be%e6%9c%ac%e5%9c%b0%e5%8c%96%ef%bc%88Blueprint%20Nativization%ef%bc%89%e7%94%a8%e6%9d%a5%e8%ae%a9%e8%93%9d%e5%9b%be%e8%bd%ac%e6%8d%a2%e6%88%90C%2b%2b%e6%ba%90%e4%bb%a3%e7%a0%81%ef%bc%8c%e8%bf%99%e4%b9%9f%e6%84%8f%e5%91%b3%e7%9d%80%e4%b8%8d%e5%86%8d%e9%80%9a%e8%bf%87%e8%99%9a%e6%8b%9f%e6%9c%ba%e6%89%a7%e8%a1%8c%ef%bc%8c%e8%80%8c%e6%98%af%e4%bc%9a%e5%83%8fC%2b%2b%e4%b8%80%e6%a0%b7%e8%a2%ab%e7%bc%96%e8%af%91%e4%b8%ba%e5%8e%9f%e7%94%9f%e6%9c%ba%e5%99%a8%e4%bb%a3%e7%a0%81%e3%80%82%e4%bd%86%e6%98%af%e7%94%9f%e6%88%90%e7%9a%84%e4%bb%a3%e7%a0%81%e4%b8%8d%e5%83%8fC%2b%2b%e4%b8%80%e6%a0%b7%e5%ae%b9%e6%98%93%e9%98%85%e8%af%bb%e3%80%82%0a%e6%89%80%e4%bb%a5%e6%88%91%e4%bb%ac%e5%8f%af%e4%bb%a5%e5%af%b9%e8%93%9d%e5%9b%be%e8%8a%82%e7%82%b9%e4%b8%ad%e5%bc%80%e9%94%80%e6%af%94%e8%be%83%e5%a4%a7%e7%9a%84%e4%bd%8d%e7%bd%ae%e7%94%a8C%2b%2b%e9%87%8d%e6%9e%84%e3%80%82%0aC%2b%2b%e4%b8%ad%e5%8f%af%e4%bb%a5%e9%80%9a%e8%bf%87%e6%a8%a1%e5%9d%97%e5%8c%96%e7%ae%a1%e7%90%86%e7%b1%bb%e7%9a%84%e4%be%9d%e8%b5%96%e5%85%b3%e7%b3%bb%ef%bc%8c%e4%bd%86%e6%98%af%e8%93%9d%e5%9b%be%e6%b2%a1%e6%9c%89%e6%a8%a1%e5%9d%97%e5%8c%96%e7%9a%84%e6%a6%82%e5%bf%b5%ef%bc%8c%e5%8f%af%e4%bb%a5%e8%87%aa%e7%94%b1%e5%bc%95%e7%94%a8C%2b%2b%e4%bb%bb%e4%bd%95%e7%b1%bb%ef%bc%8c%e8%80%8cC%2b%2b%e7%b1%bb%e4%b8%8d%e4%bc%9a%e7%9f%a5%e9%81%93%e4%bb%bb%e4%bd%95%e8%93%9d%e5%9b%be%e7%b1%bb%e5%9e%8b%e7%9b%b8%e5%85%b3%e7%9a%84%e4%bf%a1%e6%81%af%e3%80%82&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fue%25E7%259F%25A5%25E8%25AF%2586%25E7%2582%25B9%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>
