@@ -69,7 +69,7 @@ const用法：
 const int * const p3 = p2 // 靠右的const是顶层const，靠左的是底层const
 ```
 
-常量指针`const int* p1`中，const修饰的是\*p1，所以修改不了指针指向的值，也就是修改不了\*p1;但是p1和指向对象的值是可以改变的，只是不能改变指针指向的值。
+常量指针`const int* p1`中，const修饰的是int*，所以修改不了指针指向的值，也就是修改不了\*p1;但是p1和指向对象的值是可以改变的，只是不能改变指针指向的值。
 
 ```c++
 int main() {
@@ -128,8 +128,6 @@ private:
 void func1(std::vector<int> vec);  // 按值传递，会进行复制
 void func2(const std::vector<int>& vec);  // 按引用传递，不会复制
 ```
-
-
 
 
 
@@ -743,6 +741,14 @@ int main()
 静态多态带来了泛型设计的概念，比如STL库。
 
 **区别：**静态多态调用发生在编译时，效率高；动态多态函数调用发生在运行时，会引入一些性能开销。
+
+### 函数重载、隐藏、覆盖（重写）
+
+函数重载发生在同一个类中，函数名相同，参数列表不同（参数个数/类型不同），编译期会决定调用哪个函数->静态绑定。
+
+函数隐藏发生在父类和子类之间，没有virtual关键字。
+
+函数重写发生在父类和子类之间，有virtual关键字。
 
 ### 虚函数
 
@@ -1840,4 +1846,45 @@ int main()
 > 开链地址法，如果链表太长该怎么办？
 
 链表太长时，需要扩容。采用**渐进式扩容**：当容量扩大为 2 倍时，哈希值不需要重新计算，只需要读取哈希值的**更高一位 bit** （因为扩大一倍，二进制下只差别1bit）就能区分该元素是否应迁移到新的位置。
+
+
+
+## C++14新特性
+
+### 通用Lambda
+
+以前C++11的Lambda必须要写出具体类型
+
+```c++
+auto add_int   = [](int   a, int   b) { return a + b; };
+auto add_float = [](float a, float b) { return a + b; };
+```
+
+现在可以直接写auto，编译器会为Lambda生成一个带模板`operator()`的闭包类
+
+```c++
+auto add = [](auto a, auto b) { return a + b; };
+```
+
+相当于：
+
+```c++
+class __Lambda {
+public:
+    template<typename T1, typename T2>
+    auto operator()(T1 x, T2 y) const { return x + y; }
+};
+```
+
+
+
+### std::make_unique
+
+标准库增加了 `std::make_unique` 函数，用于创建 `std::unique_ptr` 对象。`make_unique`：对象分配和智能指针创建同时完成，更安全。
+
+传统写法，对象和智能指针分开创建，构造异常时可能会内存泄漏：
+
+```c++
+std::unique_ptr<int> p(new int(42));
+```
 

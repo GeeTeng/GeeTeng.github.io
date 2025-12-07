@@ -1083,6 +1083,35 @@ public:
 
 ## 二叉树
 
+### 104.二叉树最大深度
+
+队列deque，一层一层放进队列，每次深度++。
+
+```c++
+class Solution {
+public:
+    int maxDepth(TreeNode* root) {
+        if(root == nullptr) return 0;
+        deque<TreeNode*> q;
+        int depth = 0;
+        q.push_back(root);
+        while(!q.empty()){
+            depth ++;
+            int n = q.size();
+            for(int i = 0; i < n; i ++){
+                TreeNode* p = q.front();
+                q.pop_front();
+                if(p->left) q.push_back(p->left);
+                if(p->right) q.push_back(p->right);
+            }
+        }
+        return depth;
+    }
+};
+```
+
+
+
 ### 101. 对称二叉树
 
 *递归*：将root的左右子树传递给check函数。check函数递归左右子树的左右子树。
