@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    GAS项目笔记4 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="GAS项目笔记第4部分 怪物AI避障 行为树 EQS&#34;
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/ue/gasproject4/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="GAS项目笔记4">
+  <meta property="og:description" content="GAS项目笔记第4部分 怪物AI避障 行为树 EQS&#34;">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:tag" content="UE5">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="GAS项目笔记4">
+  <meta name="twitter:description" content="GAS项目笔记第4部分 怪物AI避障 行为树 EQS&#34;">
+
+
+  <meta itemprop="name" content="GAS项目笔记4">
+  <meta itemprop="description" content="GAS项目笔记第4部分 怪物AI避障 行为树 EQS&#34;">
+  <meta itemprop="wordCount" content="1051">
+  <meta itemprop="keywords" content="UE5">
+<link rel="canonical" href="https://geeteng.github.io/posts/ue/gasproject4/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#ue避障算法">UE避障算法</a>
+              <ul>
+                <li><a href="#相对速度障碍物算法rvo">相对速度障碍物算法（RVO）</a></li>
+                <li><a href="#群组绕行管理器detour-crowd-manager">群组绕行管理器（Detour Crowd Manager）</a></li>
+              </ul>
+            </li>
+            <li><a href="#ai避让">AI避让</a></li>
+            <li><a href="#ai追踪">AI追踪</a></li>
+            <li><a href="#eqs怪物围绕玩家侧移">EQS怪物围绕玩家侧移</a></li>
+            <li><a href="#ai攻击能力">AI攻击能力</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>GAS项目笔记4</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Jan 1, 0001
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        33 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/ue5">UE5</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/ue5">Ue5</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <p><img src="/images/UE/WarriorProject/%E5%B0%8F%E6%80%AAAI%E8%A1%8C%E4%B8%BA%E6%A0%91.png" alt="小怪AI行为树"></p>
+<h3 id="ue避障算法">UE避障算法</h3>
+<p><a href="https://dev.epicgames.com/documentation/zh-cn/unreal-engine/using-avoidance-with-the-navigation-system-in-unreal-engine">在虚幻引擎寻路系统中使用避障机制 | 虚幻引擎 5.7 文档 | Epic Developer Community</a></p>
+<h4 id="相对速度障碍物算法rvo">相对速度障碍物算法（RVO）</h4>
+<p><strong>核心思想</strong>：用当前速度、位置和相对速度预测碰撞，然后实时调整速度，避免与其他个体发生碰撞。它只负责<strong>即时的动作决策</strong>，不规划路径，也不管理群体。</p>
+<p>输入：当前速度 + 相对位置 + 预测碰撞时间</p>
+<p>输出：一个新的安全速度向量</p>
+<h4 id="群组绕行管理器detour-crowd-manager">群组绕行管理器（Detour Crowd Manager）</h4>
+<p>核心思想：基于NavMesh进行全局路径规划，再结合局部避障（内部可能使用RVO），对大量智能体进行统一管理，比如寻路、速度匹配、优先级控制、群体移动等。</p>
+<hr>
+<h3 id="ai避让">AI避让</h3>
+<p>AWarriorAIController 自定义AIController</p>
+<p>|——AIC_Enemy_Base</p>
+<pre><code>|——AIC_Guardian
+</code></pre>
+<p>AIController 构造时，会自动创建一个 <code>PathFollowingComponent</code>，用于寻路和路径跟随。但这个默认组件不支持群组避障。</p>
+<p>因此需要把默认创建的PathFollowingComponent替换为UCrowdFollowingComponent</p>
+<p><code>SetDefaultSubobjectClass&lt;UCrowdFollowingComponent&gt;(&quot;PathFollowingComponent&quot;)</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>AWarriorAIController(<span style="color:#66d9ef">const</span> FObjectInitializer<span style="color:#f92672">&amp;</span> ObjectInitializer);
+</span></span><span style="display:flex;"><span>AWarriorAIController<span style="color:#f92672">::</span>AWarriorAIController(<span style="color:#66d9ef">const</span> FObjectInitializer<span style="color:#f92672">&amp;</span> ObjectInitializer)
+</span></span><span style="display:flex;"><span>	<span style="color:#f92672">:</span> Super(ObjectInitializer.SetDefaultSubobjectClass<span style="color:#f92672">&lt;</span>UCrowdFollowingComponent<span style="color:#f92672">&gt;</span>(<span style="color:#e6db74">&#34;PathFollowingComponent&#34;</span>))
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (UCrowdFollowingComponent<span style="color:#f92672">*</span> CrowdComp <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>UCrowdFollowingComponent<span style="color:#f92672">&gt;</span>(GetPathFollowingComponent()))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		Debug<span style="color:#f92672">::</span>Print(TEXT(<span style="color:#e6db74">&#34;CrowdFollowingComponent valid&#34;</span>));
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>将AIC_Guardian绑到BP_Gruntiling_Guardian上。</p>
+<p>之后在当中创建UAISenseConfig_Sight和UAIPerceptionComponent，进行一些默认值设置和将视觉绑定到感知上。</p>
+<p>并且绑定委托用于当小怪看到人之后做一些事情。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>AISenseConfig_Sight <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>UAISenseConfig_Sight<span style="color:#f92672">&gt;</span>(TEXT(<span style="color:#e6db74">&#34;EnemySenseConfig_Sight&#34;</span>));
+</span></span><span style="display:flex;"><span>AISenseConfig_Sight<span style="color:#f92672">-&gt;</span>DetectionByAffiliation.bDetectEnemies <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>AISenseConfig_Sight<span style="color:#f92672">-&gt;</span>DetectionByAffiliation.bDetectFriendlies <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>AISenseConfig_Sight<span style="color:#f92672">-&gt;</span>DetectionByAffiliation.bDetectNeutrals <span style="color:#f92672">=</span> false;
+</span></span><span style="display:flex;"><span>AISenseConfig_Sight<span style="color:#f92672">-&gt;</span>SightRadius <span style="color:#f92672">=</span> <span style="color:#ae81ff">5000.f</span>;
+</span></span><span style="display:flex;"><span>AISenseConfig_Sight<span style="color:#f92672">-&gt;</span>LoseSightRadius <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>AISenseConfig_Sight<span style="color:#f92672">-&gt;</span>PeripheralVisionAngleDegrees <span style="color:#f92672">=</span> <span style="color:#ae81ff">360.f</span>;
+</span></span><span style="display:flex;"><span>EnemyPerceptionComponent <span style="color:#f92672">=</span> CreateDefaultSubobject<span style="color:#f92672">&lt;</span>UAIPerceptionComponent<span style="color:#f92672">&gt;</span>(TEXT(<span style="color:#e6db74">&#34;EnemyPerceptionComponent&#34;</span>));
+</span></span><span style="display:flex;"><span>EnemyPerceptionComponent<span style="color:#f92672">-&gt;</span>ConfigureSense(<span style="color:#f92672">*</span>AISenseConfig_Sight);
+</span></span><span style="display:flex;"><span>EnemyPerceptionComponent<span style="color:#f92672">-&gt;</span>SetDominantSense(UAISenseConfig_Sight<span style="color:#f92672">::</span>StaticClass());
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 当视觉感知状态变化时执行 OnEnemyPerceptionUpdated
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>EnemyPerceptionComponent<span style="color:#f92672">-&gt;</span>OnTargetPerceptionUpdated.AddUniqueDynamic(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>ThisClass<span style="color:#f92672">::</span>OnEnemyPerceptionUpdated);
+</span></span></code></pre></div><p>现在设置完了对敌人感知，但是我们需要设置谁才是敌人。因此重写GetTeamAttitudeTowards，在其中获取检测的对象是否继承了IGenericTeamAgentInterface了接口（因此角色类需要继承这个接口），如果TeamId不一样，就是敌对的，否则是队友。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">//~ Begin IGenericTeamAgentInterface Interface
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">virtual</span> ETeamAttitude<span style="color:#f92672">::</span>Type GetTeamAttitudeTowards(<span style="color:#66d9ef">const</span> AActor<span style="color:#f92672">&amp;</span> Other) <span style="color:#66d9ef">const</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//~ End IGenericTeamAgentInterface Interface
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>ETeamAttitude<span style="color:#f92672">::</span>Type AWarriorAIController<span style="color:#f92672">::</span>GetTeamAttitudeTowards(<span style="color:#66d9ef">const</span> AActor<span style="color:#f92672">&amp;</span> Other) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> APawn<span style="color:#f92672">*</span> PawnToCheck <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">const</span> APawn<span style="color:#f92672">&gt;</span>(<span style="color:#f92672">&amp;</span>Other);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> IGenericTeamAgentInterface<span style="color:#f92672">*</span> OtherTeamAgent <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">const</span> IGenericTeamAgentInterface<span style="color:#f92672">&gt;</span>(PawnToCheck<span style="color:#f92672">-&gt;</span>GetController());
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (OtherTeamAgent <span style="color:#f92672">&amp;&amp;</span> OtherTeamAgent<span style="color:#f92672">-&gt;</span>GetGenericTeamId() <span style="color:#f92672">!=</span> GetGenericTeamId())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> ETeamAttitude<span style="color:#f92672">::</span>Hostile;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> ETeamAttitude<span style="color:#f92672">::</span>Friendly;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>我们在构造函数中设置怪物的TeamId——<code>SetGenericTeamId(FGenericTeamId(1));</code></p>
+<p>同样在角色类继承IGenericTeamAgentInterface接口，创建<code>FGenericTeamId HeroTeamId;</code>并重写接口的GetGenericTeamId函数，返回这个HeroTeamId。</p>
+<p>至此，敌人可以感知到玩家了。可以在OnEnemyPerceptionUpdated中写逻辑去让小怪看到玩家后做什么。</p>
+<p>现在，我们需要让AI动起来，这样才可以实现避让的功能。所以添加黑板<strong>BB_EnemyBase</strong>和<strong>BT_Guardian</strong>行为树。他俩是关联的。为了测试就直接在AIC_Enemy_Base中Run Behavior Tree，在行为树中添加Move To节点，设置TargetActor黑板键，并在c++中的OnEnemyPerceptionUpdated去更新。</p>
+<p><img src="/images/UE/WarriorProject/50.png" alt="50"></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">OnEnemyPerceptionUpdated</span>(AActor<span style="color:#f92672">*</span> Actor, FAIStimulus Stimulus);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorAIController<span style="color:#f92672">::</span>OnEnemyPerceptionUpdated(AActor<span style="color:#f92672">*</span> Actor, FAIStimulus Stimulus)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (Stimulus.WasSuccessfullySensed() <span style="color:#f92672">&amp;&amp;</span> Actor)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> (UBlackboardComponent<span style="color:#f92672">*</span> BlackboardComponent <span style="color:#f92672">=</span> GetBlackboardComponent())
+</span></span><span style="display:flex;"><span>       {
+</span></span><span style="display:flex;"><span>          BlackboardComponent<span style="color:#f92672">-&gt;</span>SetValueAsObject(FName(<span style="color:#e6db74">&#34;TargetActor&#34;</span>), Actor);
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>之后在BeginPlay中设置避让算法的参数：是否启用、质量、避让哪组、碰撞查询范围等。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditDefaultsOnly, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Detour Crowd Avoidance Config&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> bEnableDetourCrowdAvoidance <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditDefaultsOnly, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Detour Crowd Avoidance Config&#34;</span>, meta <span style="color:#f92672">=</span> (EditCondition <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bEnableDetourCrowdAvoidance&#34;</span>, UIMin <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;1&#34;</span>, UIMax <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;4&#34;</span>))
+</span></span><span style="display:flex;"><span>	int32 DetourCrowdAvoidanceQuality <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditDefaultsOnly, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Detour Crowd Avoidance Config&#34;</span>, meta <span style="color:#f92672">=</span> (EditCondition <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;bEnableDetourCrowdAvoidance&#34;</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> CollisionQueryRange <span style="color:#f92672">=</span> <span style="color:#ae81ff">600.f</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorAIController<span style="color:#f92672">::</span>BeginPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    Super<span style="color:#f92672">::</span>BeginPlay();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (UCrowdFollowingComponent<span style="color:#f92672">*</span> CrowdComp <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>UCrowdFollowingComponent<span style="color:#f92672">&gt;</span>(GetPathFollowingComponent()))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       CrowdComp<span style="color:#f92672">-&gt;</span>SetCrowdSimulationState(bEnableDetourCrowdAvoidance <span style="color:#f92672">?</span> ECrowdSimulationState<span style="color:#f92672">::</span>Enabled : ECrowdSimulationState<span style="color:#f92672">::</span>Disabled);
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">switch</span> (DetourCrowdAvoidanceQuality)
+</span></span><span style="display:flex;"><span>       {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">case</span> <span style="color:#ae81ff">1</span><span style="color:#f92672">:</span> CrowdComp<span style="color:#f92672">-&gt;</span>SetCrowdAvoidanceQuality(ECrowdAvoidanceQuality<span style="color:#f92672">::</span>Low);   <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">case</span> <span style="color:#ae81ff">2</span><span style="color:#f92672">:</span> CrowdComp<span style="color:#f92672">-&gt;</span>SetCrowdAvoidanceQuality(ECrowdAvoidanceQuality<span style="color:#f92672">::</span>Medium); <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">case</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">:</span> CrowdComp<span style="color:#f92672">-&gt;</span>SetCrowdAvoidanceQuality(ECrowdAvoidanceQuality<span style="color:#f92672">::</span>Good);  <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">case</span> <span style="color:#ae81ff">4</span><span style="color:#f92672">:</span> CrowdComp<span style="color:#f92672">-&gt;</span>SetCrowdAvoidanceQuality(ECrowdAvoidanceQuality<span style="color:#f92672">::</span>High);  <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">default</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">break</span>;
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>       CrowdComp<span style="color:#f92672">-&gt;</span>SetAvoidanceGroup(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>       CrowdComp<span style="color:#f92672">-&gt;</span>SetGroupsToAvoid(<span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>       CrowdComp<span style="color:#f92672">-&gt;</span>SetCrowdCollisionQueryRange(CollisionQueryRange);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>但是这样虽然实现了两个人的避让，会出现一个问题：当有小怪时，第三个小怪会被卡住不能到玩家面前。</p>
+<p><img src="/images/UE/WarriorProject/46.png" alt="46"></p>
+<p>因此需要更改项目设置里的CrowdManager。<a href="https://dev.epicgames.com/documentation/zh-cn/unreal-engine/crowd-manager-settings-in-the-the-unreal-engine-project-settings">虚幻引擎项目设置中的群组管理器设置 | 虚幻引擎 5.7 文档 | Epic Developer Community</a></p>
+<p><img src="/images/UE/WarriorProject/47.png" alt="47"></p>
+<p>这样敌人就可以停在玩家面前，而不是一直卡在那里，但是仍然有问题：如果很多个敌人，难道要站在角色面前一列吗？</p>
+<p>理想情况是敌人看到玩家之后，将玩家从不同方向围上来，而不是在玩家面前排排站。这是避让算法做不到的事情，我们需要在行为树中实现这个事情。</p>
+<hr>
+<h3 id="ai追踪">AI追踪</h3>
+<p>在Selector节点添加一个Service——<strong>BTService_GetDistToTarget</strong>，在其中Event Receive Tick AI每帧去获取AI和TargetActor的距离，返回一个float距离值并保存到黑板键的DisToTarget。获取的频率是0.2。</p>
+<p>在Stafe也添加一个Service，在C++中创建的，继承自UBTService。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UBTService_OrientToTargetActor();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//~ Begin UBTNode Interface
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">InitializeFromAsset</span>(UBehaviorTree<span style="color:#f92672">&amp;</span> Asset) <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">virtual</span> FString <span style="color:#a6e22e">GetStaticDescription</span>() <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">//~ End UBTNode Interface
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">virtual</span> <span style="color:#66d9ef">void</span> <span style="color:#a6e22e">TickNode</span>(UBehaviorTreeComponent<span style="color:#f92672">&amp;</span> OwnerComp, uint8<span style="color:#f92672">*</span> NodeMemory, <span style="color:#66d9ef">float</span> DeltaSeconds) <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UPROPERTY(EditAnywhere, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Target&#34;</span>)
+</span></span><span style="display:flex;"><span>FBlackboardKeySelector InTargetActorKey;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UPROPERTY(EditAnywhere, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Target&#34;</span>)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> RotationInterpSpeed;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UBTService_OrientToTargetActor<span style="color:#f92672">::</span>UBTService_OrientToTargetActor()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	NodeName <span style="color:#f92672">=</span> TEXT(<span style="color:#e6db74">&#34;Native Orient Rotation To Target Actor&#34;</span>);
+</span></span><span style="display:flex;"><span>	INIT_SERVICE_NODE_NOTIFY_FLAGS(); <span style="color:#75715e">// // UE 内部宏，启用 Tick / OnSearchStart 等回调
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	RotationInterpSpeed <span style="color:#f92672">=</span> <span style="color:#ae81ff">5.f</span>;
+</span></span><span style="display:flex;"><span>	Interval <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>	RandomDeviation <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 声明这个 BlackboardKey 只能选择 Object 类型，且必须是 Actor 类型
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	InTargetActorKey.AddObjectFilter(<span style="color:#66d9ef">this</span>, GET_MEMBER_NAME_CHECKED(ThisClass, InTargetActorKey), AActor<span style="color:#f92672">::</span>StaticClass());
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UBTService_OrientToTargetActor<span style="color:#f92672">::</span>InitializeFromAsset(UBehaviorTree<span style="color:#f92672">&amp;</span> Asset)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>InitializeFromAsset(Asset);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (UBlackboardData<span style="color:#f92672">*</span> BBAsset <span style="color:#f92672">=</span> GetBlackboardAsset())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 把行为树里选择的黑板 Key 绑定过来
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		InTargetActorKey.ResolveSelectedKey(<span style="color:#f92672">*</span>BBAsset);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>FString UBTService_OrientToTargetActor<span style="color:#f92672">::</span>GetStaticDescription() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> FString KeyDescription <span style="color:#f92672">=</span> InTargetActorKey.SelectedKeyName.ToString();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> FString<span style="color:#f92672">::</span>Printf(TEXT(<span style="color:#e6db74">&#34;Orient rotation to %s Key %s&#34;</span>), <span style="color:#f92672">*</span>KeyDescription, <span style="color:#f92672">*</span>GetStaticServiceDescription());
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UBTService_OrientToTargetActor<span style="color:#f92672">::</span>TickNode(UBehaviorTreeComponent<span style="color:#f92672">&amp;</span> OwnerComp, uint8<span style="color:#f92672">*</span> NodeMemory, <span style="color:#66d9ef">float</span> DeltaSeconds)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>TickNode(OwnerComp, NodeMemory, DeltaSeconds);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 拿到目标对象和 AI 所控制的 Pawn
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UObject<span style="color:#f92672">*</span> ActorObject <span style="color:#f92672">=</span> OwnerComp.GetBlackboardComponent()<span style="color:#f92672">-&gt;</span>GetValueAsObject(InTargetActorKey.SelectedKeyName);
+</span></span><span style="display:flex;"><span>	AActor<span style="color:#f92672">*</span> TargetActor <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>AActor<span style="color:#f92672">&gt;</span>(ActorObject);
+</span></span><span style="display:flex;"><span>	APawn<span style="color:#f92672">*</span> OwningPawn <span style="color:#f92672">=</span> OwnerComp.GetAIOwner()<span style="color:#f92672">-&gt;</span>GetPawn();
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (OwningPawn <span style="color:#f92672">&amp;&amp;</span> TargetActor)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 计算我该朝向的角度
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">const</span> FRotator LookAtRot <span style="color:#f92672">=</span> UKismetMathLibrary<span style="color:#f92672">::</span>FindLookAtRotation(OwningPawn<span style="color:#f92672">-&gt;</span>GetActorLocation(), TargetActor<span style="color:#f92672">-&gt;</span>GetActorLocation());
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">const</span> FRotator TargetRot <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>RInterpTo(OwningPawn<span style="color:#f92672">-&gt;</span>GetActorRotation(), LookAtRot, DeltaSeconds, RotationInterpSpeed);
+</span></span><span style="display:flex;"><span>		OwningPawn<span style="color:#f92672">-&gt;</span>SetActorRotation(TargetRot); <span style="color:#75715e">// 插值转向
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><img src="/images/UE/WarriorProject/48.png" alt="48"></p>
+<p>至此小怪可以实现在600距离之外会move to角色，小于600会注视玩家。并且会随着角色移动而旋转方向。</p>
+<p><strong>问题</strong>：重新启动UE发现Bug——导航网格失效。进入调试发现绿色的导航在天上。删除Recastnavmesh，之后BuildPath或者重启UE。</p>
+<hr>
+<h3 id="eqs怪物围绕玩家侧移">EQS怪物围绕玩家侧移</h3>
+<p>问题：当角色靠近墙壁时，EQS会查询到离玩家很近的点，导致小怪会非常贴近角色。</p>
+<p>添加Tag——<strong>Enemy_Status_Strafing</strong>代表敌人侧移。在场景中添加<strong>EQS_TestPawn</strong>用于可视化EQS。</p>
+<p>为了让小怪绕着角色侧移，需要创建一个继承Env Query Context Blueprint Base的<strong>EQS_Context_TargetActor</strong>。在其中获取黑板键的TargetActor也就是角色，然后返回角色的Actor。</p>
+<p>但是角色在编辑器中没有一个实体存在，存在的只有Player Start，因此如下图上方粉色区域，创建了一个能够可视化的测试节点。</p>
+<p><img src="/images/UE/WarriorProject/51.png" alt="51"></p>
+<p>之后创建一个<strong>EQS_FindStrafingLocation</strong>，生成器是圆形半径在480-650之间的范围，点12个，圆心是刚刚创建的EQS_Context_TargetActor。</p>
+<p>之后添加一个PathFinding（Test类型，判断从查询点是否存在一条可行走的路径到指定目标）</p>
+<p>再添加两个Distance，其中一个过滤类型是Range，范围在200-800之间；另一个是过滤掉与目标玩家的距离小于480的点，也就是必须要大于480的距离的点。</p>
+<p>之后在行为树中执行这个EQS，将查询到的点赋值给黑板键<strong>StrafingLocation</strong>。</p>
+<p>添加<strong>BTTask_EnemyBase</strong>用于敌人AI任务的基类，在其中添加逻辑执行Task。</p>
+<p><img src="/images/UE/WarriorProject/49.png" alt="49"></p>
+<p>再创建<strong>BTTask_ToggleStafingState</strong>继承任务基类，在其中1.设置侧移时不跟随移动方向旋转 2.设置最大行走速度 3.添加GameplayTag。</p>
+<p><img src="/images/UE/WarriorProject/53.png" alt="53"></p>
+<p>可以设置是否启用侧移，是否改变速度，如果改变的话速度是多少，并设置到黑板键中。</p>
+<p><img src="/images/UE/WarriorProject/52.png" alt="52"></p>
+<p>接下来需要制作小怪的侧移动画了，首先，我们需要知道侧移的方向是多少，所以在WarriorCharacterAnimInstance中声明一个新成员<strong>LocomotionDirection</strong>，通过UKismetAnimationLibrary去计算当前的方向。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>LocomotionDirection <span style="color:#f92672">=</span> UKismetAnimationLibrary<span style="color:#f92672">::</span>CalculateDirection(OwningCharacter<span style="color:#f92672">-&gt;</span>GetVelocity(), OwningCharacter<span style="color:#f92672">-&gt;</span>GetActorRotation());
+</span></span></code></pre></div><p>然后在父类WarriorBaseAnimInstance中添加一个角色敌人通用的函数，通过调用之前创建的自定义UWarriorFunctionLibrary库来判断当前角色是否存在Tag。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> UWarriorBaseAnimInstance<span style="color:#f92672">::</span>DoesOwnerHaveTag(FGameplayTag TagToCheck) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (APawn<span style="color:#f92672">*</span> OwningPawn <span style="color:#f92672">=</span> TryGetPawnOwner())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">return</span> UWarriorFunctionLibrary<span style="color:#f92672">::</span>NativeDoesActorHaveTag(OwningPawn, TagToCheck);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>之后在ABP_EnemyBase中就可以通过是否有上面说到的Enemy_Status_Strafing来判断播放哪一个混合动画了。</p>
+<p><img src="/images/UE/WarriorProject/54.png" alt="54"></p>
+<p>创建一个混合空间动画，水平轴是刚刚代码里获取的LocomotionDirection，纵轴是GroundSpeed，在其中添加小怪的动画。</p>
+<p>至此完成小怪的侧移。</p>
+<hr>
+<h3 id="ai攻击能力">AI攻击能力</h3>
+<p>创建一个新的装饰器用于修饰小怪攻击的节点，想要实现的效果是：在小怪围着玩家侧移时，找到合适的机会接近玩家进行攻击。</p>
+<p>因此在装饰其中通过Random Float in Range蓝图节点连接到Random Bool with Weight节点输出是否攻击。同时在行为树中添加一个冷却节点，防止小怪不停攻击。</p>
+<p><img src="/images/UE/WarriorProject/55.png" alt="55"></p>
+<p><strong>问题</strong>：小怪在接近玩家时攻击后（目前还没实现攻击），返回到侧移状态，可能会蹭着玩家移动到玩家背后的位置。</p>
+<p>原因是小怪EQS得到的点有可能是它对面的点，玩家离它很近。因此需要将对面的几个点去除掉查询。通过点积结果来实现忽略掉一些点。</p>
+<p>由于使用到点积计算了，因此可以屏蔽第一个Distance（200-800范围内的点）。</p>
+<p>添加一个Dot2D，LineA是从执行EQS的AI的Forward方向发出，LineB是从执行EQS的AI至每个查询点的向量。</p>
+<p>相同方向的点积（夹角0度）结果是1，垂直方向（夹角90度）是0。因此，设置为小于0.45的点，如下图黑色阴影区域为AI可侧移的点。</p>
+<p><img src="/images/UE/WarriorProject/57.png" alt="57"></p>
+<p><img src="/images/UE/WarriorProject/56.png" alt="56"></p>
+<p>在/Shared/GameplayAbility文件夹中创建敌人攻击的GA基类<strong>GA_Enemy_MeleeAttack_Base</strong>。AbilityTags设置为Enemy.Ability.Melee。攻击时阻挡Enemy.Ability。InstancedPerActor。再次创建两个小怪攻击GA，<strong>GA_Guardian_Melee_1</strong>、<strong>GA_Guardian_Melee_2</strong>。</p>
+<p>在WarriorAbilitySystemComponent中创建<strong>TryActivateAbilityByTag</strong>用于通过Tag激活能力。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> UWarriorAbilitySystemComponent<span style="color:#f92672">::</span>TryActivateAbilityByTag(FGameplayTag AbilityTagToActivate)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    check(AbilityTagToActivate.IsValid());
+</span></span><span style="display:flex;"><span>    TArray<span style="color:#f92672">&lt;</span>FGameplayAbilitySpec<span style="color:#f92672">*&gt;</span> FoundAbilitySpec;
+</span></span><span style="display:flex;"><span>    GetActivatableGameplayAbilitySpecsByAllMatchingTags(AbilityTagToActivate.GetSingleTagContainer(), FoundAbilitySpec);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>FoundAbilitySpec.IsEmpty())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">const</span> int32 RandomAbilityIndex <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>RandRange(<span style="color:#ae81ff">0</span>, FoundAbilitySpec.Num() <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>       FGameplayAbilitySpec<span style="color:#f92672">*</span> SpecToActivate <span style="color:#f92672">=</span> FoundAbilitySpec[RandomAbilityIndex];
+</span></span><span style="display:flex;"><span>       check(SpecToActivate);
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>SpecToActivate<span style="color:#f92672">-&gt;</span>IsActive())
+</span></span><span style="display:flex;"><span>       {
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">TryActivateAbility</span>(SpecToActivate<span style="color:#f92672">-&gt;</span>Handle);
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>比如说小怪有2个近战GA，他们的Tag都是基类Tag——Enemy.Ability.Melee。因此在该函数中会获取到这两个能力存储到FoundAbilitySpec数组中，然后随机抽取一个近战技能进行激活。</p>
+<p>该函数会在行为树中的Task中被调用，创建一个<strong>BTTask_ActivateAbilityByTag</strong>用于在行为树中激活近战能力。</p>
+<p>现在攻击能力可以被激活了，我们就该处理武器的碰撞检测和伤害机制了。</p>
+<p>原先代码中的碰撞检测仅判断击中对象与武器拥有者是否同一个人，但是当敌人击中敌人了，是否要广播呢。答案是不能，因此需要判断击中的是否为敌人关系。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorWeaponBase<span style="color:#f92672">::</span>OnCollisionBoxBeginOverlap(UPrimitiveComponent<span style="color:#f92672">*</span> OverlappedComponent, AActor<span style="color:#f92672">*</span> OtherActor,
+</span></span><span style="display:flex;"><span>                                                    UPrimitiveComponent<span style="color:#f92672">*</span> OtherComp, int32 OtherBodyIndex, <span style="color:#66d9ef">bool</span> bFromSweep, <span style="color:#66d9ef">const</span> FHitResult<span style="color:#f92672">&amp;</span> SweepResult)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	APawn<span style="color:#f92672">*</span> WeaponOwningPawn <span style="color:#f92672">=</span> GetInstigator<span style="color:#f92672">&lt;</span>APawn<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>	checkf(WeaponOwningPawn, TEXT(<span style="color:#e6db74">&#34;Forget to assign an instigator as the owning pawn of the weapon: %s&#34;</span>), <span style="color:#f92672">*</span>GetName());
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (APawn<span style="color:#f92672">*</span> HitPawn <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APawn<span style="color:#f92672">&gt;</span>(OtherActor))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (WeaponOwningPawn <span style="color:#f92672">!=</span> HitPawn)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			OnWeaponHitTarget.ExecuteIfBound(OtherActor);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>因此在WarriorFunctionLibrary创建<strong>IsTargetPawnHostile</strong>函数来判断是否为同队。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> UWarriorFunctionLibrary<span style="color:#f92672">::</span>IsTargetPawnHostile(APawn<span style="color:#f92672">*</span> QueryPawn, APawn<span style="color:#f92672">*</span> TargetPawn)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    check(QueryPawn <span style="color:#f92672">&amp;&amp;</span> TargetPawn);
+</span></span><span style="display:flex;"><span>    IGenericTeamAgentInterface<span style="color:#f92672">*</span> QueryTeamAgent <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>IGenericTeamAgentInterface<span style="color:#f92672">&gt;</span>(QueryPawn<span style="color:#f92672">-&gt;</span>GetController());
+</span></span><span style="display:flex;"><span>    IGenericTeamAgentInterface<span style="color:#f92672">*</span> TargetTeamAgent <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>IGenericTeamAgentInterface<span style="color:#f92672">&gt;</span>(TargetPawn<span style="color:#f92672">-&gt;</span>GetController());
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (QueryTeamAgent <span style="color:#f92672">&amp;&amp;</span> TargetTeamAgent)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">return</span> QueryTeamAgent<span style="color:#f92672">-&gt;</span>GetGenericTeamId() <span style="color:#f92672">!=</span> TargetTeamAgent<span style="color:#f92672">-&gt;</span>GetGenericTeamId();
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>之后更改WarriorWeaponBase中的代码，这样不论是AI还是玩家都可以碰撞检测了。当然一定要记得在小怪攻击的蒙太奇动画中添加之前已经制作过的AnimNotifyState——ANS_ToggleWeaponCollision。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorWeaponBase<span style="color:#f92672">::</span>OnCollisionBoxBeginOverlap(UPrimitiveComponent<span style="color:#f92672">*</span> OverlappedComponent, AActor<span style="color:#f92672">*</span> OtherActor,
+</span></span><span style="display:flex;"><span>                                                    UPrimitiveComponent<span style="color:#f92672">*</span> OtherComp, int32 OtherBodyIndex, <span style="color:#66d9ef">bool</span> bFromSweep, <span style="color:#66d9ef">const</span> FHitResult<span style="color:#f92672">&amp;</span> SweepResult)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    APawn<span style="color:#f92672">*</span> WeaponOwningPawn <span style="color:#f92672">=</span> GetInstigator<span style="color:#f92672">&lt;</span>APawn<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>    checkf(WeaponOwningPawn, TEXT(<span style="color:#e6db74">&#34;Forget to assign an instigator as the owning pawn of the weapon: %s&#34;</span>), <span style="color:#f92672">*</span>GetName());
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (APawn<span style="color:#f92672">*</span> HitPawn <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APawn<span style="color:#f92672">&gt;</span>(OtherActor))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> (UWarriorFunctionLibrary<span style="color:#f92672">::</span>IsTargetPawnHostile(WeaponOwningPawn, HitPawn))
+</span></span><span style="display:flex;"><span>       {
+</span></span><span style="display:flex;"><span>          OnWeaponHitTarget.ExecuteIfBound(OtherActor);
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorWeaponBase<span style="color:#f92672">::</span>OnCollisionBoxEndOverlap(UPrimitiveComponent<span style="color:#f92672">*</span> OverlappedComponent, AActor<span style="color:#f92672">*</span> OtherActor,
+</span></span><span style="display:flex;"><span>                                                  UPrimitiveComponent<span style="color:#f92672">*</span> OtherComp, int32 OtherBodyIndex)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    APawn<span style="color:#f92672">*</span> WeaponOwningPawn <span style="color:#f92672">=</span> GetInstigator<span style="color:#f92672">&lt;</span>APawn<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>    checkf(WeaponOwningPawn, TEXT(<span style="color:#e6db74">&#34;Forget to assign an instigator as the owning pawn of the weapon: %s&#34;</span>), <span style="color:#f92672">*</span>GetName());
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (APawn<span style="color:#f92672">*</span> HitPawn <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APawn<span style="color:#f92672">&gt;</span>(OtherActor))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> (UWarriorFunctionLibrary<span style="color:#f92672">::</span>IsTargetPawnHostile(WeaponOwningPawn, HitPawn))
+</span></span><span style="display:flex;"><span>       {
+</span></span><span style="display:flex;"><span>          OnWeaponPulledFromTarget.ExecuteIfBound(OtherActor);
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>然后在EnemyCombatComponent中重写<em>OnHitTargetActor</em>，可以处理攻击到玩家后小怪做一些什么事情。</p>
+<p>目前先有一个大概的框架：当玩家格挡小怪攻击时，攻击无效；或者小怪可以无视玩家的格挡，攻击有效。如果有效则会SendGameplayEventToActor。这样在小怪的近战攻击GA中可以Wait Gameplay Event再去执行伤害之类的逻辑。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UAbilitySystemBlueprintLibrary<span style="color:#f92672">::</span>SendGameplayEventToActor(
+</span></span><span style="display:flex;"><span>    GetOwningPawn(),
+</span></span><span style="display:flex;"><span>    WarriorGameplayTags<span style="color:#f92672">::</span>Shared_Event_MeleeHit,
+</span></span><span style="display:flex;"><span>    EventData
+</span></span><span style="display:flex;"><span>);
+</span></span></code></pre></div><p>为了让敌人也能造成伤害，和玩家一样写一个MakeEnemyDamageEffectSpecHandle函数用于创建敌人伤害的GE句柄。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>FGameplayEffectSpecHandle UWarriorEnemyGameplayAbility<span style="color:#f92672">::</span>MakeEnemyDamageEffectSpecHandle(
+</span></span><span style="display:flex;"><span>    TSubclassOf<span style="color:#f92672">&lt;</span>UGameplayEffect<span style="color:#f92672">&gt;</span> EffectClass, <span style="color:#66d9ef">const</span> FScalableFloat<span style="color:#f92672">&amp;</span> InDamageScalableFloat)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    check(EffectClass);
+</span></span><span style="display:flex;"><span>    FGameplayEffectContextHandle ContextHandle <span style="color:#f92672">=</span> GetWarriorAbilitySystemComponentFromActorInfo()<span style="color:#f92672">-&gt;</span>MakeEffectContext();
+</span></span><span style="display:flex;"><span>    ContextHandle.SetAbility(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>    ContextHandle.AddSourceObject(GetAvatarActorFromActorInfo());
+</span></span><span style="display:flex;"><span>    ContextHandle.AddInstigator(GetAvatarActorFromActorInfo(), GetAvatarActorFromActorInfo());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    FGameplayEffectSpecHandle EffectSpecHandle <span style="color:#f92672">=</span> GetWarriorAbilitySystemComponentFromActorInfo()<span style="color:#f92672">-&gt;</span>MakeOutgoingSpec(
+</span></span><span style="display:flex;"><span>       EffectClass,
+</span></span><span style="display:flex;"><span>       GetAbilityLevel(),
+</span></span><span style="display:flex;"><span>       ContextHandle
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>    EffectSpecHandle.Data<span style="color:#f92672">-&gt;</span>SetSetByCallerMagnitude(
+</span></span><span style="display:flex;"><span>       WarriorGameplayTags<span style="color:#f92672">::</span>Shared_SetByCaller_BaseDamage,
+</span></span><span style="display:flex;"><span>       InDamageScalableFloat.GetValueAtLevel(GetAbilityLevel())
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EffectSpecHandle;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>再GA近战中调用该函数，传入GE_Shared_DealDamage也就是自定义计算类，之后就可以调用BP_ApplyEffectSpecHandleToTarget执行伤害了。</p>
+<p>但是AI攻击还存在一个问题，播放攻击的蒙太奇动画时，如果玩家走到它背后，AI仍然在原地攻击，并没有转向。为此我们要添加运<strong>动扭曲</strong></p>
+<pre tabindex="0"><code>UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = &#34;MotionWarping&#34;)
+UMotionWarpingComponent* MotionWarpingComponent;
+MotionWarpingComponent = CreateDefaultSubobject&lt;UMotionWarpingComponent&gt;(TEXT(&#34;MotionWarpingComponent&#34;));
+</code></pre><p>这样我们就可以在蒙太奇动画中添加动画通知，来设置它的</p>
+<p>1.倾斜扭曲（Skew Warp）扭曲游戏对象的根骨骼运动，使其匹配关卡中扭曲窗口末尾的动画位置和旋转。</p>
+<p>2.扭曲目标名称（Warp Target Name）：用于查找此扭曲目标的名称。关联到 <strong>Add or Update Warp Target Point</strong> 蓝图节点。</p>
+<p>3.扭曲平移（Warp Translation）：是否扭曲根骨骼运动的平移组件。</p>
+<p>4.旋转类型（Rotation Type）：是否应扭曲旋转以匹配扭曲目标的旋转或面向扭曲目标。<strong>默认（Default）</strong> ：角色旋转以匹配扭曲目标的旋转。 <strong>面向（Facing）</strong> ：角色旋转以面向扭曲目标。</p>
+<p><img src="/images/UE/WarriorProject/58.png" alt="58"></p>
+<p>之后我们创建一个<strong>BTService_UpdateMotionWarpAttackTarget</strong>，在其中获取到AI拥有的MotionWarpingComponent，然后去调用<strong>Add or Update Warp Target Point</strong>节点，并关联扭曲目标名称。</p>
+<p><img src="/images/UE/WarriorProject/59.png" alt="59"></p>
+<p>但是即使添加完运动扭曲后，仍然存在问题，小怪还没有旋转到角色面前就开始攻击，一下子在攻击的时候转向玩家。显得很突兀，因此我们需要编写自定义Task。</p>
+<p>为什么不用原生的Rotate to face BB entry呢，因为我们之前将怪物AI设置为不能控制器控制旋转。所以该节点无效。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UBTTask_RotateToFaceTarget<span style="color:#f92672">::</span>UBTTask_RotateToFaceTarget()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    NodeName <span style="color:#f92672">=</span> TEXT(<span style="color:#e6db74">&#34;Native Rotate to Face Target Actor&#34;</span>);
+</span></span><span style="display:flex;"><span>    AnglePrecision <span style="color:#f92672">=</span> <span style="color:#ae81ff">10.f</span>;
+</span></span><span style="display:flex;"><span>    RotationInterpSpeed <span style="color:#f92672">=</span> <span style="color:#ae81ff">5.f</span>;
+</span></span><span style="display:flex;"><span>    bNotifyTick <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>    bNotifyTaskFinished <span style="color:#f92672">=</span> true; <span style="color:#75715e">// 使节点能收到任务结束的通知
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    bCreateNodeInstance <span style="color:#f92672">=</span> false; <span style="color:#75715e">// 不是为每个实例创建独立的UObject实例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>    INIT_TASK_NODE_NOTIFY_FLAGS(); <span style="color:#75715e">// 初始化通知标志
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#75715e">// 给黑板 key 添加过滤器，仅允许选择 AActor 类型
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    InTargetToFaceKey.AddObjectFilter(<span style="color:#66d9ef">this</span>, GET_MEMBER_NAME_CHECKED(ThisClass, InTargetToFaceKey), AActor<span style="color:#f92672">::</span>StaticClass());
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UBTTask_RotateToFaceTarget<span style="color:#f92672">::</span>InitializeFromAsset(UBehaviorTree<span style="color:#f92672">&amp;</span> Asset)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    Super<span style="color:#f92672">::</span>InitializeFromAsset(Asset);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (UBlackboardData<span style="color:#f92672">*</span> BBAsset <span style="color:#f92672">=</span> GetBlackboardAsset())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       InTargetToFaceKey.ResolveSelectedKey(<span style="color:#f92672">*</span>BBAsset);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 返回内存大小
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>uint16 UBTTask_RotateToFaceTarget<span style="color:#f92672">::</span>GetInstanceMemorySize() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">sizeof</span>(FRotateToFaceTargetTaskMemory);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 节点描述
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>FString UBTTask_RotateToFaceTarget<span style="color:#f92672">::</span>GetStaticDescription() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> FString KeyDescription <span style="color:#f92672">=</span> InTargetToFaceKey.SelectedKeyName.ToString();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> FString<span style="color:#f92672">::</span>Printf(TEXT(<span style="color:#e6db74">&#34;Rotate to face %s Key until the angle precision: %s is reached&#34;</span>), <span style="color:#f92672">*</span>KeyDescription, <span style="color:#f92672">*</span>FString<span style="color:#f92672">::</span>SanitizeFloat(AnglePrecision));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>EBTNodeResult<span style="color:#f92672">::</span>Type UBTTask_RotateToFaceTarget<span style="color:#f92672">::</span>ExecuteTask(UBehaviorTreeComponent<span style="color:#f92672">&amp;</span> OwnerComp, uint8<span style="color:#f92672">*</span> NodeMemory)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    UObject<span style="color:#f92672">*</span> ActorObject <span style="color:#f92672">=</span> OwnerComp.GetBlackboardComponent()<span style="color:#f92672">-&gt;</span>GetValueAsObject(InTargetToFaceKey.SelectedKeyName);
+</span></span><span style="display:flex;"><span>    AActor<span style="color:#f92672">*</span> TargetActor <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>AActor<span style="color:#f92672">&gt;</span>(ActorObject);
+</span></span><span style="display:flex;"><span>    APawn<span style="color:#f92672">*</span> OwningPawn <span style="color:#f92672">=</span> OwnerComp.GetAIOwner()<span style="color:#f92672">-&gt;</span>GetPawn();
+</span></span><span style="display:flex;"><span>    FRotateToFaceTargetTaskMemory<span style="color:#f92672">*</span> Memory <span style="color:#f92672">=</span> CastInstanceNodeMemory<span style="color:#f92672">&lt;</span>FRotateToFaceTargetTaskMemory<span style="color:#f92672">&gt;</span>(NodeMemory);
+</span></span><span style="display:flex;"><span>    check(Memory);
+</span></span><span style="display:flex;"><span>    Memory<span style="color:#f92672">-&gt;</span>OwningPawn <span style="color:#f92672">=</span> OwningPawn;
+</span></span><span style="display:flex;"><span>    Memory<span style="color:#f92672">-&gt;</span>TargetActor <span style="color:#f92672">=</span> TargetActor;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>Memory<span style="color:#f92672">-&gt;</span>IsValid())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">return</span> EBTNodeResult<span style="color:#f92672">::</span>Failed;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 执行函数使其面向目标，之后清除内存
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (HasReachedAnglePrecision(OwningPawn, TargetActor))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       Memory<span style="color:#f92672">-&gt;</span>Reset();
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">return</span> EBTNodeResult<span style="color:#f92672">::</span>Succeeded;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 任务还没完成 行为树会等待并每帧调用TickTask
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">return</span> EBTNodeResult<span style="color:#f92672">::</span>InProgress;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UBTTask_RotateToFaceTarget<span style="color:#f92672">::</span>TickTask(UBehaviorTreeComponent<span style="color:#f92672">&amp;</span> OwnerComp, uint8<span style="color:#f92672">*</span> NodeMemory, <span style="color:#66d9ef">float</span> DeltaSeconds)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    FRotateToFaceTargetTaskMemory<span style="color:#f92672">*</span> Memory <span style="color:#f92672">=</span> CastInstanceNodeMemory<span style="color:#f92672">&lt;</span>FRotateToFaceTargetTaskMemory<span style="color:#f92672">&gt;</span>(NodeMemory);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 如果Memory引用无效 任务失败 结束任务
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>Memory<span style="color:#f92672">-&gt;</span>IsValid())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       FinishLatentTask(OwnerComp, EBTNodeResult<span style="color:#f92672">::</span>Failed);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 达到角度 就清除内存 任务成功 结束任务
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (HasReachedAnglePrecision(Memory<span style="color:#f92672">-&gt;</span>OwningPawn.Get(), Memory<span style="color:#f92672">-&gt;</span>TargetActor.Get()))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       Memory<span style="color:#f92672">-&gt;</span>Reset();
+</span></span><span style="display:flex;"><span>       FinishLatentTask(OwnerComp, EBTNodeResult<span style="color:#f92672">::</span>Succeeded);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">else</span> <span style="color:#75715e">// 插值平滑旋转
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">const</span> FRotator LookAtRot <span style="color:#f92672">=</span> UKismetMathLibrary<span style="color:#f92672">::</span>FindLookAtRotation(Memory<span style="color:#f92672">-&gt;</span>OwningPawn<span style="color:#f92672">-&gt;</span>GetActorLocation(), Memory<span style="color:#f92672">-&gt;</span>TargetActor<span style="color:#f92672">-&gt;</span>GetActorLocation());
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">const</span> FRotator TargetRot <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>RInterpTo(Memory<span style="color:#f92672">-&gt;</span>OwningPawn<span style="color:#f92672">-&gt;</span>GetActorRotation(), LookAtRot, DeltaSeconds, RotationInterpSpeed);
+</span></span><span style="display:flex;"><span>       Memory<span style="color:#f92672">-&gt;</span>OwningPawn<span style="color:#f92672">-&gt;</span>SetActorRotation(TargetRot);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 计算当前朝向和 (TargetActor与OwnerPawn的向量) 夹角是否在旋转区间内
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> UBTTask_RotateToFaceTarget<span style="color:#f92672">::</span>HasReachedAnglePrecision(APawn<span style="color:#f92672">*</span> QueryPawn, AActor<span style="color:#f92672">*</span> TargetActor) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> FVector OwnerForward <span style="color:#f92672">=</span> QueryPawn<span style="color:#f92672">-&gt;</span>GetActorForwardVector();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> FVector OwnerToTargetNormalized <span style="color:#f92672">=</span> (TargetActor<span style="color:#f92672">-&gt;</span>GetActorLocation() <span style="color:#f92672">-</span> QueryPawn<span style="color:#f92672">-&gt;</span>GetActorLocation()).GetSafeNormal();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> DotResult <span style="color:#f92672">=</span> FVector<span style="color:#f92672">::</span>DotProduct(OwnerForward, OwnerToTargetNormalized);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> AngleDiff <span style="color:#f92672">=</span> UKismetMathLibrary<span style="color:#f92672">::</span>DegAcos(DotResult);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> AngleDiff <span style="color:#f92672">&lt;=</span> AnglePrecision;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div>
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject4%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=GAS%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b04&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject4%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject4%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject4%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject4%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject4%2f
+			&title=GAS%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b04&summary=UE%e9%81%bf%e9%9a%9c%e7%ae%97%e6%b3%95%20%e5%9c%a8%e8%99%9a%e5%b9%bb%e5%bc%95%e6%93%8e%e5%af%bb%e8%b7%af%e7%b3%bb%e7%bb%9f%e4%b8%ad%e4%bd%bf%e7%94%a8%e9%81%bf%e9%9a%9c%e6%9c%ba%e5%88%b6%20%7c%20%e8%99%9a%e5%b9%bb%e5%bc%95%e6%93%8e%205.7%20%e6%96%87%e6%a1%a3%20%7c%20Epic%20Developer%20Community%0a%e7%9b%b8%e5%af%b9%e9%80%9f%e5%ba%a6%e9%9a%9c%e7%a2%8d%e7%89%a9%e7%ae%97%e6%b3%95%ef%bc%88RVO%ef%bc%89%20%e6%a0%b8%e5%bf%83%e6%80%9d%e6%83%b3%ef%bc%9a%e7%94%a8%e5%bd%93%e5%89%8d%e9%80%9f%e5%ba%a6%e3%80%81%e4%bd%8d%e7%bd%ae%e5%92%8c%e7%9b%b8%e5%af%b9%e9%80%9f%e5%ba%a6%e9%a2%84%e6%b5%8b%e7%a2%b0%e6%92%9e%ef%bc%8c%e7%84%b6%e5%90%8e%e5%ae%9e%e6%97%b6%e8%b0%83%e6%95%b4%e9%80%9f%e5%ba%a6%ef%bc%8c%e9%81%bf%e5%85%8d%e4%b8%8e%e5%85%b6%e4%bb%96%e4%b8%aa%e4%bd%93%e5%8f%91%e7%94%9f%e7%a2%b0%e6%92%9e%e3%80%82%e5%ae%83%e5%8f%aa%e8%b4%9f%e8%b4%a3%e5%8d%b3%e6%97%b6%e7%9a%84%e5%8a%a8%e4%bd%9c%e5%86%b3%e7%ad%96%ef%bc%8c%e4%b8%8d%e8%a7%84%e5%88%92%e8%b7%af%e5%be%84%ef%bc%8c%e4%b9%9f%e4%b8%8d%e7%ae%a1%e7%90%86%e7%be%a4%e4%bd%93%e3%80%82%0a%e8%be%93%e5%85%a5%ef%bc%9a%e5%bd%93%e5%89%8d%e9%80%9f%e5%ba%a6%20%2b%20%e7%9b%b8%e5%af%b9%e4%bd%8d%e7%bd%ae%20%2b%20%e9%a2%84%e6%b5%8b%e7%a2%b0%e6%92%9e%e6%97%b6%e9%97%b4%0a%e8%be%93%e5%87%ba%ef%bc%9a%e4%b8%80%e4%b8%aa%e6%96%b0%e7%9a%84%e5%ae%89%e5%85%a8%e9%80%9f%e5%ba%a6%e5%90%91%e9%87%8f%0a%e7%be%a4%e7%bb%84%e7%bb%95%e8%a1%8c%e7%ae%a1%e7%90%86%e5%99%a8%ef%bc%88Detour%20Crowd%20Manager%ef%bc%89%20%e6%a0%b8%e5%bf%83%e6%80%9d%e6%83%b3%ef%bc%9a%e5%9f%ba%e4%ba%8eNavMesh%e8%bf%9b%e8%a1%8c%e5%85%a8%e5%b1%80%e8%b7%af%e5%be%84%e8%a7%84%e5%88%92%ef%bc%8c%e5%86%8d%e7%bb%93%e5%90%88%e5%b1%80%e9%83%a8%e9%81%bf%e9%9a%9c%ef%bc%88%e5%86%85%e9%83%a8%e5%8f%af%e8%83%bd%e4%bd%bf%e7%94%a8RVO%ef%bc%89%ef%bc%8c%e5%af%b9%e5%a4%a7%e9%87%8f%e6%99%ba%e8%83%bd%e4%bd%93%e8%bf%9b%e8%a1%8c%e7%bb%9f%e4%b8%80%e7%ae%a1%e7%90%86%ef%bc%8c%e6%af%94%e5%a6%82%e5%af%bb%e8%b7%af%e3%80%81%e9%80%9f%e5%ba%a6%e5%8c%b9%e9%85%8d%e3%80%81%e4%bc%98%e5%85%88%e7%ba%a7%e6%8e%a7%e5%88%b6%e3%80%81%e7%be%a4%e4%bd%93%e7%a7%bb%e5%8a%a8%e7%ad%89%e3%80%82%0aAI%e9%81%bf%e8%ae%a9%20AWarriorAIController%20%e8%87%aa%e5%ae%9a%e4%b9%89AIController%0a%7c%e2%80%94%e2%80%94AIC_Enemy_Base%0a%7c%e2%80%94%e2%80%94AIC_Guardian%0dAIController%20%e6%9e%84%e9%80%a0%e6%97%b6%ef%bc%8c%e4%bc%9a%e8%87%aa%e5%8a%a8%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aa%20PathFollowingComponent%ef%bc%8c%e7%94%a8%e4%ba%8e%e5%af%bb%e8%b7%af%e5%92%8c%e8%b7%af%e5%be%84%e8%b7%9f%e9%9a%8f%e3%80%82%e4%bd%86%e8%bf%99%e4%b8%aa%e9%bb%98%e8%ae%a4%e7%bb%84%e4%bb%b6%e4%b8%8d%e6%94%af%e6%8c%81%e7%be%a4%e7%bb%84%e9%81%bf%e9%9a%9c%e3%80%82%0a%e5%9b%a0%e6%ad%a4%e9%9c%80%e8%a6%81%e6%8a%8a%e9%bb%98%e8%ae%a4%e5%88%9b%e5%bb%ba%e7%9a%84PathFollowingComponent%e6%9b%bf%e6%8d%a2%e4%b8%baUCrowdFollowingComponent%0aSetDefaultSubobjectClass%26lt%3bUCrowdFollowingComponent%26gt%3b%28%26quot%3bPathFollowingComponent%26quot%3b%29%0aAWarriorAIController%28const%20FObjectInitializer%26amp%3b%20ObjectInitializer%29%3b%20AWarriorAIController%3a%3aAWarriorAIController%28const%20FObjectInitializer%26amp%3b%20ObjectInitializer%29%20%3a%20Super%28ObjectInitializer.SetDefaultSubobjectClass%26lt%3bUCrowdFollowingComponent%26gt%3b%28%26%2334%3bPathFollowingComponent%26%2334%3b%29%29%20%7b%20if%20%28UCrowdFollowingComponent%2a%20CrowdComp%20%3d%20Cast%26lt%3bUCrowdFollowingComponent%26gt%3b%28GetPathFollowingComponent%28%29%29%29%20%7b%20Debug%3a%3aPrint%28TEXT%28%26%2334%3bCrowdFollowingComponent%20valid%26%2334%3b%29%29%3b%20%7d%20%7d%20%e5%b0%86AIC_Guardian%e7%bb%91%e5%88%b0BP_Gruntiling_Guardian%e4%b8%8a%e3%80%82%0a%e4%b9%8b%e5%90%8e%e5%9c%a8%e5%bd%93%e4%b8%ad%e5%88%9b%e5%bb%baUAISenseConfig_Sight%e5%92%8cUAIPerceptionComponent%ef%bc%8c%e8%bf%9b%e8%a1%8c%e4%b8%80%e4%ba%9b%e9%bb%98%e8%ae%a4%e5%80%bc%e8%ae%be%e7%bd%ae%e5%92%8c%e5%b0%86%e8%a7%86%e8%a7%89%e7%bb%91%e5%ae%9a%e5%88%b0%e6%84%9f%e7%9f%a5%e4%b8%8a%e3%80%82%0a%e5%b9%b6%e4%b8%94%e7%bb%91%e5%ae%9a%e5%a7%94%e6%89%98%e7%94%a8%e4%ba%8e%e5%bd%93%e5%b0%8f%e6%80%aa%e7%9c%8b%e5%88%b0%e4%ba%ba%e4%b9%8b%e5%90%8e%e5%81%9a%e4%b8%80%e4%ba%9b%e4%ba%8b%e6%83%85%e3%80%82%0aAISenseConfig_Sight%20%3d%20CreateDefaultSubobject%26lt%3bUAISenseConfig_Sight%26gt%3b%28TEXT%28%26%2334%3bEnemySenseConfig_Sight%26%2334%3b%29%29%3b%20AISenseConfig_Sight-%26gt%3bDetectionByAffiliation.bDetectEnemies%20%3d%20true%3b%20AISenseConfig_Sight-%26gt%3bDetectionByAffiliation.bDetectFriendlies%20%3d%20false%3b%20AISenseConfig_Sight-%26gt%3bDetectionByAffiliation.bDetectNeutrals%20%3d%20false%3b%20AISenseConfig_Sight-%26gt%3bSightRadius%20%3d%205000.f%3b%20AISenseConfig_Sight-%26gt%3bLoseSightRadius%20%3d%200.&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=GAS%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b04&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject4%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

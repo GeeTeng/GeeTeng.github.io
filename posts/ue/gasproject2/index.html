@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    GAS项目笔记2 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="GAS项目笔记第2部分 武器装配、武器能力与连击系统
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/ue/gasproject2/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="GAS项目笔记2">
+  <meta property="og:description" content="GAS项目笔记第2部分 武器装配、武器能力与连击系统">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-10T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-11-10T00:00:00+00:00">
+    <meta property="article:tag" content="UE5">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="GAS项目笔记2">
+  <meta name="twitter:description" content="GAS项目笔记第2部分 武器装配、武器能力与连击系统">
+
+
+  <meta itemprop="name" content="GAS项目笔记2">
+  <meta itemprop="description" content="GAS项目笔记第2部分 武器装配、武器能力与连击系统">
+  <meta itemprop="datePublished" content="2025-11-10T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-11-10T00:00:00+00:00">
+  <meta itemprop="wordCount" content="859">
+  <meta itemprop="keywords" content="UE5">
+<link rel="canonical" href="https://geeteng.github.io/posts/ue/gasproject2/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#整体框架概览">整体框架概览：</a></li>
+        <li><a href="#bp-function-library-蓝图函数库">BP Function Library 蓝图函数库</a></li>
+        <li><a href="#角色扩展组件">角色扩展组件</a></li>
+        <li><a href="#注册生成的武器">注册生成的武器</a></li>
+        <li><a href="#装配武器">装配武器</a>
+          <ul>
+            <li><a href="#整体流程">整体流程</a></li>
+            <li><a href="#装配动画蒙太奇">装配动画蒙太奇</a></li>
+            <li><a href="#动画层">动画层</a></li>
+          </ul>
+        </li>
+        <li><a href="#卸下武器">卸下武器</a></li>
+        <li><a href="#武器攻击">武器攻击</a>
+          <ul>
+            <li><a href="#连击">连击</a></li>
+            <li><a href="#重击">重击</a></li>
+            <li><a href="#jumptofinsher">JumpToFinsher</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>GAS项目笔记2</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Nov 10, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        36 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/ue5">UE5</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/ue5">Ue5</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h2 id="整体框架概览">整体框架概览：</h2>
+<p>该图形状方框代表函数，菱形代表蓝图、连接线不代表任何继承关系，仅用作思维导图。</p>
+<p><img src="/images/UE/WarriorProject/26.png" alt="26"></p>
+<p>DA_InputConfig中配置了IMC、移动和视角的NativeInputActions和AbilityInputActions（tag和inputaction的映射结构体）</p>
+<p>角色类中SetupPlayerInputComponent通过WarriorInputComponent::BindAbilityInputAction绑定玩家的移动和视角旋转的输入，绑定能力的输入，还有设置回调函数Input_AbilityInputPressed（去调用自定义ASC中的OnAbilityInputPressed，其中会TryActivateAbility），对该结构体数组中每个元素绑定。</p>
+<p>角色类中PossessedBy中同步加载DA_StartUpData，调用DataAsset_StartUpDataBase的GiveToAbilitySystemComponent去赋予初始时就有的能力，通过调用GrantAbilityies去激活ActivateOnGivenAbilities（UI显示、生成武器）和ReactiveAbilities（受击能力）。在这个函数中只是GiveAbility装备技能，但是激活逻辑不在这里，而在GA基类中（OnGiveAbility就会激活能力）。</p>
+<p>因为有一个AbilityActivationPolicy枚举，在GA基类中定义，在OnGiveAbility（虚函数）会判断这个GA在装配时需不需要激活，如果需要呢么就会TryActivateAbility。其中典型代表GA生成武器。</p>
+<p>当然DataAsset_HeroStartUpData中的GiveToAbilitySystemComponent（继承DataAsset_StartUpDataBase）会额外装配角色初始化的能力（GA装配武器），但是该GA的AbilityActivationPolicy不是OnGiven，所以不会在这里激活，而是在输入绑定后按键激活。</p>
+<p>装配武器之后会链接动画类层（目的是去调用武器对应的动画层），添加武器对应的输入映射，还有赋予武器的能力（卸下武器、轻击、重击）</p>
+<p>动画的逻辑图：</p>
+<p><img src="/images/UE/WarriorProject/%E5%8A%A8%E7%94%BB%E5%B1%82%E9%80%BB%E8%BE%91%E5%9B%BE.png" alt="动画层逻辑图"></p>
+<h2 id="bp-function-library-蓝图函数库">BP Function Library 蓝图函数库</h2>
+<p><strong>蓝图函数库是静态函数的集合，提供与Gameplay对象无关的实用工具功能，</strong></p>
+<p>比如UGameplayStatics和UKismetSystemLibrary</p>
+<p>有时候你写游戏逻辑，会发现：</p>
+<blockquote>
+<p>“我想写一个通用的小函数，比如把某个 Actor 转成 Pawn 并拿到它的 AIController。”</p>
+</blockquote>
+<p>但这个逻辑既不是某个角色特有的、也不是某个组件专属的。它只是一个到处都能用的“小工具函数”。这时候你就不该把它写在 <code>Actor</code>、<code>Component</code>、<code>GameInstance</code> 里，因为那样会让这个逻辑绑死在具体类型上。</p>
+<p>👉 所以 Unreal 提供了一个专门的“函数容器”——<code>UBlueprintFunctionLibrary</code>。</p>
+<h2 id="角色扩展组件">角色扩展组件</h2>
+<p>PawnExtensionComponentBase</p>
+<p>|__PawnCombatComponent</p>
+<p>​     |__HeroCombatComponent</p>
+<p>​     |__EnemyCombatComponent</p>
+<p><code>static_assert</code> 是 <strong>编译期断言</strong>，会在编译时检查条件是否成立，不成立就报编译错误。</p>
+<p>创建一个PawnExtensionComponentBase，用于角色组件，统一访问Pawn、Controller等。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">protected</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> GetOwningPawn() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// TPointerIsConvertibleFromTo 测试 T 是否可转换为 APawn
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		<span style="color:#66d9ef">static_assert</span>(TPointerIsConvertibleFromTo<span style="color:#f92672">&lt;</span>T,APawn<span style="color:#f92672">&gt;::</span>Value, <span style="color:#e6db74">&#34;&#39;T&#39; Template Parameter to GetPawn must be derived from APawn&#34;</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> CastChecked<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>(GetOwner());
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	APawn<span style="color:#f92672">*</span> <span style="color:#a6e22e">GetOwningPawn</span>() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> GetOwningPawn<span style="color:#f92672">&lt;</span>APawn<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">template</span><span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">T</span><span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span>	T<span style="color:#f92672">*</span> GetOwningController() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">static_assert</span>(TPointerIsConvertibleFromTo<span style="color:#f92672">&lt;</span>T,AController<span style="color:#f92672">&gt;::</span>Value, <span style="color:#e6db74">&#34;&#39;T&#39; Template Parameter to GetController must be derived from AController&#34;</span>);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> GetOwningPawn<span style="color:#f92672">&lt;</span>APawn<span style="color:#f92672">&gt;</span>()<span style="color:#f92672">-&gt;</span>GetController<span style="color:#f92672">&lt;</span>T<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>	}
+</span></span></code></pre></div><p>之后在WarriorHeroCharacter中定义一个能够获取HeroCombatComponent组件的函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>FORCEINLINE UHeroCombatComponent<span style="color:#f92672">*</span> <span style="color:#a6e22e">GetHeroCombatComponent</span>() <span style="color:#66d9ef">const</span> { <span style="color:#66d9ef">return</span> HeroCombatComponent; }
+</span></span></code></pre></div><h2 id="注册生成的武器">注册生成的武器</h2>
+<p>PawnCombatComponent中定义一个map存储tag-weapon。</p>
+<p>三个函数分别是注册生成的weapon到map中；通过tag获取角色携带的武器；获取角色当前装配的武器。</p>
+<p>将会在蓝图中调用这些函数。当GA_Shared_SpawnWeapon中生成武器后调用RegisterSpawnedWeapon</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	UFUNCTION(BlueprintCallable, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|Combat&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">void</span> RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister, AWarriorWeaponBase<span style="color:#f92672">*</span> InWeaponToRegister, <span style="color:#66d9ef">bool</span> bRegisterAsEquippedWeapon <span style="color:#f92672">=</span> false);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	UFUNCTION(BlueprintCallable, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|Combat&#34;</span>)
+</span></span><span style="display:flex;"><span>	AWarriorWeaponBase<span style="color:#f92672">*</span> GetCharacterCarriedWeaponByTag(FGameplayTag InWeaponTagToGet) <span style="color:#66d9ef">const</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	UPROPERTY(BlueprintReadWrite, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|Combat&#34;</span>)
+</span></span><span style="display:flex;"><span>	FGameplayTag CurrentEquippedWeaponTag;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	UFUNCTION(BlueprintCallable, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|Combat&#34;</span>)
+</span></span><span style="display:flex;"><span>	AWarriorWeaponBase<span style="color:#f92672">*</span> GetCharacterCurrentEquippedWeapon() <span style="color:#66d9ef">const</span>;
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	TMap<span style="color:#f92672">&lt;</span>FGameplayTag, AWarriorWeaponBase<span style="color:#f92672">*&gt;</span> CharacterCarriedWeaponMap;
+</span></span><span style="display:flex;"><span>	
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// 把生成好的武器注册到角色的已持有武器表中，并可选地设为当前装备武器。
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">void</span> UPawnCombatComponent<span style="color:#f92672">::</span>RegisterSpawnedWeapon(FGameplayTag InWeaponTagToRegister,
+</span></span><span style="display:flex;"><span>                                                 AWarriorWeaponBase<span style="color:#f92672">*</span> InWeaponToRegister, <span style="color:#66d9ef">bool</span> bRegisterAsEquippedWeapon)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	checkf(<span style="color:#f92672">!</span>CharacterCarriedWeaponMap.Contains(InWeaponTagToRegister), TEXT(<span style="color:#e6db74">&#34;A named %s has already been added as carried weapon&#34;</span>),<span style="color:#f92672">*</span>InWeaponTagToRegister.ToString());
+</span></span><span style="display:flex;"><span>	CharacterCarriedWeaponMap.Emplace(InWeaponTagToRegister, InWeaponToRegister);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (bRegisterAsEquippedWeapon)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		CurrentEquippedWeaponTag <span style="color:#f92672">=</span> InWeaponTagToRegister;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 根据武器标签，返回对应的武器对象指针
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>AWarriorWeaponBase<span style="color:#f92672">*</span> UPawnCombatComponent<span style="color:#f92672">::</span>GetCharacterCarriedWeaponByTag(FGameplayTag InWeaponTagToGet) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (CharacterCarriedWeaponMap.Contains(InWeaponTagToGet))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (AWarriorWeaponBase<span style="color:#f92672">*</span> <span style="color:#66d9ef">const</span><span style="color:#f92672">*</span> FoundWeapon <span style="color:#f92672">=</span> CharacterCarriedWeaponMap.Find(InWeaponTagToGet))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> <span style="color:#f92672">*</span>FoundWeapon;
+</span></span><span style="display:flex;"><span>		} 
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 获取当前装备的武器
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>AWarriorWeaponBase<span style="color:#f92672">*</span> UPawnCombatComponent<span style="color:#f92672">::</span>GetCharacterCurrentEquippedWeapon() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>CurrentEquippedWeaponTag.IsValid())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">GetCharacterCarriedWeaponByTag</span>(CurrentEquippedWeaponTag);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>之后就可以在Hero_SpawnAxe中配置注册的tag了。</p>
+<p><img src="/images/UE/WarriorProject/6.jpg" alt="6"></p>
+<p>在WarriorGameAbility中添加两个新函数用于获取CombatComponent和ASC。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UFUNCTION(BlueprintPure, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|Ability&#34;</span>)
+</span></span><span style="display:flex;"><span>UPawnCombatComponent<span style="color:#f92672">*</span> GetPawnCombatComponentFromActorInfo() <span style="color:#66d9ef">const</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UFUNCTION(BlueprintPure, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|Ability&#34;</span>)
+</span></span><span style="display:flex;"><span>UWarriorAbilitySystemComponent<span style="color:#f92672">*</span> GetWarriorAbilitySystemComponentFromActorInfo() <span style="color:#66d9ef">const</span>;
+</span></span><span style="display:flex;"><span>UPawnCombatComponent<span style="color:#f92672">*</span> UWarriorGameplayAbility<span style="color:#f92672">::</span>GetPawnCombatComponentFromActorInfo() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">GetAvatarActorFromActorInfo</span>()<span style="color:#f92672">-&gt;</span>FindComponentByClass<span style="color:#f92672">&lt;</span>UPawnCombatComponent<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UWarriorAbilitySystemComponent<span style="color:#f92672">*</span> UWarriorGameplayAbility<span style="color:#f92672">::</span>GetWarriorAbilitySystemComponentFromActorInfo() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> Cast<span style="color:#f92672">&lt;</span>UWarriorAbilitySystemComponent<span style="color:#f92672">&gt;</span>(CurrentActorInfo<span style="color:#f92672">-&gt;</span>AbilitySystemComponent);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>然后创建WarriorHeroGameplayAbility去继承WarriorGameAbility</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>UFUNCTION(BlueprintPure, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|Ability&#34;</span>)
+</span></span><span style="display:flex;"><span>AWarriorHeroCharacter<span style="color:#f92672">*</span> GetHeroCharacterFromActorInfo();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UFUNCTION(BlueprintPure, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|Ability&#34;</span>)
+</span></span><span style="display:flex;"><span>AWarriorHeroController<span style="color:#f92672">*</span> GetHeroControllerFromActorInfo();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UFUNCTION(BlueprintPure, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|Ability&#34;</span>)
+</span></span><span style="display:flex;"><span>UHeroCombatComponent<span style="color:#f92672">*</span> GetHeroCombatComponentFromActorInfo();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>TWeakObjectPtr<span style="color:#f92672">&lt;</span>AWarriorHeroCharacter<span style="color:#f92672">&gt;</span> CachedWarriorHeroCharacter;
+</span></span><span style="display:flex;"><span>TWeakObjectPtr<span style="color:#f92672">&lt;</span>AWarriorHeroController<span style="color:#f92672">&gt;</span> CachedWarriorHeroController;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>AWarriorHeroCharacter<span style="color:#f92672">*</span> UWarriorHeroGameplayAbility<span style="color:#f92672">::</span>GetHeroCharacterFromActorInfo()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>CachedWarriorHeroCharacter.IsValid())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		CachedWarriorHeroCharacter <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>AWarriorHeroCharacter<span style="color:#f92672">&gt;</span>(CurrentActorInfo<span style="color:#f92672">-&gt;</span>AvatarActor);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> CachedWarriorHeroCharacter.IsValid() <span style="color:#f92672">?</span> CachedWarriorHeroCharacter.Get() <span style="color:#f92672">:</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>AWarriorHeroController<span style="color:#f92672">*</span> UWarriorHeroGameplayAbility<span style="color:#f92672">::</span>GetHeroControllerFromActorInfo()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>CachedWarriorHeroController.IsValid())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		CachedWarriorHeroController <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>AWarriorHeroController<span style="color:#f92672">&gt;</span>(CurrentActorInfo<span style="color:#f92672">-&gt;</span>PlayerController);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> CachedWarriorHeroController.IsValid() <span style="color:#f92672">?</span> CachedWarriorHeroController.Get() <span style="color:#f92672">:</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UHeroCombatComponent<span style="color:#f92672">*</span> UWarriorHeroGameplayAbility<span style="color:#f92672">::</span>GetHeroCombatComponentFromActorInfo()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">GetHeroCharacterFromActorInfo</span>()<span style="color:#f92672">-&gt;</span>GetHeroCombatComponent();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>创建一个GA蓝图WarriorHeroGameplayAbility，在当中可以调用这些函数去获取组件、controller、character。</p>
+<h2 id="装配武器">装配武器</h2>
+<p>绑定装配武器的输入</p>
+<p>在WarriorGameplayTags中添加新Tag</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>WARRIOR_API <span style="color:#a6e22e">UE_DECLARE_GAMEPLAY_TAG_EXTERN</span>(InputTag_EquipAxe);
+</span></span><span style="display:flex;"><span>WARRIOR_API <span style="color:#a6e22e">UE_DECLARE_GAMEPLAY_TAG_EXTERN</span>(InputTag_UnEquipAxe);
+</span></span></code></pre></div><p>DataAsset_InputConfig中定义</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta <span style="color:#f92672">=</span> (TitleProperty <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;InputTag&#34;</span>))
+</span></span><span style="display:flex;"><span>TArray<span style="color:#f92672">&lt;</span>FWarriorInputActionConfig<span style="color:#f92672">&gt;</span> AbilityInputActions;
+</span></span></code></pre></div><p>在WarriorInputComponent中定义<code>BindAbilityInputAction</code>来绑定能力输入。</p>
+<p>为每个技能Action（<code>FWarriorInputActionConfig</code>）分别绑定：</p>
+<ul>
+<li><code>ETriggerEvent::Started</code> → 调用 <code>InputPressedFunc</code></li>
+<li><code>ETriggerEvent::Completed</code> → 调用 <code>InputReleasedFunc</code></li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">template</span> <span style="color:#f92672">&lt;</span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UserObject</span>, <span style="color:#66d9ef">typename</span> CallbackFunc<span style="color:#f92672">&gt;</span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">inline</span> <span style="color:#66d9ef">void</span> UWarriorInputComponent<span style="color:#f92672">::</span>BindAbilityInputAction(<span style="color:#66d9ef">const</span> UDataAsset_InputConfig<span style="color:#f92672">*</span> InInputConfig, UserObject<span style="color:#f92672">*</span> ContextObject,
+</span></span><span style="display:flex;"><span>    CallbackFunc InputPressedFunc, CallbackFunc InputReleasedFunc)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    checkf(InInputConfig,TEXT(<span style="color:#e6db74">&#34;InputConfigDataAsset is null&#34;</span>));
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> FWarriorInputActionConfig<span style="color:#f92672">&amp;</span> AbilityInputActionConfig : InInputConfig<span style="color:#f92672">-&gt;</span>AbilityInputActions)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>AbilityInputActionConfig.IsValid()) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>       BindAction(AbilityInputActionConfig.InputAction, ETriggerEvent<span style="color:#f92672">::</span>Started, ContextObject, InputPressedFunc, AbilityInputActionConfig.InputTag);
+</span></span><span style="display:flex;"><span>       BindAction(AbilityInputActionConfig.InputAction, ETriggerEvent<span style="color:#f92672">::</span>Completed, ContextObject, InputReleasedFunc, AbilityInputActionConfig.InputTag);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在DataAsset_HeroStartUpData中定义结构体<code>FWarriorHeroAbilitySet</code>。该结构体包含角色初始化所需的技能。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>USTRUCT(BlueprintType)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FWarriorHeroAbilitySet</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	GENERATED_BODY()
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta <span style="color:#f92672">=</span> (Categories <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;InputTag&#34;</span>))
+</span></span><span style="display:flex;"><span>	FGameplayTag InputTag;
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+</span></span><span style="display:flex;"><span>	TSubclassOf<span style="color:#f92672">&lt;</span>UWarriorGameplayAbility<span style="color:#f92672">&gt;</span> AbilityToGrant;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">IsValid</span>() <span style="color:#66d9ef">const</span>;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>在该文件中重写父类DataAsset_StartUpDataBase的<code>GiveToAbilitySystemComponent</code>，这个函数在角色类中的PossessedBy中被调用。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UDataAsset_HeroStartUpData<span style="color:#f92672">::</span>GiveToAbilitySystemComponent(UWarriorAbilitySystemComponent<span style="color:#f92672">*</span> InASCToGive,
+</span></span><span style="display:flex;"><span>    int32 ApplyLevel)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    Super<span style="color:#f92672">::</span>GiveToAbilitySystemComponent(InASCToGive, ApplyLevel);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> FWarriorHeroAbilitySet<span style="color:#f92672">&amp;</span> AbilitySet : HeroStartUpAbilitySets)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>AbilitySet.IsValid()) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>       FGameplayAbilitySpec <span style="color:#a6e22e">AbilitySpec</span>(AbilitySet.AbilityToGrant);
+</span></span><span style="display:flex;"><span>       AbilitySpec.SourceObject <span style="color:#f92672">=</span> InASCToGive<span style="color:#f92672">-&gt;</span>GetAvatarActor();
+</span></span><span style="display:flex;"><span>       AbilitySpec.Level <span style="color:#f92672">=</span> ApplyLevel;
+</span></span><span style="display:flex;"><span>       AbilitySpec.DynamicAbilityTags.AddTag(AbilitySet.InputTag);
+</span></span><span style="display:flex;"><span>       InASCToGive<span style="color:#f92672">-&gt;</span>GiveAbility(AbilitySpec);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在WarriorAbilitySystemComponent中定义两个函数，用于绑定输入的回调函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">OnAbilityInputPressed</span>(<span style="color:#66d9ef">const</span> FGameplayTag<span style="color:#f92672">&amp;</span> InInputTag);
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">OnAbilityInputReleased</span>(<span style="color:#66d9ef">const</span> FGameplayTag<span style="color:#f92672">&amp;</span> InInputTag);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorAbilitySystemComponent<span style="color:#f92672">::</span>OnAbilityInputPressed(<span style="color:#66d9ef">const</span> FGameplayTag<span style="color:#f92672">&amp;</span> InInputTag)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>InInputTag.IsValid())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> FGameplayAbilitySpec<span style="color:#f92672">&amp;</span> AbilitySpec : GetActivatableAbilities())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>AbilitySpec.DynamicAbilityTags.HasTagExact(InInputTag)) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>		TryActivateAbility(AbilitySpec.Handle);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>同样的在WarriorHeroCharacter里也有调用刚才WarriorAbilitySystemComponent定义的函数</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorHeroCharacter<span style="color:#f92672">::</span>Input_AbilityInputPressed(FGameplayTag InInputTag)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    WarriorAbilitySystemComponent<span style="color:#f92672">-&gt;</span>OnAbilityInputPressed(InInputTag);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorHeroCharacter<span style="color:#f92672">::</span>Input_AbilityInputReleased(FGameplayTag InInputTag)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    WarriorAbilitySystemComponent<span style="color:#f92672">-&gt;</span>OnAbilityInputReleased(InInputTag);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这两个函数目的是为了调用WarriorInputComponent中定义的<code>BindAbilityInputAction</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>WarriorInputComponent<span style="color:#f92672">-&gt;</span>BindAbilityInputAction(InputConfigDataAsset, <span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>ThisClass<span style="color:#f92672">::</span>Input_AbilityInputPressed, <span style="color:#f92672">&amp;</span>ThisClass<span style="color:#f92672">::</span>Input_AbilityInputReleased);
+</span></span></code></pre></div><h3 id="整体流程">整体流程</h3>
+<p><img src="/images/UE/WarriorProject/8.png" alt="8"></p>
+<p>赋予能力：DataAsset_HeroStartUpData中重写父类的<code>GiveToAbilitySystemComponent</code>，在其中调用WarriorAbilitySystemComponent的GiveAbility去赋予能力。</p>
+<p>激活能力：</p>
+<p>在角色类的SetupPlayerInputComponent中调用WarriorInputComponent的<code>BindAbilityInputAction</code>，并传入按下和释放按键的回调函数。</p>
+<p>DA_InputConfig中有配置好Input Tag和InputAction，也就是<code>FWarriorInputActionConfig</code>结构体。</p>
+<p><img src="/images/UE/WarriorProject/7.png" alt="7"></p>
+<p><code>BindAbilityInputAction</code>负责把输入系统和GAS连接起来，通过传入InputTag使当按下输入时，调用带 InputTag 的函数，也就是角色类的回调函数<code>Input_AbilityInputPressed</code>、<code>Input_AbilityInputReleased</code>。</p>
+<p>这两个回调函数会调用WarriorAbilitySystemComponent的<code>OnAbilityInputPressed</code>、<code>OnAbilityInputReleased</code>函数。</p>
+<p>其中ASC系统中<code>OnAbilityInputPressed</code>会通过<code>TryActivateAbility</code>来实现GA。</p>
+<h3 id="装配动画蒙太奇">装配动画蒙太奇</h3>
+<p>首先创建动画通知蓝图类，添加一个重写函数<code>ReceivedNotify</code>。</p>
+<p><img src="/images/UE/WarriorProject/9.png" alt="9"></p>
+<p>再装配武器的动画蒙太奇中添加该动画通知，并在Details面板中设置EventTag为新建的Player.Event.Equip.Axe。</p>
+<p>在GA_Hero_EquipAxe中播放蒙太奇并在接收到GameplayEvent时使武器附着在右手上。</p>
+<p><img src="/images/UE/WarriorProject/10.png" alt="10"></p>
+<p><img src="/images/UE/WarriorProject/11.png" alt="11"></p>
+<h3 id="动画层">动画层</h3>
+<p>创建动画层接口ALI_Hero，之后再ABP_Hero中的类设置配置继承接口层为这个动画接口。</p>
+<p>由于ABP_Hero继承C++中的WarriorCharacterAnimInstance，在该文件中有<code>AWarriorHeroCharacter* OwningHeroCharacter</code>;因此可以通过属性存取获得到OwningCharacter的Combat组件，也就可以得到当前武器的Tag。因此可以来混合拿武器和不拿武器的动画。</p>
+<p><img src="/images/UE/WarriorProject/12.png" alt="12"></p>
+<p>之后创建MasterLayer_Hero继承WarriorHeroLinkedAnimLayer，同样在类设置配置继承接口层为ALI_Hero。</p>
+<p>在WarriorHeroLinkedAnimLayer中创建该函数，用于获取AnimInstance。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UWarriorHeroAnimInstance<span style="color:#f92672">*</span> UWarriorHeroLinkedAnimLayer<span style="color:#f92672">::</span>GetHeroAnimInstance() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Cast<span style="color:#f92672">&lt;</span>UWarriorHeroAnimInstance<span style="color:#f92672">&gt;</span>(GetOwningComponent()<span style="color:#f92672">-&gt;</span>GetAnimInstance()) ;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><img src="/images/UE/WarriorProject/13.png" alt="13"></p>
+<p>之后在创建一个继承MasterLayer_Hero的AnimLayer_HeroAxe，用于播放持有武器的混合动画。在类默认中配置DefaultLocomotionBlendSpace为新建的BlendSpace1D持有武器的混合空间动画。</p>
+<p>接下来需要将这些层贯穿起来。</p>
+<p>创建新的cpp文件类型为None用于自定义结构体。首先定义一个<code>FWarriorHeroWeaponData</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">UWarriorHeroLinkedAnimLayer</span>;
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>USTRUCT(BlueprintType)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FWarriorHeroWeaponData</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	GENERATED_BODY()
+</span></span><span style="display:flex;"><span>	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+</span></span><span style="display:flex;"><span>	TSubclassOf<span style="color:#f92672">&lt;</span>UWarriorHeroLinkedAnimLayer<span style="color:#f92672">&gt;</span> WeaponAnimLayerToLink;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>之后要在武器类中获取这个结构体，这样暴露在蓝图中可以配置结构体的<code>WarriorHeroLinkedAnimLayer</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;WeaponData&#34;</span>)
+</span></span><span style="display:flex;"><span>FWarriorHeroWeaponData HeroWeaponData;
+</span></span></code></pre></div><p><img src="/images/UE/WarriorProject/14.png" alt="14"></p>
+<p>然后在HeroCombatComponent中定义一个通过Tag获取角色持有武器的函数。与父类函数相同，只不过要做一个强转而已。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>AWarriorHeroWeapon<span style="color:#f92672">*</span> UHeroCombatComponent<span style="color:#f92672">::</span>GetHeroCarriedWeaponByTag(FGameplayTag InWeaponTag) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Cast<span style="color:#f92672">&lt;</span>AWarriorHeroWeapon<span style="color:#f92672">&gt;</span>(GetCharacterCarriedWeaponByTag(InWeaponTag));
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在GA中添加如下的逻辑，通过LinkAnimClassLayers来实现关联动画层。这样就可以完成了武器装配后动画的切换了。</p>
+<p><img src="/images/UE/WarriorProject/15.png" alt="15"></p>
+<h2 id="卸下武器">卸下武器</h2>
+<p>声明GameplayTag</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>WARRIOR_API <span style="color:#a6e22e">UE_DECLARE_GAMEPLAY_TAG_EXTERN</span>(Player_Ability_Equip_Axe);
+</span></span><span style="display:flex;"><span>WARRIOR_API <span style="color:#a6e22e">UE_DECLARE_GAMEPLAY_TAG_EXTERN</span>(Player_Ability_UnEquip_Axe);
+</span></span></code></pre></div><p>将tag设置到GA中</p>
+<p><img src="/images/UE/WarriorProject/16.png" alt="16"></p>
+<p>之后创建收回武器的蒙太奇动画，添加动画通知并设置EventTag。在GA蓝图中像装配武器那样处理接收到event之后的逻辑。</p>
+<p>创建一个InputAction用于收回武器的输入触发，并配置在DA_InputConfig中，同样需要一个GameplayTag。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>WARRIOR_API <span style="color:#a6e22e">UE_DECLARE_GAMEPLAY_TAG_EXTERN</span>(InputTag_UnEquipAxe);
+</span></span></code></pre></div><p><img src="/images/UE/WarriorProject/17.png" alt="17"></p>
+<p>思考一个问题：玩家卸下武器的能力应该要在玩家出生时就拥有，还是在装配武器后才拥有。</p>
+<p>显而易见，应该在装配武器后才会拥有卸下武器的能力，因此我们需要在HeroWeaponData中（那个结构体，已有AnimLayerToLink成员）添加一些新的成员。</p>
+<p>HeroWeaponData</p>
+<p>|__AnimLayerToLink（切换持有武器的动画）</p>
+<p>|__DefaultWeaponAbility(获取武器能力，比如卸下武器、轻击、重击)</p>
+<p>|__InputMappingContext（更改按键绑定）</p>
+<p>将FWarriorHeroAbilitySet结构体从DataAsset_HeroStartUpData移动到WarriorStructType中。之后定义新的成员分别是<code>WeaponInputMappingContext</code>和<code>DefaultWeaponAbilities</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>USTRUCT(BlueprintType)
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FWarriorHeroWeaponData</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    GENERATED_BODY()
+</span></span><span style="display:flex;"><span>    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+</span></span><span style="display:flex;"><span>    TSubclassOf<span style="color:#f92672">&lt;</span>UWarriorHeroLinkedAnimLayer<span style="color:#f92672">&gt;</span> WeaponAnimLayerToLink;
+</span></span><span style="display:flex;"><span>    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+</span></span><span style="display:flex;"><span>    UInputMappingContext<span style="color:#f92672">*</span> WeaponInputMappingContext;
+</span></span><span style="display:flex;"><span>    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, meta <span style="color:#f92672">=</span> (TitleProperty <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;InputTag&#34;</span>))
+</span></span><span style="display:flex;"><span>    TArray<span style="color:#f92672">&lt;</span>FWarriorHeroAbilitySet<span style="color:#f92672">&gt;</span> DefaultWeaponAbilities;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>创建一个新的IMC，其中有武器能力的输入，在BP_HeroAxe中修改HeroWeaponData。</p>
+<p><img src="/images/UE/WarriorProject/18.png" alt="18"></p>
+<p>在WarriorAbilitySystemComponent中增加一个函数用于赋予武器能力。</p>
+<p>在<code>GiveAbility</code>后GAS会返回一个<code>FGameplayAbilitySpecHandle</code>，<code>OutGrantedAbilitySpecHandles</code> 用来<strong>收集并保存每个被授予的能力的句柄</strong>，方便你之后按句柄精确地移除、查找或管理这些能力。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorAbilitySystemComponent<span style="color:#f92672">::</span>GrantHeroWeaponAbilities(
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">const</span> TArray<span style="color:#f92672">&lt;</span>FWarriorHeroAbilitySet<span style="color:#f92672">&gt;&amp;</span> InDefaultWeaponAbilities, int32 ApplyLevel,
+</span></span><span style="display:flex;"><span>    TArray<span style="color:#f92672">&lt;</span>FGameplayAbilitySpecHandle<span style="color:#f92672">&gt;&amp;</span> OutGrantedAbilitySpecHandles)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (InDefaultWeaponAbilities.IsEmpty())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> FWarriorHeroAbilitySet<span style="color:#f92672">&amp;</span> AbilitySet : InDefaultWeaponAbilities)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>AbilitySet.IsValid()) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>       FGameplayAbilitySpec <span style="color:#a6e22e">AbilitySpec</span>(AbilitySet.AbilityToGrant);
+</span></span><span style="display:flex;"><span>       AbilitySpec.SourceObject <span style="color:#f92672">=</span> GetAvatarActor();
+</span></span><span style="display:flex;"><span>       AbilitySpec.Level <span style="color:#f92672">=</span> ApplyLevel;
+</span></span><span style="display:flex;"><span>       AbilitySpec.DynamicAbilityTags.AddTag(AbilitySet.InputTag);
+</span></span><span style="display:flex;"><span>       OutGrantedAbilitySpecHandles.AddUnique(GiveAbility(AbilitySpec));
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在GA_Hero_EquipAxe中创建新函数<code>HandleEquipWeapon</code>用来替代之前写的逻辑。</p>
+<p><img src="/images/UE/WarriorProject/19.png" alt="19"></p>
+<p>在WarriorHeroWeapon中添加两个函数。装配武器蓝图中在<code>GrantHeroWeaponAbilities</code>后面调用<code>AssignGrantedAbilitySpecHandles</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorHeroWeapon<span style="color:#f92672">::</span>AssignGrantedAbilitySpecHandles(<span style="color:#66d9ef">const</span> TArray<span style="color:#f92672">&lt;</span>FGameplayAbilitySpecHandle<span style="color:#f92672">&gt;&amp;</span> InSpecHandles)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    GrantAbilitySpecHandles <span style="color:#f92672">=</span> InSpecHandles;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>TArray<span style="color:#f92672">&lt;</span>FGameplayAbilitySpecHandle<span style="color:#f92672">&gt;</span> AWarriorHeroWeapon<span style="color:#f92672">::</span>GetGrantedAbilitySpecHandles() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> GrantAbilitySpecHandles;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在WarriorAbilitySystemComponent中添加一个新函数，用于移除武器赋予的能力。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorAbilitySystemComponent<span style="color:#f92672">::</span>RemoveGrantedHeroWeaponAbilities(
+</span></span><span style="display:flex;"><span>    TArray<span style="color:#f92672">&lt;</span>FGameplayAbilitySpecHandle<span style="color:#f92672">&gt;&amp;</span> InSpecHandlesToRemove)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (InSpecHandlesToRemove.IsEmpty())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> FGameplayAbilitySpecHandle<span style="color:#f92672">&amp;</span> SpecHandle : InSpecHandlesToRemove)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> (SpecHandle.IsValid())
+</span></span><span style="display:flex;"><span>       {
+</span></span><span style="display:flex;"><span>          ClearAbility(SpecHandle);
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    InSpecHandlesToRemove.Empty();
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>卸下武器的GA中写如下逻辑</p>
+<p><img src="/images/UE/WarriorProject/25.png" alt="25"></p>
+<h2 id="武器攻击">武器攻击</h2>
+<p>同样需要声明GameplayTag。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>WARRIOR_API <span style="color:#a6e22e">UE_DECLARE_GAMEPLAY_TAG_EXTERN</span>(InputTag_LightAttack_Axe);
+</span></span><span style="display:flex;"><span>WARRIOR_API <span style="color:#a6e22e">UE_DECLARE_GAMEPLAY_TAG_EXTERN</span>(InputTag_HeavyAttack_Axe);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>WARRIOR_API <span style="color:#a6e22e">UE_DECLARE_GAMEPLAY_TAG_EXTERN</span>(Player_Ability_Attack_Light_Axe);
+</span></span><span style="display:flex;"><span>WARRIOR_API <span style="color:#a6e22e">UE_DECLARE_GAMEPLAY_TAG_EXTERN</span>(Player_Ability_Attack_Heavy_Axe);
+</span></span></code></pre></div><p>创建新的GA：GA_Hero_LightAttackMaster和GA_Hero_LightAttack_Axe（继承前一个master）。配置好标签，如下图所示，并且将Equip和UnEquip的Block也添加Attack的标签。</p>
+<p><img src="/images/UE/WarriorProject/20.png" alt="20"></p>
+<p>创建新的IA_LightAttack_Axe，并添加到DA_InputConfig和IMC_Axe中。</p>
+<p>在BP_HeroAxe的WeaponData中添加新的元素。</p>
+<p><strong>能力实例化策略</strong></p>
+<ol>
+<li>在每一次执行时实例化 （但是每次都会被重置默认值）</li>
+<li>在每个角色实例化 （只会在第一次生成，之后只需要每次激活重用生成的实例）</li>
+<li>不实例化（必须完全在C++中实现）</li>
+</ol>
+<p>在轻击这里使用第二种策略，也就是只实例化一次，之后复用。</p>
+<h3 id="连击">连击</h3>
+<p>在GA_Hero_LightAttackMaster创建一个Map用来存储连击次数与动画的映射。</p>
+<p>在每次EndAbility后设置一个定时器，如果在定时器的时间内没有进行下一次攻击，则会调用自定义事件——ResetAttackComboCount（将连击次数重置为1）。如果在规定时间内进行了连击，则会进入到激活能力的流程中清除定时器（也就不会执行自定义Event）。</p>
+<p>根据连击次数调用蒙太奇动画，如果连击次数达到Map的容量，则清空连击次数（调用自定义Event），否则连击数++。</p>
+<p><img src="/images/UE/WarriorProject/21.png" alt="21"></p>
+<p>之后创建连击动画的蒙太奇动画，并更改插槽为FullBody，在ABP_Hero中添加该插槽。之后再配置GA中的Map。就可以实现连击了。</p>
+<p><img src="/images/UE/WarriorProject/22.png" alt="22"></p>
+<h3 id="重击">重击</h3>
+<p>重击与轻击相同逻辑，不再赘述。重击会有2次连击效果。</p>
+<h3 id="jumptofinsher">JumpToFinsher</h3>
+<p>在本节中会创建一个蓝图函数库的C++类。</p>
+<p>由于蓝图只能使用执行引脚，不能用bool返回节点控制流，因此使用<code>ExpandEnumAsExecs</code>让枚举展开成多个执行引脚。<code>DisplayName</code>指定蓝图节点上显示的名字（而不是函数名）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UENUM()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">enum</span> <span style="color:#66d9ef">class</span> <span style="color:#a6e22e">EWarriorConfirmType</span> <span style="color:#f92672">:</span>uint8
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Yes,
+</span></span><span style="display:flex;"><span>	No
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UCLASS()
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">WARRIOR_API</span> UWarriorFunctionLibrary : <span style="color:#66d9ef">public</span> UBlueprintFunctionLibrary
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	GENERATED_BODY()
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> UWarriorAbilitySystemComponent<span style="color:#f92672">*</span> NativeGetWarriorASCFromActor(AActor<span style="color:#f92672">*</span> InActor);
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	UFUNCTION(BlueprintCallable, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|FunctionLibrary&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> AddGameplayTagToActorIfNone(AActor<span style="color:#f92672">*</span> InActor, FGameplayTag TagToAdd);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	UFUNCTION(BlueprintCallable, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|FunctionLibrary&#34;</span>)
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> RemoveGameplayFromActorIfFound(AActor<span style="color:#f92672">*</span> InActor, FGameplayTag TagToRemove);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// C++调用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">NativeDoesActorHaveTag</span>(AActor<span style="color:#f92672">*</span> InActor, FGameplayTag TagToCheck);
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 蓝图调用
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	UFUNCTION(BlueprintCallable, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|FunctionLibrary&#34;</span>, meta <span style="color:#f92672">=</span> (DisplayName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Does Actor Have Tag&#34;</span>, ExpandEnumAsExecs <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;OutConfirmType&#34;</span>))
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">static</span> <span style="color:#66d9ef">void</span> BP_DoesActorHaveTag(AActor<span style="color:#f92672">*</span> InActor, FGameplayTag TagToCheck, EWarriorConfirmType<span style="color:#f92672">&amp;</span> OutConfirmType);
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UWarriorAbilitySystemComponent<span style="color:#f92672">*</span> UWarriorFunctionLibrary<span style="color:#f92672">::</span>NativeGetWarriorASCFromActor(AActor<span style="color:#f92672">*</span> InActor)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    check(InActor);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> CastChecked<span style="color:#f92672">&lt;</span>UWarriorAbilitySystemComponent<span style="color:#f92672">&gt;</span>(UAbilitySystemBlueprintLibrary<span style="color:#f92672">::</span>GetAbilitySystemComponent(InActor));
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorFunctionLibrary<span style="color:#f92672">::</span>AddGameplayTagToActorIfNone(AActor<span style="color:#f92672">*</span> InActor, FGameplayTag TagToAdd)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    UWarriorAbilitySystemComponent<span style="color:#f92672">*</span> ASC <span style="color:#f92672">=</span> NativeGetWarriorASCFromActor(InActor);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>ASC<span style="color:#f92672">-&gt;</span>HasMatchingGameplayTag(TagToAdd))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       ASC<span style="color:#f92672">-&gt;</span>AddLooseGameplayTag(TagToAdd); <span style="color:#75715e">// 不会触发激活逻辑 添加临时状态
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorFunctionLibrary<span style="color:#f92672">::</span>RemoveGameplayFromActorIfFound(AActor<span style="color:#f92672">*</span> InActor, FGameplayTag TagToRemove)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    UWarriorAbilitySystemComponent<span style="color:#f92672">*</span> ASC <span style="color:#f92672">=</span> NativeGetWarriorASCFromActor(InActor);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (ASC<span style="color:#f92672">-&gt;</span>HasMatchingGameplayTag(TagToRemove))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       ASC<span style="color:#f92672">-&gt;</span>RemoveLooseGameplayTag(TagToRemove);
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> UWarriorFunctionLibrary<span style="color:#f92672">::</span>NativeDoesActorHaveTag(AActor<span style="color:#f92672">*</span> InActor, FGameplayTag TagToCheck)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    UWarriorAbilitySystemComponent<span style="color:#f92672">*</span> ASC <span style="color:#f92672">=</span> NativeGetWarriorASCFromActor(InActor);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> ASC<span style="color:#f92672">-&gt;</span>HasMatchingGameplayTag(TagToCheck);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorFunctionLibrary<span style="color:#f92672">::</span>BP_DoesActorHaveTag(AActor<span style="color:#f92672">*</span> InActor, FGameplayTag TagToCheck,
+</span></span><span style="display:flex;"><span>    EWarriorConfirmType<span style="color:#f92672">&amp;</span> OutConfirmType)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    OutConfirmType <span style="color:#f92672">=</span> NativeDoesActorHaveTag(InActor, TagToCheck) <span style="color:#f92672">?</span> EWarriorConfirmType<span style="color:#f92672">::</span>Yes : EWarriorConfirmType<span style="color:#f92672">::</span>No;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>JumpToFinsher是一个新的临时Tag，目的是当轻击次数达到最后一次之前，如果使用重击，则直接跳跃到重击的最后一个连击效果。</p>
+<p>例子：轻击有4个，重击有2个。当轻击到第三下时使用重击会直接跳到重击的第二个效果。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UE_DEFINE_GAMEPLAY_TAG(Player_Status_JumpToFinisher, <span style="color:#e6db74">&#34;Player.Status.JumpToFinisher&#34;</span>);
+</span></span></code></pre></div><p><img src="/images/UE/WarriorProject/23.png" alt="23"></p>
+<p>在EndAbility后也需要调用RemoveGameplayFromActorIfFound。</p>
+<p><img src="/images/UE/WarriorProject/24.png" alt="24"></p>
+
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject2%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=GAS%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b02&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject2%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject2%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject2%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject2%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject2%2f
+			&title=GAS%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b02&summary=%e6%95%b4%e4%bd%93%e6%a1%86%e6%9e%b6%e6%a6%82%e8%a7%88%ef%bc%9a%20%e8%af%a5%e5%9b%be%e5%bd%a2%e7%8a%b6%e6%96%b9%e6%a1%86%e4%bb%a3%e8%a1%a8%e5%87%bd%e6%95%b0%ef%bc%8c%e8%8f%b1%e5%bd%a2%e4%bb%a3%e8%a1%a8%e8%93%9d%e5%9b%be%e3%80%81%e8%bf%9e%e6%8e%a5%e7%ba%bf%e4%b8%8d%e4%bb%a3%e8%a1%a8%e4%bb%bb%e4%bd%95%e7%bb%a7%e6%89%bf%e5%85%b3%e7%b3%bb%ef%bc%8c%e4%bb%85%e7%94%a8%e4%bd%9c%e6%80%9d%e7%bb%b4%e5%af%bc%e5%9b%be%e3%80%82%0aDA_InputConfig%e4%b8%ad%e9%85%8d%e7%bd%ae%e4%ba%86IMC%e3%80%81%e7%a7%bb%e5%8a%a8%e5%92%8c%e8%a7%86%e8%a7%92%e7%9a%84NativeInputActions%e5%92%8cAbilityInputActions%ef%bc%88tag%e5%92%8cinputaction%e7%9a%84%e6%98%a0%e5%b0%84%e7%bb%93%e6%9e%84%e4%bd%93%ef%bc%89%0a%e8%a7%92%e8%89%b2%e7%b1%bb%e4%b8%adSetupPlayerInputComponent%e9%80%9a%e8%bf%87WarriorInputComponent%3a%3aBindAbilityInputAction%e7%bb%91%e5%ae%9a%e7%8e%a9%e5%ae%b6%e7%9a%84%e7%a7%bb%e5%8a%a8%e5%92%8c%e8%a7%86%e8%a7%92%e6%97%8b%e8%bd%ac%e7%9a%84%e8%be%93%e5%85%a5%ef%bc%8c%e7%bb%91%e5%ae%9a%e8%83%bd%e5%8a%9b%e7%9a%84%e8%be%93%e5%85%a5%ef%bc%8c%e8%bf%98%e6%9c%89%e8%ae%be%e7%bd%ae%e5%9b%9e%e8%b0%83%e5%87%bd%e6%95%b0Input_AbilityInputPressed%ef%bc%88%e5%8e%bb%e8%b0%83%e7%94%a8%e8%87%aa%e5%ae%9a%e4%b9%89ASC%e4%b8%ad%e7%9a%84OnAbilityInputPressed%ef%bc%8c%e5%85%b6%e4%b8%ad%e4%bc%9aTryActivateAbility%ef%bc%89%ef%bc%8c%e5%af%b9%e8%af%a5%e7%bb%93%e6%9e%84%e4%bd%93%e6%95%b0%e7%bb%84%e4%b8%ad%e6%af%8f%e4%b8%aa%e5%85%83%e7%b4%a0%e7%bb%91%e5%ae%9a%e3%80%82%0a%e8%a7%92%e8%89%b2%e7%b1%bb%e4%b8%adPossessedBy%e4%b8%ad%e5%90%8c%e6%ad%a5%e5%8a%a0%e8%bd%bdDA_StartUpData%ef%bc%8c%e8%b0%83%e7%94%a8DataAsset_StartUpDataBase%e7%9a%84GiveToAbilitySystemComponent%e5%8e%bb%e8%b5%8b%e4%ba%88%e5%88%9d%e5%a7%8b%e6%97%b6%e5%b0%b1%e6%9c%89%e7%9a%84%e8%83%bd%e5%8a%9b%ef%bc%8c%e9%80%9a%e8%bf%87%e8%b0%83%e7%94%a8GrantAbilityies%e5%8e%bb%e6%bf%80%e6%b4%bbActivateOnGivenAbilities%ef%bc%88UI%e6%98%be%e7%a4%ba%e3%80%81%e7%94%9f%e6%88%90%e6%ad%a6%e5%99%a8%ef%bc%89%e5%92%8cReactiveAbilities%ef%bc%88%e5%8f%97%e5%87%bb%e8%83%bd%e5%8a%9b%ef%bc%89%e3%80%82%e5%9c%a8%e8%bf%99%e4%b8%aa%e5%87%bd%e6%95%b0%e4%b8%ad%e5%8f%aa%e6%98%afGiveAbility%e8%a3%85%e5%a4%87%e6%8a%80%e8%83%bd%ef%bc%8c%e4%bd%86%e6%98%af%e6%bf%80%e6%b4%bb%e9%80%bb%e8%be%91%e4%b8%8d%e5%9c%a8%e8%bf%99%e9%87%8c%ef%bc%8c%e8%80%8c%e5%9c%a8GA%e5%9f%ba%e7%b1%bb%e4%b8%ad%ef%bc%88OnGiveAbility%e5%b0%b1%e4%bc%9a%e6%bf%80%e6%b4%bb%e8%83%bd%e5%8a%9b%ef%bc%89%e3%80%82%0a%e5%9b%a0%e4%b8%ba%e6%9c%89%e4%b8%80%e4%b8%aaAbilityActivationPolicy%e6%9e%9a%e4%b8%be%ef%bc%8c%e5%9c%a8GA%e5%9f%ba%e7%b1%bb%e4%b8%ad%e5%ae%9a%e4%b9%89%ef%bc%8c%e5%9c%a8OnGiveAbility%ef%bc%88%e8%99%9a%e5%87%bd%e6%95%b0%ef%bc%89%e4%bc%9a%e5%88%a4%e6%96%ad%e8%bf%99%e4%b8%aaGA%e5%9c%a8%e8%a3%85%e9%85%8d%e6%97%b6%e9%9c%80%e4%b8%8d%e9%9c%80%e8%a6%81%e6%bf%80%e6%b4%bb%ef%bc%8c%e5%a6%82%e6%9e%9c%e9%9c%80%e8%a6%81%e5%91%a2%e4%b9%88%e5%b0%b1%e4%bc%9aTryActivateAbility%e3%80%82%e5%85%b6%e4%b8%ad%e5%85%b8%e5%9e%8b%e4%bb%a3%e8%a1%a8GA%e7%94%9f%e6%88%90%e6%ad%a6%e5%99%a8%e3%80%82%0a%e5%bd%93%e7%84%b6DataAsset_HeroStartUpData%e4%b8%ad%e7%9a%84GiveToAbilitySystemComponent%ef%bc%88%e7%bb%a7%e6%89%bfDataAsset_StartUpDataBase%ef%bc%89%e4%bc%9a%e9%a2%9d%e5%a4%96%e8%a3%85%e9%85%8d%e8%a7%92%e8%89%b2%e5%88%9d%e5%a7%8b%e5%8c%96%e7%9a%84%e8%83%bd%e5%8a%9b%ef%bc%88GA%e8%a3%85%e9%85%8d%e6%ad%a6%e5%99%a8%ef%bc%89%ef%bc%8c%e4%bd%86%e6%98%af%e8%af%a5GA%e7%9a%84AbilityActivationPolicy%e4%b8%8d%e6%98%afOnGiven%ef%bc%8c%e6%89%80%e4%bb%a5%e4%b8%8d%e4%bc%9a%e5%9c%a8%e8%bf%99%e9%87%8c%e6%bf%80%e6%b4%bb%ef%bc%8c%e8%80%8c%e6%98%af%e5%9c%a8%e8%be%93%e5%85%a5%e7%bb%91%e5%ae%9a%e5%90%8e%e6%8c%89%e9%94%ae%e6%bf%80%e6%b4%bb%e3%80%82%0a%e8%a3%85%e9%85%8d%e6%ad%a6%e5%99%a8%e4%b9%8b%e5%90%8e%e4%bc%9a%e9%93%be%e6%8e%a5%e5%8a%a8%e7%94%bb%e7%b1%bb%e5%b1%82%ef%bc%88%e7%9b%ae%e7%9a%84%e6%98%af%e5%8e%bb%e8%b0%83%e7%94%a8%e6%ad%a6%e5%99%a8%e5%af%b9%e5%ba%94%e7%9a%84%e5%8a%a8%e7%94%bb%e5%b1%82%ef%bc%89%ef%bc%8c%e6%b7%bb%e5%8a%a0%e6%ad%a6%e5%99%a8%e5%af%b9%e5%ba%94%e7%9a%84%e8%be%93%e5%85%a5%e6%98%a0%e5%b0%84%ef%bc%8c%e8%bf%98%e6%9c%89%e8%b5%8b%e4%ba%88%e6%ad%a6%e5%99%a8%e7%9a%84%e8%83%bd%e5%8a%9b%ef%bc%88%e5%8d%b8%e4%b8%8b%e6%ad%a6%e5%99%a8%e3%80%81%e8%bd%bb%e5%87%bb%e3%80%81%e9%87%8d%e5%87%bb%ef%bc%89%0a%e5%8a%a8%e7%94%bb%e7%9a%84%e9%80%bb%e8%be%91%e5%9b%be%ef%bc%9a%0aBP%20Function%20Library%20%e8%93%9d%e5%9b%be%e5%87%bd%e6%95%b0%e5%ba%93%20%e8%93%9d%e5%9b%be%e5%87%bd%e6%95%b0%e5%ba%93%e6%98%af%e9%9d%99%e6%80%81%e5%87%bd%e6%95%b0%e7%9a%84%e9%9b%86%e5%90%88%ef%bc%8c%e6%8f%90%e4%be%9b%e4%b8%8eGameplay%e5%af%b9%e8%b1%a1%e6%97%a0%e5%85%b3%e7%9a%84%e5%ae%9e%e7%94%a8%e5%b7%a5%e5%85%b7%e5%8a%9f%e8%83%bd%ef%bc%8c%0a%e6%af%94%e5%a6%82UGameplayStatics%e5%92%8cUKismetSystemLibrary%0a%e6%9c%89%e6%97%b6%e5%80%99%e4%bd%a0%e5%86%99%e6%b8%b8%e6%88%8f%e9%80%bb%e8%be%91%ef%bc%8c%e4%bc%9a%e5%8f%91%e7%8e%b0%ef%bc%9a%0a%e2%80%9c%e6%88%91%e6%83%b3%e5%86%99%e4%b8%80%e4%b8%aa%e9%80%9a%e7%94%a8%e7%9a%84%e5%b0%8f%e5%87%bd%e6%95%b0%ef%bc%8c%e6%af%94%e5%a6%82%e6%8a%8a%e6%9f%90%e4%b8%aa%20Actor%20%e8%bd%ac%e6%88%90%20Pawn%20%e5%b9%b6%e6%8b%bf%e5%88%b0%e5%ae%83%e7%9a%84%20AIController%e3%80%82%e2%80%9d%0a%e4%bd%86%e8%bf%99%e4%b8%aa%e9%80%bb%e8%be%91%e6%97%a2%e4%b8%8d%e6%98%af%e6%9f%90%e4%b8%aa%e8%a7%92%e8%89%b2%e7%89%b9%e6%9c%89%e7%9a%84%e3%80%81%e4%b9%9f%e4%b8%8d%e6%98%af%e6%9f%90%e4%b8%aa%e7%bb%84%e4%bb%b6%e4%b8%93%e5%b1%9e%e7%9a%84%e3%80%82%e5%ae%83%e5%8f%aa%e6%98%af%e4%b8%80%e4%b8%aa%e5%88%b0%e5%a4%84%e9%83%bd%e8%83%bd%e7%94%a8%e7%9a%84%e2%80%9c%e5%b0%8f%e5%b7%a5%e5%85%b7%e5%87%bd%e6%95%b0%e2%80%9d%e3%80%82%e8%bf%99%e6%97%b6%e5%80%99%e4%bd%a0%e5%b0%b1%e4%b8%8d%e8%af%a5%e6%8a%8a%e5%ae%83%e5%86%99%e5%9c%a8%20Actor%e3%80%81Component%e3%80%81GameInstance%20%e9%87%8c%ef%bc%8c%e5%9b%a0%e4%b8%ba%e9%82%a3%e6%a0%b7%e4%bc%9a%e8%ae%a9%e8%bf%99%e4%b8%aa%e9%80%bb%e8%be%91%e7%bb%91%e6%ad%bb%e5%9c%a8%e5%85%b7%e4%bd%93%e7%b1%bb%e5%9e%8b%e4%b8%8a%e3%80%82%0a%f0%9f%91%89%20%e6%89%80%e4%bb%a5%20Unreal%20%e6%8f%90%e4%be%9b%e4%ba%86%e4%b8%80%e4%b8%aa%e4%b8%93%e9%97%a8%e7%9a%84%e2%80%9c%e5%87%bd%e6%95%b0%e5%ae%b9%e5%99%a8%e2%80%9d%e2%80%94%e2%80%94UBlueprintFunctionLibrary%e3%80%82%0a%e8%a7%92%e8%89%b2%e6%89%a9%e5%b1%95%e7%bb%84%e4%bb%b6%20PawnExtensionComponentBase%0a%7c__PawnCombatComponent%0a%e2%80%8b%20%7c__HeroCombatComponent%0a%e2%80%8b%20%7c__EnemyCombatComponent%0astatic_assert%20%e6%98%af%20%e7%bc%96%e8%af%91%e6%9c%9f%e6%96%ad%e8%a8%80%ef%bc%8c%e4%bc%9a%e5%9c%a8%e7%bc%96%e8%af%91%e6%97%b6%e6%a3%80%e6%9f%a5%e6%9d%a1%e4%bb%b6%e6%98%af%e5%90%a6%e6%88%90%e7%ab%8b%ef%bc%8c%e4%b8%8d%e6%88%90%e7%ab%8b%e5%b0%b1%e6%8a%a5%e7%bc%96%e8%af%91%e9%94%99%e8%af%af%e3%80%82%0a%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aaPawnExtensionComponentBase%ef%bc%8c%e7%94%a8%e4%ba%8e%e8%a7%92%e8%89%b2%e7%bb%84%e4%bb%b6%ef%bc%8c%e7%bb%9f%e4%b8%80%e8%ae%bf%e9%97%aePawn%e3%80%81Controller%e7%ad%89%e3%80%82%0aprotected%3a%20template%26lt%3bclass%20T%26gt%3b%20T%2a%20GetOwningPawn%28%29%20const%20%7b%20%2f%2f%20TPointerIsConvertibleFromTo%20%e6%b5%8b%e8%af%95%20T%20%e6%98%af%e5%90%a6%e5%8f%af%e8%bd%ac%e6%8d%a2%e4%b8%ba%20APawn%20static_assert%28TPointerIsConvertibleFromTo%26lt%3bT%2cAPawn%26gt%3b%3a%3aValue%2c%20%26%2334%3b%26%2339%3bT%26%2339%3b%20Template%20Parameter%20to%20GetPawn%20must%20be%20derived%20from%20APawn%26%2334%3b%29%3b%20return%20CastChecked%26lt%3bT%26gt%3b%28GetOwner%28%29%29%3b%20%7d%20APawn%2a%20GetOwningPawn%28%29%20const%20%7b%20return%20GetOwningPawn%26lt%3bAPawn%26gt%3b%28%29%3b%20%7d%20template%26lt%3bclass%20T%26gt%3b%20T%2a%20GetOwningController%28%29%20const%20%7b%20static_assert%28TPointerIsConvertibleFromTo%26lt%3bT%2cAController%26gt%3b%3a%3aValue%2c%20%26%2334%3b%26%2339%3bT%26%2339%3b%20Template%20Parameter%20to%20GetController%20must%20be%20derived%20from%20AController%26%2334%3b%29%3b%20return%20GetOwningPawn%26lt%3bAPawn%26gt%3b%28%29-%26gt%3bGetController%26lt%3bT%26gt%3b%28%29%3b%20%7d%20%e4%b9%8b%e5%90%8e%e5%9c%a8WarriorHeroCharacter%e4%b8%ad%e5%ae%9a%e4%b9%89%e4%b8%80%e4%b8%aa%e8%83%bd%e5%a4%9f%e8%8e%b7%e5%8f%96HeroCombatComponent%e7%bb%84%e4%bb%b6%e7%9a%84%e5%87%bd%e6%95%b0%e3%80%82&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=GAS%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b02&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject2%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

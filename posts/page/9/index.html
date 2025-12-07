@@ -188,7 +188,7 @@
 
 
 <div class="blog-brief">
-    <a href="/posts/ue/warriorproject4/">
+    <a href="/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/">
         <h3 class="title is-4">
             
         </h3>
@@ -199,7 +199,7 @@
 
             
             <div class="level-item">
-                <a href="/posts/ue/warriorproject4/">
+                <a href="/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/">
                     <p class="subtitle info date">Jan 1, 0001
                     </p>
                 </a>
@@ -208,9 +208,9 @@
 
 
             <div class="level-item">
-                <a href="/posts/ue/warriorproject4/">
+                <a href="/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/">
                     <p class="subtitle info">
-                        33 mins read
+                        34 mins read
                     </p>
                 </a>
             </div>
@@ -224,22 +224,11 @@
         
 
         <div>
-            <a href="/posts/ue/warriorproject4/">
+            <a href="/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/">
                 <p class="summary">
-                    UE避障算法 在虚幻引擎寻路系统中使用避障机制 | 虚幻引擎 5.7 文档 | Epic Developer Community
-相对速度障碍物算法（RVO） 核心思想：用当前速度、位置和相对速度预测碰撞，然后实时调整速度，避免与其他个体发生碰撞。它只负责即时的动作决策，不规划路径，也不管理群体。
-输入：当前速度 &#43; 相对位置 &#43; 预测碰撞时间
-输出：一个新的安全速度向量
-群组绕行管理器（Detour Crowd Manager） 核心思想：基于NavMesh进行全局路径规划，再结合局部避障（内部可能使用RVO），对大量智能体进行统一管理，比如寻路、速度匹配、优先级控制、群体移动等。
-AI避让 AWarriorAIController 自定义AIController
-|——AIC_Enemy_Base
-|——AIC_GuardianAIController 构造时，会自动创建一个 PathFollowingComponent，用于寻路和路径跟随。但这个默认组件不支持群组避障。
-因此需要把默认创建的PathFollowingComponent替换为UCrowdFollowingComponent
-SetDefaultSubobjectClass&lt;UCrowdFollowingComponent&gt;(&#34;PathFollowingComponent&#34;)
-AWarriorAIController(const FObjectInitializer&amp; ObjectInitializer); AWarriorAIController::AWarriorAIController(const FObjectInitializer&amp; ObjectInitializer) : Super(ObjectInitializer.SetDefaultSubobjectClass&lt;UCrowdFollowingComponent&gt;(&#34;PathFollowingComponent&#34;)) { if (UCrowdFollowingComponent* CrowdComp = Cast&lt;UCrowdFollowingComponent&gt;(GetPathFollowingComponent())) { Debug::Print(TEXT(&#34;CrowdFollowingComponent valid&#34;)); } } 将AIC_Guardian绑到BP_Gruntiling_Guardian上。
-之后在当中创建UAISenseConfig_Sight和UAIPerceptionComponent，进行一些默认值设置和将视觉绑定到感知上。
-并且绑定委托用于当小怪看到人之后做一些事情。
-AISenseConfig_Sight = CreateDefaultSubobject&lt;UAISenseConfig_Sight&gt;(TEXT(&#34;EnemySenseConfig_Sight&#34;)); AISenseConfig_Sight-&gt;DetectionByAffiliation.bDetectEnemies = true; AISenseConfig_Sight-&gt;DetectionByAffiliation.bDetectFriendlies = false; AISenseConfig_Sight-&gt;DetectionByAffiliation.bDetectNeutrals = false; AISenseConfig_Sight-&gt;SightRadius = 5000.f; AISenseConfig_Sight-&gt;LoseSightRadius = 0.
+                    FishParkoutSystem.ts enum EFishState { None, Swim, //正常游泳期 Jump, //跳跃动画期 QTEJump, //QTE跳跃 QTEFail, //QTE失败 InAir, //滑行期 AirToSwim, //窗口期 Hit, //受击动画到入水期 } onCreateNodeData onCreateNodeData是在PostCreateGameDataByFlowNodeSAction这个action执行时调用的函数，也就是当注册FishParkourData之前调用这个函数，在这个函数中绑定了蓝图中的委托（OnBeginOverlap、OnInputJumpStart、OnFallingInWater）并且更新了UI，调用了一个setParkourSplinePointInfo( params.splineSpawnerId, selfActor.ParkourMovement);函数，设置组件的setActive(true)，其中params是通过如下得到。
+let params = findObjectParam( action.params, SettingFishParkourNodeCreateParam ); //Define.ts export class SettingFishParkourNodeCreateParam extends SettingNodeParam { public splineSpawnerId: string = &#34;&#34;; } 这个函数在Util.ts工具类中，存入样条线全部的点。
+export function setParkourSplinePointInfo(spawnerId: string, parkourMovementComponent: UE.ParkourMovementComponent) { let splinePoints = findSplinePointsBySpawnerId(spawnerId); // 返回splinePoints数组 F.assert(splinePoints); let pointTransforms = UE.NewArray(UE.Transform); for (let info of splinePoints) { // 从该数组拿到每个点 let transform = new UE.
                     
                 </p>
             </a>
@@ -250,7 +239,7 @@ AISenseConfig_Sight = CreateDefaultSubobject&lt;UAISenseConfig_Sight&gt;(TEXT(&#
         <div class="level-left">
         </div>
         <div class="level-right">
-            <a href="/posts/ue/warriorproject4/">Continue reading <i class="fa fa-angle-double-right"
+            <a href="/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/">Continue reading <i class="fa fa-angle-double-right"
                     aria-hidden="true"></i></a>
         </div>
     </div>

@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    GAS项目笔记3 | 
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="GAS项目笔记第3部分 角色属性、攻击自定义计算伤害、小怪死亡、UI初步搭建
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/ue/gasproject3/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="GAS项目笔记3">
+  <meta property="og:description" content="GAS项目笔记第3部分 角色属性、攻击自定义计算伤害、小怪死亡、UI初步搭建">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+    <meta property="article:published_time" content="2025-11-20T00:00:00+00:00">
+    <meta property="article:modified_time" content="2025-11-20T00:00:00+00:00">
+    <meta property="article:tag" content="UE5">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="GAS项目笔记3">
+  <meta name="twitter:description" content="GAS项目笔记第3部分 角色属性、攻击自定义计算伤害、小怪死亡、UI初步搭建">
+
+
+  <meta itemprop="name" content="GAS项目笔记3">
+  <meta itemprop="description" content="GAS项目笔记第3部分 角色属性、攻击自定义计算伤害、小怪死亡、UI初步搭建">
+  <meta itemprop="datePublished" content="2025-11-20T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-11-20T00:00:00+00:00">
+  <meta itemprop="wordCount" content="1310">
+  <meta itemprop="keywords" content="UE5">
+<link rel="canonical" href="https://geeteng.github.io/posts/ue/gasproject3/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<link rel="stylesheet" href=/css/chordsheet.css>
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css"
+    integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js"
+    integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz"
+    crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js"
+    integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li>
+          <ul>
+            <li><a href="#整体流程图">整体流程图</a></li>
+            <li><a href="#怪物生成武器">怪物生成武器</a></li>
+            <li><a href="#创建属性">创建属性</a></li>
+            <li><a href="#怪物属性与ge">怪物属性与GE</a></li>
+            <li><a href="#武器碰撞检测">武器碰撞检测</a>
+              <ul>
+                <li><a href="#委托底层原理">委托底层原理</a></li>
+              </ul>
+            </li>
+            <li><a href="#应用伤害">应用伤害</a></li>
+            <li><a href="#击中反应">击中反应</a></li>
+            <li><a href="#敌人死亡">敌人死亡</a></li>
+            <li><a href="#ui">UI</a></li>
+            <li><a href="#武器图标加载导致的问题">武器图标加载导致的问题</a></li>
+          </ul>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1>GAS项目笔记3</h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Nov 20, 2025
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        47 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                    <a class="tag is-dark is-rounded" href="/tags/ue5">UE5</a>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+            <a class="tag is-dark is-rounded" href="/tags/ue5">Ue5</a>
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <h3 id="整体流程图">整体流程图</h3>
+<p><img src="/images/UE/WarriorProject/%E6%95%B4%E4%BD%93%E6%B5%81%E7%A8%8B%E5%9B%BE.png" alt="整体流程图"></p>
+<p>武器的beginplay中绑定自定义回调函数到OnComponentBeginOverlap、OnComponentEndOverlap的委托，也就是当overlap时会触发自定义的回调函数，然后在该函数中传递击中的角色调用了绑定OnWeaponHitTarget委托的回调函数（在扩展组件的PawnCombatComponent中武器注册的时候绑定的），因此会调用HeroCombatComponent（子类），其中会将碰撞到的物体都存入一个数组中，然后SendGameplayEventToActor，这样在GA中通过waitgameplayevent可以处理接收到event后的伤害逻辑——》HandleApplyDamage，在其中调用MakeHeroDamageEffectSpecHandle（自定义生成一个处理角色伤害GE的Spec Handle）传入到NativeApplyEffectSpecHandleToTarget</p>
+<h3 id="怪物生成武器">怪物生成武器</h3>
+<p>创建新的cpp文件：</p>
+<ol>
+<li>UEnemyCombatComponent : public UPawnCombatComponent</li>
+<li>UWarriorEnemyGameplayAbility : public UWarriorGameplayAbility</li>
+<li>AWarriorEnemyCharacter : public AWarriorBaseCharacter</li>
+<li>UDataAsset_EnemyStartUpData : public UDataAsset_StartUpDataBase</li>
+</ol>
+<p>并在编辑器中创建：</p>
+<p>ABP_Enemy_Base</p>
+<p>|__ABP_Guardian</p>
+<p>BS_Guardian_Default</p>
+<p>BP_EnemyCharacter_Base</p>
+<p>|__BP_Gruntling_Base</p>
+<p>​      |__BP_Gruntling_Guardian</p>
+<p>在AWarriorEnemyCharacter中创建一个EnemyCombatComponent组件，设置怪物角色的基础属性。</p>
+<p>在UWarriorEnemyGameplayAbility中和UWarriorHeroGameplayAbility一样，需要创建如下函数，暴露给蓝图，用于获取怪物角色和怪物的Combat组件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UFUNCTION(BlueprintPure, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|Ability&#34;</span>)
+</span></span><span style="display:flex;"><span>AWarriorEnemyCharacter<span style="color:#f92672">*</span> GetEnemyCharacterFromActorInfo();
+</span></span><span style="display:flex;"><span>UFUNCTION(BlueprintPure, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|Ability&#34;</span>)
+</span></span><span style="display:flex;"><span>UEnemyCombatComponent<span style="color:#f92672">*</span> GetEnemyCombatComponentFromActorInfo();
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">private</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>TWeakObjectPtr<span style="color:#f92672">&lt;</span>AWarriorEnemyCharacter<span style="color:#f92672">&gt;</span> CachedWarriorEnemyCharacter;
+</span></span></code></pre></div><p>在UDataAsset_EnemyStartUpData中重写父类的<code>GiveToAbilitySystemComponent</code>。该函数会在怪物角色的PossessedBy中调用。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UDataAsset_EnemyStartUpData<span style="color:#f92672">::</span>GiveToAbilitySystemComponent(UWarriorAbilitySystemComponent<span style="color:#f92672">*</span> InASCToGive,
+</span></span><span style="display:flex;"><span>    int32 ApplyLevel)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    Super<span style="color:#f92672">::</span>GiveToAbilitySystemComponent(InASCToGive, ApplyLevel);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>EnemyCombatAbilities.IsEmpty())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> TSubclassOf<span style="color:#f92672">&lt;</span>UWarriorEnemyGameplayAbility<span style="color:#f92672">&gt;&amp;</span> AbilityClass : EnemyCombatAbilities)
+</span></span><span style="display:flex;"><span>       {
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>AbilityClass) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>          FGameplayAbilitySpec <span style="color:#a6e22e">AbilitySpec</span>(AbilityClass);
+</span></span><span style="display:flex;"><span>          AbilitySpec.SourceObject <span style="color:#f92672">=</span> InASCToGive<span style="color:#f92672">-&gt;</span>GetAvatarActor();
+</span></span><span style="display:flex;"><span>          AbilitySpec.Level <span style="color:#f92672">=</span> ApplyLevel;
+</span></span><span style="display:flex;"><span>          InASCToGive<span style="color:#f92672">-&gt;</span>GiveAbility(AbilitySpec);
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>因为玩家只有一个，所以同步加载也无所谓，但是怪物有很多个，所以我们要使用异步加载。</p>
+<p>创建Lambda表达式，在其中调用UDataAsset_EnemyStartUpData的<code>GiveToAbilitySystemComponent</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorEnemyCharacter<span style="color:#f92672">::</span>PossessedBy(AController<span style="color:#f92672">*</span> NewController)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	Super<span style="color:#f92672">::</span>PossessedBy(NewController);
+</span></span><span style="display:flex;"><span>	InitEnemyStartUpData();
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorEnemyCharacter<span style="color:#f92672">::</span>InitEnemyStartUpData()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (CharacterStartUpData.IsNull())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	UAssetManager<span style="color:#f92672">::</span>GetStreamableManager().RequestAsyncLoad(
+</span></span><span style="display:flex;"><span>		CharacterStartUpData.ToSoftObjectPath(),
+</span></span><span style="display:flex;"><span>		FStreamableDelegate<span style="color:#f92672">::</span>CreateLambda(
+</span></span><span style="display:flex;"><span>			[<span style="color:#66d9ef">this</span>]()
+</span></span><span style="display:flex;"><span>			{
+</span></span><span style="display:flex;"><span>				<span style="color:#66d9ef">if</span> (UDataAsset_StartUpDataBase<span style="color:#f92672">*</span> LoadedData <span style="color:#f92672">=</span> CharacterStartUpData.Get())
+</span></span><span style="display:flex;"><span>				{
+</span></span><span style="display:flex;"><span>					LoadedData<span style="color:#f92672">-&gt;</span>GiveToAbilitySystemComponent(WarriorAbilitySystemComponent);
+</span></span><span style="display:flex;"><span>				}
+</span></span><span style="display:flex;"><span>			})
+</span></span><span style="display:flex;"><span>	);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>添加新的GameplayTag_Enemy_Weapon，用于怪物出生时生成武器。</p>
+<p>创建新的GA_Gruntling_SpawnWeapon继承GA_SpawnWeaponBase。在其中配置好参数，并且在DA_Guardian（继承UDataAsset_EnemyStartUpData ）中配置该GA。即可实现怪物出生即生成武器。</p>
+<h3 id="创建属性">创建属性</h3>
+<p>创建6个属性分别是：CurrentHealth、MaxHealth、CurrentRage、MaxRage、AttackPower、DefensePower</p>
+<p>并在构造函数中初始化它。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// AttributeSet 类里专门用来管理 Gameplay 属性（Attribute）的宏级封装工具
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">// 自动为某个 FGameplayAttributeData 属性生成访问、修改、初始化等接口
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#75715e">#define ATTRIBUTE_ACCESSORS(ClassName, PropertyName) \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">GAMEPLAYATTRIBUTE_PROPERTY_GETTER(ClassName, PropertyName) \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">GAMEPLAYATTRIBUTE_VALUE_GETTER(PropertyName) \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">GAMEPLAYATTRIBUTE_VALUE_SETTER(PropertyName) \
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e">GAMEPLAYATTRIBUTE_VALUE_INITTER(PropertyName)
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span>UPROPERTY(BlueprintReadOnly, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Health&#34;</span>)
+</span></span><span style="display:flex;"><span>FGameplayAttributeData CurrentHealth;
+</span></span><span style="display:flex;"><span>ATTRIBUTE_ACCESSORS(UWarriorAttributeSet, CurrentHealth)
+</span></span><span style="display:flex;"><span>    
+</span></span><span style="display:flex;"><span>UWarriorAttributeSet<span style="color:#f92672">::</span>UWarriorAttributeSet()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	InitCurrentHealth(<span style="color:#ae81ff">1.f</span>);
+</span></span><span style="display:flex;"><span>	InitMaxHealth(<span style="color:#ae81ff">1.f</span>);
+</span></span><span style="display:flex;"><span>	InitCurrentRage(<span style="color:#ae81ff">1.f</span>);
+</span></span><span style="display:flex;"><span>	InitMaxRage(<span style="color:#ae81ff">1.f</span>);
+</span></span><span style="display:flex;"><span>	InitAttackPower(<span style="color:#ae81ff">1.f</span>);
+</span></span><span style="display:flex;"><span>	InitDefensePower(<span style="color:#ae81ff">1.f</span>);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>创建CT_HeroStats存储玩家出生时属性配置表</p>
+<p><img src="/images/UE/WarriorProject/28.png" alt="28"></p>
+<p>之后创建GE_HeroStartUp填写要修改的属性。这是为了让玩家初始拥有最大血量、最大怒气值、攻击力和防御力。</p>
+<p><img src="/images/UE/WarriorProject/27.png" alt="27"></p>
+<p>之后创建一个同样用作初始化玩家属性的GE_Hero_Static，设置<strong>Magnitude Calculation Type</strong>为<strong>Attribute Based</strong>，该类型是基于某个属性去做修改。</p>
+<p>我们要在这里修改当前生命值和当前怒气值。所以<strong>Attribute To Capture</strong>设置为最大生命值和最大怒气值。</p>
+<p>将AttributeSource设为Target。</p>
+<p><img src="/images/UE/WarriorProject/29.png" alt="29"></p>
+<p>之后再UDataAsset_StartUpDataBase中定义一个初始化GE数组，用于初始化施加GE。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UPROPERTY(EditDefaultsOnly, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;StartUpData&#34;</span>)
+</span></span><span style="display:flex;"><span>TArray<span style="color:#f92672">&lt;</span>TSubclassOf<span style="color:#f92672">&lt;</span>UGameplayEffect<span style="color:#f92672">&gt;&gt;</span> StartUpGameplayEffects;
+</span></span></code></pre></div><p>在<code>GiveToAbilitySystemComponent</code>中添加如下逻辑，即可完成玩家初始化生命值等属性。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UDataAsset_StartUpDataBase<span style="color:#f92672">::</span>GiveToAbilitySystemComponent(UWarriorAbilitySystemComponent<span style="color:#f92672">*</span> InASCToGive,
+</span></span><span style="display:flex;"><span>                                                              int32 ApplyLevel)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    check(InASCToGive);
+</span></span><span style="display:flex;"><span>    GrantAbilities(ActivateOnGivenAbilities, InASCToGive, ApplyLevel);
+</span></span><span style="display:flex;"><span>    GrantAbilities(ReactiveAbilities, InASCToGive, ApplyLevel);
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>StartUpGameplayEffects.IsEmpty())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> TSubclassOf<span style="color:#f92672">&lt;</span>UGameplayEffect<span style="color:#f92672">&gt;&amp;</span> EffectClass : StartUpGameplayEffects)
+</span></span><span style="display:flex;"><span>       {
+</span></span><span style="display:flex;"><span>          <span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>EffectClass) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>          UGameplayEffect<span style="color:#f92672">*</span> EffectCDO <span style="color:#f92672">=</span> EffectClass<span style="color:#f92672">-&gt;</span>GetDefaultObject<span style="color:#f92672">&lt;</span>UGameplayEffect<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>          InASCToGive<span style="color:#f92672">-&gt;</span>ApplyGameplayEffectToSelf(
+</span></span><span style="display:flex;"><span>             EffectCDO,
+</span></span><span style="display:flex;"><span>             ApplyLevel,
+</span></span><span style="display:flex;"><span>             InASCToGive<span style="color:#f92672">-&gt;</span>MakeEffectContext()
+</span></span><span style="display:flex;"><span>             );
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="怪物属性与ge">怪物属性与GE</h3>
+<p>与角色同理，但是怪物的GE没有怒气值。创建一个新的CurveTable配置好怪物的属性。并且在怪物的DA中也配置好初始的GE。</p>
+<p>为了在调试中可以看到怪物属性，将项目文件夹中Config的DefaultGame.ini进行修改。</p>
+<pre tabindex="0"><code>[/Script/GameplayAbilities.AbilitySystemGlobals]
+bUseDebugTargetFromHud = true
+</code></pre><h3 id="武器碰撞检测">武器碰撞检测</h3>
+<p>武器不能一直开着碰撞，应该在动画中添加通知<strong>ANS_ToggleWeaponCollision</strong>，使得其在动画播放到合适的时候禁用、开启武器碰撞。</p>
+<p>但是多个角色发起很多次攻击，就要获取很多次武器（通过PawnCombatComponent获取武器），这样多次查找很浪费性能。</p>
+<p>因此我们需要创建一个接口<strong>UPawnCombatInterface</strong>，当中只有一个获取PawnCombatComponent的纯虚函数不做实现，然后让AWarriorBaseCharacter添加这个接口，重新该函数返回nullptr。</p>
+<p>而子类AWarriorEnemyCharacter和AWarriorHeroCharacter返回其Combat组件。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">virtual</span> UPawnCombatComponent<span style="color:#f92672">*</span> <span style="color:#a6e22e">GetPawnCombatComponent</span>() <span style="color:#66d9ef">const</span> <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span></code></pre></div><div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// ~ Begin IPawnCombatInterface Interface
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">virtual</span> UPawnCombatComponent<span style="color:#f92672">*</span> <span style="color:#a6e22e">GetPawnCombatComponent</span>() <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ~ End IPawnCombatInterface Interface
+</span></span></span></code></pre></div><p>为了在蓝图中可以获取到，新增两个函数：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">static</span> UPawnCombatComponent<span style="color:#f92672">*</span> <span style="color:#a6e22e">NativeGetPawnCombatComponentFromActor</span>(AActor<span style="color:#f92672">*</span> InActor);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UFUNCTION(BlueprintCallable, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|FunctionLibrary&#34;</span>, meta <span style="color:#f92672">=</span> (DisplayName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;GetPawnCombatComponentFromActor&#34;</span>, ExpandEnumAsExecs <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;OutValidType&#34;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">static</span> UPawnCombatComponent<span style="color:#f92672">*</span> BP_GetPawnCombatComponentFromActor(AActor<span style="color:#f92672">*</span> InActor, EWarriorValidType<span style="color:#f92672">&amp;</span> OutValidType);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UPawnCombatComponent<span style="color:#f92672">*</span> UWarriorFunctionLibrary<span style="color:#f92672">::</span>NativeGetPawnCombatComponentFromActor(AActor<span style="color:#f92672">*</span> InActor)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	check(InActor);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (IPawnCombatInterface<span style="color:#f92672">*</span> PawnCombatInterface <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>IPawnCombatInterface<span style="color:#f92672">&gt;</span>(InActor))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">return</span> PawnCombatInterface<span style="color:#f92672">-&gt;</span>GetPawnCombatComponent();
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>UPawnCombatComponent<span style="color:#f92672">*</span> UWarriorFunctionLibrary<span style="color:#f92672">::</span>BP_GetPawnCombatComponentFromActor(AActor<span style="color:#f92672">*</span> InActor,
+</span></span><span style="display:flex;"><span>	EWarriorValidType<span style="color:#f92672">&amp;</span> OutValidType)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	UPawnCombatComponent<span style="color:#f92672">*</span> CombatComponent <span style="color:#f92672">=</span> NativeGetPawnCombatComponentFromActor(InActor);
+</span></span><span style="display:flex;"><span>	OutValidType <span style="color:#f92672">=</span> CombatComponent<span style="color:#f92672">?</span> EWarriorValidType<span style="color:#f92672">::</span>Valid : EWarriorValidType<span style="color:#f92672">::</span>Invalid;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> CombatComponent;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在PawnCombatComponent中添加一个<code>ToggleWeaponCollision</code>函数，用于根据布尔值启用 / 禁用武器的碰撞体，会在ANS_ToggleWeaponCollision调用。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UPawnCombatComponent<span style="color:#f92672">::</span>ToggleWeaponCollision(<span style="color:#66d9ef">bool</span> bShouldEnable, EToggleDamageType ToggleDamageType)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (ToggleDamageType <span style="color:#f92672">==</span> EToggleDamageType<span style="color:#f92672">::</span>CurrentEquippedWeapon)
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       AWarriorWeaponBase<span style="color:#f92672">*</span> WeaponToToggle <span style="color:#f92672">=</span> GetCharacterCurrentEquippedWeapon();
+</span></span><span style="display:flex;"><span>       check(WeaponToToggle);
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> (bShouldEnable)
+</span></span><span style="display:flex;"><span>       {
+</span></span><span style="display:flex;"><span>          WeaponToToggle<span style="color:#f92672">-&gt;</span>GetWeaponCollisionBox()<span style="color:#f92672">-&gt;</span>SetCollisionEnabled(ECollisionEnabled<span style="color:#f92672">::</span>QueryOnly);
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">else</span>
+</span></span><span style="display:flex;"><span>       {
+</span></span><span style="display:flex;"><span>          WeaponToToggle<span style="color:#f92672">-&gt;</span>GetWeaponCollisionBox()<span style="color:#f92672">-&gt;</span>SetCollisionEnabled(ECollisionEnabled<span style="color:#f92672">::</span>NoCollision);
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>之后将ANS_ToggleWeaponCollision添加到动画中。</p>
+<p>在WarriorWeaponBase的BeginPlay中绑定BeginOverlap和EndOverlap函数。</p>
+<p><code>OnComponentBeginOverlap</code>和<code>OnComponentEndOverlap</code>是一个动态多播委托，使用<code>AddUniqueDynamic</code>可以防止重复绑定。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorWeaponBase<span style="color:#f92672">::</span>BeginPlay()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    Super<span style="color:#f92672">::</span>BeginPlay();
+</span></span><span style="display:flex;"><span>    WeaponCollisionBox<span style="color:#f92672">-&gt;</span>OnComponentBeginOverlap.AddUniqueDynamic(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>ThisClass<span style="color:#f92672">::</span>OnCollisionBoxBeginOverlap);
+</span></span><span style="display:flex;"><span>    WeaponCollisionBox<span style="color:#f92672">-&gt;</span>OnComponentEndOverlap.AddUniqueDynamic(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>ThisClass<span style="color:#f92672">::</span>OnCollisionBoxEndOverlap);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><blockquote>
+<p>为什么不能在构造函数中绑定？</p>
+</blockquote>
+<p>当构造函数执行时候C++正在构建CDO，这个时候对象只是“模板”，还未注册到世界中，蓝图在生成派生类时，会复制CDO中的属性结构，然后自己再重新生成实例。因此绑定会丢失。</p>
+<p>定义两个委托用来监听武器击中和离开敌人的事件。并在beginoverlap和endoverlap中进行执行。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>DECLARE_DELEGATE_OneParam(FOnTargetInteractedDelegate, AActor<span style="color:#f92672">*</span>);	
+</span></span><span style="display:flex;"><span>FOnTargetInteractedDelegate OnWeaponHitTarget;
+</span></span><span style="display:flex;"><span>FOnTargetInteractedDelegate OnWeaponPulledFromTarget;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorWeaponBase<span style="color:#f92672">::</span>OnCollisionBoxBeginOverlap(UPrimitiveComponent<span style="color:#f92672">*</span> OverlappedComponent, AActor<span style="color:#f92672">*</span> OtherActor,
+</span></span><span style="display:flex;"><span>                                                    UPrimitiveComponent<span style="color:#f92672">*</span> OtherComp, int32 OtherBodyIndex, <span style="color:#66d9ef">bool</span> bFromSweep, <span style="color:#66d9ef">const</span> FHitResult<span style="color:#f92672">&amp;</span> SweepResult)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	APawn<span style="color:#f92672">*</span> WeaponOwningPawn <span style="color:#f92672">=</span> GetInstigator<span style="color:#f92672">&lt;</span>APawn<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>	checkf(WeaponOwningPawn, TEXT(<span style="color:#e6db74">&#34;Forget to assign an instigator as the owning pawn of the weapon: %s&#34;</span>), <span style="color:#f92672">*</span>GetName());
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (APawn<span style="color:#f92672">*</span> HitPawn <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APawn<span style="color:#f92672">&gt;</span>(OtherActor))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (WeaponOwningPawn <span style="color:#f92672">!=</span> HitPawn)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			OnWeaponHitTarget.ExecuteIfBound(OtherActor);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> AWarriorWeaponBase<span style="color:#f92672">::</span>OnCollisionBoxEndOverlap(UPrimitiveComponent<span style="color:#f92672">*</span> OverlappedComponent, AActor<span style="color:#f92672">*</span> OtherActor,
+</span></span><span style="display:flex;"><span>                                                  UPrimitiveComponent<span style="color:#f92672">*</span> OtherComp, int32 OtherBodyIndex)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	APawn<span style="color:#f92672">*</span> WeaponOwningPawn <span style="color:#f92672">=</span> GetInstigator<span style="color:#f92672">&lt;</span>APawn<span style="color:#f92672">&gt;</span>();
+</span></span><span style="display:flex;"><span>	checkf(WeaponOwningPawn, TEXT(<span style="color:#e6db74">&#34;Forget to assign an instigator as the owning pawn of the weapon: %s&#34;</span>), <span style="color:#f92672">*</span>GetName());
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (APawn<span style="color:#f92672">*</span> HitPawn <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>APawn<span style="color:#f92672">&gt;</span>(OtherActor))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (WeaponOwningPawn <span style="color:#f92672">!=</span> HitPawn)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			OnWeaponPulledFromTarget.ExecuteIfBound(OtherActor);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在<code>UPawnCombatComponent::RegisterSpawnedWeapon</code>中进行绑定委托关联的函数OnHitTargetActor、OnWeaponPulledFromTargetActor。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>InWeaponToRegister<span style="color:#f92672">-&gt;</span>OnWeaponHitTarget.BindUObject(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>ThisClass<span style="color:#f92672">::</span>OnHitTargetActor);
+</span></span><span style="display:flex;"><span>InWeaponToRegister<span style="color:#f92672">-&gt;</span>OnWeaponPulledFromTarget.BindUObject(<span style="color:#66d9ef">this</span>, <span style="color:#f92672">&amp;</span>ThisClass<span style="color:#f92672">::</span>OnWeaponPulledFromTargetActor);
+</span></span></code></pre></div><p>这两个函数在其子类UHeroCombatComponent要做重写。需要重新定义一个<code>WarriorGameplayTags::Shared_Event_MeleeHit</code>，也就是该函数会在攻击到敌人时会发送一个GameplayEvent给自己。在GA中可以接收这个event执行逻辑。目的是为了在接收之后处理应用伤害（调用HandleAppyDamage）。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UHeroCombatComponent<span style="color:#f92672">::</span>OnHitTargetActor(AActor<span style="color:#f92672">*</span> HitActor)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (OverlappedActors.Contains(HitActor))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">return</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    OverlappedActors.AddUnique(HitActor);
+</span></span><span style="display:flex;"><span>    FGameplayEventData Data;
+</span></span><span style="display:flex;"><span>    Data.Instigator <span style="color:#f92672">=</span> GetOwningPawn();
+</span></span><span style="display:flex;"><span>    Data.Target <span style="color:#f92672">=</span> HitActor;
+</span></span><span style="display:flex;"><span>    UAbilitySystemBlueprintLibrary<span style="color:#f92672">::</span>SendGameplayEventToActor(
+</span></span><span style="display:flex;"><span>       GetOwningPawn(),
+</span></span><span style="display:flex;"><span>       WarriorGameplayTags<span style="color:#f92672">::</span>Shared_Event_MeleeHit,
+</span></span><span style="display:flex;"><span>       Data
+</span></span><span style="display:flex;"><span>       );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h4 id="委托底层原理">委托底层原理</h4>
+<p>委托是一种观察者模式，也叫做代理，用于降低不同对象之间的耦合度。</p>
+<p>监听者将需要响应的函数绑定到委托对象上，当事件触发时，委托会自动调用这些已绑定的函数，实现通知与回调。</p>
+<p>原理：在委托类内部<strong>保存了一个函数指针，等需要执行时把参数传给它，然后调用它</strong>。</p>
+<h3 id="应用伤害">应用伤害</h3>
+<p>应用伤害流程</p>
+<p>GA—— Make Gameplay Effect Spec Handle —— Apply Handle To Target —— Gameplay Effect Execution Calculation —— Attribute Set —— Notify UI</p>
+<p>在WarriorHeroGameplayAbility中定义一个新的函数用于把一次攻击的上下文信息——（是谁打的、什么攻击、伤害多少）打包成一个 GameplayEffectSpec，供 GAS 系统分发处理。</p>
+<p>创建一个新的tag——<code>Shared_SetByCaller_BaseDamage</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// EffectClass要生成的GE(比如GA_Damage) InWeaponBaseDamage伤害值 InCurrentAttackTypeTag攻击类型标签（比如轻击重击） InCurrentComboCount连击次数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>FGameplayEffectSpecHandle UWarriorHeroGameplayAbility<span style="color:#f92672">::</span>MakeHeroDamageEffectSpecHandle(
+</span></span><span style="display:flex;"><span>    TSubclassOf<span style="color:#f92672">&lt;</span>UGameplayEffect<span style="color:#f92672">&gt;</span> EffectClass, <span style="color:#66d9ef">float</span> InWeaponBaseDamage, FGameplayTag InCurrentAttackTypeTag,
+</span></span><span style="display:flex;"><span>    int32 InCurrentComboCount)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    check(EffectClass);
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ContextHandle 记录 GE的来源信息（这个能力发起的、来源对象、施加效果者）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    FGameplayEffectContextHandle ContextHandle <span style="color:#f92672">=</span> GetWarriorAbilitySystemComponentFromActorInfo()<span style="color:#f92672">-&gt;</span>MakeEffectContext();
+</span></span><span style="display:flex;"><span>    ContextHandle.SetAbility(<span style="color:#66d9ef">this</span>);
+</span></span><span style="display:flex;"><span>    ContextHandle.AddSourceObject(GetAvatarActorFromActorInfo());
+</span></span><span style="display:flex;"><span>    ContextHandle.AddInstigator(GetAvatarActorFromActorInfo(), GetAvatarActorFromActorInfo());
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 创建GE EffectClass 是函数传入的 这个能力等级 刚才构建的上下文信息 ContextHandle
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    FGameplayEffectSpecHandle EffectSpecHandle <span style="color:#f92672">=</span> GetWarriorAbilitySystemComponentFromActorInfo()<span style="color:#f92672">-&gt;</span>MakeOutgoingSpec(
+</span></span><span style="display:flex;"><span>       EffectClass,
+</span></span><span style="display:flex;"><span>       GetAbilityLevel(),
+</span></span><span style="display:flex;"><span>       ContextHandle
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 动态传入伤害数值
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    EffectSpecHandle.Data<span style="color:#f92672">-&gt;</span>SetSetByCallerMagnitude(
+</span></span><span style="display:flex;"><span>       WarriorGameplayTags<span style="color:#f92672">::</span>Shared_SetByCaller_BaseDamage,
+</span></span><span style="display:flex;"><span>       InWeaponBaseDamage
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// 如果攻击标签有效 则再加入参数 攻击类别（轻击重击）连击次数
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (InCurrentAttackTypeTag.IsValid())
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       EffectSpecHandle.Data<span style="color:#f92672">-&gt;</span>SetSetByCallerMagnitude(
+</span></span><span style="display:flex;"><span>          InCurrentAttackTypeTag,
+</span></span><span style="display:flex;"><span>          InCurrentComboCount
+</span></span><span style="display:flex;"><span>       );
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> EffectSpecHandle;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>MakeHeroDamage其实做了装数据的事情:</p>
+<pre tabindex="0"><code>FGameplayEffectSpecHandle = {
+    Context：来源信息
+    Level：Ability Level 
+    SetByCaller：基础伤害 + 轻击/重击连击参数
+    EffectClass：GA_Damage
+}
+</code></pre><p>注意EffectClass中的Execute_Implementation函数并不会被MakeHeroDamageEffectSpecHandle调用，只是在当中作为构造Spec的一员。在ApplyGameplayEffectSpecToTarget才会被调用。</p>
+<p>接下来就可以在蓝图中调用该函数了，为了将输入传入这个函数，我们需要有一个1GE蓝图类、2还有一个能获取武器伤害数值的函数、3当前攻击的类别和4连击次数。</p>
+<ol>
+<li>因此首先需要创建一个GE类，我们只需要给他配置一个计算类，这个计算类是我们创建的C++新类<strong>UGEExecCalc_DamageTaken</strong>继承自UGameplayEffectExecutionCalculation。</li>
+</ol>
+<p><img src="/images/UE/WarriorProject/32.png" alt="32"></p>
+<ol start="2">
+<li>
+<p>在HeroCombatComponent中添加两个函数分别是返回玩家武器和武器中配置的WeaponBaseDamage（一个Curve Table，稍后会说创建它）得到这个表中武器等级对应的伤害。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>AWarriorHeroWeapon<span style="color:#f92672">*</span> UHeroCombatComponent<span style="color:#f92672">::</span>GetHeroCurrentEquippedWeapon() <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> Cast<span style="color:#f92672">&lt;</span>AWarriorHeroWeapon<span style="color:#f92672">&gt;</span>(GetCharacterCurrentEquippedWeapon());
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">float</span> UHeroCombatComponent<span style="color:#f92672">::</span>GetHeroCurrentEquippedWeaponDamageAtLevel(<span style="color:#66d9ef">float</span> InLevel) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> <span style="color:#a6e22e">GetHeroCurrentEquippedWeapon</span>()<span style="color:#f92672">-&gt;</span>HeroWeaponData.WeaponBaseDamage.GetValueAtLevel(InLevel);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在WarriorStructTypes中的FWarriorHeroWeaponData中添加新成员，是一个Curve Table用于配置武器对应等级能造成的伤害。</p>
+<pre tabindex="0"><code>UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+FScalableFloat WeaponBaseDamage;
+</code></pre><p>之后在编辑器中创建CT_HeroWeaponStats并在武器类中配置这个表。</p>
+</li>
+</ol>
+<p>之后在WarriorGameplayAbility中创建两个函数，它们都是用来施加GE到目标的，但是分别用于C++和蓝图。</p>
+<p>需要添加一个新的enum结构<code>EWarriorSuccessType</code>在WarriorEnumTypes中。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>FActiveGameplayEffectHandle <span style="color:#a6e22e">NativeApplyEffectSpecHandleToTarget</span>(AActor<span style="color:#f92672">*</span> TargetActor, <span style="color:#66d9ef">const</span> FGameplayEffectSpecHandle<span style="color:#f92672">&amp;</span> InSpecHandle);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UFUNCTION(BlueprintCallable, Category <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Warrior|Ability&#34;</span>, meta <span style="color:#f92672">=</span> (DisplayName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Apply Gameplay Effect Spec Handle To Target Actor&#34;</span>, ExpandEnumAsExecs <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;OutSuccessType&#34;</span>))
+</span></span><span style="display:flex;"><span>FActiveGameplayEffectHandle BP_ApplyEffectSpecHandleToTarget(AActor<span style="color:#f92672">*</span> TargetActor, <span style="color:#66d9ef">const</span> FGameplayEffectSpecHandle<span style="color:#f92672">&amp;</span> InSpecHandle, EWarriorSuccessType<span style="color:#f92672">&amp;</span> OutSuccessType);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>FActiveGameplayEffectHandle UWarriorGameplayAbility<span style="color:#f92672">::</span>NativeApplyEffectSpecHandleToTarget(AActor<span style="color:#f92672">*</span> TargetActor,
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> FGameplayEffectSpecHandle<span style="color:#f92672">&amp;</span> InSpecHandle)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	UAbilitySystemComponent<span style="color:#f92672">*</span> TargetASC <span style="color:#f92672">=</span> UAbilitySystemBlueprintLibrary<span style="color:#f92672">::</span>GetAbilitySystemComponent(TargetActor);
+</span></span><span style="display:flex;"><span>	check(TargetASC <span style="color:#f92672">&amp;&amp;</span> InSpecHandle.IsValid());
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#a6e22e">GetWarriorAbilitySystemComponentFromActorInfo</span>()<span style="color:#f92672">-&gt;</span>ApplyGameplayEffectSpecToTarget(
+</span></span><span style="display:flex;"><span>		<span style="color:#f92672">*</span>InSpecHandle.Data,
+</span></span><span style="display:flex;"><span>		TargetASC
+</span></span><span style="display:flex;"><span>	);
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>FActiveGameplayEffectHandle UWarriorGameplayAbility<span style="color:#f92672">::</span>BP_ApplyEffectSpecHandleToTarget(AActor<span style="color:#f92672">*</span> TargetActor,
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> FGameplayEffectSpecHandle<span style="color:#f92672">&amp;</span> InSpecHandle, EWarriorSuccessType<span style="color:#f92672">&amp;</span> OutSuccessType)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	FActiveGameplayEffectHandle ActiveGameplayEffectHandle <span style="color:#f92672">=</span> NativeApplyEffectSpecHandleToTarget(TargetActor, InSpecHandle);
+</span></span><span style="display:flex;"><span>	OutSuccessType <span style="color:#f92672">=</span> ActiveGameplayEffectHandle.WasSuccessfullyApplied() <span style="color:#f92672">?</span> EWarriorSuccessType<span style="color:#f92672">::</span>Successful : EWarriorSuccessType<span style="color:#f92672">::</span>Failed;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> ActiveGameplayEffectHandle;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p><img src="/images/UE/WarriorProject/33.png" alt="33"></p>
+<p>值得注意的是<strong>UsedComboCount</strong>这个变量是CurrentLightAttackComboCount提升的新变量，目的是为了在sequence先执行伤害施加时不要立马连击次数++了，所以要延迟一下变量的更新。</p>
+<p>接下来我们需要去处理伤害数值的计算，这个伤害是融合了连击次数、武器基础伤害（武器等级）、攻击类型以及角色的攻击力。</p>
+<p>首先在伤害计算类里，注册并声明要从 AttributeSet 中读取的属性。这里有两种方法读取属性。</p>
+<ol>
+<li>
+<p>宏<code>DECLARE_ATTRIBUTE_CAPTUREDEF</code> 版</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FWarriorDamageCapture</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	DECLARE_ATTRIBUTE_CAPTUREDEF(AttackPower)
+</span></span><span style="display:flex;"><span>	DECLARE_ATTRIBUTE_CAPTUREDEF(DefensePower)
+</span></span><span style="display:flex;"><span>	FWarriorDamageCapture()
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#75715e">// 从施加者的UWarriorAttributeSet获取AttackPower，每次都取最新值（false）
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>		DEFINE_ATTRIBUTE_CAPTUREDEF(UWarriorAttributeSet, AttackPower, Source, false)
+</span></span><span style="display:flex;"><span>		DEFINE_ATTRIBUTE_CAPTUREDEF(UWarriorAttributeSet, DefensePower, Target, false)
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// 为了RelevantAttributesToCapture能够全局访问这个定义 做了一个单例静态实例
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">static</span> <span style="color:#66d9ef">const</span> FWarriorDamageCapture<span style="color:#f92672">&amp;</span> GetWarriorDamageCapture()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">static</span> FWarriorDamageCapture WarriorDamageCapture;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> WarriorDamageCapture;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>UGEExecCalc_DamageTaken<span style="color:#f92672">::</span>UGEExecCalc_DamageTaken()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	RelevantAttributesToCapture.Add(GetWarriorDamageCapture().AttackPowerDef);
+</span></span><span style="display:flex;"><span>	RelevantAttributesToCapture.Add(GetWarriorDamageCapture().DefensePowerDef);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>这个宏是GameplayAbilities 提供的简化封装，用来自动生成：</p>
+<pre tabindex="0"><code>FGameplayEffectAttributeCaptureDefinition AttackPowerDef;
+FGameplayEffectAttributeCaptureDefinition AttackPowerProperty;
+</code></pre></li>
+<li>
+<p>手动创建 <code>FGameplayEffectAttributeCaptureDefinition</code></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>FProperty<span style="color:#f92672">*</span> AttackPowerProperty <span style="color:#f92672">=</span> FindFieldChecked<span style="color:#f92672">&lt;</span>FProperty<span style="color:#f92672">&gt;</span>(
+</span></span><span style="display:flex;"><span>    UWarriorAttributeSet<span style="color:#f92672">::</span>StaticClass(),
+</span></span><span style="display:flex;"><span>    GET_MEMBER_NAME_CHECKED(UWarriorAttributeSet, AttackPower)
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>FGameplayEffectAttributeCaptureDefinition <span style="color:#a6e22e">AttackPowerCaptureDefinition</span>(
+</span></span><span style="display:flex;"><span>    AttackPowerProperty,
+</span></span><span style="display:flex;"><span>    EGameplayEffectAttributeCaptureSource<span style="color:#f92672">::</span>Source,
+</span></span><span style="display:flex;"><span>    false
+</span></span><span style="display:flex;"><span>);
+</span></span><span style="display:flex;"><span>RelevantAttributesToCapture.Add(GetWarriorDamageCapture().AttackPowerDef);
+</span></span></code></pre></div><p>相当于上面方法的宏展开版，但是很麻烦。</p>
+</li>
+</ol>
+<p>接下来计算伤害：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UGEExecCalc_DamageTaken<span style="color:#f92672">::</span>Execute_Implementation(<span style="color:#66d9ef">const</span> FGameplayEffectCustomExecutionParameters<span style="color:#f92672">&amp;</span> ExecutionParams,
+</span></span><span style="display:flex;"><span>	FGameplayEffectCustomExecutionOutput<span style="color:#f92672">&amp;</span> OutExecutionOutput) <span style="color:#66d9ef">const</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// GameplayEffectSpec 就是本次伤害实例的数据包 包含来源对象、tags等数据
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">const</span> FGameplayEffectSpec<span style="color:#f92672">&amp;</span> EffectSpec <span style="color:#f92672">=</span> ExecutionParams.GetOwningSpec();
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	FAggregatorEvaluateParameters EvaluateParameters;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 获取来源方和目标方在GESpec创建瞬间被捕获下来的标签集合
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	EvaluateParameters.SourceTags <span style="color:#f92672">=</span> EffectSpec.CapturedSourceTags.GetAggregatedTags();
+</span></span><span style="display:flex;"><span>	EvaluateParameters.TargetTags <span style="color:#f92672">=</span> EffectSpec.CapturedTargetTags.GetAggregatedTags();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> SourceAttackPower <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 捕获来源方的攻击力
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetWarriorDamageCapture().AttackPowerDef, EvaluateParameters,SourceAttackPower);
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> BaseDamage <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>	int32 UsedLightAttackComboCount <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	int32 UsedHeavyAttackComboCount <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 读取 SetByCaller 的值，这个值已经在UWarriorHeroGameplayAbility::MakeHeroDamageEffectSpecHandle被传入了
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">const</span> TPair<span style="color:#f92672">&lt;</span>FGameplayTag, <span style="color:#66d9ef">float</span><span style="color:#f92672">&gt;&amp;</span> TagMagnitude : EffectSpec.SetByCallerTagMagnitudes)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (TagMagnitude.Key.MatchesTagExact(WarriorGameplayTags<span style="color:#f92672">::</span>Shared_SetByCaller_BaseDamage))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			BaseDamage <span style="color:#f92672">=</span> TagMagnitude.Value;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (TagMagnitude.Key.MatchesTagExact(WarriorGameplayTags<span style="color:#f92672">::</span>Player_SetByCaller_AttackType_Light))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			UsedLightAttackComboCount <span style="color:#f92672">=</span> TagMagnitude.Value;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (TagMagnitude.Key.MatchesTagExact(WarriorGameplayTags<span style="color:#f92672">::</span>Player_SetByCaller_AttackType_Heavy))
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			UsedHeavyAttackComboCount <span style="color:#f92672">=</span> TagMagnitude.Value;
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">float</span> TargetDefensePower <span style="color:#f92672">=</span> <span style="color:#ae81ff">0.f</span>;
+</span></span><span style="display:flex;"><span>	<span style="color:#75715e">// 捕获目标方的防御力
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>	ExecutionParams.AttemptCalculateCapturedAttributeMagnitude(GetWarriorDamageCapture().DefensePowerDef, EvaluateParameters, TargetDefensePower);
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (UsedLightAttackComboCount <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> DamageIncreasePercentLight <span style="color:#f92672">=</span> (UsedLightAttackComboCount <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">0.05</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1.f</span>;
+</span></span><span style="display:flex;"><span>		BaseDamage <span style="color:#f92672">*=</span> DamageIncreasePercentLight;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (UsedHeavyAttackComboCount <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> DamageIncreasePercentHeavy <span style="color:#f92672">=</span> UsedHeavyAttackComboCount <span style="color:#f92672">*</span> <span style="color:#ae81ff">0.15f</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1.f</span>;
+</span></span><span style="display:flex;"><span>		BaseDamage <span style="color:#f92672">*=</span> DamageIncreasePercentHeavy;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> FinalDamageDone <span style="color:#f92672">=</span> BaseDamage <span style="color:#f92672">*</span> SourceAttackPower <span style="color:#f92672">/</span> TargetDefensePower;
+</span></span><span style="display:flex;"><span>	Debug<span style="color:#f92672">::</span>Print(TEXT(<span style="color:#e6db74">&#34;FinalDamageDone&#34;</span>), FinalDamageDone);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (FinalDamageDone <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0.f</span>)
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		OutExecutionOutput.AddOutputModifier(
+</span></span><span style="display:flex;"><span>			FGameplayModifierEvaluatedData(
+</span></span><span style="display:flex;"><span>				GetWarriorDamageCapture().DamageTakenProperty,
+</span></span><span style="display:flex;"><span>				EGameplayModOp<span style="color:#f92672">::</span>Override,
+</span></span><span style="display:flex;"><span>				FinalDamageDone
+</span></span><span style="display:flex;"><span>			)
+</span></span><span style="display:flex;"><span>		);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>在WarriorAttributeSet中重写PostGameplayEffectExecute，在GE执行后做一个Clamp和通过DamageTaken改变Health属性。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorAttributeSet<span style="color:#f92672">::</span>PostGameplayEffectExecute(<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">FGameplayEffectModCallbackData</span><span style="color:#f92672">&amp;</span> Data)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>CachedPawnUIInterface.IsValid())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		CachedPawnUIInterface <span style="color:#f92672">=</span> TWeakInterfacePtr<span style="color:#f92672">&lt;</span>IPawnUIInterface<span style="color:#f92672">&gt;</span>(Data.Target.GetAvatarActor());
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	checkf(CachedPawnUIInterface.IsValid(), TEXT(<span style="color:#e6db74">&#34;didn&#39;t implement IPawnUIInterface&#34;</span>));
+</span></span><span style="display:flex;"><span>	
+</span></span><span style="display:flex;"><span>	UPawnUIComponent<span style="color:#f92672">*</span> PawnUIComponent <span style="color:#f92672">=</span> CachedPawnUIInterface<span style="color:#f92672">-&gt;</span>GetPawnUIComponent();
+</span></span><span style="display:flex;"><span>	checkf(PawnUIComponent, TEXT(<span style="color:#e6db74">&#34;Couldn&#39;t extract a PawnUIComponent from %s&#34;</span>), <span style="color:#f92672">*</span>Data.Target.GetAvatarActor()<span style="color:#f92672">-&gt;</span>GetActorNameOrLabel());
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (Data.EvaluatedData.Attribute <span style="color:#f92672">==</span> GetCurrentHealthAttribute())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> NewCurrentHealth <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>Clamp(GetCurrentHealth(), <span style="color:#ae81ff">0.f</span>, GetMaxHealth());
+</span></span><span style="display:flex;"><span>		SetCurrentHealth(NewCurrentHealth);
+</span></span><span style="display:flex;"><span>		PawnUIComponent<span style="color:#f92672">-&gt;</span>OnCurrentHealthChanged.Broadcast(GetCurrentHealth() <span style="color:#f92672">/</span> GetMaxHealth());
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (Data.EvaluatedData.Attribute <span style="color:#f92672">==</span> GetCurrentRageAttribute())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> NewCurrentRage <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>Clamp(GetCurrentRage(), <span style="color:#ae81ff">0.f</span>, GetMaxRage());
+</span></span><span style="display:flex;"><span>		SetCurrentRage(NewCurrentRage);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (UHeroUIComponent<span style="color:#f92672">*</span> HeroUIComponent <span style="color:#f92672">=</span> CachedPawnUIInterface<span style="color:#f92672">-&gt;</span>GetHeroUIComponent())
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			HeroUIComponent<span style="color:#f92672">-&gt;</span>OnCurrentRageChanged.Broadcast(GetCurrentRage() <span style="color:#f92672">/</span> GetMaxRage());
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (Data.EvaluatedData.Attribute <span style="color:#f92672">==</span> GetDamageTakenAttribute())
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> OldHealth <span style="color:#f92672">=</span> GetCurrentHealth();
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> DamageDone <span style="color:#f92672">=</span> GetDamageTaken();
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">const</span> <span style="color:#66d9ef">float</span> NewCurrentHealth <span style="color:#f92672">=</span> FMath<span style="color:#f92672">::</span>Clamp(OldHealth <span style="color:#f92672">-</span> DamageDone, <span style="color:#ae81ff">0.f</span>, GetMaxHealth());
+</span></span><span style="display:flex;"><span>		SetCurrentHealth(NewCurrentHealth);
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">const</span> FString DebugString <span style="color:#f92672">=</span> FString<span style="color:#f92672">::</span>Printf(TEXT(<span style="color:#e6db74">&#34;OldHealth: %f, DamageDone:%f, NewCurrentHealth:%f&#34;</span>), OldHealth, DamageDone, NewCurrentHealth);
+</span></span><span style="display:flex;"><span>		Debug<span style="color:#f92672">::</span>Print(DebugString, FColor<span style="color:#f92672">::</span>Green);
+</span></span><span style="display:flex;"><span>		
+</span></span><span style="display:flex;"><span>		PawnUIComponent<span style="color:#f92672">-&gt;</span>OnCurrentHealthChanged.Broadcast(GetCurrentHealth() <span style="color:#f92672">/</span> GetMaxHealth());
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (NewCurrentHealth <span style="color:#f92672">==</span> <span style="color:#ae81ff">0.f</span>)
+</span></span><span style="display:flex;"><span>		{
+</span></span><span style="display:flex;"><span>			UWarriorFunctionLibrary<span style="color:#f92672">::</span>AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), WarriorGameplayTags<span style="color:#f92672">::</span>Shared_Status_Death);
+</span></span><span style="display:flex;"><span>		}
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="击中反应">击中反应</h3>
+<p><strong>目标1</strong>：敌人在受击时会面对玩家播放受击蒙太奇动画。</p>
+<p>添加如下几个Tag。分别用于敌人近战、远程、受击的能力、触发受击的事件。并配置DA_Guardian。</p>
+<pre tabindex="0"><code>WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Melee);
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Enemy_Ability_Ranged);
+
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Ability_HitReact);
+WARRIOR_API UE_DECLARE_GAMEPLAY_TAG_EXTERN(Shared_Event_HitReact);
+</code></pre><p>将之前轻击和重击GA中处理受伤的逻辑封装成一个函数。在该函数中调用SendGameplayEventToActor函数，发送Shared.Event.HitReact给敌人。</p>
+<p>创建一个GA_Enemy_HitReact_Base、GA_Guardian_HitReact（继承前一个）</p>
+<p>配置好基类的Tags和Triggers，更改InstancingPolicy为InstancedPerActor。</p>
+<p><img src="/images/UE/WarriorProject/34.png" alt="34"></p>
+<p>在子类受击GA中添加随机蒙太奇。</p>
+<p>**目标2：**敌人在受击时材料颜色更改为红色。</p>
+<p><img src="/images/UE/WarriorProject/35.png" alt="35"></p>
+<p><img src="/images/UE/WarriorProject/36.png" alt="36"></p>
+<p>**目标3：**敌人在受击时全局缩放时间</p>
+<p>添加新的GameplayTag——<strong>Player_Event_HitPause</strong>、<strong>Player_Ability_HitPause</strong></p>
+<p>在HeroCombatComponent中OnHitTargetActor函数添加一个发送Event。并在DA_Hero中配置好ReactAbility为Player_Ability_HitPause。然后创建<strong>GA_Hero_HitPause</strong>配置好那些东西。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UHeroCombatComponent<span style="color:#f92672">::</span>OnHitTargetActor(AActor<span style="color:#f92672">*</span> HitActor)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    <span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>    UAbilitySystemBlueprintLibrary<span style="color:#f92672">::</span>SendGameplayEventToActor(
+</span></span><span style="display:flex;"><span>       GetOwningPawn(),
+</span></span><span style="display:flex;"><span>       WarriorGameplayTags<span style="color:#f92672">::</span>Shared_Event_MeleeHit,
+</span></span><span style="display:flex;"><span>       Data
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>    UAbilitySystemBlueprintLibrary<span style="color:#f92672">::</span>SendGameplayEventToActor(
+</span></span><span style="display:flex;"><span>       GetOwningPawn(),
+</span></span><span style="display:flex;"><span>       WarriorGameplayTags<span style="color:#f92672">::</span>Player_Event_HitPause,
+</span></span><span style="display:flex;"><span>       FGameplayEventData()
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UHeroCombatComponent<span style="color:#f92672">::</span>OnWeaponPulledFromTargetActor(AActor<span style="color:#f92672">*</span> InteractedActor)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    UAbilitySystemBlueprintLibrary<span style="color:#f92672">::</span>SendGameplayEventToActor(
+</span></span><span style="display:flex;"><span>    GetOwningPawn(),
+</span></span><span style="display:flex;"><span>    WarriorGameplayTags<span style="color:#f92672">::</span>Player_Event_HitPause,
+</span></span><span style="display:flex;"><span>    FGameplayEventData()
+</span></span><span style="display:flex;"><span>    );
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>**目标4：**击中后镜头摇晃</p>
+<p>创建<strong>CameraShake_HeroMelee</strong>蓝图继承DefaultCameraShakeBase，按照如下配置：</p>
+<p><img src="/images/UE/WarriorProject/37.png" alt="37"></p>
+<p>在GA_Hero_HitPause中继续连接ClientStartCameraShake函数去播放该创建好的CameraShake类。</p>
+<p>目标5：受击怪物声音</p>
+<p>与之前相同，在蒙太奇动画中添加Notify，但是多个怪物会发出多个声音，因此创建一个SoundConcurrency命名<strong>Concurrency_OneAtATime</strong>，目的是为了让同一个音效只播放一个，新的会覆盖旧的。并且添加到SoundCue中。</p>
+<p>**目标5：**玩家击中声音</p>
+<p>首先在Config文件夹中的DefaultGame.ini中添加GameplayCue的文件夹路径<code>GameplayCueNotifyPaths = &quot;/Game/GameplayCues&quot;</code></p>
+<p>之后在GameplayCue文件夹中创建一个继承GameplayCueNotifyStatic的蓝图，创建一个新的GameplayCueTag——(TagName=&quot;<strong>GameplayCue.Sounds.MeleeHit.Axe</strong>&quot;)，在蓝图中播放音效。</p>
+<p><img src="/images/UE/WarriorProject/38.png" alt="38"></p>
+<p>在攻击的GA中添加ExecuteGameplayCueOnOwner去执行这个Cue。</p>
+<h3 id="敌人死亡">敌人死亡</h3>
+<p>生命值为0时添加Tag，然后播放蒙太奇动画。</p>
+<p>创建两个Tag，分别是添加的死亡状态Tag——<strong>Shared_Status_Death</strong>，收到这个Tag之后会触发死亡的能力——<strong>Shared_Ability_Death</strong>。</p>
+<p>之后在WarriorAttributeSet::PostGameplayEffectExecute中添加如下代码，它会在角色死亡时在身上添加一个死亡状态Tag。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (NewCurrentHealth <span style="color:#f92672">==</span> <span style="color:#ae81ff">0.f</span>)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    UWarriorFunctionLibrary<span style="color:#f92672">::</span>AddGameplayTagToActorIfNone(Data.Target.GetAvatarActor(), WarriorGameplayTags<span style="color:#f92672">::</span>Shared_Status_Death);
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>创建<strong>GA_Enemy_Death_Base</strong>，这一次不需要更改实例化方式，因为死亡不是频发发生的，所以保持默认InstancedPerExecution。</p>
+<p>但是要注意Triggers中的TriggerSource需要更改成OwnedTagAdded，而不是之前的GameplayEvent。</p>
+<p><img src="/images/UE/WarriorProject/39.png" alt="39"></p>
+<p>之后创建GC，和击中的GC一样。创建子类<strong>GA_Guardian_Death</strong>，配置好蒙太奇动画和GCTag。</p>
+<p><img src="/images/UE/WarriorProject/40.png" alt="40"></p>
+<p>这样可以实现角色死亡后播放蒙太奇动画了。但是播放完动画角色仍然会回到之前Idle状态，这个时候需要我们去在死亡之后通知角色，1.停止动画 2.碰撞体失效 3.材质FX 4.粒子FX 5.角色销毁</p>
+<p>创建一个蓝图接口——<strong>BPI_EnemyDeath</strong>用于敌人死亡的接口，该接口中有一个OnEnemyDied函数，在敌人类中添加该接口，并且调用该接口去做动画暂停与碰撞体失效等逻辑。</p>
+<p>创建一个TimeLine曲线，可以使材质的DissolveAmount值完成1秒内0-1的渐变。（TotalDissolveTime那里是Divide /号而不是%号，已改正）</p>
+<p><img src="/images/UE/WarriorProject/42.png" alt="42"></p>
+<p>在GA_Enemy_Death_Base的能力End之后执行OnEnemyDied函数。在敌人的角色蓝图中完成如下逻辑：</p>
+<p><img src="/images/UE/WarriorProject/41.png" alt="41"></p>
+<p>在OnEnemyDied函数中添加NiagaraSystem软引用对象的输入，可以在子类GA中配置粒子特效。</p>
+<p>死亡的Nagara粒子特效，</p>
+<p><img src="/images/UE/WarriorProject/43.png" alt="43"></p>
+<h3 id="ui">UI</h3>
+<p>属性变换会通知PawnUIComponent，然后去做广播。</p>
+<p>而Widgets会监听并做更新。</p>
+<p>首先创建几个Cpp文件：</p>
+<p>PawnUIInterface（获取UI组件，需要被添加到角色基类）</p>
+<p>PawnUIComponent</p>
+<p>|__HeroUIComponent</p>
+<p>|__EnemyUIComponent</p>
+<p>角色基类中与子类都要去实现该函数：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">// ~ Begin IPawnUIInterface Interface
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">virtual</span> UPawnUIComponent<span style="color:#f92672">*</span> <span style="color:#a6e22e">GetPawnUIComponent</span>() <span style="color:#66d9ef">const</span> <span style="color:#66d9ef">override</span>;
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ~ End IPawnUIInterface Interface
+</span></span></span></code></pre></div><p>为了获得Hero中独特的Rage属性，IPawnUIInterface和Hero中需要额外实现一个函数。</p>
+<pre tabindex="0"><code>virtual UHeroUIComponent* GetHeroUIComponent() const override;
+</code></pre><p>定义多播委托：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnPercentChangeDelegate, <span style="color:#66d9ef">float</span>, NewPercent);
+</span></span><span style="display:flex;"><span>UPROPERTY(BlueprintAssignable)
+</span></span><span style="display:flex;"><span>FOnPercentChangeDelegate OnCurrentHealthChanged;
+</span></span></code></pre></div><p>HeroUIComponent中额外有一个rage：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UPROPERTY(BlueprintAssignable)
+</span></span><span style="display:flex;"><span>FOnPercentChangeDelegate OnCurrentRageChanged;
+</span></span></code></pre></div><p>因此在WarriorAttributeSet中的PostGameplayEffectExecute可以添加委托的广播了</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (<span style="color:#f92672">!</span>CachedPawnUIInterface.IsValid())
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    CachedPawnUIInterface <span style="color:#f92672">=</span> TWeakInterfacePtr<span style="color:#f92672">&lt;</span>IPawnUIInterface<span style="color:#f92672">&gt;</span>(Data.Target.GetAvatarActor());
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>UPawnUIComponent<span style="color:#f92672">*</span> PawnUIComponent <span style="color:#f92672">=</span> CachedPawnUIInterface<span style="color:#f92672">-&gt;</span>GetPawnUIComponent();
+</span></span><span style="display:flex;"><span><span style="color:#75715e">// ...
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>PawnUIComponent<span style="color:#f92672">-&gt;</span>OnCurrentHealthChanged.Broadcast(GetCurrentHealth() <span style="color:#f92672">/</span> GetMaxHealth());
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">if</span> (UHeroUIComponent<span style="color:#f92672">*</span> HeroUIComponent <span style="color:#f92672">=</span> CachedPawnUIInterface<span style="color:#f92672">-&gt;</span>GetHeroUIComponent())
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    HeroUIComponent<span style="color:#f92672">-&gt;</span>OnCurrentRageChanged.Broadcast(GetCurrentRage() <span style="color:#f92672">/</span> GetMaxRage());
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>创建一个新的cpp文件——WarriorWidgetBase</p>
+<p>在该类中重写NativeOnInitialized写调用蓝图的函数和敌人创建UI初始化的函数。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UFUNCTION(BlueprintImplementableEvent, meta <span style="color:#f92672">=</span> (DisplayName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;On Owning Hero UI Comonent Initialized&#34;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> BP_OnOwningHeroUIComponentInitialized(UHeroUIComponent<span style="color:#f92672">*</span> OwningHeroUIComponent);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>UFUNCTION(BlueprintImplementableEvent, meta <span style="color:#f92672">=</span> (DisplayName <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;On Owning Enemy UI Comonent Initialized&#34;</span>))
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> BP_OnOwningEnemyUIComponentInitialized(UEnemyUIComponent<span style="color:#f92672">*</span> OwningEnemyUIComponent);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorWidgetBase<span style="color:#f92672">::</span>NativeOnInitialized()
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>    Super<span style="color:#f92672">::</span>NativeOnInitialized();
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span> (IPawnUIInterface<span style="color:#f92672">*</span> PawnUIInterface <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>IPawnUIInterface<span style="color:#f92672">&gt;</span>(GetOwningPlayerPawn()))
+</span></span><span style="display:flex;"><span>    {
+</span></span><span style="display:flex;"><span>       <span style="color:#66d9ef">if</span> (UHeroUIComponent<span style="color:#f92672">*</span> HeroUIComponent <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>UHeroUIComponent<span style="color:#f92672">&gt;</span>(PawnUIInterface<span style="color:#f92672">-&gt;</span>GetHeroUIComponent()))
+</span></span><span style="display:flex;"><span>       {
+</span></span><span style="display:flex;"><span>          BP_OnOwningHeroUIComponentInitialized(HeroUIComponent);
+</span></span><span style="display:flex;"><span>       }
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">void</span> UWarriorWidgetBase<span style="color:#f92672">::</span>InitEnemyCreatedWidget(AActor<span style="color:#f92672">*</span> OwningEnemyActor)
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (IPawnUIInterface<span style="color:#f92672">*</span> PawnUIInterface <span style="color:#f92672">=</span> Cast<span style="color:#f92672">&lt;</span>IPawnUIInterface<span style="color:#f92672">&gt;</span>(OwningEnemyActor))
+</span></span><span style="display:flex;"><span>	{
+</span></span><span style="display:flex;"><span>		UEnemyUIComponent<span style="color:#f92672">*</span> EnemyUIComponent <span style="color:#f92672">=</span> PawnUIInterface<span style="color:#f92672">-&gt;</span>GetEnemyUIComponent();
+</span></span><span style="display:flex;"><span>		checkf(EnemyUIComponent, TEXT(<span style="color:#e6db74">&#34;Failed to extact an EnemyUIComponent from %s&#34;</span>), <span style="color:#f92672">*</span>OwningEnemyActor<span style="color:#f92672">-&gt;</span>GetActorNameOrLabel());
+</span></span><span style="display:flex;"><span>		BP_OnOwningEnemyUIComponentInitialized(EnemyUIComponent);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><p>UI部分不做过多阐述</p>
+<p>创建一个继承SizeBox的蓝图<strong>WarriorSizeBox</strong>用于更改控件的大小和继承WarriorWidgetBase的<strong>TPWBP_IconSlot</strong>用于显示装配的武器和<strong>TPWBP_StatusBar</strong>用于显示玩家、敌人生命值和玩家怒气值。其中该控件根据不同比例来更改FillColor以实现生命值低于50为橙色进度条，低于20为红色进度条。</p>
+<p>在敌人角色类中添加一个新组件<strong>EnemyHealthWidgetComponent</strong>挂载到骨骼下面，用于显示敌人血条。</p>
+<p>添加角色新的GA——GA_Hero_DrawOverlayWidget，在初始时激活OnGiven规则，该能力无需tag，创建<strong>WBP_HeroOverlayWidget</strong>，在当中绑定属性改变的事件，Add to Viewport。</p>
+<p>至此实现了玩家和敌人血条、怒气值的血条进度监听。</p>
+<p>为了使武器图标能够显示当前装配的武器，我们需要在WeaponData中增加一个成员。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+</span></span><span style="display:flex;"><span>TSoftObjectPtr<span style="color:#f92672">&lt;</span>UTexture2D<span style="color:#f92672">&gt;</span> SoftWeaponIconTexture;
+</span></span></code></pre></div><p>在HeroUIComponent中添加一个委托。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span>DECLARE_DYNAMIC_MULTICAST_DELEGATE_OneParam(FOnEquippedWeaponChangedDelegate, TSoftObjectPtr<span style="color:#f92672">&lt;</span>UTexture2D<span style="color:#f92672">&gt;</span>, SoftWeaponIcon);
+</span></span><span style="display:flex;"><span>UPROPERTY(BlueprintCallable, BlueprintAssignable)
+</span></span><span style="display:flex;"><span>FOnEquippedWeaponChangedDelegate OnEquippedWeaponChanged;
+</span></span></code></pre></div><p>然后在装配武器的GA中添加新逻辑，去CallOn这个委托。</p>
+<p>之后在WBP_HeroOverlayWidget中绑定委托的触发事件：Set Soft Texture as Icon。</p>
+<h3 id="武器图标加载导致的问题">武器图标加载导致的问题</h3>
+<p>武器图标会闪一下，因为异步加载还未加载好的原因。因此删除Set Soft Texture as Icon这个函数。</p>
+<p>原因是：当软引用有效时，会调用Set Brush from Soft Texture，但是这个过程会有一段时间，调用完这个函数会立刻执行Set Visbility，很有可能没加载好就直接Set Visbility了。</p>
+<p><img src="/images/UE/WarriorProject/44.png" alt="44"></p>
+<p>解决方法1：我们可以第一次加载时先手动加载。</p>
+<p>解决方法2：可以延迟调用Set Visibility</p>
+<p>我们采用第一种方式：</p>
+<p><img src="/images/UE/WarriorProject/45.png" alt="45"></p>
+
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject3%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=GAS%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b03&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject3%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject3%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject3%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject3%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject3%2f
+			&title=GAS%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b03&summary=%e6%95%b4%e4%bd%93%e6%b5%81%e7%a8%8b%e5%9b%be%20%e6%ad%a6%e5%99%a8%e7%9a%84beginplay%e4%b8%ad%e7%bb%91%e5%ae%9a%e8%87%aa%e5%ae%9a%e4%b9%89%e5%9b%9e%e8%b0%83%e5%87%bd%e6%95%b0%e5%88%b0OnComponentBeginOverlap%e3%80%81OnComponentEndOverlap%e7%9a%84%e5%a7%94%e6%89%98%ef%bc%8c%e4%b9%9f%e5%b0%b1%e6%98%af%e5%bd%93overlap%e6%97%b6%e4%bc%9a%e8%a7%a6%e5%8f%91%e8%87%aa%e5%ae%9a%e4%b9%89%e7%9a%84%e5%9b%9e%e8%b0%83%e5%87%bd%e6%95%b0%ef%bc%8c%e7%84%b6%e5%90%8e%e5%9c%a8%e8%af%a5%e5%87%bd%e6%95%b0%e4%b8%ad%e4%bc%a0%e9%80%92%e5%87%bb%e4%b8%ad%e7%9a%84%e8%a7%92%e8%89%b2%e8%b0%83%e7%94%a8%e4%ba%86%e7%bb%91%e5%ae%9aOnWeaponHitTarget%e5%a7%94%e6%89%98%e7%9a%84%e5%9b%9e%e8%b0%83%e5%87%bd%e6%95%b0%ef%bc%88%e5%9c%a8%e6%89%a9%e5%b1%95%e7%bb%84%e4%bb%b6%e7%9a%84PawnCombatComponent%e4%b8%ad%e6%ad%a6%e5%99%a8%e6%b3%a8%e5%86%8c%e7%9a%84%e6%97%b6%e5%80%99%e7%bb%91%e5%ae%9a%e7%9a%84%ef%bc%89%ef%bc%8c%e5%9b%a0%e6%ad%a4%e4%bc%9a%e8%b0%83%e7%94%a8HeroCombatComponent%ef%bc%88%e5%ad%90%e7%b1%bb%ef%bc%89%ef%bc%8c%e5%85%b6%e4%b8%ad%e4%bc%9a%e5%b0%86%e7%a2%b0%e6%92%9e%e5%88%b0%e7%9a%84%e7%89%a9%e4%bd%93%e9%83%bd%e5%ad%98%e5%85%a5%e4%b8%80%e4%b8%aa%e6%95%b0%e7%bb%84%e4%b8%ad%ef%bc%8c%e7%84%b6%e5%90%8eSendGameplayEventToActor%ef%bc%8c%e8%bf%99%e6%a0%b7%e5%9c%a8GA%e4%b8%ad%e9%80%9a%e8%bf%87waitgameplayevent%e5%8f%af%e4%bb%a5%e5%a4%84%e7%90%86%e6%8e%a5%e6%94%b6%e5%88%b0event%e5%90%8e%e7%9a%84%e4%bc%a4%e5%ae%b3%e9%80%bb%e8%be%91%e2%80%94%e2%80%94%e3%80%8bHandleApplyDamage%ef%bc%8c%e5%9c%a8%e5%85%b6%e4%b8%ad%e8%b0%83%e7%94%a8MakeHeroDamageEffectSpecHandle%ef%bc%88%e8%87%aa%e5%ae%9a%e4%b9%89%e7%94%9f%e6%88%90%e4%b8%80%e4%b8%aa%e5%a4%84%e7%90%86%e8%a7%92%e8%89%b2%e4%bc%a4%e5%ae%b3GE%e7%9a%84Spec%20Handle%ef%bc%89%e4%bc%a0%e5%85%a5%e5%88%b0NativeApplyEffectSpecHandleToTarget%0a%e6%80%aa%e7%89%a9%e7%94%9f%e6%88%90%e6%ad%a6%e5%99%a8%20%e5%88%9b%e5%bb%ba%e6%96%b0%e7%9a%84cpp%e6%96%87%e4%bb%b6%ef%bc%9a%0aUEnemyCombatComponent%20%3a%20public%20UPawnCombatComponent%20UWarriorEnemyGameplayAbility%20%3a%20public%20UWarriorGameplayAbility%20AWarriorEnemyCharacter%20%3a%20public%20AWarriorBaseCharacter%20UDataAsset_EnemyStartUpData%20%3a%20public%20UDataAsset_StartUpDataBase%20%e5%b9%b6%e5%9c%a8%e7%bc%96%e8%be%91%e5%99%a8%e4%b8%ad%e5%88%9b%e5%bb%ba%ef%bc%9a%0aABP_Enemy_Base%0a%7c__ABP_Guardian%0aBS_Guardian_Default%0aBP_EnemyCharacter_Base%0a%7c__BP_Gruntling_Base%0a%e2%80%8b%20%7c__BP_Gruntling_Guardian%0a%e5%9c%a8AWarriorEnemyCharacter%e4%b8%ad%e5%88%9b%e5%bb%ba%e4%b8%80%e4%b8%aaEnemyCombatComponent%e7%bb%84%e4%bb%b6%ef%bc%8c%e8%ae%be%e7%bd%ae%e6%80%aa%e7%89%a9%e8%a7%92%e8%89%b2%e7%9a%84%e5%9f%ba%e7%a1%80%e5%b1%9e%e6%80%a7%e3%80%82%0a%e5%9c%a8UWarriorEnemyGameplayAbility%e4%b8%ad%e5%92%8cUWarriorHeroGameplayAbility%e4%b8%80%e6%a0%b7%ef%bc%8c%e9%9c%80%e8%a6%81%e5%88%9b%e5%bb%ba%e5%a6%82%e4%b8%8b%e5%87%bd%e6%95%b0%ef%bc%8c%e6%9a%b4%e9%9c%b2%e7%bb%99%e8%93%9d%e5%9b%be%ef%bc%8c%e7%94%a8%e4%ba%8e%e8%8e%b7%e5%8f%96%e6%80%aa%e7%89%a9%e8%a7%92%e8%89%b2%e5%92%8c%e6%80%aa%e7%89%a9%e7%9a%84Combat%e7%bb%84%e4%bb%b6%e3%80%82%0aUFUNCTION%28BlueprintPure%2c%20Category%20%3d%20%26%2334%3bWarrior%7cAbility%26%2334%3b%29%20AWarriorEnemyCharacter%2a%20GetEnemyCharacterFromActorInfo%28%29%3b%20UFUNCTION%28BlueprintPure%2c%20Category%20%3d%20%26%2334%3bWarrior%7cAbility%26%2334%3b%29%20UEnemyCombatComponent%2a%20GetEnemyCombatComponentFromActorInfo%28%29%3b%20private%3a%20TWeakObjectPtr%26lt%3bAWarriorEnemyCharacter%26gt%3b%20CachedWarriorEnemyCharacter%3b%20%e5%9c%a8UDataAsset_EnemyStartUpData%e4%b8%ad%e9%87%8d%e5%86%99%e7%88%b6%e7%b1%bb%e7%9a%84GiveToAbilitySystemComponent%e3%80%82%e8%af%a5%e5%87%bd%e6%95%b0%e4%bc%9a%e5%9c%a8%e6%80%aa%e7%89%a9%e8%a7%92%e8%89%b2%e7%9a%84PossessedBy%e4%b8%ad%e8%b0%83%e7%94%a8%e3%80%82%0avoid%20UDataAsset_EnemyStartUpData%3a%3aGiveToAbilitySystemComponent%28UWarriorAbilitySystemComponent%2a%20InASCToGive%2c%20int32%20ApplyLevel%29%20%7b%20Super%3a%3aGiveToAbilitySystemComponent%28InASCToGive%2c%20ApplyLevel%29%3b%20if%20%28%21EnemyCombatAbilities.IsEmpty%28%29%29%20%7b%20for%20%28const%20TSubclassOf%26lt%3bUWarriorEnemyGameplayAbility%26gt%3b%26amp%3b%20AbilityClass%20%3a%20EnemyCombatAbilities%29%20%7b%20if%20%28%21AbilityClass%29%20continue%3b%20FGameplayAbilitySpec%20AbilitySpec%28AbilityClass%29%3b%20AbilitySpec.&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=GAS%e9%a1%b9%e7%9b%ae%e7%ac%94%e8%ae%b03&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fue%2fgasproject3%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>
