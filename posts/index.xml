@@ -6,8 +6,15 @@
     <description>Recent content in Posts on GeeTeng</description>
     <generator>Hugo</generator>
     <language>en-us</language>
-    <lastBuildDate>Thu, 20 Nov 2025 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sun, 07 Dec 2025 00:00:00 +0000</lastBuildDate>
     <atom:link href="https://geeteng.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>GAS项目笔记4</title>
+      <link>https://geeteng.github.io/posts/ue/gasproject4/</link>
+      <pubDate>Sun, 07 Dec 2025 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/ue/gasproject4/</guid>
+      <description>UE避障算法 在虚幻引擎寻路系统中使用避障机制 | 虚幻引擎 5.7 文档 | Epic Developer Community&#xA;相对速度障碍物算法（RVO） 核心思想：用当前速度、位置和相对速度预测碰撞，然后实时调整速度，避免与其他个体发生碰撞。它只负责即时的动作决策，不规划路径，也不管理群体。&#xA;输入：当前速度 + 相对位置 + 预测碰撞时间&#xA;输出：一个新的安全速度向量&#xA;群组绕行管理器（Detour Crowd Manager） 核心思想：基于NavMesh进行全局路径规划，再结合局部避障（内部可能使用RVO），对大量智能体进行统一管理，比如寻路、速度匹配、优先级控制、群体移动等。&#xA;AI避让 AWarriorAIController 自定义AIController&#xA;|——AIC_Enemy_Base&#xA;​&#x9;|——AIC_Guardian&#xA;AIController 构造时，会自动创建一个 PathFollowingComponent，用于寻路和路径跟随。但这个默认组件不支持群组避障。&#xA;因此需要把默认创建的PathFollowingComponent替换为UCrowdFollowingComponent&#xA;SetDefaultSubobjectClass&amp;lt;UCrowdFollowingComponent&amp;gt;(&amp;quot;PathFollowingComponent&amp;quot;)&#xA;AWarriorAIController(const FObjectInitializer&amp;amp; ObjectInitializer); AWarriorAIController::AWarriorAIController(const FObjectInitializer&amp;amp; ObjectInitializer) : Super(ObjectInitializer.SetDefaultSubobjectClass&amp;lt;UCrowdFollowingComponent&amp;gt;(&amp;#34;PathFollowingComponent&amp;#34;)) { if (UCrowdFollowingComponent* CrowdComp = Cast&amp;lt;UCrowdFollowingComponent&amp;gt;(GetPathFollowingComponent())) { Debug::Print(TEXT(&amp;#34;CrowdFollowingComponent valid&amp;#34;)); } } 将AIC_Guardian绑到BP_Gruntiling_Guardian上。&#xA;之后在当中创建UAISenseConfig_Sight和UAIPerceptionComponent，进行一些默认值设置和将视觉绑定到感知上。&#xA;并且绑定委托用于当小怪看到人之后做一些事情。&#xA;AISenseConfig_Sight = CreateDefaultSubobject&amp;lt;UAISenseConfig_Sight&amp;gt;(TEXT(&amp;#34;EnemySenseConfig_Sight&amp;#34;)); AISenseConfig_Sight-&amp;gt;DetectionByAffiliation.bDetectEnemies = true; AISenseConfig_Sight-&amp;gt;DetectionByAffiliation.bDetectFriendlies = false; AISenseConfig_Sight-&amp;gt;DetectionByAffiliation.bDetectNeutrals = false; AISenseConfig_Sight-&amp;gt;SightRadius = 5000.</description>
+    </item>
     <item>
       <title>GAS项目笔记3</title>
       <link>https://geeteng.github.io/posts/ue/gasproject3/</link>
@@ -276,6 +283,13 @@
     </item>
     <item>
       <title></title>
+      <link>https://geeteng.github.io/posts/game/%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://geeteng.github.io/posts/game/%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98/</guid>
+      <description>GAS网络部分&#xA;UE的属性同步&#xA;GAS赋予能力的三种方法&#xA;ASC赋予能力GiveAbility 角色初始就有的能力——生成武器、装配武器 通过GE赋予能力——狂暴状态解锁技能 GA赋予能力 EQS底层是什么&#xA;EQS 底层就是批量生成候选点，然后对这些点进行可达性、可视性、距离等测试，计算分数并排序，从而返回最佳点。&#xA;遍历所有items然后遍历所有Test（距离Test / Pathfinding Test / Dot Test）&#xA;生成一批候选点（Items） 然后对每个点执行Tests（过滤/打分） 按分数排序 返回最佳点 fps使用状态同步在弱网环境下 导致的问题&#xA;（服务器权威）你在客户端移动很流畅，但是服务器延迟高，服务器收到位置后，发现跑远了然后给你拉回权威位置。 （包丢失/延迟）角色移动不连续 （射击决策用客户端时刻）客户端做表现子弹已经发出去了，但是服务器射击判定延迟，命中体验感差。 &amp;hellip; 根本原因是状态同步是“结果式同步”，弱网导致状态包丢失或延迟后，客户端缺乏预测与回滚机制，无法平滑补偿，也无法保证时序一致。&#xA;那应该如何解决弱网带来的问题？&#xA;输入同步+客户端预测+服务器回滚矫正+命中回溯&#xA;1.输入同步：客户端不发当前位置，而是发当前输入，服务器能够重演玩家的行为，不会影响最终状态。&#xA;2.客户端预测：客户端在按下移动/跳跃/开枪的瞬间立刻模拟，不等待服务器。&#xA;3.服务器回滚矫正：如果客户端预测的结果和服务器不同，客户端会收到服务器的权威状态，回到服务器的位置。&#xA;4.命中回溯：服务器对“开枪时间点”进行还原的一种算法。客户端开枪时附带“开枪时间戳”，服务器收到开枪包时，会回到“子弹发射那一刻”的游戏世界状态，重新做命中判定。&#xA;GA中endabiliy去调用一个定时器会出现问题吗？定时器会不会随着GA结束而销毁&#xA;不会随着GA结束而销毁定时器，因为UE 的 FTimerManager 是挂在 UWorld 层级的，跟 GA 完全独立。&#xA;但是必须注意：定时器回调不能继续访问GA内部数据。&#xA;为什么不用AbilityTask去做连击&#xA;GA 已经 EndAbility，但我还需要在“技能结束后的窗口期”继续等待一段时间，用来触发“下一段连击”。&#xA;GA 结束 → Task 必定清理 → 任务逻辑完全中断。&#xA;有一个攻击能力命中率75%，成功命中就受伤，不命中就显示Miss。该怎么去写在GAS框架中？&#xA;命中判定放在GE自定义计算类中处理：&#xA;如果没有命中给目标添加Tag，返回；&#xA;命中了，正常计算伤害，然后改变属性。&#xA;bool bHit = (FMath::RandRange(0, 99) &amp;lt; HitChance); // 75% 命中率 不在GA中写的原因是因为GA是行为层，而GE是数值层。</description>
+    </item>
+    <item>
+      <title></title>
       <link>https://geeteng.github.io/posts/ue/ue%E7%9F%A5%E8%AF%86%E7%82%B9/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/ue/ue%E7%9F%A5%E8%AF%86%E7%82%B9/</guid>
@@ -287,13 +301,6 @@
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://geeteng.github.io/posts/%E5%AE%9E%E4%B9%A0%E7%AC%94%E8%AE%B0/%E9%A3%9E%E9%B1%BC%E8%B7%91%E9%85%B7%E7%8E%A9%E6%B3%95/</guid>
       <description>FishParkoutSystem.ts enum EFishState { None, Swim, //正常游泳期 Jump, //跳跃动画期 QTEJump, //QTE跳跃 QTEFail, //QTE失败 InAir, //滑行期 AirToSwim, //窗口期 Hit, //受击动画到入水期 } onCreateNodeData onCreateNodeData是在PostCreateGameDataByFlowNodeSAction这个action执行时调用的函数，也就是当注册FishParkourData之前调用这个函数，在这个函数中绑定了蓝图中的委托（OnBeginOverlap、OnInputJumpStart、OnFallingInWater）并且更新了UI，调用了一个setParkourSplinePointInfo( params.splineSpawnerId, selfActor.ParkourMovement);函数，设置组件的setActive(true)，其中params是通过如下得到。&#xA;let params = findObjectParam( action.params, SettingFishParkourNodeCreateParam ); //Define.ts export class SettingFishParkourNodeCreateParam extends SettingNodeParam { public splineSpawnerId: string = &amp;#34;&amp;#34;; } 这个函数在Util.ts工具类中，存入样条线全部的点。&#xA;export function setParkourSplinePointInfo(spawnerId: string, parkourMovementComponent: UE.ParkourMovementComponent) { let splinePoints = findSplinePointsBySpawnerId(spawnerId); // 返回splinePoints数组 F.assert(splinePoints); let pointTransforms = UE.NewArray(UE.Transform); for (let info of splinePoints) { // 从该数组拿到每个点 let transform = new UE.</description>
-    </item>
-    <item>
-      <title>GAS项目笔记4</title>
-      <link>https://geeteng.github.io/posts/ue/gasproject4/</link>
-      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://geeteng.github.io/posts/ue/gasproject4/</guid>
-      <description>UE避障算法 在虚幻引擎寻路系统中使用避障机制 | 虚幻引擎 5.7 文档 | Epic Developer Community&#xA;相对速度障碍物算法（RVO） 核心思想：用当前速度、位置和相对速度预测碰撞，然后实时调整速度，避免与其他个体发生碰撞。它只负责即时的动作决策，不规划路径，也不管理群体。&#xA;输入：当前速度 + 相对位置 + 预测碰撞时间&#xA;输出：一个新的安全速度向量&#xA;群组绕行管理器（Detour Crowd Manager） 核心思想：基于NavMesh进行全局路径规划，再结合局部避障（内部可能使用RVO），对大量智能体进行统一管理，比如寻路、速度匹配、优先级控制、群体移动等。&#xA;AI避让 AWarriorAIController 自定义AIController&#xA;|——AIC_Enemy_Base&#xA;|——AIC_Guardian&#xD;AIController 构造时，会自动创建一个 PathFollowingComponent，用于寻路和路径跟随。但这个默认组件不支持群组避障。&#xA;因此需要把默认创建的PathFollowingComponent替换为UCrowdFollowingComponent&#xA;SetDefaultSubobjectClass&amp;lt;UCrowdFollowingComponent&amp;gt;(&amp;quot;PathFollowingComponent&amp;quot;)&#xA;AWarriorAIController(const FObjectInitializer&amp;amp; ObjectInitializer); AWarriorAIController::AWarriorAIController(const FObjectInitializer&amp;amp; ObjectInitializer) : Super(ObjectInitializer.SetDefaultSubobjectClass&amp;lt;UCrowdFollowingComponent&amp;gt;(&amp;#34;PathFollowingComponent&amp;#34;)) { if (UCrowdFollowingComponent* CrowdComp = Cast&amp;lt;UCrowdFollowingComponent&amp;gt;(GetPathFollowingComponent())) { Debug::Print(TEXT(&amp;#34;CrowdFollowingComponent valid&amp;#34;)); } } 将AIC_Guardian绑到BP_Gruntiling_Guardian上。&#xA;之后在当中创建UAISenseConfig_Sight和UAIPerceptionComponent，进行一些默认值设置和将视觉绑定到感知上。&#xA;并且绑定委托用于当小怪看到人之后做一些事情。&#xA;AISenseConfig_Sight = CreateDefaultSubobject&amp;lt;UAISenseConfig_Sight&amp;gt;(TEXT(&amp;#34;EnemySenseConfig_Sight&amp;#34;)); AISenseConfig_Sight-&amp;gt;DetectionByAffiliation.bDetectEnemies = true; AISenseConfig_Sight-&amp;gt;DetectionByAffiliation.bDetectFriendlies = false; AISenseConfig_Sight-&amp;gt;DetectionByAffiliation.bDetectNeutrals = false; AISenseConfig_Sight-&amp;gt;SightRadius = 5000.f; AISenseConfig_Sight-&amp;gt;LoseSightRadius = 0.</description>
     </item>
   </channel>
 </rss>

@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+    <title>
+    
+    
+    GeeTeng</title>
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="GAS网络部分
+UE的属性同步
+GAS赋予能力的三种方法
+ASC赋予能力GiveAbility 角色初始就有的能力——生成武器、装配武器 通过GE赋予能力——狂暴状态解锁技能 GA赋予能力 EQS底层是什么
+EQS 底层就是批量生成候选点，然后对这些点进行可达性、可视性、距离等测试，计算分数并排序，从而返回最佳点。
+遍历所有items然后遍历所有Test（距离Test / Pathfinding Test / Dot Test）
+生成一批候选点（Items） 然后对每个点执行Tests（过滤/打分） 按分数排序 返回最佳点 fps使用状态同步在弱网环境下 导致的问题
+（服务器权威）你在客户端移动很流畅，但是服务器延迟高，服务器收到位置后，发现跑远了然后给你拉回权威位置。 （包丢失/延迟）角色移动不连续 （射击决策用客户端时刻）客户端做表现子弹已经发出去了，但是服务器射击判定延迟，命中体验感差。 &hellip; 根本原因是状态同步是“结果式同步”，弱网导致状态包丢失或延迟后，客户端缺乏预测与回滚机制，无法平滑补偿，也无法保证时序一致。
+那应该如何解决弱网带来的问题？
+输入同步&#43;客户端预测&#43;服务器回滚矫正&#43;命中回溯
+1.输入同步：客户端不发当前位置，而是发当前输入，服务器能够重演玩家的行为，不会影响最终状态。
+2.客户端预测：客户端在按下移动/跳跃/开枪的瞬间立刻模拟，不等待服务器。
+3.服务器回滚矫正：如果客户端预测的结果和服务器不同，客户端会收到服务器的权威状态，回到服务器的位置。
+4.命中回溯：服务器对“开枪时间点”进行还原的一种算法。客户端开枪时附带“开枪时间戳”，服务器收到开枪包时，会回到“子弹发射那一刻”的游戏世界状态，重新做命中判定。
+GA中endabiliy去调用一个定时器会出现问题吗？定时器会不会随着GA结束而销毁
+不会随着GA结束而销毁定时器，因为UE 的 FTimerManager 是挂在 UWorld 层级的，跟 GA 完全独立。
+但是必须注意：定时器回调不能继续访问GA内部数据。
+为什么不用AbilityTask去做连击
+GA 已经 EndAbility，但我还需要在“技能结束后的窗口期”继续等待一段时间，用来触发“下一段连击”。
+GA 结束 → Task 必定清理 → 任务逻辑完全中断。
+有一个攻击能力命中率75%，成功命中就受伤，不命中就显示Miss。该怎么去写在GAS框架中？
+命中判定放在GE自定义计算类中处理：
+如果没有命中给目标添加Tag，返回；
+命中了，正常计算伤害，然后改变属性。
+bool bHit = (FMath::RandRange(0, 99) &lt; HitChance); // 75% 命中率 不在GA中写的原因是因为GA是行为层，而GE是数值层。
+    ">
+
+
+<meta property="og:url" content="https://geeteng.github.io/posts/game/%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98/">
+  <meta property="og:site_name" content="GeeTeng">
+  <meta property="og:title" content="GeeTeng">
+  <meta property="og:description" content="GAS网络部分
+UE的属性同步
+GAS赋予能力的三种方法
+ASC赋予能力GiveAbility 角色初始就有的能力——生成武器、装配武器 通过GE赋予能力——狂暴状态解锁技能 GA赋予能力 EQS底层是什么
+EQS 底层就是批量生成候选点，然后对这些点进行可达性、可视性、距离等测试，计算分数并排序，从而返回最佳点。
+遍历所有items然后遍历所有Test（距离Test / Pathfinding Test / Dot Test）
+生成一批候选点（Items） 然后对每个点执行Tests（过滤/打分） 按分数排序 返回最佳点 fps使用状态同步在弱网环境下 导致的问题
+（服务器权威）你在客户端移动很流畅，但是服务器延迟高，服务器收到位置后，发现跑远了然后给你拉回权威位置。 （包丢失/延迟）角色移动不连续 （射击决策用客户端时刻）客户端做表现子弹已经发出去了，但是服务器射击判定延迟，命中体验感差。 … 根本原因是状态同步是“结果式同步”，弱网导致状态包丢失或延迟后，客户端缺乏预测与回滚机制，无法平滑补偿，也无法保证时序一致。
+那应该如何解决弱网带来的问题？
+输入同步&#43;客户端预测&#43;服务器回滚矫正&#43;命中回溯
+1.输入同步：客户端不发当前位置，而是发当前输入，服务器能够重演玩家的行为，不会影响最终状态。
+2.客户端预测：客户端在按下移动/跳跃/开枪的瞬间立刻模拟，不等待服务器。
+3.服务器回滚矫正：如果客户端预测的结果和服务器不同，客户端会收到服务器的权威状态，回到服务器的位置。
+4.命中回溯：服务器对“开枪时间点”进行还原的一种算法。客户端开枪时附带“开枪时间戳”，服务器收到开枪包时，会回到“子弹发射那一刻”的游戏世界状态，重新做命中判定。
+GA中endabiliy去调用一个定时器会出现问题吗？定时器会不会随着GA结束而销毁
+不会随着GA结束而销毁定时器，因为UE 的 FTimerManager 是挂在 UWorld 层级的，跟 GA 完全独立。
+但是必须注意：定时器回调不能继续访问GA内部数据。
+为什么不用AbilityTask去做连击
+GA 已经 EndAbility，但我还需要在“技能结束后的窗口期”继续等待一段时间，用来触发“下一段连击”。
+GA 结束 → Task 必定清理 → 任务逻辑完全中断。
+有一个攻击能力命中率75%，成功命中就受伤，不命中就显示Miss。该怎么去写在GAS框架中？
+命中判定放在GE自定义计算类中处理：
+如果没有命中给目标添加Tag，返回；
+命中了，正常计算伤害，然后改变属性。
+bool bHit = (FMath::RandRange(0, 99) &lt; HitChance); // 75% 命中率 不在GA中写的原因是因为GA是行为层，而GE是数值层。">
+  <meta property="og:locale" content="en_us">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="posts">
+
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="GeeTeng">
+  <meta name="twitter:description" content="GAS网络部分
+UE的属性同步
+GAS赋予能力的三种方法
+ASC赋予能力GiveAbility 角色初始就有的能力——生成武器、装配武器 通过GE赋予能力——狂暴状态解锁技能 GA赋予能力 EQS底层是什么
+EQS 底层就是批量生成候选点，然后对这些点进行可达性、可视性、距离等测试，计算分数并排序，从而返回最佳点。
+遍历所有items然后遍历所有Test（距离Test / Pathfinding Test / Dot Test）
+生成一批候选点（Items） 然后对每个点执行Tests（过滤/打分） 按分数排序 返回最佳点 fps使用状态同步在弱网环境下 导致的问题
+（服务器权威）你在客户端移动很流畅，但是服务器延迟高，服务器收到位置后，发现跑远了然后给你拉回权威位置。 （包丢失/延迟）角色移动不连续 （射击决策用客户端时刻）客户端做表现子弹已经发出去了，但是服务器射击判定延迟，命中体验感差。 … 根本原因是状态同步是“结果式同步”，弱网导致状态包丢失或延迟后，客户端缺乏预测与回滚机制，无法平滑补偿，也无法保证时序一致。
+那应该如何解决弱网带来的问题？
+输入同步&#43;客户端预测&#43;服务器回滚矫正&#43;命中回溯
+1.输入同步：客户端不发当前位置，而是发当前输入，服务器能够重演玩家的行为，不会影响最终状态。
+2.客户端预测：客户端在按下移动/跳跃/开枪的瞬间立刻模拟，不等待服务器。
+3.服务器回滚矫正：如果客户端预测的结果和服务器不同，客户端会收到服务器的权威状态，回到服务器的位置。
+4.命中回溯：服务器对“开枪时间点”进行还原的一种算法。客户端开枪时附带“开枪时间戳”，服务器收到开枪包时，会回到“子弹发射那一刻”的游戏世界状态，重新做命中判定。
+GA中endabiliy去调用一个定时器会出现问题吗？定时器会不会随着GA结束而销毁
+不会随着GA结束而销毁定时器，因为UE 的 FTimerManager 是挂在 UWorld 层级的，跟 GA 完全独立。
+但是必须注意：定时器回调不能继续访问GA内部数据。
+为什么不用AbilityTask去做连击
+GA 已经 EndAbility，但我还需要在“技能结束后的窗口期”继续等待一段时间，用来触发“下一段连击”。
+GA 结束 → Task 必定清理 → 任务逻辑完全中断。
+有一个攻击能力命中率75%，成功命中就受伤，不命中就显示Miss。该怎么去写在GAS框架中？
+命中判定放在GE自定义计算类中处理：
+如果没有命中给目标添加Tag，返回；
+命中了，正常计算伤害，然后改变属性。
+bool bHit = (FMath::RandRange(0, 99) &lt; HitChance); // 75% 命中率 不在GA中写的原因是因为GA是行为层，而GE是数值层。">
+
+
+  <meta itemprop="name" content="GeeTeng">
+  <meta itemprop="description" content="GAS网络部分
+UE的属性同步
+GAS赋予能力的三种方法
+ASC赋予能力GiveAbility 角色初始就有的能力——生成武器、装配武器 通过GE赋予能力——狂暴状态解锁技能 GA赋予能力 EQS底层是什么
+EQS 底层就是批量生成候选点，然后对这些点进行可达性、可视性、距离等测试，计算分数并排序，从而返回最佳点。
+遍历所有items然后遍历所有Test（距离Test / Pathfinding Test / Dot Test）
+生成一批候选点（Items） 然后对每个点执行Tests（过滤/打分） 按分数排序 返回最佳点 fps使用状态同步在弱网环境下 导致的问题
+（服务器权威）你在客户端移动很流畅，但是服务器延迟高，服务器收到位置后，发现跑远了然后给你拉回权威位置。 （包丢失/延迟）角色移动不连续 （射击决策用客户端时刻）客户端做表现子弹已经发出去了，但是服务器射击判定延迟，命中体验感差。 … 根本原因是状态同步是“结果式同步”，弱网导致状态包丢失或延迟后，客户端缺乏预测与回滚机制，无法平滑补偿，也无法保证时序一致。
+那应该如何解决弱网带来的问题？
+输入同步&#43;客户端预测&#43;服务器回滚矫正&#43;命中回溯
+1.输入同步：客户端不发当前位置，而是发当前输入，服务器能够重演玩家的行为，不会影响最终状态。
+2.客户端预测：客户端在按下移动/跳跃/开枪的瞬间立刻模拟，不等待服务器。
+3.服务器回滚矫正：如果客户端预测的结果和服务器不同，客户端会收到服务器的权威状态，回到服务器的位置。
+4.命中回溯：服务器对“开枪时间点”进行还原的一种算法。客户端开枪时附带“开枪时间戳”，服务器收到开枪包时，会回到“子弹发射那一刻”的游戏世界状态，重新做命中判定。
+GA中endabiliy去调用一个定时器会出现问题吗？定时器会不会随着GA结束而销毁
+不会随着GA结束而销毁定时器，因为UE 的 FTimerManager 是挂在 UWorld 层级的，跟 GA 完全独立。
+但是必须注意：定时器回调不能继续访问GA内部数据。
+为什么不用AbilityTask去做连击
+GA 已经 EndAbility，但我还需要在“技能结束后的窗口期”继续等待一段时间，用来触发“下一段连击”。
+GA 结束 → Task 必定清理 → 任务逻辑完全中断。
+有一个攻击能力命中率75%，成功命中就受伤，不命中就显示Miss。该怎么去写在GAS框架中？
+命中判定放在GE自定义计算类中处理：
+如果没有命中给目标添加Tag，返回；
+命中了，正常计算伤害，然后改变属性。
+bool bHit = (FMath::RandRange(0, 99) &lt; HitChance); // 75% 命中率 不在GA中写的原因是因为GA是行为层，而GE是数值层。">
+  <meta itemprop="wordCount" content="200">
+<link rel="canonical" href="https://geeteng.github.io/posts/game/%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98/" />
+
+<link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
+
+<link rel="stylesheet" href="/css/font-awesome.min.css">
+<link rel="stylesheet" href="/css/bulma.min.css">
+
+<link rel="stylesheet" href="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.css" />
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/katex.min.js" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdmirror.com/npm/katex@0.16.11/dist/contrib/auto-render.min.js" crossorigin="anonymous"
+  onload="renderMathInElement(document.body, {
+          delimiters: [
+            { left: '$$', right: '$$', display: true },
+            { left: '$', right: '$', display: false }
+          ],
+          throwOnError: false
+        });"></script>
+
+
+  
+    
+      <script async src="https://www.googletagmanager.com/gtag/js?id=analytics-code"></script>
+      <script>
+        var doNotTrack = false;
+        if ( false ) {
+          var dnt = (navigator.doNotTrack || window.doNotTrack || navigator.msDoNotTrack);
+          var doNotTrack = (dnt == "1" || dnt == "yes");
+        }
+        if (!doNotTrack) {
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'analytics-code');
+        }
+      </script>
+    
+  
+
+
+
+
+
+<script src=/js/ramium.js></script>
+<link rel="stylesheet" href=/css/ramium.css>
+
+
+
+
+
+
+</head>
+
+<body>
+    
+     
+    <style type="text/css">
+        .fireworks {
+            position: fixed;
+            pointer-events: none;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #particles-js {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;    
+            height: 100vh;   
+            z-index: -1;     
+        }
+    </style>
+    <canvas class="fireworks"></canvas>
+<script src="/js/anime.min.js"></script>
+<script src="/js/fireworks.js"></script>
+
+
+    <script type="text/javascript">
+        fireworks.setCanvasSize();
+    </script>
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+  <div class="navbar-brand">
+    <a class="navbar-item" href=/>
+      
+      <strong>GeeTeng </strong>
+      
+    </a>
+
+    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false"
+      data-target="navbarBasicExample">
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+      <span aria-hidden="true"></span>
+    </a>
+  </div>
+
+  <div id="navbarBasicExample" class="navbar-menu">
+    <div class="navbar-start">
+      
+      
+      <a class="navbar-item" href="/">Home</a>
+      
+      
+      
+      <div class="navbar-item has-dropdown is-hoverable">
+        <a class="navbar-link">This Blog</a>
+        <div class="navbar-dropdown">
+          
+          <a class="navbar-item" href="/tags/">All Tags</a>
+          
+          <a class="navbar-item" href="/posts/">All Posts</a>
+          
+        </div>
+      </div>
+      
+      
+      
+      <a class="navbar-item" href="/about-me/">About Me</a>
+      
+      
+    </div>
+
+    <div class="navbar-end">
+      
+
+      
+      <div class="navbar-item">
+        <form id="cse-search-box-form-id" onsubmit="return executeQuery();" role="search">
+          <div class="field has-addons">
+            <div class="control is-expanded">
+              <input id="cse-search-input-box-id" size=15 class="input" type="text" autocomplete="off"
+                placeholder="&#xf1a0; Google search" style="font-family:Arial, FontAwesome">
+            </div>
+
+            <div class="control">
+              <button type="submit" class="button is-black">
+                <i class="fa fa-search"></i>
+                </a>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+      
+    </div>
+  </div>
+</nav><div class="columns is-centered">
+        
+        <div id="page-body" class="column is-7 is-12-mobile">
+
+<div class="content-wrapper">
+    
+    
+    <nav id="TableOfContents" class="table-of-contents">
+        <nav id="TableOfContents"></nav>
+    </nav>
+    
+
+    
+    <div class="content blog">
+        <h1></h1>
+
+        <div id="infobar" class="level is-mobile">
+            <div class="level-left">
+                
+                <div class="level-item">
+                    <p class="subtitle info date">Jan 1, 0001
+                    </p>
+                </div>
+                
+
+                <div class="level-item">
+                    <p class="subtitle info">
+                        17 mins read
+                    </p>
+                </div>
+            </div>
+            <div class="level-right is-hidden-touch">
+                <div class="tags">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="tags is-hidden-desktop">
+            
+        </div>
+
+        <div class="blog-text">
+            
+
+            <p>GAS网络部分</p>
+<p>UE的属性同步</p>
+<blockquote>
+<p>GAS赋予能力的三种方法</p>
+</blockquote>
+<ol>
+<li>ASC赋予能力GiveAbility 角色初始就有的能力——生成武器、装配武器</li>
+<li>通过GE赋予能力——狂暴状态解锁技能</li>
+<li>GA赋予能力</li>
+</ol>
+<blockquote>
+<p>EQS底层是什么</p>
+</blockquote>
+<p>EQS 底层就是批量生成候选点，然后对这些点进行可达性、可视性、距离等测试，计算分数并排序，从而返回最佳点。</p>
+<p>遍历所有items然后遍历所有Test（距离Test / Pathfinding Test / Dot Test）</p>
+<ol>
+<li>生成一批候选点（Items）</li>
+<li>然后对每个点执行Tests（过滤/打分）</li>
+<li>按分数排序</li>
+<li>返回最佳点</li>
+</ol>
+<blockquote>
+<p>fps使用状态同步在弱网环境下 导致的问题</p>
+</blockquote>
+<ul>
+<li>（服务器权威）你在客户端移动很流畅，但是服务器延迟高，服务器收到位置后，发现跑远了然后给你拉回权威位置。</li>
+<li>（包丢失/延迟）角色移动不连续</li>
+<li>（射击决策用客户端时刻）客户端做表现子弹已经发出去了，但是服务器射击判定延迟，命中体验感差。</li>
+<li>&hellip;</li>
+</ul>
+<p>根本原因是状态同步是“结果式同步”，弱网导致状态包丢失或延迟后，客户端缺乏预测与回滚机制，无法平滑补偿，也无法保证时序一致。</p>
+<blockquote>
+<p>那应该如何解决弱网带来的问题？</p>
+</blockquote>
+<p>输入同步+客户端预测+服务器回滚矫正+命中回溯</p>
+<p>1.输入同步：客户端不发当前位置，而是发当前输入，服务器能够重演玩家的行为，不会影响最终状态。</p>
+<p>2.客户端预测：客户端在按下移动/跳跃/开枪的瞬间<strong>立刻模拟</strong>，不等待服务器。</p>
+<p>3.服务器回滚矫正：如果客户端预测的结果和服务器不同，客户端会收到服务器的权威状态，回到服务器的位置。</p>
+<p>4.命中回溯：服务器对“开枪时间点”进行还原的一种算法。客户端开枪时附带“开枪时间戳”，服务器收到开枪包时，会回到“子弹发射那一刻”的游戏世界状态，重新做命中判定。</p>
+<blockquote>
+<p>GA中endabiliy去调用一个定时器会出现问题吗？定时器会不会随着GA结束而销毁</p>
+</blockquote>
+<p>不会随着GA结束而销毁定时器，因为UE 的 <code>FTimerManager</code> 是挂在 <code>UWorld</code> 层级的，跟 GA 完全独立。</p>
+<p>但是必须注意：<strong>定时器回调不能继续访问GA内部数据</strong>。</p>
+<blockquote>
+<p>为什么不用AbilityTask去做连击</p>
+</blockquote>
+<p>GA 已经 EndAbility，但我还需要在“技能结束后的窗口期”继续等待一段时间，用来触发“下一段连击”。</p>
+<p>GA 结束 → Task 必定清理 → 任务逻辑完全中断。</p>
+<blockquote>
+<p>有一个攻击能力命中率75%，成功命中就受伤，不命中就显示Miss。该怎么去写在GAS框架中？</p>
+</blockquote>
+<p>命中判定放在GE自定义计算类中处理：</p>
+<p>如果没有命中给目标添加Tag，返回；</p>
+<p>命中了，正常计算伤害，然后改变属性。</p>
+<pre tabindex="0"><code>bool bHit = (FMath::RandRange(0, 99) &lt; HitChance); // 75% 命中率
+</code></pre><p>不在GA中写的原因是因为GA是行为层，而GE是数值层。</p>
+<p>而且GA允许客户端预测，GE仅在服务器执行。如果让GA做命中判定，玩家可以轻松改客户端逻辑。所以命中、暴击等必须要在服务器的Execution计算。</p>
+<blockquote>
+<p>游戏中的据点，怎么让在玩家攻击其中一个AI之后，让所有AI攻击玩家。</p>
+</blockquote>
+<p>据点必须是一个组，不能让AI独立判断，通常是一个Actor存放着AI成员、当前目标、警戒半径、重置半径等。</p>
+<p>玩家攻击了某个AI，触发了受击事件，将这个事件发送到所属的据点 Actor。</p>
+<p>控制器广播给组内所有的AI：攻击玩家，然后所有AI改变状态、战斗。</p>
+<blockquote>
+<p>小地图怎么显示玩家的位置，如果有敌方和己方？假如发射了信号枪，地图上该怎么显示？</p>
+</blockquote>
+<p>将世界坐标转换成一张2D UI坐标，**注意：**不能从服务器每帧同步队友位置到客户端！！因为量太大延迟很高。但是要保证客户端的坐标不能被篡改，所以FPS游戏中权威永远在服务器。</p>
+<p>服务器每秒发10~30次位置同步包，客户端去插值更新坐标让点平稳移动。</p>
+<p>如果暂时没收到下一包，就用速度和方向做短暂<strong>预测</strong>。客户端的UI每帧更新。</p>
+<p>如果发射信号弹/技能（比如探测箭），由服务器决定哪些敌人被暴露，在暴露持续期间内以固定频率给全队客户端推送暴露敌人的位置。客户端去缓存暴露敌人的最新位置快照，每帧插值位置让图标平滑移动。</p>
+<blockquote>
+<p>如果说分为敌方阵营和我方阵营，因为我项目中用到的是IGenericTeamAgentInterface去赋予队伍ID，然后通过队伍ID的值判断是否是敌对关系。那么这样会导致，如果有16种目标，可以让每个类比如说敌人类和玩家类，去设置16种目标哪个可以被伤害，你这个时候怎么去给策划配置？让他每个角色配置16行表格吗？</p>
+</blockquote>
+<p>16种目标对应16位二进制位</p>
+<pre tabindex="0"><code>bit 0 → Player
+bit 1 → Enemy
+bit 2 → Monster
+...
+bit 15 → Vehicle
+</code></pre><p>策划只需要配置0101 0010 0000 0011就能表达哪些目标能被伤害。</p>
+<p>比如说第2位bit1是Enemy值为1，说明Enemy可以被攻击。</p>
+<p>那么程序会将Enemy映射为0000 0000 0000 0010（把1向左移动type个bit），和配置表按位与&amp;就能得到是否可被攻击。</p>
+<blockquote>
+<p>ECS存在什么样的问题 缺点</p>
+</blockquote>
+<p>ECS架构的核心思想是将数据和行为分离。实体（Entity）作为承载组件的容器，组件（Component）是纯粹的数据结构，而系统（System）则负责处理这些数据。这种分离使得系统之间的耦合度极低，开发者可以轻松添加或移除组件和系统，而不会影响其他部分的功能。</p>
+<p>ECS 把同类组件连续存储，系统只要线性遍历这一块内存就行，缓存命中率高，性能比传统对象引用式的乱跳内存快很多。</p>
+<p>缺点就是：</p>
+<p>1、代码复杂</p>
+<p>2、系统调度复杂——是因为逻辑不再由对象显式调用而是依靠数据驱动，多个系统通过数据和事件间接影响彼此，导致依赖链变长，执行顺序不直观，难以追踪。</p>
+<p>3、由于组件在内存中连续存放，因此频繁增删会性能开销大；组件池多路扩容会导致内存碎片问题。</p>
+<blockquote>
+<p>有个画图功能，需要加入撤销恢复功能怎么设计</p>
+</blockquote>
+<p>**操作回滚：**Undo栈和Redo栈（限制栈大小的话需要用deque双端队列），将每个操作放入到Undo栈中，当需要撤销时，就将Undo栈中的操作对象弹出来，调用操作对象消除的方法；然后将该操作对象push到Redo栈中。缺点是某些操作Undo逻辑复杂。</p>
+<p>**状态快照：**每次操作后保存整个画布的状态，Undo就是恢复上一个快照。缺点是内存占用大。</p>
+<blockquote>
+<p>现在有一份乱序排行榜，十万名玩家，请问某名玩家要如何知道自己在排行榜中的位置?如何优化性能?</p>
+</blockquote>
+<p>Redis的Sorted Set，结合了<strong>哈希表</strong>和<strong>跳表</strong></p>
+<p><strong>成员唯一</strong>：每个 member（玩家 ID）在集合中只出现一次</p>
+<p><strong>分数排序</strong>：每个 member 关联一个分数（score），Sorted Set 会根据分数进行自动排序</p>
+<p><strong>有序访问</strong>：支持按分数范围、索引范围访问成员</p>
+<p>跳表示意图：</p>
+<pre tabindex="0"><code>Level 3:      1 ------------------------ 11
+Level 2:      1 --------- 5 --------- 9 -------- 11
+Level 1:      1 --- 3 --- 5 --- 7 --- 9 --- 11
+Level 0:      1 → 3 → 5 → 7 → 9 → 11 // 完整链表
+</code></pre><blockquote>
+<p>玩家在地图中移动，如何快速找到离玩家最近的城镇?</p>
+</blockquote>
+<p>1.<strong>网格分块</strong>：将地图划分成小网格，每个网格维护一个城镇列表。玩家只需要查询所在网格和相邻几个网格。</p>
+<p>2.<strong>KD-Tree</strong>：适合静态点集（城镇固定不动），KD树每层按x / y坐标（奇数层x，偶数层y）划分空间。玩家坐标进入树种查找，就像是在二叉搜索树中比大小一样。</p>
+<p>可以参考该文讲解kd树：<a href="https://www.cnblogs.com/hello-nullptr/p/18369092">KNN(K近邻)算法之——KD-Tree构建及查找原理 - hello_nullptr - 博客园</a></p>
+<p><img src="/images/Game/Grid/kdtree.png" alt="kdtree"></p>
+<p>3.<strong>四叉树</strong>：将空间划分为四个方格，递归处理。玩家如果在其中一个方格则继续划分。遍历其中所有的城镇，计算距离找到最近的。</p>
+<blockquote>
+<p>32名玩家，每个人指挥100个士兵，同时往某个地点扔1个手雷，那么同时会有3200个手雷发生爆炸，这段时间会很卡，怎么优化？</p>
+</blockquote>
+<p>首先如果同时3200个手雷爆炸会导致——每个爆炸需要碰撞检测、粒子特效渲染、网络同步压力过大。</p>
+<ul>
+<li>因此可以将空间接近的爆炸合并为一个逻辑爆炸——在比如说5m以内的爆炸合并为一个爆炸事件，伤害和范围累加，渲染时只播放1个粒子特效，这在玩家感知上没有差别。</li>
+<li>将时间错开（给每个手雷增加微小随机延迟0~100ms玩家感觉是“同时爆炸”，实际 CPU/GPU 处理分摊在几帧）</li>
+<li>粒子合批（Batching），相同类型爆炸粒子尽量合并渲染 → GPU draw call 减少。LOD和屏幕外剔除，玩家看不到的爆炸不渲染。</li>
+</ul>
+
+        </div>
+    </div>
+</div><div id="social-media-share" class="has-text-centered">
+	<p><i>Sharing is caring!</i></p>
+	<br>
+	
+	<div class="share-buttons">
+	    <a  href="https://www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2f%25E5%259F%25BA%25E7%25A1%2580%25E9%2597%25AE%25E9%25A2%2598%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Facebook. Opens in a new window.">
+	        <img src=/img/icons/45px/facebook.png>
+	    </a>
+
+	    <a  href="https://twitter.com/intent/tweet?text=&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2f%25E5%259F%25BA%25E7%25A1%2580%25E9%2597%25AE%25E9%25A2%2598%2f"
+	        onclick="socialMediaPopUp(this.href, '', 500, 500); return false;"
+	        title="Share on Twitter. Opens in a new window." >
+	        <img src=/img/icons/45px/twitter.png>
+	    </a>
+
+		<a  href="http://www.reddit.com/submit?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2f%25E5%259F%25BA%25E7%25A1%2580%25E9%2597%25AE%25E9%25A2%2598%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Reddit. Opens in a new window." >
+	        <img src=/img/icons/45px/reddit.png>
+	    </a>
+
+	    <a  href="http://pinterest.com/pin/create/button/?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2f%25E5%259F%25BA%25E7%25A1%2580%25E9%2597%25AE%25E9%25A2%2598%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Pinterest. Opens in a new window." >
+	        <img src=/img/icons/45px/pinterest.png>
+	    </a>
+
+	    <a  href="http://www.tumblr.com/share/link?url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2f%25E5%259F%25BA%25E7%25A1%2580%25E9%2597%25AE%25E9%25A2%2598%2f"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on Tumblr. Opens in a new window." >
+	        <img src=/img/icons/45px/tumblr.png>
+	    </a>
+
+		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2f%25E5%259F%25BA%25E7%25A1%2580%25E9%2597%25AE%25E9%25A2%2598%2f
+			&title=&summary=GAS%e7%bd%91%e7%bb%9c%e9%83%a8%e5%88%86%0aUE%e7%9a%84%e5%b1%9e%e6%80%a7%e5%90%8c%e6%ad%a5%0aGAS%e8%b5%8b%e4%ba%88%e8%83%bd%e5%8a%9b%e7%9a%84%e4%b8%89%e7%a7%8d%e6%96%b9%e6%b3%95%0aASC%e8%b5%8b%e4%ba%88%e8%83%bd%e5%8a%9bGiveAbility%20%e8%a7%92%e8%89%b2%e5%88%9d%e5%a7%8b%e5%b0%b1%e6%9c%89%e7%9a%84%e8%83%bd%e5%8a%9b%e2%80%94%e2%80%94%e7%94%9f%e6%88%90%e6%ad%a6%e5%99%a8%e3%80%81%e8%a3%85%e9%85%8d%e6%ad%a6%e5%99%a8%20%e9%80%9a%e8%bf%87GE%e8%b5%8b%e4%ba%88%e8%83%bd%e5%8a%9b%e2%80%94%e2%80%94%e7%8b%82%e6%9a%b4%e7%8a%b6%e6%80%81%e8%a7%a3%e9%94%81%e6%8a%80%e8%83%bd%20GA%e8%b5%8b%e4%ba%88%e8%83%bd%e5%8a%9b%20EQS%e5%ba%95%e5%b1%82%e6%98%af%e4%bb%80%e4%b9%88%0aEQS%20%e5%ba%95%e5%b1%82%e5%b0%b1%e6%98%af%e6%89%b9%e9%87%8f%e7%94%9f%e6%88%90%e5%80%99%e9%80%89%e7%82%b9%ef%bc%8c%e7%84%b6%e5%90%8e%e5%af%b9%e8%bf%99%e4%ba%9b%e7%82%b9%e8%bf%9b%e8%a1%8c%e5%8f%af%e8%be%be%e6%80%a7%e3%80%81%e5%8f%af%e8%a7%86%e6%80%a7%e3%80%81%e8%b7%9d%e7%a6%bb%e7%ad%89%e6%b5%8b%e8%af%95%ef%bc%8c%e8%ae%a1%e7%ae%97%e5%88%86%e6%95%b0%e5%b9%b6%e6%8e%92%e5%ba%8f%ef%bc%8c%e4%bb%8e%e8%80%8c%e8%bf%94%e5%9b%9e%e6%9c%80%e4%bd%b3%e7%82%b9%e3%80%82%0a%e9%81%8d%e5%8e%86%e6%89%80%e6%9c%89items%e7%84%b6%e5%90%8e%e9%81%8d%e5%8e%86%e6%89%80%e6%9c%89Test%ef%bc%88%e8%b7%9d%e7%a6%bbTest%20%2f%20Pathfinding%20Test%20%2f%20Dot%20Test%ef%bc%89%0a%e7%94%9f%e6%88%90%e4%b8%80%e6%89%b9%e5%80%99%e9%80%89%e7%82%b9%ef%bc%88Items%ef%bc%89%20%e7%84%b6%e5%90%8e%e5%af%b9%e6%af%8f%e4%b8%aa%e7%82%b9%e6%89%a7%e8%a1%8cTests%ef%bc%88%e8%bf%87%e6%bb%a4%2f%e6%89%93%e5%88%86%ef%bc%89%20%e6%8c%89%e5%88%86%e6%95%b0%e6%8e%92%e5%ba%8f%20%e8%bf%94%e5%9b%9e%e6%9c%80%e4%bd%b3%e7%82%b9%20fps%e4%bd%bf%e7%94%a8%e7%8a%b6%e6%80%81%e5%90%8c%e6%ad%a5%e5%9c%a8%e5%bc%b1%e7%bd%91%e7%8e%af%e5%a2%83%e4%b8%8b%20%e5%af%bc%e8%87%b4%e7%9a%84%e9%97%ae%e9%a2%98%0a%ef%bc%88%e6%9c%8d%e5%8a%a1%e5%99%a8%e6%9d%83%e5%a8%81%ef%bc%89%e4%bd%a0%e5%9c%a8%e5%ae%a2%e6%88%b7%e7%ab%af%e7%a7%bb%e5%8a%a8%e5%be%88%e6%b5%81%e7%95%85%ef%bc%8c%e4%bd%86%e6%98%af%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%bb%b6%e8%bf%9f%e9%ab%98%ef%bc%8c%e6%9c%8d%e5%8a%a1%e5%99%a8%e6%94%b6%e5%88%b0%e4%bd%8d%e7%bd%ae%e5%90%8e%ef%bc%8c%e5%8f%91%e7%8e%b0%e8%b7%91%e8%bf%9c%e4%ba%86%e7%84%b6%e5%90%8e%e7%bb%99%e4%bd%a0%e6%8b%89%e5%9b%9e%e6%9d%83%e5%a8%81%e4%bd%8d%e7%bd%ae%e3%80%82%20%ef%bc%88%e5%8c%85%e4%b8%a2%e5%a4%b1%2f%e5%bb%b6%e8%bf%9f%ef%bc%89%e8%a7%92%e8%89%b2%e7%a7%bb%e5%8a%a8%e4%b8%8d%e8%bf%9e%e7%bb%ad%20%ef%bc%88%e5%b0%84%e5%87%bb%e5%86%b3%e7%ad%96%e7%94%a8%e5%ae%a2%e6%88%b7%e7%ab%af%e6%97%b6%e5%88%bb%ef%bc%89%e5%ae%a2%e6%88%b7%e7%ab%af%e5%81%9a%e8%a1%a8%e7%8e%b0%e5%ad%90%e5%bc%b9%e5%b7%b2%e7%bb%8f%e5%8f%91%e5%87%ba%e5%8e%bb%e4%ba%86%ef%bc%8c%e4%bd%86%e6%98%af%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%b0%84%e5%87%bb%e5%88%a4%e5%ae%9a%e5%bb%b6%e8%bf%9f%ef%bc%8c%e5%91%bd%e4%b8%ad%e4%bd%93%e9%aa%8c%e6%84%9f%e5%b7%ae%e3%80%82%20%26hellip%3b%20%e6%a0%b9%e6%9c%ac%e5%8e%9f%e5%9b%a0%e6%98%af%e7%8a%b6%e6%80%81%e5%90%8c%e6%ad%a5%e6%98%af%e2%80%9c%e7%bb%93%e6%9e%9c%e5%bc%8f%e5%90%8c%e6%ad%a5%e2%80%9d%ef%bc%8c%e5%bc%b1%e7%bd%91%e5%af%bc%e8%87%b4%e7%8a%b6%e6%80%81%e5%8c%85%e4%b8%a2%e5%a4%b1%e6%88%96%e5%bb%b6%e8%bf%9f%e5%90%8e%ef%bc%8c%e5%ae%a2%e6%88%b7%e7%ab%af%e7%bc%ba%e4%b9%8f%e9%a2%84%e6%b5%8b%e4%b8%8e%e5%9b%9e%e6%bb%9a%e6%9c%ba%e5%88%b6%ef%bc%8c%e6%97%a0%e6%b3%95%e5%b9%b3%e6%bb%91%e8%a1%a5%e5%81%bf%ef%bc%8c%e4%b9%9f%e6%97%a0%e6%b3%95%e4%bf%9d%e8%af%81%e6%97%b6%e5%ba%8f%e4%b8%80%e8%87%b4%e3%80%82%0a%e9%82%a3%e5%ba%94%e8%af%a5%e5%a6%82%e4%bd%95%e8%a7%a3%e5%86%b3%e5%bc%b1%e7%bd%91%e5%b8%a6%e6%9d%a5%e7%9a%84%e9%97%ae%e9%a2%98%ef%bc%9f%0a%e8%be%93%e5%85%a5%e5%90%8c%e6%ad%a5%2b%e5%ae%a2%e6%88%b7%e7%ab%af%e9%a2%84%e6%b5%8b%2b%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%9b%9e%e6%bb%9a%e7%9f%ab%e6%ad%a3%2b%e5%91%bd%e4%b8%ad%e5%9b%9e%e6%ba%af%0a1.%e8%be%93%e5%85%a5%e5%90%8c%e6%ad%a5%ef%bc%9a%e5%ae%a2%e6%88%b7%e7%ab%af%e4%b8%8d%e5%8f%91%e5%bd%93%e5%89%8d%e4%bd%8d%e7%bd%ae%ef%bc%8c%e8%80%8c%e6%98%af%e5%8f%91%e5%bd%93%e5%89%8d%e8%be%93%e5%85%a5%ef%bc%8c%e6%9c%8d%e5%8a%a1%e5%99%a8%e8%83%bd%e5%a4%9f%e9%87%8d%e6%bc%94%e7%8e%a9%e5%ae%b6%e7%9a%84%e8%a1%8c%e4%b8%ba%ef%bc%8c%e4%b8%8d%e4%bc%9a%e5%bd%b1%e5%93%8d%e6%9c%80%e7%bb%88%e7%8a%b6%e6%80%81%e3%80%82%0a2.%e5%ae%a2%e6%88%b7%e7%ab%af%e9%a2%84%e6%b5%8b%ef%bc%9a%e5%ae%a2%e6%88%b7%e7%ab%af%e5%9c%a8%e6%8c%89%e4%b8%8b%e7%a7%bb%e5%8a%a8%2f%e8%b7%b3%e8%b7%83%2f%e5%bc%80%e6%9e%aa%e7%9a%84%e7%9e%ac%e9%97%b4%e7%ab%8b%e5%88%bb%e6%a8%a1%e6%8b%9f%ef%bc%8c%e4%b8%8d%e7%ad%89%e5%be%85%e6%9c%8d%e5%8a%a1%e5%99%a8%e3%80%82%0a3.%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%9b%9e%e6%bb%9a%e7%9f%ab%e6%ad%a3%ef%bc%9a%e5%a6%82%e6%9e%9c%e5%ae%a2%e6%88%b7%e7%ab%af%e9%a2%84%e6%b5%8b%e7%9a%84%e7%bb%93%e6%9e%9c%e5%92%8c%e6%9c%8d%e5%8a%a1%e5%99%a8%e4%b8%8d%e5%90%8c%ef%bc%8c%e5%ae%a2%e6%88%b7%e7%ab%af%e4%bc%9a%e6%94%b6%e5%88%b0%e6%9c%8d%e5%8a%a1%e5%99%a8%e7%9a%84%e6%9d%83%e5%a8%81%e7%8a%b6%e6%80%81%ef%bc%8c%e5%9b%9e%e5%88%b0%e6%9c%8d%e5%8a%a1%e5%99%a8%e7%9a%84%e4%bd%8d%e7%bd%ae%e3%80%82%0a4.%e5%91%bd%e4%b8%ad%e5%9b%9e%e6%ba%af%ef%bc%9a%e6%9c%8d%e5%8a%a1%e5%99%a8%e5%af%b9%e2%80%9c%e5%bc%80%e6%9e%aa%e6%97%b6%e9%97%b4%e7%82%b9%e2%80%9d%e8%bf%9b%e8%a1%8c%e8%bf%98%e5%8e%9f%e7%9a%84%e4%b8%80%e7%a7%8d%e7%ae%97%e6%b3%95%e3%80%82%e5%ae%a2%e6%88%b7%e7%ab%af%e5%bc%80%e6%9e%aa%e6%97%b6%e9%99%84%e5%b8%a6%e2%80%9c%e5%bc%80%e6%9e%aa%e6%97%b6%e9%97%b4%e6%88%b3%e2%80%9d%ef%bc%8c%e6%9c%8d%e5%8a%a1%e5%99%a8%e6%94%b6%e5%88%b0%e5%bc%80%e6%9e%aa%e5%8c%85%e6%97%b6%ef%bc%8c%e4%bc%9a%e5%9b%9e%e5%88%b0%e2%80%9c%e5%ad%90%e5%bc%b9%e5%8f%91%e5%b0%84%e9%82%a3%e4%b8%80%e5%88%bb%e2%80%9d%e7%9a%84%e6%b8%b8%e6%88%8f%e4%b8%96%e7%95%8c%e7%8a%b6%e6%80%81%ef%bc%8c%e9%87%8d%e6%96%b0%e5%81%9a%e5%91%bd%e4%b8%ad%e5%88%a4%e5%ae%9a%e3%80%82%0aGA%e4%b8%adendabiliy%e5%8e%bb%e8%b0%83%e7%94%a8%e4%b8%80%e4%b8%aa%e5%ae%9a%e6%97%b6%e5%99%a8%e4%bc%9a%e5%87%ba%e7%8e%b0%e9%97%ae%e9%a2%98%e5%90%97%ef%bc%9f%e5%ae%9a%e6%97%b6%e5%99%a8%e4%bc%9a%e4%b8%8d%e4%bc%9a%e9%9a%8f%e7%9d%80GA%e7%bb%93%e6%9d%9f%e8%80%8c%e9%94%80%e6%af%81%0a%e4%b8%8d%e4%bc%9a%e9%9a%8f%e7%9d%80GA%e7%bb%93%e6%9d%9f%e8%80%8c%e9%94%80%e6%af%81%e5%ae%9a%e6%97%b6%e5%99%a8%ef%bc%8c%e5%9b%a0%e4%b8%baUE%20%e7%9a%84%20FTimerManager%20%e6%98%af%e6%8c%82%e5%9c%a8%20UWorld%20%e5%b1%82%e7%ba%a7%e7%9a%84%ef%bc%8c%e8%b7%9f%20GA%20%e5%ae%8c%e5%85%a8%e7%8b%ac%e7%ab%8b%e3%80%82%0a%e4%bd%86%e6%98%af%e5%bf%85%e9%a1%bb%e6%b3%a8%e6%84%8f%ef%bc%9a%e5%ae%9a%e6%97%b6%e5%99%a8%e5%9b%9e%e8%b0%83%e4%b8%8d%e8%83%bd%e7%bb%a7%e7%bb%ad%e8%ae%bf%e9%97%aeGA%e5%86%85%e9%83%a8%e6%95%b0%e6%8d%ae%e3%80%82%0a%e4%b8%ba%e4%bb%80%e4%b9%88%e4%b8%8d%e7%94%a8AbilityTask%e5%8e%bb%e5%81%9a%e8%bf%9e%e5%87%bb%0aGA%20%e5%b7%b2%e7%bb%8f%20EndAbility%ef%bc%8c%e4%bd%86%e6%88%91%e8%bf%98%e9%9c%80%e8%a6%81%e5%9c%a8%e2%80%9c%e6%8a%80%e8%83%bd%e7%bb%93%e6%9d%9f%e5%90%8e%e7%9a%84%e7%aa%97%e5%8f%a3%e6%9c%9f%e2%80%9d%e7%bb%a7%e7%bb%ad%e7%ad%89%e5%be%85%e4%b8%80%e6%ae%b5%e6%97%b6%e9%97%b4%ef%bc%8c%e7%94%a8%e6%9d%a5%e8%a7%a6%e5%8f%91%e2%80%9c%e4%b8%8b%e4%b8%80%e6%ae%b5%e8%bf%9e%e5%87%bb%e2%80%9d%e3%80%82%0aGA%20%e7%bb%93%e6%9d%9f%20%e2%86%92%20Task%20%e5%bf%85%e5%ae%9a%e6%b8%85%e7%90%86%20%e2%86%92%20%e4%bb%bb%e5%8a%a1%e9%80%bb%e8%be%91%e5%ae%8c%e5%85%a8%e4%b8%ad%e6%96%ad%e3%80%82%0a%e6%9c%89%e4%b8%80%e4%b8%aa%e6%94%bb%e5%87%bb%e8%83%bd%e5%8a%9b%e5%91%bd%e4%b8%ad%e7%8e%8775%25%ef%bc%8c%e6%88%90%e5%8a%9f%e5%91%bd%e4%b8%ad%e5%b0%b1%e5%8f%97%e4%bc%a4%ef%bc%8c%e4%b8%8d%e5%91%bd%e4%b8%ad%e5%b0%b1%e6%98%be%e7%a4%baMiss%e3%80%82%e8%af%a5%e6%80%8e%e4%b9%88%e5%8e%bb%e5%86%99%e5%9c%a8GAS%e6%a1%86%e6%9e%b6%e4%b8%ad%ef%bc%9f%0a%e5%91%bd%e4%b8%ad%e5%88%a4%e5%ae%9a%e6%94%be%e5%9c%a8GE%e8%87%aa%e5%ae%9a%e4%b9%89%e8%ae%a1%e7%ae%97%e7%b1%bb%e4%b8%ad%e5%a4%84%e7%90%86%ef%bc%9a%0a%e5%a6%82%e6%9e%9c%e6%b2%a1%e6%9c%89%e5%91%bd%e4%b8%ad%e7%bb%99%e7%9b%ae%e6%a0%87%e6%b7%bb%e5%8a%a0Tag%ef%bc%8c%e8%bf%94%e5%9b%9e%ef%bc%9b%0a%e5%91%bd%e4%b8%ad%e4%ba%86%ef%bc%8c%e6%ad%a3%e5%b8%b8%e8%ae%a1%e7%ae%97%e4%bc%a4%e5%ae%b3%ef%bc%8c%e7%84%b6%e5%90%8e%e6%94%b9%e5%8f%98%e5%b1%9e%e6%80%a7%e3%80%82%0abool%20bHit%20%3d%20%28FMath%3a%3aRandRange%280%2c%2099%29%20%26lt%3b%20HitChance%29%3b%20%2f%2f%2075%25%20%e5%91%bd%e4%b8%ad%e7%8e%87%20%e4%b8%8d%e5%9c%a8GA%e4%b8%ad%e5%86%99%e7%9a%84%e5%8e%9f%e5%9b%a0%e6%98%af%e5%9b%a0%e4%b8%baGA%e6%98%af%e8%a1%8c%e4%b8%ba%e5%b1%82%ef%bc%8c%e8%80%8cGE%e6%98%af%e6%95%b0%e5%80%bc%e5%b1%82%e3%80%82&source=rafed123.github.io"
+	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
+	        title="Share on LinkedIn. Opens in a new window." >
+	        <img src=/img/icons/45px/linkedin.png>
+	    </a>
+
+	    <a  href="mailto:?subject=&amp;body=Check out this site https%3a%2f%2fgeeteng.github.io%2fposts%2fgame%2f%25E5%259F%25BA%25E7%25A1%2580%25E9%2597%25AE%25E9%25A2%2598%2f"
+	        title="Share via Email. Opens in a new window." >
+	        <img src=/img/icons/45px/mail.png>
+	    </a>
+	</div>
+</div>
+
+
+<br>
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+    (function () {
+        
+        
+        if (window.location.hostname == "localhost")
+            return;
+
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        var disqus_shortname = 'disqus-code';
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+        </div>
+    </div>
+
+
+    <div id="particles-js"></div>
+    <script src="/js/particles.min.js"></script>
+    <script>
+        particlesJS.load('particles-js', '/js/particlesjs-config.json', function() {
+            console.log('callback - particles.js config loaded');
+        });
+    </script>
+</body>
+
+</html>

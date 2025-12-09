@@ -35,7 +35,7 @@
   <meta itemprop="description" content="更新中">
   <meta itemprop="datePublished" content="2024-12-11T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-12-11T00:00:00+00:00">
-  <meta itemprop="wordCount" content="3515">
+  <meta itemprop="wordCount" content="3537">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/" />
 
@@ -272,6 +272,12 @@
             <li><a href="#完美转发">完美转发</a></li>
           </ul>
         </li>
+        <li><a href="#stl">STL</a>
+          <ul>
+            <li><a href="#set和unordered_set">set和unordered_set</a></li>
+            <li><a href="#vector">vector</a></li>
+          </ul>
+        </li>
         <li><a href="#多线程">多线程</a>
           <ul>
             <li><a href="#join与detach区别">join与detach区别</a></li>
@@ -313,7 +319,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        85 mins read
+                        87 mins read
                     </p>
                 </div>
             </div>
@@ -1422,6 +1428,22 @@
 </span></span></code></pre></div><p>以<code>g(string(&quot;Hello1&quot;));</code>为例，在这个过程中发生了，将string传递给g，T变成string，调用右值的函数。</p>
 <p>如果是s1则是string&amp;传递进去，T变成string&amp; &amp;&amp;，<strong>引用折叠规则</strong>变成了string&amp;，调用左值的函数。</p>
 <hr>
+<h2 id="stl">STL</h2>
+<h3 id="set和unordered_set">set和unordered_set</h3>
+<p>set是红黑树——平衡二叉树，元素自动排序，因此不能直接改变元素值（会打乱顺序），要改变元素的值，必须先删除该元素，再插入新元素。</p>
+<p>unordered_set底层是哈希表，元素是无序的，插入、删除、查找的时间复杂度是常量的。</p>
+<h3 id="vector">vector</h3>
+<p>vector是一个动态数组，底层维护3个指针：start（首地址）、finish（有效元素的最后位置）、end_of_storage（容量边界）；因此<strong>vector在64位下本身大小是指针的大小8*3=24个字节</strong>。</p>
+<p><code>size = finish - start</code></p>
+<p><code>capacity = end_of_storage - start</code></p>
+<p>当<code>size == capacity</code>时会发生扩容。</p>
+<blockquote>
+<p>多线程下如果同时操作vector会发生什么情况？</p>
+</blockquote>
+<ul>
+<li>内存越界/崩溃：一个线程触发扩容，另一个线程还在访问旧内存</li>
+<li>数据被覆盖：同时push_back导致写入同一位置</li>
+</ul>
 <h2 id="多线程">多线程</h2>
 <p>传递函数指针</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sayhello</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b)

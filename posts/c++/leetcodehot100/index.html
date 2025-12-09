@@ -35,7 +35,7 @@
   <meta itemprop="description" content="LeetCode热题100整理">
   <meta itemprop="datePublished" content="2025-03-12T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-12T00:00:00+00:00">
-  <meta itemprop="wordCount" content="8505">
+  <meta itemprop="wordCount" content="8614">
   <meta itemprop="keywords" content="算法">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/" />
 
@@ -384,7 +384,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        91 mins read
+                        92 mins read
                     </p>
                 </div>
             </div>
@@ -450,6 +450,7 @@
 </span></span></code></pre></div><h2 id="双指针">双指针</h2>
 <h3 id="283-移动零">283. 移动零</h3>
 <p>l和r都从0开始遍历，r不断地++遍历整个数组，只有当r所指数字不为0时，l才会移动。</p>
+<p>也就是说，不管l指向的是0还是任何其他数字，只要r不为0那么就交换，这样保证了，非0数字的顺序。</p>
 <p>为了保证数字的顺序，所以要交换的条件是当r不等于0的时候去交换。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
@@ -856,7 +857,32 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> false;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h2 id="链表">链表</h2>
-<h3 id="234-回文链表">234. 回文链表</h3>
+<p>头插法尾插法：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ListNode</span>
+</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> val;
+</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> next;
+</span></span><span style="display:flex;"><span>	ListNode(<span style="color:#66d9ef">int</span> val) <span style="color:#f92672">:</span>val(val), next(<span style="color:#66d9ef">nullptr</span>) {};
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">insertHead</span>(ListNode<span style="color:#f92672">*</span> head, <span style="color:#66d9ef">int</span> val) {
+</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> node <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode(val);
+</span></span><span style="display:flex;"><span>	node<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> head<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>	head<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> node;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> head;
+</span></span><span style="display:flex;"><span>}
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">insertTail</span>(ListNode<span style="color:#f92672">*</span> head, <span style="color:#66d9ef">int</span> val) {
+</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> node <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode(val);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (head <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> node;
+</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> cur <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> (cur<span style="color:#f92672">-&gt;</span>next) {
+</span></span><span style="display:flex;"><span>		cur <span style="color:#f92672">=</span> cur<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	cur<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> node;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> head;
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="234-回文链表">234. 回文链表</h3>
 <p>可以存到vector中用双指针比较，但是缺点是需要花费空间。</p>
 <p>所以使用快慢指针寻找回文的中点，代码中<code>l1</code>就是回文右半部分开始的地方。</p>
 <p>将右半部分反转，形成两个链表，分别是<code>head为头结点的left</code>和<code>prev为头结点的right</code>，之后再去比较值是否相等</p>
@@ -898,15 +924,14 @@
 </span></span><span style="display:flex;"><span>	ListNode(<span style="color:#66d9ef">int</span> val)<span style="color:#f92672">:</span>val(val), next(<span style="color:#66d9ef">nullptr</span>) {}
 </span></span><span style="display:flex;"><span>};
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">hasCircle</span>(ListNode<span style="color:#f92672">*</span> head) {
-</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> slow <span style="color:#f92672">=</span> head, <span style="color:#f92672">*</span> fast <span style="color:#f92672">=</span> head;
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">do</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (slow) slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> false;
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (fast <span style="color:#f92672">&amp;&amp;</span> fast<span style="color:#f92672">-&gt;</span>next) fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> false;
-</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">while</span> (slow <span style="color:#f92672">!=</span> fast);
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">hasCycle</span>(ListNode<span style="color:#f92672">*</span> head) {
+</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> fast <span style="color:#f92672">=</span> head, <span style="color:#f92672">*</span> slow <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> (fast <span style="color:#f92672">&amp;&amp;</span> fast<span style="color:#f92672">-&gt;</span>next) {
+</span></span><span style="display:flex;"><span>		fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>		slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (fast <span style="color:#f92672">==</span> slow) <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> false;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
@@ -931,48 +956,30 @@
 </span></span></code></pre></div><h3 id="142-环形链表">142. 环形链表Ⅱ</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#include&lt;iostream&gt;
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e">#include&lt;vector&gt;
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">using</span> <span style="color:#66d9ef">namespace</span> std;
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ListNode</span>
-</span></span><span style="display:flex;"><span>{
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">ListNode</span> {
 </span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> next;
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> val;
-</span></span><span style="display:flex;"><span>	ListNode(<span style="color:#66d9ef">int</span> val)<span style="color:#f92672">:</span>val(val), next(<span style="color:#66d9ef">nullptr</span>) {}
+</span></span><span style="display:flex;"><span>	ListNode(<span style="color:#66d9ef">int</span> val) <span style="color:#f92672">:</span> val(val), next(<span style="color:#66d9ef">nullptr</span>) {};
 </span></span><span style="display:flex;"><span>};
 </span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">insert</span>(ListNode<span style="color:#f92672">*</span> node, <span style="color:#66d9ef">int</span> val) {
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (node <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">new</span> ListNode(val);
-</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> newNode <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> ListNode(val);
-</span></span><span style="display:flex;"><span>	newNode<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> node<span style="color:#f92672">-&gt;</span>next;
-</span></span><span style="display:flex;"><span>	node<span style="color:#f92672">-&gt;</span>next <span style="color:#f92672">=</span> newNode;
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> node;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
-</span></span><span style="display:flex;"><span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">hasCircle</span>(ListNode<span style="color:#f92672">*</span> head) {
-</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> slow <span style="color:#f92672">=</span> head, <span style="color:#f92672">*</span> fast <span style="color:#f92672">=</span> head;
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">do</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (slow) slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> false;
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (fast <span style="color:#f92672">&amp;&amp;</span> fast<span style="color:#f92672">-&gt;</span>next) fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> false;
-</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">while</span> (slow <span style="color:#f92672">!=</span> fast);
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> true;
-</span></span><span style="display:flex;"><span>}
-</span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>ListNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">hasCircle2</span>(ListNode<span style="color:#f92672">*</span> head) {
-</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> slow <span style="color:#f92672">=</span> head, <span style="color:#f92672">*</span> fast <span style="color:#f92672">=</span> head;
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">do</span> {
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (slow) slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (fast <span style="color:#f92672">&amp;&amp;</span> fast<span style="color:#f92672">-&gt;</span>next) fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
-</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">else</span> <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
-</span></span><span style="display:flex;"><span>	} <span style="color:#66d9ef">while</span> (slow <span style="color:#f92672">!=</span> fast);
-</span></span><span style="display:flex;"><span>	fast <span style="color:#f92672">=</span> head;
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> (slow <span style="color:#f92672">!=</span> fast) {
-</span></span><span style="display:flex;"><span>		fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> fast <span style="color:#f92672">=</span> head, <span style="color:#f92672">*</span> slow <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">while</span> (fast <span style="color:#f92672">&amp;&amp;</span> fast<span style="color:#f92672">-&gt;</span>next) {
+</span></span><span style="display:flex;"><span>		fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next<span style="color:#f92672">-&gt;</span>next;
 </span></span><span style="display:flex;"><span>		slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (fast <span style="color:#f92672">==</span> slow) {
+</span></span><span style="display:flex;"><span>			fast <span style="color:#f92672">=</span> head;
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">while</span> (fast <span style="color:#f92672">!=</span> slow) {
+</span></span><span style="display:flex;"><span>				fast <span style="color:#f92672">=</span> fast<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>				slow <span style="color:#f92672">=</span> slow<span style="color:#f92672">-&gt;</span>next;
+</span></span><span style="display:flex;"><span>			}
+</span></span><span style="display:flex;"><span>			<span style="color:#66d9ef">return</span> fast;
+</span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>	}
-</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> slow;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
@@ -991,7 +998,9 @@
 </span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> head <span style="color:#f92672">=</span> nodes[<span style="color:#ae81ff">0</span>];
 </span></span><span style="display:flex;"><span>	ListNode<span style="color:#f92672">*</span> res <span style="color:#f92672">=</span> hasCircle2(head);
-</span></span><span style="display:flex;"><span>	cout <span style="color:#f92672">&lt;&lt;</span> res<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (nodes[i]<span style="color:#f92672">-&gt;</span>val <span style="color:#f92672">==</span> res<span style="color:#f92672">-&gt;</span>val) cout <span style="color:#f92672">&lt;&lt;</span> i <span style="color:#f92672">&lt;&lt;</span> endl;
+</span></span><span style="display:flex;"><span>	}
 </span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><h3 id="21-合并两个有序链表">21. 合并两个有序链表</h3>
@@ -1250,7 +1259,28 @@
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
 </span></span></code></pre></div><h2 id="二叉树">二叉树</h2>
-<h3 id="104二叉树最大深度">104.二叉树最大深度</h3>
+<p>构建二叉树</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">TreeNode</span> {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">int</span> val;
+</span></span><span style="display:flex;"><span>	TreeNode<span style="color:#f92672">*</span> left, <span style="color:#f92672">*</span> right;
+</span></span><span style="display:flex;"><span>	TreeNode(<span style="color:#66d9ef">int</span> val) <span style="color:#f92672">:</span>val(val), left(<span style="color:#66d9ef">nullptr</span>), right(<span style="color:#66d9ef">nullptr</span>) {};
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span>TreeNode<span style="color:#f92672">*</span> <span style="color:#a6e22e">buildTree</span>(<span style="color:#66d9ef">const</span> vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> arr) {
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">if</span> (arr.empty() <span style="color:#f92672">||</span> arr[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">==</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> <span style="color:#66d9ef">nullptr</span>;
+</span></span><span style="display:flex;"><span>	vector<span style="color:#f92672">&lt;</span>TreeNode<span style="color:#f92672">*&gt;</span> nodes(arr.size(), <span style="color:#66d9ef">nullptr</span>);
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> arr.size(); i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (arr[i] <span style="color:#f92672">!=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>) nodes[i] <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> TreeNode(arr[i]);
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> arr.size(); i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (nodes[i] <span style="color:#f92672">==</span> <span style="color:#66d9ef">nullptr</span>) <span style="color:#66d9ef">continue</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> l <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">int</span> r <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span>;
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (l <span style="color:#f92672">&lt;</span> arr.size()) nodes[i]<span style="color:#f92672">-&gt;</span>left <span style="color:#f92672">=</span> nodes[l];
+</span></span><span style="display:flex;"><span>		<span style="color:#66d9ef">if</span> (r <span style="color:#f92672">&lt;</span> arr.size()) nodes[i]<span style="color:#f92672">-&gt;</span>right <span style="color:#f92672">=</span> nodes[r];
+</span></span><span style="display:flex;"><span>	}
+</span></span><span style="display:flex;"><span>	<span style="color:#66d9ef">return</span> nodes[<span style="color:#ae81ff">0</span>];
+</span></span><span style="display:flex;"><span>}
+</span></span></code></pre></div><h3 id="104二叉树最大深度">104.二叉树最大深度</h3>
 <p>队列deque，一层一层放进队列，每次深度++。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
 </span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
@@ -1477,7 +1507,7 @@
 </span></span><span style="display:flex;"><span>			}
 </span></span><span style="display:flex;"><span>			<span style="color:#75715e">// 必须是这个顺序先pushback然后再哈希表指向list的迭代器
 </span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			<span style="color:#75715e">// 因为一旦list为空，就指向了一个无效的迭代器，呢么会导致崩溃
-</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			cache.push_back({ key, val });
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>			cache.push_front({ key, val });
 </span></span><span style="display:flex;"><span>			hashTable[key] <span style="color:#f92672">=</span> cache.begin();
 </span></span><span style="display:flex;"><span>		}
 </span></span><span style="display:flex;"><span>	}

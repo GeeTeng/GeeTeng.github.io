@@ -29,8 +29,8 @@
 
   <meta itemprop="name" content="Posts">
   <meta itemprop="description" content="A description for the meta tag of the site">
-  <meta itemprop="datePublished" content="2025-11-20T00:00:00+00:00">
-  <meta itemprop="dateModified" content="2025-11-20T00:00:00+00:00">
+  <meta itemprop="datePublished" content="2025-12-07T00:00:00+00:00">
+  <meta itemprop="dateModified" content="2025-12-07T00:00:00+00:00">
 <link rel="canonical" href="https://geeteng.github.io/posts/" />
 
 <link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
@@ -308,6 +308,85 @@ C&#43;&#43;中可以通过模块化管理类的依赖关系，但是蓝图没有
         </div>
         <div class="level-right">
             <a href="/posts/ue/ue%E7%9F%A5%E8%AF%86%E7%82%B9/">Continue reading <i class="fa fa-angle-double-right"
+                    aria-hidden="true"></i></a>
+        </div>
+    </div>
+    <hr>
+</div><div class="blog-brief">
+    <a href="/posts/game/%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98/">
+        <h3 class="title is-4">
+            
+        </h3>
+    </a>
+
+    <div class="level is-mobile details">
+        <div class="level-left">
+
+            
+            <div class="level-item">
+                <a href="/posts/game/%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98/">
+                    <p class="subtitle info date">Jan 1, 0001
+                    </p>
+                </a>
+            </div>
+            
+
+
+            <div class="level-item">
+                <a href="/posts/game/%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98/">
+                    <p class="subtitle info">
+                        17 mins read
+                    </p>
+                </a>
+            </div>
+        </div>
+        <div class="level-right is-hidden-touch">
+            
+        </div>
+    </div>
+
+    <div>
+        
+
+        <div>
+            <a href="/posts/game/%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98/">
+                <p class="summary">
+                    GAS网络部分
+UE的属性同步
+GAS赋予能力的三种方法
+ASC赋予能力GiveAbility 角色初始就有的能力——生成武器、装配武器 通过GE赋予能力——狂暴状态解锁技能 GA赋予能力 EQS底层是什么
+EQS 底层就是批量生成候选点，然后对这些点进行可达性、可视性、距离等测试，计算分数并排序，从而返回最佳点。
+遍历所有items然后遍历所有Test（距离Test / Pathfinding Test / Dot Test）
+生成一批候选点（Items） 然后对每个点执行Tests（过滤/打分） 按分数排序 返回最佳点 fps使用状态同步在弱网环境下 导致的问题
+（服务器权威）你在客户端移动很流畅，但是服务器延迟高，服务器收到位置后，发现跑远了然后给你拉回权威位置。 （包丢失/延迟）角色移动不连续 （射击决策用客户端时刻）客户端做表现子弹已经发出去了，但是服务器射击判定延迟，命中体验感差。 … 根本原因是状态同步是“结果式同步”，弱网导致状态包丢失或延迟后，客户端缺乏预测与回滚机制，无法平滑补偿，也无法保证时序一致。
+那应该如何解决弱网带来的问题？
+输入同步&#43;客户端预测&#43;服务器回滚矫正&#43;命中回溯
+1.输入同步：客户端不发当前位置，而是发当前输入，服务器能够重演玩家的行为，不会影响最终状态。
+2.客户端预测：客户端在按下移动/跳跃/开枪的瞬间立刻模拟，不等待服务器。
+3.服务器回滚矫正：如果客户端预测的结果和服务器不同，客户端会收到服务器的权威状态，回到服务器的位置。
+4.命中回溯：服务器对“开枪时间点”进行还原的一种算法。客户端开枪时附带“开枪时间戳”，服务器收到开枪包时，会回到“子弹发射那一刻”的游戏世界状态，重新做命中判定。
+GA中endabiliy去调用一个定时器会出现问题吗？定时器会不会随着GA结束而销毁
+不会随着GA结束而销毁定时器，因为UE 的 FTimerManager 是挂在 UWorld 层级的，跟 GA 完全独立。
+但是必须注意：定时器回调不能继续访问GA内部数据。
+为什么不用AbilityTask去做连击
+GA 已经 EndAbility，但我还需要在“技能结束后的窗口期”继续等待一段时间，用来触发“下一段连击”。
+GA 结束 → Task 必定清理 → 任务逻辑完全中断。
+有一个攻击能力命中率75%，成功命中就受伤，不命中就显示Miss。该怎么去写在GAS框架中？
+命中判定放在GE自定义计算类中处理：
+如果没有命中给目标添加Tag，返回；
+命中了，正常计算伤害，然后改变属性。
+bool bHit = (FMath::RandRange(0, 99) &lt; HitChance); // 75% 命中率 不在GA中写的原因是因为GA是行为层，而GE是数值层。
+                    
+                </p>
+            </a>
+        </div>
+    </div>
+
+    <div class="level is-mobile continue-reading">
+        <div class="level-left">
+        </div>
+        <div class="level-right">
+            <a href="/posts/game/%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98/">Continue reading <i class="fa fa-angle-double-right"
                     aria-hidden="true"></i></a>
         </div>
     </div>
