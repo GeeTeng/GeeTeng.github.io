@@ -1,6 +1,6 @@
 ---
 title: "GAS项目笔记4"
-date: 2025-12-7
+date: 2025-12-07
 tags: [UE5]
 description: GAS项目笔记第4部分 怪物AI避障 行为树 EQS"
 showDate: true
@@ -34,7 +34,7 @@ AWarriorAIController 自定义AIController
 
 |——AIC_Enemy_Base
 
- 	|——AIC_Guardian
+​	|——AIC_Guardian
 
 AIController 构造时，会自动创建一个 `PathFollowingComponent`，用于寻路和路径跟随。但这个默认组件不支持群组避障。
 
@@ -455,7 +455,7 @@ FGameplayEffectSpecHandle UWarriorEnemyGameplayAbility::MakeEnemyDamageEffectSpe
 
 再GA近战中调用该函数，传入GE_Shared_DealDamage也就是自定义计算类，之后就可以调用BP_ApplyEffectSpecHandleToTarget执行伤害了。
 
-但是AI攻击还存在一个问题，播放攻击的蒙太奇动画时，如果玩家走到它背后，AI仍然在原地攻击，并没有转向。为此我们要添加运**动扭曲**
+但是AI攻击还存在一个问题，播放攻击的蒙太奇动画时，如果玩家走到它背后，AI仍然在原地攻击，并没有转向。为此我们要添加**运动扭曲**
 
 ```
 UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "MotionWarping")

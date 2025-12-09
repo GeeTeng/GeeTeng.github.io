@@ -73,6 +73,8 @@ public:
 
 l和r都从0开始遍历，r不断地++遍历整个数组，只有当r所指数字不为0时，l才会移动。
 
+也就是说，不管l指向的是0还是任何其他数字，只要r不为0那么就交换，这样保证了，非0数字的顺序。
+
 为了保证数字的顺序，所以要交换的条件是当r不等于0的时候去交换。
 
 ```c++
@@ -605,6 +607,37 @@ bool searchMatrix(vector<vector<int>>& matrix, int target) {
 
 ## 链表
 
+头插法尾插法：
+
+```c++
+class ListNode
+{
+public:
+	int val;
+	ListNode* next;
+	ListNode(int val) :val(val), next(nullptr) {};
+};
+ListNode* insertHead(ListNode* head, int val) {
+	ListNode* node = new ListNode(val);
+	node->next = head->next;
+	head->next = node;
+	return head;
+}
+
+ListNode* insertTail(ListNode* head, int val) {
+	ListNode* node = new ListNode(val);
+	if (head == nullptr) return node;
+	ListNode* cur = head;
+	while (cur->next) {
+		cur = cur->next;
+	}
+	cur->next = node;
+	return head;
+}
+```
+
+
+
 ### 234. 回文链表
 
 可以存到vector中用双指针比较，但是缺点是需要花费空间。
@@ -659,15 +692,14 @@ struct ListNode
 	ListNode(int val):val(val), next(nullptr) {}
 };
 
-bool hasCircle(ListNode* head) {
-	ListNode* slow = head, * fast = head;
-	do {
-		if (slow) slow = slow->next;
-		else return false;
-		if (fast && fast->next) fast = fast->next->next;
-		else return false;
-	} while (slow != fast);
-	return true;
+bool hasCycle(ListNode* head) {
+	ListNode* fast = head, * slow = head;
+	while (fast && fast->next) {
+		fast = fast->next->next;
+		slow = slow->next;
+		if (fast == slow) return true;
+	}
+	return false;
 }
 
 int main() {
@@ -698,48 +730,30 @@ int main() {
 ```c++
 #include<iostream>
 #include<vector>
+
 using namespace std;
 
-struct ListNode
-{
+struct ListNode {
 	ListNode* next;
 	int val;
-	ListNode(int val):val(val), next(nullptr) {}
+	ListNode(int val) : val(val), next(nullptr) {};
 };
 
-ListNode* insert(ListNode* node, int val) {
-	if (node == nullptr) return new ListNode(val);
-	ListNode* newNode = new ListNode(val);
-	newNode->next = node->next;
-	node->next = newNode;
-	return node;
-}
-
-bool hasCircle(ListNode* head) {
-	ListNode* slow = head, * fast = head;
-	do {
-		if (slow) slow = slow->next;
-		else return false;
-		if (fast && fast->next) fast = fast->next->next;
-		else return false;
-	} while (slow != fast);
-	return true;
-}
-
 ListNode* hasCircle2(ListNode* head) {
-	ListNode* slow = head, * fast = head;
-	do {
-		if (slow) slow = slow->next;
-		else return nullptr;
-		if (fast && fast->next) fast = fast->next->next;
-		else return nullptr;
-	} while (slow != fast);
-	fast = head;
-	while (slow != fast) {
-		fast = fast->next;
+	ListNode* fast = head, * slow = head;
+	while (fast && fast->next) {
+		fast = fast->next->next;
 		slow = slow->next;
+		if (fast == slow) {
+			fast = head;
+			while (fast != slow) {
+				fast = fast->next;
+				slow = slow->next;
+			}
+			return fast;
+		}
 	}
-	return slow;
+	return nullptr;
 }
 
 int main() {
@@ -758,7 +772,9 @@ int main() {
 	}
 	ListNode* head = nodes[0];
 	ListNode* res = hasCircle2(head);
-	cout << res->val << endl;
+	for (int i = 0; i < n; i++) {
+		if (nodes[i]->val == res->val) cout << i << endl;
+	}
 	return 0;
 }
 ```
@@ -1083,6 +1099,33 @@ public:
 
 ## 二叉树
 
+构建二叉树
+
+```c++
+struct TreeNode {
+	int val;
+	TreeNode* left, * right;
+	TreeNode(int val) :val(val), left(nullptr), right(nullptr) {};
+};
+TreeNode* buildTree(const vector<int>& arr) {
+	if (arr.empty() || arr[0] == -1) return nullptr;
+	vector<TreeNode*> nodes(arr.size(), nullptr);
+	for (int i = 0; i < arr.size(); i++) {
+		if (arr[i] != -1) nodes[i] = new TreeNode(arr[i]);
+	}
+	for (int i = 0; i < arr.size(); i++) {
+		if (nodes[i] == nullptr) continue;
+		int l = 2 * i + 1;
+		int r = 2 * i + 2;
+		if (l < arr.size()) nodes[i]->left = nodes[l];
+		if (r < arr.size()) nodes[i]->right = nodes[r];
+	}
+	return nodes[0];
+}
+```
+
+
+
 ### 104.二叉树最大深度
 
 队列deque，一层一层放进队列，每次深度++。
@@ -1400,7 +1443,7 @@ struct LRUCache
 			}
 			// 必须是这个顺序先pushback然后再哈希表指向list的迭代器
 			// 因为一旦list为空，就指向了一个无效的迭代器，呢么会导致崩溃
-			cache.push_back({ key, val });
+			cache.push_front({ key, val });
 			hashTable[key] = cache.begin();
 		}
 	}

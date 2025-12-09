@@ -318,7 +318,7 @@ Singleton* Singleton::instance = nullptr;
 mutex Singleton::mtx;
 ```
 
-懒汉式线程安全局部静态变量版：
+**懒汉式线程安全局部静态变量版：**
 
 ```c++
 class Singleton {
@@ -353,20 +353,36 @@ int main() {
 
 ```c++
 #include<iostream>
+
 using namespace std;
 
 class Singleton {
 private:
 	static Singleton* instance;
-	Singleton() { cout << "构造函数\n"; }
-public:
+	Singleton() {};
+	~Singleton() {};
+
 	Singleton(const Singleton&) = delete;
 	Singleton& operator=(const Singleton&) = delete;
+
+public:
 	static Singleton* GetInstance() {
 		return instance;
 	}
+	static void DeleteInstance() {
+		if (instance) {
+			delete instance;
+			instance = nullptr;
+		}
+	}
 };
+Singleton* Singleton::instance = new Singleton();
 
-Singleton* Singleton::instance = new Singleton;
+int main() {
+	Singleton* a = Singleton::GetInstance();
+	Singleton* b = Singleton::GetInstance();
+	cout << a << ' ' << b << endl;
+	return 0;
+}
 ```
 

@@ -1404,6 +1404,31 @@ void g(T&& v)
 
 ---
 
+## STL
+
+### set和unordered_set
+
+set是红黑树——平衡二叉树，元素自动排序，因此不能直接改变元素值（会打乱顺序），要改变元素的值，必须先删除该元素，再插入新元素。
+
+unordered_set底层是哈希表，元素是无序的，插入、删除、查找的时间复杂度是常量的。
+
+### vector
+
+vector是一个动态数组，底层维护3个指针：start（首地址）、finish（有效元素的最后位置）、end_of_storage（容量边界）；因此**vector在64位下本身大小是指针的大小8*3=24个字节**。
+
+`size = finish - start`
+
+`capacity = end_of_storage - start`
+
+当`size == capacity`时会发生扩容。
+
+> 多线程下如果同时操作vector会发生什么情况？
+
+- 内存越界/崩溃：一个线程触发扩容，另一个线程还在访问旧内存
+- 数据被覆盖：同时push_back导致写入同一位置
+
+
+
 ## 多线程
 
 传递函数指针
