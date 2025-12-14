@@ -35,7 +35,7 @@
   <meta itemprop="description" content="更新中">
   <meta itemprop="datePublished" content="2024-12-11T00:00:00+00:00">
   <meta itemprop="dateModified" content="2024-12-11T00:00:00+00:00">
-  <meta itemprop="wordCount" content="3537">
+  <meta itemprop="wordCount" content="3597">
   <meta itemprop="keywords" content="C&#43;&#43;">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/c&#43;&#43;learning/" />
 
@@ -205,7 +205,11 @@
   <ul>
     <li><a href="#c">C++</a>
       <ul>
+        <li><a href="#编译流程">编译流程</a></li>
+        <li><a href="#动态库与静态库区别">动态库与静态库区别</a></li>
         <li><a href="#内存布局">内存布局</a></li>
+        <li><a href="#堆和栈">堆和栈</a></li>
+        <li><a href="#内存对齐">内存对齐</a></li>
         <li><a href="#const用法和constexpr">const用法和constexpr</a>
           <ul>
             <li><a href="#顶层const和底层const">顶层const和底层const</a></li>
@@ -214,9 +218,9 @@
           </ul>
         </li>
         <li><a href="#decltype和auto">decltype和auto</a></li>
-        <li><a href="#动态库与静态库区别">动态库与静态库区别</a></li>
         <li><a href="#宏与内联函数区别">宏与内联函数区别</a></li>
         <li><a href="#enum-class-和-enum">enum class 和 enum</a></li>
+        <li><a href="#new--delete-和malloc--free-区别">new / delete 和malloc / free 区别</a></li>
         <li><a href="#四种强制转换">四种强制转换</a></li>
         <li><a href="#static">static</a></li>
         <li><a href="#this指针">this指针</a>
@@ -276,6 +280,8 @@
           <ul>
             <li><a href="#set和unordered_set">set和unordered_set</a></li>
             <li><a href="#vector">vector</a></li>
+            <li><a href="#list">list</a></li>
+            <li><a href="#unordered_map">unordered_map</a></li>
           </ul>
         </li>
         <li><a href="#多线程">多线程</a>
@@ -319,7 +325,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        87 mins read
+                        91 mins read
                     </p>
                 </div>
             </div>
@@ -342,6 +348,17 @@
             
 
             <h1 id="c">C++</h1>
+<h2 id="编译流程">编译流程</h2>
+<p>预处理——编译——汇编——链接</p>
+<p>当cpp文件经过预处理（展开#include、处理#define）之后得到<code>.i</code>文件；之后编译生成<strong>汇编代码</strong>得到<code>.s</code>文件；之后经过汇编将汇编代码转换为机器码，得到<code>.o</code>目标文件；最后经过链接生成可执行文件exe。</p>
+<h2 id="动态库与静态库区别">动态库与静态库区别</h2>
+<p>静态库和动态库的核心区别在于链接时机、可执行文件大小、共享方式和更新成本。</p>
+<ul>
+<li><strong>链接时机不同</strong>：静态库在<strong>编译期</strong>直接被打包进可执行文件；动态库在<strong>运行时</strong>加载，程序启动或调用时才解析符号。</li>
+<li><strong>可执行文件大小不同</strong>：静态库会把代码复制到最终程序里，所以文件更大；动态库是独立文件，可执行文件本身会更小。</li>
+<li><strong>共享方式不同</strong>：静态库无法共享，每个程序各自带一份；动态库的代码段可以被多个进程共享，节省内存。</li>
+<li><strong>更新方式不同</strong>：静态库更新需要重新编译主程序；动态库只需替换 .so/.dll，主程序无需重新编译。</li>
+</ul>
 <h2 id="内存布局">内存布局</h2>
 <table>
 <thead>
@@ -378,10 +395,7 @@
 </tbody>
 </table>
 <p><img src="/images/C++/C++basic/01.png" alt="01"></p>
-<p>随机存储器RAM（主存）</p>
-<p>与CPU直接交换数据，可读写区域，存放<strong>全局（静态）区</strong>、<strong>堆区</strong>、<strong>栈区</strong>。</p>
-<p>只读存储器ROM</p>
-<p>只能读出 所存数据稳定，断电后数据不会改变。存放<strong>代码区</strong>和<strong>常量区</strong>。</p>
+<h2 id="堆和栈">堆和栈</h2>
 <blockquote>
 <p>堆和栈的空间大小</p>
 </blockquote>
@@ -397,6 +411,32 @@
 <li>栈是连续的，不像堆一样分块管理，如果太大会出现碎片。</li>
 </ol>
 <p>线程的“运行开销”确实体现在它的栈上，但线程能不能申请堆空间、用不用堆，跟它有没有栈，是两回事。<strong>线程的栈大小</strong>是线程运行时用来存储局部变量、函数调用帧的空间，一般是固定的（比如 8MB）。<strong>线程 new/malloc 出来的 8GB 空间</strong>是从进程的堆里来的，是虚拟内存空间的一部分，并不是从它那 8MB 栈里“挤出来”的。</p>
+<blockquote>
+<p>堆和栈有什么区别？</p>
+</blockquote>
+<ul>
+<li>堆的内存需要手动申请、释放；栈内存由操作系统自动申请、释放。</li>
+<li>堆分配的内存较大且会产生内存碎片，栈分配的内存较小不会产生内存碎片；</li>
+<li>堆的分配效率没有栈高</li>
+<li>低地址向高地址扩展 高地址向低地址扩展</li>
+</ul>
+<h2 id="内存对齐">内存对齐</h2>
+<p>内存对齐：对象的起始地址必须是对齐值的整数倍。比如int要求4字节对齐，double要求8字节对齐；</p>
+<p>由于一个64位的CPU访问内存是一次读8个字节，如果对齐了就是一次访存，不对齐会跨两个8字节块（两次访存+拼接）。</p>
+<p>有些架构甚至会因为不对齐而抛异常。</p>
+<p>编译器会自动帮我们完成内存对齐，比如说一个struct中有char有int，它的size就是8。但是使用不同顺序去声明成员，内存空间占用是不同的。比如说下面例子：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Bad</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> c;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">double</span> d;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> i;
+</span></span><span style="display:flex;"><span>};
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">struct</span> <span style="color:#a6e22e">Good</span> {
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">double</span> d;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> i;
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">char</span> c;
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><p>第一个Bad结构体的内存大小是24，但是Good占用了16个字节。<strong>小类型在前引入大量 padding</strong>。</p>
+<p>alignas显式指定对象或类型的最小对齐要求，提高对齐  #pragma pack可以降低对齐。</p>
 <h2 id="const用法和constexpr">const用法和constexpr</h2>
 <p>const用法：</p>
 <ol>
@@ -470,14 +510,6 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">return</span> a <span style="color:#f92672">+</span> b;
 </span></span><span style="display:flex;"><span>}
 </span></span></code></pre></div><p>尾置返回类型，真正的返回类型写在<code>decltype(a + b)</code>，这是因为编译器在看到<code>add(T a, U b)</code>时还不知道返回类型是什么。</p>
-<h2 id="动态库与静态库区别">动态库与静态库区别</h2>
-<p>静态库和动态库的核心区别在于链接时机、可执行文件大小、共享方式和更新成本。</p>
-<ul>
-<li><strong>链接时机不同</strong>：静态库在<strong>编译期</strong>直接被打包进可执行文件；动态库在<strong>运行时</strong>加载，程序启动或调用时才解析符号。</li>
-<li><strong>可执行文件大小不同</strong>：静态库会把代码复制到最终程序里，所以文件更大；动态库是独立文件，可执行文件本身会更小。</li>
-<li><strong>共享方式不同</strong>：静态库无法共享，每个程序各自带一份；动态库的代码段可以被多个进程共享，节省内存。</li>
-<li><strong>更新方式不同</strong>：静态库更新需要重新编译主程序；动态库只需替换 .so/.dll，主程序无需重新编译。</li>
-</ul>
 <h2 id="宏与内联函数区别">宏与内联函数区别</h2>
 <p>宏只做文本替换，不会检查类型。可能有副作用：</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#75715e">#define SQUARE(x) ((x)*(x))
@@ -500,7 +532,13 @@
 </span></span><span style="display:flex;"><span>    Green,
 </span></span><span style="display:flex;"><span>    Blue
 </span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><h2 id="四种强制转换">四种强制转换</h2>
+</span></span></code></pre></div><h2 id="new--delete-和malloc--free-区别">new / delete 和malloc / free 区别</h2>
+<ul>
+<li>new / delete会额外调用析构、构造函数。malloc / free兼容C语言。</li>
+<li>new分配内存空间无需指定分配的内存大小，malloc需要；</li>
+<li>new返回类型指针，类型安全；malloc返回void*，再强转成所需类型；</li>
+</ul>
+<h2 id="四种强制转换">四种强制转换</h2>
 <table>
 <thead>
 <tr>
@@ -947,9 +985,12 @@
 <ol>
 <li>编辑器发现基类中有虚函数时，会自动为每个含有虚函数的类生成一份虚表，该表是一个一维数组，保存了虚函数的入口地址。</li>
 <li>在每个对象前4个字节中保存一个虚表指针<code>vptr</code>(32位4字节，64位8字节)，指向对象所属类的虚表。在构造时初始化<code>vptr</code>。</li>
-<li>在构造子类对象时，会先调用父类的构造函数，<strong>为父类对象初始化虚表指针</strong>，令它指向父类的虚表；<strong>派生类的构造函数</strong>会在调用父类构造函数后，初始化派生类对象的 <code>vptr</code>，并使其指向派生类的虚表。</li>
-<li><strong>当派生类对基类的虚函数没有重写时，派生类的虚表指针指向的是基类的虚表</strong>；<strong>当派生类对基类的虚函数重写时，派生类的虚表指针指向的是自身的虚表</strong>；</li>
 </ol>
+<p>如果是多重继承，那么子类对象的内存布局中，会包含多个基类的虚函数表和基类的虚表指针；但是自己是没有虚函数表和虚表指针的。如果子类有自己的虚函数，则会在通常是第一个基类的虚表中增加该虚函数；子类重写的虚函数会覆盖多个基类对应虚表中被重写的虚函数的地址。</p>
+<blockquote>
+<p>什么是虚继承？</p>
+</blockquote>
+<p><strong>非虚继承</strong>在对象中各自包含一份基类子对象，布局简单、效率高，但在菱形继承中会造成数据冗余和二义性；<strong>虚继承</strong>通过共享虚基类子对象解决该问题，但引入额外指针和运行期开销。</p>
 <blockquote>
 <p>vtable存储在哪个段？</p>
 </blockquote>
@@ -1372,6 +1413,7 @@
 </span></span><span style="display:flex;"><span>
 </span></span><span style="display:flex;"><span>std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;&amp;</span> rvalueRef <span style="color:#f92672">=</span> createString(); <span style="color:#75715e">// 捕获将亡值
 </span></span></span></code></pre></div><h3 id="右值引用">右值引用</h3>
+<p>右值引用用于绑定临时对象，使程序能够安全地转移资源而非拷贝，是 C++ 实现移动语义和完美转发的基础机制。</p>
 <p>能取地址的就是左值，取不了地址就是右值。</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">PrintName</span>(<span style="color:#66d9ef">const</span> std<span style="color:#f92672">::</span>string<span style="color:#f92672">&amp;</span> name) {
 </span></span><span style="display:flex;"><span>    std<span style="color:#f92672">::</span>cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;[lvalue] &#34;</span> <span style="color:#f92672">&lt;&lt;</span> name <span style="color:#f92672">&lt;&lt;</span> std<span style="color:#f92672">::</span>endl;
@@ -1444,6 +1486,10 @@
 <li>内存越界/崩溃：一个线程触发扩容，另一个线程还在访问旧内存</li>
 <li>数据被覆盖：同时push_back导致写入同一位置</li>
 </ul>
+<h3 id="list">list</h3>
+<p>双向链表，使用两个指针管理，prev ptr 和 next ptr。</p>
+<h3 id="unordered_map">unordered_map</h3>
+<p>桶数组+链表</p>
 <h2 id="多线程">多线程</h2>
 <p>传递函数指针</p>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">sayhello</span>(<span style="color:#66d9ef">int</span> a, <span style="color:#66d9ef">int</span> b)
@@ -1860,7 +1906,7 @@
 	    </a>
 
 		<a  href="https://www.linkedin.com/shareArticle?mini=true&url=https%3a%2f%2fgeeteng.github.io%2fposts%2fc%2b%2b%2fc%2b%2blearning%2f
-			&title=C%2b%2b%e7%9f%a5%e8%af%86%e5%9b%9e%e9%a1%be&summary=C%2b%2b%20%e5%86%85%e5%ad%98%e5%b8%83%e5%b1%80%20%e5%86%85%e5%ad%98%e5%8c%ba%e5%9f%9f%20%e5%ad%98%e5%82%a8%e5%86%85%e5%ae%b9%20%e4%bb%a3%e7%a0%81%e6%ae%b5%ef%bc%88.text%ef%bc%89%20%e5%ad%98%e5%82%a8%e7%a8%8b%e5%ba%8f%e7%9a%84%e5%8f%af%e6%89%a7%e8%a1%8c%e4%bb%a3%e7%a0%81%ef%bc%8c%e5%8c%85%e6%8b%ac%e6%99%ae%e9%80%9a%e5%87%bd%e6%95%b0%e5%92%8c%e8%99%9a%e5%87%bd%e6%95%b0%e7%9a%84%e5%ae%9e%e7%8e%b0%20%e6%95%b0%e6%8d%ae%e6%ae%b5%ef%bc%88%e5%85%a8%e5%b1%80%e9%9d%99%e6%80%81%e5%8c%ba%ef%bc%89%ef%bc%88.data%20%e5%92%8c%20.bss%ef%bc%89%20%e5%ad%98%e5%82%a8%e5%85%a8%e5%b1%80%2f%e9%9d%99%e6%80%81%e5%8f%98%e9%87%8f%ef%bc%88%e5%b7%b2%e5%88%9d%e5%a7%8b%e5%8c%96%e7%9a%84%e6%94%be%e5%9c%a8%20.data%ef%bc%8c%e6%9c%aa%e5%88%9d%e5%a7%8b%e5%8c%96%e7%9a%84%e6%94%be%e5%9c%a8%20.bss%ef%bc%89%20%e5%8f%aa%e8%af%bb%e6%95%b0%e6%8d%ae%e6%ae%b5%ef%bc%88%e5%b8%b8%e9%87%8f%e5%8c%ba%ef%bc%89%ef%bc%88.rodata%ef%bc%89%20%e5%ad%98%e5%82%a8%e5%b8%b8%e9%87%8f%e6%95%b0%e6%8d%ae%ef%bc%88%e5%a6%82%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%ad%97%e9%9d%a2%e9%87%8f%e3%80%81const%20%e5%8f%98%e9%87%8f%e3%80%81VTable%ef%bc%89%20%e5%a0%86%e5%8c%ba%ef%bc%88Heap%ef%bc%89%20%e7%94%b1%20new%e3%80%81malloc%20%e5%8a%a8%e6%80%81%e5%88%86%e9%85%8d%ef%bc%8c%e7%a8%8b%e5%ba%8f%e5%91%98%e6%89%8b%e5%8a%a8%e9%87%8a%e6%94%be%e3%80%82%e4%bb%8e%e4%bd%8e%e5%9c%b0%e5%9d%80%e5%90%91%e4%b8%8a%e5%a2%9e%e9%95%bf%e3%80%82%20%e6%96%87%e4%bb%b6%e6%98%a0%e5%b0%84%e6%ae%b5%20%e5%8c%85%e6%8b%ac%e5%8a%a8%e6%80%81%e5%ba%93%e3%80%81%e5%85%b1%e4%ba%ab%e5%86%85%e5%ad%98%e7%ad%89%20%e6%a0%88%e5%8c%ba%ef%bc%88Stack%ef%bc%89%20%e7%94%b1%e5%87%bd%e6%95%b0%e7%9a%84%e5%b1%80%e9%83%a8%e5%8f%98%e9%87%8f%e3%80%81%e5%87%bd%e6%95%b0%e8%b0%83%e7%94%a8%e5%b8%a7%e7%ad%89%e7%bb%84%e6%88%90%ef%bc%8c%e8%87%aa%e5%8a%a8%e7%ae%a1%e7%90%86%e3%80%82%e4%b8%80%e8%88%ac%e6%98%af8MB%ef%bc%8c%e5%90%91%e4%bd%8e%e5%9c%b0%e5%9d%80%e5%a2%9e%e9%95%bf%e3%80%82%20%e9%9a%8f%e6%9c%ba%e5%ad%98%e5%82%a8%e5%99%a8RAM%ef%bc%88%e4%b8%bb%e5%ad%98%ef%bc%89%0a%e4%b8%8eCPU%e7%9b%b4%e6%8e%a5%e4%ba%a4%e6%8d%a2%e6%95%b0%e6%8d%ae%ef%bc%8c%e5%8f%af%e8%af%bb%e5%86%99%e5%8c%ba%e5%9f%9f%ef%bc%8c%e5%ad%98%e6%94%be%e5%85%a8%e5%b1%80%ef%bc%88%e9%9d%99%e6%80%81%ef%bc%89%e5%8c%ba%e3%80%81%e5%a0%86%e5%8c%ba%e3%80%81%e6%a0%88%e5%8c%ba%e3%80%82%0a%e5%8f%aa%e8%af%bb%e5%ad%98%e5%82%a8%e5%99%a8ROM%0a%e5%8f%aa%e8%83%bd%e8%af%bb%e5%87%ba%20%e6%89%80%e5%ad%98%e6%95%b0%e6%8d%ae%e7%a8%b3%e5%ae%9a%ef%bc%8c%e6%96%ad%e7%94%b5%e5%90%8e%e6%95%b0%e6%8d%ae%e4%b8%8d%e4%bc%9a%e6%94%b9%e5%8f%98%e3%80%82%e5%ad%98%e6%94%be%e4%bb%a3%e7%a0%81%e5%8c%ba%e5%92%8c%e5%b8%b8%e9%87%8f%e5%8c%ba%e3%80%82%0a%e5%a0%86%e5%92%8c%e6%a0%88%e7%9a%84%e7%a9%ba%e9%97%b4%e5%a4%a7%e5%b0%8f%0a%e6%a0%88%e5%a4%a7%e5%b0%8f%e5%9c%a8linux%e9%bb%98%e8%ae%a48MB%ef%bc%8c%e4%b9%9f%e5%8f%af%e6%89%8b%e5%8a%a8%e5%a2%9e%e5%a4%a7%ef%bc%88%e4%bd%86%e4%b8%8d%e6%98%af%e6%97%a0%e9%99%90%e5%a2%9e%e5%a4%a7%ef%bc%8c%e5%90%a6%e5%88%99%e7%a2%b0%e5%88%b0mmap%e5%8c%ba%ef%bc%89%ef%bc%8c%e9%80%9a%e5%b8%b8%e5%a4%a7%e5%b0%8f%e6%98%af%e5%9b%ba%e5%ae%9a%e7%9a%84%e3%80%82%e4%bd%86%e6%98%af%e5%a0%86%e5%a4%a7%e5%b0%8f%e5%8f%af%e5%8a%a8%e6%80%81%e5%a2%9e%e9%95%bf%e3%80%82%0a%e6%af%8f%e4%b8%aa%e8%bf%9b%e7%a8%8b%e9%83%bd%e6%9c%89%e8%87%aa%e5%b7%b1%e7%9a%84%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e7%a9%ba%e9%97%b4%ef%bc%8c%e5%9c%a8%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e7%a9%ba%e9%97%b4%e4%b8%ad%e6%9c%89%e5%86%85%e6%a0%b8%e7%a9%ba%e9%97%b4%e5%92%8c%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e3%80%8232%e4%bd%8d%e7%9a%84linux%e4%b8%ad%e5%86%85%e6%a0%b8%e7%a9%ba%e9%97%b4%e5%8d%a01GB%ef%bc%8c%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e5%8d%a03GB%ef%bc%9b%e8%80%8c64%e4%bd%8d%e7%9a%84linux%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e5%8f%af%e8%83%bd%e6%9c%89128TB%e3%80%82%0a%e5%85%b6%e4%b8%ad%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e4%bb%8e%e4%b8%8a%e5%88%b0%e4%b8%8b%e6%9c%89%e6%a0%88%e3%80%81%e6%96%87%e4%bb%b6%e6%98%a0%e5%b0%84%e5%8c%ba%e3%80%81%e5%a0%86%e3%80%81%e5%85%a8%e5%b1%80%e9%9d%99%e6%80%81%e5%8c%ba%ef%bc%88.data%2c.bss%ef%bc%89%e3%80%81%e4%bb%a3%e7%a0%81%e5%8c%ba%e3%80%82%e6%89%80%e4%bb%a532%e4%bd%8dlinux%e4%b8%ad%e5%a0%86%e7%9a%84%e7%94%b3%e8%af%b7%e5%a4%a7%e5%b0%8f%e4%b8%8d%e4%bc%9a%e8%b6%85%e8%bf%873GB%ef%bc%8c%e4%bd%86%e6%98%af64%e4%bd%8dlinux%e9%80%9a%e8%bf%87swap%e6%8a%80%e6%9c%af%e5%8f%af%e4%bb%a5%e6%89%a9%e5%b1%95%e9%ab%98%e8%be%be%e4%b8%8a%e7%99%beGB%e7%9a%84%e7%a9%ba%e9%97%b4%e3%80%82%0a%e4%b8%ba%e4%bb%80%e4%b9%88%e6%a0%88%e5%b0%8f%e5%a0%86%e5%a4%a7%ef%bc%9f%0a%e5%9b%a0%e4%b8%ba%e6%a0%88%e6%98%af%e4%b8%ba%e4%ba%86%e5%b1%80%e9%83%a8%e5%8f%98%e9%87%8f%e5%92%8c%e5%87%bd%e6%95%b0%e8%b0%83%e7%94%a8%e8%ae%be%e8%ae%a1%e7%9a%84%ef%bc%8c%e8%bf%99%e4%b8%aa%e7%94%a8%e9%80%94%e5%86%b3%e5%ae%9a%e4%ba%86%e5%ae%83%e5%8f%aa%e9%9c%80%e8%a6%81%e4%b8%80%e7%82%b9%e5%b0%b1%e5%a4%9f%e4%ba%86%e3%80%82%20%e6%af%8f%e4%b8%aa%e7%ba%bf%e7%a8%8b%e9%83%bd%e6%9c%89%e4%b8%80%e4%b8%aa%e7%8b%ac%e7%ab%8b%e7%9a%84%e6%a0%88%ef%bc%8c%e5%a6%82%e6%9e%9c%e5%bc%80%e4%ba%861000%e4%b8%aa%e7%ba%bf%e7%a8%8b%e5%b0%b1%e6%98%af8GB%e3%80%82%e6%89%80%e4%bb%a5%e4%b8%ba%e4%ba%86%e9%81%bf%e5%85%8d%e7%88%86%e5%86%85%e5%ad%98%e4%b9%9f%e8%a6%81%e9%99%90%e5%88%b6%e6%a0%88%e7%9a%84%e5%a4%a7%e5%b0%8f%e3%80%82%20%e6%a0%88%e6%98%af%e8%bf%9e%e7%bb%ad%e7%9a%84%ef%bc%8c%e4%b8%8d%e5%83%8f%e5%a0%86%e4%b8%80%e6%a0%b7%e5%88%86%e5%9d%97%e7%ae%a1%e7%90%86%ef%bc%8c%e5%a6%82%e6%9e%9c%e5%a4%aa%e5%a4%a7%e4%bc%9a%e5%87%ba%e7%8e%b0%e7%a2%8e%e7%89%87%e3%80%82%20%e7%ba%bf%e7%a8%8b%e7%9a%84%e2%80%9c%e8%bf%90%e8%a1%8c%e5%bc%80%e9%94%80%e2%80%9d%e7%a1%ae%e5%ae%9e%e4%bd%93%e7%8e%b0%e5%9c%a8%e5%ae%83%e7%9a%84%e6%a0%88%e4%b8%8a%ef%bc%8c%e4%bd%86%e7%ba%bf%e7%a8%8b%e8%83%bd%e4%b8%8d%e8%83%bd%e7%94%b3%e8%af%b7%e5%a0%86%e7%a9%ba%e9%97%b4%e3%80%81%e7%94%a8%e4%b8%8d%e7%94%a8%e5%a0%86%ef%bc%8c%e8%b7%9f%e5%ae%83%e6%9c%89%e6%b2%a1%e6%9c%89%e6%a0%88%ef%bc%8c%e6%98%af%e4%b8%a4%e5%9b%9e%e4%ba%8b%e3%80%82%e7%ba%bf%e7%a8%8b%e7%9a%84%e6%a0%88%e5%a4%a7%e5%b0%8f%e6%98%af%e7%ba%bf%e7%a8%8b%e8%bf%90%e8%a1%8c%e6%97%b6%e7%94%a8%e6%9d%a5%e5%ad%98%e5%82%a8%e5%b1%80%e9%83%a8%e5%8f%98%e9%87%8f%e3%80%81%e5%87%bd%e6%95%b0%e8%b0%83%e7%94%a8%e5%b8%a7%e7%9a%84%e7%a9%ba%e9%97%b4%ef%bc%8c%e4%b8%80%e8%88%ac%e6%98%af%e5%9b%ba%e5%ae%9a%e7%9a%84%ef%bc%88%e6%af%94%e5%a6%82%208MB%ef%bc%89%e3%80%82%e7%ba%bf%e7%a8%8b%20new%2fmalloc%20%e5%87%ba%e6%9d%a5%e7%9a%84%208GB%20%e7%a9%ba%e9%97%b4%e6%98%af%e4%bb%8e%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%a0%86%e9%87%8c%e6%9d%a5%e7%9a%84%ef%bc%8c%e6%98%af%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e7%a9%ba%e9%97%b4%e7%9a%84%e4%b8%80%e9%83%a8%e5%88%86%ef%bc%8c%e5%b9%b6%e4%b8%8d%e6%98%af%e4%bb%8e%e5%ae%83%e9%82%a3%208MB%20%e6%a0%88%e9%87%8c%e2%80%9c%e6%8c%a4%e5%87%ba%e6%9d%a5%e2%80%9d%e7%9a%84%e3%80%82%0aconst%e7%94%a8%e6%b3%95%e5%92%8cconstexpr%20const%e7%94%a8%e6%b3%95%ef%bc%9a%0a%e4%bf%ae%e9%a5%b0%e5%8f%98%e9%87%8f%20%e5%8f%98%e9%87%8f%e4%b8%8d%e8%83%bd%e4%bf%ae%e6%94%b9%20%e6%8c%87%e9%92%88%e5%b8%b8%e9%87%8f%20%ef%bc%88%e5%85%88%e5%87%ba%e7%8e%b0%e6%8c%87%e9%92%88%20%e5%86%8d%e5%87%ba%e7%8e%b0const%ef%bc%89%20%e5%b8%b8%e9%87%8f%e6%8c%87%e9%92%88%20%ef%bc%88%e5%85%88%e5%87%ba%e7%8e%b0const%20%e5%86%8d%e5%87%ba%e7%8e%b0%e6%8c%87%e9%92%88%ef%bc%89%20%e4%bf%ae%e9%a5%b0%e5%bc%95%e7%94%a8%20%e4%b8%8d%e8%83%bd%e9%80%9a%e8%bf%87%e5%bc%95%e7%94%a8%e4%bf%ae%e6%94%b9%e5%80%bc%20%e4%bf%ae%e9%a5%b0%e6%88%90%e5%91%98%e5%87%bd%e6%95%b0%20%e7%9b%b8%e5%bd%93%e4%ba%8e%e4%bf%ae%e9%a5%b0%e4%ba%86%e6%88%90%e5%91%98%e5%87%bd%e6%95%b0%e9%9a%90%e8%97%8f%e7%9a%84this%e6%8c%87%e9%92%88%20%e9%a1%b6%e5%b1%82const%e5%92%8c%e5%ba%95%e5%b1%82const%20%e9%a1%b6%e5%b1%82const%e6%8c%87%e7%9a%84%e6%98%afconst%e4%bf%ae%e9%a5%b0%e7%9a%84%e5%8f%98%e9%87%8f%e6%9c%ac%e8%ba%ab%e6%98%af%e4%b8%80%e4%b8%aa%e5%b8%b8%e9%87%8f%ef%bc%88%e6%8c%87%e9%92%88%e6%9c%ac%e8%ba%ab%ef%bc%89%ef%bc%8c%e5%a6%82int%2a%20const%20p%ef%bc%8c%e5%ba%95%e5%b1%82const%e6%8c%87%e7%9a%84%e6%98%afconst%e4%bf%ae%e9%a5%b0%e7%9a%84%e5%8f%98%e9%87%8f%e6%89%80%e6%8c%87%e5%90%91%e7%9a%84%e5%af%b9%e8%b1%a1%e6%98%af%e4%b8%80%e4%b8%aa%e5%b8%b8%e9%87%8f%ef%bc%88%e6%8c%87%e9%92%88%e6%8c%87%e5%90%91%e7%9a%84%e5%86%85%e5%ae%b9%ef%bc%89%ef%bc%8c%e5%a6%82const%20int%2a%20p%e3%80%82%0aconst%20int%20%2a%20const%20p3%20%3d%20p2%20%2f%2f%20%e9%9d%a0%e5%8f%b3%e7%9a%84const%e6%98%af%e9%a1%b6%e5%b1%82const%ef%bc%8c%e9%9d%a0%e5%b7%a6%e7%9a%84%e6%98%af%e5%ba%95%e5%b1%82const%20%e5%b8%b8%e9%87%8f%e6%8c%87%e9%92%88const%20int%2a%20p1%e4%b8%ad%ef%bc%8cconst%e4%bf%ae%e9%a5%b0%e7%9a%84%e6%98%afint%2a%ef%bc%8c%e6%89%80%e4%bb%a5%e4%bf%ae%e6%94%b9%e4%b8%8d%e4%ba%86%e6%8c%87%e9%92%88%e6%8c%87%e5%90%91%e7%9a%84%e5%80%bc%ef%bc%8c%e4%b9%9f%e5%b0%b1%e6%98%af%e4%bf%ae%e6%94%b9%e4%b8%8d%e4%ba%86%2ap1%3b%e4%bd%86%e6%98%afp1%e5%92%8c%e6%8c%87%e5%90%91%e5%af%b9%e8%b1%a1%e7%9a%84%e5%80%bc%e6%98%af%e5%8f%af%e4%bb%a5%e6%94%b9%e5%8f%98%e7%9a%84%ef%bc%8c%e5%8f%aa%e6%98%af%e4%b8%8d%e8%83%bd%e6%94%b9%e5%8f%98%e6%8c%87%e9%92%88%e6%8c%87%e5%90%91%e7%9a%84%e5%80%bc%e3%80%82&source=rafed123.github.io"
+			&title=C%2b%2b%e7%9f%a5%e8%af%86%e5%9b%9e%e9%a1%be&summary=C%2b%2b%20%e7%bc%96%e8%af%91%e6%b5%81%e7%a8%8b%20%e9%a2%84%e5%a4%84%e7%90%86%e2%80%94%e2%80%94%e7%bc%96%e8%af%91%e2%80%94%e2%80%94%e6%b1%87%e7%bc%96%e2%80%94%e2%80%94%e9%93%be%e6%8e%a5%0a%e5%bd%93cpp%e6%96%87%e4%bb%b6%e7%bb%8f%e8%bf%87%e9%a2%84%e5%a4%84%e7%90%86%ef%bc%88%e5%b1%95%e5%bc%80%23include%e3%80%81%e5%a4%84%e7%90%86%23define%ef%bc%89%e4%b9%8b%e5%90%8e%e5%be%97%e5%88%b0.i%e6%96%87%e4%bb%b6%ef%bc%9b%e4%b9%8b%e5%90%8e%e7%bc%96%e8%af%91%e7%94%9f%e6%88%90%e6%b1%87%e7%bc%96%e4%bb%a3%e7%a0%81%e5%be%97%e5%88%b0.s%e6%96%87%e4%bb%b6%ef%bc%9b%e4%b9%8b%e5%90%8e%e7%bb%8f%e8%bf%87%e6%b1%87%e7%bc%96%e5%b0%86%e6%b1%87%e7%bc%96%e4%bb%a3%e7%a0%81%e8%bd%ac%e6%8d%a2%e4%b8%ba%e6%9c%ba%e5%99%a8%e7%a0%81%ef%bc%8c%e5%be%97%e5%88%b0.o%e7%9b%ae%e6%a0%87%e6%96%87%e4%bb%b6%ef%bc%9b%e6%9c%80%e5%90%8e%e7%bb%8f%e8%bf%87%e9%93%be%e6%8e%a5%e7%94%9f%e6%88%90%e5%8f%af%e6%89%a7%e8%a1%8c%e6%96%87%e4%bb%b6exe%e3%80%82%0a%e5%8a%a8%e6%80%81%e5%ba%93%e4%b8%8e%e9%9d%99%e6%80%81%e5%ba%93%e5%8c%ba%e5%88%ab%20%e9%9d%99%e6%80%81%e5%ba%93%e5%92%8c%e5%8a%a8%e6%80%81%e5%ba%93%e7%9a%84%e6%a0%b8%e5%bf%83%e5%8c%ba%e5%88%ab%e5%9c%a8%e4%ba%8e%e9%93%be%e6%8e%a5%e6%97%b6%e6%9c%ba%e3%80%81%e5%8f%af%e6%89%a7%e8%a1%8c%e6%96%87%e4%bb%b6%e5%a4%a7%e5%b0%8f%e3%80%81%e5%85%b1%e4%ba%ab%e6%96%b9%e5%bc%8f%e5%92%8c%e6%9b%b4%e6%96%b0%e6%88%90%e6%9c%ac%e3%80%82%0a%e9%93%be%e6%8e%a5%e6%97%b6%e6%9c%ba%e4%b8%8d%e5%90%8c%ef%bc%9a%e9%9d%99%e6%80%81%e5%ba%93%e5%9c%a8%e7%bc%96%e8%af%91%e6%9c%9f%e7%9b%b4%e6%8e%a5%e8%a2%ab%e6%89%93%e5%8c%85%e8%bf%9b%e5%8f%af%e6%89%a7%e8%a1%8c%e6%96%87%e4%bb%b6%ef%bc%9b%e5%8a%a8%e6%80%81%e5%ba%93%e5%9c%a8%e8%bf%90%e8%a1%8c%e6%97%b6%e5%8a%a0%e8%bd%bd%ef%bc%8c%e7%a8%8b%e5%ba%8f%e5%90%af%e5%8a%a8%e6%88%96%e8%b0%83%e7%94%a8%e6%97%b6%e6%89%8d%e8%a7%a3%e6%9e%90%e7%ac%a6%e5%8f%b7%e3%80%82%20%e5%8f%af%e6%89%a7%e8%a1%8c%e6%96%87%e4%bb%b6%e5%a4%a7%e5%b0%8f%e4%b8%8d%e5%90%8c%ef%bc%9a%e9%9d%99%e6%80%81%e5%ba%93%e4%bc%9a%e6%8a%8a%e4%bb%a3%e7%a0%81%e5%a4%8d%e5%88%b6%e5%88%b0%e6%9c%80%e7%bb%88%e7%a8%8b%e5%ba%8f%e9%87%8c%ef%bc%8c%e6%89%80%e4%bb%a5%e6%96%87%e4%bb%b6%e6%9b%b4%e5%a4%a7%ef%bc%9b%e5%8a%a8%e6%80%81%e5%ba%93%e6%98%af%e7%8b%ac%e7%ab%8b%e6%96%87%e4%bb%b6%ef%bc%8c%e5%8f%af%e6%89%a7%e8%a1%8c%e6%96%87%e4%bb%b6%e6%9c%ac%e8%ba%ab%e4%bc%9a%e6%9b%b4%e5%b0%8f%e3%80%82%20%e5%85%b1%e4%ba%ab%e6%96%b9%e5%bc%8f%e4%b8%8d%e5%90%8c%ef%bc%9a%e9%9d%99%e6%80%81%e5%ba%93%e6%97%a0%e6%b3%95%e5%85%b1%e4%ba%ab%ef%bc%8c%e6%af%8f%e4%b8%aa%e7%a8%8b%e5%ba%8f%e5%90%84%e8%87%aa%e5%b8%a6%e4%b8%80%e4%bb%bd%ef%bc%9b%e5%8a%a8%e6%80%81%e5%ba%93%e7%9a%84%e4%bb%a3%e7%a0%81%e6%ae%b5%e5%8f%af%e4%bb%a5%e8%a2%ab%e5%a4%9a%e4%b8%aa%e8%bf%9b%e7%a8%8b%e5%85%b1%e4%ba%ab%ef%bc%8c%e8%8a%82%e7%9c%81%e5%86%85%e5%ad%98%e3%80%82%20%e6%9b%b4%e6%96%b0%e6%96%b9%e5%bc%8f%e4%b8%8d%e5%90%8c%ef%bc%9a%e9%9d%99%e6%80%81%e5%ba%93%e6%9b%b4%e6%96%b0%e9%9c%80%e8%a6%81%e9%87%8d%e6%96%b0%e7%bc%96%e8%af%91%e4%b8%bb%e7%a8%8b%e5%ba%8f%ef%bc%9b%e5%8a%a8%e6%80%81%e5%ba%93%e5%8f%aa%e9%9c%80%e6%9b%bf%e6%8d%a2%20.so%2f.dll%ef%bc%8c%e4%b8%bb%e7%a8%8b%e5%ba%8f%e6%97%a0%e9%9c%80%e9%87%8d%e6%96%b0%e7%bc%96%e8%af%91%e3%80%82%20%e5%86%85%e5%ad%98%e5%b8%83%e5%b1%80%20%e5%86%85%e5%ad%98%e5%8c%ba%e5%9f%9f%20%e5%ad%98%e5%82%a8%e5%86%85%e5%ae%b9%20%e4%bb%a3%e7%a0%81%e6%ae%b5%ef%bc%88.text%ef%bc%89%20%e5%ad%98%e5%82%a8%e7%a8%8b%e5%ba%8f%e7%9a%84%e5%8f%af%e6%89%a7%e8%a1%8c%e4%bb%a3%e7%a0%81%ef%bc%8c%e5%8c%85%e6%8b%ac%e6%99%ae%e9%80%9a%e5%87%bd%e6%95%b0%e5%92%8c%e8%99%9a%e5%87%bd%e6%95%b0%e7%9a%84%e5%ae%9e%e7%8e%b0%20%e6%95%b0%e6%8d%ae%e6%ae%b5%ef%bc%88%e5%85%a8%e5%b1%80%e9%9d%99%e6%80%81%e5%8c%ba%ef%bc%89%ef%bc%88.data%20%e5%92%8c%20.bss%ef%bc%89%20%e5%ad%98%e5%82%a8%e5%85%a8%e5%b1%80%2f%e9%9d%99%e6%80%81%e5%8f%98%e9%87%8f%ef%bc%88%e5%b7%b2%e5%88%9d%e5%a7%8b%e5%8c%96%e7%9a%84%e6%94%be%e5%9c%a8%20.data%ef%bc%8c%e6%9c%aa%e5%88%9d%e5%a7%8b%e5%8c%96%e7%9a%84%e6%94%be%e5%9c%a8%20.bss%ef%bc%89%20%e5%8f%aa%e8%af%bb%e6%95%b0%e6%8d%ae%e6%ae%b5%ef%bc%88%e5%b8%b8%e9%87%8f%e5%8c%ba%ef%bc%89%ef%bc%88.rodata%ef%bc%89%20%e5%ad%98%e5%82%a8%e5%b8%b8%e9%87%8f%e6%95%b0%e6%8d%ae%ef%bc%88%e5%a6%82%e5%ad%97%e7%ac%a6%e4%b8%b2%e5%ad%97%e9%9d%a2%e9%87%8f%e3%80%81const%20%e5%8f%98%e9%87%8f%e3%80%81VTable%ef%bc%89%20%e5%a0%86%e5%8c%ba%ef%bc%88Heap%ef%bc%89%20%e7%94%b1%20new%e3%80%81malloc%20%e5%8a%a8%e6%80%81%e5%88%86%e9%85%8d%ef%bc%8c%e7%a8%8b%e5%ba%8f%e5%91%98%e6%89%8b%e5%8a%a8%e9%87%8a%e6%94%be%e3%80%82%e4%bb%8e%e4%bd%8e%e5%9c%b0%e5%9d%80%e5%90%91%e4%b8%8a%e5%a2%9e%e9%95%bf%e3%80%82%20%e6%96%87%e4%bb%b6%e6%98%a0%e5%b0%84%e6%ae%b5%20%e5%8c%85%e6%8b%ac%e5%8a%a8%e6%80%81%e5%ba%93%e3%80%81%e5%85%b1%e4%ba%ab%e5%86%85%e5%ad%98%e7%ad%89%20%e6%a0%88%e5%8c%ba%ef%bc%88Stack%ef%bc%89%20%e7%94%b1%e5%87%bd%e6%95%b0%e7%9a%84%e5%b1%80%e9%83%a8%e5%8f%98%e9%87%8f%e3%80%81%e5%87%bd%e6%95%b0%e8%b0%83%e7%94%a8%e5%b8%a7%e7%ad%89%e7%bb%84%e6%88%90%ef%bc%8c%e8%87%aa%e5%8a%a8%e7%ae%a1%e7%90%86%e3%80%82%e4%b8%80%e8%88%ac%e6%98%af8MB%ef%bc%8c%e5%90%91%e4%bd%8e%e5%9c%b0%e5%9d%80%e5%a2%9e%e9%95%bf%e3%80%82%20%e5%a0%86%e5%92%8c%e6%a0%88%20%e5%a0%86%e5%92%8c%e6%a0%88%e7%9a%84%e7%a9%ba%e9%97%b4%e5%a4%a7%e5%b0%8f%0a%e6%a0%88%e5%a4%a7%e5%b0%8f%e5%9c%a8linux%e9%bb%98%e8%ae%a48MB%ef%bc%8c%e4%b9%9f%e5%8f%af%e6%89%8b%e5%8a%a8%e5%a2%9e%e5%a4%a7%ef%bc%88%e4%bd%86%e4%b8%8d%e6%98%af%e6%97%a0%e9%99%90%e5%a2%9e%e5%a4%a7%ef%bc%8c%e5%90%a6%e5%88%99%e7%a2%b0%e5%88%b0mmap%e5%8c%ba%ef%bc%89%ef%bc%8c%e9%80%9a%e5%b8%b8%e5%a4%a7%e5%b0%8f%e6%98%af%e5%9b%ba%e5%ae%9a%e7%9a%84%e3%80%82%e4%bd%86%e6%98%af%e5%a0%86%e5%a4%a7%e5%b0%8f%e5%8f%af%e5%8a%a8%e6%80%81%e5%a2%9e%e9%95%bf%e3%80%82%0a%e6%af%8f%e4%b8%aa%e8%bf%9b%e7%a8%8b%e9%83%bd%e6%9c%89%e8%87%aa%e5%b7%b1%e7%9a%84%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e7%a9%ba%e9%97%b4%ef%bc%8c%e5%9c%a8%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e7%a9%ba%e9%97%b4%e4%b8%ad%e6%9c%89%e5%86%85%e6%a0%b8%e7%a9%ba%e9%97%b4%e5%92%8c%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e3%80%8232%e4%bd%8d%e7%9a%84linux%e4%b8%ad%e5%86%85%e6%a0%b8%e7%a9%ba%e9%97%b4%e5%8d%a01GB%ef%bc%8c%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e5%8d%a03GB%ef%bc%9b%e8%80%8c64%e4%bd%8d%e7%9a%84linux%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e5%8f%af%e8%83%bd%e6%9c%89128TB%e3%80%82%0a%e5%85%b6%e4%b8%ad%e7%94%a8%e6%88%b7%e7%a9%ba%e9%97%b4%e4%bb%8e%e4%b8%8a%e5%88%b0%e4%b8%8b%e6%9c%89%e6%a0%88%e3%80%81%e6%96%87%e4%bb%b6%e6%98%a0%e5%b0%84%e5%8c%ba%e3%80%81%e5%a0%86%e3%80%81%e5%85%a8%e5%b1%80%e9%9d%99%e6%80%81%e5%8c%ba%ef%bc%88.data%2c.bss%ef%bc%89%e3%80%81%e4%bb%a3%e7%a0%81%e5%8c%ba%e3%80%82%e6%89%80%e4%bb%a532%e4%bd%8dlinux%e4%b8%ad%e5%a0%86%e7%9a%84%e7%94%b3%e8%af%b7%e5%a4%a7%e5%b0%8f%e4%b8%8d%e4%bc%9a%e8%b6%85%e8%bf%873GB%ef%bc%8c%e4%bd%86%e6%98%af64%e4%bd%8dlinux%e9%80%9a%e8%bf%87swap%e6%8a%80%e6%9c%af%e5%8f%af%e4%bb%a5%e6%89%a9%e5%b1%95%e9%ab%98%e8%be%be%e4%b8%8a%e7%99%beGB%e7%9a%84%e7%a9%ba%e9%97%b4%e3%80%82%0a%e4%b8%ba%e4%bb%80%e4%b9%88%e6%a0%88%e5%b0%8f%e5%a0%86%e5%a4%a7%ef%bc%9f%0a%e5%9b%a0%e4%b8%ba%e6%a0%88%e6%98%af%e4%b8%ba%e4%ba%86%e5%b1%80%e9%83%a8%e5%8f%98%e9%87%8f%e5%92%8c%e5%87%bd%e6%95%b0%e8%b0%83%e7%94%a8%e8%ae%be%e8%ae%a1%e7%9a%84%ef%bc%8c%e8%bf%99%e4%b8%aa%e7%94%a8%e9%80%94%e5%86%b3%e5%ae%9a%e4%ba%86%e5%ae%83%e5%8f%aa%e9%9c%80%e8%a6%81%e4%b8%80%e7%82%b9%e5%b0%b1%e5%a4%9f%e4%ba%86%e3%80%82%20%e6%af%8f%e4%b8%aa%e7%ba%bf%e7%a8%8b%e9%83%bd%e6%9c%89%e4%b8%80%e4%b8%aa%e7%8b%ac%e7%ab%8b%e7%9a%84%e6%a0%88%ef%bc%8c%e5%a6%82%e6%9e%9c%e5%bc%80%e4%ba%861000%e4%b8%aa%e7%ba%bf%e7%a8%8b%e5%b0%b1%e6%98%af8GB%e3%80%82%e6%89%80%e4%bb%a5%e4%b8%ba%e4%ba%86%e9%81%bf%e5%85%8d%e7%88%86%e5%86%85%e5%ad%98%e4%b9%9f%e8%a6%81%e9%99%90%e5%88%b6%e6%a0%88%e7%9a%84%e5%a4%a7%e5%b0%8f%e3%80%82%20%e6%a0%88%e6%98%af%e8%bf%9e%e7%bb%ad%e7%9a%84%ef%bc%8c%e4%b8%8d%e5%83%8f%e5%a0%86%e4%b8%80%e6%a0%b7%e5%88%86%e5%9d%97%e7%ae%a1%e7%90%86%ef%bc%8c%e5%a6%82%e6%9e%9c%e5%a4%aa%e5%a4%a7%e4%bc%9a%e5%87%ba%e7%8e%b0%e7%a2%8e%e7%89%87%e3%80%82%20%e7%ba%bf%e7%a8%8b%e7%9a%84%e2%80%9c%e8%bf%90%e8%a1%8c%e5%bc%80%e9%94%80%e2%80%9d%e7%a1%ae%e5%ae%9e%e4%bd%93%e7%8e%b0%e5%9c%a8%e5%ae%83%e7%9a%84%e6%a0%88%e4%b8%8a%ef%bc%8c%e4%bd%86%e7%ba%bf%e7%a8%8b%e8%83%bd%e4%b8%8d%e8%83%bd%e7%94%b3%e8%af%b7%e5%a0%86%e7%a9%ba%e9%97%b4%e3%80%81%e7%94%a8%e4%b8%8d%e7%94%a8%e5%a0%86%ef%bc%8c%e8%b7%9f%e5%ae%83%e6%9c%89%e6%b2%a1%e6%9c%89%e6%a0%88%ef%bc%8c%e6%98%af%e4%b8%a4%e5%9b%9e%e4%ba%8b%e3%80%82%e7%ba%bf%e7%a8%8b%e7%9a%84%e6%a0%88%e5%a4%a7%e5%b0%8f%e6%98%af%e7%ba%bf%e7%a8%8b%e8%bf%90%e8%a1%8c%e6%97%b6%e7%94%a8%e6%9d%a5%e5%ad%98%e5%82%a8%e5%b1%80%e9%83%a8%e5%8f%98%e9%87%8f%e3%80%81%e5%87%bd%e6%95%b0%e8%b0%83%e7%94%a8%e5%b8%a7%e7%9a%84%e7%a9%ba%e9%97%b4%ef%bc%8c%e4%b8%80%e8%88%ac%e6%98%af%e5%9b%ba%e5%ae%9a%e7%9a%84%ef%bc%88%e6%af%94%e5%a6%82%208MB%ef%bc%89%e3%80%82%e7%ba%bf%e7%a8%8b%20new%2fmalloc%20%e5%87%ba%e6%9d%a5%e7%9a%84%208GB%20%e7%a9%ba%e9%97%b4%e6%98%af%e4%bb%8e%e8%bf%9b%e7%a8%8b%e7%9a%84%e5%a0%86%e9%87%8c%e6%9d%a5%e7%9a%84%ef%bc%8c%e6%98%af%e8%99%9a%e6%8b%9f%e5%86%85%e5%ad%98%e7%a9%ba%e9%97%b4%e7%9a%84%e4%b8%80%e9%83%a8%e5%88%86%ef%bc%8c%e5%b9%b6%e4%b8%8d%e6%98%af%e4%bb%8e%e5%ae%83%e9%82%a3%208MB%20%e6%a0%88%e9%87%8c%e2%80%9c%e6%8c%a4%e5%87%ba%e6%9d%a5%e2%80%9d%e7%9a%84%e3%80%82%0a%e5%a0%86%e5%92%8c%e6%a0%88%e6%9c%89%e4%bb%80%e4%b9%88%e5%8c%ba%e5%88%ab%ef%bc%9f%0a%e5%a0%86%e7%9a%84%e5%86%85%e5%ad%98%e9%9c%80%e8%a6%81%e6%89%8b%e5%8a%a8%e7%94%b3%e8%af%b7%e3%80%81%e9%87%8a%e6%94%be%ef%bc%9b%e6%a0%88%e5%86%85%e5%ad%98%e7%94%b1%e6%93%8d%e4%bd%9c%e7%b3%bb%e7%bb%9f%e8%87%aa%e5%8a%a8%e7%94%b3%e8%af%b7%e3%80%81%e9%87%8a%e6%94%be%e3%80%82%20%e5%a0%86%e5%88%86%e9%85%8d%e7%9a%84%e5%86%85%e5%ad%98%e8%be%83%e5%a4%a7%e4%b8%94%e4%bc%9a%e4%ba%a7%e7%94%9f%e5%86%85%e5%ad%98%e7%a2%8e%e7%89%87%ef%bc%8c%e6%a0%88%e5%88%86%e9%85%8d%e7%9a%84%e5%86%85%e5%ad%98%e8%be%83%e5%b0%8f%e4%b8%8d%e4%bc%9a%e4%ba%a7%e7%94%9f%e5%86%85%e5%ad%98%e7%a2%8e%e7%89%87%ef%bc%9b%20%e5%a0%86%e7%9a%84%e5%88%86%e9%85%8d%e6%95%88%e7%8e%87%e6%b2%a1%e6%9c%89%e6%a0%88%e9%ab%98%20%e4%bd%8e%e5%9c%b0%e5%9d%80%e5%90%91%e9%ab%98%e5%9c%b0%e5%9d%80%e6%89%a9%e5%b1%95%20%e9%ab%98%e5%9c%b0%e5%9d%80%e5%90%91%e4%bd%8e%e5%9c%b0%e5%9d%80%e6%89%a9%e5%b1%95%20%e5%86%85%e5%ad%98%e5%af%b9%e9%bd%90%20%e5%86%85%e5%ad%98%e5%af%b9%e9%bd%90%ef%bc%9a%e5%af%b9%e8%b1%a1%e7%9a%84%e8%b5%b7%e5%a7%8b%e5%9c%b0%e5%9d%80%e5%bf%85%e9%a1%bb%e6%98%af%e5%af%b9%e9%bd%90%e5%80%bc%e7%9a%84%e6%95%b4%e6%95%b0%e5%80%8d%e3%80%82%e6%af%94%e5%a6%82int%e8%a6%81%e6%b1%824%e5%ad%97%e8%8a%82%e5%af%b9%e9%bd%90%ef%bc%8cdouble%e8%a6%81%e6%b1%828%e5%ad%97%e8%8a%82%e5%af%b9%e9%bd%90%ef%bc%9b%0a%e7%94%b1%e4%ba%8e%e4%b8%80%e4%b8%aa64%e4%bd%8d%e7%9a%84CPU%e8%ae%bf%e9%97%ae%e5%86%85%e5%ad%98%e6%98%af%e4%b8%80%e6%ac%a1%e8%af%bb8%e4%b8%aa%e5%ad%97%e8%8a%82%ef%bc%8c%e5%a6%82%e6%9e%9c%e5%af%b9%e9%bd%90%e4%ba%86%e5%b0%b1%e6%98%af%e4%b8%80%e6%ac%a1%e8%ae%bf%e5%ad%98%ef%bc%8c%e4%b8%8d%e5%af%b9%e9%bd%90%e4%bc%9a%e8%b7%a8%e4%b8%a4%e4%b8%aa8%e5%ad%97%e8%8a%82%e5%9d%97%ef%bc%88%e4%b8%a4%e6%ac%a1%e8%ae%bf%e5%ad%98%2b%e6%8b%bc%e6%8e%a5%ef%bc%89%e3%80%82%0a%e6%9c%89%e4%ba%9b%e6%9e%b6%e6%9e%84%e7%94%9a%e8%87%b3%e4%bc%9a%e5%9b%a0%e4%b8%ba%e4%b8%8d%e5%af%b9%e9%bd%90%e8%80%8c%e6%8a%9b%e5%bc%82%e5%b8%b8%e3%80%82%0a%e7%bc%96%e8%af%91%e5%99%a8%e4%bc%9a%e8%87%aa%e5%8a%a8%e5%b8%ae%e6%88%91%e4%bb%ac%e5%ae%8c%e6%88%90%e5%86%85%e5%ad%98%e5%af%b9%e9%bd%90%ef%bc%8c%e6%af%94%e5%a6%82%e8%af%b4%e4%b8%80%e4%b8%aastruct%e4%b8%ad%e6%9c%89char%e6%9c%89int%ef%bc%8c%e5%ae%83%e7%9a%84size%e5%b0%b1%e6%98%af8%e3%80%82%e4%bd%86%e6%98%af%e4%bd%bf%e7%94%a8%e4%b8%8d%e5%90%8c%e9%a1%ba%e5%ba%8f%e5%8e%bb%e5%a3%b0%e6%98%8e%e6%88%90%e5%91%98%ef%bc%8c%e5%86%85%e5%ad%98%e7%a9%ba%e9%97%b4%e5%8d%a0%e7%94%a8%e6%98%af%e4%b8%8d%e5%90%8c%e7%9a%84%e3%80%82%e6%af%94%e5%a6%82%e8%af%b4%e4%b8%8b%e9%9d%a2%e4%be%8b%e5%ad%90%ef%bc%9a%0astruct%20Bad%20%7b%20char%20c%3b%20double%20d%3b%20int%20i%3b%20%7d%3b%20struct%20Good%20%7b%20double%20d%3b%20int%20i%3b%20char%20c%3b%20%7d%3b%20%e7%ac%ac%e4%b8%80%e4%b8%aaBad%e7%bb%93%e6%9e%84%e4%bd%93%e7%9a%84%e5%86%85%e5%ad%98%e5%a4%a7%e5%b0%8f%e6%98%af24%ef%bc%8c%e4%bd%86%e6%98%afGood%e5%8d%a0%e7%94%a8%e4%ba%8616%e4%b8%aa%e5%ad%97%e8%8a%82%e3%80%82%e5%b0%8f%e7%b1%bb%e5%9e%8b%e5%9c%a8%e5%89%8d%e5%bc%95%e5%85%a5%e5%a4%a7%e9%87%8f%20padding%e3%80%82&source=rafed123.github.io"
 	        onclick="socialMediaPopUp(this.href, '', 900, 500); return false;"
 	        title="Share on LinkedIn. Opens in a new window." >
 	        <img src=/img/icons/45px/linkedin.png>

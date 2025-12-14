@@ -35,7 +35,7 @@
   <meta itemprop="description" content="LeetCode热题100整理">
   <meta itemprop="datePublished" content="2025-03-12T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-12T00:00:00+00:00">
-  <meta itemprop="wordCount" content="8614">
+  <meta itemprop="wordCount" content="8622">
   <meta itemprop="keywords" content="算法">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/leetcodehot100/" />
 
@@ -348,9 +348,9 @@
           <ul>
             <li><a href="#62-不同路径">62. 不同路径</a></li>
             <li><a href="#64-最小路径和">64. 最小路径和</a></li>
-            <li><a href="#5-最长回文子串">5. 最长回文子串</a></li>
-            <li><a href="#1143-最长公共子序列">1143. 最长公共子序列</a></li>
-            <li><a href="#72-编辑距离">72. 编辑距离</a></li>
+            <li><a href="#5-最长回文子串">*5. 最长回文子串</a></li>
+            <li><a href="#1143-最长公共子序列">*1143. 最长公共子序列</a></li>
+            <li><a href="#72-编辑距离">*72. 编辑距离</a></li>
           </ul>
         </li>
         <li><a href="#技巧">技巧</a>
@@ -737,7 +737,8 @@
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> firstMissingPositive(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> nums) {
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> nums.size();
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
-</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">while</span>(nums[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> nums[i] <span style="color:#f92672">&lt;=</span> n <span style="color:#f92672">&amp;&amp;</span> nums[nums[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">!=</span> nums[i]) {
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 避免死循环 比如说1和1交换 因此不可以是(nums[i] - 1) != i
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            <span style="color:#66d9ef">while</span>(nums[i] <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> nums[i] <span style="color:#f92672">&lt;=</span> n <span style="color:#f92672">&amp;&amp;</span> nums[nums[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">!=</span> nums[i]) {
 </span></span><span style="display:flex;"><span>                swap(nums[i], nums[nums[i] <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>]);
 </span></span><span style="display:flex;"><span>            }
 </span></span><span style="display:flex;"><span>        }
@@ -2780,7 +2781,7 @@ public:
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> dp[m <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>][n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>];
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><h3 id="5-最长回文子串">5. 最长回文子串</h3>
+</span></span></code></pre></div><h3 id="5-最长回文子串">*5. 最长回文子串</h3>
 <p>初始化dp布尔数组，<code>dp[i][i] = true</code>，表示单个字符是回文。</p>
 <p>双重循环，第一层循环遍历长度len，范围是[2, n]；第二层循环遍历起始位置i，范围是[0, n - len]</p>
 <p>临时变量j为当前长度len的子串末尾，类似双指针。</p>
@@ -2815,7 +2816,7 @@ public:
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> s.substr(start, maxlen);
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><h3 id="1143-最长公共子序列">1143. 最长公共子序列</h3>
+</span></span></code></pre></div><h3 id="1143-最长公共子序列">*1143. 最长公共子序列</h3>
 <p><code>dp[i][j]</code>表示text1的前i个字符和text2的前j个字符的最长公共子序列长度。</p>
 <p>如果两个字符相等，则长度 +1</p>
 <p>如果当前字符不相等 要么丢掉text1当前字符 要么丢掉text2字符 看哪个长度更大。</p>
@@ -2834,7 +2835,7 @@ public:
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> dp[n][m];
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><h3 id="72-编辑距离">72. 编辑距离</h3>
+</span></span></code></pre></div><h3 id="72-编辑距离">*72. 编辑距离</h3>
 <p>这道题和上一道题最长公共子序列是类似的，都是遍历两个字符串，并且判断两个字符串的i - 1和j - 1位置是否相等。</p>
 <p><strong>三种操作都是对word1操作</strong>：插入字符、删除字符、替换字符。</p>
 <p><strong>dp[i][j] 表示将 word1 的前 i 个字符转换成 word2 的前 j 个字符的最小编辑距离。</strong></p>

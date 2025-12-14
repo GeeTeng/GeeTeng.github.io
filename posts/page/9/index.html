@@ -335,7 +335,7 @@ C&#43;&#43;中可以通过模块化管理类的依赖关系，但是蓝图没有
             <div class="level-item">
                 <a href="/posts/game/%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98/">
                     <p class="subtitle info">
-                        17 mins read
+                        23 mins read
                     </p>
                 </a>
             </div>
@@ -351,9 +351,15 @@ C&#43;&#43;中可以通过模块化管理类的依赖关系，但是蓝图没有
         <div>
             <a href="/posts/game/%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98/">
                 <p class="summary">
-                    GAS网络部分
+                    GAS网络部分有了解吗？
+server管理属性值、GE应用、技能执行
+client发起技能激活请求ServerTryActivateAbility
 UE的属性同步
-GAS赋予能力的三种方法
+1.属性必须加UPROPERTY(Replicated)
+2.Actor必须开启复制bReplicates = true;
+3.在 GetLifetimeReplicatedProps 注册
+void AMyActor::GetLifetimeReplicatedProps( TArray&lt;FLifetimeProperty&gt;&amp; OutLifetimeProps) const { Super::GetLifetimeReplicatedProps(OutLifetimeProps); DOREPLIFETIME(AMyActor, Health); } 可以加上同步条件：
+条件 含义 COND_None 所有人 COND_OwnerOnly 仅拥有者 COND_SkipOwner 除拥有者 COND_InitialOnly 只同步一次 GAS赋予能力的三种方法
 ASC赋予能力GiveAbility 角色初始就有的能力——生成武器、装配武器 通过GE赋予能力——狂暴状态解锁技能 GA赋予能力 EQS底层是什么
 EQS 底层就是批量生成候选点，然后对这些点进行可达性、可视性、距离等测试，计算分数并排序，从而返回最佳点。
 遍历所有items然后遍历所有Test（距离Test / Pathfinding Test / Dot Test）
@@ -367,15 +373,6 @@ EQS 底层就是批量生成候选点，然后对这些点进行可达性、可�
 4.命中回溯：服务器对“开枪时间点”进行还原的一种算法。客户端开枪时附带“开枪时间戳”，服务器收到开枪包时，会回到“子弹发射那一刻”的游戏世界状态，重新做命中判定。
 GA中endabiliy去调用一个定时器会出现问题吗？定时器会不会随着GA结束而销毁
 不会随着GA结束而销毁定时器，因为UE 的 FTimerManager 是挂在 UWorld 层级的，跟 GA 完全独立。
-但是必须注意：定时器回调不能继续访问GA内部数据。
-为什么不用AbilityTask去做连击
-GA 已经 EndAbility，但我还需要在“技能结束后的窗口期”继续等待一段时间，用来触发“下一段连击”。
-GA 结束 → Task 必定清理 → 任务逻辑完全中断。
-有一个攻击能力命中率75%，成功命中就受伤，不命中就显示Miss。该怎么去写在GAS框架中？
-命中判定放在GE自定义计算类中处理：
-如果没有命中给目标添加Tag，返回；
-命中了，正常计算伤害，然后改变属性。
-bool bHit = (FMath::RandRange(0, 99) &lt; HitChance); // 75% 命中率 不在GA中写的原因是因为GA是行为层，而GE是数值层。
                     
                 </p>
             </a>
