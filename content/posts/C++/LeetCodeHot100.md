@@ -471,6 +471,7 @@ public:
     int firstMissingPositive(vector<int>& nums) {
         int n = nums.size();
         for(int i = 0; i < n; i ++) {
+            // 避免死循环 比如说1和1交换 因此不可以是(nums[i] - 1) != i
             while(nums[i] > 0 && nums[i] <= n && nums[nums[i] - 1] != nums[i]) {
                 swap(nums[i], nums[nums[i] - 1]);
             }
@@ -3007,7 +3008,7 @@ public:
 
 
 
-### 5. 最长回文子串
+### *5. 最长回文子串
 
 初始化dp布尔数组，`dp[i][i] = true`，表示单个字符是回文。
 
@@ -3054,7 +3055,7 @@ public:
 
 
 
-### 1143. 最长公共子序列
+### *1143. 最长公共子序列
 
 `dp[i][j]`表示text1的前i个字符和text2的前j个字符的最长公共子序列长度。
 
@@ -3082,7 +3083,7 @@ public:
 
 
 
-### 72. 编辑距离
+### *72. 编辑距离
 
 这道题和上一道题最长公共子序列是类似的，都是遍历两个字符串，并且判断两个字符串的i - 1和j - 1位置是否相等。
 
