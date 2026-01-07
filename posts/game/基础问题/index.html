@@ -114,7 +114,7 @@ EQS 底层就是批量生成候选点，然后对这些点进行可达性、可�
 4.命中回溯：服务器对“开枪时间点”进行还原的一种算法。客户端开枪时附带“开枪时间戳”，服务器收到开枪包时，会回到“子弹发射那一刻”的游戏世界状态，重新做命中判定。
 GA中endabiliy去调用一个定时器会出现问题吗？定时器会不会随着GA结束而销毁
 不会随着GA结束而销毁定时器，因为UE 的 FTimerManager 是挂在 UWorld 层级的，跟 GA 完全独立。">
-  <meta itemprop="wordCount" content="296">
+  <meta itemprop="wordCount" content="320">
 <link rel="canonical" href="https://geeteng.github.io/posts/game/%E5%9F%BA%E7%A1%80%E9%97%AE%E9%A2%98/" />
 
 <link rel="icon" type="image/png" href="https://geeteng.github.io/image/favicon.ico">
@@ -289,7 +289,7 @@ GA中endabiliy去调用一个定时器会出现问题吗？定时器会不会随
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        23 mins read
+                        27 mins read
                     </p>
                 </div>
             </div>
@@ -522,10 +522,42 @@ Level 0:      1 → 3 → 5 → 7 → 9 → 11 // 完整链表
 <li>滑动窗口机制允许发送端在确认应答前发送多个数据包。如果数据包丢失或者乱序，接收端只会确认最后一个按序接收的数据包。</li>
 <li>重传机制如果发送端在一定时间内没有收到对某个数据包的确认应答，它会假定该数据包丢失并重新发送。这确保了所有数据包最终都能到达接收端。</li>
 </ul>
-<p>TCP心跳包（Keepalive）——TCP保活机制：</p>
-<p>进程间通信
-死锁
-如何解决死锁</p>
+<blockquote>
+<p>UMG和slate</p>
+</blockquote>
+<p>slate是C++编写的UE底层UI框架，UMG基于slate的上层封装。</p>
+<p>UMG——UUserWidget可以可视化，UMG最终都会转换成slate进行渲染。</p>
+<blockquote>
+<p>动态多态和静态多态的使用场景</p>
+</blockquote>
+<p>动态多态（虚函数）运行期才能确定行为</p>
+<p>静态多态（模板函数）编译器就能确定行为</p>
+<p>虚函数通过基类指针/引用调用，有vtable间接调用开销。</p>
+<p>模板适合STL容器、数学库使用。</p>
+<p>当对象类型需要在运行期动态切换、需要通过基类指针统一管理或支持扩展时用虚函数实现动态多态；当行为在编译期就确定、追求零运行期开销或用于算法与工具库时，用模板实现静态多态。</p>
+<blockquote>
+<p>UE委托</p>
+</blockquote>
+<p><strong>单播和多播的区别</strong></p>
+<p>多播委托不能有返回值（返回void），这也是和单播委托的本质区别。单播委托可以有返回值<code>DECLARE_DELEGATE_RetVal_OneParam</code>也可以没有返回值<code>DECLARE_DELEGATE_OneParam</code>。</p>
+<p><strong>动态和非动态委托的区别</strong></p>
+<p>动态委托要有UFUNCTION，因为动态多播走的是反射系统。</p>
+<p>单播不能反射因此也不能被蓝图绑定。纯C++内部使用。</p>
+<p><strong>为什么多播委托不能有返回值？</strong></p>
+<p>多播委托会绑定多个回调函数，返回值无法定义唯一语义，UE 为了避免歧义，从设计上禁止多播委托返回值，因此只允许 <code>void</code>。</p>
+<blockquote>
+<p>单例模式的缺陷</p>
+</blockquote>
+<p>多线程下需要保证线程安全的问题，通常需要锁机制，会增加性能开销。</p>
+<p>导致资源浪费，如果单例对象持有昂贵的资源，但是程序中偶尔使用它，会导致不必要的资源占用。</p>
+<blockquote>
+<p>PCB的组成</p>
+</blockquote>
+<p>PID进程ID</p>
+<p>处理机上下文（保存当前PCB的CPU上下文）：程序计数器、栈指针</p>
+<p>进程状态与调度信息（运行、阻塞）</p>
+<p>占用的资源</p>
+<p>手游的渲染管线</p>
 
         </div>
     </div>

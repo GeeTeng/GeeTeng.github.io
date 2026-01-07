@@ -35,7 +35,7 @@
   <meta itemprop="description" content="LeetCode日常刷题整理笔记">
   <meta itemprop="datePublished" content="2025-03-27T00:00:00+00:00">
   <meta itemprop="dateModified" content="2025-03-27T00:00:00+00:00">
-  <meta itemprop="wordCount" content="922">
+  <meta itemprop="wordCount" content="1435">
   <meta itemprop="keywords" content="算法">
 <link rel="canonical" href="https://geeteng.github.io/posts/c&#43;&#43;/leetcode%E6%97%A5%E5%B8%B8%E5%88%B7%E9%A2%98%E6%95%B4%E7%90%86/" />
 
@@ -211,6 +211,12 @@
           <ul>
             <li><a href="#841-钥匙和房间">841. 钥匙和房间</a></li>
             <li><a href="#6-z字形变换">6. Z字形变换</a></li>
+            <li><a href="#3169-无需开会的工作日">3169. 无需开会的工作日</a></li>
+            <li><a href="#66-加一">66. 加一</a></li>
+            <li><a href="#判断能否形成等差数列">判断能否形成等差数列</a></li>
+            <li><a href="#回文数不转换字符串">回文数（不转换字符串）</a></li>
+            <li><a href="#可被k整除的最小整数">可被K整除的最小整数</a></li>
+            <li><a href="#排列序列">排列序列</a></li>
             <li><a href="#快速排序">快速排序</a></li>
             <li><a href="#直接插入排序">直接插入排序</a></li>
             <li><a href="#选择排序">选择排序</a></li>
@@ -241,7 +247,7 @@
 
                 <div class="level-item">
                     <p class="subtitle info">
-                        11 mins read
+                        18 mins read
                     </p>
                 </div>
             </div>
@@ -348,7 +354,7 @@ Y   I   R
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> ans;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><p>无需开会的工作日</p>
+</span></span></code></pre></div><h3 id="3169-无需开会的工作日">3169. 无需开会的工作日</h3>
 <p><a href="https://leetcode.cn/problems/count-days-without-meetings/description/">3169. 无需开会的工作日 - 力扣（LeetCode）</a></p>
 <blockquote>
 <p>给你一个正整数 <code>days</code>，表示员工可工作的总天数（从第 1 天开始）。另给你一个二维数组 <code>meetings</code>，长度为 <code>n</code>，其中 <code>meetings[i] = [start_i, end_i]</code> 表示第 <code>i</code> 次会议的开始和结束天数（包含首尾）。</p>
@@ -377,7 +383,135 @@ Y   I   R
 </span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> duration;
 </span></span><span style="display:flex;"><span>    }
 </span></span><span style="display:flex;"><span>};
-</span></span></code></pre></div><h3 id="快速排序">快速排序</h3>
+</span></span></code></pre></div><h3 id="66-加一">66. 加一</h3>
+<p>给定一个表示 <strong>大整数</strong> 的整数数组 <code>digits</code>，其中 <code>digits[i]</code> 是整数的第 <code>i</code> 位数字。这些数字按从左到右，从最高位到最低位排列。这个大整数不包含任何前导 <code>0</code>。</p>
+<p>将大整数加 1，并返回结果的数字数组。</p>
+<p><strong>示例 1：</strong></p>
+<blockquote>
+<p>输入：digits = [1,2,3]
+输出：[1,2,4]
+解释：输入数组表示数字 123。
+加 1 后得到 123 + 1 = 124。
+因此，结果应该是 [1,2,4]。</p>
+</blockquote>
+<p>一开始使用数组转为数字，发现大整数溢出问题。因此要在数组原地操作。</p>
+<p>当数字为9的时候，它之后+1就一定会变为0，前面的数字如果还是9那么需要继续向前查找，直到有一个数字不为9。</p>
+<p>比如说123999，直接将3变为4，后面的数字都变为0就可以得到答案；当然需要考虑到如果是9的话，数组需要新增一位。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> plusOne(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> digits) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> digits.size();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">--</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(digits[i] <span style="color:#f92672">!=</span> <span style="color:#ae81ff">9</span>) {
+</span></span><span style="display:flex;"><span>                digits[i] <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> n; j <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                    digits[j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>                }
+</span></span><span style="display:flex;"><span>                <span style="color:#66d9ef">return</span> digits;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> res(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        res[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> res;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="判断能否形成等差数列">判断能否形成等差数列</h3>
+<p>如果能形成等差数列，那么：
+</p>
+$$
+d= \frac{max - min}{n - 1}
+$$
+<p>
+因此d只能为整数，并且<code>(x - min) % d != 0</code> → false，下标 <code>(x - min) / d</code> 已出现 → false。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> canMakeArithmeticProgression(vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;&amp;</span> arr) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> arr.size();
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> minnum <span style="color:#f92672">=</span> <span style="color:#ae81ff">1e6</span>, maxnum <span style="color:#f92672">=</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1e6</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(minnum <span style="color:#f92672">&gt;</span> arr[i]) minnum <span style="color:#f92672">=</span> arr[i];
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(maxnum <span style="color:#f92672">&lt;</span> arr[i]) maxnum <span style="color:#f92672">=</span> arr[i];
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>((maxnum <span style="color:#f92672">-</span> minnum) <span style="color:#f92672">%</span> (n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>)) <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> d <span style="color:#f92672">=</span> (maxnum <span style="color:#f92672">-</span> minnum) <span style="color:#f92672">/</span> (n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(d <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">bool</span><span style="color:#f92672">&gt;</span> seen(n, false);
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> diff <span style="color:#f92672">=</span> arr[i] <span style="color:#f92672">-</span> minnum;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(diff <span style="color:#f92672">%</span> d) <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> idx <span style="color:#f92672">=</span> diff <span style="color:#f92672">/</span> d;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(seen[idx]) <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>            seen[idx] <span style="color:#f92672">=</span> true;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> true;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="回文数不转换字符串">回文数（不转换字符串）</h3>
+<p>反转数字的一半，举例子12321。</p>
+<p>通过x % 10能得到末尾的1，x / 10得到还剩下的数字也就是1232。</p>
+<p>接下来反转的数字需要不断 * 10 + 当前位2，也就是1 * 10 + 2 = 12。</p>
+<p>当x大于反转的数字，比如说x现在为123 反转的数字为12。接下来继续</p>
+<p>反转数字变成123，x为12。所以奇数就判断反转数字/10是否=x，偶数就是反转数字是否=x。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">bool</span> isPalindrome(<span style="color:#66d9ef">int</span> x) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(x <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> x <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> x <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> false;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> revertNum <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">while</span>(x <span style="color:#f92672">&gt;</span> revertNum) {
+</span></span><span style="display:flex;"><span>            revertNum <span style="color:#f92672">=</span> revertNum <span style="color:#f92672">*</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">+</span> x <span style="color:#f92672">%</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>            x <span style="color:#f92672">/=</span> <span style="color:#ae81ff">10</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> revertNum <span style="color:#f92672">==</span> x <span style="color:#f92672">||</span> revertNum <span style="color:#f92672">/</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">==</span> x;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="可被k整除的最小整数">可被K整除的最小整数</h3>
+<p>真正在枚举的不是数字，而是余数<code>r = (111…1) % K</code></p>
+<p>因此<code>r ∈ {0, 1, 2, ..., K-1}</code>一共有k种可能性</p>
+<p>每一次for循环n就相当于r，超出k种可能性就会无限循环-》无解</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> smallestRepunitDivByK(<span style="color:#66d9ef">int</span> k) {
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">if</span>(k <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> k <span style="color:#f92672">%</span> <span style="color:#ae81ff">5</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> len <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; len <span style="color:#f92672">&lt;=</span> k; len <span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">if</span>(n <span style="color:#f92672">%</span> k <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> len;
+</span></span><span style="display:flex;"><span>            n <span style="color:#f92672">=</span> (n <span style="color:#f92672">*</span> <span style="color:#ae81ff">10</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">%</span> k;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> <span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><h3 id="排列序列">排列序列</h3>
+<p>输入：n = 4, k = 9
+输出：&ldquo;2314&rdquo;</p>
+<p>它的cnt是(n - 1)! = 6代表第一位选定后有6个组合，k&ndash; / 6 = 1，则第一个数字为1234数组中的第1个数字（从0开始）则是2。需要从数组中删掉2元素。k = 8 % 6 = 2</p>
+<p>第二个数字需要从1 3 4 里面选，那么cnt就是 （3-1）! = 2 代表第二位数字固定后有2种组合，那么k现在是2，因此round = k / cnt = 1，需要选择3并且从数组删掉。此时k = 2 % 2= 0</p>
+<p>选第三个数字时cnt = 1， round = k / cnt = 0，则选定1。最后选择4。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Solution</span> {
+</span></span><span style="display:flex;"><span><span style="color:#66d9ef">public</span><span style="color:#f92672">:</span>
+</span></span><span style="display:flex;"><span>    string getPermutation(<span style="color:#66d9ef">int</span> n, <span style="color:#66d9ef">int</span> k) {
+</span></span><span style="display:flex;"><span>        string s;
+</span></span><span style="display:flex;"><span>        vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> nums;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">++</span>) nums.push_back(i);
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span>        k <span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> n;
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> n; i<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> cnt <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; j <span style="color:#f92672">&lt;</span> tmp; j<span style="color:#f92672">++</span>) {
+</span></span><span style="display:flex;"><span>                cnt <span style="color:#f92672">*=</span> j;
+</span></span><span style="display:flex;"><span>            }
+</span></span><span style="display:flex;"><span>            <span style="color:#66d9ef">int</span> round <span style="color:#f92672">=</span> k <span style="color:#f92672">/</span> cnt;
+</span></span><span style="display:flex;"><span>            k <span style="color:#f92672">%=</span> cnt;
+</span></span><span style="display:flex;"><span>            <span style="color:#75715e">// 排序找第round个元素 添加到s中
+</span></span></span><span style="display:flex;"><span><span style="color:#75715e"></span>            s.push_back(nums[round] <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39;0&#39;</span>);
+</span></span><span style="display:flex;"><span>            nums.erase(nums.begin() <span style="color:#f92672">+</span> round);
+</span></span><span style="display:flex;"><span>            tmp <span style="color:#f92672">--</span>;
+</span></span><span style="display:flex;"><span>        }
+</span></span><span style="display:flex;"><span>        <span style="color:#66d9ef">return</span> s;
+</span></span><span style="display:flex;"><span>    }
+</span></span><span style="display:flex;"><span>};
+</span></span></code></pre></div><hr>
+<h3 id="快速排序">快速排序</h3>
 <div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-c++" data-lang="c++"><span style="display:flex;"><span><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">quickSort</span>(<span style="color:#66d9ef">int</span> q[], <span style="color:#66d9ef">int</span> l, <span style="color:#66d9ef">int</span> r){
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">if</span>(r <span style="color:#f92672">&lt;=</span> l) <span style="color:#66d9ef">return</span>;
 </span></span><span style="display:flex;"><span>    <span style="color:#66d9ef">int</span> tmp <span style="color:#f92672">=</span> q[l <span style="color:#f92672">+</span> r <span style="color:#f92672">&gt;&gt;</span> <span style="color:#ae81ff">1</span>];
