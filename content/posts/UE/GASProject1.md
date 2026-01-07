@@ -15,6 +15,10 @@ chordsheet: true
 角色类持有 ASC、AS 和 Combat 扩展组件，负责承载能力和属性。角色初始化时，通过 ASC 给角色赋予初始能力（GiveAbility）并应用初始 GE（ApplyGameplayEffectToSelf），确保属性正确。
 玩家按键或 AI 事件触发 GA 执行能力，GA 拿到角色的 ASC、AS 和 Combat 组件，生成 GE 并通过 ASC 应用到目标或自身的 AS，属性变化触发 `PostGameplayEffectExecute`，完成夹值、UI 更新和死亡 tag 添加。整个流程是 GA 驱动 GE，GE 被 ASC 应用，ASC 调用 AS 修改属性。
 
+
+
+![动画层逻辑图](/images/UE/WarriorProject/动画层逻辑图.png)
+
 ## Hard Reference & Soft Reference
 
 **Reference Viewer** 引用查看器显示的白色线条是硬引用关系，粉色线条是软引用关系。比如一个蓝图在属性里引用了某个材质、贴图、Mesh等。

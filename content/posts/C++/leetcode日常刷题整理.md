@@ -135,7 +135,7 @@ public:
 
 
 
-无需开会的工作日
+### 3169. 无需开会的工作日
 
 [3169. 无需开会的工作日 - 力扣（LeetCode）](https://leetcode.cn/problems/count-days-without-meetings/description/)
 
@@ -176,6 +176,183 @@ public:
 ```
 
 
+
+### 66. 加一
+
+给定一个表示 **大整数** 的整数数组 `digits`，其中 `digits[i]` 是整数的第 `i` 位数字。这些数字按从左到右，从最高位到最低位排列。这个大整数不包含任何前导 `0`。
+
+将大整数加 1，并返回结果的数字数组。
+
+**示例 1：**
+
+> 输入：digits = [1,2,3]
+> 输出：[1,2,4]
+> 解释：输入数组表示数字 123。
+> 加 1 后得到 123 + 1 = 124。
+> 因此，结果应该是 [1,2,4]。
+
+一开始使用数组转为数字，发现大整数溢出问题。因此要在数组原地操作。
+
+当数字为9的时候，它之后+1就一定会变为0，前面的数字如果还是9那么需要继续向前查找，直到有一个数字不为9。
+
+比如说123999，直接将3变为4，后面的数字都变为0就可以得到答案；当然需要考虑到如果是9的话，数组需要新增一位。
+
+```c++
+class Solution {
+public:
+    vector<int> plusOne(vector<int>& digits) {
+        int n = digits.size();
+        for(int i = n - 1; i >= 0; i --) {
+            if(digits[i] != 9) {
+                digits[i] += 1;
+                for(int j = i + 1; j < n; j ++) {
+                    digits[j] = 0;
+                }
+                return digits;
+            }
+        }
+        vector<int> res(n + 1);
+        res[0] = 1;
+        return res;
+    }
+};
+```
+
+
+
+### 判断能否形成等差数列
+
+如果能形成等差数列，那么：
+$$
+d= \frac{max - min}{n - 1}
+$$
+因此d只能为整数，并且`(x - min) % d != 0` → false，下标 `(x - min) / d` 已出现 → false。
+
+```c++
+class Solution {
+public:
+    bool canMakeArithmeticProgression(vector<int>& arr) {
+        int n = arr.size();
+        int minnum = 1e6, maxnum = -1e6;
+        for(int i = 0; i < n; i ++) {
+            if(minnum > arr[i]) minnum = arr[i];
+            if(maxnum < arr[i]) maxnum = arr[i];
+        }
+        if((maxnum - minnum) % (n - 1)) return false;
+        int d = (maxnum - minnum) / (n - 1);
+        if(d == 0) return true;
+        vector<bool> seen(n, false);
+        for(int i = 0; i < n; i ++) {
+            int diff = arr[i] - minnum;
+            if(diff % d) return false;
+            int idx = diff / d;
+            if(seen[idx]) return false;
+            seen[idx] = true;
+        }
+        return true;
+    }
+};
+```
+
+
+
+### 回文数（不转换字符串）
+
+反转数字的一半，举例子12321。
+
+通过x % 10能得到末尾的1，x / 10得到还剩下的数字也就是1232。
+
+接下来反转的数字需要不断 * 10 + 当前位2，也就是1 * 10 + 2 = 12。
+
+当x大于反转的数字，比如说x现在为123 反转的数字为12。接下来继续
+
+反转数字变成123，x为12。所以奇数就判断反转数字/10是否=x，偶数就是反转数字是否=x。
+
+```c++
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        if(x < 0 || x != 0 && x % 10 == 0) return false;
+        int revertNum = 0;
+        while(x > revertNum) {
+            revertNum = revertNum * 10 + x % 10;
+            x /= 10;
+        }
+        return revertNum == x || revertNum / 10 == x;
+    }
+};
+```
+
+
+
+### 可被K整除的最小整数
+
+真正在枚举的不是数字，而是余数`r = (111…1) % K`
+
+因此`r ∈ {0, 1, 2, ..., K-1}`一共有k种可能性
+
+每一次for循环n就相当于r，超出k种可能性就会无限循环-》无解
+
+```c++
+class Solution {
+public:
+    int smallestRepunitDivByK(int k) {
+        if(k % 2 == 0 || k % 5 == 0) return -1;
+        int n = 1;
+        for(int len = 1; len <= k; len ++) {
+            if(n % k == 0) return len;
+            n = (n * 10 + 1) % k;
+        }
+        return -1;
+    }
+};
+```
+
+
+
+### 排列序列
+
+输入：n = 4, k = 9
+输出："2314"
+
+它的cnt是(n - 1)! = 6代表第一位选定后有6个组合，k-- / 6 = 1，则第一个数字为1234数组中的第1个数字（从0开始）则是2。需要从数组中删掉2元素。k = 8 % 6 = 2
+
+第二个数字需要从1 3 4 里面选，那么cnt就是 （3-1）! = 2 代表第二位数字固定后有2种组合，那么k现在是2，因此round = k / cnt = 1，需要选择3并且从数组删掉。此时k = 2 % 2= 0
+
+选第三个数字时cnt = 1， round = k / cnt = 0，则选定1。最后选择4。
+
+```c++
+class Solution {
+public:
+    string getPermutation(int n, int k) {
+        string s;
+        vector<int> nums;
+        for(int i = 1; i <= n; i ++) nums.push_back(i);
+
+        k --;
+        int tmp = n;
+        for (int i = 0; i < n; i++) {
+            int cnt = 1;
+            for (int j = 1; j < tmp; j++) {
+                cnt *= j;
+            }
+            int round = k / cnt;
+            k %= cnt;
+            // 排序找第round个元素 添加到s中
+            s.push_back(nums[round] + '0');
+            nums.erase(nums.begin() + round);
+            tmp --;
+        }
+        return s;
+    }
+};
+```
+
+
+
+
+
+---
 
 ### 快速排序
 
